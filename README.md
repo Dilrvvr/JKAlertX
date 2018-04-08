@@ -22,8 +22,8 @@ iOS弹框，包含alert/actionsheet/collectionSheet(类似分享面板)/HUD四�
 <img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/plain.PNG" width="375"><br/>
 <img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/actionSheet.PNG" width="375"><br/>
 <img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/collectionSheet.PNG" width="375"><br/>
-<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/actionSheet_Landscape.PNG" width="375"><br/>
-<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/collectionSheetLandscape.PNG" width="375"><br/>
+<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/actionSheet_Landscape.PNG" width="812"><br/>
+<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/collectionSheetLandscape.PNG" width="812"><br/>
 
 # 安装
 ==============
