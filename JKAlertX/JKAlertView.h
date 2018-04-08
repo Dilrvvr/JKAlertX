@@ -39,7 +39,7 @@ typedef enum : NSUInteger {
      * HUD提示
      * 该样式没有message，只有一个title
      */
-    JKAlertStyleHud,
+    JKAlertStyleHUD,
     
 } JKAlertStyle;
 
@@ -217,6 +217,12 @@ typedef enum : NSUInteger {
 
 /** 实例化 */
 + (instancetype)alertViewWithAttributeTitle:(NSAttributedString *)attributeTitle attributeMessage:(NSAttributedString *)attributeMessage style:(JKAlertStyle)alertStyle;
+
+/** 显示文字HUD */
++ (JKAlertView *(^)(NSString *title))showHUDWithTitle;
+
+/** 显示富文本HUD */
++ (JKAlertView *(^)(NSAttributedString *attributedTitle))showHUDWithAttributedTitle;
 
 /**
  * 显示自定义HUD
