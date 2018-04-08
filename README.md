@@ -50,12 +50,12 @@ collectionSheet样式横屏
 
 1. 在 Podfile 中添加  `pod 'JKAlertX'`。
 2. 执行 `pod install` 或 `pod update`。
-3. 导入 \<JKAlertX/JKAlertX.h\>。
+3. 导入 `<JKAlertX/JKAlertX.h>`。
 
 ### 手动安装
 
-1. 下载 JKAlertX/ 文件夹内的所有内容。
-2. 将 JKAlertX/ 内的源文件添加(拖放)到你的工程。
+1. 下载 JKAlertX 文件夹内的所有内容。
+2. 将 JKAlertX 内的源文件添加(拖放)到你的工程。
 4. 链接以下 frameworks:
     * UIKit
 6. 导入 `JKAlertX.h`。
