@@ -77,16 +77,16 @@
 
 - (void)initialization{
     
-    //    self.selectedBackgroundView = [[UIView alloc] init];
-    //    self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:1];
+//    self.selectedBackgroundView = [[UIView alloc] init];
+//    self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:1];
     
-    //    self.contentView.backgroundColor = [UIColor orangeColor];
-    //    imageButton.backgroundColor = [UIColor redColor];
-    //    titleLabel.backgroundColor = [UIColor greenColor];
+//    self.contentView.backgroundColor = [UIColor orangeColor];
+//    imageButton.backgroundColor = [UIColor redColor];
+//    titleLabel.backgroundColor = [UIColor greenColor];
     
-    //    [self imageButton];
-    //
-    //    [self titleLabel];
+//    [self imageButton];
+//
+//    [self titleLabel];
 }
 
 - (void)setSelected:(BOOL)selected{
