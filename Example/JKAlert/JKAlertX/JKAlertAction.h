@@ -47,7 +47,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL separatorLineHidden;
 
 /**
- * 自定义的view，目前仅在actionSheet适用
+ * 自定义的view，目前仅在plain样式和actionSheet适用
  * 注意要自己计算好frame
  */
 @property (nonatomic, strong) UIView *customView;
