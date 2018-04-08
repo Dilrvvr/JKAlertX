@@ -84,7 +84,7 @@
 }
 
 /**
- * 自定义的view，目前仅在actionSheet适用
+ * 自定义的view
  * 注意要自己计算好frame
  */
 - (JKAlertAction *(^)(UIView *(^customView)(void)))setCustomView{

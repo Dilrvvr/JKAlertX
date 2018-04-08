@@ -79,12 +79,18 @@
     self.selectionStyle = _action.isEmpty ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleDefault;
     self.bottomLineView.hidden = _action.separatorLineHidden;
     
+    _titleLabel.hidden = action.customView;
+    
     if (action.customView) {
         
         self.customView = action.customView;
         
+        _customView.hidden = NO;
+        
         return;
     }
+    
+    _customView.hidden = YES;
     
     self.titleLabel.textColor = (action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] : [UIColor redColor];
     
@@ -96,8 +102,6 @@
 - (void)setCustomView:(UIView *)customView{
     
     if (_customView == customView) { return; }
-    
-    [_titleLabel removeFromSuperview];
     
     [_customView removeFromSuperview];
     

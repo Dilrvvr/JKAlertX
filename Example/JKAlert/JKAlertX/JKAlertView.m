@@ -974,7 +974,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
  * 设置collection的item的宽度
  * 注意图片的宽高是设置的宽度-30
  * 最大不可超过屏幕宽度的一半
- * item之间间距为0，可自己计算该值设置每屏显示个数
+ * 自动计算item之间间距，最小为0，可自己计算该值设置每屏显示个数
  */
 - (JKAlertView *(^)(CGFloat width))setFlowlayoutItemWidth{
     

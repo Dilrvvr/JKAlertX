@@ -20,6 +20,43 @@
     
 }
 
+- (IBAction)customCollectionActionView:(id)sender {
+    
+    [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].setTitleTextViewAlignment(NSTextAlignmentCenter).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setCustomView(^{
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
+        label.numberOfLines = 0;
+        label.backgroundColor = [UIColor orangeColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.text = @"我是自定义的view~~";
+        
+        return label;
+        
+    }).setNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setCustomView(^{
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
+        label.numberOfLines = 0;
+        label.backgroundColor = [UIColor orangeColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.text = @"我也是自定义的view~~";
+        
+        return label;
+        
+    }).setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).enableDeallocLog(YES).show().setDismissComplete(^{
+        
+        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [sender setTitle:@"customCollectionActionView" forState:(UIControlStateNormal)];
+        });
+    });
+}
+
 - (IBAction)customPlainAction:(id)sender {
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStylePlain)];
@@ -226,7 +263,7 @@
     });
 }
 
-- (IBAction)customActionView:(id)sender {
+- (IBAction)customActionSheetView:(id)sender {
     
     [JKAlertView alertViewWithTitle:@"提示" message:@"这是action样式的customView，想自定义titleView的话可以将title和message赋值nil，并将第一个action设为空action，然后给这个空action赋值customView即可" style:(JKAlertStyleActionSheet)].addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -247,7 +284,7 @@
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [sender setTitle:@"customActionView" forState:(UIControlStateNormal)];
+            [sender setTitle:@"customActionSheetView" forState:(UIControlStateNormal)];
         });
     });
 }

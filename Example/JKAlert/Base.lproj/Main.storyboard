@@ -143,11 +143,11 @@
                                 <rect key="frame" x="172" y="226" width="171" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.23137254900000001" green="0.42352941179999998" blue="0.63921568630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="customActionView">
+                                <state key="normal" title="customActionSheetView">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="customActionView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DWd-Nj-n1t"/>
+                                    <action selector="customActionSheetView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DWd-Nj-n1t"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lry-b7-VF4">
@@ -170,6 +170,17 @@
                                 </state>
                                 <connections>
                                     <action selector="customCollectionButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AH8-oC-rqC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rOi-WU-edd">
+                                <rect key="frame" x="44" y="340" width="299" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.23137254900000001" green="0.42352941179999998" blue="0.63921568630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="customCollectionActionView">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="customCollectionActionView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Cea-4K-wgw"/>
                                 </connections>
                             </button>
                         </subviews>

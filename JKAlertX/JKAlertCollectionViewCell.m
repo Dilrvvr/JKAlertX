@@ -15,9 +15,51 @@
 
 /** titleLabel */
 @property (nonatomic, weak) UILabel *titleLabel;
+
+/** customView */
+@property (nonatomic, weak) UIView *customView;
 @end
 
 @implementation JKAlertCollectionViewCell
+
+- (UIButton *)imageButton{
+    if (!_imageButton) {
+        
+        UIButton *imageButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
+        imageButton.userInteractionEnabled = NO;
+        [self.contentView addSubview:imageButton];
+        
+        imageButton.translatesAutoresizingMaskIntoConstraints = NO;
+        NSLayoutConstraint *imageButtonTopCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeTop) multiplier:1 constant:0];
+        NSLayoutConstraint *imageButtonLeftCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeLeft) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeLeft) multiplier:1 constant:15];
+        NSLayoutConstraint *imageButtonRightCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeRight) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeRight) multiplier:1 constant:-15];
+        NSLayoutConstraint *imageButtonHeightCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeHeight) relatedBy:(NSLayoutRelationEqual) toItem:imageButton attribute:(NSLayoutAttributeWidth) multiplier:1 constant:0];
+        [self.contentView addConstraints:@[imageButtonTopCons, imageButtonLeftCons, imageButtonRightCons, imageButtonHeightCons]];
+        
+        _imageButton = imageButton;
+    }
+    return _imageButton;
+}
+
+- titleLabel{
+    if (!_titleLabel) {
+        
+        UILabel *titleLabel = [[UILabel alloc] init];
+        [self.contentView addSubview:titleLabel];
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        NSLayoutConstraint *titleLabelLeftCons = [NSLayoutConstraint constraintWithItem:titleLabel attribute:(NSLayoutAttributeLeft) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeLeft) multiplier:1 constant:0];
+        NSLayoutConstraint *titleLabelRightCons = [NSLayoutConstraint constraintWithItem:titleLabel attribute:(NSLayoutAttributeRight) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeRight) multiplier:1 constant:0];
+        NSLayoutConstraint *titleLabelBottomCons = [NSLayoutConstraint constraintWithItem:titleLabel attribute:(NSLayoutAttributeBottom) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeBottom) multiplier:1 constant:0];
+        [self.contentView addConstraints:@[titleLabelLeftCons, titleLabelRightCons, titleLabelBottomCons]];
+        _titleLabel = titleLabel;
+        
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.font = [UIFont systemFontOfSize:13];
+        _titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    }
+    return _titleLabel;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
@@ -38,72 +80,61 @@
 //    self.selectedBackgroundView = [[UIView alloc] init];
 //    self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:1];
     
-    UIButton *imageButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
-    imageButton.userInteractionEnabled = NO;
-//    imageButton.contentMode = UIViewContentModeScaleToFill;
-//    imageButton.imageView.contentMode = UIViewContentModeScaleToFill;
-    [self.contentView addSubview:imageButton];
-    _imageButton = imageButton;
-    
-    imageButton.translatesAutoresizingMaskIntoConstraints = NO;
-    NSLayoutConstraint *imageButtonTopCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeTop) multiplier:1 constant:0];
-    NSLayoutConstraint *imageButtonLeftCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeLeft) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeLeft) multiplier:1 constant:15];
-    NSLayoutConstraint *imageButtonRightCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeRight) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeRight) multiplier:1 constant:-15];
-    NSLayoutConstraint *imageButtonHeightCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeHeight) relatedBy:(NSLayoutRelationEqual) toItem:imageButton attribute:(NSLayoutAttributeWidth) multiplier:1 constant:0];
-    [self.contentView addConstraints:@[imageButtonTopCons, imageButtonLeftCons, imageButtonRightCons, imageButtonHeightCons]];
-    
-    UILabel *titleLabel = [[UILabel alloc] init];
-    [self.contentView addSubview:titleLabel];
-    _titleLabel = titleLabel;
-    
-    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//    NSLayoutConstraint *titleLabelTopCons = [NSLayoutConstraint constraintWithItem:titleLabel attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeTop) multiplier:1 constant:0];
-    NSLayoutConstraint *titleLabelLeftCons = [NSLayoutConstraint constraintWithItem:titleLabel attribute:(NSLayoutAttributeLeft) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeLeft) multiplier:1 constant:0];
-    NSLayoutConstraint *titleLabelRightCons = [NSLayoutConstraint constraintWithItem:titleLabel attribute:(NSLayoutAttributeRight) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeRight) multiplier:1 constant:0];
-    NSLayoutConstraint *titleLabelBottomCons = [NSLayoutConstraint constraintWithItem:titleLabel attribute:(NSLayoutAttributeBottom) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeBottom) multiplier:1 constant:0];
-    [self.contentView addConstraints:@[titleLabelLeftCons, titleLabelRightCons, titleLabelBottomCons]];
-    
-    self.titleLabel.textAlignment = NSTextAlignmentCenter;
-    self.titleLabel.font = [UIFont systemFontOfSize:13];
-    self.titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
-    
 //    self.contentView.backgroundColor = [UIColor orangeColor];
 //    imageButton.backgroundColor = [UIColor redColor];
 //    titleLabel.backgroundColor = [UIColor greenColor];
+    
+//    [self imageButton];
+//
+//    [self titleLabel];
 }
 
 - (void)setSelected:(BOOL)selected{
     [super setSelected:selected];
     
-    self.imageButton.highlighted = selected;
+    _imageButton.highlighted = selected;
     
     if (!selected) {
         
-        self.titleLabel.textColor = (self.action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1] : [UIColor redColor];
+        _titleLabel.textColor = (self.action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1] : [UIColor redColor];
         
         return;
     }
     
-    self.titleLabel.textColor = (self.action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:186.0/255.0 green:186.0/255.0 blue:186.0/255.0 alpha:1] : [[UIColor redColor] colorWithAlphaComponent:0.5];
+    _titleLabel.textColor = (self.action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:186.0/255.0 green:186.0/255.0 blue:186.0/255.0 alpha:1] : [[UIColor redColor] colorWithAlphaComponent:0.5];
 }
 
 - (void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:highlighted];
     
-    self.imageButton.highlighted = highlighted;
+    _imageButton.highlighted = highlighted;
     
     if (!highlighted) {
         
-        self.titleLabel.textColor = (self.action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1] : [UIColor redColor];
+        _titleLabel.textColor = (self.action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1] : [UIColor redColor];
         
         return;
     }
     
-    self.titleLabel.textColor = (self.action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:186.0/255.0 green:186.0/255.0 blue:186.0/255.0 alpha:1] : [[UIColor redColor] colorWithAlphaComponent:0.5];
+    _titleLabel.textColor = (self.action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:186.0/255.0 green:186.0/255.0 blue:186.0/255.0 alpha:1] : [[UIColor redColor] colorWithAlphaComponent:0.5];
 }
 
 - (void)setAction:(JKAlertAction *)action{
     _action = action;
+    
+    _titleLabel.hidden = action.customView;
+    _imageButton.hidden = _titleLabel.hidden;
+    
+    if (action.customView) {
+        
+        self.customView = action.customView;
+        
+        _customView.hidden = NO;
+        
+        return;
+    }
+    
+    _customView.hidden = YES;
     
     self.titleLabel.textColor = (action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1] : [UIColor redColor];
     
@@ -113,5 +144,25 @@
     
     [self.imageButton setBackgroundImage:_action.normalImage forState:(UIControlStateNormal)];
     [self.imageButton setBackgroundImage:_action.hightlightedImage forState:(UIControlStateHighlighted)];
+}
+
+- (void)setCustomView:(UIView *)customView{
+    
+    if (_customView == customView) {
+        return;
+    }
+    
+    [_customView removeFromSuperview];
+    
+    _customView = customView;
+    
+    [self.contentView addSubview:_customView];
+    
+    customView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSArray *customViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[customView]-0-|" options:0 metrics:nil views:@{@"customView" : customView}];
+    [self addConstraints:customViewCons1];
+    
+    NSArray *customViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[customView]-0-|" options:0 metrics:nil views:@{@"customView" : customView}];
+    [self addConstraints:customViewCons2];
 }
 @end
