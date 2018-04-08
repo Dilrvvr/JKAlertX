@@ -50,6 +50,7 @@
 		501C68252079ACDB00455EF5 /* JKAlertCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKAlertCollectionViewCell.m; sourceTree = "<group>"; };
 		501C68262079ACDC00455EF5 /* JKAlertCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKAlertCollectionViewCell.h; sourceTree = "<group>"; };
 		501C68272079ACDC00455EF5 /* JKAlertTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKAlertTableViewCell.m; sourceTree = "<group>"; };
+		501C687C2079FD6400455EF5 /* JKAlertX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertX.h; sourceTree = "<group>"; };
 		501FE6392073550300B868B9 /* JKAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JKAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		501FE63C2073550300B868B9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		501FE63D2073550300B868B9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -179,6 +180,7 @@
 				502A30BF2078A54A001645DE /* JKAlertTextView.m */,
 				501FE6722073553500B868B9 /* JKAlertView.h */,
 				501FE66F2073553500B868B9 /* JKAlertView.m */,
+				501C687C2079FD6400455EF5 /* JKAlertX.h */,
 			);
 			path = JKAlertX;
 			sourceTree = "<group>";
