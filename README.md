@@ -1,4 +1,4 @@
-# JKAlertX
+JKAlertX
 ==============
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/ibireme/JKAlertX/master/LICENSE)&nbsp;
@@ -7,7 +7,7 @@
 [![Support](https://img.shields.io/badge/support-iOS8+-blue.svg?style=flat)](https://www.apple.com/nl/ios/)&nbsp;
 
 
-JKAlertX An AlertView for iOS. Support User Customization Perfectly.  
+JKAlertX is An AlertView for iOS. Support User Customization Perfectly.  
 
 iOS弹框，包含alert/actionsheet/collectionSheet(类似分享面板)/HUD四种样式。  
 
@@ -15,17 +15,24 @@ iOS弹框，包含alert/actionsheet/collectionSheet(类似分享面板)/HUD四�
 
 支持链式语法，简单方便！
 
-# 演示项目
+演示项目
 ==============
-查看并运行 `Example/JKAlert.xcodeproj
+查看并运行 `Example/JKAlert.xcodeproj  
 
+plain样式
 <img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/plain.PNG" width="375"><br/>
+actionSheet样式
 <img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/actionSheet.PNG" width="375"><br/>
+collectionSheet样式
 <img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/collectionSheet.PNG" width="375"><br/>
+HUD样式
+<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/HUD.PNG" width="375"><br/>
+actionSheet样式横屏
 <img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/actionSheet_Landscape.PNG" width="812"><br/>
+collectionSheet样式横屏
 <img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/collectionSheetLandscape.PNG" width="812"><br/>
 
-# 安装
+安装
 ==============
 
 ### CocoaPods
@@ -42,7 +49,7 @@ iOS弹框，包含alert/actionsheet/collectionSheet(类似分享面板)/HUD四�
     * UIKit
 6. 导入 `JKAlertX.h`。
 
-# 系统要求
+系统要求
 ==============
 该项目最低支持 `iOS 8.0` 。
 
