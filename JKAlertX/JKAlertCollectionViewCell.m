@@ -41,7 +41,7 @@
     return _imageButton;
 }
 
-- titleLabel{
+- (UILabel *)titleLabel{
     if (!_titleLabel) {
         
         UILabel *titleLabel = [[UILabel alloc] init];
