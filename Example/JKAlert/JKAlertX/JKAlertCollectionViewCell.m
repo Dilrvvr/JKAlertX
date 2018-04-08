@@ -122,7 +122,7 @@
 - (void)setAction:(JKAlertAction *)action{
     _action = action;
     
-    _titleLabel.hidden = action.customView;
+    _titleLabel.hidden = action.customView != nil;
     _imageButton.hidden = _titleLabel.hidden;
     
     if (action.customView) {

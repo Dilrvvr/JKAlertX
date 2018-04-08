@@ -79,7 +79,7 @@
     self.selectionStyle = _action.isEmpty ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleDefault;
     self.bottomLineView.hidden = _action.separatorLineHidden;
     
-    _titleLabel.hidden = action.customView;
+    _titleLabel.hidden = action.customView != nil;
     
     if (action.customView) {
         
