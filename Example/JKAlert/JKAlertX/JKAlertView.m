@@ -188,6 +188,44 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     return alertView;
 }
 
+/** 显示文字HUD */
++ (JKAlertView *(^)(NSString *title))showHUDWithTitle{
+    
+    return ^(NSString *title){
+        
+        JKAlertView *alertView = nil;
+        
+        if (!title) {
+            return alertView;
+        }
+        
+        alertView = [JKAlertView alertViewWithTitle:title message:nil style:(JKAlertStyleHUD)];
+        
+        [alertView show];
+        
+        return alertView;
+    };
+}
+
+/** 显示富文本HUD */
++ (JKAlertView *(^)(NSAttributedString *attributedTitle))showHUDWithAttributedTitle{
+    
+    return ^(NSAttributedString *attributedTitle){
+        
+        JKAlertView *alertView = nil;
+        
+        if (!attributedTitle) {
+            return alertView;
+        }
+        
+        alertView = [JKAlertView alertViewWithAttributeTitle:attributedTitle attributeMessage:nil style:(JKAlertStyleHUD)];
+        
+        [alertView show];
+        
+        return alertView;
+    };
+}
+
 /**
  * 显示自定义HUD
  * 注意使用点语法调用，否则莫名报错 JKAlertView.showCustomHUD
@@ -667,7 +705,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
         }
             break;
             
-        case JKAlertStyleHud:
+        case JKAlertStyleHUD:
         {
             [self plainView];
         }
@@ -1073,7 +1111,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
         }
             break;
             
-        case JKAlertStyleHud:
+        case JKAlertStyleHUD:
         {
             [self showPlain];
         }
@@ -1123,7 +1161,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
 // plain样式 alert
 - (void)showPlain{
     
-    if (_alertStyle == JKAlertStyleHud) {
+    if (_alertStyle == JKAlertStyleHUD) {
         
         [self relayout];
         
@@ -1333,7 +1371,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
         _messageTextView.hidden = YES;
     }
     
-    if (_alertStyle == JKAlertStyleHud) {
+    if (_alertStyle == JKAlertStyleHUD) {
         
         _messageTextView.hidden = YES;
     }
@@ -1357,7 +1395,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
         }
             break;
             
-        case JKAlertStyleHud:
+        case JKAlertStyleHUD:
         {
             [self layoutPlain];
         }
@@ -1830,7 +1868,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
         self->_titleTextView.delegate = self.titleTextViewDelegate;
         self->_messageTextView.delegate = self.messageTextViewDelegate;
         
-        if (self.dismissTimeInterval > 0 && (self.alertStyle == JKAlertStyleHud || self.customHUD)) {
+        if (self.dismissTimeInterval > 0 && (self.alertStyle == JKAlertStyleHUD || self.customHUD)) {
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.dismissTimeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 

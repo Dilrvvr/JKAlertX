@@ -254,7 +254,7 @@
 
 - (IBAction)HUD:(id)sender {
     
-    [JKAlertView alertViewWithTitle:@"你好你好你好你好" message:nil style:(JKAlertStyleHud)].setDismissTimeInterval(2).enableDeallocLog(YES).show().setDismissComplete(^{
+    JKAlertView.showHUDWithTitle(@"你好你好你好你好").setDismissTimeInterval(2).enableDeallocLog(YES).setDismissComplete(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -263,6 +263,17 @@
             [sender setTitle:@"HUD" forState:(UIControlStateNormal)];
         });
     });
+    
+    /* or use like following
+    [JKAlertView alertViewWithTitle:@"你好你好你好你好" message:nil style:(JKAlertStyleHUD)].setDismissTimeInterval(2).enableDeallocLog(YES).show().setDismissComplete(^{
+        
+        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [sender setTitle:@"HUD" forState:(UIControlStateNormal)];
+        });
+    }); */
 }
 
 - (IBAction)customHUD:(id)sender{
