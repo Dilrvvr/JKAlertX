@@ -68,3 +68,13 @@ collectionSheet样式横屏
 许可证
 ==============
 JKAlertX 使用 MIT 许可证，详情见 LICENSE 文件。
+
+
+联系方式
+==============
+使用中有任何问题，欢迎添加微信  
+
+
+
+
+<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/wechat.JPG" width="337"><br/>

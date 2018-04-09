@@ -90,13 +90,13 @@ typedef enum : NSUInteger {
 
 
 /** 设置普通状态图片 */
-- (JKAlertAction *(^)(UIImage *image))setNormalImage;
+@property (nonatomic, copy, readonly) JKAlertAction *(^setNormalImage)(UIImage *image);
 
 /** 设置高亮状态图片 */
-- (JKAlertAction *(^)(UIImage *image))setHightlightedImage;
+@property (nonatomic, copy, readonly) JKAlertAction *(^setHightlightedImage)(UIImage *image);
 
 /** 设置是否隐藏分隔线 */
-- (JKAlertAction *(^)(BOOL hidden))setSeparatorLineHidden;
+@property (nonatomic, copy, readonly) JKAlertAction *(^setSeparatorLineHidden)(BOOL hidden);
 
 /**
  * 设置自定义的view
@@ -106,5 +106,5 @@ typedef enum : NSUInteger {
  * 自定义时请将action.customView视为一个容器view
  * 推荐使用自动布局在action.customView约束子控件
  */
-- (JKAlertAction *(^)(UIView *(^customView)(void)))setCustomView;
+@property (nonatomic, copy, readonly) JKAlertAction *(^setCustomView)(UIView *(^customView)(void));
 @end

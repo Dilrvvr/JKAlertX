@@ -832,7 +832,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
 }
 
 /** 设置messageTextViewDelegate */
-- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewSetDelegate{
+- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewDelegate{
     
     return ^(id<UITextViewDelegate> delegate){
         
@@ -945,7 +945,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** 设置是否自动适配 iPhone X homeIndicator */
+/** 设置是否自动适配 iPhone X homeIndicator 默认YES */
 - (JKAlertView *(^)(BOOL autoAdjust))setAutoAdjustHomeIndicator{
     
     return ^(BOOL autoAdjust){
