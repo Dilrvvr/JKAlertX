@@ -10,6 +10,9 @@
 
 @interface JKAlertTextView : UITextView
 
+/** 是否科技选择文字 */
+@property (nonatomic, assign) BOOL canSelectText;
+
 /** 计算frame */
 - (CGRect)calculateFrameWithMaxWidth:(CGFloat)maxWidth minHeight:(CGFloat)minHeight originY:(CGFloat)originY superView:(UIView *)superView;
 @end

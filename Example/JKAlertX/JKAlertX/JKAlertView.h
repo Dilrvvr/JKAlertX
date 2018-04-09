@@ -50,11 +50,17 @@ typedef enum : NSUInteger {
 
 #pragma mark - 公共部分
 
-/** title和message是否可以响应事件，默认NO */
+/** title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 @property (nonatomic, assign) BOOL textViewUserInteractionEnabled;
 
-/** 设置title和message是否可以响应事件，默认NO */
+/** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled);
+
+/** title和message是否可以选择文字，默认NO */
+@property (nonatomic, assign) BOOL textViewCanSelectText;
+
+/** 设置title和message是否可以选择文字，默认NO */
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText);
 
 /** titleTextViewDelegate */
 @property (nonatomic, weak) id<UITextViewDelegate> titleTextViewDelegate;

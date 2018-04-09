@@ -647,6 +647,8 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
 
 - (void)initialization{
     
+    _textViewUserInteractionEnabled = YES;
+    
     AutoAdjustHomeIndicator = YES;
     _dismissTimeInterval = 1;
     PlainViewWidth = 290;
@@ -832,7 +834,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
 }
 
 /** 设置messageTextViewDelegate */
-- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewSetDelegate{
+- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewDelegate{
     
     return ^(id<UITextViewDelegate> delegate){
         
@@ -842,12 +844,25 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** 设置title和message是否可以响应事件，默认NO */
+/** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 - (JKAlertView *(^)(BOOL userInteractionEnabled))setTextViewUserInteractionEnabled{
     
     return ^(BOOL userInteractionEnabled){
         
         self.textViewUserInteractionEnabled = userInteractionEnabled;
+        
+        return self;
+    };
+}
+
+
+
+/** 设置title和message是否可以选择文字，默认NO */
+- (JKAlertView *(^)(BOOL canselectText))setTextViewCanSelectText{
+    
+    return ^(BOOL canSelectText){
+        
+        self.textViewCanSelectText = canSelectText;
         
         return self;
     };
@@ -945,7 +960,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** 设置是否自动适配 iPhone X homeIndicator */
+/** 设置是否自动适配 iPhone X homeIndicator 默认YES */
 - (JKAlertView *(^)(BOOL autoAdjust))setAutoAdjustHomeIndicator{
     
     return ^(BOOL autoAdjust){
@@ -1362,6 +1377,9 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     
     _titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
     _messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
+    
+    _titleTextView.canSelectText = self.textViewCanSelectText;
+    _messageTextView.canSelectText = self.textViewCanSelectText;
     
     if (self.alertAttributedTitle) {
         

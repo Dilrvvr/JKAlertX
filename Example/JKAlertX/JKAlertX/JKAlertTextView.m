@@ -62,12 +62,24 @@
 
 - (void)initialization{
     
-    self.userInteractionEnabled = NO;
     self.backgroundColor = nil;//[UIColor orangeColor];
     self.textAlignment = NSTextAlignmentCenter;
     self.scrollsToTop = NO;
     self.editable = NO;
     self.textContainer.lineFragmentPadding = 0;
     self.textContainerInset = UIEdgeInsetsZero;
+}
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    
+    if (_canSelectText) {
+        
+        return [super canPerformAction:action withSender:sender];
+    }
+    
+    [self resignFirstResponder];
+    
+    [UIMenuController sharedMenuController].menuVisible = NO;
+    
+    return NO;
 }
 @end
