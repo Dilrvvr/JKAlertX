@@ -111,13 +111,13 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
 @property (nonatomic, copy) NSString *alertTitle;
 
 /** 富文本标题 */
-@property (nonatomic, copy) NSAttributedString *alertAttributeTitle;
+@property (nonatomic, copy) NSAttributedString *alertAttributedTitle;
 
 /** 提示信息 */
 @property (nonatomic, copy) NSString *message;
 
 /** 富文本提示信息 */
-@property (nonatomic, copy) NSAttributedString *attributeMessage;
+@property (nonatomic, copy) NSAttributedString *attributedMessage;
 
 /** plainView */
 @property (nonatomic, weak) UIView *plainView;
@@ -172,7 +172,16 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     return alertView;
 }
 
-+ (instancetype)alertViewWithAttributeTitle:(NSAttributedString *)attributeTitle attributeMessage:(NSAttributedString *)attributeMessage style:(JKAlertStyle)alertStyle{
+/** 链式实例化 */
++ (JKAlertView *(^)(NSString *title, NSString *message, JKAlertStyle style))alertView{
+    
+    return ^(NSString *title, NSString *message, JKAlertStyle style){
+        
+        return [JKAlertView alertViewWithTitle:title message:message style:style];
+    };
+}
+
++ (instancetype)alertViewWithAttributedTitle:(NSAttributedString *)attributedTitle attributedMessage:(NSAttributedString *)attributedMessage style:(JKAlertStyle)alertStyle{
     
     if (alertStyle == JKAlertStyleNone) {
         
@@ -182,10 +191,19 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     JKAlertView *alertView = [[JKAlertView alloc] init];
     
     alertView.alertStyle = alertStyle;
-    alertView.alertAttributeTitle = [attributeTitle copy];
-    alertView.attributeMessage = [attributeMessage copy];
+    alertView.alertAttributedTitle = [attributedTitle copy];
+    alertView.attributedMessage = [attributedMessage copy];
     
     return alertView;
+}
+
+/** 链式实例化 */
++ (JKAlertView *(^)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style))alertViewAttributed{
+    
+    return ^(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style){
+        
+        return [JKAlertView alertViewWithAttributedTitle:attributedTitle attributedMessage:attributedMessage style:style];
+    };
 }
 
 /** 显示文字HUD */
@@ -218,7 +236,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
             return alertView;
         }
         
-        alertView = [JKAlertView alertViewWithAttributeTitle:attributedTitle attributeMessage:nil style:(JKAlertStyleHUD)];
+        alertView = [JKAlertView alertViewWithAttributedTitle:attributedTitle attributedMessage:nil style:(JKAlertStyleHUD)];
         
         [alertView show];
         
@@ -1222,9 +1240,9 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
                 [btn setTitle:action.title forState:(UIControlStateNormal)];
             }
             
-            if (action.attributeTitle) {
+            if (action.attributedTitle) {
                 
-                [btn setAttributedTitle:action.attributeTitle forState:(UIControlStateNormal)];
+                [btn setAttributedTitle:action.attributedTitle forState:(UIControlStateNormal)];
             }
         }
         
@@ -1297,9 +1315,9 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
             [self.cancelButton setTitle:self.cancelAction.title forState:(UIControlStateNormal)];
         }
         
-        if (self.cancelAction.attributeTitle) {
+        if (self.cancelAction.attributedTitle) {
             
-            [self.cancelButton setAttributedTitle:self.cancelAction.attributeTitle forState:(UIControlStateNormal)];
+            [self.cancelButton setAttributedTitle:self.cancelAction.attributedTitle forState:(UIControlStateNormal)];
         }
     }
     
@@ -1314,9 +1332,9 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
             [self.collectionButton setTitle:self.collectionAction.title forState:(UIControlStateNormal)];
         }
         
-        if (self.collectionAction.attributeTitle) {
+        if (self.collectionAction.attributedTitle) {
             
-            [self.collectionButton setAttributedTitle:self.collectionAction.attributeTitle forState:(UIControlStateNormal)];
+            [self.collectionButton setAttributedTitle:self.collectionAction.attributedTitle forState:(UIControlStateNormal)];
         }
     }
     
@@ -1345,9 +1363,9 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     _titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
     _messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
     
-    if (self.alertAttributeTitle) {
+    if (self.alertAttributedTitle) {
         
-        _titleTextView.attributedText = self.alertAttributeTitle;
+        _titleTextView.attributedText = self.alertAttributedTitle;
         
     }else if (self.alertTitle) {
         
@@ -1358,9 +1376,9 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
         _titleTextView.hidden = YES;
     }
     
-    if (self.attributeMessage) {
+    if (self.attributedMessage) {
         
-        _messageTextView.attributedText = self.attributeMessage;
+        _messageTextView.attributedText = self.attributedMessage;
         
     }else if (self.message) {
         
@@ -1574,7 +1592,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     self.titleTextView.scrollEnabled = NO;
     self.messageTextView.scrollEnabled = NO;
     
-    if (self.message && !self.alertTitle && !self.alertAttributeTitle) {
+    if (self.message && !self.alertTitle && !self.alertAttributedTitle) {
         
         self.messageTextView.font = [UIFont systemFontOfSize:15];
     }

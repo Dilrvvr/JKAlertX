@@ -15,8 +15,8 @@ typedef enum : NSUInteger {
 
 @interface JKAlertAction : NSObject
 
-/** attributeTitle */
-@property (nonatomic, strong, readonly) NSAttributedString *attributeTitle;
+/** attributedTitle */
+@property (nonatomic, strong, readonly) NSAttributedString *attributedTitle;
 
 /** title */
 @property (nonatomic, copy, readonly) NSString *title;
@@ -47,8 +47,12 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL separatorLineHidden;
 
 /**
- * 自定义的view，目前仅在plain样式和actionSheet适用
+ * 自定义的view
  * 注意要自己计算好frame
+ * action.customView将会自动适应宽度，所以frame给出高度即可
+ * actionSheet样式的行高rowHeight将取决于action.customView的高度
+ * 自定义时请将action.customView视为一个容器view
+ * 推荐使用自动布局在action.customView约束子控件
  */
 @property (nonatomic, strong) UIView *customView;
 
@@ -61,12 +65,28 @@ typedef enum : NSUInteger {
 + (instancetype)actionWithTitle:(NSString *)title style:(JKAlertActionStyle)style handler:(void(^)(JKAlertAction *action))handler;
 
 /**
- * 实例化action
- * attributeTitle: 富文本标题
+ * 链式实例化action
+ * title: 标题
  * style: 样式
  * handler: 点击的操作
  */
-+ (instancetype)actionWithAttributeTitle:(NSAttributedString *)attributeTitle handler:(void(^)(JKAlertAction *action))handler;
++ (JKAlertAction *(^)(NSString *title, JKAlertActionStyle style, void(^handler)(JKAlertAction *action)))action;
+
+/**
+ * 实例化action
+ * attributedTitle: 富文本标题
+ * style: 样式
+ * handler: 点击的操作
+ */
++ (instancetype)actionWithAttributedTitle:(NSAttributedString *)attributedTitle handler:(void(^)(JKAlertAction *action))handler;
+
+/**
+ * 链式实例化action
+ * attributedTitle: 富文本标题
+ * style: 样式
+ * handler: 点击的操作
+ */
++ (JKAlertAction *(^)(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action)))actionAttributed;
 
 
 /** 设置普通状态图片 */
@@ -79,8 +99,12 @@ typedef enum : NSUInteger {
 - (JKAlertAction *(^)(BOOL hidden))setSeparatorLineHidden;
 
 /**
- * 自定义的view
+ * 设置自定义的view
  * 注意要自己计算好frame
+ * action.customView将会自动适应宽度，所以frame给出高度即可
+ * actionSheet样式的行高rowHeight将取决于action.customView的高度
+ * 自定义时请将action.customView视为一个容器view
+ * 推荐使用自动布局在action.customView约束子控件
  */
 - (JKAlertAction *(^)(UIView *(^customView)(void)))setCustomView;
 @end

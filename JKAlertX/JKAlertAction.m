@@ -27,15 +27,43 @@
     return action;
 }
 
-+ (instancetype)actionWithAttributeTitle:(NSAttributedString *)attributeTitle handler:(void(^)(JKAlertAction *action))handler{
+/**
+ * 链式实例化action
+ * title: 标题
+ * style: 样式
+ * handler: 点击的操作
+ */
++ (JKAlertAction *(^)(NSString *title, JKAlertActionStyle style, void(^handler)(JKAlertAction *action)))action{
+    
+    return ^(NSString *title, JKAlertActionStyle style, void(^handler)(JKAlertAction *action)){
+        
+        return [JKAlertAction actionWithTitle:title style:style handler:handler];
+    };
+}
+
++ (instancetype)actionWithAttributedTitle:(NSAttributedString *)attributedTitle handler:(void(^)(JKAlertAction *action))handler{
     
     JKAlertAction *action = [[JKAlertAction alloc] init];
     
-    action->_attributeTitle = attributeTitle;
+    action->_attributedTitle = attributedTitle;
     action->_handler = handler;
     action->_alertActionStyle = JKAlertActionStyleDefault;
     
     return action;
+}
+
+/**
+ * 链式实例化action
+ * attributedTitle: 富文本标题
+ * style: 样式
+ * handler: 点击的操作
+ */
++ (JKAlertAction *(^)(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action)))actionAttributed{
+    
+    return ^(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action)){
+        
+        return [JKAlertAction actionWithAttributedTitle:attributedTitle handler:handler];
+    };
 }
 
 - (instancetype)init{
@@ -84,8 +112,12 @@
 }
 
 /**
- * 自定义的view
+ * 设置自定义的view
  * 注意要自己计算好frame
+ * action.customView将会自动适应宽度，所以frame给出高度即可
+ * actionSheet样式的行高rowHeight将取决于action.customView的高度
+ * 自定义时请将action.customView视为一个容器view
+ * 推荐使用自动布局在action.customView约束子控件
  */
 - (JKAlertAction *(^)(UIView *(^customView)(void)))setCustomView{
     
@@ -100,7 +132,7 @@
 - (BOOL)isEmpty{
     
     return self.title == nil &&
-    self.attributeTitle == nil &&
+    self.attributedTitle == nil &&
     self.handler == nil &&
     self.normalImage == nil &&
     self.hightlightedImage == nil;

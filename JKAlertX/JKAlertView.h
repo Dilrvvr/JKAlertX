@@ -20,7 +20,10 @@
 
 typedef enum : NSUInteger {
     
-    /** none */
+    /**
+     * none
+     * 该样式将不会创建JKAlertView
+     */
     JKAlertStyleNone,
     
     /** 列表 */
@@ -215,8 +218,14 @@ typedef enum : NSUInteger {
 /** 实例化 */
 + (instancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message style:(JKAlertStyle)alertStyle;
 
+/** 链式实例化 */
++ (JKAlertView *(^)(NSString *title, NSString *message, JKAlertStyle style))alertView;
+
 /** 实例化 */
-+ (instancetype)alertViewWithAttributeTitle:(NSAttributedString *)attributeTitle attributeMessage:(NSAttributedString *)attributeMessage style:(JKAlertStyle)alertStyle;
++ (instancetype)alertViewWithAttributedTitle:(NSAttributedString *)attributedTitle attributedMessage:(NSAttributedString *)attributedMessage style:(JKAlertStyle)alertStyle;
+
+/** 链式实例化 */
++ (JKAlertView *(^)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style))alertViewAttributed;
 
 /** 显示文字HUD */
 + (JKAlertView *(^)(NSString *title))showHUDWithTitle;

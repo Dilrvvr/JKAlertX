@@ -141,7 +141,7 @@
     
     self.titleLabel.textColor = (action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1] : [UIColor redColor];
     
-    self.titleLabel.attributedText = action.attributeTitle;
+    self.titleLabel.attributedText = action.attributedTitle;
     
     self.titleLabel.text = action.title;
     
