@@ -62,7 +62,7 @@
 
 - (void)initialization{
     
-    self.backgroundColor = nil;//[UIColor orangeColor];
+    self.backgroundColor = nil;
     self.textAlignment = NSTextAlignmentCenter;
     self.scrollsToTop = NO;
     self.editable = NO;

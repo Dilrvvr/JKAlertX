@@ -10,7 +10,7 @@
 
 @interface JKAlertTextView : UITextView
 
-/** 是否科技选择文字 */
+/** 是否可以选择文字 */
 @property (nonatomic, assign) BOOL canSelectText;
 
 /** 计算frame */

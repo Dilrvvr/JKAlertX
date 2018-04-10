@@ -10,8 +10,6 @@
 
 @interface JKAlertTextView ()
 
-/** 是否可以成为第一响应者 */
-@property (nonatomic, assign) BOOL canBecomeFirst;
 @end
 
 @implementation JKAlertTextView
@@ -62,7 +60,7 @@
 
 - (void)initialization{
     
-    self.backgroundColor = nil;//[UIColor orangeColor];
+    self.backgroundColor = nil;
     self.textAlignment = NSTextAlignmentCenter;
     self.scrollsToTop = NO;
     self.editable = NO;
