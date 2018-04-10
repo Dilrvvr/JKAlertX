@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  JKAlertX
 //
-//  Created by albert on 2018/4/8.
+//  Created by albert on 2018/4/10.
 //  Copyright © 2018年 安永博. All rights reserved.
 //
 

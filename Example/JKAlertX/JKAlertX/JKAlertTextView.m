@@ -10,6 +10,8 @@
 
 @interface JKAlertTextView ()
 
+/** 是否可以成为第一响应者 */
+@property (nonatomic, assign) BOOL canBecomeFirst;
 @end
 
 @implementation JKAlertTextView
