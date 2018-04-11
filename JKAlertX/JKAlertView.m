@@ -24,26 +24,22 @@
 
 #define JKAlertAdjustHomeIndicatorHeight (AutoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight : 0)
 
-// plain
 #define JKAlertRowHeight ((JKAlertScreenW > 321) ? 53 : 46)
 
-#define JKAlertPlainViewMaxH (JKAlertScreenH - 100)
 #define JKAlertTextContainerViewMaxH (JKAlertScreenH - 100 - JKAlertScrollViewMaxH)
-
-static CGFloat const JKAlertMinTitleLabelH = (22);
-static CGFloat const JKAlertMinMessageLabelH = (17);
-static CGFloat const JKAlertTitleMessageMargin = (7);
-static CGFloat const JKAlertScrollViewMaxH = 176;// (ButtonH * 4)
-
-static CGFloat const JKAlertButtonH = 44;
-static NSInteger const JKAlertPlainButtonBeginTag = 100;
-static NSString * const JKAlertDismissNotification = @"JKAlertDismissNotification";
-
-// sheet
+#define JKAlertPlainViewMaxH (JKAlertScreenH - 100)
 #define JKAlertSheetMaxH (JKAlertScreenH * 0.85)
 
-static CGFloat const JKAlertSheetTitleMargin = 6;
+static CGFloat    const JKAlertMinTitleLabelH = (22);
+static CGFloat    const JKAlertMinMessageLabelH = (17);
+static CGFloat    const JKAlertTitleMessageMargin = (7);
+static CGFloat    const JKAlertScrollViewMaxH = 176; // (JKAlertButtonH * 4)
 
+static CGFloat    const JKAlertButtonH = 44;
+static NSInteger  const JKAlertPlainButtonBeginTag = 100;
+static NSString * const JKAlertDismissNotification = @"JKAlertDismissNotification";
+
+static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 @interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, JKAlertViewProtocol>
 {
@@ -54,6 +50,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     
     /** 分隔线宽度或高度 */
     CGFloat JKAlertSeparatorLineWH;
+    
     CGFloat CancelMargin;
     CGFloat PlainViewWidth;
     
@@ -95,7 +92,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
 /** collectionButton */
 @property (nonatomic, weak) UIButton *collectionButton;
 
-/** 最底部背景按钮 */
+/** 最底层背景按钮 */
 @property (nonatomic, weak) UIButton *dismissButton;
 
 /** actions */
@@ -214,6 +211,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
         JKAlertView *alertView = nil;
         
         if (!title) {
+            
             return alertView;
         }
         
@@ -233,6 +231,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
         JKAlertView *alertView = nil;
         
         if (!attributedTitle) {
+            
             return alertView;
         }
         
@@ -247,6 +246,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
 /**
  * 显示自定义HUD
  * 注意使用点语法调用，否则莫名报错 JKAlertView.showCustomHUD
+ * customHUD尺寸将完全由自定义控制，默认显示在屏幕中间
  * 注意自己计算好自定义HUD的size，以避免横竖屏出现问题
  */
 + (JKAlertView *(^)(UIView *(^customHUD)(void)))showCustomHUD{
@@ -261,11 +261,6 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
         }
         
         UIView *customView = customHUD();
-        
-        if (customView.frame.size.width <= 0 || customView.frame.size.height <= 0) {
-            
-            return alertView;
-        }
         
         alertView = [[JKAlertView alloc] init];
         
@@ -649,6 +644,8 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     
     _textViewUserInteractionEnabled = YES;
     
+    _HUDHeight = -1;
+    
     AutoAdjustHomeIndicator = YES;
     _dismissTimeInterval = 1;
     PlainViewWidth = 290;
@@ -736,6 +733,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     }
 }
 
+/** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 - (void)setCancelAction:(JKAlertAction *)cancelAction{
     
     if (cancelAction == nil) {
@@ -745,6 +743,13 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     _cancelAction = cancelAction;
 }
 
+/**
+ * 设置collection的itemSize的宽度
+ * 最大不可超过屏幕宽度的一半
+ * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
+ * 自动计算item之间间距，最小为0，可自己计算该值设置每屏显示个数
+ * 默认的高度是宽度-6，暂不支持自定义高度
+ */
 - (void)setFlowlayoutItemWidth:(CGFloat)flowlayoutItemWidth{
     
     _flowlayoutItemWidth = flowlayoutItemWidth > JKAlertScreenW * 0.5 ? JKAlertScreenW * 0.5 : flowlayoutItemWidth;
@@ -799,8 +804,32 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     [_customPlainTitleScrollView addSubview:_customPlainTitleView];
 }
 
+- (void)setHUDCenterOffsetY:(CGFloat)HUDCenterOffsetY{
+    
+    _HUDCenterOffsetY = HUDCenterOffsetY;
+        
+    _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _HUDCenterOffsetY);
+}
+
+- (void)setHUDHeight:(CGFloat)HUDHeight{
+    
+    if (_alertStyle != JKAlertStyleHUD) {
+        return;
+    }
+    
+    _HUDHeight = HUDHeight;
+    
+    CGRect rect = _plainView.frame;
+    rect.size.height = _HUDHeight >= 0 ? _HUDHeight : _textContainerView.frame.size.height;
+    _plainView.frame = rect;
+    
+    _textContainerView.center = CGPointMake(_plainView.frame.size.width * 0.5, _plainView.frame.size.height * 0.5);
+    
+    _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _HUDCenterOffsetY);
+}
+
 #pragma mark - 链式setter------------------------
-/** 设置JKAlertStyleActionSheet样式底部的取消action，不需要自带的可以自己设置，不可置为nil */
+/** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 - (JKAlertView *(^)(JKAlertAction *action))setCancelAction{
     
     return ^(JKAlertAction *action){
@@ -938,7 +967,11 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** 设置是否将两个collection合体，同步滚动 */
+/**
+ * 设置是否将两个collection合体
+ * 设为YES可让两个collection同步滚动
+ * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
+ */
 - (JKAlertView *(^)(BOOL compoundCollection))setCompoundCollection{
     
     return ^(BOOL compoundCollection){
@@ -990,7 +1023,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
 }
 
 /**
- * HUD样式dismiss的时间，默认1s
+ * 设置HUD样式dismiss的时间，默认1s
  * 小于等于0表示不自动隐藏
  */
 - (JKAlertView *(^)(CGFloat dismissTimeInterval))setDismissTimeInterval{
@@ -998,6 +1031,34 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     return ^(CGFloat dismissTimeInterval){
         
         self.dismissTimeInterval = dismissTimeInterval;
+        
+        return self;
+    };
+}
+
+/**
+ * 设置HUD样式centerY的偏移
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+- (JKAlertView *(^)(CGFloat centerOffsetY))setHUDCenterOffsetY{
+    
+    return ^(CGFloat centerOffsetY){
+        
+        self.HUDCenterOffsetY = centerOffsetY;
+        
+        return self;
+    };
+}
+
+/**
+ * 设置HUD样式高度，不包含customHUD
+ * 小于0将没有效果，默认-1
+ */
+- (JKAlertView *(^)(CGFloat height))setHUDHeight{
+    
+    return ^(CGFloat height){
+        
+        self.HUDHeight = height;
         
         return self;
     };
@@ -1019,7 +1080,11 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** collection样式添加自定义的titleView */
+/**
+ * 设置collection样式添加自定义的titleView
+ * frmae给出高度即可，宽度将自适应
+ * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
+ */
 - (JKAlertView *(^)(UIView *(^customView)(void)))addCustomCollectionTitleView{
     
     return ^(UIView *(^customView)(void)){
@@ -1030,7 +1095,11 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** plain样式添加自定义的titleView */
+/**
+ * 设置plain样式添加自定义的titleView
+ * frame给出高度即可，宽度自适应plain宽度
+ * 请将自定义view视为容器view，推荐使用自动布局约束其子控件
+ */
 - (JKAlertView *(^)(UIView *(^customView)(void)))addCustomPlainTitleView{
     
     return ^(UIView *(^customView)(void)){
@@ -1201,9 +1270,10 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
         [_scrollView removeFromSuperview];
         
         CGRect rect = _plainView.frame;
-        rect.size.height = _textContainerView.frame.size.height;
-        rect.origin.y = (JKAlertScreenH - rect.size.height) * 0.5;
+        rect.size.height = _HUDHeight >= 0 ? _HUDHeight : _textContainerView.frame.size.height;
         _plainView.frame = rect;
+        
+        _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.HUDCenterOffsetY);
         
         return;
     }
@@ -1505,7 +1575,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     rect.size.height = self.textContainerView.frame.size.height + self.scrollView.frame.size.height;
     self.plainView.frame = rect;
     
-    self.plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5);
+    self.plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.HUDCenterOffsetY);
     
     _bottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH - 0.3, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
     
@@ -1875,7 +1945,7 @@ static CGFloat const JKAlertSheetTitleMargin = 6;
     }
     
     self.plainView.frame = _customHUD.bounds;
-    self.plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5);
+    self.plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.HUDCenterOffsetY);
 }
 
 #pragma mark - 动画弹出来------------------------
