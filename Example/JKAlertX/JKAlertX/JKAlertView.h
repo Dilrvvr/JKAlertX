@@ -26,11 +26,11 @@ typedef enum : NSUInteger {
      */
     JKAlertStyleNone,
     
-    /** 列表 */
-    JKAlertStyleActionSheet,
-    
     /** 面板 */
     JKAlertStylePlain,
+    
+    /** 列表 */
+    JKAlertStyleActionSheet,
     
     /**
      * collectionView样式
@@ -107,7 +107,11 @@ typedef enum : NSUInteger {
 /** 设置是否允许dealloc打印，用于检查循环引用 */
 @property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable);
 
-
+/**
+ * 设置sheet样式的背景view
+ * 默认是一个UIToolbar，背景是黑色0.1透明度
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setSheetBackGroundView)(UIView *(^backGroundView)(void));
 
 #pragma mark - plain样式
 

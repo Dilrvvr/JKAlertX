@@ -9,8 +9,13 @@
 #import <UIKit/UIKit.h>
 
 typedef enum : NSUInteger {
-    JKAlertActionStyleDefault, // 默认黑色字体
-    JKAlertActionStyleDestructive, // 红色字体
+    
+    /** 默认黑色字体 */
+    JKAlertActionStyleDefault,
+    
+    /** 红色字体 */
+    JKAlertActionStyleDestructive,
+    
 } JKAlertActionStyle;
 
 @interface JKAlertAction : NSObject

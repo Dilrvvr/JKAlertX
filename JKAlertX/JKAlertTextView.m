@@ -10,8 +10,6 @@
 
 @interface JKAlertTextView ()
 
-/** 是否可以成为第一响应者 */
-@property (nonatomic, assign) BOOL canBecomeFirst;
 @end
 
 @implementation JKAlertTextView
@@ -69,6 +67,7 @@
     self.textContainer.lineFragmentPadding = 0;
     self.textContainerInset = UIEdgeInsetsZero;
 }
+
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
     
     if (_canSelectText) {
