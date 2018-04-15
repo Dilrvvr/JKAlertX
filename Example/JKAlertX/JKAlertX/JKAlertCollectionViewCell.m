@@ -116,14 +116,15 @@
     _titleLabel.hidden = NO;
     _imageButton.hidden = _titleLabel.hidden;
     
+    self.customView.hidden = YES;
+    self.customView = _action.customView;
+    
     if (action.customView != nil) {
         
         _titleLabel.hidden = YES;
         _imageButton.hidden = _titleLabel.hidden;
         
-        self.customView = action.customView;
-        
-        _customView.hidden = NO;
+        self.customView.hidden = NO;
         
         return;
     }
@@ -141,16 +142,13 @@
 }
 
 - (void)setCustomView:(UIView *)customView{
+    _customView = customView;
     
-    if (_customView == customView) {
+    if (_customView == nil) {
         return;
     }
     
-    [_customView removeFromSuperview];
-    
-    _customView = customView;
-    
-    [self.contentView addSubview:_customView];
+    [self.contentView addSubview:customView];
     
     customView.translatesAutoresizingMaskIntoConstraints = NO;
     NSArray *customViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[customView]-0-|" options:0 metrics:nil views:@{@"customView" : customView}];

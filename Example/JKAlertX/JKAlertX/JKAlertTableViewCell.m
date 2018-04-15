@@ -81,18 +81,16 @@
     
     _titleLabel.hidden = NO;
     
-    if (action.customView != nil) {
+    self.customView.hidden = YES;
+    self.customView = _action.customView;
+    
+    if (_action.customView != nil) {
         
         _titleLabel.hidden = YES;
-        
-        self.customView = action.customView;
-        
-        _customView.hidden = NO;
+        self.customView.hidden = NO;
         
         return;
     }
-    
-    _customView.hidden = YES;
     
     self.titleLabel.textColor = (action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] : [UIColor redColor];
     
@@ -102,14 +100,11 @@
 }
 
 - (void)setCustomView:(UIView *)customView{
-    
-    if (_customView == customView) { return; }
-    
-    [_customView removeFromSuperview];
-    
     _customView = customView;
     
-    [self.contentView insertSubview:_customView atIndex:0];
+    if (_customView == nil) { return; }
+    
+    [self.contentView insertSubview:customView atIndex:0];
     
     customView.translatesAutoresizingMaskIntoConstraints = NO;
     NSArray *customViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[customView]-0-|" options:0 metrics:nil views:@{@"customView" : customView}];
