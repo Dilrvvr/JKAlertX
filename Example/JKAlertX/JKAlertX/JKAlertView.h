@@ -351,6 +351,7 @@ typedef enum : NSUInteger {
 
 
 #pragma mark - 其它适配
+
 /** 设置action和colletion样式的底部按钮上下间距 不可小于0 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setBottomButtonMargin)(CGFloat margin);
 
