@@ -1409,9 +1409,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     for (NSInteger i = 0; i < count; i++) {
         
-        CGFloat X = (count == 2 ? i * self.plainView.frame.size.width * 0.5 : 0);
+        CGFloat X = (count == 2 ? i * PlainViewWidth * 0.5 : 0);
         CGFloat Y = (count == 2 ? 0 : (i == 0 ? 0 : CGRectGetMaxY([self.scrollView viewWithTag:JKAlertPlainButtonBeginTag + i - 1].frame)));
-        CGFloat W = (count == 2 ? self.plainView.frame.size.width * 0.5 : self.plainView.frame.size.width);
+        CGFloat W = (count == 2 ? PlainViewWidth * 0.5 : PlainViewWidth);
         
         JKAlertAction *action = self.actions[i];
         

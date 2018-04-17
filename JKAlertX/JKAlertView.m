@@ -267,7 +267,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         JKAlertView *alertView = nil;
         
         if (!customHUD) {
-
+            
             return alertView;
         }
         
@@ -385,16 +385,16 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         CALayer *hline = [CALayer layer];
         hline.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2].CGColor;
         [self.textContainerView.layer addSublayer:hline];
-         _bottomLineLayer = hline;
+        _bottomLineLayer = hline;
         
-//        NSString *hVF = [NSString stringWithFormat:@"H:|-%d-[bottomLineView]-%d-|", (int)_iPhoneXLandscapeTextMargin, (int)_iPhoneXLandscapeTextMargin];
-//
-//        bottomLineView.translatesAutoresizingMaskIntoConstraints = NO;
-//        NSArray *bottomLineViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:hVF options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
-//        [self.textContainerView addConstraints:bottomLineViewCons1];
-//
-//        NSArray *bottomLineViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomLineView(0.5)]-0-|" options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
-//        [self.textContainerView addConstraints:bottomLineViewCons2];
+        //        NSString *hVF = [NSString stringWithFormat:@"H:|-%d-[bottomLineView]-%d-|", (int)_iPhoneXLandscapeTextMargin, (int)_iPhoneXLandscapeTextMargin];
+        //
+        //        bottomLineView.translatesAutoresizingMaskIntoConstraints = NO;
+        //        NSArray *bottomLineViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:hVF options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
+        //        [self.textContainerView addConstraints:bottomLineViewCons1];
+        //
+        //        NSArray *bottomLineViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomLineView(0.5)]-0-|" options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
+        //        [self.textContainerView addConstraints:bottomLineViewCons2];
         
         // title和message的容器view
         self.textContainerView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
@@ -616,7 +616,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         [plainView addSubview:self.scrollView];
         
         [plainView insertSubview:self.scrollView belowSubview:self.textContainerView];
-            
+        
         if (_alertStyle == JKAlertStylePlain) {
             
             // 分隔线
@@ -814,7 +814,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (void)setHUDCenterOffsetY:(CGFloat)HUDCenterOffsetY{
     
     _HUDCenterOffsetY = HUDCenterOffsetY;
-        
+    
     _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _HUDCenterOffsetY);
 }
 
@@ -1409,9 +1409,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     for (NSInteger i = 0; i < count; i++) {
         
-        CGFloat X = (count == 2 ? i * self.plainView.frame.size.width * 0.5 : 0);
+        CGFloat X = (count == 2 ? i * PlainViewWidth * 0.5 : 0);
         CGFloat Y = (count == 2 ? 0 : (i == 0 ? 0 : CGRectGetMaxY([self.scrollView viewWithTag:JKAlertPlainButtonBeginTag + i - 1].frame)));
-        CGFloat W = (count == 2 ? self.plainView.frame.size.width * 0.5 : self.plainView.frame.size.width);
+        CGFloat W = (count == 2 ? PlainViewWidth * 0.5 : PlainViewWidth);
         
         JKAlertAction *action = self.actions[i];
         
@@ -1992,7 +1992,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     if (self.collectionAction) {
         
-         frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, CGRectGetMaxY(_pageControl ? _pageControl.frame : (_collectionView2 ? _collectionView2.frame : _collectionView.frame)) + CancelMargin, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
+        frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, CGRectGetMaxY(_pageControl ? _pageControl.frame : (_collectionView2 ? _collectionView2.frame : _collectionView.frame)) + CancelMargin, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
         
         if (self.collectionAction.customView) {
             
