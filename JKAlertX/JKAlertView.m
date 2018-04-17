@@ -32,7 +32,7 @@
 
 static CGFloat    const JKAlertMinTitleLabelH = (22);
 static CGFloat    const JKAlertMinMessageLabelH = (17);
-static CGFloat    const JKAlertTitleMessageMargin = (7);
+//static CGFloat    const JKAlertTitleMessageMargin = (7);
 static CGFloat    const JKAlertScrollViewMaxH = 176; // (JKAlertButtonH * 4)
 
 static CGFloat    const JKAlertButtonH = 44;
@@ -48,6 +48,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     BOOL _enableDeallocLog;
     CGFloat _iPhoneXLandscapeTextMargin;
     
+    CGFloat JKAlertTitleMessageMargin;
+    
     /** 分隔线宽度或高度 */
     CGFloat JKAlertSeparatorLineWH;
     
@@ -58,6 +60,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     BOOL AutoAdjustHomeIndicator;
     
     BOOL Showed;
+    
+    UIColor *titleTextColor;
+    UIFont *titleFont;
+    
+    UIColor *messageTextColor;
+    UIFont *messageFont;
 }
 /** contentView */
 @property (nonatomic, weak) UIView *contentView;
@@ -642,7 +650,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (void)initialization{
     
     _textViewUserInteractionEnabled = YES;
-    
+    JKAlertTitleMessageMargin = 7;
     _HUDHeight = -1;
     
     AutoAdjustHomeIndicator = YES;
@@ -870,6 +878,63 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
+/**
+ * 设置titleTextColor
+ * plain默认RGB都为0.1，其它0.35
+ */
+- (JKAlertView *(^)(UIColor *textColor))setTitleTextColor{
+    
+    return ^(UIColor *textColor){
+        
+        self->titleTextColor = textColor;
+        
+        return self;
+    };
+}
+
+/**
+ * 设置titleTextFont
+ * plain默认 bold 17，其它17
+ */
+- (JKAlertView *(^)(UIFont *font))setTitleTextFont{
+    
+    return ^(UIFont *font){
+        
+        self->titleFont = font;
+        
+        return self;
+    };
+}
+
+/**
+ * 设置messageTextColor
+ * plain默认RGB都为0.55，其它0.3
+ */
+- (JKAlertView *(^)(UIColor *textColor))setMessageTextColor{
+    
+    return ^(UIColor *textColor){
+        
+        self->messageTextColor = textColor;
+        
+        return self;
+    };
+}
+
+/**
+ * 设置messageTextFont
+ * plain默认14，其它13
+ * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
+ */
+- (JKAlertView *(^)(UIFont *font))setMessageTextFont{
+    
+    return ^(UIFont *font){
+        
+        self->messageFont = font;
+        
+        return self;
+    };
+}
+
 /** 设置titleTextViewDelegate */
 - (JKAlertView *(^)(id<UITextViewDelegate> delegate))setTitleTextViewDelegate{
     
@@ -938,12 +1003,23 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** 设置title和message的左右间距 */
+/** 设置title和message的左右间距 默认15 */
 - (JKAlertView *(^)(CGFloat margin))setTextViewLeftRightMargin{
     
     return ^(CGFloat margin){
         
         self.textViewLeftRightMargin = margin;
+        
+        return self;
+    };
+}
+
+/** 设置title和message的上下间距 默认15 */
+- (JKAlertView *(^)(CGFloat margin))setTextViewTopBottomMargin{
+    
+    return ^(CGFloat margin){
+        
+        self->TBMargin = margin;
         
         return self;
     };
@@ -1124,6 +1200,16 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     return ^(UIView *(^customView)(void)){
         
         self.customPlainTitleView = !customView ? nil : customView();
+        
+        return self;
+    };
+}
+
+- (JKAlertView *(^)(CGFloat margin))setTitleMessageMargin{
+    
+    return ^(CGFloat margin){
+        
+        self->JKAlertTitleMessageMargin = margin;
         
         return self;
     };
@@ -1479,6 +1565,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     _titleTextView.canSelectText = self.textViewCanSelectText;
     _messageTextView.canSelectText = self.textViewCanSelectText;
+    
+    _titleTextView.textColor = titleTextColor ? titleTextColor : _titleTextView.textColor;
+    _messageTextView.textColor = messageTextColor ? messageTextColor : _messageTextView.textColor;
+    
+    _titleTextView.font = titleFont ? titleFont : _titleTextView.font;
+    _messageTextView.font = messageFont ? messageFont : _messageTextView.font;
     
     if (self.alertAttributedTitle) {
         

@@ -62,6 +62,31 @@ typedef enum : NSUInteger {
 /** 设置title和message是否可以选择文字，默认NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText);
 
+/**
+ * 设置titleTextColor
+ * plain默认RGB都为0.1，其它0.35
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextColor)(UIColor *textColor);
+
+/**
+ * 设置titleTextFont
+ * plain默认 bold 17，其它17
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextFont)(UIFont *font);
+
+/**
+ * 设置messageTextColor
+ * plain默认RGB都为0.55，其它0.3
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextColor)(UIColor *textColor);
+
+/**
+ * 设置messageTextFont
+ * plain默认14，其它13
+ * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextFont)(UIFont *font);
+
 /** titleTextViewDelegate */
 @property (nonatomic, weak) id<UITextViewDelegate> titleTextViewDelegate;
 
@@ -74,23 +99,31 @@ typedef enum : NSUInteger {
 /** 设置messageTextViewDelegate */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id<UITextViewDelegate> delegate);
 
-/** titleTextViewAlignment */
+/** titleTextViewAlignment 默认NSTextAlignmentCenter */
 @property (nonatomic, assign) NSTextAlignment titleTextViewAlignment;
 
-/** 设置titleTextView的文字水平样式 */
+/** 设置titleTextView的文字水平样式 默认NSTextAlignmentCenter */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewAlignment)(NSTextAlignment textAlignment);
 
-/** messageTextViewAlignment */
+/** messageTextViewAlignment 默认NSTextAlignmentCenter */
 @property (nonatomic, assign) NSTextAlignment messageTextViewAlignment;
 
-/** 设置messageTextView的文字水平样式 */
+/** 设置messageTextView的文字水平样式 默认NSTextAlignmentCenter */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewAlignment)(NSTextAlignment textAlignment);
 
-/** title和message的左右间距 */
+/** title和message的左右间距 默认15 */
 @property (nonatomic, assign) CGFloat textViewLeftRightMargin;
 
-/** 设置title和message的左右间距 */
+/** 设置title和message的左右间距 默认15 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin);
+
+/**
+ * 设置title和message上下间距 默认15
+ * plain样式title上间距和message下间距
+ * collection样式title上下间距
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewTopBottomMargin)(CGFloat margin);
+
 
 /** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, strong) JKAlertAction *cancelAction;
@@ -128,6 +161,9 @@ typedef enum : NSUInteger {
  * 请将自定义view视为容器view，推荐使用自动布局约束其子控件
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^addCustomPlainTitleView)(UIView *(^customView)(void));
+
+/** 设置title和message之间的间距 默认7 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleMessageMargin)(CGFloat margin);
 
 
 
