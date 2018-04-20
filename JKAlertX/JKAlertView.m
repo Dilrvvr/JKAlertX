@@ -267,7 +267,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         JKAlertView *alertView = nil;
         
         if (!customHUD) {
-            
+
             return alertView;
         }
         
@@ -385,16 +385,16 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         CALayer *hline = [CALayer layer];
         hline.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2].CGColor;
         [self.textContainerView.layer addSublayer:hline];
-        _bottomLineLayer = hline;
+         _bottomLineLayer = hline;
         
-        //        NSString *hVF = [NSString stringWithFormat:@"H:|-%d-[bottomLineView]-%d-|", (int)_iPhoneXLandscapeTextMargin, (int)_iPhoneXLandscapeTextMargin];
-        //
-        //        bottomLineView.translatesAutoresizingMaskIntoConstraints = NO;
-        //        NSArray *bottomLineViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:hVF options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
-        //        [self.textContainerView addConstraints:bottomLineViewCons1];
-        //
-        //        NSArray *bottomLineViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomLineView(0.5)]-0-|" options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
-        //        [self.textContainerView addConstraints:bottomLineViewCons2];
+//        NSString *hVF = [NSString stringWithFormat:@"H:|-%d-[bottomLineView]-%d-|", (int)_iPhoneXLandscapeTextMargin, (int)_iPhoneXLandscapeTextMargin];
+//
+//        bottomLineView.translatesAutoresizingMaskIntoConstraints = NO;
+//        NSArray *bottomLineViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:hVF options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
+//        [self.textContainerView addConstraints:bottomLineViewCons1];
+//
+//        NSArray *bottomLineViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomLineView(0.5)]-0-|" options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
+//        [self.textContainerView addConstraints:bottomLineViewCons2];
         
         // title和message的容器view
         self.textContainerView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
@@ -455,13 +455,15 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (UIButton *)cancelButton{
     if (!_cancelButton) {
         
-        UIButton *cancelButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
+        UIButton *cancelButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [self.scrollView addSubview:cancelButton];
         
         cancelButton.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
         cancelButton.titleLabel.font = [UIFont systemFontOfSize:17];
         [cancelButton setTitleColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] forState:(UIControlStateNormal)];
         [cancelButton addTarget:self action:@selector(dismiss) forControlEvents:(UIControlEventTouchUpInside)];
+        
+        [cancelButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
         
         _cancelButton = cancelButton;
     }
@@ -470,13 +472,15 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 - (UIButton *)collectionButton{
     if (!_collectionButton) {
-        UIButton *collectionButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
+        UIButton *collectionButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         
         collectionButton.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
         [self.scrollView addSubview:collectionButton];
         collectionButton.titleLabel.font = [UIFont systemFontOfSize:17];
         [collectionButton setTitleColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] forState:(UIControlStateNormal)];
         [collectionButton addTarget:self action:@selector(collectionButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
+        
+        [collectionButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
         
         _collectionButton = collectionButton;
     }
@@ -616,7 +620,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         [plainView addSubview:self.scrollView];
         
         [plainView insertSubview:self.scrollView belowSubview:self.textContainerView];
-        
+            
         if (_alertStyle == JKAlertStylePlain) {
             
             // 分隔线
@@ -814,7 +818,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (void)setHUDCenterOffsetY:(CGFloat)HUDCenterOffsetY{
     
     _HUDCenterOffsetY = HUDCenterOffsetY;
-    
+        
     _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _HUDCenterOffsetY);
 }
 
@@ -1415,16 +1419,44 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         JKAlertAction *action = self.actions[i];
         
-        UIButton *btn = [UIButton buttonWithType:(UIButtonTypeSystem)];
+        UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [self.scrollView addSubview:btn];
         btn.frame = CGRectMake(X, Y, W, JKAlertButtonH);
         
+        [btn setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
+        
         btn.tag = JKAlertPlainButtonBeginTag + i;
         
-        if (action.alertActionStyle == JKAlertActionStyleDestructive) {
+        if (action.titleColor == nil) {
             
-            [btn setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
+            switch (action.alertActionStyle) {
+                case JKAlertActionStyleDefault:
+                    
+                    action.setTitleColor([UIColor colorWithRed:0 green:119.0/255.0 blue:251.0/255.0 alpha:1]);
+                    break;
+                    
+                case JKAlertActionStyleCancel:
+                    
+                    action.setTitleColor([UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1]);
+                    break;
+                    
+                case JKAlertActionStyleDestructive:
+                    
+                    action.setTitleColor([UIColor redColor]);
+                    break;
+                    
+                default:
+                    break;
+            }
         }
+        
+        if (action.titleFont == nil) {
+            
+            action.setTitleFont([UIFont systemFontOfSize:15]);
+        }
+        
+        btn.titleLabel.font = action.titleFont;
+        [btn setTitleColor:action.titleColor forState:(UIControlStateNormal)];
         
         if ([self.actions[i] customView] != nil) {
             
@@ -1435,14 +1467,14 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             
         }else{
             
-            if (action.title) {
-                
-                [btn setTitle:action.title forState:(UIControlStateNormal)];
-            }
-            
             if (action.attributedTitle) {
                 
                 [btn setAttributedTitle:action.attributedTitle forState:(UIControlStateNormal)];
+            }
+            
+            if (action.title) {
+                
+                [btn setTitle:action.title forState:(UIControlStateNormal)];
             }
         }
         
@@ -1486,6 +1518,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     if (!self.cancelAction) {
         
         self.cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
+        self.cancelAction.setTitleFont([UIFont systemFontOfSize:17]);
+        self.cancelAction.setTitleColor([UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1]);
     }
     
     self.cancelAction.setSeparatorLineHidden(YES);
@@ -1502,6 +1536,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     if (!self.cancelAction) {
         
         self.cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
+        self.cancelAction.setTitleFont([UIFont systemFontOfSize:17]);
+        self.cancelAction.setTitleColor([UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1]);
     }
     
     if (self.cancelAction.customView) {
@@ -1510,15 +1546,26 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
     }else{
         
-        if (self.cancelAction.title) {
-            
-            [self.cancelButton setTitle:self.cancelAction.title forState:(UIControlStateNormal)];
-        }
+        [self adjustButton:self.cancelButton action:self.cancelAction];
         
         if (self.cancelAction.attributedTitle) {
             
             [self.cancelButton setAttributedTitle:self.cancelAction.attributedTitle forState:(UIControlStateNormal)];
         }
+        
+        if (self.cancelAction.title) {
+            
+            [self.cancelButton setTitle:self.cancelAction.title forState:(UIControlStateNormal)];
+        }
+    }
+    
+    if (self.collectionAction == nil) {
+        
+        [self relayout];
+        
+        [_collectionView reloadData];
+        
+        return;
     }
     
     if (self.collectionAction.customView) {
@@ -1527,20 +1574,56 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
     }else{
         
-        if (self.collectionAction.title) {
-            
-            [self.collectionButton setTitle:self.collectionAction.title forState:(UIControlStateNormal)];
-        }
+        [self adjustButton:self.collectionButton action:self.collectionAction];
         
         if (self.collectionAction.attributedTitle) {
             
             [self.collectionButton setAttributedTitle:self.collectionAction.attributedTitle forState:(UIControlStateNormal)];
+        }
+        
+        if (self.collectionAction.title) {
+            
+            [self.collectionButton setTitle:self.collectionAction.title forState:(UIControlStateNormal)];
         }
     }
     
     [self relayout];
     
     [_collectionView reloadData];
+}
+
+- (void)adjustButton:(UIButton *)button action:(JKAlertAction *)action{
+    
+    if (action.titleColor == nil) {
+    
+    switch (action.alertActionStyle) {
+        case JKAlertActionStyleDefault:
+            
+            action.setTitleColor([UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1]);
+            break;
+            
+        case JKAlertActionStyleCancel:
+            
+            action.setTitleColor([UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1]);
+            break;
+            
+        case JKAlertActionStyleDestructive:
+            
+            action.setTitleColor([UIColor redColor]);
+            break;
+            
+        default:
+            break;
+    }
+}
+    
+    if (action.titleFont == nil) {
+        
+        action.setTitleFont([UIFont systemFontOfSize:17]);
+    }
+    
+    button.titleLabel.font = action.titleFont;
+    [button setTitleColor:action.titleColor forState:(UIControlStateNormal)];
 }
 
 #pragma mark - 计算frame------------------------------------
@@ -1992,7 +2075,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     if (self.collectionAction) {
         
-        frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, CGRectGetMaxY(_pageControl ? _pageControl.frame : (_collectionView2 ? _collectionView2.frame : _collectionView.frame)) + CancelMargin, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
+         frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, CGRectGetMaxY(_pageControl ? _pageControl.frame : (_collectionView2 ? _collectionView2.frame : _collectionView.frame)) + CancelMargin, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
         
         if (self.collectionAction.customView) {
             
@@ -2314,6 +2397,52 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     }
     
     !self.deallocBlock ? : self.deallocBlock();
+}
+
+UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat height, CGFloat cornerRadius) {
+    
+    if (width <= 0 || height <= 0 || !color) { return nil; }
+    
+    CGRect rect = CGRectMake(0.0f, 0.0f, width, height);
+    
+    UIGraphicsBeginImageContext(rect.size);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    
+    CGContextFillRect(context, rect);
+    
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    if (cornerRadius > 0) {
+        
+        // NO代表透明
+        UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
+        
+        // 获取上下文
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        
+        // 添加一个圆
+        //CGContextAddEllipseInRect(ctx, rect);
+        UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:(UIRectCornerAllCorners) cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
+        
+        CGContextAddPath(ctx, path.CGPath);
+        
+        // 裁剪
+        CGContextClip(ctx);
+        
+        // 将图片画上去
+        [theImage drawInRect:rect];
+        
+        theImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+    }
+    
+    return theImage;
 }
 @end
 

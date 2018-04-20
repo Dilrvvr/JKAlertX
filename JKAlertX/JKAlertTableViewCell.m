@@ -92,7 +92,37 @@
         return;
     }
     
-    self.titleLabel.textColor = (action.alertActionStyle == JKAlertActionStyleDefault) ? [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] : [UIColor redColor];
+    if (_action.titleColor == nil) {
+        
+        switch (_action.alertActionStyle) {
+            case JKAlertActionStyleDefault:
+                
+                _action.setTitleColor([UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1]);
+                break;
+                
+            case JKAlertActionStyleCancel:
+                
+                _action.setTitleColor([UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1]);
+                break;
+                
+            case JKAlertActionStyleDestructive:
+                
+                _action.setTitleColor([UIColor redColor]);
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    if (_action.titleFont == nil) {
+        
+        _action.setTitleFont([UIFont systemFontOfSize:17]);
+    }
+    
+    self.titleLabel.font = _action.titleFont;
+    
+    self.titleLabel.textColor = _action.titleColor;
     
     self.titleLabel.attributedText = action.attributedTitle;
     

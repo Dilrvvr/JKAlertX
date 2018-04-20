@@ -80,6 +80,26 @@
     _separatorLineHidden = NO;
 }
 
+- (JKAlertAction *(^)(UIColor *color))setTitleColor{
+    
+    return ^(UIColor *color){
+        
+        self.titleColor = color;
+        
+        return self;
+    };
+}
+
+- (JKAlertAction *(^)(UIFont *font))setTitleFont{
+    
+    return ^(UIFont *font){
+        
+        self.titleFont = font;
+        
+        return self;
+    };
+}
+
 - (JKAlertAction *(^)(UIImage *image))setNormalImage{
     
     return ^(UIImage *image){
