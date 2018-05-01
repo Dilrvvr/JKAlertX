@@ -50,6 +50,14 @@ typedef enum : NSUInteger {
 
 #pragma mark - 公共部分
 
+/**
+ * 设置自定义的父控件
+ * 默认添加到keywindow上
+ * customSuperView在show之前有效
+ * customSuperViewsize最好和屏幕大小一致，否则可能出现问题
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomSuperView)(UIView *customSuperView);
+
 /** title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 @property (nonatomic, assign) BOOL textViewUserInteractionEnabled;
 

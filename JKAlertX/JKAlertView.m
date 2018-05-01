@@ -32,7 +32,6 @@
 
 static CGFloat    const JKAlertMinTitleLabelH = (22);
 static CGFloat    const JKAlertMinMessageLabelH = (17);
-//static CGFloat    const JKAlertTitleMessageMargin = (7);
 static CGFloat    const JKAlertScrollViewMaxH = 176; // (JKAlertButtonH * 4)
 
 static CGFloat    const JKAlertButtonH = 44;
@@ -45,7 +44,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 {
     CGFloat TBMargin;
     CGFloat textContainerViewCurrentMaxH_;
-    BOOL _enableDeallocLog;
+    BOOL    _enableDeallocLog;
     CGFloat _iPhoneXLandscapeTextMargin;
     
     CGFloat JKAlertTitleMessageMargin;
@@ -62,11 +61,14 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     BOOL Showed;
     
     UIColor *titleTextColor;
-    UIFont *titleFont;
+    UIFont  *titleFont;
     
     UIColor *messageTextColor;
-    UIFont *messageFont;
+    UIFont  *messageFont;
 }
+/** customSuperView */
+@property (nonatomic, weak) UIView *customSuperView;
+
 /** contentView */
 @property (nonatomic, weak) UIView *contentView;
 
@@ -473,13 +475,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (UIButton *)collectionButton{
     if (!_collectionButton) {
         UIButton *collectionButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        
         collectionButton.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
         [self.scrollView addSubview:collectionButton];
         collectionButton.titleLabel.font = [UIFont systemFontOfSize:17];
         [collectionButton setTitleColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] forState:(UIControlStateNormal)];
         [collectionButton addTarget:self action:@selector(collectionButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
-        
         [collectionButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
         
         _collectionButton = collectionButton;
@@ -489,16 +489,13 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 - (UIPageControl *)pageControl{
     if (!_pageControl) {
-        
         UIPageControl *pageControl = [[UIPageControl alloc] init];
         pageControl.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
-        
         pageControl.pageIndicatorTintColor = [UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1];
-        
         pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1];
+        pageControl.userInteractionEnabled = NO;
         
         [self.scrollView addSubview:pageControl];
-        
         
         _pageControl = pageControl;
     }
@@ -507,7 +504,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
-        
         [self.sheetContainerView insertSubview:self.scrollView atIndex:1];
         self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0);
         self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -653,30 +649,24 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 - (void)initialization{
     
-    _textViewUserInteractionEnabled = YES;
-    JKAlertTitleMessageMargin = 7;
     _HUDHeight = -1;
-    
-    AutoAdjustHomeIndicator = YES;
+    _enableDeallocLog = NO;
     _dismissTimeInterval = 1;
-    PlainViewWidth = 290;
-    
-    JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
-    
+    _textViewUserInteractionEnabled = YES;
     _iPhoneXLandscapeTextMargin = ((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
+    TBMargin = 15;
+    PlainViewWidth = 290;
+    AutoAdjustHomeIndicator = YES;
+    JKAlertTitleMessageMargin = 7;
+    CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
+    JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
     
-    TBMargin = 15;
-    
-    CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
-    
-    _enableDeallocLog = NO;
-    
+    self.flowlayoutItemWidth = 76;
+    self.textViewLeftRightMargin = 15;
     self.titleTextViewAlignment = NSTextAlignmentCenter;
     self.messageTextViewAlignment = NSTextAlignmentCenter;
-    self.textViewLeftRightMargin = 15;
-    self.flowlayoutItemWidth = 76;
     
     UIView *contentView = [[UIView alloc] init];
     contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
@@ -860,6 +850,23 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 链式setter------------------------
+
+/**
+ * 设置自定义的父控件
+ * 默认添加到keywindow上
+ * customSuperView在show之前有效
+ * customSuperViewsize最好和屏幕大小一致，否则可能出现问题
+ */
+- (JKAlertView *(^)(UIView *customSuperView))setCustomSuperView{
+    
+    return ^(UIView *customSuperView){
+        
+        self.customSuperView = customSuperView;
+        
+        return self;
+    };
+}
+
 /** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 - (JKAlertView *(^)(JKAlertAction *action))setCancelAction{
     
@@ -971,8 +978,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         return self;
     };
 }
-
-
 
 /** 设置title和message是否可以选择文字，默认NO */
 - (JKAlertView *(^)(BOOL canselectText))setTextViewCanSelectText{
@@ -1265,6 +1270,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 添加action------------------------
+
 /** 添加action */
 - (JKAlertView *(^)(JKAlertAction *action))addAction{
     
@@ -1300,6 +1306,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 显示------------------------
+
 /** 显示 */
 - (id<JKAlertViewProtocol>(^)(void))show{
     
@@ -1342,7 +1349,14 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             break;
     }
     
-    [[UIApplication sharedApplication].delegate.window addSubview:self];
+    if (self.customSuperView != nil) {
+        
+        [self.customSuperView addSubview:self];
+        
+    }else{
+        
+        [[UIApplication sharedApplication].delegate.window addSubview:self];
+    }
     
     return ^{
         
@@ -1461,7 +1475,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         if ([self.actions[i] customView] != nil) {
             
             btn.frame = CGRectMake(X, Y, W, [self.actions[i] customView].frame.size.height);
-            
             [btn addSubview:[self.actions[i] customView]];
             [self.actions[i] customView].frame = btn.bounds;
             
