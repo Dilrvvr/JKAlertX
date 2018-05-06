@@ -1179,10 +1179,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     return ^(CGFloat centerOffsetY, BOOL animated){
         
-        if (self->_plainView == nil) {
-            return self;
-        }
-        
         if (animated) {
             
             [UIView animateWithDuration:0.25 animations:^{
