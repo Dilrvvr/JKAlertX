@@ -1177,26 +1177,22 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  */
 - (JKAlertView *(^)(CGFloat centerOffsetY, BOOL animated))setPlainCenterOffsetY{
     
-    if (_plainView == nil) {
-        
-        return ^(CGFloat centerOffsetY, BOOL animated){
-            
-            return self;
-        };
-    }
-    
     return ^(CGFloat centerOffsetY, BOOL animated){
+        
+        if (self->_plainView == nil) {
+            return self;
+        }
         
         if (animated) {
             
             [UIView animateWithDuration:0.25 animations:^{
                
-                self.plainView.center = CGPointMake(self.plainView.center.x, self.plainView.center.y + centerOffsetY);
+                self->_plainView.center = CGPointMake(self->_plainView.center.x, self->_plainView.center.y + centerOffsetY);
             }];
             
         }else{
             
-            self.plainView.center = CGPointMake(self.plainView.center.x, self.plainView.center.y + centerOffsetY);
+            self->_plainView.center = CGPointMake(self->_plainView.center.x, self->_plainView.center.y + centerOffsetY);
         }
         
         return self;
