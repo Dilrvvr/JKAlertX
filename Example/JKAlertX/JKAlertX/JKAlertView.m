@@ -34,7 +34,7 @@ static CGFloat    const JKAlertMinTitleLabelH = (22);
 static CGFloat    const JKAlertMinMessageLabelH = (17);
 static CGFloat    const JKAlertScrollViewMaxH = 176; // (JKAlertButtonH * 4)
 
-static CGFloat    const JKAlertButtonH = 44;
+static CGFloat    const JKAlertButtonH = 46;
 static NSInteger  const JKAlertPlainButtonBeginTag = 100;
 static NSString * const JKAlertDismissNotification = @"JKAlertDismissNotification";
 
@@ -60,6 +60,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     BOOL Showed;
     
+    UIView  *_backGroundView;
+    
     UIColor *titleTextColor;
     UIFont  *titleFont;
     
@@ -76,7 +78,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 @property (nonatomic, weak) UIView *sheetContainerView;
 
 /** sheet样式的背景view */
-@property (nonatomic, weak) UIView *sheetBackGroundView;
+@property (nonatomic, strong) UIView *backGroundView;
 
 /** tableView */
 @property (nonatomic, weak) UITableView *tableView;
@@ -161,6 +163,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 /** 消失后的回调 */
 @property (nonatomic, copy) void (^dismissComplete)(void);
+
+/** 显示动画完成的回调 */
+@property (nonatomic, copy) void (^showAnimationComplete)(JKAlertView *view);
 
 @end
 
@@ -364,6 +369,15 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     return _scrollView;
 }
 
+- (UIView *)backGroundView{
+    if (!_backGroundView) {
+        UIToolbar *toolbar = [[UIToolbar alloc] init];
+        toolbar.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.1];
+        self.backGroundView = toolbar;
+    }
+    return _backGroundView;
+}
+
 - (UIView *)sheetContainerView{
     if (!_sheetContainerView) {
         UIView *sheetContainerView = [[UIView alloc] init];
@@ -372,10 +386,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         _sheetContainerView = sheetContainerView;
         
         // 背景
-        UIToolbar *toolbar = [[UIToolbar alloc] init];
-        toolbar.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.1];
-        [sheetContainerView insertSubview:toolbar atIndex:0];
-        self.sheetBackGroundView = toolbar;
+        [self backGroundView];
     }
     return _sheetContainerView;
 }
@@ -597,7 +608,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         UIView *plainView = [[UIView alloc] init];
         plainView.clipsToBounds = YES;
         plainView.layer.cornerRadius = 8;
-        plainView.backgroundColor = [UIColor whiteColor];
+        plainView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.6];//[UIColor whiteColor];
         plainView.frame = CGRectMake((JKAlertScreenW - PlainViewWidth) * 0.5, (JKAlertScreenH - 200) * 0.5, PlainViewWidth, 200);
         
         //        UIView *titleContentView = [[UIView alloc] init];
@@ -628,6 +639,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         [self addSubview:plainView];
         _plainView = plainView;
+        
+        // 背景
+        [self backGroundView];
     }
     return _plainView;
 }
@@ -655,7 +669,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     _textViewUserInteractionEnabled = YES;
     _iPhoneXLandscapeTextMargin = ((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
-    TBMargin = 15;
+    TBMargin = 20;
     PlainViewWidth = 290;
     AutoAdjustHomeIndicator = YES;
     JKAlertTitleMessageMargin = 7;
@@ -664,7 +678,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
     
     self.flowlayoutItemWidth = 76;
-    self.textViewLeftRightMargin = 15;
+    self.textViewLeftRightMargin = 20;
     self.titleTextViewAlignment = NSTextAlignmentCenter;
     self.messageTextViewAlignment = NSTextAlignmentCenter;
     
@@ -829,24 +843,27 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _HUDCenterOffsetY);
 }
 
-- (void)setSheetBackGroundView:(UIView *)sheetBackGroundView{
+- (void)setBackGroundView:(UIView *)backGroundView{
     
-    if (sheetBackGroundView == nil || _sheetContainerView == nil) {
+    if (backGroundView == nil) {
         return;
     }
     
-    [_sheetBackGroundView removeFromSuperview];
+    [_backGroundView removeFromSuperview];
     
-    _sheetBackGroundView = sheetBackGroundView;
+    _backGroundView = backGroundView;
     
-    [_sheetContainerView insertSubview:_sheetBackGroundView atIndex:0];
+    [_sheetContainerView insertSubview:_backGroundView atIndex:0];
+    [_plainView insertSubview:_backGroundView atIndex:0];
     
-    sheetBackGroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : sheetBackGroundView}];
+    backGroundView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : backGroundView}];
     [_sheetContainerView addConstraints:cons1];
+    [_plainView addConstraints:cons1];
     
-    NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : sheetBackGroundView}];
+    NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : backGroundView}];
     [_sheetContainerView addConstraints:cons2];
+    [_plainView addConstraints:cons2];
 }
 
 #pragma mark - 链式setter------------------------
@@ -1155,6 +1172,34 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 /**
+ * 设置plain样式centerY的偏移
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+- (JKAlertView *(^)(CGFloat centerOffsetY, BOOL animated))setPlainCenterOffsetY{
+    
+    return ^(CGFloat centerOffsetY, BOOL animated){
+        
+        if (_plainView == nil) {
+            return self;
+        }
+        
+        if (animated) {
+            
+            [UIView animateWithDuration:0.25 animations:^{
+               
+                self.plainView.center = CGPointMake(self.plainView.center.x, self.plainView.center.y + centerOffsetY);
+            }];
+            
+        }else{
+            
+            self.plainView.center = CGPointMake(self.plainView.center.x, self.plainView.center.y + centerOffsetY);
+        }
+        
+        return self;
+    };
+}
+
+/**
  * 设置HUD样式高度，不包含customHUD
  * 小于0将没有效果，默认-1
  */
@@ -1224,11 +1269,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
-- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setSheetBackGroundView{
+- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setBackGroundView{
     
     return ^(UIView *(^backGroundView)(void)){
         
-        self.sheetBackGroundView = !backGroundView ? nil : backGroundView();
+        self.backGroundView = !backGroundView ? nil : backGroundView();
         
         return self;
     };
@@ -1364,6 +1409,17 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
+/** 监听JKAlertView显示动画完成 */
+- (id<JKAlertViewProtocol>(^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete{
+    
+    return ^(void(^showAnimationComplete)(JKAlertView *view)){
+        
+        self.showAnimationComplete = showAnimationComplete;
+        
+        return self;
+    };
+}
+
 /** 显示并监听JKAlertView消失动画完成 */
 - (void(^)(void(^dismissComplete)(void)))showWithDismissComplete{
     
@@ -1466,7 +1522,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         if (action.titleFont == nil) {
             
-            action.setTitleFont([UIFont systemFontOfSize:15]);
+            action.setTitleFont([UIFont systemFontOfSize:17]);
         }
         
         btn.titleLabel.font = action.titleFont;
@@ -2190,6 +2246,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         self->_titleTextView.delegate = self.titleTextViewDelegate;
         self->_messageTextView.delegate = self.messageTextViewDelegate;
+        
+        !self.showAnimationComplete ? : self.showAnimationComplete(self);
         
         if (self.dismissTimeInterval > 0 && (self.alertStyle == JKAlertStyleHUD || self.customHUD)) {
             

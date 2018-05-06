@@ -103,7 +103,9 @@
     
     //    JKAlertView *alertView = [JKAlertView alertViewWithAttributedTitle:[[NSAttributedString alloc] initWithString:@"你好你好" attributes:@{NSForegroundColorAttributeName : [UIColor redColor], NSFontAttributeName : [UIFont boldSystemFontOfSize:18], NSParagraphStyleAttributeName : para}] attributedMessage:[[NSAttributedString alloc] initWithString:@"你好你好你好你好你好你好" attributes:@{NSForegroundColorAttributeName : [UIColor cyanColor], NSFontAttributeName : [UIFont systemFontOfSize:15], NSParagraphStyleAttributeName : para}] style:(JKAlertStylePlain)];
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好你好" style:(JKAlertStylePlain)];
+//    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好你好" style:(JKAlertStylePlain)];
+    
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"定位服务未开启" message:@"请进入系统「设置」->「隐私」->「定位服务」中打开开关，并允许妙菜使用定位服务" style:(JKAlertStylePlain)];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleCancel) handler:^(JKAlertAction *action) {
         
@@ -112,6 +114,12 @@
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }]];
+    
+    // 显示动画完毕后，向上偏移150
+    alertView.setShowAnimationComplete(^(JKAlertView *view) {
+        
+        view.setPlainCenterOffsetY(-150, YES);
+    });
     
     alertView.enableDeallocLog(YES).show().setDismissComplete(^{
         

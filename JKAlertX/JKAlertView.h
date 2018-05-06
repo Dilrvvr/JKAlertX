@@ -119,19 +119,18 @@ typedef enum : NSUInteger {
 /** 设置messageTextView的文字水平样式 默认NSTextAlignmentCenter */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewAlignment)(NSTextAlignment textAlignment);
 
-/** title和message的左右间距 默认15 */
+/** title和message的左右间距 默认20 */
 @property (nonatomic, assign) CGFloat textViewLeftRightMargin;
 
-/** 设置title和message的左右间距 默认15 */
+/** 设置title和message的左右间距 默认20 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin);
 
 /**
- * 设置title和message上下间距 默认15
+ * 设置title和message上下间距 默认20
  * plain样式title上间距和message下间距
  * collection样式title上下间距
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewTopBottomMargin)(CGFloat margin);
-
 
 /** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, strong) JKAlertAction *cancelAction;
@@ -149,10 +148,10 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable);
 
 /**
- * 设置sheet样式的背景view
+ * 设置背景view
  * 默认是一个UIToolbar，背景是黑色0.1透明度
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setSheetBackGroundView)(UIView *(^backGroundView)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^setBackGroundView)(UIView *(^backGroundView)(void));
 
 #pragma mark - plain样式
 
@@ -172,6 +171,52 @@ typedef enum : NSUInteger {
 
 /** 设置title和message之间的间距 默认7 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTitleMessageMargin)(CGFloat margin);
+
+/**
+ * 设置plain样式centerY的偏移
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
+
+
+
+#pragma mark - HUD样式
+
+/**
+ * HUD样式dismiss的时间，默认1s
+ * 小于等于0表示不自动隐藏
+ */
+@property (nonatomic, assign) CGFloat dismissTimeInterval;
+
+/**
+ * 设置HUD样式dismiss的时间，默认1s
+ * 小于等于0表示不自动隐藏
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissTimeInterval)(CGFloat dismissTimeInterval);
+
+/**
+ * HUD样式centerY的偏移
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+@property (nonatomic, assign) CGFloat HUDCenterOffsetY;
+
+/**
+ * 设置HUD样式centerY的偏移
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setHUDCenterOffsetY)(CGFloat centerOffsetY);
+
+/**
+ * HUD样式高度，不包含customHUD
+ * 小于0将没有效果，默认-1
+ */
+@property (nonatomic, assign) CGFloat HUDHeight;
+
+/**
+ * 设置HUD样式高度，不包含customHUD
+ * 小于0将没有效果，默认-1
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setHUDHeight)(CGFloat height);
 
 
 
@@ -262,46 +307,6 @@ typedef enum : NSUInteger {
 
 
 
-#pragma mark - HUD样式
-
-/**
- * HUD样式dismiss的时间，默认1s
- * 小于等于0表示不自动隐藏
- */
-@property (nonatomic, assign) CGFloat dismissTimeInterval;
-
-/**
- * 设置HUD样式dismiss的时间，默认1s
- * 小于等于0表示不自动隐藏
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDismissTimeInterval)(CGFloat dismissTimeInterval);
-
-/**
- * HUD样式centerY的偏移
- * 正数表示向下偏移，负数表示向上偏移
- */
-@property (nonatomic, assign) CGFloat HUDCenterOffsetY;
-
-/**
- * 设置HUD样式centerY的偏移
- * 正数表示向下偏移，负数表示向上偏移
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setHUDCenterOffsetY)(CGFloat centerOffsetY);
-
-/**
- * HUD样式高度，不包含customHUD
- * 小于0将没有效果，默认-1
- */
-@property (nonatomic, assign) CGFloat HUDHeight;
-
-/**
- * 设置HUD样式高度，不包含customHUD
- * 小于0将没有效果，默认-1
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setHUDHeight)(CGFloat height);
-
-
-
 #pragma mark - 类方法
 
 /** 实例化 */
@@ -347,6 +352,9 @@ typedef enum : NSUInteger {
 
 /** 显示 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^show)(void);
+
+/** 监听显示动画完成 */
+@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
 
 /** 显示并监听JKAlertView消失动画完成 */
 @property (nonatomic, copy, readonly) void (^showWithDismissComplete)(void(^dismissComplete)(void));
