@@ -828,9 +828,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 - (void)setHUDHeight:(CGFloat)HUDHeight{
     
-    if (_alertStyle != JKAlertStyleHUD) {
-        return;
-    }
+    if (_alertStyle != JKAlertStyleHUD) { return; }
     
     _HUDHeight = HUDHeight;
     

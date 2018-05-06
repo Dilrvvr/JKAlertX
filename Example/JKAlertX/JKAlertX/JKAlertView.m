@@ -274,7 +274,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         JKAlertView *alertView = nil;
         
         if (!customHUD) {
-
+            
             return alertView;
         }
         
@@ -398,16 +398,16 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         CALayer *hline = [CALayer layer];
         hline.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2].CGColor;
         [self.textContainerView.layer addSublayer:hline];
-         _bottomLineLayer = hline;
+        _bottomLineLayer = hline;
         
-//        NSString *hVF = [NSString stringWithFormat:@"H:|-%d-[bottomLineView]-%d-|", (int)_iPhoneXLandscapeTextMargin, (int)_iPhoneXLandscapeTextMargin];
-//
-//        bottomLineView.translatesAutoresizingMaskIntoConstraints = NO;
-//        NSArray *bottomLineViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:hVF options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
-//        [self.textContainerView addConstraints:bottomLineViewCons1];
-//
-//        NSArray *bottomLineViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomLineView(0.5)]-0-|" options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
-//        [self.textContainerView addConstraints:bottomLineViewCons2];
+        //        NSString *hVF = [NSString stringWithFormat:@"H:|-%d-[bottomLineView]-%d-|", (int)_iPhoneXLandscapeTextMargin, (int)_iPhoneXLandscapeTextMargin];
+        //
+        //        bottomLineView.translatesAutoresizingMaskIntoConstraints = NO;
+        //        NSArray *bottomLineViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:hVF options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
+        //        [self.textContainerView addConstraints:bottomLineViewCons1];
+        //
+        //        NSArray *bottomLineViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomLineView(0.5)]-0-|" options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
+        //        [self.textContainerView addConstraints:bottomLineViewCons2];
         
         // title和message的容器view
         self.textContainerView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
@@ -627,7 +627,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         [plainView addSubview:self.scrollView];
         
         [plainView insertSubview:self.scrollView belowSubview:self.textContainerView];
-            
+        
         if (_alertStyle == JKAlertStylePlain) {
             
             // 分隔线
@@ -822,15 +822,13 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (void)setHUDCenterOffsetY:(CGFloat)HUDCenterOffsetY{
     
     _HUDCenterOffsetY = HUDCenterOffsetY;
-        
+    
     _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _HUDCenterOffsetY);
 }
 
 - (void)setHUDHeight:(CGFloat)HUDHeight{
     
-    if (_alertStyle != JKAlertStyleHUD) {
-        return;
-    }
+    if (_alertStyle != JKAlertStyleHUD) { return; }
     
     _HUDHeight = HUDHeight;
     
@@ -1182,7 +1180,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         if (animated) {
             
             [UIView animateWithDuration:0.25 animations:^{
-               
+                
                 self->_plainView.center = CGPointMake(self->_plainView.center.x, self->_plainView.center.y + centerOffsetY);
             }];
             
@@ -1660,27 +1658,27 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (void)adjustButton:(UIButton *)button action:(JKAlertAction *)action{
     
     if (action.titleColor == nil) {
-    
-    switch (action.alertActionStyle) {
-        case JKAlertActionStyleDefault:
-            
-            action.setTitleColor([UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1]);
-            break;
-            
-        case JKAlertActionStyleCancel:
-            
-            action.setTitleColor([UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1]);
-            break;
-            
-        case JKAlertActionStyleDestructive:
-            
-            action.setTitleColor([UIColor redColor]);
-            break;
-            
-        default:
-            break;
+        
+        switch (action.alertActionStyle) {
+            case JKAlertActionStyleDefault:
+                
+                action.setTitleColor([UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1]);
+                break;
+                
+            case JKAlertActionStyleCancel:
+                
+                action.setTitleColor([UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1]);
+                break;
+                
+            case JKAlertActionStyleDestructive:
+                
+                action.setTitleColor([UIColor redColor]);
+                break;
+                
+            default:
+                break;
+        }
     }
-}
     
     if (action.titleFont == nil) {
         
@@ -2140,7 +2138,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     if (self.collectionAction) {
         
-         frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, CGRectGetMaxY(_pageControl ? _pageControl.frame : (_collectionView2 ? _collectionView2.frame : _collectionView.frame)) + CancelMargin, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
+        frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, CGRectGetMaxY(_pageControl ? _pageControl.frame : (_collectionView2 ? _collectionView2.frame : _collectionView.frame)) + CancelMargin, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
         
         if (self.collectionAction.customView) {
             
