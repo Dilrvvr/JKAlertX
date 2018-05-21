@@ -5,6 +5,7 @@ JKAlertX
 [![CocoaPods](http://img.shields.io/cocoapods/v/JKAlertX.svg?style=flat)](http://cocoapods.org/pods/JKAlertX)&nbsp;
 [![CocoaPods](http://img.shields.io/cocoapods/p/JKAlertX.svg?style=flat)](http://cocoapods.org/pods/JKAlertX)&nbsp;
 [![Support](https://img.shields.io/badge/support-iOS8+-blue.svg?style=flat)](https://www.apple.com/nl/ios/)&nbsp;
+![](https://img.shields.io/cocoapods/dt/JKAlertX.svg)
 
 
 JKAlertX is An AlertView for iOS. Support User Customization Perfectly.  
