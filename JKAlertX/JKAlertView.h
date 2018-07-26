@@ -173,6 +173,11 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) JKAlertView *(^setTitleMessageMargin)(CGFloat margin);
 
 /**
+ * 设置plain样式Y值
+ */
+//@property (nonatomic, copy, readonly) JKAlertView *(^setPlainY)(CGFloat Y, BOOL animated);
+
+/**
  * 设置plain样式centerY的偏移
  * 正数表示向下偏移，负数表示向上偏移
  */
@@ -346,6 +351,15 @@ typedef enum : NSUInteger {
 
 /** 链式添加action */
 @property (nonatomic, copy, readonly) JKAlertView *(^addAction)(JKAlertAction *action);
+
+
+#pragma mark - 添加textField
+
+/** 添加textField */
+- (void)addTextFieldWithConfigurationHandler:(void (^ __nullable)(UITextField *textField))configurationHandler;
+
+/** 链式添加textField */
+@property (nonatomic, copy, readonly) JKAlertView *(^addTextFieldWithConfigurationHandler)(void (^ __nullable)(UITextField *textField));
 
 
 #pragma mark - 显示

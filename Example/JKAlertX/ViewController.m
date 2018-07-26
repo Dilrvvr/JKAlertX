@@ -118,7 +118,7 @@
     // 显示动画完毕后，向上偏移150
     alertView.setShowAnimationComplete(^(JKAlertView *view) {
         
-        view.setPlainCenterOffsetY(-150, YES);
+//        view.setPlainCenterOffsetY(-150, YES);
     });
     
     alertView.enableDeallocLog(YES).show().setDismissComplete(^{
@@ -128,6 +128,41 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             [sender setTitle:@"plain" forState:(UIControlStateNormal)];
+        });
+    });
+}
+
+- (IBAction)textField:(id)sender {
+    
+    //    __weak typeof(self) weakSelf = self;
+    
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"请输入帐号密码" style:(JKAlertStylePlain)];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleCancel) handler:^(JKAlertAction *action) {
+        
+    }]];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }]];
+    
+    [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        
+        textField.placeholder = @"帐号";
+    }];
+    
+    [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        
+        textField.placeholder = @"密码";
+    }];
+    
+    alertView.enableDeallocLog(YES).show().setDismissComplete(^{
+        
+        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [sender setTitle:@"textField" forState:(UIControlStateNormal)];
         });
     });
 }
@@ -423,7 +458,7 @@
 
 - (IBAction)customPlainTitle:(id)sender {
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 200)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 2000)];
     label.backgroundColor = [UIColor orangeColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"我是自定义的view~~";
