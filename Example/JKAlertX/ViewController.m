@@ -138,18 +138,18 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"请输入帐号密码" style:(JKAlertStylePlain)];
     
-    [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleCancel) handler:^(JKAlertAction *action) {
+    alertView.addAction([JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleCancel) handler:^(JKAlertAction *action) {
         
-    }]];
+    }]);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }]];
     
-    [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+    alertView.addTextFieldWithConfigurationHandler(^(UITextField *textField) {
         
         textField.placeholder = @"帐号";
-    }];
+    });
     
     [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         
