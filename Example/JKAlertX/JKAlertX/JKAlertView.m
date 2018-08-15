@@ -2442,6 +2442,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 #pragma mark - 监听键盘
 
+- (BOOL)isLandScape{
+    
+    return JKAlertScreenW > JKAlertScreenH;
+}
+
 - (void)keyboardWillChangeFrame:(NSNotification *)noti{
     
     CGRect keyboardFrame = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
@@ -2463,9 +2468,23 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         CGFloat maxH = JKAlertScreenH - (JKAlertIsIphoneX ? 44 : 20) - keyboardFrame.size.height - 40;
         
+        if ([self isLandScape]) {
+            
+            maxH = JKAlertScreenH - 5 - keyboardFrame.size.height - 5;
+            
+            JKAlertPlainViewMaxH = maxH;
+            
+            [self relayout];
+        }
+        
         if (frame.size.height <= maxH) {
             
             frame.origin.y = (JKAlertIsIphoneX ? 44 : 20) + (maxH - frame.size.height) * 0.5;
+            
+            if ([self isLandScape]) {
+                
+                frame.origin.y = 5 + (maxH - frame.size.height) * 0.5;
+            }
             
             self.setPlainY(frame.origin.y, YES);
             
@@ -2477,7 +2496,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         [self relayout];
         
         frame = _plainView.frame;
-        frame.origin.y = (JKAlertIsIphoneX ? 44 : 20);
+        frame.origin.y = [self isLandScape] ? 5 : (JKAlertIsIphoneX ? 44 : 20);
         _plainView.frame = frame;
         
         [UIView animateWithDuration:0.25 animations:^{
