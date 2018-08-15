@@ -12,9 +12,9 @@
 #import "JKAlertTextView.h"
 
 /** 屏幕宽度 */
-#define JKAlertScreenW [UIScreen mainScreen].bounds.size.width
-/** 屏幕高度 */
-#define JKAlertScreenH [UIScreen mainScreen].bounds.size.height
+//#define JKAlertScreenW [UIScreen mainScreen].bounds.size.width
+///** 屏幕高度 */
+//#define JKAlertScreenH [UIScreen mainScreen].bounds.size.height
 /** 屏幕scale */
 #define JKAlertScreenScale [UIScreen mainScreen].scale
 
@@ -70,6 +70,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     UIColor *messageTextColor;
     UIFont  *messageFont;
+    
+    CGFloat JKAlertScreenW;
+    CGFloat JKAlertScreenH;
 }
 /** customSuperView */
 @property (nonatomic, weak) UIView *customSuperView;
@@ -188,6 +191,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 设置plain样式Y值
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setPlainY)(CGFloat Y, BOOL animated);
+
+/** 是否横屏 */
+@property (nonatomic, assign) BOOL isLandScape;
 @end
 
 @implementation JKAlertView
@@ -716,6 +722,13 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 - (void)initialization{
+    
+    /** 屏幕宽度 */
+    JKAlertScreenW = [UIScreen mainScreen].bounds.size.width;
+    /** 屏幕高度 */
+    JKAlertScreenH = [UIScreen mainScreen].bounds.size.height;
+    
+    _isLandScape = [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight;
     
     JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
     
@@ -1364,23 +1377,56 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         case UIInterfaceOrientationPortrait:{
             
             //        orientationLabel.text = "面向设备保持垂直，Home键位于下部"
+            
+            /** 屏幕宽度 */
+            JKAlertScreenW = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            /** 屏幕高度 */
+            JKAlertScreenH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            
+            _isLandScape = NO;
+            
             [self relayout];
         }
             break;
         case UIInterfaceOrientationPortraitUpsideDown:{
             
             //            orientationLabel.text = "面向设备保持垂直，Home键位于上部"
+            
+            /** 屏幕宽度 */
+            JKAlertScreenW = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            /** 屏幕高度 */
+            JKAlertScreenH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            
+            _isLandScape = NO;
+            
+            [self relayout];
         }
             break;
         case UIInterfaceOrientationLandscapeLeft:{
             
             //            orientationLabel.text = "面向设备保持水平，Home键位于左侧"
+            
+            /** 屏幕宽度 */
+            JKAlertScreenW = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            /** 屏幕高度 */
+            JKAlertScreenH = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            
+            _isLandScape = YES;
+            
             [self relayout];
         }
             break;
         case UIInterfaceOrientationLandscapeRight:{
             
             //            orientationLabel.text = "面向设备保持水平，Home键位于右侧"
+            
+            /** 屏幕宽度 */
+            JKAlertScreenW = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            /** 屏幕高度 */
+            JKAlertScreenH = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            
+            _isLandScape = YES;
+            
             [self relayout];
         }
             break;
@@ -2442,6 +2488,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 #pragma mark - 监听键盘
 
+//- (BOOL)isLandScape{
+//
+//    return JKAlertScreenW > JKAlertScreenH;
+//}
+
 - (void)keyboardWillChangeFrame:(NSNotification *)noti{
     
     CGRect keyboardFrame = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
@@ -2463,9 +2514,23 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         CGFloat maxH = JKAlertScreenH - (JKAlertIsIphoneX ? 44 : 20) - keyboardFrame.size.height - 40;
         
+        if ([self isLandScape]) {
+            
+            maxH = JKAlertScreenH - 5 - keyboardFrame.size.height - 5;
+            
+            JKAlertPlainViewMaxH = maxH;
+            
+            [self relayout];
+        }
+        
         if (frame.size.height <= maxH) {
             
             frame.origin.y = (JKAlertIsIphoneX ? 44 : 20) + (maxH - frame.size.height) * 0.5;
+            
+            if ([self isLandScape]) {
+                
+                frame.origin.y = 5 + (maxH - frame.size.height) * 0.5;
+            }
             
             self.setPlainY(frame.origin.y, YES);
             
@@ -2477,7 +2542,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         [self relayout];
         
         frame = _plainView.frame;
-        frame.origin.y = (JKAlertIsIphoneX ? 44 : 20);
+        frame.origin.y = [self isLandScape] ? 5 : (JKAlertIsIphoneX ? 44 : 20);
         _plainView.frame = frame;
         
         [UIView animateWithDuration:0.25 animations:^{
