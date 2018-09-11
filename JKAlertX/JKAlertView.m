@@ -738,7 +738,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     _enableDeallocLog = NO;
     _dismissTimeInterval = 1;
     _textViewUserInteractionEnabled = YES;
-    _iPhoneXLandscapeTextMargin = ((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
+    _iPhoneXLandscapeTextMargin = 0;//((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
     TBMargin = 20;
     PlainViewWidth = 290;
@@ -2192,6 +2192,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         self.messageTextView.font = [UIFont systemFontOfSize:15];
     }
     
+    _iPhoneXLandscapeTextMargin = ((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
+    
     _textContainerView.frame = CGRectMake(_iPhoneXLandscapeTextMargin, 0, JKAlertScreenW - _iPhoneXLandscapeTextMargin * 2, JKAlertRowHeight);
     
     CGFloat tableViewH = 0;
@@ -2283,8 +2285,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 #pragma mark - 布局collectionSheet
 - (void)layoutCollectionSheet{
-    
-    _iPhoneXLandscapeTextMargin = 0;
     
     NSInteger count = self.actions.count;
     NSInteger count2 = self.actions2.count;
