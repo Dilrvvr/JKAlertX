@@ -2456,6 +2456,14 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         self.cancelAction.customView.frame = self.cancelButton.bounds;
     }
+    
+    // 修复横屏下的缝隙
+    if (_collectionView2 != nil) {
+        
+        frame = _collectionView2.frame;
+        frame.origin.y -= 0.1;
+        _collectionView2.frame = frame;
+    }
 }
 
 #pragma mark - 布局自定义HUD
