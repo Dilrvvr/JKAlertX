@@ -19,6 +19,9 @@
 
 /** 自定义view */
 @property (nonatomic, weak) UIView *customView;
+
+/** titleLabelHeightCons */
+@property (nonatomic, strong) NSLayoutConstraint *titleLabelHeightCons;
 @end
 
 @implementation JKAlertTableViewCell
@@ -32,11 +35,23 @@
         [self.contentView insertSubview:label atIndex:0];
         
         label.translatesAutoresizingMaskIntoConstraints = NO;
-        NSArray *labelCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[label]-15-|" options:0 metrics:nil views:@{@"label" : label}];
-        [self addConstraints:labelCons1];
+//        NSArray *labelCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[label]-15-|" options:0 metrics:nil views:@{@"label" : label}];
+//        [self addConstraints:labelCons1];
         
-        NSArray *labelCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[label]-0-|" options:0 metrics:nil views:@{@"label" : label}];
-        [self addConstraints:labelCons2];
+//        NSArray *labelCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[label]-0-|" options:0 metrics:nil views:@{@"label" : label}];
+//        [self addConstraints:labelCons2];
+        
+        NSLayoutConstraint *consLeft = [NSLayoutConstraint constraintWithItem:label attribute:(NSLayoutAttributeLeft) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeLeft) multiplier:1 constant:0];
+        [self addConstraint:consLeft];
+        
+        NSLayoutConstraint *consRight = [NSLayoutConstraint constraintWithItem:label attribute:(NSLayoutAttributeRight) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeRight) multiplier:1 constant:0];
+        [self addConstraint:consRight];
+        
+        NSLayoutConstraint *consTop = [NSLayoutConstraint constraintWithItem:label attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeTop) multiplier:1 constant:0];
+        [self addConstraint:consTop];
+        
+        _titleLabelHeightCons = [NSLayoutConstraint constraintWithItem:label attribute:(NSLayoutAttributeHeight) relatedBy:(NSLayoutRelationEqual) toItem:nil attribute:(NSLayoutAttributeNotAnAttribute) multiplier:1 constant:0];
+        [self addConstraint:_titleLabelHeightCons];
         
         _titleLabel = label;
     }
@@ -124,9 +139,11 @@
     
     self.titleLabel.textColor = _action.titleColor;
     
-    self.titleLabel.attributedText = action.attributedTitle;
+    self.titleLabel.attributedText = _action.attributedTitle;
     
-    self.titleLabel.text = action.title;
+    self.titleLabel.text = _action.title;
+    
+    _titleLabelHeightCons.constant = _action.rowHeight;
 }
 
 - (void)setCustomView:(UIView *)customView{

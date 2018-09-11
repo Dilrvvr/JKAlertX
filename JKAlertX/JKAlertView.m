@@ -61,6 +61,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     /** 是否自动适配 iPhone X homeIndicator */
     BOOL AutoAdjustHomeIndicator;
     
+    BOOL FillHomeIndicator;
+    
     BOOL Showed;
     
     UIView  *_backGroundView;
@@ -488,8 +490,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         tbView.scrollEnabled = NO;
         tbView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
-        tbView.contentInset = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0);
-        tbView.scrollIndicatorInsets = tbView.contentInset;
+        tbView.contentInset = UIEdgeInsetsMake(0, 0, FillHomeIndicator ? 0 :  JKAlertAdjustHomeIndicatorHeight, 0);
+        tbView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0);
         
         tbView.backgroundColor = nil;
         
@@ -741,6 +743,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     TBMargin = 20;
     PlainViewWidth = 290;
     AutoAdjustHomeIndicator = YES;
+    FillHomeIndicator = YES;
     JKAlertTitleMessageMargin = 7;
     CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
     JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
@@ -1193,6 +1196,32 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         return self;
     };
 }
+
+/** 设置是否自动适配 iPhone X homeIndicator 默认YES */
+- (JKAlertView *(^)(BOOL fillHomeIndicator))setFillHomeIndicator{
+    
+    return ^(BOOL fillHomeIndicator){
+        
+        if (!JKAlertIsIphoneX) { return self; }
+        
+        self->FillHomeIndicator = fillHomeIndicator;
+        
+        return self;
+    };
+}
+
+/** 设置是否自动适配 iPhone X homeIndicator 默认YES
+- (JKAlertView *(^)(BOOL autoAdjust))setAutoLandscapeNotch{
+    
+    return ^(BOOL autoAdjust){
+        
+        if (!JKAlertIsIphoneX) { return self; }
+        
+        self->_iPhoneXLandscapeTextMargin = autoAdjust ? 44 : 0;
+        
+        return self;
+    };
+} */
 
 /**
  * 设置是否显示pageControl
@@ -1864,8 +1893,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         return;
     }
     
-    _iPhoneXLandscapeTextMargin = ((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
-    
     _titleTextView.textAlignment = self.titleTextViewAlignment;
     _messageTextView.textAlignment = self.messageTextViewAlignment;
     
@@ -2257,6 +2284,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 #pragma mark - 布局collectionSheet
 - (void)layoutCollectionSheet{
     
+    _iPhoneXLandscapeTextMargin = 0;
+    
     NSInteger count = self.actions.count;
     NSInteger count2 = self.actions2.count;
     
@@ -2415,6 +2444,18 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     // 分页
     _collectionView.pagingEnabled = self.collectionPagingEnabled && _pageControl.numberOfPages > 1;
     _collectionView2.pagingEnabled = _collectionView.pagingEnabled;
+    
+    if (FillHomeIndicator) {
+        
+        CGRect cancelButtonFrame = self.cancelButton.frame;
+        cancelButtonFrame.size.height += JKAlertCurrentHomeIndicatorHeight;
+        self.cancelButton.frame = cancelButtonFrame;
+        
+        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
+        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0)];
+        
+        self.cancelAction.customView.frame = self.cancelButton.bounds;
+    }
 }
 
 #pragma mark - 布局自定义HUD
@@ -2663,7 +2704,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     JKAlertAction *action = indexPath.section == 0 ? self.actions[indexPath.row] : self.cancelAction;
     
-    return action.rowHeight;
+    if (!FillHomeIndicator) { return action.rowHeight; }
+    
+    return indexPath.section == 0 ? action.rowHeight : action.rowHeight + JKAlertCurrentHomeIndicatorHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
