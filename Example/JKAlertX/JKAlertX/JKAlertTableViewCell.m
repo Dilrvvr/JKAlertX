@@ -75,6 +75,9 @@
     self.backgroundColor = nil;//[UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
     self.contentView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];//nil;//self.backgroundColor;
     
+    self.selectedBackgroundView = [[UIView alloc] init];
+    self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.3];
+    
     UIView *bottomLineView = [[UIView alloc] init];
     bottomLineView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
     [self.contentView addSubview:bottomLineView];

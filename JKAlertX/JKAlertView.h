@@ -149,7 +149,7 @@ typedef enum : NSUInteger {
 
 /**
  * 设置背景view
- * 默认是一个UIToolbar，背景是黑色0.1透明度
+ * 默认是一个UIToolbar
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setBackGroundView)(UIView *(^backGroundView)(void));
 
@@ -171,11 +171,6 @@ typedef enum : NSUInteger {
 
 /** 设置title和message之间的间距 默认7 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTitleMessageMargin)(CGFloat margin);
-
-/**
- * 设置plain样式Y值
- */
-//@property (nonatomic, copy, readonly) JKAlertView *(^setPlainY)(CGFloat Y, BOOL animated);
 
 /**
  * 设置plain样式centerY的偏移

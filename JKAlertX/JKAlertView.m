@@ -40,6 +40,10 @@ static NSString * const JKAlertDismissNotification = @"JKAlertDismissNotificatio
 
 static CGFloat    const JKAlertSheetTitleMargin = 6;
 
+@interface JKAlertHighlightedButton : UIButton
+
+@end
+
 @interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, JKAlertViewProtocol>
 {
     CGFloat TBMargin;
@@ -66,6 +70,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     BOOL Showed;
     
     UIView  *_backGroundView;
+    UIColor *GlobalBackgroundColor;
     
     UIColor *titleTextColor;
     UIFont  *titleFont;
@@ -84,6 +89,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 /** sheetContainerView */
 @property (nonatomic, weak) UIView *sheetContainerView;
+
+/** collectionTopContainerView */
+@property (nonatomic, weak) UIView *collectionTopContainerView;
 
 /** sheet样式的背景view */
 @property (nonatomic, strong) UIView *backGroundView;
@@ -110,10 +118,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 @property (nonatomic, weak) UIPageControl *pageControl;
 
 /** cancelButton */
-@property (nonatomic, weak) UIButton *cancelButton;
+@property (nonatomic, weak) JKAlertHighlightedButton *cancelButton;
 
 /** collectionButton */
-@property (nonatomic, weak) UIButton *collectionButton;
+@property (nonatomic, weak) JKAlertHighlightedButton *collectionButton;
 
 /** 最底层背景按钮 */
 @property (nonatomic, weak) UIButton *dismissButton;
@@ -168,9 +176,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 /** scrollView */
 @property (nonatomic, weak) UIScrollView *scrollView;
-
-/** messageLabel */
-@property (nonatomic, weak) UIView *titleContentView;
 
 /** 消失后的回调 */
 @property (nonatomic, copy) void (^dismissComplete)(void);
@@ -434,7 +439,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (UIView *)backGroundView{
     if (!_backGroundView) {
         UIToolbar *toolbar = [[UIToolbar alloc] init];
-        toolbar.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.1];
+        toolbar.clipsToBounds = YES;
         self.backGroundView = toolbar;
     }
     return _backGroundView;
@@ -443,7 +448,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (UIView *)sheetContainerView{
     if (!_sheetContainerView) {
         UIView *sheetContainerView = [[UIView alloc] init];
-        sheetContainerView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
         [self.contentView addSubview:sheetContainerView];
         _sheetContainerView = sheetContainerView;
         
@@ -527,33 +531,43 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     return _tableView;
 }
 
-- (UIButton *)cancelButton{
+- (UIView *)collectionTopContainerView{
+    if (!_collectionTopContainerView) {
+        UIView *collectionTopContainerView = [[UIView alloc] init];
+        collectionTopContainerView.backgroundColor = GlobalBackgroundColor;
+        [self.sheetContainerView addSubview:collectionTopContainerView];
+        _collectionTopContainerView = collectionTopContainerView;
+    }
+    return _collectionTopContainerView;
+}
+
+- (JKAlertHighlightedButton *)cancelButton{
     if (!_cancelButton) {
         
-        UIButton *cancelButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        JKAlertHighlightedButton *cancelButton = [JKAlertHighlightedButton buttonWithType:(UIButtonTypeCustom)];
         [self.scrollView addSubview:cancelButton];
         
-        cancelButton.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
+        cancelButton.backgroundColor = GlobalBackgroundColor;
         cancelButton.titleLabel.font = [UIFont systemFontOfSize:17];
         [cancelButton setTitleColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] forState:(UIControlStateNormal)];
         [cancelButton addTarget:self action:@selector(dismiss) forControlEvents:(UIControlEventTouchUpInside)];
         
-        [cancelButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
+//        [cancelButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.3], 1, 1, 0) forState:(UIControlStateHighlighted)];
         
         _cancelButton = cancelButton;
     }
     return _cancelButton;
 }
 
-- (UIButton *)collectionButton{
+- (JKAlertHighlightedButton *)collectionButton{
     if (!_collectionButton) {
-        UIButton *collectionButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        collectionButton.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
+        JKAlertHighlightedButton *collectionButton = [JKAlertHighlightedButton buttonWithType:(UIButtonTypeCustom)];
+        collectionButton.backgroundColor = GlobalBackgroundColor;
         [self.scrollView addSubview:collectionButton];
         collectionButton.titleLabel.font = [UIFont systemFontOfSize:17];
         [collectionButton setTitleColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] forState:(UIControlStateNormal)];
         [collectionButton addTarget:self action:@selector(collectionButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
-        [collectionButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
+//        [collectionButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
         
         _collectionButton = collectionButton;
     }
@@ -563,12 +577,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (UIPageControl *)pageControl{
     if (!_pageControl) {
         UIPageControl *pageControl = [[UIPageControl alloc] init];
-        pageControl.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
+        pageControl.backgroundColor = nil;
         pageControl.pageIndicatorTintColor = [UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1];
         pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1];
         pageControl.userInteractionEnabled = NO;
         
-        [self.scrollView addSubview:pageControl];
+        [self.collectionTopContainerView addSubview:pageControl];
         
         _pageControl = pageControl;
     }
@@ -577,18 +591,23 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
+        
         [self.sheetContainerView insertSubview:self.scrollView atIndex:1];
+        
         self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0);
         self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+        
         NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : self.scrollView}];
         [self addConstraints:scrollViewCons1];
         
         NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : self.scrollView}];
         [self addConstraints:scrollViewCons2];
         
+        [self.scrollView insertSubview:self.collectionTopContainerView atIndex:0];
+        
         // title和message的容器view
-        self.textContainerView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
-        [self.scrollView addSubview:self.textContainerView];
+        self.textContainerView.backgroundColor = nil;//GlobalBackgroundColor;
+        [self.collectionTopContainerView addSubview:self.textContainerView];
         
         [self.textContainerView addSubview:self.titleTextView];
         
@@ -597,7 +616,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         _flowlayout = flowlayout;
         
         UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.textContainerView.frame), JKAlertScreenW, 80) collectionViewLayout:flowlayout];
-        collectionView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
+        collectionView.backgroundColor = nil;
         collectionView.showsVerticalScrollIndicator = NO;
         collectionView.showsHorizontalScrollIndicator = NO;
         
@@ -619,7 +638,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
         }
         
-        [self.scrollView insertSubview:collectionView belowSubview:self.textContainerView];
+        [self.collectionTopContainerView insertSubview:collectionView belowSubview:self.textContainerView];
         
         [self cancelButton];
         
@@ -636,7 +655,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         _flowlayout2 = flowlayout;
         
         UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_flowlayout2];
-        collectionView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
+        collectionView.backgroundColor = nil;
         collectionView.showsVerticalScrollIndicator = NO;
         collectionView.showsHorizontalScrollIndicator = NO;
         
@@ -658,7 +677,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
         }
         
-        [self.scrollView addSubview:collectionView];
+        [self.collectionTopContainerView addSubview:collectionView];
         
         _collectionView2 = collectionView;
     }
@@ -670,21 +689,14 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         UIView *plainView = [[UIView alloc] init];
         plainView.clipsToBounds = YES;
         plainView.layer.cornerRadius = 8;
-        plainView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.6];//[UIColor whiteColor];
         plainView.frame = CGRectMake((JKAlertScreenW - PlainViewWidth) * 0.5, (JKAlertScreenH - 200) * 0.5, PlainViewWidth, 200);
-        
-        //        UIView *titleContentView = [[UIView alloc] init];
-        //        titleContentView.backgroundColor = [UIColor whiteColor];
-        //        [plainView addSubview:titleContentView];
-        //        _titleContentView = titleContentView;
+//        plainView.backgroundColor = GlobalBackgroundColor;
         
         [plainView addSubview:self.textContainerView];
         
         [self.plainTextContainerScrollView addSubview:self.titleTextView];
         
         [self.plainTextContainerScrollView addSubview:self.messageTextView];
-        
-//        self.dismissButton.userInteractionEnabled = NO;
         
         [plainView addSubview:self.scrollView];
         
@@ -754,6 +766,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     self.titleTextViewAlignment = NSTextAlignmentCenter;
     self.messageTextViewAlignment = NSTextAlignmentCenter;
     
+    GlobalBackgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
+    
     UIView *contentView = [[UIView alloc] init];
     contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
     [self insertSubview:contentView atIndex:0];
@@ -767,7 +781,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     [self addConstraints:contentViewCons2];
     
     UIButton *dismissButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    dismissButton.backgroundColor = [UIColor clearColor];
+    dismissButton.backgroundColor = nil;
     [self.contentView insertSubview:dismissButton atIndex:0];
     self.dismissButton = dismissButton;
     
@@ -917,9 +931,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 - (void)setBackGroundView:(UIView *)backGroundView{
     
-    if (backGroundView == nil) {
-        return;
-    }
+    if (backGroundView == nil) { return; }
     
     [_backGroundView removeFromSuperview];
     
@@ -1197,7 +1209,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** 设置是否自动适配 iPhone X homeIndicator 默认YES */
+/** 设置是否填充底部 iPhone X homeIndicator 默认YES */
 - (JKAlertView *(^)(BOOL fillHomeIndicator))setFillHomeIndicator{
     
     return ^(BOOL fillHomeIndicator){
@@ -1511,7 +1523,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     UITextField *tf = [[UITextField alloc] init];
     
-    tf.backgroundColor = [UIColor whiteColor];
+    tf.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
     
 //    tf.borderStyle = UITextBorderStyleLine;
     
@@ -2405,6 +2417,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     rect = CGRectMake(0, JKAlertScreenH - (CGRectGetMaxY(self.cancelButton.frame) + JKAlertAdjustHomeIndicatorHeight), JKAlertScreenW, CGRectGetMaxY(self.cancelButton.frame) + JKAlertAdjustHomeIndicatorHeight);
     
+    self.collectionTopContainerView.frame = CGRectMake(0, 0, JKAlertScreenW, (_pageControl ? CGRectGetMaxY(_pageControl.frame) : (_collectionView2 ? CGRectGetMaxY(_collectionView2.frame) : CGRectGetMaxY(_collectionView.frame))));
+    
     self.scrollView.contentSize = rect.size;
     
     if (rect.size.height > JKAlertScreenH * 0.8) {
@@ -2455,14 +2469,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0)];
         
         self.cancelAction.customView.frame = self.cancelButton.bounds;
-    }
-    
-    // 修复横屏下的缝隙
-    if (_collectionView2 != nil) {
-        
-        frame = _collectionView2.frame;
-        frame.origin.y -= 0.1;
-        _collectionView2.frame = frame;
     }
 }
 
@@ -2866,3 +2872,11 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
 }
 @end
 
+@implementation JKAlertHighlightedButton
+
+- (void)setHighlighted:(BOOL)highlighted{
+    [super setHighlighted:highlighted];
+    
+    self.backgroundColor = highlighted ? [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.3] : [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
+}
+@end
