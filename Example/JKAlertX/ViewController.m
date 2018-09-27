@@ -343,7 +343,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"我是自定义的view~~";
     
-    JKAlertView.showCustomHUD(^{
+    JKAlertView.showCustomHUD(^UIView *{
         
         return label;
         

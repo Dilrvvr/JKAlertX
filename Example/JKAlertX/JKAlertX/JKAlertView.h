@@ -313,19 +313,23 @@ typedef enum : NSUInteger {
 + (instancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message style:(JKAlertStyle)alertStyle;
 
 /** 链式实例化 */
-+ (JKAlertView *(^)(NSString *title, NSString *message, JKAlertStyle style))alertView;
+@property (class, nonatomic, copy, readonly) JKAlertView * (^alertView)(NSString *title, NSString *message, JKAlertStyle style);
+//+ (JKAlertView *(^)(NSString *title, NSString *message, JKAlertStyle style))alertView;
 
-/** 实例化 */
+/** 富文本实例化 */
 + (instancetype)alertViewWithAttributedTitle:(NSAttributedString *)attributedTitle attributedMessage:(NSAttributedString *)attributedMessage style:(JKAlertStyle)alertStyle;
 
-/** 链式实例化 */
-+ (JKAlertView *(^)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style))alertViewAttributed;
+/** 富文本链式实例化 */
+@property (class, nonatomic, copy, readonly) JKAlertView * (^alertViewAttributed)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style);
+//+ (JKAlertView *(^)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style))alertViewAttributed;
 
 /** 显示文字HUD */
-+ (JKAlertView *(^)(NSString *title))showHUDWithTitle;
+@property (class, nonatomic, copy, readonly) JKAlertView *(^showHUDWithTitle)(NSString *title);
+//+ (JKAlertView *(^)(NSString *title))showHUDWithTitle;
 
 /** 显示富文本HUD */
-+ (JKAlertView *(^)(NSAttributedString *attributedTitle))showHUDWithAttributedTitle;
+@property (class, nonatomic, copy, readonly) JKAlertView *(^showHUDWithAttributedTitle)(NSAttributedString *attributedTitle);
+//+ (JKAlertView *(^)(NSAttributedString *attributedTitle))showHUDWithAttributedTitle;
 
 /**
  * 显示自定义HUD
@@ -333,10 +337,12 @@ typedef enum : NSUInteger {
  * customHUD尺寸将完全由自定义控制，默认显示在屏幕中间
  * 注意自己计算好自定义HUD的size，以避免横竖屏出现问题
  */
-+ (JKAlertView *(^)(UIView *(^customHUD)(void)))showCustomHUD;
+@property (class, nonatomic, copy, readonly) JKAlertView *(^showCustomHUD)(UIView *(^customHUD)(void));
+//+ (JKAlertView *(^)(UIView *(^customHUD)(void)))showCustomHUD;
 
 /** 移除当前所有的JKAlertView */
-+ (void(^)(void))dismiss;
+@property (class, nonatomic, copy, readonly) void (^dismissAll)(void);
+//+ (void(^)(void))dismissAll;
 
 
 #pragma mark - 添加action
@@ -351,10 +357,10 @@ typedef enum : NSUInteger {
 #pragma mark - 添加textField
 
 /** 添加textField */
-- (void)addTextFieldWithConfigurationHandler:(void (^ __nullable)(UITextField *textField))configurationHandler;
+- (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler;
 
 /** 链式添加textField */
-@property (nonatomic, copy, readonly) JKAlertView *(^addTextFieldWithConfigurationHandler)(void (^ __nullable)(UITextField *textField));
+@property (nonatomic, copy, readonly) JKAlertView *(^addTextFieldWithConfigurationHandler)(void (^)(UITextField *textField));
 
 
 #pragma mark - 显示

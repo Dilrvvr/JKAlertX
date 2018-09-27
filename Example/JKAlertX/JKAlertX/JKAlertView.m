@@ -325,7 +325,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 /** 移除当前所有的JKAlertView */
-+ (void(^)(void))dismiss{
++ (void(^)(void))dismissAll{
     
     [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissNotification object:nil];
     
@@ -1519,7 +1519,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 #pragma mark - 添加textField
 
 /** 添加textField */
-- (void)addTextFieldWithConfigurationHandler:(void (^ __nullable)(UITextField *textField))configurationHandler{
+- (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler{
     
     UITextField *tf = [[UITextField alloc] init];
     
@@ -1538,9 +1538,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 /** 链式添加textField */
-- (JKAlertView *(^)(void (^ __nullable)(UITextField *textField)))addTextFieldWithConfigurationHandler{
+- (JKAlertView *(^)(void (^)(UITextField *textField)))addTextFieldWithConfigurationHandler{
     
-    return ^(void (^ __nullable configurationHandler)(UITextField *textField)){
+    return ^(void (^configurationHandler)(UITextField *textField)){
         
         [self addTextFieldWithConfigurationHandler:configurationHandler];
         

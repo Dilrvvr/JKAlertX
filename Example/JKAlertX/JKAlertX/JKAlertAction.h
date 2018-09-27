@@ -113,7 +113,8 @@ typedef enum : NSUInteger {
  * style: 样式
  * handler: 点击的操作
  */
-+ (JKAlertAction *(^)(NSString *title, JKAlertActionStyle style, void(^handler)(JKAlertAction *action)))action;
+@property (class, nonatomic, readonly) JKAlertAction *(^action)(NSString *title, JKAlertActionStyle style, void(^handler)(JKAlertAction *action));
+//+ (JKAlertAction *(^)(NSString *title, JKAlertActionStyle style, void(^handler)(JKAlertAction *action)))action;
 
 /**
  * 实例化action
@@ -129,5 +130,6 @@ typedef enum : NSUInteger {
  * style: 样式
  * handler: 点击的操作
  */
-+ (JKAlertAction *(^)(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action)))actionAttributed;
+@property (class, nonatomic, readonly) JKAlertAction *(^actionAttributed)(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action));
+//+ (JKAlertAction *(^)(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action)))actionAttributed;
 @end
