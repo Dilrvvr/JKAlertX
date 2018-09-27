@@ -169,15 +169,45 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^addCustomPlainTitleView)(UIView *(^customView)(void));
 
-/** 设置title和message之间的间距 默认7 */
+/** 设置plain样式title和message之间的间距 默认7 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTitleMessageMargin)(CGFloat margin);
 
 /**
- * 设置plain样式centerY的偏移
+ * 展示完成后 设置plain样式centerY的偏移
  * 正数表示向下偏移，负数表示向上偏移
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
+@property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
 
+
+/**
+ * 设置plain样式title和messagex上下之间的分隔线是否隐藏，默认YES
+ * 当设置为NO时:
+        1、setTextViewTopBottomMargini将自动改为title上下间距
+        2、setTitleMessageMargin将自动改为message的上下间距
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainTitleMessageSeparatorHidden)(BOOL separatorHidden);
+
+/**
+ * 设置plain样式message最小高度 默认0
+ * 仅在message != nil时有效
+ * 该高度不包括message的上下间距
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageMinHeight)(CGFloat minHeight);
+
+/** 设置plain样式关闭按钮 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCloseButtonConfig)(void(^)(UIButton *closeButton));
+
+/**
+ * plain和HUD样式centerY的偏移
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+@property (nonatomic, assign) CGFloat plainCenterOffsetY;
+
+/**
+ * 设置plain和HUD样式centerY的偏移
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCenterOffsetY)(CGFloat centerOffsetY);
 
 
 #pragma mark - HUD样式
@@ -193,18 +223,6 @@ typedef enum : NSUInteger {
  * 小于等于0表示不自动隐藏
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setDismissTimeInterval)(CGFloat dismissTimeInterval);
-
-/**
- * HUD样式centerY的偏移
- * 正数表示向下偏移，负数表示向上偏移
- */
-@property (nonatomic, assign) CGFloat HUDCenterOffsetY;
-
-/**
- * 设置HUD样式centerY的偏移
- * 正数表示向下偏移，负数表示向上偏移
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setHUDCenterOffsetY)(CGFloat centerOffsetY);
 
 /**
  * HUD样式高度，不包含customHUD
@@ -261,7 +279,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionPagingEnabled)(BOOL collectionPagingEnabled);
 
 /**
- * 是否显示pageControl
+ * collection是否显示pageControl
  * 如果只有一组collection，则必须设置分页为YES才有效
  * 如果有两组collection，则仅在分页和合体都为YES时才有效
  * 注意自己计算好每页显示的个数相等
@@ -271,7 +289,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL showPageControl;
 
 /**
- * 设置是否显示pageControl
+ * 设置collection是否显示pageControl
  * 如果只有一组collection，则必须设置分页为YES才有效
  * 如果有两组collection，则仅在分页和合体都为YES时才有效
  * 注意自己计算好每页显示的个数相等
@@ -299,10 +317,10 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^addCustomCollectionTitleView)(UIView *(^customView)(void));
 
-/** 添加第二个collectionView的action */
+/** collection添加第二个collectionView的action */
 - (void)addSecondCollectionAction:(JKAlertAction *)action;
 
-/** 链式添加第二个collectionView的action */
+/** collection链式添加第二个collectionView的action */
 @property (nonatomic, copy, readonly) JKAlertView *(^addSecondCollectionAction)(JKAlertAction *action);
 
 
@@ -368,6 +386,15 @@ typedef enum : NSUInteger {
 /** 显示 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^show)(void);
 
+/**
+ * 设置自定义展示动画，动画完成一定要调用showAnimationDidComplete
+ * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomShowAnimationBlock)(void(^)(JKAlertView *view, UIView *animationView));
+
+/** 自定义展示动画时，用于通知一下动画已经完成 */
+@property (nonatomic, copy, readonly) void (^showAnimationDidComplete)(void);
+
 /** 监听显示动画完成 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
 
@@ -376,6 +403,12 @@ typedef enum : NSUInteger {
 
 /** 退出 */
 @property (nonatomic, copy, readonly) void (^dismiss)(void);
+
+/** 设置自定义消失动画，动画完成一定要调用dismissAnimationDidComplete */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomDismissAnimationBlock)(void(^)(JKAlertView *view, UIView *animationView));
+
+/** 自定义消失动画时，用于通知一下动画已经完成 */
+@property (nonatomic, copy, readonly) void (^dismissAnimationDidComplete)(void);
 
 /** 监听JKAlertView消失动画完成 */
 @property (nonatomic, copy, readonly) void (^setDismissComplete)(void(^dismissComplete)(void));

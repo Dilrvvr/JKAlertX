@@ -107,6 +107,18 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"定位服务未开启" message:@"请进入系统「设置」->「隐私」->「定位服务」中打开开关，并允许妙菜使用定位服务" style:(JKAlertStylePlain)];
     
+    // title和message之间加分隔线
+    alertView.setPlainTitleMessageSeparatorHidden(NO).
+    setTextViewTopBottomMargin(15).setTitleMessageMargin(0).setMessageMinHeight(100);
+    
+    // 配置关闭按钮
+    alertView.setCloseButtonConfig(^(UIButton *closeButton) {
+        
+        [closeButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+        closeButton.backgroundColor = [UIColor orangeColor];
+        closeButton.layer.cornerRadius = closeButton.frame.size.width * 0.5;
+    });
+    
     [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleCancel) handler:^(JKAlertAction *action) {
         
     }]];
@@ -115,10 +127,41 @@
         
     }]];
     
+    alertView.setPlainCenterOffsetY(-100);
+    
+    // 自定义展示动画
+    alertView.setCustomShowAnimationBlock(^(JKAlertView *view, UIView *animationView) {
+        
+        animationView.transform = CGAffineTransformMakeScale(0.3, 0.3);
+        
+        [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:15.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            
+            animationView.transform = CGAffineTransformMakeScale(1.0, 1.0);
+            
+        } completion:^(BOOL finished) {
+            
+            view.showAnimationDidComplete();
+        }];
+        
+    });
+    
+    // 自定义消失动画
+    alertView.setCustomDismissAnimationBlock(^(JKAlertView *view, UIView *animationView) {
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            
+            animationView.frame = CGRectMake(animationView.frame.origin.x, [UIScreen mainScreen].bounds.size.height, animationView.frame.size.width, animationView.frame.size.height);
+            
+        } completion:^(BOOL finished) {
+            
+            view.dismissAnimationDidComplete();
+        }];
+    });
+    
     // 显示动画完毕后，向上偏移150
     alertView.setShowAnimationComplete(^(JKAlertView *view) {
         
-//        view.setPlainCenterOffsetY(-150, YES);
+//        view.movePlainCenterOffsetY(-150, YES);
     });
     
     alertView.enableDeallocLog(YES).show().setDismissComplete(^{
