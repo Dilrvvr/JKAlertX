@@ -221,11 +221,15 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好" style:(JKAlertStyleActionSheet)];
     
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }]];
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
     
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定2" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Facebook"])];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定3" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }]];
     
@@ -501,15 +505,19 @@
 
 - (IBAction)customPlainTitle:(id)sender {
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 2000)];
-    label.backgroundColor = [UIColor orangeColor];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 700)];
+//    label.backgroundColor = [UIColor orangeColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"我是自定义的view~~";
-    label.attributedText = [[NSAttributedString alloc] initWithString:@"我是自定义的view~~" attributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    label.attributedText = [[NSAttributedString alloc] initWithString:@"我是自定义的view~~" attributes:@{NSForegroundColorAttributeName : [UIColor redColor]}];
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStylePlain)];
     
-    alertView.addCustomPlainTitleView(^{
+    // 显示title和message之间的分隔线
+    alertView.setPlainTitleMessageSeparatorHidden(NO);
+    
+    // 设置YES表示仅自定义message
+    alertView.addCustomPlainTitleView(YES, ^UIView *{
         
         return label;
     });

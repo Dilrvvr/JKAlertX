@@ -166,8 +166,10 @@ typedef enum : NSUInteger {
  * 设置plain样式添加自定义的titleView
  * frame给出高度即可，宽度自适应plain宽度
  * 请将自定义view视为容器view，推荐使用自动布局约束其子控件
+ * onlyForMessage : 是否仅放在message位置
+ * onlyForMessage如果为YES，有title时，title的上下间距则变为setTextViewTopBottomMargin的值
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^addCustomPlainTitleView)(UIView *(^customView)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^addCustomPlainTitleView)(BOOL onlyForMessage, UIView *(^customView)(void));
 
 /** 设置plain样式title和message之间的间距 默认7 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTitleMessageMargin)(CGFloat margin);
@@ -425,12 +427,4 @@ typedef enum : NSUInteger {
 /** 设置是否填充底部 iPhone X homeIndicator 默认YES */
 @property (nonatomic, copy, readonly) JKAlertView *(^setFillHomeIndicator)(BOOL fillHomeIndicator);
 @end
-
-
-
-
-
-
-
-
 

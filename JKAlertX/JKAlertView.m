@@ -162,6 +162,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /** plain样式添加自定义的titleView */
 @property (nonatomic, weak) UIView *customPlainTitleView;
 
+/** plain样式添加自定义的titleView 是否仅放在message位置 */
+@property (nonatomic, assign) BOOL customPlainTitleViewOnlyForMessage;
+
 /** collection样式添加自定义的titleView的父视图 */
 //@property (nonatomic, weak) UIScrollView *customPlainTitleScrollView;
 
@@ -732,7 +735,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             CALayer *hline2 = [CALayer layer];
             hline2.hidden = YES;
             hline2.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2].CGColor;
-            [self.textContainerView.layer addSublayer:hline2];
+            [self.plainTextContainerScrollView.layer addSublayer:hline2];
             _plainTitleMessageSeparatorLayer = hline2;
         }
         
@@ -952,7 +955,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 //        [_textContainerView addConstraints:scrollViewCons2];
 //    }
     
-    _titleTextView.hidden = YES;
+    _titleTextView.hidden = !_customPlainTitleViewOnlyForMessage;
     _messageTextView.hidden = YES;
     
     [_plainTextContainerScrollView addSubview:_customPlainTitleView];
@@ -1480,9 +1483,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * frame给出高度即可，宽度自适应plain宽度
  * 请将自定义view视为容器view，推荐使用自动布局约束其子控件
  */
-- (JKAlertView *(^)(UIView *(^customView)(void)))addCustomPlainTitleView{
+- (JKAlertView *(^)(BOOL onlyForMessage, UIView *(^customView)(void)))addCustomPlainTitleView{
     
-    return ^(UIView *(^customView)(void)){
+    return ^(BOOL onlyForMessage, UIView *(^customView)(void)){
+        
+        self.customPlainTitleViewOnlyForMessage = onlyForMessage;
         
         self.customPlainTitleView = !customView ? nil : customView();
         
@@ -1824,6 +1829,16 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         btn.tag = JKAlertPlainButtonBeginTag + i;
         
+        if (action.normalImage) {
+            
+            [btn setImage:action.normalImage forState:(UIControlStateNormal)];
+        }
+        
+        if (action.hightlightedImage) {
+            
+            [btn setImage:action.hightlightedImage forState:(UIControlStateHighlighted)];
+        }
+        
         if (action.titleColor == nil) {
             
             switch (action.alertActionStyle) {
@@ -1854,6 +1869,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         btn.titleLabel.font = action.titleFont;
         [btn setTitleColor:action.titleColor forState:(UIControlStateNormal)];
+        [btn setTitleColor:[action.titleColor colorWithAlphaComponent:0.5] forState:(UIControlStateHighlighted)];
         
         if ([self.actions[i] customView] != nil) {
             
@@ -2025,6 +2041,17 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     button.titleLabel.font = action.titleFont;
     [button setTitleColor:action.titleColor forState:(UIControlStateNormal)];
+    [button setTitleColor:[action.titleColor colorWithAlphaComponent:0.5] forState:(UIControlStateHighlighted)];
+    
+    if (action.normalImage) {
+        
+        [button setImage:action.normalImage forState:(UIControlStateNormal)];
+    }
+    
+    if (action.hightlightedImage) {
+        
+        [button setImage:action.hightlightedImage forState:(UIControlStateHighlighted)];
+    }
 }
 
 #pragma mark - 计算frame------------------------------------
@@ -2175,6 +2202,14 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         rect.size.height = _customPlainTitleView.frame.size.height;
         _customPlainTitleView.frame = rect;
+        
+        if (_customPlainTitleViewOnlyForMessage && !_titleTextView.hidden) {
+            
+            rect.size.height += (TBMargin + _titleTextView.frame.size.height + TBMargin);
+            
+            _customPlainTitleView.frame = CGRectMake(0, TBMargin + _titleTextView.frame.size.height + TBMargin, rect.size.width, _customPlainTitleView.frame.size.height);
+        }
+        
         _plainTextContainerScrollView.contentSize = rect.size;
     }
     

@@ -11,8 +11,8 @@
 
 @interface JKAlertTableViewCell ()
 
-/** titleLabel */
-@property (nonatomic, weak) UILabel *titleLabel;
+/** titleButton */
+@property (nonatomic, weak) UIButton *titleButton;
 
 /** 底部分隔线 */
 @property (nonatomic, weak) UIView *bottomLineView;
@@ -20,42 +20,43 @@
 /** 自定义view */
 @property (nonatomic, weak) UIView *customView;
 
-/** titleLabelHeightCons */
-@property (nonatomic, strong) NSLayoutConstraint *titleLabelHeightCons;
+/** titleButtonHeightCons */
+@property (nonatomic, strong) NSLayoutConstraint *titleButtonHeightCons;
 @end
 
 @implementation JKAlertTableViewCell
 
-- (UILabel *)titleLabel{
-    if (!_titleLabel) {
-        UILabel *label = [[UILabel alloc] init];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont systemFontOfSize:17];
-        label.lineBreakMode = NSLineBreakByTruncatingMiddle;
-        [self.contentView insertSubview:label atIndex:0];
+- (UIButton *)titleButton{
+    if (!_titleButton) {
+        UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        button.userInteractionEnabled = NO;
         
-        label.translatesAutoresizingMaskIntoConstraints = NO;
-//        NSArray *labelCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[label]-15-|" options:0 metrics:nil views:@{@"label" : label}];
-//        [self addConstraints:labelCons1];
+        button.titleLabel.font = [UIFont systemFontOfSize:17];
+        button.titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+        [self.contentView insertSubview:button atIndex:0];
         
-//        NSArray *labelCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[label]-0-|" options:0 metrics:nil views:@{@"label" : label}];
-//        [self addConstraints:labelCons2];
+        button.translatesAutoresizingMaskIntoConstraints = NO;
+        //        NSArray *labelCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[label]-15-|" options:0 metrics:nil views:@{@"label" : label}];
+        //        [self addConstraints:labelCons1];
         
-        NSLayoutConstraint *consLeft = [NSLayoutConstraint constraintWithItem:label attribute:(NSLayoutAttributeLeft) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeLeft) multiplier:1 constant:0];
+        //        NSArray *labelCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[label]-0-|" options:0 metrics:nil views:@{@"label" : label}];
+        //        [self addConstraints:labelCons2];
+        
+        NSLayoutConstraint *consLeft = [NSLayoutConstraint constraintWithItem:button attribute:(NSLayoutAttributeLeft) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeLeft) multiplier:1 constant:0];
         [self addConstraint:consLeft];
         
-        NSLayoutConstraint *consRight = [NSLayoutConstraint constraintWithItem:label attribute:(NSLayoutAttributeRight) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeRight) multiplier:1 constant:0];
+        NSLayoutConstraint *consRight = [NSLayoutConstraint constraintWithItem:button attribute:(NSLayoutAttributeRight) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeRight) multiplier:1 constant:0];
         [self addConstraint:consRight];
         
-        NSLayoutConstraint *consTop = [NSLayoutConstraint constraintWithItem:label attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeTop) multiplier:1 constant:0];
+        NSLayoutConstraint *consTop = [NSLayoutConstraint constraintWithItem:button attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeTop) multiplier:1 constant:0];
         [self addConstraint:consTop];
         
-        _titleLabelHeightCons = [NSLayoutConstraint constraintWithItem:label attribute:(NSLayoutAttributeHeight) relatedBy:(NSLayoutRelationEqual) toItem:nil attribute:(NSLayoutAttributeNotAnAttribute) multiplier:1 constant:0];
-        [self addConstraint:_titleLabelHeightCons];
+        _titleButtonHeightCons = [NSLayoutConstraint constraintWithItem:button attribute:(NSLayoutAttributeHeight) relatedBy:(NSLayoutRelationEqual) toItem:nil attribute:(NSLayoutAttributeNotAnAttribute) multiplier:1 constant:0];
+        [self addConstraint:_titleButtonHeightCons];
         
-        _titleLabel = label;
+        _titleButton = button;
     }
-    return _titleLabel;
+    return _titleButton;
 }
 
 - (void)awakeFromNib {
@@ -97,14 +98,14 @@
     self.selectionStyle = _action.isEmpty ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleDefault;
     self.bottomLineView.hidden = _action.separatorLineHidden;
     
-    _titleLabel.hidden = NO;
+    _titleButton.hidden = NO;
     
     self.customView.hidden = YES;
     self.customView = _action.customView;
     
     if (_action.customView != nil) {
         
-        _titleLabel.hidden = YES;
+        _titleButton.hidden = YES;
         self.customView.hidden = NO;
         
         return;
@@ -138,15 +139,18 @@
         _action.setTitleFont([UIFont systemFontOfSize:17]);
     }
     
-    self.titleLabel.font = _action.titleFont;
+    self.titleButton.titleLabel.font = _action.titleFont;
     
-    self.titleLabel.textColor = _action.titleColor;
+    [self.titleButton setTitleColor:_action.titleColor forState:(UIControlStateNormal)];
+    [self.titleButton setTitleColor:[_action.titleColor colorWithAlphaComponent:0.5] forState:(UIControlStateHighlighted)];
     
-    self.titleLabel.attributedText = _action.attributedTitle;
+    [self.titleButton setAttributedTitle:_action.attributedTitle forState:(UIControlStateNormal)];
+    [self.titleButton setTitle:_action.title forState:(UIControlStateNormal)];
     
-    self.titleLabel.text = _action.title;
+    [self.titleButton setImage:action.normalImage forState:(UIControlStateNormal)];
+    [self.titleButton setImage:action.hightlightedImage forState:(UIControlStateHighlighted)];
     
-    _titleLabelHeightCons.constant = _action.rowHeight;
+    _titleButtonHeightCons.constant = _action.rowHeight;
 }
 
 - (void)setCustomView:(UIView *)customView{
@@ -176,4 +180,9 @@
     // Configure the view for the selected state
 }
 
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated{
+    [super setHighlighted:highlighted animated:animated];
+    
+    self.titleButton.highlighted = highlighted;
+}
 @end
