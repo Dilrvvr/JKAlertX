@@ -11,14 +11,7 @@
 #import "JKAlertCollectionViewCell.h"
 #import "JKAlertTextView.h"
 
-/** 屏幕宽度 */
-//#define JKAlertScreenW [UIScreen mainScreen].bounds.size.width
-///** 屏幕高度 */
-//#define JKAlertScreenH [UIScreen mainScreen].bounds.size.height
-/** 屏幕scale */
 #define JKAlertScreenScale [UIScreen mainScreen].scale
-
-#define JKAlertIsIphoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 
 #define JKAlertCurrentHomeIndicatorHeight (JKAlertIsIphoneX ? 34: 0)
 
@@ -27,7 +20,7 @@
 #define JKAlertRowHeight ((JKAlertScreenW > 321) ? 53 : 46)
 
 #define JKAlertTextContainerViewMaxH (JKAlertScreenH - 100 - JKAlertScrollViewMaxH)
-//#define JKAlertPlainViewMaxH (JKAlertScreenH - 100)
+
 #define JKAlertSheetMaxH (JKAlertScreenH * 0.85)
 
 static CGFloat    const JKAlertMinTitleLabelH = (22);
@@ -46,6 +39,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 @interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, JKAlertViewProtocol>
 {
+    BOOL JKAlertIsIphoneX;
+    
     CGFloat TBMargin;
     CGFloat textContainerViewCurrentMaxH_;
     BOOL    _enableDeallocLog;
@@ -81,6 +76,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     CGFloat JKAlertScreenW;
     CGFloat JKAlertScreenH;
 }
+
 /** customSuperView */
 @property (nonatomic, weak) UIView *customSuperView;
 
@@ -222,6 +218,90 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 /** 自定义消失动画 */
 @property (nonatomic, copy) void (^customDismissAnimationBlock)(JKAlertView *view, UIView *animationView);
+
+#pragma mark
+#pragma mark - 外界可自定义属性 移至内部 外界全部改为使用链式语法修改 2018-09-28
+
+/** title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
+@property (nonatomic, assign) BOOL textViewUserInteractionEnabled;
+
+/** title和message是否可以选择文字，默认NO */
+@property (nonatomic, assign) BOOL textViewCanSelectText;
+
+/** titleTextViewDelegate */
+@property (nonatomic, weak) id<UITextViewDelegate> titleTextViewDelegate;
+
+/** messageTextViewDelegate */
+@property (nonatomic, weak) id<UITextViewDelegate> messageTextViewDelegate;
+
+/** titleTextViewAlignment 默认NSTextAlignmentCenter */
+@property (nonatomic, assign) NSTextAlignment titleTextViewAlignment;
+
+/** messageTextViewAlignment 默认NSTextAlignmentCenter */
+@property (nonatomic, assign) NSTextAlignment messageTextViewAlignment;
+
+/** title和message的左右间距 默认20 */
+@property (nonatomic, assign) CGFloat textViewLeftRightMargin;
+
+/** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
+@property (nonatomic, strong) JKAlertAction *cancelAction;
+
+/** dealloc时会调用的block */
+@property (nonatomic, copy) void (^deallocBlock)(void);
+
+/**
+ * plain和HUD样式centerY的偏移
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+@property (nonatomic, assign) CGFloat plainCenterOffsetY;
+
+/**
+ * HUD样式dismiss的时间，默认1s
+ * 小于等于0表示不自动隐藏
+ */
+@property (nonatomic, assign) CGFloat dismissTimeInterval;
+
+/**
+ * HUD样式高度，不包含customHUD
+ * 小于0将没有效果，默认-1
+ */
+@property (nonatomic, assign) CGFloat HUDHeight;
+
+/**
+ * collection的itemSize的宽度
+ * 最大不可超过屏幕宽度的一半
+ * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
+ * 自动计算item之间间距，最小为0，可自己计算该值设置每屏显示个数
+ * 默认的高度是宽度-6，暂不支持自定义高度
+ */
+@property (nonatomic, assign) CGFloat flowlayoutItemWidth;
+
+/**
+ * 是否将两个collection合体
+ * 设为YES可让两个collection同步滚动
+ * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
+ */
+@property (nonatomic, assign) BOOL compoundCollection;
+
+/** collection是否分页 */
+@property (nonatomic, assign) BOOL collectionPagingEnabled;
+
+/**
+ * collection是否显示pageControl
+ * 如果只有一组collection，则必须设置分页为YES才有效
+ * 如果有两组collection，则仅在分页和合体都为YES时才有效
+ * 注意自己计算好每页显示的个数相等
+ * 可以添加空的action来保证每页显示个数相等
+ * JKAlertAction使用类方法初始化时每个参数传nil或者直接自己实例化一个即为空action
+ */
+@property (nonatomic, assign) BOOL showPageControl;
+
+/** colletion样式的底部按钮左右间距 */
+@property (nonatomic, assign) CGFloat collectionButtonLeftRightMargin;
+
+/** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
+@property (nonatomic, strong) JKAlertAction *collectionAction;
+
 @end
 
 @implementation JKAlertView
@@ -506,39 +586,39 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         [self.scrollView addSubview:self.messageTextView];
         
-        UITableView *tbView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStyleGrouped)];
+        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStyleGrouped)];
         
-        tbView.dataSource = self;
-        tbView.delegate = self;
+        tableView.dataSource = self;
+        tableView.delegate = self;
         
-        tbView.scrollsToTop = NO;
-        tbView.scrollEnabled = NO;
-        tbView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        tableView.scrollsToTop = NO;
+        tableView.scrollEnabled = NO;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
-        tbView.contentInset = UIEdgeInsetsMake(0, 0, FillHomeIndicator ? 0 :  JKAlertAdjustHomeIndicatorHeight, 0);
-        tbView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0);
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, FillHomeIndicator ? 0 :  JKAlertAdjustHomeIndicatorHeight, 0);
+        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0);
         
-        tbView.backgroundColor = nil;
+        tableView.backgroundColor = nil;
         
-        [tbView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
+        [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
         
-        [_sheetContainerView addSubview:tbView];
-        [_sheetContainerView insertSubview:tbView belowSubview:self.textContainerView];
+        [_sheetContainerView addSubview:tableView];
+        [_sheetContainerView insertSubview:tableView belowSubview:self.textContainerView];
         
-        tbView.rowHeight = JKAlertRowHeight;
-        tbView.sectionFooterHeight = 0;
-        tbView.sectionHeaderHeight = 0;
+        tableView.rowHeight = JKAlertRowHeight;
+        tableView.sectionFooterHeight = 0;
+        tableView.sectionHeaderHeight = 0;
         
-        tbView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
-        tbView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
+        tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
+        tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
         
         SEL selector = NSSelectorFromString(@"setContentInsetAdjustmentBehavior:");
         
-        if ([tbView respondsToSelector:selector]) {
+        if ([tableView respondsToSelector:selector]) {
             
-            IMP imp = [tbView methodForSelector:selector];
+            IMP imp = [tableView methodForSelector:selector];
             void (*func)(id, SEL, NSInteger) = (void *)imp;
-            func(tbView, selector, 2);
+            func(tableView, selector, 2);
             
             // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
         }
@@ -547,7 +627,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         //            tbView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         //        }
         
-        _tableView = tbView;
+        _tableView = tableView;
     }
     return _tableView;
 }
@@ -790,10 +870,20 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     /** 屏幕宽度 */
     JKAlertScreenW = [UIScreen mainScreen].bounds.size.width;
+    
     /** 屏幕高度 */
     JKAlertScreenH = [UIScreen mainScreen].bounds.size.height;
     
     _isLandScape = [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        JKAlertIsIphoneX = UIApplication.sharedApplication.delegate.window.safeAreaInsets.bottom > 0;
+        
+    } else {
+        
+        JKAlertIsIphoneX = NO;
+    }
     
     JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
     
@@ -1188,7 +1278,13 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** 设置title和message的上下间距 默认15 */
+/**
+ * 设置title和message上下间距 默认20
+ * plain样式title上间距和message下间距
+ * collection样式title上下间距
+ * plain样式下setPlainTitleMessageSeparatorHidden为NO时，该值为title上下间距
+ * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值为title上下间距
+ */
 - (JKAlertView *(^)(CGFloat margin))setTextViewTopBottomMargin{
     
     return ^(CGFloat margin){
@@ -1372,7 +1468,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 /**
- * 设置plain样式centerY的偏移
+ * 展示完成后 移动plain和HUD样式centerY
  * 正数表示向下偏移，负数表示向上偏移
  */
 - (JKAlertView *(^)(CGFloat centerOffsetY, BOOL animated))movePlainCenterOffsetY{
@@ -1397,7 +1493,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 /**
  * 设置plain样式title和messagex上下之间的分隔线是否隐藏，默认YES
- * 当设置为NO时，title和message上下间距将会自动调整为setTextViewTopBottomMargin的2倍，不在支持自定义设置
+ * 当设置为NO时:
+        1、setTextViewTopBottomMargini将自动改为title上下间距
+        2、setTitleMessageMargin将自动改为message的上下间距
  */
 - (JKAlertView *(^)(BOOL separatorHidden))setPlainTitleMessageSeparatorHidden{
     
@@ -1412,6 +1510,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /**
  * 设置plain样式message最小高度 默认0
  * 仅在message != nil时有效
+ * 该高度不包括message的上下间距
  */
 - (JKAlertView *(^)(CGFloat minHeight))setMessageMinHeight{
     
@@ -1423,7 +1522,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
-- (JKAlertView *(^)(void (^)(UIButton *button)))setCloseButtonConfig{
+/** 设置plain样式关闭按钮 */
+- (JKAlertView *(^)(void (^)(UIButton *button)))setPlainCloseButtonConfig{
     
     return ^(void (^closeButtonConfig)(UIButton *button)){
         
@@ -1448,10 +1548,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 /**
- * 设置collection的item的宽度
- * 注意图片的宽高是设置的宽度-30
+ * 设置collection的itemSize的宽度
  * 最大不可超过屏幕宽度的一半
+ * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
  * 自动计算item之间间距，最小为0，可自己计算该值设置每屏显示个数
+ * 默认的高度是宽度-6，暂不支持自定义高度
  */
 - (JKAlertView *(^)(CGFloat width))setFlowlayoutItemWidth{
     
@@ -1468,7 +1569,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
  */
-- (JKAlertView *(^)(UIView *(^customView)(void)))addCustomCollectionTitleView{
+- (JKAlertView *(^)(UIView *(^customView)(void)))setCustomCollectionTitleView{
     
     return ^(UIView *(^customView)(void)){
         
@@ -1482,8 +1583,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 设置plain样式添加自定义的titleView
  * frame给出高度即可，宽度自适应plain宽度
  * 请将自定义view视为容器view，推荐使用自动布局约束其子控件
+ * onlyForMessage : 是否仅放在message位置
+ * onlyForMessage如果为YES，有title时，title的上下间距则变为setTextViewTopBottomMargin的值
  */
-- (JKAlertView *(^)(BOOL onlyForMessage, UIView *(^customView)(void)))addCustomPlainTitleView{
+- (JKAlertView *(^)(BOOL onlyForMessage, UIView *(^customView)(void)))setCustomPlainTitleView{
     
     return ^(BOOL onlyForMessage, UIView *(^customView)(void)){
         
@@ -1495,6 +1598,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
+/**
+ * 设置plain样式title和message之间的间距 默认7
+ * setPlainTitleMessageSeparatorHidden为NO时，该值表示message的上下间距
+ * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值无影响
+ */
 - (JKAlertView *(^)(CGFloat margin))setTitleMessageMargin{
     
     return ^(CGFloat margin){
@@ -1505,6 +1613,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
+/**
+ * 设置背景view
+ * 默认是一个UIToolbar
+ */
 - (JKAlertView *(^)(UIView *(^backGroundView)(void)))setBackGroundView{
     
     return ^(UIView *(^backGroundView)(void)){
@@ -1515,7 +1627,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** 设置自定义展示动画 */
+/**
+ * 设置自定义展示动画，动画完成一定要调用showAnimationDidComplete
+ * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
+ */
 - (JKAlertView *(^)(void (^)(JKAlertView *view, UIView *animationView)))setCustomShowAnimationBlock{
     
     return ^(void (^showAnimationBlock)(JKAlertView *view, UIView *animationView)){
@@ -2647,7 +2762,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         cancelButtonFrame.size.height += JKAlertCurrentHomeIndicatorHeight;
         self.cancelButton.frame = cancelButtonFrame;
         
-        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
+//        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
         [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0)];
         
         self.cancelAction.customView.frame = self.cancelButton.bounds;

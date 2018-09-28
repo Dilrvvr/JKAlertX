@@ -112,7 +112,7 @@
     setTextViewTopBottomMargin(15).setTitleMessageMargin(0).setMessageMinHeight(100);
     
     // 配置关闭按钮
-    alertView.setCloseButtonConfig(^(UIButton *closeButton) {
+    alertView.setPlainCloseButtonConfig(^(UIButton *closeButton) {
         
         [closeButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         closeButton.backgroundColor = [UIColor orangeColor];
@@ -361,7 +361,7 @@
 
 - (IBAction)HUD:(id)sender {
     
-    JKAlertView.showHUDWithTitle(@"你好你好你好你好").setDismissTimeInterval(2).enableDeallocLog(YES).setDismissComplete(^{
+    JKAlertView.showHUDWithTitle(@"你好你好你好你好").setHUDHeight(100).setDismissTimeInterval(2).enableDeallocLog(YES).setDismissComplete(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -417,7 +417,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"我是自定义的view~~";
     
-    alertView.addCustomCollectionTitleView(^{
+    alertView.setCustomCollectionTitleView(^{
         
         return label;
     });
@@ -517,7 +517,7 @@
     alertView.setPlainTitleMessageSeparatorHidden(NO);
     
     // 设置YES表示仅自定义message
-    alertView.addCustomPlainTitleView(YES, ^UIView *{
+    alertView.setCustomPlainTitleView(YES, ^UIView *{
         
         return label;
     });

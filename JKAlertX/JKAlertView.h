@@ -58,14 +58,8 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomSuperView)(UIView *customSuperView);
 
-/** title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
-@property (nonatomic, assign) BOOL textViewUserInteractionEnabled;
-
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled);
-
-/** title和message是否可以选择文字，默认NO */
-@property (nonatomic, assign) BOOL textViewCanSelectText;
 
 /** 设置title和message是否可以选择文字，默认NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText);
@@ -95,32 +89,17 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextFont)(UIFont *font);
 
-/** titleTextViewDelegate */
-@property (nonatomic, weak) id<UITextViewDelegate> titleTextViewDelegate;
-
 /** 设置titleTextViewDelegate */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewDelegate)(id<UITextViewDelegate> delegate);
-
-/** messageTextViewDelegate */
-@property (nonatomic, weak) id<UITextViewDelegate> messageTextViewDelegate;
 
 /** 设置messageTextViewDelegate */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id<UITextViewDelegate> delegate);
 
-/** titleTextViewAlignment 默认NSTextAlignmentCenter */
-@property (nonatomic, assign) NSTextAlignment titleTextViewAlignment;
-
 /** 设置titleTextView的文字水平样式 默认NSTextAlignmentCenter */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewAlignment)(NSTextAlignment textAlignment);
 
-/** messageTextViewAlignment 默认NSTextAlignmentCenter */
-@property (nonatomic, assign) NSTextAlignment messageTextViewAlignment;
-
 /** 设置messageTextView的文字水平样式 默认NSTextAlignmentCenter */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewAlignment)(NSTextAlignment textAlignment);
-
-/** title和message的左右间距 默认20 */
-@property (nonatomic, assign) CGFloat textViewLeftRightMargin;
 
 /** 设置title和message的左右间距 默认20 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin);
@@ -129,17 +108,13 @@ typedef enum : NSUInteger {
  * 设置title和message上下间距 默认20
  * plain样式title上间距和message下间距
  * collection样式title上下间距
+ * plain样式下setPlainTitleMessageSeparatorHidden为NO时，该值为title上下间距
+ * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值为title上下间距
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewTopBottomMargin)(CGFloat margin);
 
-/** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
-@property (nonatomic, strong) JKAlertAction *cancelAction;
-
 /** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCancelAction)(JKAlertAction *action);
-
-/** dealloc时会调用的block */
-@property (nonatomic, copy) void (^deallocBlock)(void);
 
 /** 设置dealloc时会调用的block */
 @property (nonatomic, copy, readonly) void (^setDeallocBlock)(void(^deallocBlock)(void));
@@ -169,22 +144,19 @@ typedef enum : NSUInteger {
  * onlyForMessage : 是否仅放在message位置
  * onlyForMessage如果为YES，有title时，title的上下间距则变为setTextViewTopBottomMargin的值
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^addCustomPlainTitleView)(BOOL onlyForMessage, UIView *(^customView)(void));
-
-/** 设置plain样式title和message之间的间距 默认7 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleMessageMargin)(CGFloat margin);
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomPlainTitleView)(BOOL onlyForMessage, UIView *(^customView)(void));
 
 /**
- * 展示完成后 设置plain样式centerY的偏移
- * 正数表示向下偏移，负数表示向上偏移
+ * 设置plain样式title和message之间的间距 默认7
+ * setPlainTitleMessageSeparatorHidden为NO时，该值表示message的上下间距
+ * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值无影响
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
-
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleMessageMargin)(CGFloat margin);
 
 /**
  * 设置plain样式title和messagex上下之间的分隔线是否隐藏，默认YES
  * 当设置为NO时:
-        1、setTextViewTopBottomMargini将自动改为title上下间距
+        1、setTextViewTopBottomMargin将自动改为title上下间距
         2、setTitleMessageMargin将自动改为message的上下间距
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setPlainTitleMessageSeparatorHidden)(BOOL separatorHidden);
@@ -197,13 +169,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageMinHeight)(CGFloat minHeight);
 
 /** 设置plain样式关闭按钮 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCloseButtonConfig)(void(^)(UIButton *closeButton));
-
-/**
- * plain和HUD样式centerY的偏移
- * 正数表示向下偏移，负数表示向上偏移
- */
-@property (nonatomic, assign) CGFloat plainCenterOffsetY;
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCloseButtonConfig)(void(^)(UIButton *closeButton));
 
 /**
  * 设置plain和HUD样式centerY的偏移
@@ -211,26 +177,19 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setPlainCenterOffsetY)(CGFloat centerOffsetY);
 
+/**
+ * 展示完成后 移动plain和HUD样式centerY
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
 
 #pragma mark - HUD样式
-
-/**
- * HUD样式dismiss的时间，默认1s
- * 小于等于0表示不自动隐藏
- */
-@property (nonatomic, assign) CGFloat dismissTimeInterval;
 
 /**
  * 设置HUD样式dismiss的时间，默认1s
  * 小于等于0表示不自动隐藏
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setDismissTimeInterval)(CGFloat dismissTimeInterval);
-
-/**
- * HUD样式高度，不包含customHUD
- * 小于0将没有效果，默认-1
- */
-@property (nonatomic, assign) CGFloat HUDHeight;
 
 /**
  * 设置HUD样式高度，不包含customHUD
@@ -243,15 +202,6 @@ typedef enum : NSUInteger {
 #pragma mark - collectionSheet样式
 
 /**
- * collection的itemSize的宽度
- * 最大不可超过屏幕宽度的一半
- * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
- * 自动计算item之间间距，最小为0，可自己计算该值设置每屏显示个数
- * 默认的高度是宽度-6，暂不支持自定义高度
- */
-@property (nonatomic, assign) CGFloat flowlayoutItemWidth;
-
-/**
  * 设置collection的itemSize的宽度
  * 最大不可超过屏幕宽度的一半
  * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
@@ -261,34 +211,14 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) JKAlertView *(^setFlowlayoutItemWidth)(CGFloat width);
 
 /**
- * 是否将两个collection合体
- * 设为YES可让两个collection同步滚动
- * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
- */
-@property (nonatomic, assign) BOOL compoundCollection;
-
-/**
  * 设置是否将两个collection合体
  * 设为YES可让两个collection同步滚动
  * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCompoundCollection)(BOOL compoundCollection);
 
-/** collection是否分页 */
-@property (nonatomic, assign) BOOL collectionPagingEnabled;
-
 /** 设置collection是否分页 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionPagingEnabled)(BOOL collectionPagingEnabled);
-
-/**
- * collection是否显示pageControl
- * 如果只有一组collection，则必须设置分页为YES才有效
- * 如果有两组collection，则仅在分页和合体都为YES时才有效
- * 注意自己计算好每页显示的个数相等
- * 可以添加空的action来保证每页显示个数相等
- * JKAlertAction使用类方法初始化时每个参数传nil或者直接自己实例化一个即为空action
- */
-@property (nonatomic, assign) BOOL showPageControl;
 
 /**
  * 设置collection是否显示pageControl
@@ -300,14 +230,8 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setShowPageControl)(BOOL showPageControl);
 
-/** colletion样式的底部按钮左右间距 */
-@property (nonatomic, assign) CGFloat collectionButtonLeftRightMargin;
-
 /** 设置colletion样式的底部按钮左右间距 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionButtonLeftRightMargin)(CGFloat margin);
-
-/** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
-@property (nonatomic, strong) JKAlertAction *collectionAction;
 
 /** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionAction)(JKAlertAction *action);
@@ -317,7 +241,7 @@ typedef enum : NSUInteger {
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^addCustomCollectionTitleView)(UIView *(^customView)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomCollectionTitleView)(UIView *(^customView)(void));
 
 /** collection添加第二个collectionView的action */
 - (void)addSecondCollectionAction:(JKAlertAction *)action;
@@ -334,22 +258,18 @@ typedef enum : NSUInteger {
 
 /** 链式实例化 */
 @property (class, nonatomic, copy, readonly) JKAlertView * (^alertView)(NSString *title, NSString *message, JKAlertStyle style);
-//+ (JKAlertView *(^)(NSString *title, NSString *message, JKAlertStyle style))alertView;
 
 /** 富文本实例化 */
 + (instancetype)alertViewWithAttributedTitle:(NSAttributedString *)attributedTitle attributedMessage:(NSAttributedString *)attributedMessage style:(JKAlertStyle)alertStyle;
 
 /** 富文本链式实例化 */
 @property (class, nonatomic, copy, readonly) JKAlertView * (^alertViewAttributed)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style);
-//+ (JKAlertView *(^)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style))alertViewAttributed;
 
 /** 显示文字HUD */
 @property (class, nonatomic, copy, readonly) JKAlertView *(^showHUDWithTitle)(NSString *title);
-//+ (JKAlertView *(^)(NSString *title))showHUDWithTitle;
 
 /** 显示富文本HUD */
 @property (class, nonatomic, copy, readonly) JKAlertView *(^showHUDWithAttributedTitle)(NSAttributedString *attributedTitle);
-//+ (JKAlertView *(^)(NSAttributedString *attributedTitle))showHUDWithAttributedTitle;
 
 /**
  * 显示自定义HUD
@@ -358,11 +278,9 @@ typedef enum : NSUInteger {
  * 注意自己计算好自定义HUD的size，以避免横竖屏出现问题
  */
 @property (class, nonatomic, copy, readonly) JKAlertView *(^showCustomHUD)(UIView *(^customHUD)(void));
-//+ (JKAlertView *(^)(UIView *(^customHUD)(void)))showCustomHUD;
 
 /** 移除当前所有的JKAlertView */
 @property (class, nonatomic, copy, readonly) void (^dismissAll)(void);
-//+ (void(^)(void))dismissAll;
 
 
 #pragma mark - 添加action
