@@ -10,6 +10,7 @@
 #import "JKAlertTableViewCell.h"
 #import "JKAlertCollectionViewCell.h"
 #import "JKAlertTextView.h"
+#import <objc/runtime.h>
 
 #define JKAlertScreenScale [UIScreen mainScreen].scale
 
@@ -302,6 +303,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
 @property (nonatomic, strong) JKAlertAction *collectionAction;
 
+/**
+ * 是否使JKAlertView.dismissAll(); 对当前JKAlertView无效
+ * 请谨慎使用，若设置为YES 调用JKAlertView.dismissAll(); 将对当前JKAlertView无效
+ */
+@property (nonatomic, assign) BOOL isDismissAllNoneffective;
+
 @end
 
 @implementation JKAlertView
@@ -425,7 +432,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** 移除当前所有的JKAlertView */
+/**
+ * 移除当前所有的JKAlertView
+ * 本质是发送一个通知，让所有的JKAlertView对象执行消失操作
+ * 注意如果某个对象setDismissAllNoneffective为YES时，该对象将不会响应通知
+ * ***谨慎使用该方法***
+ */
 + (void(^)(void))dismissAll{
     
     [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissNotification object:nil];
@@ -840,7 +852,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         UIButton *closeButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [closeButton setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
         closeButton.titleLabel.font = [UIFont systemFontOfSize:13];
-        [closeButton setTitle:@"x" forState:(UIControlStateNormal)];
         closeButton.frame = CGRectMake(PlainViewWidth - 30, 5, 25, 25);
         [_plainView addSubview:closeButton];
         
@@ -938,7 +949,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss) name:JKAlertDismissNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissNotification:) name:JKAlertDismissNotification object:nil];
 }
 
 #pragma mark - setter
@@ -986,6 +997,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     }
     
     _cancelAction = cancelAction;
+    
+    _cancelAction.alertView = self;
 }
 
 /**
@@ -1586,13 +1599,13 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * onlyForMessage : 是否仅放在message位置
  * onlyForMessage如果为YES，有title时，title的上下间距则变为setTextViewTopBottomMargin的值
  */
-- (JKAlertView *(^)(BOOL onlyForMessage, UIView *(^customView)(void)))setCustomPlainTitleView{
+- (JKAlertView *(^)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)))setCustomPlainTitleView{
     
-    return ^(BOOL onlyForMessage, UIView *(^customView)(void)){
+    return ^(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)){
         
         self.customPlainTitleViewOnlyForMessage = onlyForMessage;
         
-        self.customPlainTitleView = !customView ? nil : customView();
+        self.customPlainTitleView = !customView ? nil : customView(self);
         
         return self;
     };
@@ -1622,6 +1635,20 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     return ^(UIView *(^backGroundView)(void)){
         
         self.backGroundView = !backGroundView ? nil : backGroundView();
+        
+        return self;
+    };
+}
+
+/**
+ * 设置是否使JKAlertView.dismissAll(); 对当前JKAlertView无效
+ * 请谨慎使用，若设置为YES 调用JKAlertView.dismissAll(); 将对当前JKAlertView无效
+ */
+- (JKAlertView *(^)(BOOL isNoneffective))setDismissAllNoneffective{
+    
+    return ^(BOOL isNoneffective){
+        
+        self.isDismissAllNoneffective = isNoneffective;
         
         return self;
     };
@@ -1747,11 +1774,15 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /** 添加action */
 - (void)addAction:(JKAlertAction *)action{
     
+    action.alertView = self;
+    
     [self.actions addObject:action];
 }
 
 /** 添加第二个collectionView的action */
 - (void)addSecondCollectionAction:(JKAlertAction *)action{
+    
+    action.alertView = self;
     
     [self.actions2 addObject:action];
 }
@@ -2941,9 +2972,15 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     self.dismiss();
 }
 
-- (void(^)(void))dismiss{
+// 通过通知来dismiss
+- (void)dismissNotification:(NSNotification *)noti{
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+    if (self.isDismissAllNoneffective) { return; }
+    
+    self.dismiss();
+}
+
+- (void(^)(void))dismiss{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -3216,5 +3253,36 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
     [super setHighlighted:highlighted];
     
     self.backgroundColor = highlighted ? [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.3] : [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
+}
+@end
+
+
+
+#pragma mark
+#pragma mark - 按钮点击分类
+
+@implementation UIButton (JKAlertX)
+
+static char JKAlertXActionTag;
+
+- (void)JKAlertX_addClickOperation:(void(^)(UIButton *button))clickOperation{
+    
+    [self JKAlertX_addClickOperation:clickOperation forControlEvents:(UIControlEventTouchUpInside)];
+}
+
+- (void)JKAlertX_addClickOperation:(void(^)(UIButton *button))clickOperation forControlEvents:(UIControlEvents)controlEvents{
+    
+    if (!clickOperation) { return; }
+    
+    objc_setAssociatedObject(self, &JKAlertXActionTag, clickOperation, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    
+    [self addTarget:self action:@selector(JKAlertX_buttonClick:) forControlEvents:(controlEvents)];
+}
+
+- (void)JKAlertX_buttonClick:(UIButton *)button{
+    
+    void(^clickOperation)(UIButton *button) = objc_getAssociatedObject(self, &JKAlertXActionTag);
+    
+    !clickOperation ? : clickOperation(self);
 }
 @end

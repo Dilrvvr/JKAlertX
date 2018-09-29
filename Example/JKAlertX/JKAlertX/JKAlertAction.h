@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol JKAlertViewProtocol
+
+@required
+
+/** 退出 */
+- (void(^)(void))dismiss;
+
+/** 监听JKAlertView消失完成 */
+- (void(^)(void(^dismissComplete)(void)))setDismissComplete;
+
+@end
+
 typedef enum : NSUInteger {
     
     /**
@@ -41,6 +53,9 @@ typedef enum : NSUInteger {
 
 /** hightlightedImage */
 @property (nonatomic, strong) UIImage *hightlightedImage;
+
+/** aciton所处的alertView 仅用于dismiss */
+@property (nonatomic, weak) id <JKAlertViewProtocol> alertView;
 
 /**
  * 是否是空的action
@@ -88,7 +103,7 @@ typedef enum : NSUInteger {
  * 自定义时请将action.customView视为一个容器view
  * 推荐使用自动布局在action.customView约束子控件
  */
-@property (nonatomic, copy, readonly) JKAlertAction *(^setCustomView)(UIView *(^customView)(void));
+@property (nonatomic, copy, readonly) JKAlertAction *(^setCustomView)(UIView *(^customView)(JKAlertAction *action));
 
 /** 设置普通状态图片 */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setNormalImage)(UIImage *image);
@@ -114,7 +129,6 @@ typedef enum : NSUInteger {
  * handler: 点击的操作
  */
 @property (class, nonatomic, readonly) JKAlertAction *(^action)(NSString *title, JKAlertActionStyle style, void(^handler)(JKAlertAction *action));
-//+ (JKAlertAction *(^)(NSString *title, JKAlertActionStyle style, void(^handler)(JKAlertAction *action)))action;
 
 /**
  * 实例化action
@@ -131,5 +145,4 @@ typedef enum : NSUInteger {
  * handler: 点击的操作
  */
 @property (class, nonatomic, readonly) JKAlertAction *(^actionAttributed)(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action));
-//+ (JKAlertAction *(^)(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action)))actionAttributed;
 @end

@@ -24,7 +24,7 @@
     
     [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].setTitleTextViewAlignment(NSTextAlignmentCenter).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^{
+    }].setCustomView(^(JKAlertAction *action){
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
         label.numberOfLines = 0;
@@ -36,7 +36,7 @@
         
     }).setNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^{
+    }].setCustomView(^(JKAlertAction *action){
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
         label.numberOfLines = 0;
@@ -67,14 +67,21 @@
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^{
+    }].setCustomView(^(JKAlertAction *action){
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
-        label.backgroundColor = [UIColor orangeColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.text = @"我是自定义的view~~";
+        UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
         
-        return label;
+        button.frame = CGRectMake(0, 0, 0, 200);
+        
+        [button setTitle:@"我是自定义的view~~" forState:(UIControlStateNormal)];
+        button.backgroundColor = [UIColor orangeColor];
+        
+        [button JKAlertX_addClickOperation:^(UIButton *button) {
+            
+            action.alertView.dismiss();
+        }];
+        
+        return button;
     })];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
@@ -337,7 +344,7 @@
     
     [JKAlertView alertViewWithTitle:@"提示" message:@"这是action样式的customView，想自定义titleView的话可以将title和message赋值nil，并将第一个action设为空action，然后给这个空action赋值customView即可" style:(JKAlertStyleActionSheet)].addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^{
+    }].setCustomView(^(JKAlertAction *action){
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200)];
         label.backgroundColor = [UIColor orangeColor];
@@ -517,7 +524,7 @@
     alertView.setPlainTitleMessageSeparatorHidden(NO);
     
     // 设置YES表示仅自定义message
-    alertView.setCustomPlainTitleView(YES, ^UIView *{
+    alertView.setCustomPlainTitleView(YES, ^UIView *(JKAlertView *view) {
         
         return label;
     });
@@ -551,7 +558,7 @@
     // 第1组
     alertView.setCollectionAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^{
+    }].setCustomView(^(JKAlertAction *action){
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
         label.backgroundColor = [UIColor orangeColor];
@@ -562,7 +569,7 @@
         
     })).setShowPageControl(YES).setCancelAction([JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^{
+    }].setCustomView(^(JKAlertAction *action){
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
         label.backgroundColor = [UIColor orangeColor];

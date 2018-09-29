@@ -9,15 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "JKAlertAction.h"
 
-@protocol JKAlertViewProtocol
-
-@required
-
-/** 监听JKAlertView消失完成 */
-- (void(^)(void(^dismissComplete)(void)))setDismissComplete;
-
-@end
-
 typedef enum : NSUInteger {
     
     /**
@@ -128,6 +119,12 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setBackGroundView)(UIView *(^backGroundView)(void));
 
+/**
+ * 设置是否使JKAlertView.dismissAll(); 对当前JKAlertView无效
+ * 请谨慎使用，若设置为YES 调用JKAlertView.dismissAll(); 将对当前JKAlertView无效
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissAllNoneffective)(BOOL isNoneffective);
+
 #pragma mark - plain样式
 
 /**
@@ -144,7 +141,7 @@ typedef enum : NSUInteger {
  * onlyForMessage : 是否仅放在message位置
  * onlyForMessage如果为YES，有title时，title的上下间距则变为setTextViewTopBottomMargin的值
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomPlainTitleView)(BOOL onlyForMessage, UIView *(^customView)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomPlainTitleView)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view));
 
 /**
  * 设置plain样式title和message之间的间距 默认7
@@ -272,15 +269,20 @@ typedef enum : NSUInteger {
 @property (class, nonatomic, copy, readonly) JKAlertView *(^showHUDWithAttributedTitle)(NSAttributedString *attributedTitle);
 
 /**
+ * 移除当前所有的JKAlertView
+ * 本质是发送一个通知，让所有的JKAlertView对象执行消失操作
+ * 注意如果某个对象setDismissAllNoneffective为YES时，该对象将不会响应通知
+ * ***谨慎使用该方法***
+ */
+@property (class, nonatomic, copy, readonly) void (^dismissAll)(void);
+
+/**
  * 显示自定义HUD
  * 注意使用点语法调用，否则莫名报错 JKAlertView.showCustomHUD
  * customHUD尺寸将完全由自定义控制，默认显示在屏幕中间
  * 注意自己计算好自定义HUD的size，以避免横竖屏出现问题
  */
 @property (class, nonatomic, copy, readonly) JKAlertView *(^showCustomHUD)(UIView *(^customHUD)(void));
-
-/** 移除当前所有的JKAlertView */
-@property (class, nonatomic, copy, readonly) void (^dismissAll)(void);
 
 
 #pragma mark - 添加action
@@ -346,3 +348,14 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) JKAlertView *(^setFillHomeIndicator)(BOOL fillHomeIndicator);
 @end
 
+
+#pragma mark
+#pragma mark - 按钮点击分类
+
+@interface UIButton (JKAlertX)
+
+
+- (void)JKAlertX_addClickOperation:(void(^)(UIButton *button))clickOperation;
+
+- (void)JKAlertX_addClickOperation:(void(^)(UIButton *button))clickOperation forControlEvents:(UIControlEvents)controlEvents;
+@end

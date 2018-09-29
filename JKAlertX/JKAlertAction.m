@@ -139,11 +139,11 @@
  * 自定义时请将action.customView视为一个容器view
  * 推荐使用自动布局在action.customView约束子控件
  */
-- (JKAlertAction *(^)(UIView *(^customView)(void)))setCustomView{
+- (JKAlertAction *(^)(UIView *(^customView)(JKAlertAction *action)))setCustomView{
     
-    return ^(UIView *(^customView)(void)){
+    return ^(UIView *(^customView)(JKAlertAction *action)){
         
-        self.customView = !customView ? nil : customView();
+        self.customView = !customView ? nil : customView(self);
         
         return self;
     };
