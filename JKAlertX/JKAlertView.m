@@ -20,7 +20,7 @@
 
 #define JKAlertRowHeight ((JKAlertScreenW > 321) ? 53 : 46)
 
-#define JKAlertTextContainerViewMaxH (JKAlertScreenH - 100 - JKAlertScrollViewMaxH)
+#define JKAlertTextContainerViewMaxH (JKAlertPlainViewMaxH - JKAlertScrollViewMaxH)
 
 #define JKAlertSheetMaxH (JKAlertScreenH * 0.85)
 
@@ -1795,7 +1795,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     UITextField *tf = [[UITextField alloc] init];
     
-    tf.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
+    tf.backgroundColor = GlobalBackgroundColor;
     
     if (_textFieldContainerView == nil) {
         
@@ -3259,30 +3259,73 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
 
 
 #pragma mark
-#pragma mark - 按钮点击分类
+#pragma mark - UIControl点击分类
 
-@implementation UIButton (JKAlertX)
+@implementation UIControl (JKAlertX)
 
-static char JKAlertXActionTag;
+static char JKAlertXButtonActionTag;
 
-- (void)JKAlertX_addClickOperation:(void(^)(UIButton *button))clickOperation{
+- (void)JKAlertX_addClickOperation:(void(^)(id control))clickOperation{
     
-    [self JKAlertX_addClickOperation:clickOperation forControlEvents:(UIControlEventTouchUpInside)];
+    [self JKAlertX_addOperation:clickOperation forControlEvents:(UIControlEventTouchUpInside)];
 }
 
-- (void)JKAlertX_addClickOperation:(void(^)(UIButton *button))clickOperation forControlEvents:(UIControlEvents)controlEvents{
+- (void)JKAlertX_addOperation:(void(^)(id control))clickOperation forControlEvents:(UIControlEvents)controlEvents{
     
     if (!clickOperation) { return; }
     
-    objc_setAssociatedObject(self, &JKAlertXActionTag, clickOperation, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, &JKAlertXButtonActionTag, clickOperation, OBJC_ASSOCIATION_COPY_NONATOMIC);
     
     [self addTarget:self action:@selector(JKAlertX_buttonClick:) forControlEvents:(controlEvents)];
 }
 
-- (void)JKAlertX_buttonClick:(UIButton *)button{
+- (void)JKAlertX_buttonClick:(UIControl *)control{
     
-    void(^clickOperation)(UIButton *button) = objc_getAssociatedObject(self, &JKAlertXActionTag);
+    void(^clickOperation)(id control) = objc_getAssociatedObject(self, &JKAlertXButtonActionTag);
     
     !clickOperation ? : clickOperation(self);
+}
+@end
+
+
+#pragma mark
+#pragma mark - 手势分类
+
+@implementation UIGestureRecognizer (JKAlertX)
+
+static char JKAlertXGestureActionTag;
+
++ (instancetype)JKAlertX_gestureWithOperation:(void(^)(id gesture))gestureOperation{
+    
+    if (!gestureOperation) { return [self new]; }
+    
+    UIGestureRecognizer *gesture = [[self alloc] initWithTarget:self action:@selector(JKAlertX_gestureAction:)];
+    
+    objc_setAssociatedObject(gesture, &JKAlertXGestureActionTag, gestureOperation, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    
+    return gesture;
+}
+
++ (void)JKAlertX_gestureAction:(UIGestureRecognizer *)gesture{
+    
+    void(^gestureOperation)(id gesture) = objc_getAssociatedObject(gesture, &JKAlertXGestureActionTag);
+    
+    !gestureOperation ? : gestureOperation(gesture);
+}
+
+- (void)JKAlertX_addGestureOperation:(void(^)(id gesture))gestureOperation{
+    
+    if (!gestureOperation) { return; }
+    
+    objc_setAssociatedObject(self, &JKAlertXGestureActionTag, gestureOperation, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    
+    [self addTarget:self action:@selector(JKAlertX_gestureAction:)];
+}
+
+- (void)JKAlertX_gestureAction:(UIGestureRecognizer *)gesture{
+    
+    void(^gestureOperation)(id gesture) = objc_getAssociatedObject(self, &JKAlertXGestureActionTag);
+    
+    !gestureOperation ? : gestureOperation(self);
 }
 @end

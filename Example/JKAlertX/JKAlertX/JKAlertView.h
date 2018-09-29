@@ -350,12 +350,24 @@ typedef enum : NSUInteger {
 
 
 #pragma mark
-#pragma mark - 按钮点击分类
+#pragma mark - UIControl点击分类
 
-@interface UIButton (JKAlertX)
+@interface UIControl (JKAlertX)
 
 
-- (void)JKAlertX_addClickOperation:(void(^)(UIButton *button))clickOperation;
+- (void)JKAlertX_addClickOperation:(void(^)(id control))clickOperation;
 
-- (void)JKAlertX_addClickOperation:(void(^)(UIButton *button))clickOperation forControlEvents:(UIControlEvents)controlEvents;
+- (void)JKAlertX_addOperation:(void(^)(id control))clickOperation forControlEvents:(UIControlEvents)controlEvents;
+@end
+
+
+#pragma mark
+#pragma mark - 手势分类
+
+@interface UIGestureRecognizer (JKAlertX)
+
+
++ (instancetype)JKAlertX_gestureWithOperation:(void(^)(id gesture))gestureOperation;
+
+- (void)JKAlertX_addGestureOperation:(void(^)(id gesture))gestureOperation;
 @end

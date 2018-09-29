@@ -138,6 +138,7 @@
  * actionSheet样式的行高rowHeight将取决于action.customView的高度
  * 自定义时请将action.customView视为一个容器view
  * 推荐使用自动布局在action.customView约束子控件
+ * 若自定义的view挡住了原有action交互，推荐使用action.alertView.dismiss();来移除当前的JKAlertView
  */
 - (JKAlertAction *(^)(UIView *(^customView)(JKAlertAction *action)))setCustomView{
     

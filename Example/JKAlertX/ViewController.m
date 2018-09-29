@@ -76,7 +76,7 @@
         [button setTitle:@"我是自定义的view~~" forState:(UIControlStateNormal)];
         button.backgroundColor = [UIColor orangeColor];
         
-        [button JKAlertX_addClickOperation:^(UIButton *button) {
+        [button JKAlertX_addClickOperation:^(UIButton *control) {
             
             action.alertView.dismiss();
         }];
@@ -564,6 +564,17 @@
         label.backgroundColor = [UIColor orangeColor];
         label.textAlignment = NSTextAlignmentCenter;
         label.text = @"我是自定义的view~~";
+        label.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tap =[UITapGestureRecognizer JKAlertX_gestureWithOperation:^(UITapGestureRecognizer *gesture) {
+            
+            if (gesture.state == UIGestureRecognizerStateEnded) {
+                
+                action.alertView.dismiss();
+            }
+        }];
+        
+        [label addGestureRecognizer:tap];
         
         return label;
         
