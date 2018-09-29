@@ -296,11 +296,21 @@ typedef enum : NSUInteger {
 
 #pragma mark - 添加textField
 
-/** 添加textField */
-- (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler;
+/**
+ * 添加textField 默认高度30
+ * textField之间的间距是1，和其superView的上下左右间距也是1
+ * textField可以直接对其superView进行一些属性修改，如背景色
+ * block中的参数view用于调用dismiss()来移除当前弹框
+ */
+- (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *view, UITextField *textField))configurationHandler;
 
-/** 链式添加textField */
-@property (nonatomic, copy, readonly) JKAlertView *(^addTextFieldWithConfigurationHandler)(void (^)(UITextField *textField));
+/**
+ * 链式添加textField 默认高度30
+ * textField之间的间距是1，和其superView的上下左右间距也是1
+ * textField可以直接对其superView进行一些属性修改，如背景色
+ * block中的参数view用于调用dismiss()来移除当前弹框
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^addTextFieldWithConfigurationHandler)(void (^)(JKAlertView *view, UITextField *textField));
 
 
 #pragma mark - 显示

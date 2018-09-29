@@ -196,15 +196,34 @@
         
     }]];
     
-    alertView.addTextFieldWithConfigurationHandler(^(UITextField *textField) {
+    alertView.addTextFieldWithConfigurationHandler(^(JKAlertView *view, UITextField *textField) {
         
         textField.placeholder = @"帐号";
     });
     
-    [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+    [alertView addTextFieldWithConfigurationHandler:^(JKAlertView *view, UITextField *textField) {
         
         textField.placeholder = @"密码";
     }];
+    
+//    [alertView addTextFieldWithConfigurationHandler:^(JKAlertView *view, UITextField *textField) {
+//        
+//        textField.hidden = YES;
+//        textField.frame = CGRectMake(0, 0, 0, 300);
+//        
+//        textField.superview.backgroundColor = [UIColor orangeColor];
+//        
+//        UILabel *label = [[UILabel alloc] init];
+//        label.layer.backgroundColor = [[UIColor whiteColor] CGColor];
+//        label.textColor = [UIColor redColor];
+//        label.text = @"隐私政策";
+//        [textField.superview addSubview:label];
+//        
+//        [label sizeToFit];
+//        
+//        // textField之间的间距是1，默认高度30，和其superView的上下左右间距也是1，290是默认的plain样式宽度，20是是默认的的左右间距
+//        label.frame = CGRectMake(0, 1 + 30 + 1 + 30 + 1 + 15, 290 - 20 * 2, label.bounds.size.height);
+//    }];
     
     alertView.enableDeallocLog(YES).show().setDismissComplete(^{
         

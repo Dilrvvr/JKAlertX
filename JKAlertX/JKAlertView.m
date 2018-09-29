@@ -1790,8 +1790,13 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 #pragma mark - 添加textField
 
-/** 添加textField */
-- (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler{
+/**
+ * 添加textField 默认高度30
+ * textField之间的间距是1，和其superView的上下左右间距也是1
+ * textField可以直接对其superView进行一些属性修改，如背景色
+ * block中的参数view用于调用dismiss()来移除当前弹框
+ */
+- (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *view, UITextField *textField))configurationHandler{
     
     UITextField *tf = [[UITextField alloc] init];
     
@@ -1814,13 +1819,18 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         self.currentTextField = tf;
     }
     
-    !configurationHandler ? : configurationHandler(tf);
+    !configurationHandler ? : configurationHandler(self, tf);
 }
 
-/** 链式添加textField */
-- (JKAlertView *(^)(void (^)(UITextField *textField)))addTextFieldWithConfigurationHandler{
+/**
+ * 链式添加textField 默认高度30
+ * textField之间的间距是1，和其superView的上下左右间距也是1
+ * textField可以直接对其superView进行一些属性修改，如背景色
+ * block中的参数view用于调用dismiss()来移除当前弹框
+ */
+- (JKAlertView *(^)(void (^)(JKAlertView *view, UITextField *textField)))addTextFieldWithConfigurationHandler{
     
-    return ^(void (^configurationHandler)(UITextField *textField)){
+    return ^(void (^configurationHandler)(JKAlertView *view, UITextField *textField)){
         
         [self addTextFieldWithConfigurationHandler:configurationHandler];
         
