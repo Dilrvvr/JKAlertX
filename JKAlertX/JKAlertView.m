@@ -2891,7 +2891,25 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     !self.showAnimationCompleteHandler ? : self.showAnimationCompleteHandler(self);
     
     self->oldPlainViewFrame = self->_plainView.frame;
-    [self.currentTextField becomeFirstResponder];
+    
+    if (self.currentTextField) {
+        
+        if (!self.currentTextField.hidden) {
+            
+            [self.currentTextField becomeFirstResponder];
+            
+        }else{
+            
+            for (UITextField *tf in _textFieldArr) {
+                
+                if (tf.hidden) { continue; }
+                
+                [tf becomeFirstResponder];
+                
+                break;
+            }
+        }
+    }
     
     if (self.dismissTimeInterval > 0 && (self.alertStyle == JKAlertStyleHUD || self.customHUD)) {
         
