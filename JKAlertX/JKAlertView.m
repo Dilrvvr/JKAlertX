@@ -1153,6 +1153,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         self.collectionAction = action;
         
+        self.collectionAction.alertView = self;
+        
         return self;
     };
 }
