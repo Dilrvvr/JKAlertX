@@ -115,12 +115,13 @@
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"定位服务未开启" message:@"请进入系统「设置」->「隐私」->「定位服务」中打开开关，并允许妙菜使用定位服务" style:(JKAlertStylePlain)];
     
     // title和message之间加分隔线
-    alertView.setPlainTitleMessageSeparatorHidden(NO).
+    alertView.setPlainTitleMessageSeparatorHidden(NO, 0).
     setTextViewTopBottomMargin(15).setTitleMessageMargin(0).setMessageMinHeight(100);
     
     // 配置关闭按钮
     alertView.setPlainCloseButtonConfig(^(UIButton *closeButton) {
         
+        [closeButton setTitle:@"x" forState:(UIControlStateNormal)];
         [closeButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         closeButton.backgroundColor = [UIColor orangeColor];
         closeButton.layer.cornerRadius = closeButton.frame.size.width * 0.5;
@@ -531,7 +532,7 @@
 
 - (IBAction)customPlainTitle:(id)sender {
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 700)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 200)];
 //    label.backgroundColor = [UIColor orangeColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"我是自定义的view~~";
@@ -540,7 +541,7 @@
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStylePlain)];
     
     // 显示title和message之间的分隔线
-    alertView.setPlainTitleMessageSeparatorHidden(NO);
+    alertView.setPlainTitleMessageSeparatorHidden(NO, 0);
     
     // 设置YES表示仅自定义message
     alertView.setCustomPlainTitleView(YES, ^UIView *(JKAlertView *view) {
@@ -675,5 +676,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+- (void)dealloc{
+    
+    NSLog(@"%d, %s",__LINE__, __func__);
+}
 @end

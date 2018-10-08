@@ -102,7 +102,20 @@
     _titleLabel.hidden = NO;
     _imageButton.hidden = _titleLabel.hidden;
     
-    self.customView.hidden = YES;
+    /*
+    if (self.customView && self.customView.superview != self.contentView) {
+        
+        NSLog(@"指向错误-->%p", self.customView.superview.superview);
+        NSLog(@"%p-->%@", self, _action.title);
+        NSLog(@"");
+    }; //*/
+    
+    // 重用时有个莫名其妙的问题，需要判断一下
+    if (self.customView.superview == self.contentView) {
+        
+        self.customView.hidden = YES;
+    }
+    
     self.customView = _action.customView;
     
     if (action.customView != nil) {
@@ -161,9 +174,7 @@
 - (void)setCustomView:(UIView *)customView{
     _customView = customView;
     
-    if (_customView == nil) {
-        return;
-    }
+    if (_customView == nil) { return; }
     
     [self.contentView addSubview:customView];
     

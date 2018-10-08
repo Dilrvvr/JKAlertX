@@ -49,6 +49,11 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomSuperView)(UIView *customSuperView);
 
+/**
+ * 设置全屏背景view 默认无
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setFullScreenBackGroundView)(UIView *(^backGroundView)(void));
+
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled);
 
@@ -135,6 +140,12 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) JKAlertView *(^setPlainWidth)(CGFloat width);
 
 /**
+ * 设置plain样式的圆角
+ * 默认8 不可小于0
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCornerRadius)(CGFloat cornerRadius);
+
+/**
  * 设置plain样式添加自定义的titleView
  * frame给出高度即可，宽度自适应plain宽度
  * 请将自定义view视为容器view，推荐使用自动布局约束其子控件
@@ -155,8 +166,9 @@ typedef enum : NSUInteger {
  * 当设置为NO时:
         1、setTextViewTopBottomMargin将自动改为title上下间距
         2、setTitleMessageMargin将自动改为message的上下间距
+ * leftRightMargin : 分隔线的左右间距
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainTitleMessageSeparatorHidden)(BOOL separatorHidden);
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainTitleMessageSeparatorHidden)(BOOL separatorHidden, CGFloat leftRightMargin);
 
 /**
  * 设置plain样式message最小高度 默认0
@@ -243,8 +255,14 @@ typedef enum : NSUInteger {
 /** collection添加第二个collectionView的action */
 - (void)addSecondCollectionAction:(JKAlertAction *)action;
 
+/** 添加第二个collectionView的action */
+- (void)insertSecondCollectionAction:(JKAlertAction *)action atIndex:(NSUInteger)index;
+
 /** collection链式添加第二个collectionView的action */
 @property (nonatomic, copy, readonly) JKAlertView *(^addSecondCollectionAction)(JKAlertAction *action);
+
+/** collection链式添加第二个collectionView的action */
+@property (nonatomic, copy, readonly) JKAlertView *(^insertSecondCollectionAction)(JKAlertAction *action, NSUInteger atIndex);
 
 
 
@@ -290,8 +308,14 @@ typedef enum : NSUInteger {
 /** 添加action */
 - (void)addAction:(JKAlertAction *)action;
 
+/** 添加action */
+- (void)insertAction:(JKAlertAction *)action atIndex:(NSUInteger)index;
+
 /** 链式添加action */
 @property (nonatomic, copy, readonly) JKAlertView *(^addAction)(JKAlertAction *action);
+
+/** 链式添加action */
+@property (nonatomic, copy, readonly) JKAlertView *(^insertAction)(JKAlertAction *action, NSUInteger atIndex);
 
 
 #pragma mark - 添加textField
