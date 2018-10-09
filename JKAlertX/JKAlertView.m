@@ -681,7 +681,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         [cancelButton setTitleColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] forState:(UIControlStateNormal)];
         [cancelButton addTarget:self action:@selector(dismiss) forControlEvents:(UIControlEventTouchUpInside)];
         
-//        [cancelButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.3], 1, 1, 0) forState:(UIControlStateHighlighted)];
+        //        [cancelButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.3], 1, 1, 0) forState:(UIControlStateHighlighted)];
         
         _cancelButton = cancelButton;
     }
@@ -696,7 +696,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         collectionButton.titleLabel.font = [UIFont systemFontOfSize:17];
         [collectionButton setTitleColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] forState:(UIControlStateNormal)];
         [collectionButton addTarget:self action:@selector(collectionButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
-//        [collectionButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
+        //        [collectionButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
         
         _collectionButton = collectionButton;
     }
@@ -825,7 +825,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         plainView.clipsToBounds = YES;
         plainView.layer.cornerRadius = _plainCornerRadius;
         plainView.frame = CGRectMake((JKAlertScreenW - PlainViewWidth) * 0.5, (JKAlertScreenH - 200) * 0.5, PlainViewWidth, 200);
-//        plainView.backgroundColor = GlobalBackgroundColor;
+        //        plainView.backgroundColor = GlobalBackgroundColor;
         
         [plainView addSubview:self.textContainerView];
         
@@ -1075,21 +1075,21 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         return;
     }
     
-//    if (!_customPlainTitleScrollView) {
-//
-//        UIScrollView *scrollView = [[UIScrollView alloc] init];
-//        [_textContainerView insertSubview:scrollView atIndex:0];
-//        _customPlainTitleScrollView = self.plainTextContainerScrollView;
-//
-//        [self adjustScrollView:scrollView];
-//
-//        scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-//        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : scrollView}];
-//        [_textContainerView addConstraints:scrollViewCons1];
-//
-//        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : scrollView}];
-//        [_textContainerView addConstraints:scrollViewCons2];
-//    }
+    //    if (!_customPlainTitleScrollView) {
+    //
+    //        UIScrollView *scrollView = [[UIScrollView alloc] init];
+    //        [_textContainerView insertSubview:scrollView atIndex:0];
+    //        _customPlainTitleScrollView = self.plainTextContainerScrollView;
+    //
+    //        [self adjustScrollView:scrollView];
+    //
+    //        scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    //        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : scrollView}];
+    //        [_textContainerView addConstraints:scrollViewCons1];
+    //
+    //        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : scrollView}];
+    //        [_textContainerView addConstraints:scrollViewCons2];
+    //    }
     
     _titleTextView.hidden = !_customPlainTitleViewOnlyForMessage;
     _messageTextView.hidden = YES;
@@ -1472,17 +1472,17 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 /** 设置是否自动适配 iPhone X homeIndicator 默认YES
-- (JKAlertView *(^)(BOOL autoAdjust))setAutoLandscapeNotch{
-    
-    return ^(BOOL autoAdjust){
-        
-        if (!JKAlertIsIphoneX) { return self; }
-        
-        self->_iPhoneXLandscapeTextMargin = autoAdjust ? 44 : 0;
-        
-        return self;
-    };
-} */
+ - (JKAlertView *(^)(BOOL autoAdjust))setAutoLandscapeNotch{
+ 
+ return ^(BOOL autoAdjust){
+ 
+ if (!JKAlertIsIphoneX) { return self; }
+ 
+ self->_iPhoneXLandscapeTextMargin = autoAdjust ? 44 : 0;
+ 
+ return self;
+ };
+ } */
 
 /**
  * 设置是否显示pageControl
@@ -1583,8 +1583,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /**
  * 设置plain样式title和messagex上下之间的分隔线是否隐藏，默认YES
  * 当设置为NO时:
-        1、setTextViewTopBottomMargini将自动改为title上下间距
-        2、setTitleMessageMargin将自动改为message的上下间距
+ 1、setTextViewTopBottomMargini将自动改为title上下间距
+ 2、setTitleMessageMargin将自动改为message的上下间距
  * leftRightMargin : 分隔线的左右间距
  */
 - (JKAlertView *(^)(BOOL separatorHidden, CGFloat leftRightMargin))setPlainTitleMessageSeparatorHidden{
@@ -1723,14 +1723,14 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 设置全屏背景view 默认无
  */
 - (JKAlertView *(^)(UIView *(^backGroundView)(void)))setFullScreenBackGroundView{
-     
-     return ^(UIView *(^backGroundView)(void)){
-         
-         self.fullScreenBackGroundView = !backGroundView ? nil : backGroundView();
-         
-         return self;
-     };
- }
+    
+    return ^(UIView *(^backGroundView)(void)){
+        
+        self.fullScreenBackGroundView = !backGroundView ? nil : backGroundView();
+        
+        return self;
+    };
+}
 
 /**
  * 设置是否使JKAlertView.dismissAll(); 对当前JKAlertView无效
@@ -2483,9 +2483,13 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     if (self.titleTextView.hidden && self.messageTextView.hidden) {
         
+        _plainTitleMessageSeparatorLayer.hidden = YES;
+        
         rect.size.height = 0;
         
     }else if (self.titleTextView.hidden && !self.messageTextView.hidden) {
+        
+        _plainTitleMessageSeparatorLayer.hidden = YES;
         
         self.messageTextView.frame = CGRectMake((PlainViewWidth - self.messageTextView.frame.size.width) * 0.5, 0, self.messageTextView.frame.size.width, self.messageTextView.frame.size.height);
         
@@ -2496,7 +2500,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         self.titleTextView.frame = CGRectMake((PlainViewWidth - self.titleTextView.frame.size.width) * 0.5, 0, self.titleTextView.frame.size.width, self.titleTextView.frame.size.height);
         
-        rect.size.height = TBMargin + (self.titleTextView.frame.size.height < 30 ? 30 : self.titleTextView.frame.size.height) + TBMargin;
+        CGFloat titleH = (self.titleTextView.frame.size.height < 30 ? 30 : self.titleTextView.frame.size.height);
+        
+        titleH = (!_plainTitleMessageSeparatorHidden || (_customPlainTitleView != nil && _customPlainTitleViewOnlyForMessage)) ? self.titleTextView.frame.size.height : titleH;
+        
+        rect.size.height = TBMargin + titleH + TBMargin;
         self.titleTextView.center = CGPointMake(rect.size.width * 0.5, rect.size.height * 0.5);
     }
     
@@ -2622,7 +2630,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     textContainerViewCurrentMaxH_ = self.textContainerView.frame.size.height;
     
-//    [self adjustTextContainerViewFrame];
+    //    [self adjustTextContainerViewFrame];
 }
 
 - (void)adjustTextContainerViewFrame{
@@ -2634,8 +2642,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     if (self.messageTextView.hidden) {
         
         frame = self.titleTextView.frame;
-//        frame.size.height = frame.size.height > textContainerViewCurrentMaxH_ - TBMargin * 2 ? textContainerViewCurrentMaxH_ - TBMargin * 2 : frame.size.height;
-//        self.titleTextView.frame = frame;
+        //        frame.size.height = frame.size.height > textContainerViewCurrentMaxH_ - TBMargin * 2 ? textContainerViewCurrentMaxH_ - TBMargin * 2 : frame.size.height;
+        //        self.titleTextView.frame = frame;
         
         self.plainTextContainerScrollView.contentSize = CGSizeMake(self.plainTextContainerScrollView.frame.size.width, frame.size.height + TBMargin * 2);
         
@@ -2645,8 +2653,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     if (self.titleTextView.hidden) {
         
         frame = self.messageTextView.frame;
-//        frame.size.height = frame.size.height > textContainerViewCurrentMaxH_ - TBMargin * 2 ? textContainerViewCurrentMaxH_ - TBMargin * 2 : frame.size.height;
-//        self.messageTextView.frame = frame;
+        //        frame.size.height = frame.size.height > textContainerViewCurrentMaxH_ - TBMargin * 2 ? textContainerViewCurrentMaxH_ - TBMargin * 2 : frame.size.height;
+        //        self.messageTextView.frame = frame;
         
         self.plainTextContainerScrollView.contentSize = CGSizeMake(self.plainTextContainerScrollView.frame.size.width, frame.size.height + TBMargin * 2);
         
@@ -2657,36 +2665,36 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     self.plainTextContainerScrollView.contentSize = CGSizeMake(self.plainTextContainerScrollView.frame.size.width, contentSizeH);
     /*
-    CGFloat maxH = (textContainerViewCurrentMaxH_ - TBMargin - JKAlertTitleMessageMargin - TBMargin) * 0.5;
-    
-    if (self.titleTextView.frame.size.height > maxH && self.messageTextView.frame.size.height > maxH) {
-        
-        frame = self.titleTextView.frame;
-        frame.size.height = maxH;
-        self.titleTextView.frame = frame;
-        
-        frame = self.messageTextView.frame;
-        frame.origin.y = CGRectGetMaxY(self.titleTextView.frame) + JKAlertTitleMessageMargin;
-        frame.size.height = maxH;
-        self.messageTextView.frame = frame;
-        
-    }else if (self.titleTextView.frame.size.height > maxH) {
-        
-        frame = self.titleTextView.frame;
-        frame.size.height = textContainerViewCurrentMaxH_ - TBMargin - JKAlertTitleMessageMargin - TBMargin - self.messageTextView.frame.size.height;
-        self.titleTextView.frame = frame;
-        
-        frame = self.messageTextView.frame;
-        frame.origin.y = CGRectGetMaxY(self.titleTextView.frame) + JKAlertTitleMessageMargin;
-        self.messageTextView.frame = frame;
-        
-    }else if (self.messageTextView.frame.size.height > maxH) {
-        
-        frame = self.messageTextView.frame;
-        frame.origin.y = CGRectGetMaxY(self.titleTextView.frame) + JKAlertTitleMessageMargin;
-        frame.size.height = textContainerViewCurrentMaxH_ - TBMargin - JKAlertTitleMessageMargin - TBMargin - self.titleTextView.frame.size.height;
-        self.messageTextView.frame = frame;
-    } */
+     CGFloat maxH = (textContainerViewCurrentMaxH_ - TBMargin - JKAlertTitleMessageMargin - TBMargin) * 0.5;
+     
+     if (self.titleTextView.frame.size.height > maxH && self.messageTextView.frame.size.height > maxH) {
+     
+     frame = self.titleTextView.frame;
+     frame.size.height = maxH;
+     self.titleTextView.frame = frame;
+     
+     frame = self.messageTextView.frame;
+     frame.origin.y = CGRectGetMaxY(self.titleTextView.frame) + JKAlertTitleMessageMargin;
+     frame.size.height = maxH;
+     self.messageTextView.frame = frame;
+     
+     }else if (self.titleTextView.frame.size.height > maxH) {
+     
+     frame = self.titleTextView.frame;
+     frame.size.height = textContainerViewCurrentMaxH_ - TBMargin - JKAlertTitleMessageMargin - TBMargin - self.messageTextView.frame.size.height;
+     self.titleTextView.frame = frame;
+     
+     frame = self.messageTextView.frame;
+     frame.origin.y = CGRectGetMaxY(self.titleTextView.frame) + JKAlertTitleMessageMargin;
+     self.messageTextView.frame = frame;
+     
+     }else if (self.messageTextView.frame.size.height > maxH) {
+     
+     frame = self.messageTextView.frame;
+     frame.origin.y = CGRectGetMaxY(self.titleTextView.frame) + JKAlertTitleMessageMargin;
+     frame.size.height = textContainerViewCurrentMaxH_ - TBMargin - JKAlertTitleMessageMargin - TBMargin - self.titleTextView.frame.size.height;
+     self.messageTextView.frame = frame;
+     } */
 }
 
 #pragma mark - 布局actionSheet
@@ -2753,7 +2761,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     _sheetContainerView.frame = CGRectMake(0, JKAlertScreenH - _tableView.frame.size.height, JKAlertScreenW, _tableView.frame.size.height);//CGRectMake(0, JKAlertScreenH - (_textContainerView.frame.size.height + _tableView.frame.size.height), JKAlertScreenW, _textContainerView.frame.size.height + _tableView.frame.size.height);
     _scrollView.frame = CGRectMake(0, 0, _textContainerView.bounds.size.width, _textContainerView.bounds.size.height);
     
-//    _tableView.scrollEnabled = _tableView.frame.size.height < tableViewH;
+    //    _tableView.scrollEnabled = _tableView.frame.size.height < tableViewH;
     
     _plainTextContainerBottomLineLayer.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
 }
@@ -2787,38 +2795,38 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     _tableView.tableHeaderView = tableHeader;
     
     /*
-    return;
-    
-//    CGRect frame = CGRectZero;
-    
-    if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5 && self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
-        
-        frame = self.textContainerView.frame;
-        frame.size.height = JKAlertSheetMaxH * 0.5;
-        self.textContainerView.frame = frame;
-        
-        frame = self.tableView.frame;
-        frame.origin.y = self.textContainerView.frame.size.height;
-        frame.size.height = JKAlertSheetMaxH * 0.5;
-        self.tableView.frame = frame;
-        
-    }else if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5) {
-        
-        frame = self.textContainerView.frame;
-        frame.size.height = (frame.size.height + self.tableView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.tableView.frame.size.height : frame.size.height;
-        self.textContainerView.frame = frame;
-        
-    }else if (self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
-        
-        frame = self.tableView.frame;
-        frame.origin.y = self.textContainerView.frame.size.height;
-        frame.size.height = (frame.size.height + self.textContainerView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.textContainerView.frame.size.height : frame.size.height;
-        self.tableView.frame = frame;
-    }
-    
-    frame = self.tableView.frame;
-    frame.origin.y = self.textContainerView.frame.size.height;
-    self.tableView.frame = frame; //*/
+     return;
+     
+     //    CGRect frame = CGRectZero;
+     
+     if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5 && self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
+     
+     frame = self.textContainerView.frame;
+     frame.size.height = JKAlertSheetMaxH * 0.5;
+     self.textContainerView.frame = frame;
+     
+     frame = self.tableView.frame;
+     frame.origin.y = self.textContainerView.frame.size.height;
+     frame.size.height = JKAlertSheetMaxH * 0.5;
+     self.tableView.frame = frame;
+     
+     }else if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5) {
+     
+     frame = self.textContainerView.frame;
+     frame.size.height = (frame.size.height + self.tableView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.tableView.frame.size.height : frame.size.height;
+     self.textContainerView.frame = frame;
+     
+     }else if (self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
+     
+     frame = self.tableView.frame;
+     frame.origin.y = self.textContainerView.frame.size.height;
+     frame.size.height = (frame.size.height + self.textContainerView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.textContainerView.frame.size.height : frame.size.height;
+     self.tableView.frame = frame;
+     }
+     
+     frame = self.tableView.frame;
+     frame.origin.y = self.textContainerView.frame.size.height;
+     self.tableView.frame = frame; //*/
 }
 
 #pragma mark - 布局collectionSheet
@@ -2991,7 +2999,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         cancelButtonFrame.size.height += JKAlertCurrentHomeIndicatorHeight;
         self.cancelButton.frame = cancelButtonFrame;
         
-//        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
+        //        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
         [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0)];
         
         self.cancelAction.customView.frame = self.cancelButton.bounds;
@@ -3134,7 +3142,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             
             [self layoutIfNeeded];
         }];
-
+        
     }else{
         
         CGFloat maxH = JKAlertScreenH - (JKAlertIsIphoneX ? 44 : 20) - keyboardFrame.size.height - 40;
