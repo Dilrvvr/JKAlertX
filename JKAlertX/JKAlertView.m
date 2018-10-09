@@ -156,6 +156,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /** closeButton */
 @property (nonatomic, weak) UIButton *closeButton;
 
+/** clickPlainBlankDismiss */
+@property (nonatomic, assign) BOOL clickPlainBlankDismiss;
+
 /** plain样式title和messagex上下之间的分隔线是否隐藏 默认YES */
 @property (nonatomic, assign) BOOL plainTitleMessageSeparatorHidden;
 
@@ -1575,6 +1578,21 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             
             self->_plainView.center = CGPointMake(self->_plainView.center.x, self->_plainView.center.y + centerOffsetY);
         }
+        
+        return self;
+    };
+}
+
+
+
+/**
+ * 设置点击plain空白处是否消失
+ */
+- (JKAlertView *(^)(BOOL shouldDismiss))setClickPlainBlankDismiss{
+    
+    return ^(BOOL shouldDismiss){
+        
+        self.clickPlainBlankDismiss = shouldDismiss;
         
         return self;
     };
@@ -3191,6 +3209,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     if (_plainView != nil) {
         
+        if (_clickPlainBlankDismiss) {
+            
+            self.dismiss();
+        }
+        
         [self endEditing:YES];
         
         return;
@@ -3331,10 +3354,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return nil;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     return nil;
 }
 

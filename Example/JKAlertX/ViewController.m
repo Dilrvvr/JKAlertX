@@ -114,6 +114,8 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"定位服务未开启" message:@"请进入系统「设置」->「隐私」->「定位服务」中打开开关，并允许妙菜使用定位服务" style:(JKAlertStylePlain)];
     
+//    alertView.setClickPlainBlankDismiss(YES);
+    
     // title和message之间加分隔线
     alertView.setPlainTitleMessageSeparatorHidden(NO, 0).
     setTextViewTopBottomMargin(15).setTitleMessageMargin(0).setMessageMinHeight(100);

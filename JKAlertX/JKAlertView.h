@@ -192,6 +192,11 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
 
+/**
+ * 设置点击plain空白处是否消失
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setClickPlainBlankDismiss)(BOOL shouldDismiss);
+
 #pragma mark - HUD样式
 
 /**
