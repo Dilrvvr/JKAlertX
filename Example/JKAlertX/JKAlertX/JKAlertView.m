@@ -2726,7 +2726,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     if (self.titleTextView.hidden && self.messageTextView.hidden) {
         
-        rect.size.height = 0;
+        rect.size.height = CGFLOAT_MIN;
         _plainTextContainerBottomLineLayer.hidden = YES;
         
     }else if (self.titleTextView.hidden && !self.messageTextView.hidden) {
@@ -2781,6 +2781,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     frame = tableHeader.frame;
     frame.size.height = _textContainerView.frame.size.height;
+    
     tableHeader.frame = frame;
     
     _tableView.tableHeaderView = tableHeader;
@@ -3319,6 +3320,14 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return (section == 0) ? CancelMargin : CGFLOAT_MIN;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return nil;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
