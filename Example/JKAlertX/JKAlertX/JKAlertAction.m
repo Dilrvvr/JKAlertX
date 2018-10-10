@@ -78,6 +78,7 @@
     
     _rowHeight = -1;
     _separatorLineHidden = NO;
+    _autoDismiss = YES;
 }
 
 - (JKAlertAction *(^)(UIColor *color))setTitleColor{
@@ -126,6 +127,17 @@
     return ^(BOOL hidden){
         
         self.separatorLineHidden = hidden;
+        
+        return self;
+    };
+}
+
+/** 设置执行操作后是否自动消失 */
+- (JKAlertAction *(^)(BOOL autoDismiss))setAutoDismiss{
+    
+    return ^(BOOL autoDismiss){
+        
+        self.autoDismiss = autoDismiss;
         
         return self;
     };

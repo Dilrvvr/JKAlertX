@@ -112,7 +112,9 @@
     
 //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好你好" style:(JKAlertStylePlain)];
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"定位服务未开启" message:@"请进入系统「设置」->「隐私」->「定位服务」中打开开关，并允许妙菜使用定位服务" style:(JKAlertStylePlain)];
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:@"你好你好你好你好你好你好你好你好" style:(JKAlertStylePlain)];
+    
+//    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"定位服务未开启" message:@"请进入系统「设置」->「隐私」->「定位服务」中打开开关，并允许妙菜使用定位服务" style:(JKAlertStylePlain)];
     
 //    alertView.setClickPlainBlankDismiss(YES);
     

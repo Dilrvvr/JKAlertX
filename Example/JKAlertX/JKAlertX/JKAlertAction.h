@@ -85,6 +85,12 @@ typedef enum : NSUInteger {
 /** 设置titleFont 默认nil */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setTitleFont)(UIFont *font);
 
+/** 执行操作后是否自动消失 */
+@property (nonatomic, assign) BOOL autoDismiss;
+
+/** 设置执行操作后是否自动消失 */
+@property (nonatomic, copy, readonly) JKAlertAction *(^setAutoDismiss)(BOOL autoDismiss);
+
 /**
  * 自定义的view
  * 注意要自己计算好frame

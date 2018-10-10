@@ -682,7 +682,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         cancelButton.backgroundColor = GlobalBackgroundColor;
         cancelButton.titleLabel.font = [UIFont systemFontOfSize:17];
         [cancelButton setTitleColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1] forState:(UIControlStateNormal)];
-        [cancelButton addTarget:self action:@selector(dismiss) forControlEvents:(UIControlEventTouchUpInside)];
+        [cancelButton addTarget:self action:@selector(cancelButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
         
         //        [cancelButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.3], 1, 1, 0) forState:(UIControlStateHighlighted)];
         
@@ -932,6 +932,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     _HUDHeight = -1;
     _enableDeallocLog = NO;
+    _messageMinHeight = -1;
     _plainCornerRadius = 8;
     _dismissTimeInterval = 1;
     _textViewUserInteractionEnabled = YES;
@@ -2511,8 +2512,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         self.messageTextView.frame = CGRectMake((PlainViewWidth - self.messageTextView.frame.size.width) * 0.5, 0, self.messageTextView.frame.size.width, self.messageTextView.frame.size.height);
         
-        rect.size.height = TBMargin + (self.messageTextView.frame.size.height < 30 ? 30 : self.messageTextView.frame.size.height) + TBMargin;
+        rect.size.height = TBMargin + self.messageTextView.frame.size.height + TBMargin;
+        
         self.messageTextView.center = CGPointMake(rect.size.width * 0.5, rect.size.height * 0.5);
+        
+        _messageMinHeight = (_messageMinHeight == -1 ? 30 : _messageMinHeight);
         
     }else if (self.messageTextView.hidden && !self.titleTextView.hidden) {
         
@@ -2522,7 +2526,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         titleH = (!_plainTitleMessageSeparatorHidden || (_customPlainTitleView != nil && _customPlainTitleViewOnlyForMessage)) ? self.titleTextView.frame.size.height : titleH;
         
-        rect.size.height = TBMargin + titleH + TBMargin;
+        rect.size.height = TBMargin + self.titleTextView.frame.size.height + TBMargin;
         self.titleTextView.center = CGPointMake(rect.size.width * 0.5, rect.size.height * 0.5);
     }
     
@@ -3292,13 +3296,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     return ^{};
 }
 
-- (void)collectionButtonClick{
-    
-    !self.collectionAction.handler ? : self.collectionAction.handler(self.collectionAction);
-    
-    [self dismiss];
-}
-
 #pragma mark - 强制更改frame为屏幕尺寸
 - (void)setFrame:(CGRect)frame{
     frame = CGRectMake(0, 0, JKAlertScreenW, JKAlertScreenH);
@@ -3364,11 +3361,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     !action.handler ? : action.handler(action);
     
-    if (action.isEmpty) {
-        return;
-    }
+    if (action.isEmpty) { return; }
     
-    [self dismiss];
+    if (action.autoDismiss) { [self dismiss]; }
 }
 
 #pragma mark - UICollectionViewDataSource------------------------
@@ -3393,11 +3388,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     !action.handler ? : action.handler(action);
     
-    if (action.isEmpty) {
-        return;
-    }
+    if (action.isEmpty) { return; }
     
-    [self dismiss];
+    if (action.autoDismiss) { [self dismiss]; }
 }
 
 #pragma mark - UIScrollViewDelegate------------------------
@@ -3428,7 +3421,23 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     !action.handler ? : action.handler(action);
     
-    [self dismiss];
+    if (action.autoDismiss) { [self dismiss]; }
+}
+
+#pragma mark - collection样式按钮点击------------------------
+
+- (void)collectionButtonClick{
+    
+    !self.collectionAction.handler ? : self.collectionAction.handler(self.collectionAction);
+    
+    if (self.collectionAction.autoDismiss) { [self dismiss]; }
+}
+
+- (void)cancelButtonClick{
+    
+    !self.cancelAction.handler ? : self.cancelAction.handler(self.cancelAction);
+    
+    if (self.cancelAction.autoDismiss) { [self dismiss]; }
 }
 
 #pragma mark - dealloc------------------------
