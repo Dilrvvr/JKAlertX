@@ -212,6 +212,15 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) JKAlertView *(^setHUDHeight)(CGFloat height);
 
 
+#pragma mark - actionSheet样式
+
+/**
+ * 设置actionSheet样式添加自定义的titleView
+ * frmae给出高度即可，宽度将自适应
+ * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(UIView *(^customView)(void));
+
 
 #pragma mark - collectionSheet样式
 

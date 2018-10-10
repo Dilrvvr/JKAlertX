@@ -111,8 +111,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /** collectionView2 */
 @property (nonatomic, weak) UICollectionView *collectionView2;
 
-/** collection样式添加自定义的titleView */
-@property (nonatomic, weak) UIView *customCollectionTitleView;
+/** sheet样式添加自定义的titleView */
+@property (nonatomic, weak) UIView *customSheetTitleView;
 
 /** pageControl */
 @property (nonatomic, weak) UIPageControl *pageControl;
@@ -606,7 +606,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         [self.textContainerView insertSubview:self.scrollView atIndex:0];
         
-        self.scrollView.scrollEnabled = NO;
+//        self.scrollView.scrollEnabled = NO;
         
         [self.scrollView addSubview:self.titleTextView];
         
@@ -1060,16 +1060,22 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     [self relayout];
 }
 
-- (void)setCustomCollectionTitleView:(UIView *)customCollectionTitleView{
-    _customCollectionTitleView = customCollectionTitleView;
+- (void)setCustomSheetTitleView:(UIView *)customSheetTitleView{
+    _customSheetTitleView = customSheetTitleView;
     
-    if (!_customCollectionTitleView) {
+    if (!_customSheetTitleView) {
         return;
     }
     
     _titleTextView.hidden = YES;
     _messageTextView.hidden = YES;
-    [_textContainerView addSubview:_customCollectionTitleView];
+    [_textContainerView addSubview:_customSheetTitleView];
+    
+    if (_alertStyle == JKAlertStyleActionSheet) {
+        
+        
+        [_scrollView addSubview:_customSheetTitleView];
+    }
 }
 
 - (void)setCustomPlainTitleView:(UIView *)customPlainTitleView{
@@ -1675,6 +1681,19 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
+
+
+/**
+ * 设置actionSheet样式添加自定义的titleView
+ * frmae给出高度即可，宽度将自适应
+ * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
+ */
+- (JKAlertView *(^)(UIView *(^customView)(void)))setCustomActionSheetTitleView{
+    
+    return [self setCustomCollectionTitleView];
+}
+//@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(UIView *(^customView)(void));
+
 /**
  * 设置collection样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
@@ -1684,7 +1703,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     return ^(UIView *(^customView)(void)){
         
-        self.customCollectionTitleView = !customView ? nil : customView();
+        self.customSheetTitleView = !customView ? nil : customView();
         
         return self;
     };
@@ -2756,8 +2775,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     if (self.titleTextView.hidden && self.messageTextView.hidden) {
         
-        rect.size.height = CGFLOAT_MIN;
-        _plainTextContainerBottomLineLayer.hidden = YES;
+        rect.size.height = 0;
         
     }else if (self.titleTextView.hidden && !self.messageTextView.hidden) {
         
@@ -2774,81 +2792,87 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         self.titleTextView.center = CGPointMake(self.textContainerView.frame.size.width * 0.5, rect.size.height * 0.5);
     }
     
+    if (_customSheetTitleView) {
+        
+        rect.size.height = _customSheetTitleView.frame.size.height;
+        
+        _customSheetTitleView.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
+    }
+    
+    _plainTextContainerBottomLineLayer.hidden = rect.size.height == 0;
+    
     _textContainerView.frame = rect;
     _scrollView.contentSize = rect.size;
     
     [self adjustSheetFrame];
-    _textContainerView.frame = rect;
     
-    _sheetContainerView.frame = CGRectMake(0, JKAlertScreenH - _tableView.frame.size.height, JKAlertScreenW, _tableView.frame.size.height);//CGRectMake(0, JKAlertScreenH - (_textContainerView.frame.size.height + _tableView.frame.size.height), JKAlertScreenW, _textContainerView.frame.size.height + _tableView.frame.size.height);
+    _sheetContainerView.frame = CGRectMake(0, JKAlertScreenH - (_textContainerView.frame.size.height + _tableView.frame.size.height), JKAlertScreenW, _textContainerView.frame.size.height + _tableView.frame.size.height);
     _scrollView.frame = CGRectMake(0, 0, _textContainerView.bounds.size.width, _textContainerView.bounds.size.height);
     
-    //    _tableView.scrollEnabled = _tableView.frame.size.height < tableViewH;
+    _tableView.scrollEnabled = _tableView.frame.size.height < tableViewH;
     
     _plainTextContainerBottomLineLayer.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
 }
 
 - (void)adjustSheetFrame{
     
-    CGRect frame = self.tableView.frame;
-    
-    frame.origin.y = 0;
-    frame.size.height += self.textContainerView.frame.size.height;
-    
-    _tableView.scrollEnabled = frame.size.height > JKAlertSheetMaxH;
-    
-    frame.size.height = frame.size.height > JKAlertSheetMaxH ? JKAlertSheetMaxH : frame.size.height;
-    
-    _tableView.frame = frame;
-    
-    UIView *tableHeader = _tableView.tableHeaderView;
-    
-    if (!tableHeader) {
-        
-        tableHeader = [[UIView alloc] init];
-    }
-    [tableHeader addSubview:_textContainerView];
-    
-    frame = tableHeader.frame;
-    frame.size.height = _textContainerView.frame.size.height;
-    
-    tableHeader.frame = frame;
-    
-    _tableView.tableHeaderView = tableHeader;
-    
     /*
-     return;
+     CGRect frame = self.tableView.frame;
      
-     //    CGRect frame = CGRectZero;
+     frame.origin.y = 0;
+     frame.size.height += self.textContainerView.frame.size.height;
      
-     if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5 && self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
+     _tableView.scrollEnabled = frame.size.height > JKAlertSheetMaxH;
      
-     frame = self.textContainerView.frame;
-     frame.size.height = JKAlertSheetMaxH * 0.5;
-     self.textContainerView.frame = frame;
+     frame.size.height = frame.size.height > JKAlertSheetMaxH ? JKAlertSheetMaxH : frame.size.height;
      
-     frame = self.tableView.frame;
-     frame.origin.y = self.textContainerView.frame.size.height;
-     frame.size.height = JKAlertSheetMaxH * 0.5;
-     self.tableView.frame = frame;
+     _tableView.frame = frame;
      
-     }else if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5) {
+     UIView *tableHeader = _tableView.tableHeaderView;
      
-     frame = self.textContainerView.frame;
-     frame.size.height = (frame.size.height + self.tableView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.tableView.frame.size.height : frame.size.height;
-     self.textContainerView.frame = frame;
+     if (!tableHeader) {
      
-     }else if (self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
-     
-     frame = self.tableView.frame;
-     frame.origin.y = self.textContainerView.frame.size.height;
-     frame.size.height = (frame.size.height + self.textContainerView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.textContainerView.frame.size.height : frame.size.height;
-     self.tableView.frame = frame;
+     tableHeader = [[UIView alloc] init];
      }
+     [tableHeader addSubview:_textContainerView];
      
-     frame = self.tableView.frame;
-     frame.origin.y = self.textContainerView.frame.size.height;
-     self.tableView.frame = frame; //*/
+     frame = tableHeader.frame;
+     frame.size.height = _textContainerView.frame.size.height;
+     
+     tableHeader.frame = frame;
+     
+     _tableView.tableHeaderView = tableHeader; //*/
+    
+    CGRect frame = CGRectZero;
+    
+    if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5 && self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
+        
+        frame = self.textContainerView.frame;
+        frame.size.height = JKAlertSheetMaxH * 0.5;
+        self.textContainerView.frame = frame;
+        
+        frame = self.tableView.frame;
+        frame.origin.y = self.textContainerView.frame.size.height;
+        frame.size.height = JKAlertSheetMaxH * 0.5;
+        self.tableView.frame = frame;
+        
+    }else if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5) {
+        
+        frame = self.textContainerView.frame;
+        frame.size.height = (frame.size.height + self.tableView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.tableView.frame.size.height : frame.size.height;
+        self.textContainerView.frame = frame;
+        
+    }else if (self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
+        
+        frame = self.tableView.frame;
+        frame.origin.y = self.textContainerView.frame.size.height;
+        frame.size.height = (frame.size.height + self.textContainerView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.textContainerView.frame.size.height : frame.size.height;
+        self.tableView.frame = frame;
+    }
+    
+    frame = self.tableView.frame;
+    frame.origin.y = self.textContainerView.frame.size.height;
+    self.tableView.frame = frame;
 }
 
 #pragma mark - 布局collectionSheet
@@ -2911,10 +2935,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     self.textContainerView.frame = CGRectMake(0, 0, JKAlertScreenW, TBMargin + rect.size.height + TBMargin);
     self.titleTextView.center = CGPointMake(self.textContainerView.frame.size.width * 0.5, self.textContainerView.frame.size.height * 0.5);
     
-    if (_customCollectionTitleView) {
+    if (_customSheetTitleView) {
         
-        self.textContainerView.frame = CGRectMake(0, 0, JKAlertScreenW, _customCollectionTitleView.frame.size.height);
-        _customCollectionTitleView.frame = CGRectMake(_iPhoneXLandscapeTextMargin, 0, JKAlertScreenW - _iPhoneXLandscapeTextMargin * 2, _customCollectionTitleView.frame.size.height);
+        self.textContainerView.frame = CGRectMake(0, 0, JKAlertScreenW, _customSheetTitleView.frame.size.height);
+        _customSheetTitleView.frame = CGRectMake(_iPhoneXLandscapeTextMargin, 0, JKAlertScreenW - _iPhoneXLandscapeTextMargin * 2, _customSheetTitleView.frame.size.height);
     }
     
     self.collectionView.frame = CGRectMake(0, CGRectGetMaxY(self.textContainerView.frame), JKAlertScreenW, self.flowlayoutItemWidth - 6 + 10);
