@@ -15,6 +15,9 @@
 /** 退出 */
 - (void(^)(void))dismiss;
 
+/** 监听JKAlertView即将消失 */
+- (void(^)(void(^willDismiss)(void)))setWillDismiss;
+
 /** 监听JKAlertView消失完成 */
 - (void(^)(void(^dismissComplete)(void)))setDismissComplete;
 

@@ -130,6 +130,12 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setDismissAllNoneffective)(BOOL isNoneffective);
 
+/**
+ * 设置用于通知消失的key
+ * 设置该值后可以使用类方法 JKAlertView.DismissForKey(dimissKey); 来手动消失
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissKey)(NSString *dimissKey);
+
 #pragma mark - plain样式
 
 /**
@@ -307,6 +313,12 @@ typedef enum : NSUInteger {
  * ***谨慎使用该方法***
  */
 @property (class, nonatomic, copy, readonly) void (^dismissAll)(void);
+
+/**
+ * 移除设置了dismissKey的JKAlertView
+ * 本质是发送一个通知，让dismissKey为该值的JKAlertView对象执行消失操作
+ */
+@property (class, nonatomic, copy, readonly) void (^dismissForKey)(NSString *dismissKey);
 
 /**
  * 显示自定义HUD

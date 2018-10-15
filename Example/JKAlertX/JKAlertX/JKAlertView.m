@@ -201,6 +201,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /** scrollView */
 @property (nonatomic, weak) UIScrollView *scrollView;
 
+/** 即将消失的回调 */
+@property (nonatomic, copy) void (^willDismiss)(void);
+
 /** 消失后的回调 */
 @property (nonatomic, copy) void (^dismissComplete)(void);
 
@@ -320,6 +323,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 请谨慎使用，若设置为YES 调用JKAlertView.dismissAll(); 将对当前JKAlertView无效
  */
 @property (nonatomic, assign) BOOL isDismissAllNoneffective;
+
+/** 用于通知消失的key */
+@property (nonatomic, copy) NSString *dismissKey;
 
 @end
 
@@ -455,6 +461,18 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissNotification object:nil];
     
     return ^{};
+}
+
+/**
+ * 移除设置了dismissKey的JKAlertView
+ * 本质是发送一个通知，让dismissKey为该值的JKAlertView对象执行消失操作
+ */
++ (void(^)(NSString *dismissKey))dismissForKey{
+    
+    return ^(NSString *dismissKey){
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissNotification object:dismissKey];
+    };
 }
 
 #pragma mark - 懒加载------------------------
@@ -986,7 +1004,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissNotification:) name:JKAlertDismissNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissNotification:) name:JKAlertDismissNotification object:self.dismissKey];
 }
 
 #pragma mark - setter------------------------
@@ -1785,6 +1803,24 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 /**
+ * 设置用于通知消失的key
+ * 设置该值后可以使用类方法 JKAlertView.DismissForKey(dimissKey); 来手动消失
+ */
+- (JKAlertView *(^)(NSString *dimissKey))setDismissKey{
+    
+    return ^(NSString *dimissKey){
+        
+        self.dismissKey = dimissKey;
+        
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:JKAlertDismissNotification object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissNotification:) name:JKAlertDismissNotification object:self.dismissKey];
+        
+        return self;
+    };
+}
+
+/**
  * 设置自定义展示动画，动画完成一定要调用showAnimationDidComplete
  * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
  */
@@ -2107,6 +2143,15 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         [self show];
         
         self.dismissComplete = dismissComplete;
+    };
+}
+
+/** 监听JKAlertView即将消失 */
+- (void(^)(void(^willDismiss)(void)))setWillDismiss{
+    
+    return ^(void(^willDismiss)(void)){
+        
+        self.willDismiss = willDismiss;
     };
 }
 
@@ -3253,6 +3298,13 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 // 通过通知来dismiss
 - (void)dismissNotification:(NSNotification *)noti{
     
+    if ([noti.object isEqualToString:self.dismissKey]) {
+        
+        self.dismiss();
+        
+        return;
+    }
+    
     if (self.isDismissAllNoneffective) { return; }
     
     self.dismiss();
@@ -3271,6 +3323,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     self.window.userInteractionEnabled = NO;
     
+    // 即将消失
+    !self.willDismiss ? : self.willDismiss();
+    
+    // 自定义消失动画
     !self.customDismissAnimationBlock ? : self.customDismissAnimationBlock(self, _plainView ? _plainView : _sheetContainerView);
     
     [UIView animateWithDuration:0.25 animations:^{
@@ -3304,6 +3360,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     self.window.userInteractionEnabled = YES;
     
+    // 消失完成
     !self.dismissComplete ? : self.dismissComplete();
     
     [self.actions removeAllObjects];
