@@ -3184,7 +3184,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         if (!self.currentTextField.hidden) {
             
-            [self.currentTextField becomeFirstResponder];
+            if (!self.currentTextField.isFirstResponder) {
+                
+                [self.currentTextField becomeFirstResponder];
+            }
             
         }else{
             
@@ -3192,7 +3195,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
                 
                 if (tf.hidden) { continue; }
                 
-                [tf becomeFirstResponder];
+                if (!tf.isFirstResponder) {
+                    
+                    [tf becomeFirstResponder];
+                }
                 
                 break;
             }
