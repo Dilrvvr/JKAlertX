@@ -368,6 +368,15 @@ typedef enum : NSUInteger {
 /** 显示 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^show)(void);
 
+/** 显示并监听JKAlertView消失动画完成 */
+@property (nonatomic, copy, readonly) void (^showWithDismissComplete)(void(^dismissComplete)(void));
+
+/** 退出 */
+@property (nonatomic, copy, readonly) void (^dismiss)(void);
+
+
+#pragma mark - 自定义动画
+
 /**
  * 设置自定义展示动画，动画完成一定要调用showAnimationDidComplete
  * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
@@ -377,20 +386,17 @@ typedef enum : NSUInteger {
 /** 自定义展示动画时，用于通知一下动画已经完成 */
 @property (nonatomic, copy, readonly) void (^showAnimationDidComplete)(void);
 
-/** 监听显示动画完成 */
-@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
-
-/** 显示并监听JKAlertView消失动画完成 */
-@property (nonatomic, copy, readonly) void (^showWithDismissComplete)(void(^dismissComplete)(void));
-
-/** 退出 */
-@property (nonatomic, copy, readonly) void (^dismiss)(void);
-
 /** 设置自定义消失动画，动画完成一定要调用dismissAnimationDidComplete */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomDismissAnimationBlock)(void(^)(JKAlertView *view, UIView *animationView));
 
 /** 自定义消失动画时，用于通知一下动画已经完成 */
 @property (nonatomic, copy, readonly) void (^dismissAnimationDidComplete)(void);
+
+
+#pragma mark - 状态监听
+
+/** 监听显示动画完成 */
+@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
 
 /** 监听JKAlertView消失动画完成 */
 @property (nonatomic, copy, readonly) void (^setDismissComplete)(void(^dismissComplete)(void));

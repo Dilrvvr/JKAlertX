@@ -202,10 +202,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 @property (nonatomic, weak) UIScrollView *scrollView;
 
 /** 即将消失的回调 */
-@property (nonatomic, copy) void (^willDismiss)(void);
+@property (nonatomic, copy) void (^willDismissHandler)(void);
 
 /** 消失后的回调 */
-@property (nonatomic, copy) void (^dismissComplete)(void);
+@property (nonatomic, copy) void (^didDismissHandler)(void);
 
 /** 显示动画完成的回调 */
 @property (nonatomic, copy) void (^showAnimationCompleteHandler)(JKAlertView *view);
@@ -2142,7 +2142,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         [self show];
         
-        self.dismissComplete = dismissComplete;
+        self.didDismissHandler = dismissComplete;
     };
 }
 
@@ -2151,7 +2151,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     return ^(void(^willDismiss)(void)){
         
-        self.willDismiss = willDismiss;
+        self.willDismissHandler = willDismiss;
     };
 }
 
@@ -2160,7 +2160,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     return ^(void(^dismissComplete)(void)){
         
-        self.dismissComplete = dismissComplete;
+        self.didDismissHandler = dismissComplete;
     };
 }
 
@@ -3330,7 +3330,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     self.window.userInteractionEnabled = NO;
     
     // 即将消失
-    !self.willDismiss ? : self.willDismiss();
+    !self.willDismissHandler ? : self.willDismissHandler();
     
     // 自定义消失动画
     !self.customDismissAnimationBlock ? : self.customDismissAnimationBlock(self, _plainView ? _plainView : _sheetContainerView);
@@ -3367,7 +3367,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     self.window.userInteractionEnabled = YES;
     
     // 消失完成
-    !self.dismissComplete ? : self.dismissComplete();
+    !self.didDismissHandler ? : self.didDismissHandler();
     
     [self.actions removeAllObjects];
     self.actions = nil;
@@ -3614,7 +3614,7 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
 
 @implementation UIControl (JKAlertX)
 
-static char JKAlertXButtonActionTag;
+static char JKAlertXControlActionTag;
 
 - (void)JKAlertX_addClickOperation:(void(^)(id control))clickOperation{
     
@@ -3625,14 +3625,14 @@ static char JKAlertXButtonActionTag;
     
     if (!clickOperation) { return; }
     
-    objc_setAssociatedObject(self, &JKAlertXButtonActionTag, clickOperation, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, &JKAlertXControlActionTag, clickOperation, OBJC_ASSOCIATION_COPY_NONATOMIC);
     
     [self addTarget:self action:@selector(JKAlertX_buttonClick:) forControlEvents:(controlEvents)];
 }
 
 - (void)JKAlertX_buttonClick:(UIControl *)control{
     
-    void(^clickOperation)(id control) = objc_getAssociatedObject(self, &JKAlertXButtonActionTag);
+    void(^clickOperation)(id control) = objc_getAssociatedObject(self, &JKAlertXControlActionTag);
     
     !clickOperation ? : clickOperation(self);
 }
