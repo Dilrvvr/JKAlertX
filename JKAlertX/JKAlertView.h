@@ -286,6 +286,9 @@ typedef enum : NSUInteger {
 
 #pragma mark - 类方法
 
+/** 函数式类方法 */
+@property (class, nonatomic, copy, readonly) id<JKAlertViewProtocol> (^show)(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView));
+
 /** 实例化 */
 + (instancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message style:(JKAlertStyle)alertStyle;
 

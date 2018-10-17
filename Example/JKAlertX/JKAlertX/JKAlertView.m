@@ -372,6 +372,21 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     return alertView;
 }
 
+/** 函数式类方法 */
++ (id<JKAlertViewProtocol> (^)(NSString *title, NSString *message, JKAlertStyle style, void(^)(JKAlertView *alertView)))show{
+    
+    return ^(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView)){
+        
+        JKAlertView *view = [self alertViewWithTitle:title message:message style:style];
+        
+        !configuration ? : configuration(view);
+        
+        view.show();
+        
+        return view;
+    };
+}
+
 /** 链式实例化 */
 + (JKAlertView *(^)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style))alertViewAttributed{
     

@@ -101,86 +101,78 @@
 
 - (IBAction)plain:(UIButton *)sender {
     
-    //    __weak typeof(self) weakSelf = self;
-    
-    //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil Style:(JKAlertStylePlain)];
-    
-//    NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
-//    para.alignment = NSTextAlignmentCenter;
-    
-    //    JKAlertView *alertView = [JKAlertView alertViewWithAttributedTitle:[[NSAttributedString alloc] initWithString:@"你好你好" attributes:@{NSForegroundColorAttributeName : [UIColor redColor], NSFontAttributeName : [UIFont boldSystemFontOfSize:18], NSParagraphStyleAttributeName : para}] attributedMessage:[[NSAttributedString alloc] initWithString:@"你好你好你好你好你好你好" attributes:@{NSForegroundColorAttributeName : [UIColor cyanColor], NSFontAttributeName : [UIFont systemFontOfSize:15], NSParagraphStyleAttributeName : para}] style:(JKAlertStylePlain)];
-    
-//    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好你好" style:(JKAlertStylePlain)];
-    
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"定位服务未开启" message:@"请进入系统「设置」->「隐私」->「定位服务」中打开开关，并允许妙菜使用定位服务" style:(JKAlertStylePlain)];
-    
-//    alertView.setClickPlainBlankDismiss(YES);
-    
-    // title和message之间加分隔线
-    alertView.setPlainTitleMessageSeparatorHidden(NO, 0).
-    setTextViewTopBottomMargin(15).setTitleMessageMargin(0).setMessageMinHeight(100);
-    
-    // 配置关闭按钮
-    alertView.setPlainCloseButtonConfig(^(UIButton *closeButton) {
+    JKAlertView.show(@"定位服务未开启", @"请进入系统「设置」->「隐私」->「定位服务」中打开开关，并允许妙菜使用定位服务", JKAlertStylePlain, ^(JKAlertView *alertView) {
         
-        [closeButton setTitle:@"x" forState:(UIControlStateNormal)];
-        [closeButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-        closeButton.backgroundColor = [UIColor orangeColor];
-        closeButton.layer.cornerRadius = closeButton.frame.size.width * 0.5;
-    });
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleCancel) handler:^(JKAlertAction *action) {
+        // 点击空白处也退出
+        // alertView.setClickPlainBlankDismiss(YES);
         
-    }]];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        // title和message之间加分隔线
+        alertView.setPlainTitleMessageSeparatorHidden(NO, 0).
+        setTextViewTopBottomMargin(15).setTitleMessageMargin(0).setMessageMinHeight(100);
         
-    }]];
-    
-    alertView.setPlainCenterOffsetY(-100);
-    
-    // 自定义展示动画
-    alertView.setCustomShowAnimationBlock(^(JKAlertView *view, UIView *animationView) {
-        
-        animationView.transform = CGAffineTransformMakeScale(0.3, 0.3);
-        
-        [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:15.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        // 配置关闭按钮
+        alertView.setPlainCloseButtonConfig(^(UIButton *closeButton) {
             
-            animationView.transform = CGAffineTransformMakeScale(1.0, 1.0);
-            
-        } completion:^(BOOL finished) {
-            
-            view.showAnimationDidComplete();
-        }];
+            [closeButton setTitle:@"x" forState:(UIControlStateNormal)];
+            [closeButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+            closeButton.backgroundColor = [UIColor orangeColor];
+            closeButton.layer.cornerRadius = closeButton.frame.size.width * 0.5;
+        });
         
-    });
-    
-    // 自定义消失动画
-    alertView.setCustomDismissAnimationBlock(^(JKAlertView *view, UIView *animationView) {
-        
-        [UIView animateWithDuration:0.25 animations:^{
+        [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleCancel) handler:^(JKAlertAction *action) {
             
-            animationView.frame = CGRectMake(animationView.frame.origin.x, [UIScreen mainScreen].bounds.size.height, animationView.frame.size.width, animationView.frame.size.height);
-            
-        } completion:^(BOOL finished) {
-            
-            view.dismissAnimationDidComplete();
-        }];
-    });
-    
-    // 显示动画完毕后，向上偏移150
-    alertView.setShowAnimationComplete(^(JKAlertView *view) {
+        }]];
         
-//        view.movePlainCenterOffsetY(-150, YES);
-    });
-    
-    alertView.enableDeallocLog(YES).show().setDismissComplete(^{
-        
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             
-            [sender setTitle:@"plain" forState:(UIControlStateNormal)];
+        }]];
+        
+        // 向上偏移100
+        alertView.setPlainCenterOffsetY(-100);
+        
+        // 自定义展示动画
+        alertView.setCustomShowAnimationBlock(^(JKAlertView *view, UIView *animationView) {
+            
+            animationView.transform = CGAffineTransformMakeScale(0.3, 0.3);
+            
+            [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:15.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                
+                animationView.transform = CGAffineTransformMakeScale(1.0, 1.0);
+                
+            } completion:^(BOOL finished) {
+                
+                view.showAnimationDidComplete();
+            }];
+            
+        });
+        
+        // 自定义消失动画
+        alertView.setCustomDismissAnimationBlock(^(JKAlertView *view, UIView *animationView) {
+            
+            [UIView animateWithDuration:0.25 animations:^{
+                
+                animationView.frame = CGRectMake(animationView.frame.origin.x, [UIScreen mainScreen].bounds.size.height, animationView.frame.size.width, animationView.frame.size.height);
+                
+            } completion:^(BOOL finished) {
+                
+                view.dismissAnimationDidComplete();
+            }];
+        });
+        
+        // 显示动画完毕后，向上偏移150
+        alertView.setShowAnimationComplete(^(JKAlertView *view) {
+            
+            //        view.movePlainCenterOffsetY(-150, YES);
+        });
+        
+        alertView.enableDeallocLog(YES).show().setDismissComplete(^{
+            
+            [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [sender setTitle:@"plain" forState:(UIControlStateNormal)];
+            });
         });
     });
 }
