@@ -15,6 +15,13 @@
 		5038B35E216B599D00FA5588 /* JKAlertTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038B358216B599D00FA5588 /* JKAlertTableViewCell.m */; };
 		5038B35F216B599D00FA5588 /* JKAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038B359216B599D00FA5588 /* JKAlertAction.m */; };
 		506C31C8215DD82E00FD6D31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506C31C7215DD82E00FD6D31 /* Assets.xcassets */; };
+		507DD45D21774CAD002C747A /* JKAlertCustomizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 507DD45C21774CAD002C747A /* JKAlertCustomizer.m */; };
+		507DD46021776C6D002C747A /* JKAlertCustomizerCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 507DD45F21776C6D002C747A /* JKAlertCustomizerCommon.m */; };
+		507DD46321776C83002C747A /* JKAlertCustomizerPlain.m in Sources */ = {isa = PBXBuildFile; fileRef = 507DD46221776C83002C747A /* JKAlertCustomizerPlain.m */; };
+		507DD46621776C8E002C747A /* JKAlertCustomizerHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 507DD46521776C8E002C747A /* JKAlertCustomizerHUD.m */; };
+		507DD46921776C9D002C747A /* JKAlertCustomizerActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 507DD46821776C9D002C747A /* JKAlertCustomizerActionSheet.m */; };
+		507DD46C21776CA9002C747A /* JKAlertCustomizerCollectionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 507DD46B21776CA9002C747A /* JKAlertCustomizerCollectionSheet.m */; };
+		507DD46F21776E54002C747A /* JKAlertBaseCustomizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 507DD46E21776E54002C747A /* JKAlertBaseCustomizer.m */; };
 		B7D5AA5C207CFBE8001152D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D5AA5B207CFBE8001152D9 /* AppDelegate.m */; };
 		B7D5AA5F207CFBE8001152D9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D5AA5E207CFBE8001152D9 /* ViewController.m */; };
 		B7D5AA62207CFBE8001152D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7D5AA60207CFBE8001152D9 /* Main.storyboard */; };
@@ -39,6 +46,20 @@
 		5038B359216B599D00FA5588 /* JKAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKAlertAction.m; sourceTree = "<group>"; };
 		5038B35A216B599D00FA5588 /* JKAlertX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKAlertX.h; sourceTree = "<group>"; };
 		506C31C7215DD82E00FD6D31 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		507DD45B21774CAD002C747A /* JKAlertCustomizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertCustomizer.h; sourceTree = "<group>"; };
+		507DD45C21774CAD002C747A /* JKAlertCustomizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertCustomizer.m; sourceTree = "<group>"; };
+		507DD45E21776C6D002C747A /* JKAlertCustomizerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertCustomizerCommon.h; sourceTree = "<group>"; };
+		507DD45F21776C6D002C747A /* JKAlertCustomizerCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertCustomizerCommon.m; sourceTree = "<group>"; };
+		507DD46121776C83002C747A /* JKAlertCustomizerPlain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertCustomizerPlain.h; sourceTree = "<group>"; };
+		507DD46221776C83002C747A /* JKAlertCustomizerPlain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertCustomizerPlain.m; sourceTree = "<group>"; };
+		507DD46421776C8E002C747A /* JKAlertCustomizerHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertCustomizerHUD.h; sourceTree = "<group>"; };
+		507DD46521776C8E002C747A /* JKAlertCustomizerHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertCustomizerHUD.m; sourceTree = "<group>"; };
+		507DD46721776C9D002C747A /* JKAlertCustomizerActionSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertCustomizerActionSheet.h; sourceTree = "<group>"; };
+		507DD46821776C9D002C747A /* JKAlertCustomizerActionSheet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertCustomizerActionSheet.m; sourceTree = "<group>"; };
+		507DD46A21776CA9002C747A /* JKAlertCustomizerCollectionSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertCustomizerCollectionSheet.h; sourceTree = "<group>"; };
+		507DD46B21776CA9002C747A /* JKAlertCustomizerCollectionSheet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertCustomizerCollectionSheet.m; sourceTree = "<group>"; };
+		507DD46D21776E54002C747A /* JKAlertBaseCustomizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseCustomizer.h; sourceTree = "<group>"; };
+		507DD46E21776E54002C747A /* JKAlertBaseCustomizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseCustomizer.m; sourceTree = "<group>"; };
 		B7D5AA57207CFBE8001152D9 /* JKAlertX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JKAlertX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7D5AA5A207CFBE8001152D9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B7D5AA5B207CFBE8001152D9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -76,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				5038B35A216B599D00FA5588 /* JKAlertX.h */,
+				507DD45A21774C4F002C747A /* Protocol */,
 				5038B353216B599D00FA5588 /* JKAlertAction.h */,
 				5038B359216B599D00FA5588 /* JKAlertAction.m */,
 				5038B354216B599D00FA5588 /* JKAlertCollectionViewCell.h */,
@@ -88,6 +110,27 @@
 				5038B351216B599D00FA5588 /* JKAlertView.m */,
 			);
 			path = JKAlertX;
+			sourceTree = "<group>";
+		};
+		507DD45A21774C4F002C747A /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				507DD46D21776E54002C747A /* JKAlertBaseCustomizer.h */,
+				507DD46E21776E54002C747A /* JKAlertBaseCustomizer.m */,
+				507DD45B21774CAD002C747A /* JKAlertCustomizer.h */,
+				507DD45C21774CAD002C747A /* JKAlertCustomizer.m */,
+				507DD46721776C9D002C747A /* JKAlertCustomizerActionSheet.h */,
+				507DD46821776C9D002C747A /* JKAlertCustomizerActionSheet.m */,
+				507DD46A21776CA9002C747A /* JKAlertCustomizerCollectionSheet.h */,
+				507DD46B21776CA9002C747A /* JKAlertCustomizerCollectionSheet.m */,
+				507DD45E21776C6D002C747A /* JKAlertCustomizerCommon.h */,
+				507DD45F21776C6D002C747A /* JKAlertCustomizerCommon.m */,
+				507DD46421776C8E002C747A /* JKAlertCustomizerHUD.h */,
+				507DD46521776C8E002C747A /* JKAlertCustomizerHUD.m */,
+				507DD46121776C83002C747A /* JKAlertCustomizerPlain.h */,
+				507DD46221776C83002C747A /* JKAlertCustomizerPlain.m */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		B7D5AA4E207CFBE8001152D9 = {
@@ -195,9 +238,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				507DD46921776C9D002C747A /* JKAlertCustomizerActionSheet.m in Sources */,
+				507DD46621776C8E002C747A /* JKAlertCustomizerHUD.m in Sources */,
 				B7D5AA5F207CFBE8001152D9 /* ViewController.m in Sources */,
 				50318C70207CFD090059B4BA /* JKShareManager.m in Sources */,
+				507DD46C21776CA9002C747A /* JKAlertCustomizerCollectionSheet.m in Sources */,
 				5038B35D216B599D00FA5588 /* JKAlertCollectionViewCell.m in Sources */,
+				507DD46321776C83002C747A /* JKAlertCustomizerPlain.m in Sources */,
+				507DD46F21776E54002C747A /* JKAlertBaseCustomizer.m in Sources */,
 				5038B35E216B599D00FA5588 /* JKAlertTableViewCell.m in Sources */,
 				B7D5AA6A207CFBE8001152D9 /* main.m in Sources */,
 				5038B35C216B599D00FA5588 /* JKAlertTextView.m in Sources */,
@@ -205,6 +253,8 @@
 				5038B35F216B599D00FA5588 /* JKAlertAction.m in Sources */,
 				5038B35B216B599D00FA5588 /* JKAlertView.m in Sources */,
 				50318C6F207CFD090059B4BA /* JKShareView.m in Sources */,
+				507DD45D21774CAD002C747A /* JKAlertCustomizer.m in Sources */,
+				507DD46021776C6D002C747A /* JKAlertCustomizerCommon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

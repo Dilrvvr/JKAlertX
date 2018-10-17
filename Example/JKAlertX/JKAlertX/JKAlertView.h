@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JKAlertAction.h"
+#import "JKAlertCustomizer.h"
 
 #define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
 
@@ -40,6 +41,9 @@ typedef enum : NSUInteger {
 } JKAlertStyle;
 
 @interface JKAlertView : UIView
+
+/** 自定义管理对象 */
+@property (nonatomic, strong, readonly) JKAlertCustomizer *customizer;
 
 #pragma mark - 公共部分
 

@@ -40,6 +40,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 @interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, JKAlertViewProtocol>
 {
+    JKAlertCustomizer *_customizer;
+    
     BOOL JKAlertIsIphoneX;
     
     CGFloat TBMargin;
@@ -491,6 +493,15 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 懒加载------------------------
+
+- (JKAlertCustomizer *)customizer{
+    if (!_customizer) {
+        _customizer = [[JKAlertCustomizer alloc] init];
+        _customizer.setAlertView(self);
+    }
+    return _customizer;
+}
+
 - (NSMutableArray *)actions{
     if (!_actions) {
         _actions = [NSMutableArray array];
@@ -1233,6 +1244,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     return ^(UIView *customSuperView){
         
         self.customSuperView = customSuperView;
+        
+        // TODO:
+        self.customizer.common.setCustomSuperView(customSuperView);
         
         return self;
     };
@@ -2124,9 +2138,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             break;
     }
     
-    if (self.customSuperView != nil) {
+    if (self.customizer.common.customSuperView != nil) {
         
-        [self.customSuperView addSubview:self];
+        [self.customizer.common.customSuperView addSubview:self];
         
     }else{
         
@@ -3550,6 +3564,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         self->_enableDeallocLog = enable;
         
+        // TODO:
+        self.customizer.setDeallocLogEnabled(enable);
+        
         return self;
     };
 }
@@ -3558,7 +3575,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    if (_enableDeallocLog) {
+    if (self.customizer.deallocLogEnabled) {
         
         NSLog(@"%d, %s",__LINE__, __func__);
     }
