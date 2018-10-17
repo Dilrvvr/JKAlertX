@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "JKAlertAction.h"
 
+#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
+
 typedef enum : NSUInteger {
     
     /**
@@ -112,12 +114,6 @@ typedef enum : NSUInteger {
 /** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCancelAction)(JKAlertAction *action);
 
-/** 设置dealloc时会调用的block */
-@property (nonatomic, copy, readonly) void (^setDeallocBlock)(void(^deallocBlock)(void));
-
-/** 设置是否允许dealloc打印，用于检查循环引用 */
-@property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable);
-
 /**
  * 设置背景view
  * 默认是一个UIToolbar
@@ -135,6 +131,7 @@ typedef enum : NSUInteger {
  * 设置该值后可以使用类方法 JKAlertView.DismissForKey(dimissKey); 来手动消失
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setDismissKey)(NSString *dimissKey);
+
 
 #pragma mark - plain样式
 
@@ -202,6 +199,7 @@ typedef enum : NSUInteger {
  * 设置点击plain空白处是否消失
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setClickPlainBlankDismiss)(BOOL shouldDismiss);
+
 
 #pragma mark - HUD样式
 
@@ -398,8 +396,17 @@ typedef enum : NSUInteger {
 /** 监听显示动画完成 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
 
+/** 监听JKAlertView即将开始消失动画 */
+@property (nonatomic, copy, readonly) void (^setWillDismiss)(void(^willDismiss)(void));
+
 /** 监听JKAlertView消失动画完成 */
 @property (nonatomic, copy, readonly) void (^setDismissComplete)(void(^dismissComplete)(void));
+
+/** 设置dealloc时会调用的block */
+@property (nonatomic, copy, readonly) void (^setDeallocBlock)(void(^deallocBlock)(void));
+
+/** 设置是否允许dealloc打印，用于检查循环引用 */
+@property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable);
 
 
 #pragma mark - 其它适配

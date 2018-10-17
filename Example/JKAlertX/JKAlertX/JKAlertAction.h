@@ -15,10 +15,10 @@
 /** 退出 */
 - (void(^)(void))dismiss;
 
-/** 监听JKAlertView即将消失 */
+/** 监听JKAlertView即将即将开始消失动画 */
 - (void(^)(void(^willDismiss)(void)))setWillDismiss;
 
-/** 监听JKAlertView消失完成 */
+/** 监听JKAlertView消失动画完成 */
 - (void(^)(void(^dismissComplete)(void)))setDismissComplete;
 
 @end
