@@ -10,4 +10,11 @@
 
 @implementation JKAlertCustomizerHUD
 
+
+- (void)dealloc{
+    
+    if (!self.deallocLogEnabled) { return; }
+    
+    NSLog(@"%d, %s", __LINE__, __func__);
+}
 @end

@@ -133,9 +133,11 @@
         // 自定义展示动画
         alertView.setCustomShowAnimationBlock(^(JKAlertView *view, UIView *animationView) {
             
+            view.window.userInteractionEnabled = YES;
+            
             animationView.transform = CGAffineTransformMakeScale(0.3, 0.3);
             
-            [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:15.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:15.0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction animations:^{
                 
                 animationView.transform = CGAffineTransformMakeScale(1.0, 1.0);
                 
@@ -163,6 +165,24 @@
         alertView.setShowAnimationComplete(^(JKAlertView *view) {
             
             //        view.movePlainCenterOffsetY(-150, YES);
+        });
+        
+        alertView.setBackGroundView(^UIView *{
+            
+            UIView *view = [[UIView alloc] init];
+            
+            view.backgroundColor = [UIColor lightGrayColor];
+            
+            return view;
+        });
+        
+        alertView.setFullScreenBackGroundView(^UIView *{
+           
+            UIView *view = [[UIView alloc] init];
+            
+            view.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.3];
+            
+            return view;
         });
         
         alertView.enableDeallocLog(YES).show().setDismissComplete(^{

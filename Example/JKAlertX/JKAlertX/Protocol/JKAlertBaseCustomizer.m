@@ -40,10 +40,10 @@
     };
 }
 
-- (void)dealloc{
-    
-    if (!_deallocLogEnabled) { return; }
-    
-    NSLog(@"%d, %s", __LINE__, __func__);
-}
+//- (void)dealloc{
+//    
+//    if (!_deallocLogEnabled) { return; }
+//    
+//    NSLog(@"%d, %s", __LINE__, __func__);
+//}
 @end

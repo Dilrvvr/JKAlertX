@@ -81,10 +81,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 /** customSuperView */
-@property (nonatomic, weak) UIView *customSuperView;
+//@property (nonatomic, weak) UIView *customSuperView;
 
 /** 全屏的背景view */
-@property (nonatomic, weak) UIView *fullScreenBackGroundView;
+//@property (nonatomic, weak) UIView *fullScreenBackgroundView;
 
 /** contentView */
 @property (nonatomic, weak) UIView *contentView;
@@ -96,7 +96,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 @property (nonatomic, weak) UIView *collectionTopContainerView;
 
 /** sheet样式的背景view */
-@property (nonatomic, strong) UIView *backGroundView;
+//@property (nonatomic, strong) UIView *backgroundView;
 
 /** tableView */
 @property (nonatomic, weak) UITableView *tableView;
@@ -605,15 +605,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     }
 }
 
-- (UIView *)backGroundView{
-    if (!_backGroundView) {
-        UIToolbar *toolbar = [[UIToolbar alloc] init];
-        toolbar.clipsToBounds = YES;
-        self.backGroundView = toolbar;
-    }
-    return _backGroundView;
-}
-
 - (UIView *)sheetContainerView{
     if (!_sheetContainerView) {
         UIView *sheetContainerView = [[UIView alloc] init];
@@ -621,7 +612,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         _sheetContainerView = sheetContainerView;
         
         // 背景
-        [self backGroundView];
+//        [self backgroundView];
     }
     return _sheetContainerView;
 }
@@ -904,7 +895,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         _plainView = plainView;
         
         // 背景
-        [self backGroundView];
+//        [self backgroundView];
     }
     return _plainView;
 }
@@ -1182,45 +1173,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _plainCenterOffsetY);
 }
 
-- (void)setBackGroundView:(UIView *)backGroundView{
-    
-    if (backGroundView == nil) { return; }
-    
-    [_backGroundView removeFromSuperview];
-    
-    _backGroundView = backGroundView;
-    
-    [_sheetContainerView insertSubview:_backGroundView atIndex:0];
-    [_plainView insertSubview:_backGroundView atIndex:0];
-    
-    backGroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : backGroundView}];
-    [_sheetContainerView addConstraints:cons1];
-    [_plainView addConstraints:cons1];
-    
-    NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : backGroundView}];
-    [_sheetContainerView addConstraints:cons2];
-    [_plainView addConstraints:cons2];
-}
-
-- (void)setFullScreenBackGroundView:(UIView *)fullScreenBackGroundView{
-    
-    if (fullScreenBackGroundView == nil) { return; }
-    
-    [_fullScreenBackGroundView removeFromSuperview];
-    
-    _fullScreenBackGroundView = fullScreenBackGroundView;
-    
-    [self.contentView insertSubview:_fullScreenBackGroundView atIndex:0];
-    
-    fullScreenBackGroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[fullBackGroundView]-0-|" options:0 metrics:nil views:@{@"fullBackGroundView" : fullScreenBackGroundView}];
-    [self addConstraints:cons1];
-    
-    NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[fullBackGroundView]-0-|" options:0 metrics:nil views:@{@"fullBackGroundView" : fullScreenBackGroundView}];
-    [self addConstraints:cons2];
-}
-
 - (void)setPlainTitleMessageSeparatorHidden:(BOOL)plainTitleMessageSeparatorHidden{
     _plainTitleMessageSeparatorHidden = plainTitleMessageSeparatorHidden;
     
@@ -1239,11 +1191,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * customSuperView在show之前有效
  * customSuperViewsize最好和屏幕大小一致，否则可能出现问题
  */
-- (JKAlertView *(^)(UIView *customSuperView))setCustomSuperView{
+- (JKAlertView *(^)(UIView *customSuperView))setCustomSuperView JKAlertXDeprecatedCustomizer{
     
     return ^(UIView *customSuperView){
         
-        self.customSuperView = customSuperView;
+//        self.customSuperView = customSuperView;
         
         // TODO:
         self.customizer.common.setCustomSuperView(customSuperView);
@@ -1794,24 +1746,28 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 设置背景view
  * 默认是一个UIToolbar
  */
-- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setBackGroundView{
+- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setBackGroundView JKAlertXDeprecatedCustomizer{
     
     return ^(UIView *(^backGroundView)(void)){
         
-        self.backGroundView = !backGroundView ? nil : backGroundView();
+//        self.backgroundView = !backGroundView ? nil : backGroundView();
+        
+        self.customizer.common.setBackgroundView(backGroundView);
         
         return self;
     };
 }
 
 /**
- * 设置全屏背景view 默认无
+ * 设置全屏背景view 默认nil
  */
-- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setFullScreenBackGroundView{
+- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setFullScreenBackGroundView JKAlertXDeprecatedCustomizer{
     
     return ^(UIView *(^backGroundView)(void)){
         
-        self.fullScreenBackGroundView = !backGroundView ? nil : backGroundView();
+//        self.fullScreenBackgroundView = !backGroundView ? nil : backGroundView();
+        
+        self.customizer.common.setFullScreenBackgroundView(backGroundView);
         
         return self;
     };
@@ -2138,6 +2094,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             break;
     }
     
+    // 检查自定义
+    [self checkCustomizeBeforeShow];
+    
     if (self.customizer.common.customSuperView != nil) {
         
         [self.customizer.common.customSuperView addSubview:self];
@@ -2151,6 +2110,42 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         return self;
     };
+}
+
+- (void)checkCustomizeBeforeShow{
+    
+    // 背景
+    if (self.customizer.common.backgroundView) {
+        
+        UIView *backgroundView = self.customizer.common.backgroundView;
+        
+        [_sheetContainerView insertSubview:backgroundView atIndex:0];
+        [_plainView insertSubview:backgroundView atIndex:0];
+        
+        backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+        NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[backgroundView]-0-|" options:0 metrics:nil views:@{@"backgroundView" : backgroundView}];
+        [_sheetContainerView addConstraints:cons1];
+        [_plainView addConstraints:cons1];
+        
+        NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[backgroundView]-0-|" options:0 metrics:nil views:@{@"backgroundView" : backgroundView}];
+        [_sheetContainerView addConstraints:cons2];
+        [_plainView addConstraints:cons2];
+    }
+    
+    // 全屏背景
+    if (self.customizer.common.fullScreenBackgroundView) {
+        
+        UIView *fullScreenBackGroundView = self.customizer.common.fullScreenBackgroundView;
+        
+        [self.contentView insertSubview:fullScreenBackGroundView atIndex:0];
+        
+        fullScreenBackGroundView.translatesAutoresizingMaskIntoConstraints = NO;
+        NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[fullBackGroundView]-0-|" options:0 metrics:nil views:@{@"fullBackGroundView" : fullScreenBackGroundView}];
+        [self addConstraints:cons1];
+        
+        NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[fullBackGroundView]-0-|" options:0 metrics:nil views:@{@"fullBackGroundView" : fullScreenBackGroundView}];
+        [self addConstraints:cons2];
+    }
 }
 
 /** 监听JKAlertView显示动画完成 */
@@ -3169,12 +3164,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         _sheetContainerView.frame = CGRectMake(_sheetContainerView.frame.origin.x, JKAlertScreenH, _sheetContainerView.frame.size.width, _sheetContainerView.frame.size.height);
     }
     
-    self.fullScreenBackGroundView.alpha = 0;
+    self.customizer.common.fullScreenBackgroundView.alpha = 0;
     
     [UIView animateWithDuration:0.25 animations:^{
         
         self.contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
-        self.fullScreenBackGroundView.alpha = 1;
+        self.customizer.common.fullScreenBackgroundView.alpha = 1;
         
         [self showAnimationOperation];
         
@@ -3367,7 +3362,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     [UIView animateWithDuration:0.25 animations:^{
         
         self.contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
-        self.fullScreenBackGroundView.alpha = 0;
+        self.customizer.common.fullScreenBackgroundView.alpha = 0;
         
         [self dismissAnimationOperation];
         

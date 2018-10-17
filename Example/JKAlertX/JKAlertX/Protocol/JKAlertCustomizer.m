@@ -33,6 +33,7 @@
     if (!_common) {
         _common = [[JKAlertCustomizerCommon alloc] init];
         _common.setAlertView(self.alertView);
+        _common.setDeallocLogEnabled(self.deallocLogEnabled);
     }
     return _common;
 }
@@ -41,6 +42,7 @@
     if (!_plain) {
         _plain = [[JKAlertCustomizerPlain alloc] init];
         _plain.setAlertView(self.alertView);
+        _plain.setDeallocLogEnabled(self.deallocLogEnabled);
     }
     return _plain;
 }
@@ -49,6 +51,7 @@
     if (!_HUD) {
         _HUD = [[JKAlertCustomizerHUD alloc] init];
         _HUD.setAlertView(self.alertView);
+        _HUD.setDeallocLogEnabled(self.deallocLogEnabled);
     }
     return _HUD;
 }
@@ -57,6 +60,7 @@
     if (!_actionSheet) {
         _actionSheet = [[JKAlertCustomizerActionSheet alloc] init];
         _actionSheet.setAlertView(self.alertView);
+        _actionSheet.setDeallocLogEnabled(self.deallocLogEnabled);
     }
     return _actionSheet;
 }
@@ -65,7 +69,31 @@
     if (!_collectionSheet) {
         _collectionSheet = [[JKAlertCustomizerCollectionSheet alloc] init];
         _collectionSheet.setAlertView(self.alertView);
+        _collectionSheet.setDeallocLogEnabled(self.deallocLogEnabled);
     }
     return _collectionSheet;
+}
+
+- (JKAlertBaseCustomizer *(^)(BOOL enabled))setDeallocLogEnabled{
+    
+    return ^(BOOL enabled){
+        
+        [super setDeallocLogEnabled](enabled);
+        
+        if (self->_common) { self->_common.setDeallocLogEnabled(enabled); }
+        if (self->_plain) { self->_plain.setDeallocLogEnabled(enabled); }
+        if (self->_HUD) { self->_HUD.setDeallocLogEnabled(enabled); }
+        if (self->_actionSheet) { self->_actionSheet.setDeallocLogEnabled(enabled); }
+        if (self->_collectionSheet) { self->_collectionSheet.setDeallocLogEnabled(enabled); }
+        
+        return self;
+    };
+}
+
+- (void)dealloc{
+    
+    if (!self.deallocLogEnabled) { return; }
+    
+    NSLog(@"%d, %s", __LINE__, __func__);
 }
 @end
