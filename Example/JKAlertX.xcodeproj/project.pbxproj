@@ -96,8 +96,9 @@
 		5038B34F216B597700FA5588 /* JKAlertX */ = {
 			isa = PBXGroup;
 			children = (
-				5038B35A216B599D00FA5588 /* JKAlertX.h */,
-				507DD45A21774C4F002C747A /* Protocol */,
+				507DD45B21774CAD002C747A /* JKAlertCustomizer.h */,
+				507DD45C21774CAD002C747A /* JKAlertCustomizer.m */,
+				507DD45A21774C4F002C747A /* Customizer */,
 				5038B353216B599D00FA5588 /* JKAlertAction.h */,
 				5038B359216B599D00FA5588 /* JKAlertAction.m */,
 				5038B354216B599D00FA5588 /* JKAlertCollectionViewCell.h */,
@@ -108,17 +109,16 @@
 				5038B352216B599D00FA5588 /* JKAlertTextView.m */,
 				5038B357216B599D00FA5588 /* JKAlertView.h */,
 				5038B351216B599D00FA5588 /* JKAlertView.m */,
+				5038B35A216B599D00FA5588 /* JKAlertX.h */,
 			);
 			path = JKAlertX;
 			sourceTree = "<group>";
 		};
-		507DD45A21774C4F002C747A /* Protocol */ = {
+		507DD45A21774C4F002C747A /* Customizer */ = {
 			isa = PBXGroup;
 			children = (
 				507DD46D21776E54002C747A /* JKAlertBaseCustomizer.h */,
 				507DD46E21776E54002C747A /* JKAlertBaseCustomizer.m */,
-				507DD45B21774CAD002C747A /* JKAlertCustomizer.h */,
-				507DD45C21774CAD002C747A /* JKAlertCustomizer.m */,
 				507DD46721776C9D002C747A /* JKAlertCustomizerActionSheet.h */,
 				507DD46821776C9D002C747A /* JKAlertCustomizerActionSheet.m */,
 				507DD46A21776CA9002C747A /* JKAlertCustomizerCollectionSheet.h */,
@@ -130,7 +130,7 @@
 				507DD46121776C83002C747A /* JKAlertCustomizerPlain.h */,
 				507DD46221776C83002C747A /* JKAlertCustomizerPlain.m */,
 			);
-			path = Protocol;
+			path = Customizer;
 			sourceTree = "<group>";
 		};
 		B7D5AA4E207CFBE8001152D9 = {

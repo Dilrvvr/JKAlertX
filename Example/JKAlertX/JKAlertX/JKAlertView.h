@@ -63,47 +63,58 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) JKAlertView *(^setFullScreenBackGroundView)(UIView *(^backGroundView)(void)) JKAlertXDeprecatedCustomizer;
 
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled);
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled) JKAlertXDeprecatedCustomizer;
 
 /** 设置title和message是否可以选择文字，默认NO */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText);
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText) JKAlertXDeprecatedCustomizer;
 
 /**
  * 设置titleTextColor
  * plain默认RGB都为0.1，其它0.35
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextColor)(UIColor *textColor);
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextColor)(UIColor *textColor) JKAlertXDeprecatedCustomizer;
 
 /**
  * 设置titleTextFont
  * plain默认 bold 17，其它17
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextFont)(UIFont *font);
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextFont)(UIFont *font) JKAlertXDeprecatedCustomizer;
 
 /**
  * 设置messageTextColor
  * plain默认RGB都为0.55，其它0.3
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextColor)(UIColor *textColor);
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextColor)(UIColor *textColor) JKAlertXDeprecatedCustomizer;
 
 /**
  * 设置messageTextFont
  * plain默认14，其它13
  * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextFont)(UIFont *font);
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextFont)(UIFont *font) JKAlertXDeprecatedCustomizer;
 
 /** 设置titleTextViewDelegate */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewDelegate)(id<UITextViewDelegate> delegate);
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewDelegate)(id<UITextViewDelegate> delegate) JKAlertXDeprecatedCustomizer;
 
 /** 设置messageTextViewDelegate */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id<UITextViewDelegate> delegate);
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id<UITextViewDelegate> delegate) JKAlertXDeprecatedCustomizer;
 
 /** 设置titleTextView的文字水平样式 默认NSTextAlignmentCenter */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewAlignment)(NSTextAlignment textAlignment);
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewAlignment)(NSTextAlignment textAlignment) JKAlertXDeprecatedCustomizer;
 
 /** 设置messageTextView的文字水平样式 默认NSTextAlignmentCenter */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewAlignment)(NSTextAlignment textAlignment);
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewAlignment)(NSTextAlignment textAlignment) JKAlertXDeprecatedCustomizer;
+
+/**
+ * 设置背景view
+ * 默认是一个UIToolbar
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setBackGroundView)(UIView *(^backGroundView)(void)) JKAlertXDeprecatedCustomizer;
+
+
+
+
+
 
 /** 设置title和message的左右间距 默认20 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin);
@@ -119,12 +130,6 @@ typedef enum : NSUInteger {
 
 /** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCancelAction)(JKAlertAction *action);
-
-/**
- * 设置背景view
- * 默认是一个UIToolbar
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setBackGroundView)(UIView *(^backGroundView)(void)) JKAlertXDeprecatedCustomizer;
 
 /**
  * 设置是否使JKAlertView.dismissAll(); 对当前JKAlertView无效
@@ -415,7 +420,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, copy, readonly) void (^setDeallocBlock)(void(^deallocBlock)(void));
 
 /** 设置是否允许dealloc打印，用于检查循环引用 */
-@property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable);
+@property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable) JKAlertXDeprecatedCustomizer;
 
 
 #pragma mark - 其它适配

@@ -46,7 +46,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     CGFloat TBMargin;
     CGFloat textContainerViewCurrentMaxH_;
-    BOOL    _enableDeallocLog;
     CGFloat _iPhoneXLandscapeTextMargin;
     
     CGFloat JKAlertPlainViewMaxH;
@@ -69,12 +68,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     UIView  *_backGroundView;
     UIColor *GlobalBackgroundColor;
-    
-    UIColor *titleTextColor;
-    UIFont  *titleFont;
-    
-    UIColor *messageTextColor;
-    UIFont  *messageFont;
     
     CGFloat JKAlertScreenW;
     CGFloat JKAlertScreenH;
@@ -240,23 +233,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 #pragma mark
 #pragma mark - 外界可自定义属性 移至内部 外界全部改为使用链式语法修改 2018-09-28
 
-/** title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
-@property (nonatomic, assign) BOOL textViewUserInteractionEnabled;
-
-/** title和message是否可以选择文字，默认NO */
-@property (nonatomic, assign) BOOL textViewCanSelectText;
-
-/** titleTextViewDelegate */
-@property (nonatomic, weak) id<UITextViewDelegate> titleTextViewDelegate;
-
-/** messageTextViewDelegate */
-@property (nonatomic, weak) id<UITextViewDelegate> messageTextViewDelegate;
-
-/** titleTextViewAlignment 默认NSTextAlignmentCenter */
-@property (nonatomic, assign) NSTextAlignment titleTextViewAlignment;
-
-/** messageTextViewAlignment 默认NSTextAlignmentCenter */
-@property (nonatomic, assign) NSTextAlignment messageTextViewAlignment;
 
 /** title和message的左右间距 默认20 */
 @property (nonatomic, assign) CGFloat textViewLeftRightMargin;
@@ -496,8 +472,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 - (JKAlertCustomizer *)customizer{
     if (!_customizer) {
-        _customizer = [[JKAlertCustomizer alloc] init];
-        _customizer.setAlertView(self);
+        
+        _customizer = [[JKAlertCustomizer alloc] initWithAlertView:self];
     }
     return _customizer;
 }
@@ -966,12 +942,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
     
     _HUDHeight = -1;
-    _enableDeallocLog = NO;
     _messageMinHeight = -1;
     _plainCornerRadius = 8;
     _dismissTimeInterval = 1;
-    _textViewUserInteractionEnabled = YES;
-    _plainTitleMessageSeparatorHidden = YES;
     _iPhoneXLandscapeTextMargin = 0;//((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
     TBMargin = 20;
@@ -985,8 +958,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     self.flowlayoutItemWidth = 76;
     self.textViewLeftRightMargin = 20;
-    self.titleTextViewAlignment = NSTextAlignmentCenter;
-    self.messageTextViewAlignment = NSTextAlignmentCenter;
     
     GlobalBackgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
 }
@@ -1195,8 +1166,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     return ^(UIView *customSuperView){
         
-//        self.customSuperView = customSuperView;
-        
         // TODO:
         self.customizer.common.setCustomSuperView(customSuperView);
         
@@ -1232,11 +1201,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 设置titleTextColor
  * plain默认RGB都为0.1，其它0.35
  */
-- (JKAlertView *(^)(UIColor *textColor))setTitleTextColor{
+- (JKAlertView *(^)(UIColor *textColor))setTitleTextColor JKAlertXDeprecatedCustomizer{
     
     return ^(UIColor *textColor){
         
-        self->titleTextColor = textColor;
+        self.customizer.common.setTitleTextColor(textColor);
         
         return self;
     };
@@ -1246,11 +1215,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 设置titleTextFont
  * plain默认 bold 17，其它17
  */
-- (JKAlertView *(^)(UIFont *font))setTitleTextFont{
+- (JKAlertView *(^)(UIFont *font))setTitleTextFont JKAlertXDeprecatedCustomizer{
     
     return ^(UIFont *font){
         
-        self->titleFont = font;
+        self.customizer.common.setTitleTextFont(font);
         
         return self;
     };
@@ -1260,11 +1229,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 设置messageTextColor
  * plain默认RGB都为0.55，其它0.3
  */
-- (JKAlertView *(^)(UIColor *textColor))setMessageTextColor{
+- (JKAlertView *(^)(UIColor *textColor))setMessageTextColor JKAlertXDeprecatedCustomizer{
     
     return ^(UIColor *textColor){
         
-        self->messageTextColor = textColor;
+        self.customizer.common.setMessageTextColor(textColor);
         
         return self;
     };
@@ -1275,77 +1244,79 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * plain默认14，其它13
  * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
  */
-- (JKAlertView *(^)(UIFont *font))setMessageTextFont{
+- (JKAlertView *(^)(UIFont *font))setMessageTextFont JKAlertXDeprecatedCustomizer{
     
     return ^(UIFont *font){
         
-        self->messageFont = font;
+        self.customizer.common.setMessageTextFont(font);
         
         return self;
     };
 }
 
 /** 设置titleTextViewDelegate */
-- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setTitleTextViewDelegate{
+- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setTitleTextViewDelegate JKAlertXDeprecatedCustomizer{
     
     return ^(id<UITextViewDelegate> delegate){
         
-        self.titleTextViewDelegate = delegate;
+        self.customizer.common.setTitleTextViewDelegate(delegate);
         
         return self;
     };
 }
 
 /** 设置messageTextViewDelegate */
-- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewDelegate{
+- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewDelegate JKAlertXDeprecatedCustomizer{
     
     return ^(id<UITextViewDelegate> delegate){
         
-        self.messageTextViewDelegate = delegate;
+        self.customizer.common.setMessageTextViewDelegate(delegate);
         
         return self;
     };
 }
 
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
-- (JKAlertView *(^)(BOOL userInteractionEnabled))setTextViewUserInteractionEnabled{
+- (JKAlertView *(^)(BOOL userInteractionEnabled))setTextViewUserInteractionEnabled JKAlertXDeprecatedCustomizer{
     
     return ^(BOOL userInteractionEnabled){
         
-        self.textViewUserInteractionEnabled = userInteractionEnabled;
+        self.customizer.common.setTextViewUserInteractionEnabled(userInteractionEnabled);
         
         return self;
     };
 }
 
 /** 设置title和message是否可以选择文字，默认NO */
-- (JKAlertView *(^)(BOOL canselectText))setTextViewCanSelectText{
+- (JKAlertView *(^)(BOOL canselectText))setTextViewCanSelectText JKAlertXDeprecatedCustomizer{
     
     return ^(BOOL canSelectText){
         
-        self.textViewCanSelectText = canSelectText;
+        self.customizer.common.setTextViewCanSelectText(canSelectText);
         
         return self;
     };
 }
 
 /** 设置titleTextView的文字水平样式 */
-- (JKAlertView *(^)(NSTextAlignment textAlignment))setTitleTextViewAlignment{
+- (JKAlertView *(^)(NSTextAlignment textAlignment))setTitleTextViewAlignment JKAlertXDeprecatedCustomizer{
     
     return ^(NSTextAlignment textAlignment){
         
-        self.titleTextViewAlignment = textAlignment;
+        self.customizer.common.setTitleTextViewAlignment(textAlignment);
         
         return self;
     };
 }
 
 /** 设置messageTextView的文字水平样式 */
-- (JKAlertView *(^)(NSTextAlignment textAlignment))setMessageTextViewAlignment{
+- (JKAlertView *(^)(NSTextAlignment textAlignment))setMessageTextViewAlignment JKAlertXDeprecatedCustomizer{
     
     return ^(NSTextAlignment textAlignment){
         
-        self.messageTextViewAlignment = textAlignment;
+//        self.messageTextViewAlignment = textAlignment;
+        
+        self.customizer.common.setMessageTextViewAlignment(textAlignment);
         
         return self;
     };
@@ -2476,20 +2447,20 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         return;
     }
     
-    _titleTextView.textAlignment = self.titleTextViewAlignment;
-    _messageTextView.textAlignment = self.messageTextViewAlignment;
+    _titleTextView.textAlignment = self.customizer.common.titleTextViewAlignment;
+    _messageTextView.textAlignment = self.customizer.common.messageTextViewAlignment;
     
-    _titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
-    _messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
+    _titleTextView.userInteractionEnabled = self.customizer.common.textViewUserInteractionEnabled;
+    _messageTextView.userInteractionEnabled = self.customizer.common.textViewUserInteractionEnabled;
     
-    _titleTextView.canSelectText = self.textViewCanSelectText;
-    _messageTextView.canSelectText = self.textViewCanSelectText;
+    _titleTextView.canSelectText = self.customizer.common.textViewCanSelectText;
+    _messageTextView.canSelectText = self.customizer.common.textViewCanSelectText;
     
-    _titleTextView.textColor = titleTextColor ? titleTextColor : _titleTextView.textColor;
-    _messageTextView.textColor = messageTextColor ? messageTextColor : _messageTextView.textColor;
+    _titleTextView.textColor = self.customizer.common.titleTextColor ? self.customizer.common.titleTextColor : _titleTextView.textColor;
+    _messageTextView.textColor = self.customizer.common.messageTextColor ? self.customizer.common.messageTextColor : _messageTextView.textColor;
     
-    _titleTextView.font = titleFont ? titleFont : _titleTextView.font;
-    _messageTextView.font = messageFont ? messageFont : _messageTextView.font;
+    _titleTextView.font = self.customizer.common.titleFont ? self.customizer.common.titleFont : _titleTextView.font;
+    _messageTextView.font = self.customizer.common.messageFont ? self.customizer.common.messageFont : _messageTextView.font;
     
     if (self.alertAttributedTitle) {
         
@@ -3197,8 +3168,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     self.window.userInteractionEnabled = YES;
     
-    self->_titleTextView.delegate = self.titleTextViewDelegate;
-    self->_messageTextView.delegate = self.messageTextViewDelegate;
+    self->_titleTextView.delegate = self.customizer.common.titleTextViewDelegate;
+    self->_messageTextView.delegate = self.customizer.common.messageTextViewDelegate;
     
     !self.showAnimationCompleteHandler ? : self.showAnimationCompleteHandler(self);
     
@@ -3553,14 +3524,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 #pragma mark - dealloc------------------------
 /** 允许dealloc打印，用于检查循环引用 */
-- (JKAlertView *(^)(BOOL enable))enableDeallocLog{
+- (JKAlertView *(^)(BOOL enable))enableDeallocLog JKAlertXDeprecatedCustomizer{
     
     return ^(BOOL enable){
         
-        self->_enableDeallocLog = enable;
-        
         // TODO:
-        self.customizer.setDeallocLogEnabled(enable);
+        self.customizer.common.setDeallocLogEnabled(enable);
         
         return self;
     };
@@ -3570,10 +3539,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    if (self.customizer.deallocLogEnabled) {
+    if (self.customizer.common.deallocLogEnabled) {
         
         NSLog(@"%d, %s",__LINE__, __func__);
     }
+    
+    _customizer = nil;
     
     !self.deallocBlock ? : self.deallocBlock();
 }

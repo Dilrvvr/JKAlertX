@@ -185,6 +185,8 @@
             return view;
         });
         
+        alertView.customizer.common.plain.HUD.actionSheet.collectionSheet.alertView.setPlainWidth(290);
+        
         alertView.enableDeallocLog(YES).show().setDismissComplete(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];

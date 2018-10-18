@@ -6,7 +6,7 @@
 //  Copyright © 2018 安永博. All rights reserved.
 //
 
-#import "JKAlertBaseCustomizer.h"
+#import <Foundation/Foundation.h>
 
 #import "JKAlertCustomizerCommon.h"
 #import "JKAlertCustomizerPlain.h"
@@ -14,7 +14,9 @@
 #import "JKAlertCustomizerActionSheet.h"
 #import "JKAlertCustomizerCollectionSheet.h"
 
-@interface JKAlertCustomizer : JKAlertBaseCustomizer
+@class JKAlertView;
+
+@interface JKAlertCustomizer : NSObject
 
 /** 通用 */
 @property (nonatomic, strong, readonly) JKAlertCustomizerCommon *common;
@@ -30,4 +32,14 @@
 
 /** collectionSheet */
 @property (nonatomic, strong, readonly) JKAlertCustomizerCollectionSheet *collectionSheet;
+
+
+
+
+/** alertView */
+@property (nonatomic, weak, readonly) JKAlertView *alertView;
+
+
+/** 实例化 */
+- (instancetype)initWithAlertView:(JKAlertView *)alertView;
 @end
