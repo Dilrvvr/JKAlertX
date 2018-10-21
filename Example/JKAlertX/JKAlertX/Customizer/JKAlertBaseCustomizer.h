@@ -38,5 +38,5 @@
 
 
 /** 实例化 */
-- (instancetype)initWithCustomizer:(JKAlertCustomizer *)JKAlertCustomizer;
+- (instancetype)initWithCustomizer:(JKAlertCustomizer *)customizer;
 @end

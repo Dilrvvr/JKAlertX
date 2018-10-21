@@ -15,8 +15,8 @@
 
 @implementation JKAlertCustomizerCommon
 
-- (instancetype)init{
-    if (self = [super init]) {
+- (instancetype)initWithCustomizer:(JKAlertCustomizer *)customizer{
+    if (self = [super initWithCustomizer:customizer]) {
         [self initialization];
     }
     return self;
