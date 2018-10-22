@@ -31,6 +31,8 @@
     _textViewUserInteractionEnabled = YES;
     _titleTextViewAlignment = NSTextAlignmentCenter;
     _messageTextViewAlignment = NSTextAlignmentCenter;
+    
+    _textViewLeftRightMargin = 20;
 }
 
 /**
@@ -239,6 +241,26 @@
         return self;
     };
 }
+
+
+
+
+/** 设置title和message的左右间距 默认15 */
+- (JKAlertCustomizerCommon *(^)(CGFloat margin))setTextViewLeftRightMargin{
+    
+    return ^(CGFloat margin){
+        
+        self->_textViewLeftRightMargin = margin;
+        
+        return self;
+    };
+}
+
+
+
+
+
+
 
 
 

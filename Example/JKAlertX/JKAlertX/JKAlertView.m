@@ -234,9 +234,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 #pragma mark - 外界可自定义属性 移至内部 外界全部改为使用链式语法修改 2018-09-28
 
 
-/** title和message的左右间距 默认20 */
-@property (nonatomic, assign) CGFloat textViewLeftRightMargin;
-
 /** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, strong) JKAlertAction *cancelAction;
 
@@ -957,7 +954,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
     
     self.flowlayoutItemWidth = 76;
-    self.textViewLeftRightMargin = 20;
     
     GlobalBackgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
 }
@@ -1323,11 +1319,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 /** 设置title和message的左右间距 默认15 */
-- (JKAlertView *(^)(CGFloat margin))setTextViewLeftRightMargin{
+- (JKAlertView *(^)(CGFloat margin))setTextViewLeftRightMargin JKAlertXDeprecatedCustomizer{
     
     return ^(CGFloat margin){
         
-        self.textViewLeftRightMargin = margin;
+        self.customizer.common.setTextViewLeftRightMargin(margin);
         
         return self;
     };
@@ -2542,7 +2538,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     NSInteger count = self.actions.count;
     
-    [self.titleTextView calculateFrameWithMaxWidth:PlainViewWidth - self.textViewLeftRightMargin * 2 minHeight:JKAlertMinTitleLabelH originY:TBMargin superView:self.textContainerView];
+    [self.titleTextView calculateFrameWithMaxWidth:PlainViewWidth - self.customizer.common.textViewLeftRightMargin * 2 minHeight:JKAlertMinTitleLabelH originY:TBMargin superView:self.textContainerView];
     
     CGFloat messageOriginY = CGRectGetMaxY(self.titleTextView.frame) + (_plainTitleMessageSeparatorHidden ? JKAlertTitleMessageMargin : TBMargin + JKAlertTitleMessageMargin);
     
@@ -2551,7 +2547,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         _plainTitleMessageSeparatorLayer.frame = CGRectMake(_plainTitleMessageSeparatorMargin, messageOriginY - JKAlertTitleMessageMargin, PlainViewWidth - _plainTitleMessageSeparatorMargin * 2, JKAlertSeparatorLineWH);
     }
     
-    [self.messageTextView calculateFrameWithMaxWidth:PlainViewWidth - self.textViewLeftRightMargin * 2 minHeight:JKAlertMinMessageLabelH originY:messageOriginY superView:self.textContainerView];
+    [self.messageTextView calculateFrameWithMaxWidth:PlainViewWidth - self.customizer.common.textViewLeftRightMargin * 2 minHeight:JKAlertMinMessageLabelH originY:messageOriginY superView:self.textContainerView];
     
     CGRect rect = self.textContainerView.frame;
     
@@ -2628,7 +2624,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             
             tfFrame.origin.x = 1;//JKAlertSeparatorLineWH;
             tfFrame.origin.y = tfH;
-            tfFrame.size.width = PlainViewWidth - self.textViewLeftRightMargin * 2 - 2;//JKAlertSeparatorLineWH * 2;
+            tfFrame.size.width = PlainViewWidth - self.customizer.common.textViewLeftRightMargin * 2 - 2;//JKAlertSeparatorLineWH * 2;
             tfFrame.size.height = tfFrame.size.height ? tfFrame.size.height : 30;
             tf.frame = tfFrame;
             
@@ -2637,7 +2633,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         tfH += 1;//JKAlertSeparatorLineWH;
         
-        _textFieldContainerView.frame = CGRectMake(self.textViewLeftRightMargin, rect.size.height, PlainViewWidth - self.textViewLeftRightMargin * 2, tfH);
+        _textFieldContainerView.frame = CGRectMake(self.customizer.common.textViewLeftRightMargin, rect.size.height, PlainViewWidth - self.customizer.common.textViewLeftRightMargin * 2, tfH);
         
         rect.size.height += tfH;
         
@@ -2806,9 +2802,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     _sheetContainerView.frame = CGRectMake(0, JKAlertScreenH, JKAlertScreenW, _textContainerView.frame.size.height + _tableView.frame.size.height);
     
-    [self.titleTextView calculateFrameWithMaxWidth:_textContainerView.frame.size.width - self.textViewLeftRightMargin * 2 minHeight:JKAlertMinTitleLabelH originY:JKAlertSheetTitleMargin superView:_textContainerView];
+    [self.titleTextView calculateFrameWithMaxWidth:_textContainerView.frame.size.width - self.customizer.common.textViewLeftRightMargin * 2 minHeight:JKAlertMinTitleLabelH originY:JKAlertSheetTitleMargin superView:_textContainerView];
     
-    [self.messageTextView calculateFrameWithMaxWidth:_textContainerView.frame.size.width - self.textViewLeftRightMargin * 2 minHeight:JKAlertMinMessageLabelH originY:CGRectGetMaxY(self.titleTextView.frame) + JKAlertSheetTitleMargin superView:_textContainerView];
+    [self.messageTextView calculateFrameWithMaxWidth:_textContainerView.frame.size.width - self.customizer.common.textViewLeftRightMargin * 2 minHeight:JKAlertMinMessageLabelH originY:CGRectGetMaxY(self.titleTextView.frame) + JKAlertSheetTitleMargin superView:_textContainerView];
     
     CGRect rect = _textContainerView.frame;
     rect.size.height = JKAlertSheetTitleMargin + self.titleTextView.frame.size.height + JKAlertSheetTitleMargin + self.messageTextView.frame.size.height + JKAlertSheetTitleMargin;
@@ -2961,7 +2957,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         }
     }
     
-    CGRect rect = [self.titleTextView calculateFrameWithMaxWidth:JKAlertScreenW - self.textViewLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2 minHeight:JKAlertMinTitleLabelH originY:0 superView:self.textContainerView];
+    CGRect rect = [self.titleTextView calculateFrameWithMaxWidth:JKAlertScreenW - self.customizer.common.textViewLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2 minHeight:JKAlertMinTitleLabelH originY:0 superView:self.textContainerView];
     
     if (JKAlertScreenH * 0.8 - 395 > JKAlertMinTitleLabelH) {
         

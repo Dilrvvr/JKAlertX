@@ -152,6 +152,14 @@
 
 
 
+/** title和message的左右间距 默认20 */
+@property (nonatomic, assign, readonly) CGFloat textViewLeftRightMargin;
+
+/** 设置title和message的左右间距 默认20 */
+@property (nonatomic, copy, readonly) JKAlertCustomizerCommon *(^setTextViewLeftRightMargin)(CGFloat margin);
+
+
+
 
 
 

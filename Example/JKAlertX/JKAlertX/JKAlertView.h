@@ -9,38 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "JKAlertAction.h"
 #import "JKAlertCustomizer.h"
-
-#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
-
-#define JKAlertXDeprecatedCustomizer NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, "请使用customizer")
-
-typedef enum : NSUInteger {
-    
-    /**
-     * none
-     * 该样式将不会创建JKAlertView
-     */
-    JKAlertStyleNone,
-    
-    /** 面板 */
-    JKAlertStylePlain,
-    
-    /** 列表 */
-    JKAlertStyleActionSheet,
-    
-    /**
-     * collectionView样式
-     * 该样式没有message，只有一个title
-     */
-    JKAlertStyleCollectionSheet,
-    
-    /**
-     * HUD提示
-     * 该样式没有message，只有一个title
-     */
-    JKAlertStyleHUD,
-    
-} JKAlertStyle;
+#import "JKAlertConst.h"
 
 @interface JKAlertView : UIView
 
@@ -117,7 +86,7 @@ typedef enum : NSUInteger {
 
 
 /** 设置title和message的左右间距 默认20 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin);
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin) JKAlertXDeprecatedCustomizer;
 
 /**
  * 设置title和message上下间距 默认20

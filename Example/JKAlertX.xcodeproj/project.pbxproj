@@ -22,6 +22,8 @@
 		507DD46921776C9D002C747A /* JKAlertCustomizerActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 507DD46821776C9D002C747A /* JKAlertCustomizerActionSheet.m */; };
 		507DD46C21776CA9002C747A /* JKAlertCustomizerCollectionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 507DD46B21776CA9002C747A /* JKAlertCustomizerCollectionSheet.m */; };
 		507DD46F21776E54002C747A /* JKAlertBaseCustomizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 507DD46E21776E54002C747A /* JKAlertBaseCustomizer.m */; };
+		50948A0E217DCBE5009C0D58 /* JKAlertLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 50948A0D217DCBE5009C0D58 /* JKAlertLayoutManager.m */; };
+		50948A11217DCD2A009C0D58 /* JKAlertConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 50948A10217DCD2A009C0D58 /* JKAlertConst.m */; };
 		B7D5AA5C207CFBE8001152D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D5AA5B207CFBE8001152D9 /* AppDelegate.m */; };
 		B7D5AA5F207CFBE8001152D9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D5AA5E207CFBE8001152D9 /* ViewController.m */; };
 		B7D5AA62207CFBE8001152D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7D5AA60207CFBE8001152D9 /* Main.storyboard */; };
@@ -60,6 +62,10 @@
 		507DD46B21776CA9002C747A /* JKAlertCustomizerCollectionSheet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertCustomizerCollectionSheet.m; sourceTree = "<group>"; };
 		507DD46D21776E54002C747A /* JKAlertBaseCustomizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseCustomizer.h; sourceTree = "<group>"; };
 		507DD46E21776E54002C747A /* JKAlertBaseCustomizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseCustomizer.m; sourceTree = "<group>"; };
+		50948A0C217DCBE5009C0D58 /* JKAlertLayoutManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertLayoutManager.h; sourceTree = "<group>"; };
+		50948A0D217DCBE5009C0D58 /* JKAlertLayoutManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertLayoutManager.m; sourceTree = "<group>"; };
+		50948A0F217DCD2A009C0D58 /* JKAlertConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertConst.h; sourceTree = "<group>"; };
+		50948A10217DCD2A009C0D58 /* JKAlertConst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertConst.m; sourceTree = "<group>"; };
 		B7D5AA57207CFBE8001152D9 /* JKAlertX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JKAlertX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7D5AA5A207CFBE8001152D9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B7D5AA5B207CFBE8001152D9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -103,6 +109,10 @@
 				5038B359216B599D00FA5588 /* JKAlertAction.m */,
 				5038B354216B599D00FA5588 /* JKAlertCollectionViewCell.h */,
 				5038B356216B599D00FA5588 /* JKAlertCollectionViewCell.m */,
+				50948A0F217DCD2A009C0D58 /* JKAlertConst.h */,
+				50948A10217DCD2A009C0D58 /* JKAlertConst.m */,
+				50948A0C217DCBE5009C0D58 /* JKAlertLayoutManager.h */,
+				50948A0D217DCBE5009C0D58 /* JKAlertLayoutManager.m */,
 				5038B350216B599D00FA5588 /* JKAlertTableViewCell.h */,
 				5038B358216B599D00FA5588 /* JKAlertTableViewCell.m */,
 				5038B355216B599D00FA5588 /* JKAlertTextView.h */,
@@ -239,10 +249,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				507DD46921776C9D002C747A /* JKAlertCustomizerActionSheet.m in Sources */,
+				50948A0E217DCBE5009C0D58 /* JKAlertLayoutManager.m in Sources */,
 				507DD46621776C8E002C747A /* JKAlertCustomizerHUD.m in Sources */,
 				B7D5AA5F207CFBE8001152D9 /* ViewController.m in Sources */,
 				50318C70207CFD090059B4BA /* JKShareManager.m in Sources */,
 				507DD46C21776CA9002C747A /* JKAlertCustomizerCollectionSheet.m in Sources */,
+				50948A11217DCD2A009C0D58 /* JKAlertConst.m in Sources */,
 				5038B35D216B599D00FA5588 /* JKAlertCollectionViewCell.m in Sources */,
 				507DD46321776C83002C747A /* JKAlertCustomizerPlain.m in Sources */,
 				507DD46F21776E54002C747A /* JKAlertBaseCustomizer.m in Sources */,
