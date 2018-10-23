@@ -11,4 +11,13 @@
 
 @implementation JKAlertCustomizerCollectionSheet
 
+- (instancetype)initWithCustomizer:(JKAlertCustomizer *)customizer{
+    if (self = [super initWithCustomizer:customizer]) {
+        [self initialization];
+    }
+    return self;
+}
+
+- (void)initialization{
+}
 @end

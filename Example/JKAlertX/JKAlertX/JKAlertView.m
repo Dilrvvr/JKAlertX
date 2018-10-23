@@ -247,18 +247,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 @property (nonatomic, assign) CGFloat plainCenterOffsetY;
 
 /**
- * HUD样式dismiss的时间，默认1s
- * 小于等于0表示不自动隐藏
- */
-@property (nonatomic, assign) CGFloat dismissTimeInterval;
-
-/**
- * HUD样式高度，不包含customHUD
- * 小于0将没有效果，默认-1
- */
-@property (nonatomic, assign) CGFloat HUDHeight;
-
-/**
  * collection的itemSize的宽度
  * 最大不可超过屏幕宽度的一半
  * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
@@ -938,10 +926,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
     
-    _HUDHeight = -1;
     _messageMinHeight = -1;
     _plainCornerRadius = 8;
-    _dismissTimeInterval = 1;
     _iPhoneXLandscapeTextMargin = 0;//((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
     TBMargin = 20;
@@ -1125,20 +1111,20 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     _plainView.layer.cornerRadius = _plainCornerRadius;
 }
 
-- (void)setHUDHeight:(CGFloat)HUDHeight{
-    
-    if (_alertStyle != JKAlertStyleHUD) { return; }
-    
-    _HUDHeight = HUDHeight;
-    
-    CGRect rect = _plainView.frame;
-    rect.size.height = _HUDHeight >= 0 ? _HUDHeight : _textContainerView.frame.size.height;
-    _plainView.frame = rect;
-    
-    _textContainerView.center = CGPointMake(_plainView.frame.size.width * 0.5, _plainView.frame.size.height * 0.5);
-    
-    _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _plainCenterOffsetY);
-}
+//- (void)setHUDHeight:(CGFloat)HUDHeight{
+//
+//    if (_alertStyle != JKAlertStyleHUD) { return; }
+//
+//    _HUDHeight = HUDHeight;
+//
+//    CGRect rect = _plainView.frame;
+//    rect.size.height = _HUDHeight >= 0 ? _HUDHeight : _textContainerView.frame.size.height;
+//    _plainView.frame = rect;
+//
+//    _textContainerView.center = CGPointMake(_plainView.frame.size.width * 0.5, _plainView.frame.size.height * 0.5);
+//
+//    _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _plainCenterOffsetY);
+//}
 
 - (void)setPlainTitleMessageSeparatorHidden:(BOOL)plainTitleMessageSeparatorHidden{
     _plainTitleMessageSeparatorHidden = plainTitleMessageSeparatorHidden;
@@ -1482,11 +1468,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 设置HUD样式dismiss的时间，默认1s
  * 小于等于0表示不自动隐藏
  */
-- (JKAlertView *(^)(CGFloat dismissTimeInterval))setDismissTimeInterval{
+- (JKAlertView *(^)(CGFloat dismissTimeInterval))setDismissTimeInterval JKAlertXDeprecatedCustomizer{
     
     return ^(CGFloat dismissTimeInterval){
         
-        self.dismissTimeInterval = dismissTimeInterval;
+        self.customizer.HUD.setDismissInterval(dismissTimeInterval);
         
         return self;
     };
@@ -1624,7 +1610,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     return ^(CGFloat height){
         
-        self.HUDHeight = height;
+        self.customizer.HUD.setHUDHeight(height);
+        
+        if (self->Showed) {
+            
+            [self layoutHUD];
+        }
         
         return self;
     };
@@ -2171,13 +2162,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         [self relayout];
         
-        [_scrollView removeFromSuperview];
-        
-        CGRect rect = _plainView.frame;
-        rect.size.height = _HUDHeight >= 0 ? _HUDHeight : _textContainerView.frame.size.height;
-        _plainView.frame = rect;
-        
-        _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
+        [self layoutHUD];
         
         return;
     }
@@ -3089,6 +3074,20 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 布局自定义HUD
+
+- (void)layoutHUD{
+    
+    [_scrollView removeFromSuperview];
+    
+    CGRect rect = _plainView.frame;
+    rect.size.height = self.customizer.HUD.HUDHeight >= 0 ? self.customizer.HUD.HUDHeight : _textContainerView.frame.size.height;
+    _plainView.frame = rect;
+    
+    _textContainerView.center = CGPointMake(_plainView.frame.size.width * 0.5, _plainView.frame.size.height * 0.5);
+    
+    _plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
+}
+
 - (void)layoutCustomHUD{
     
     if (!_customHUD) {
@@ -3196,9 +3195,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         }
     }
     
-    if (self.dismissTimeInterval > 0 && (self.alertStyle == JKAlertStyleHUD || self.customHUD)) {
+    if (self.customizer.HUD.dismissInterval > 0 && (self.alertStyle == JKAlertStyleHUD || self.customHUD)) {
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.dismissTimeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.customizer.HUD.dismissInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             [self dismiss];
         });

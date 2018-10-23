@@ -187,7 +187,7 @@
  * 设置HUD样式dismiss的时间，默认1s
  * 小于等于0表示不自动隐藏
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDismissTimeInterval)(CGFloat dismissTimeInterval);
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissTimeInterval)(CGFloat dismissTimeInterval) JKAlertXDeprecatedCustomizer;
 
 /**
  * 设置HUD样式高度，不包含customHUD
