@@ -195,8 +195,9 @@
  * 设置actionSheet样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
+ * isContainerClearBackground : 是否让其容器视图透明
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(UIView *(^customView)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(BOOL isContainerClearBackground, UIView *(^customView)(void));
 
 
 #pragma mark - collectionSheet样式
@@ -240,8 +241,9 @@
  * 设置collection样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
+ * isContainerClearBackground : 是否让其容器视图透明
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomCollectionTitleView)(UIView *(^customView)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomCollectionTitleView)(BOOL isContainerClearBackground, UIView *(^customView)(void));
 
 /** collection添加第二个collectionView的action */
 - (void)addSecondCollectionAction:(JKAlertAction *)action;

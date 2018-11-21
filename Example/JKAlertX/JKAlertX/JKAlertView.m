@@ -1725,8 +1725,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 设置actionSheet样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
+ * isContainerClearBackground : 是否让其容器视图透明
  */
-- (JKAlertView *(^)(UIView *(^customView)(void)))setCustomActionSheetTitleView{
+- (JKAlertView *(^)(BOOL isContainerClearBackground, UIView *(^customView)(void)))setCustomActionSheetTitleView{
     
     return [self setCustomCollectionTitleView];
 }
@@ -1737,11 +1738,16 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
  */
-- (JKAlertView *(^)(UIView *(^customView)(void)))setCustomCollectionTitleView{
+- (JKAlertView *(^)(BOOL isContainerClearBackground, UIView *(^customView)(void)))setCustomCollectionTitleView{
     
-    return ^(UIView *(^customView)(void)){
+    return ^(BOOL isContainerClearBackground, UIView *(^customView)(void)){
         
         self.customSheetTitleView = !customView ? nil : customView();
+        
+        if (isContainerClearBackground) {
+            
+            self->_textContainerView.backgroundColor = nil;
+        }
         
         return self;
     };
