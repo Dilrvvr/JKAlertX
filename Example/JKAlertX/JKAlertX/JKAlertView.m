@@ -639,7 +639,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         [self.textContainerView insertSubview:self.scrollView atIndex:0];
         
-//        self.scrollView.scrollEnabled = NO;
+        //        self.scrollView.scrollEnabled = NO;
         
         [self.scrollView addSubview:self.titleTextView];
         
@@ -2568,7 +2568,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     if (!_plainTitleMessageSeparatorHidden) {
         
-        _plainTitleMessageSeparatorLayer.frame = CGRectMake(_plainTitleMessageSeparatorMargin, messageOriginY - JKAlertTitleMessageMargin, PlainViewWidth - _plainTitleMessageSeparatorMargin * 2, JKAlertSeparatorLineWH);
+        _plainTitleMessageSeparatorLayer.frame = CGRectMake(_plainTitleMessageSeparatorMargin, messageOriginY - JKAlertTitleMessageMargin - JKAlertSeparatorLineWH, PlainViewWidth - _plainTitleMessageSeparatorMargin * 2, JKAlertSeparatorLineWH);
     }
     
     [self.messageTextView calculateFrameWithMaxWidth:PlainViewWidth - self.textViewLeftRightMargin * 2 minHeight:JKAlertMinMessageLabelH originY:messageOriginY superView:self.textContainerView];
@@ -2820,7 +2820,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         tableViewH += action.rowHeight;
     }
     
-    tableViewH += (self.cancelAction.rowHeight + CancelMargin + JKAlertAdjustHomeIndicatorHeight);
+    if (self.cancelAction.rowHeight > 0) {
+        
+        tableViewH += (self.cancelAction.rowHeight + CancelMargin);
+    }
+    
+    tableViewH += JKAlertAdjustHomeIndicatorHeight;
     
     _tableView.frame = CGRectMake(0, CGRectGetMaxY(_textContainerView.frame), JKAlertScreenW, tableViewH);
     
@@ -3406,7 +3411,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 #pragma mark - UITableViewDataSource------------------------
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return self.alertStyle == JKAlertStyleActionSheet ? 2 : 0;
+    
+    return self.alertStyle == JKAlertStyleActionSheet ? (self.cancelAction.rowHeight > 0 ? 2 : 1) : 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -3435,6 +3441,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - UITableViewDelegate------------------------
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     JKAlertAction *action = indexPath.section == 0 ? self.actions[indexPath.row] : self.cancelAction;
@@ -3445,14 +3452,14 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return CGFLOAT_MIN;
+    return (section == 0) ? CGFLOAT_MIN : CancelMargin;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return (section == 0) ? CancelMargin : CGFLOAT_MIN;
+    return CGFLOAT_MIN;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     return nil;
 }
 
