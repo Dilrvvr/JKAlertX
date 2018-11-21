@@ -9,36 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "JKAlertAction.h"
 
-#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
-
-typedef enum : NSUInteger {
-    
-    /**
-     * none
-     * 该样式将不会创建JKAlertView
-     */
-    JKAlertStyleNone,
-    
-    /** 面板 */
-    JKAlertStylePlain,
-    
-    /** 列表 */
-    JKAlertStyleActionSheet,
-    
-    /**
-     * collectionView样式
-     * 该样式没有message，只有一个title
-     */
-    JKAlertStyleCollectionSheet,
-    
-    /**
-     * HUD提示
-     * 该样式没有message，只有一个title
-     */
-    JKAlertStyleHUD,
-    
-} JKAlertStyle;
-
 @interface JKAlertView : UIView
 
 #pragma mark - 公共部分
