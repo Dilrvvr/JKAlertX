@@ -439,7 +439,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"我是自定义的view~~";
     
-    alertView.setCustomCollectionTitleView(NO, ^{
+    alertView.setCustomCollectionTitleView(^{
         
         return label;
     });

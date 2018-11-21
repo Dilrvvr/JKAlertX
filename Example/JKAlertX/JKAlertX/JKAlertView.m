@@ -84,8 +84,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /** 全屏的背景view */
 @property (nonatomic, weak) UIView *fullScreenBackGroundView;
 
-/** 背景是否透明，默认黑色 0.4 alpha */
-@property (nonatomic, assign) BOOL isClearBackground;
+/** 全屏背景是否透明，默认黑色 0.4 alpha */
+@property (nonatomic, assign) BOOL isClearFullBackground;
 
 /** contentView */
 @property (nonatomic, weak) UIView *contentView;
@@ -1729,17 +1729,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  */
 - (JKAlertView *(^)(BOOL isContainerClearBackground, UIView *(^customView)(void)))setCustomActionSheetTitleView{
     
-    return [self setCustomCollectionTitleView];
-}
-//@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(UIView *(^customView)(void));
-
-/**
- * 设置collection样式添加自定义的titleView
- * frmae给出高度即可，宽度将自适应
- * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
- */
-- (JKAlertView *(^)(BOOL isContainerClearBackground, UIView *(^customView)(void)))setCustomCollectionTitleView{
-    
     return ^(BOOL isContainerClearBackground, UIView *(^customView)(void)){
         
         self.customSheetTitleView = !customView ? nil : customView();
@@ -1748,6 +1737,22 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             
             self->_textContainerView.backgroundColor = nil;
         }
+        
+        return self;
+    };
+}
+//@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(UIView *(^customView)(void));
+
+/**
+ * 设置collection样式添加自定义的titleView
+ * frmae给出高度即可，宽度将自适应
+ * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
+ */
+- (JKAlertView *(^)(UIView *(^customView)(void)))setCustomCollectionTitleView{
+    
+    return ^(UIView *(^customView)(void)){
+        
+        self.customSheetTitleView = !customView ? nil : customView();
         
         return self;
     };
@@ -1801,12 +1806,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
-/** 设置背景是否透明，默认黑色 0.4 alpha */
-- (JKAlertView *(^)(BOOL clearBackground))setClearBackground{
+/** 设置全屏背景是否透明，默认黑色 0.4 alpha */
+- (JKAlertView *(^)(BOOL isClearFullBackground))setClearFullBackground{
     
-    return ^(BOOL clearBackground){
+    return ^(BOOL isClearFullBackground){
         
-        self.isClearBackground = clearBackground;
+        self.isClearFullBackground = isClearFullBackground;
         
         return self;
     };
@@ -3191,7 +3196,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     [UIView animateWithDuration:0.25 animations:^{
         
-        if (!self.isClearBackground) {
+        if (!self.isClearFullBackground) {
             
             self.contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
         }
