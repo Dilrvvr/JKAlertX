@@ -491,6 +491,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 懒加载------------------------
+
 - (NSMutableArray *)actions{
     if (!_actions) {
         _actions = [NSMutableArray array];
@@ -921,6 +922,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 初始化------------------------
+
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         [self initialization];
@@ -1861,6 +1863,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 监听屏幕旋转------------------------
+
 - (void)orientationChanged:(NSNotification *)noti{
     
     _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0);
@@ -2456,6 +2459,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 计算frame------------------------------------
+
 - (void)relayout{
     
     self.frame = [UIScreen mainScreen].bounds;
@@ -2941,6 +2945,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 布局collectionSheet
+
 - (void)layoutCollectionSheet{
     
     NSInteger count = self.actions.count;
@@ -3118,6 +3123,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 布局自定义HUD
+
 - (void)layoutCustomHUD{
     
     if (!_customHUD) {
@@ -3129,6 +3135,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 动画弹出来------------------------
+
 - (void)didMoveToSuperview{
     [super didMoveToSuperview];
     
@@ -3404,12 +3411,14 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 强制更改frame为屏幕尺寸
+
 - (void)setFrame:(CGRect)frame{
     frame = CGRectMake(0, 0, JKAlertScreenW, JKAlertScreenH);
     [super setFrame:frame];
 }
 
 #pragma mark - UITableViewDataSource------------------------
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
     return self.alertStyle == JKAlertStyleActionSheet ? (self.cancelAction.rowHeight > 0 ? 2 : 1) : 0;
@@ -3476,6 +3485,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - UICollectionViewDataSource------------------------
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return collectionView == self.collectionView ? self.actions.count : self.actions2.count;
 }
@@ -3490,6 +3500,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - UICollectionViewDelegate------------------------
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
@@ -3503,6 +3514,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - UIScrollViewDelegate------------------------
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
     if (!self.compoundCollection || scrollView == _tableView) {
@@ -3524,6 +3536,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - plain样式按钮点击------------------------
+
 - (void)plainButtonClick:(UIButton *)button{
     
     JKAlertAction *action = self.actions[button.tag - JKAlertPlainButtonBeginTag];
@@ -3550,6 +3563,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - dealloc------------------------
+
 /** 允许dealloc打印，用于检查循环引用 */
 - (JKAlertView *(^)(BOOL enable))enableDeallocLog{
     
