@@ -8,13 +8,38 @@
 
 #import <UIKit/UIKit.h>
 #import "JKAlertAction.h"
-#import "JKAlertCustomizer.h"
-#import "JKAlertConst.h"
+
+#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
+
+typedef enum : NSUInteger {
+    
+    /**
+     * none
+     * 该样式将不会创建JKAlertView
+     */
+    JKAlertStyleNone,
+    
+    /** 面板 */
+    JKAlertStylePlain,
+    
+    /** 列表 */
+    JKAlertStyleActionSheet,
+    
+    /**
+     * collectionView样式
+     * 该样式没有message，只有一个title
+     */
+    JKAlertStyleCollectionSheet,
+    
+    /**
+     * HUD提示
+     * 该样式没有message，只有一个title
+     */
+    JKAlertStyleHUD,
+    
+} JKAlertStyle;
 
 @interface JKAlertView : UIView
-
-/** 自定义管理对象 */
-@property (nonatomic, strong, readonly) JKAlertCustomizer *customizer;
 
 #pragma mark - 公共部分
 
@@ -24,69 +49,58 @@
  * customSuperView在show之前有效
  * customSuperViewsize最好和屏幕大小一致，否则可能出现问题
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomSuperView)(UIView *customSuperView) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomSuperView)(UIView *customSuperView);
 
 /**
  * 设置全屏背景view 默认无
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setFullScreenBackGroundView)(UIView *(^backGroundView)(void)) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setFullScreenBackGroundView)(UIView *(^backGroundView)(void));
 
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled);
 
 /** 设置title和message是否可以选择文字，默认NO */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText);
 
 /**
  * 设置titleTextColor
  * plain默认RGB都为0.1，其它0.35
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextColor)(UIColor *textColor) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextColor)(UIColor *textColor);
 
 /**
  * 设置titleTextFont
  * plain默认 bold 17，其它17
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextFont)(UIFont *font) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextFont)(UIFont *font);
 
 /**
  * 设置messageTextColor
  * plain默认RGB都为0.55，其它0.3
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextColor)(UIColor *textColor) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextColor)(UIColor *textColor);
 
 /**
  * 设置messageTextFont
  * plain默认14，其它13
  * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextFont)(UIFont *font) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextFont)(UIFont *font);
 
 /** 设置titleTextViewDelegate */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewDelegate)(id<UITextViewDelegate> delegate) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewDelegate)(id<UITextViewDelegate> delegate);
 
 /** 设置messageTextViewDelegate */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id<UITextViewDelegate> delegate) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id<UITextViewDelegate> delegate);
 
 /** 设置titleTextView的文字水平样式 默认NSTextAlignmentCenter */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewAlignment)(NSTextAlignment textAlignment) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewAlignment)(NSTextAlignment textAlignment);
 
 /** 设置messageTextView的文字水平样式 默认NSTextAlignmentCenter */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewAlignment)(NSTextAlignment textAlignment) JKAlertXDeprecatedCustomizer;
-
-/**
- * 设置背景view
- * 默认是一个UIToolbar
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setBackGroundView)(UIView *(^backGroundView)(void)) JKAlertXDeprecatedCustomizer;
-
-
-
-
-
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewAlignment)(NSTextAlignment textAlignment);
 
 /** 设置title和message的左右间距 默认20 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin);
 
 /**
  * 设置title和message上下间距 默认20
@@ -99,6 +113,12 @@
 
 /** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCancelAction)(JKAlertAction *action);
+
+/**
+ * 设置背景view
+ * 默认是一个UIToolbar
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setBackGroundView)(UIView *(^backGroundView)(void));
 
 /**
  * 设置是否使JKAlertView.dismissAll(); 对当前JKAlertView无效
@@ -187,7 +207,7 @@
  * 设置HUD样式dismiss的时间，默认1s
  * 小于等于0表示不自动隐藏
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDismissTimeInterval)(CGFloat dismissTimeInterval) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissTimeInterval)(CGFloat dismissTimeInterval);
 
 /**
  * 设置HUD样式高度，不包含customHUD
@@ -389,7 +409,7 @@
 @property (nonatomic, copy, readonly) void (^setDeallocBlock)(void(^deallocBlock)(void));
 
 /** 设置是否允许dealloc打印，用于检查循环引用 */
-@property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable) JKAlertXDeprecatedCustomizer;
+@property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable);
 
 
 #pragma mark - 其它适配
