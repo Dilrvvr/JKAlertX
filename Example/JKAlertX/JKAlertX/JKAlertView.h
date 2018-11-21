@@ -26,6 +26,9 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setFullScreenBackGroundView)(UIView *(^backGroundView)(void));
 
+/** 设置背景是否透明，默认黑色 0.4 alpha */
+@property (nonatomic, copy, readonly) JKAlertView *(^setClearBackground)(BOOL clearBackground);
+
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled);
 

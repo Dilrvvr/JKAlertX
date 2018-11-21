@@ -84,6 +84,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /** 全屏的背景view */
 @property (nonatomic, weak) UIView *fullScreenBackGroundView;
 
+/** 背景是否透明，默认黑色 0.4 alpha */
+@property (nonatomic, assign) BOOL isClearBackground;
+
 /** contentView */
 @property (nonatomic, weak) UIView *contentView;
 
@@ -1792,6 +1795,17 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     };
 }
 
+/** 设置背景是否透明，默认黑色 0.4 alpha */
+- (JKAlertView *(^)(BOOL clearBackground))setClearBackground{
+    
+    return ^(BOOL clearBackground){
+        
+        self.isClearBackground = clearBackground;
+        
+        return self;
+    };
+}
+
 /**
  * 设置全屏背景view 默认无
  */
@@ -3171,7 +3185,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     [UIView animateWithDuration:0.25 animations:^{
         
-        self.contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+        if (!self.isClearBackground) {
+            
+            self.contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+        }
         self.fullScreenBackGroundView.alpha = 1;
         
         [self showAnimationOperation];
