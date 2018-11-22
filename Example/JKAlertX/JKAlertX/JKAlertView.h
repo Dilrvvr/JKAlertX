@@ -27,7 +27,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setFullScreenBackGroundView)(UIView *(^backGroundView)(void));
 
 /** 设置全屏背景是否透明，默认黑色 0.4 alpha */
-@property (nonatomic, copy, readonly) JKAlertView *(^setClearFullBackground)(BOOL isClearFullBackground);
+@property (nonatomic, copy, readonly) JKAlertView *(^setClearFullScreenBackgroundColor)(BOOL isClearFullScreenBackgroundColor);
 
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled);
@@ -195,9 +195,9 @@
  * 设置actionSheet样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
- * isContainerClearBackground : 是否让其容器视图透明
+ * isClearContainerBackgroundColor : 是否让其容器视图透明
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(BOOL isContainerClearBackground, UIView *(^customView)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void));
 
 
 #pragma mark - collectionSheet样式

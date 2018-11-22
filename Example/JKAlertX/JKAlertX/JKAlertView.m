@@ -85,7 +85,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 @property (nonatomic, weak) UIView *fullScreenBackGroundView;
 
 /** 全屏背景是否透明，默认黑色 0.4 alpha */
-@property (nonatomic, assign) BOOL isClearFullBackground;
+@property (nonatomic, assign) BOOL isClearFullScreenBackgroundColor;
 
 /** contentView */
 @property (nonatomic, weak) UIView *contentView;
@@ -1725,15 +1725,15 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 设置actionSheet样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
- * isContainerClearBackground : 是否让其容器视图透明
+ * isClearContainerBackgroundColor : 是否让其容器视图透明
  */
-- (JKAlertView *(^)(BOOL isContainerClearBackground, UIView *(^customView)(void)))setCustomActionSheetTitleView{
+- (JKAlertView *(^)(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)))setCustomActionSheetTitleView{
     
-    return ^(BOOL isContainerClearBackground, UIView *(^customView)(void)){
+    return ^(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)){
         
         self.customSheetTitleView = !customView ? nil : customView();
         
-        if (isContainerClearBackground) {
+        if (isClearContainerBackgroundColor) {
             
             self->_textContainerView.backgroundColor = nil;
         }
@@ -1741,7 +1741,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         return self;
     };
 }
-//@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(UIView *(^customView)(void));
 
 /**
  * 设置collection样式添加自定义的titleView
@@ -1807,11 +1806,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 /** 设置全屏背景是否透明，默认黑色 0.4 alpha */
-- (JKAlertView *(^)(BOOL isClearFullBackground))setClearFullBackground{
+- (JKAlertView *(^)(BOOL isClearFullScreenBackgroundColor))setClearFullScreenBackgroundColor{
     
-    return ^(BOOL isClearFullBackground){
+    return ^(BOOL isClearFullScreenBackgroundColor){
         
-        self.isClearFullBackground = isClearFullBackground;
+        self.isClearFullScreenBackgroundColor = isClearFullScreenBackgroundColor;
         
         return self;
     };
@@ -3196,7 +3195,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     [UIView animateWithDuration:0.25 animations:^{
         
-        if (!self.isClearFullBackground) {
+        if (!self.isClearFullScreenBackgroundColor) {
             
             self.contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
         }
