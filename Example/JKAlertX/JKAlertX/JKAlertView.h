@@ -14,6 +14,11 @@
 #pragma mark - 公共部分
 
 /**
+ * 设置点击空白处是否消失，plain默认NO，其它YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setClickBlankDismiss)(BOOL shouldDismiss);
+
+/**
  * 设置自定义的父控件
  * 默认添加到keywindow上
  * customSuperView在show之前有效
@@ -167,11 +172,6 @@
  * 正数表示向下偏移，负数表示向上偏移
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
-
-/**
- * 设置点击plain空白处是否消失
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setClickPlainBlankDismiss)(BOOL shouldDismiss);
 
 
 #pragma mark - HUD样式

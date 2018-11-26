@@ -1634,9 +1634,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 
 /**
- * 设置点击plain空白处是否消失
+ * 设置点击空白处是否消失，plain默认NO，其它YES
  */
-- (JKAlertView *(^)(BOOL shouldDismiss))setClickPlainBlankDismiss{
+- (JKAlertView *(^)(BOOL shouldDismiss))setClickBlankDismiss{
     
     return ^(BOOL shouldDismiss){
         
