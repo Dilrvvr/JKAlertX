@@ -1032,10 +1032,13 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (void)setAlertStyle:(JKAlertStyle)alertStyle{
     _alertStyle = alertStyle;
     
+    _clickPlainBlankDismiss = YES;
+    
     switch (_alertStyle) {
         case JKAlertStylePlain:
         {
             [self plainView];
+            _clickPlainBlankDismiss = NO;
         }
             break;
             
@@ -3342,17 +3345,15 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     if (_plainView != nil) {
         
-        if (_clickPlainBlankDismiss) {
-            
-            self.dismiss();
-        }
-        
         [self endEditing:YES];
         
         return;
     }
     
-    self.dismiss();
+    if (_clickPlainBlankDismiss) {
+        
+        self.dismiss();
+    }
 }
 
 // 通过通知来dismiss
