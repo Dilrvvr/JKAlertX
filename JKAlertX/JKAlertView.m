@@ -84,6 +84,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /** 全屏的背景view */
 @property (nonatomic, weak) UIView *fullScreenBackGroundView;
 
+/** 全屏背景是否透明，默认黑色 0.4 alpha */
+@property (nonatomic, assign) BOOL isClearFullScreenBackgroundColor;
+
 /** contentView */
 @property (nonatomic, weak) UIView *contentView;
 
@@ -491,6 +494,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 懒加载------------------------
+
 - (NSMutableArray *)actions{
     if (!_actions) {
         _actions = [NSMutableArray array];
@@ -639,7 +643,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         [self.textContainerView insertSubview:self.scrollView atIndex:0];
         
-//        self.scrollView.scrollEnabled = NO;
+        //        self.scrollView.scrollEnabled = NO;
         
         [self.scrollView addSubview:self.titleTextView];
         
@@ -921,6 +925,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 初始化------------------------
+
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         [self initialization];
@@ -1027,10 +1032,13 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (void)setAlertStyle:(JKAlertStyle)alertStyle{
     _alertStyle = alertStyle;
     
+    _clickPlainBlankDismiss = YES;
+    
     switch (_alertStyle) {
         case JKAlertStylePlain:
         {
             [self plainView];
+            _clickPlainBlankDismiss = NO;
         }
             break;
             
@@ -1626,9 +1634,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 
 /**
- * 设置点击plain空白处是否消失
+ * 设置点击空白处是否消失，plain默认NO，其它YES
  */
-- (JKAlertView *(^)(BOOL shouldDismiss))setClickPlainBlankDismiss{
+- (JKAlertView *(^)(BOOL shouldDismiss))setClickBlankDismiss{
     
     return ^(BOOL shouldDismiss){
         
@@ -1720,12 +1728,22 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  * 设置actionSheet样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
+ * isClearContainerBackgroundColor : 是否让其容器视图透明
  */
-- (JKAlertView *(^)(UIView *(^customView)(void)))setCustomActionSheetTitleView{
+- (JKAlertView *(^)(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)))setCustomActionSheetTitleView{
     
-    return [self setCustomCollectionTitleView];
+    return ^(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)){
+        
+        self.customSheetTitleView = !customView ? nil : customView();
+        
+        if (isClearContainerBackgroundColor) {
+            
+            self->_textContainerView.backgroundColor = nil;
+        }
+        
+        return self;
+    };
 }
-//@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(UIView *(^customView)(void));
 
 /**
  * 设置collection样式添加自定义的titleView
@@ -1785,6 +1803,17 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     return ^(UIView *(^backGroundView)(void)){
         
         self.backGroundView = !backGroundView ? nil : backGroundView();
+        
+        return self;
+    };
+}
+
+/** 设置全屏背景是否透明，默认黑色 0.4 alpha */
+- (JKAlertView *(^)(BOOL isClearFullScreenBackgroundColor))setClearFullScreenBackgroundColor{
+    
+    return ^(BOOL isClearFullScreenBackgroundColor){
+        
+        self.isClearFullScreenBackgroundColor = isClearFullScreenBackgroundColor;
         
         return self;
     };
@@ -1861,6 +1890,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 监听屏幕旋转------------------------
+
 - (void)orientationChanged:(NSNotification *)noti{
     
     _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0);
@@ -2456,6 +2486,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 计算frame------------------------------------
+
 - (void)relayout{
     
     self.frame = [UIScreen mainScreen].bounds;
@@ -2568,7 +2599,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     if (!_plainTitleMessageSeparatorHidden) {
         
-        _plainTitleMessageSeparatorLayer.frame = CGRectMake(_plainTitleMessageSeparatorMargin, messageOriginY - JKAlertTitleMessageMargin, PlainViewWidth - _plainTitleMessageSeparatorMargin * 2, JKAlertSeparatorLineWH);
+        _plainTitleMessageSeparatorLayer.frame = CGRectMake(_plainTitleMessageSeparatorMargin, messageOriginY - JKAlertTitleMessageMargin - JKAlertSeparatorLineWH, PlainViewWidth - _plainTitleMessageSeparatorMargin * 2, JKAlertSeparatorLineWH);
     }
     
     [self.messageTextView calculateFrameWithMaxWidth:PlainViewWidth - self.textViewLeftRightMargin * 2 minHeight:JKAlertMinMessageLabelH originY:messageOriginY superView:self.textContainerView];
@@ -2820,7 +2851,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         tableViewH += action.rowHeight;
     }
     
-    tableViewH += (self.cancelAction.rowHeight + CancelMargin + JKAlertAdjustHomeIndicatorHeight);
+    if (self.cancelAction.rowHeight > 0) {
+        
+        tableViewH += (self.cancelAction.rowHeight + CancelMargin);
+    }
+    
+    tableViewH += JKAlertAdjustHomeIndicatorHeight;
     
     _tableView.frame = CGRectMake(0, CGRectGetMaxY(_textContainerView.frame), JKAlertScreenW, tableViewH);
     
@@ -2936,6 +2972,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 布局collectionSheet
+
 - (void)layoutCollectionSheet{
     
     NSInteger count = self.actions.count;
@@ -3113,6 +3150,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 布局自定义HUD
+
 - (void)layoutCustomHUD{
     
     if (!_customHUD) {
@@ -3124,6 +3162,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 动画弹出来------------------------
+
 - (void)didMoveToSuperview{
     [super didMoveToSuperview];
     
@@ -3159,7 +3198,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     [UIView animateWithDuration:0.25 animations:^{
         
-        self.contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+        if (!self.isClearFullScreenBackgroundColor) {
+            
+            self.contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+        }
         self.fullScreenBackGroundView.alpha = 1;
         
         [self showAnimationOperation];
@@ -3303,17 +3345,15 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     if (_plainView != nil) {
         
-        if (_clickPlainBlankDismiss) {
-            
-            self.dismiss();
-        }
-        
         [self endEditing:YES];
         
         return;
     }
     
-    self.dismiss();
+    if (_clickPlainBlankDismiss) {
+        
+        self.dismiss();
+    }
 }
 
 // 通过通知来dismiss
@@ -3399,14 +3439,17 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - 强制更改frame为屏幕尺寸
+
 - (void)setFrame:(CGRect)frame{
     frame = CGRectMake(0, 0, JKAlertScreenW, JKAlertScreenH);
     [super setFrame:frame];
 }
 
 #pragma mark - UITableViewDataSource------------------------
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return self.alertStyle == JKAlertStyleActionSheet ? 2 : 0;
+    
+    return self.alertStyle == JKAlertStyleActionSheet ? (self.cancelAction.rowHeight > 0 ? 2 : 1) : 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -3435,6 +3478,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - UITableViewDelegate------------------------
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     JKAlertAction *action = indexPath.section == 0 ? self.actions[indexPath.row] : self.cancelAction;
@@ -3445,14 +3489,14 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return CGFLOAT_MIN;
+    return (section == 0) ? CGFLOAT_MIN : CancelMargin;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return (section == 0) ? CancelMargin : CGFLOAT_MIN;
+    return CGFLOAT_MIN;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     return nil;
 }
 
@@ -3469,6 +3513,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - UICollectionViewDataSource------------------------
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return collectionView == self.collectionView ? self.actions.count : self.actions2.count;
 }
@@ -3483,6 +3528,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - UICollectionViewDelegate------------------------
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
@@ -3496,6 +3542,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - UIScrollViewDelegate------------------------
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
     if (!self.compoundCollection || scrollView == _tableView) {
@@ -3517,6 +3564,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - plain样式按钮点击------------------------
+
 - (void)plainButtonClick:(UIButton *)button{
     
     JKAlertAction *action = self.actions[button.tag - JKAlertPlainButtonBeginTag];
@@ -3543,6 +3591,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - dealloc------------------------
+
 /** 允许dealloc打印，用于检查循环引用 */
 - (JKAlertView *(^)(BOOL enable))enableDeallocLog{
     

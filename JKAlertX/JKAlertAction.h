@@ -7,38 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@protocol JKAlertViewProtocol
-
-@required
-
-/** 退出 */
-- (void(^)(void))dismiss;
-
-/** 监听JKAlertView即将即将开始消失动画 */
-- (void(^)(void(^willDismiss)(void)))setWillDismiss;
-
-/** 监听JKAlertView消失动画完成 */
-- (void(^)(void(^dismissComplete)(void)))setDismissComplete;
-
-@end
-
-typedef enum : NSUInteger {
-    
-    /**
-     * 默认样式
-     * plain默认系统蓝色
-     * 其它样式默认黑色字体 RGB都为51
-     */
-    JKAlertActionStyleDefault,
-    
-    /** 红色字体 */
-    JKAlertActionStyleDestructive,
-    
-    /** 灰色字体 RGB都为153 */
-    JKAlertActionStyleCancel,
-    
-} JKAlertActionStyle;
+#import "JKAlertConst.h"
 
 @interface JKAlertAction : NSObject
 

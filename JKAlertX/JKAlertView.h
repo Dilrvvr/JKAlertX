@@ -9,39 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "JKAlertAction.h"
 
-#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
-
-typedef enum : NSUInteger {
-    
-    /**
-     * none
-     * 该样式将不会创建JKAlertView
-     */
-    JKAlertStyleNone,
-    
-    /** 面板 */
-    JKAlertStylePlain,
-    
-    /** 列表 */
-    JKAlertStyleActionSheet,
-    
-    /**
-     * collectionView样式
-     * 该样式没有message，只有一个title
-     */
-    JKAlertStyleCollectionSheet,
-    
-    /**
-     * HUD提示
-     * 该样式没有message，只有一个title
-     */
-    JKAlertStyleHUD,
-    
-} JKAlertStyle;
-
 @interface JKAlertView : UIView
 
 #pragma mark - 公共部分
+
+/**
+ * 设置点击空白处是否消失，plain默认NO，其它YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setClickBlankDismiss)(BOOL shouldDismiss);
 
 /**
  * 设置自定义的父控件
@@ -55,6 +30,9 @@ typedef enum : NSUInteger {
  * 设置全屏背景view 默认无
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setFullScreenBackGroundView)(UIView *(^backGroundView)(void));
+
+/** 设置全屏背景是否透明，默认黑色 0.4 alpha */
+@property (nonatomic, copy, readonly) JKAlertView *(^setClearFullScreenBackgroundColor)(BOOL isClearFullScreenBackgroundColor);
 
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled);
@@ -195,11 +173,6 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
 
-/**
- * 设置点击plain空白处是否消失
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setClickPlainBlankDismiss)(BOOL shouldDismiss);
-
 
 #pragma mark - HUD样式
 
@@ -222,8 +195,9 @@ typedef enum : NSUInteger {
  * 设置actionSheet样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
+ * isClearContainerBackgroundColor : 是否让其容器视图透明
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(UIView *(^customView)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void));
 
 
 #pragma mark - collectionSheet样式
