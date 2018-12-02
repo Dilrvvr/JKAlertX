@@ -10,6 +10,7 @@
 #define JKAlertX_h
 
 #import "JKAlertView.h"
+#import "JKAlertCategory.h"
 
 #endif /* JKAlertX_h */
 

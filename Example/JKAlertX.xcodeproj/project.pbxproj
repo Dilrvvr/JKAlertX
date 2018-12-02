@@ -15,6 +15,7 @@
 		5038B35E216B599D00FA5588 /* JKAlertTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038B358216B599D00FA5588 /* JKAlertTableViewCell.m */; };
 		5038B35F216B599D00FA5588 /* JKAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038B359216B599D00FA5588 /* JKAlertAction.m */; };
 		506C31C8215DD82E00FD6D31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506C31C7215DD82E00FD6D31 /* Assets.xcassets */; };
+		50D3F94C21B3DE1C004CD164 /* JKAlertCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D3F94B21B3DE1C004CD164 /* JKAlertCategory.m */; };
 		50F2F13021A57C96005B3242 /* JKAlertConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F2F12F21A57C96005B3242 /* JKAlertConst.m */; };
 		B7D5AA5C207CFBE8001152D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D5AA5B207CFBE8001152D9 /* AppDelegate.m */; };
 		B7D5AA5F207CFBE8001152D9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D5AA5E207CFBE8001152D9 /* ViewController.m */; };
@@ -40,6 +41,8 @@
 		5038B359216B599D00FA5588 /* JKAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKAlertAction.m; sourceTree = "<group>"; };
 		5038B35A216B599D00FA5588 /* JKAlertX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKAlertX.h; sourceTree = "<group>"; };
 		506C31C7215DD82E00FD6D31 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		50D3F94A21B3DE1C004CD164 /* JKAlertCategory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertCategory.h; sourceTree = "<group>"; };
+		50D3F94B21B3DE1C004CD164 /* JKAlertCategory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertCategory.m; sourceTree = "<group>"; };
 		50F2F12E21A57C96005B3242 /* JKAlertConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertConst.h; sourceTree = "<group>"; };
 		50F2F12F21A57C96005B3242 /* JKAlertConst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertConst.m; sourceTree = "<group>"; };
 		B7D5AA57207CFBE8001152D9 /* JKAlertX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JKAlertX.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,19 +81,21 @@
 		5038B34F216B597700FA5588 /* JKAlertX */ = {
 			isa = PBXGroup;
 			children = (
-				5038B35A216B599D00FA5588 /* JKAlertX.h */,
-				50F2F12E21A57C96005B3242 /* JKAlertConst.h */,
-				50F2F12F21A57C96005B3242 /* JKAlertConst.m */,
 				5038B353216B599D00FA5588 /* JKAlertAction.h */,
 				5038B359216B599D00FA5588 /* JKAlertAction.m */,
+				50D3F94A21B3DE1C004CD164 /* JKAlertCategory.h */,
+				50D3F94B21B3DE1C004CD164 /* JKAlertCategory.m */,
 				5038B354216B599D00FA5588 /* JKAlertCollectionViewCell.h */,
 				5038B356216B599D00FA5588 /* JKAlertCollectionViewCell.m */,
+				50F2F12E21A57C96005B3242 /* JKAlertConst.h */,
+				50F2F12F21A57C96005B3242 /* JKAlertConst.m */,
 				5038B350216B599D00FA5588 /* JKAlertTableViewCell.h */,
 				5038B358216B599D00FA5588 /* JKAlertTableViewCell.m */,
 				5038B355216B599D00FA5588 /* JKAlertTextView.h */,
 				5038B352216B599D00FA5588 /* JKAlertTextView.m */,
 				5038B357216B599D00FA5588 /* JKAlertView.h */,
 				5038B351216B599D00FA5588 /* JKAlertView.m */,
+				5038B35A216B599D00FA5588 /* JKAlertX.h */,
 			);
 			path = JKAlertX;
 			sourceTree = "<group>";
@@ -203,6 +208,7 @@
 				B7D5AA5F207CFBE8001152D9 /* ViewController.m in Sources */,
 				50318C70207CFD090059B4BA /* JKShareManager.m in Sources */,
 				5038B35D216B599D00FA5588 /* JKAlertCollectionViewCell.m in Sources */,
+				50D3F94C21B3DE1C004CD164 /* JKAlertCategory.m in Sources */,
 				5038B35E216B599D00FA5588 /* JKAlertTableViewCell.m in Sources */,
 				B7D5AA6A207CFBE8001152D9 /* main.m in Sources */,
 				50F2F13021A57C96005B3242 /* JKAlertConst.m in Sources */,

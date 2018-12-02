@@ -19,6 +19,11 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setClickBlankDismiss)(BOOL shouldDismiss);
 
 /**
+ * 配置弹出视图的容器view，加圆角等
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setContainerViewConfig)(void (^containerViewConfig)(UIView *containerView));
+
+/**
  * 设置自定义的父控件
  * 默认添加到keywindow上
  * customSuperView在show之前有效
@@ -276,10 +281,18 @@
 @property (class, nonatomic, copy, readonly) JKAlertView * (^alertViewAttributed)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style);
 
 /** 显示文字HUD */
-@property (class, nonatomic, copy, readonly) JKAlertView *(^showHUDWithTitle)(NSString *title);
+@property (class, nonatomic, copy, readonly) void (^showHUDWithTitle)(NSString *title, void(^configuration)(JKAlertView *alertView));
 
 /** 显示富文本HUD */
-@property (class, nonatomic, copy, readonly) JKAlertView *(^showHUDWithAttributedTitle)(NSAttributedString *attributedTitle);
+@property (class, nonatomic, copy, readonly) void (^showHUDWithAttributedTitle)(NSAttributedString *attributedTitle, void(^configuration)(JKAlertView *alertView));
+
+/**
+ * 显示自定义HUD
+ * 注意使用点语法调用，否则莫名报错 JKAlertView.showCustomHUD
+ * customHUD尺寸将完全由自定义控制，默认显示在屏幕中间
+ * 注意自己计算好自定义HUD的size，以避免横竖屏出现问题
+ */
+@property (class, nonatomic, copy, readonly) void (^showCustomHUD)(UIView *(^customHUD)(void), void(^configuration)(JKAlertView *alertView));
 
 /**
  * 移除当前所有的JKAlertView
@@ -294,14 +307,6 @@
  * 本质是发送一个通知，让dismissKey为该值的JKAlertView对象执行消失操作
  */
 @property (class, nonatomic, copy, readonly) void (^dismissForKey)(NSString *dismissKey);
-
-/**
- * 显示自定义HUD
- * 注意使用点语法调用，否则莫名报错 JKAlertView.showCustomHUD
- * customHUD尺寸将完全由自定义控制，默认显示在屏幕中间
- * 注意自己计算好自定义HUD的size，以避免横竖屏出现问题
- */
-@property (class, nonatomic, copy, readonly) JKAlertView *(^showCustomHUD)(UIView *(^customHUD)(void));
 
 
 #pragma mark - 添加action
@@ -373,17 +378,26 @@
 /** 监听显示动画完成 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
 
+/** 监听屏幕旋转 */
+@property (nonatomic, copy, readonly) JKAlertView * (^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));
+
 /** 监听JKAlertView即将开始消失动画 */
-@property (nonatomic, copy, readonly) void (^setWillDismiss)(void(^willDismiss)(void));
+@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setWillDismiss)(void(^willDismiss)(void));
 
 /** 监听JKAlertView消失动画完成 */
-@property (nonatomic, copy, readonly) void (^setDismissComplete)(void(^dismissComplete)(void));
+@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setDismissComplete)(void(^dismissComplete)(void));
 
 /** 设置dealloc时会调用的block */
 @property (nonatomic, copy, readonly) void (^setDeallocBlock)(void(^deallocBlock)(void));
 
 /** 设置是否允许dealloc打印，用于检查循环引用 */
 @property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable);
+
+
+#pragma mark - 显示之后更新UI
+
+/** 重新布局 */
+@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^relayout)(BOOL animated);
 
 
 #pragma mark - 其它适配
@@ -396,28 +410,4 @@
 
 /** 设置是否填充底部 iPhone X homeIndicator 默认YES */
 @property (nonatomic, copy, readonly) JKAlertView *(^setFillHomeIndicator)(BOOL fillHomeIndicator);
-@end
-
-
-#pragma mark
-#pragma mark - UIControl点击分类
-
-@interface UIControl (JKAlertX)
-
-
-- (void)JKAlertX_addClickOperation:(void(^)(id control))clickOperation;
-
-- (void)JKAlertX_addOperation:(void(^)(id control))clickOperation forControlEvents:(UIControlEvents)controlEvents;
-@end
-
-
-#pragma mark
-#pragma mark - 手势分类
-
-@interface UIGestureRecognizer (JKAlertX)
-
-
-+ (instancetype)JKAlertX_gestureWithOperation:(void(^)(id gesture))gestureOperation;
-
-- (void)JKAlertX_addGestureOperation:(void(^)(id gesture))gestureOperation;
 @end

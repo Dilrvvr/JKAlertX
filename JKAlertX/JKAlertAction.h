@@ -11,11 +11,17 @@
 
 @interface JKAlertAction : NSObject
 
+/** title */
+@property (nonatomic, copy, readonly) NSString *title;
+
+/** 重新设置title */
+@property (nonatomic, copy, readonly) JKAlertAction *(^resetTitle)(NSString *title);
+
 /** attributedTitle */
 @property (nonatomic, strong, readonly) NSAttributedString *attributedTitle;
 
-/** title */
-@property (nonatomic, copy, readonly) NSString *title;
+/** 重新设置attributedTitle */
+@property (nonatomic, copy, readonly) JKAlertAction *(^resetAttributedTitle)(NSAttributedString *attributedTitle);
 
 /** handler */
 @property (nonatomic, copy, readonly) void (^handler)(JKAlertAction *action);
@@ -32,7 +38,7 @@
 /**
  * 是否是空的action
  * 以上5个属性都为nil时即为空的action
- * 空action在非plain样式以外，点击将没有任何反应
+ * 空action在plain样式以外，点击将没有任何反应
  */
 @property (nonatomic, assign, readonly) BOOL isEmpty;
 
@@ -58,7 +64,7 @@
 @property (nonatomic, copy, readonly) JKAlertAction *(^setTitleFont)(UIFont *font);
 
 /** 执行操作后是否自动消失 */
-@property (nonatomic, assign) BOOL autoDismiss;
+@property (nonatomic, assign, getter=isAutoDismiss) BOOL autoDismiss;
 
 /** 设置执行操作后是否自动消失 */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setAutoDismiss)(BOOL autoDismiss);

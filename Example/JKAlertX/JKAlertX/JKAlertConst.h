@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class JKAlertView;
+
 #pragma mark
 #pragma mark - 协议
 
@@ -19,11 +21,28 @@
 - (void(^)(void))dismiss;
 
 /** 监听JKAlertView即将即将开始消失动画 */
-- (void(^)(void(^willDismiss)(void)))setWillDismiss;
+- (id<JKAlertViewProtocol> (^)(void(^willDismiss)(void)))setWillDismiss;
 
 /** 监听JKAlertView消失动画完成 */
-- (void(^)(void(^dismissComplete)(void)))setDismissComplete;
+- (id<JKAlertViewProtocol> (^)(void(^dismissComplete)(void)))setDismissComplete;
 
+/** 重新布局 */
+- (id<JKAlertViewProtocol> (^)(BOOL animated))relayout;
+
+/** 重新设置alertTitle */
+- (id<JKAlertViewProtocol> (^)(NSString *alertTitle))resetAlertTitle;
+
+/** 重新设置alertAttributedTitle */
+- (id<JKAlertViewProtocol> (^)(NSAttributedString *alertAttributedTitle))resetAlertAttributedTitle;
+
+/** 重新设置message */
+- (id<JKAlertViewProtocol> (^)(NSString *message))resetMessage;
+
+/** 重新设置attributedMessage */
+- (id<JKAlertViewProtocol> (^)(NSAttributedString *attributedMessage))resetAttributedMessage;
+
+/** 重新设置其它属性，调用该方法返回JKAlertView，设置好其它属性后，再调用relayout即可 */
+- (JKAlertView * (^)(void))resetOther;
 @end
 
 

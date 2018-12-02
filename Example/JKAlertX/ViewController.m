@@ -125,7 +125,15 @@
         
         [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             
-        }]];
+            if (action.autoDismiss) { return; }
+            
+            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").resetOther().setMessageMinHeight(80).setPlainCloseButtonConfig(^(UIButton *closeButton) {
+                
+                closeButton.hidden = YES;
+                
+            }).relayout(YES);
+            
+        }].setAutoDismiss(NO)];
         
         // 向上偏移100
         alertView.setPlainCenterOffsetY(-100);
@@ -133,9 +141,11 @@
         // 自定义展示动画
         alertView.setCustomShowAnimationBlock(^(JKAlertView *view, UIView *animationView) {
             
+            view.window.userInteractionEnabled = YES;
+            
             animationView.transform = CGAffineTransformMakeScale(0.3, 0.3);
             
-            [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:15.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:15.0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction animations:^{
                 
                 animationView.transform = CGAffineTransformMakeScale(1.0, 1.0);
                 
@@ -243,6 +253,12 @@
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好" style:(JKAlertStyleActionSheet)];
 //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil style:(JKAlertStyleActionSheet)];
     
+    alertView.setContainerViewConfig(^(UIView *containerView) {
+       
+        // 加个圆角
+        [containerView JKAlertX_clipRoundWithRadius:8 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
+    });
+    
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
@@ -251,9 +267,17 @@
         
     }].setNormalImage([UIImage imageNamed:@"Share_Facebook"])];
     
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定3" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [alertView addAction:[JKAlertAction actionWithTitle:@"更新message" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }]];
+        if (action.isAutoDismiss) { return; }
+        
+        action.setAutoDismiss(YES).setCustomView(^UIView *(JKAlertAction *action) {
+            
+            return [UIView new];
+            
+        }).alertView.resetMessage(@"message已更新").resetOther().setMessageTextColor([UIColor redColor]).relayout(YES);
+        
+    }].setAutoDismiss(NO)];
     
     //    alertView.setCancelAction([JKAlertAction actionWithTitle:@"cancel" style:(JKAlertActionStyleDestructive) handler:nil]);
     
@@ -274,9 +298,17 @@
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setBottomButtonMargin(10).setCustomSuperView(self.view);
     
     // 第1组
-    alertView.setCollectionAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    alertView.setCollectionAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }]).setShowPageControl(YES);
+        if (action.autoDismiss) { return; }
+        
+        action.setAutoDismiss(YES).setCustomView(^UIView *(JKAlertAction *action) {
+            
+            return [UIView new];
+            
+        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").resetOther().setTitleTextColor([UIColor redColor]).setBottomButtonMargin(0.5).relayout(YES);
+        
+    }].setAutoDismiss(NO)).setShowPageControl(YES);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -340,7 +372,9 @@
 
 - (IBAction)testShare:(UIButton *)sender {
     
-    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].setTitleTextViewAlignment(NSTextAlignmentLeft).setTextViewLeftRightMargin(4).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].setTitleTextViewAlignment(NSTextAlignmentLeft).setTextViewLeftRightMargin(4).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setOrientationChangeBlock(^(JKAlertView *view, UIInterfaceOrientation orientation) {
+        
+    }).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -383,13 +417,16 @@
 
 - (IBAction)HUD:(id)sender {
     
-    JKAlertView.showHUDWithTitle(@"你好你好你好你好").setHUDHeight(100).setDismissTimeInterval(2).enableDeallocLog(YES).setDismissComplete(^{
+    JKAlertView.showHUDWithTitle(@"你好你好你好你好", ^(JKAlertView *alertView) {
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        alertView.setHUDHeight(100).setDismissTimeInterval(2).enableDeallocLog(YES).setDismissComplete(^{
             
-            [sender setTitle:@"HUD" forState:(UIControlStateNormal)];
+            [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [sender setTitle:@"HUD" forState:(UIControlStateNormal)];
+            });
         });
     });
     
@@ -402,7 +439,7 @@
      
      [sender setTitle:@"HUD" forState:(UIControlStateNormal)];
      });
-     }); */
+     }); //*/
 }
 
 - (IBAction)customHUD:(id)sender{
@@ -416,13 +453,16 @@
         
         return label;
         
-    }).setDismissTimeInterval(2).enableDeallocLog(YES).setDismissComplete(^{
+    }, ^(JKAlertView *alertView) {
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        alertView.setDismissTimeInterval(2).enableDeallocLog(YES).setDismissComplete(^{
             
-            [sender setTitle:@"customHUD" forState:(UIControlStateNormal)];
+            [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [sender setTitle:@"customHUD" forState:(UIControlStateNormal)];
+            });
         });
     });
 }

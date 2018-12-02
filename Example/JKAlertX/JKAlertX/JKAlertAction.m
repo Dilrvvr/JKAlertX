@@ -81,6 +81,28 @@
     _autoDismiss = YES;
 }
 
+/** 重新设置title */
+- (JKAlertAction *(^)(NSString *title))resetTitle{
+    
+    return ^(NSString *title){
+        
+        self->_title = title;
+        
+        return self;
+    };
+}
+
+/** 重新设置attributedTitle */
+- (JKAlertAction *(^)(NSAttributedString *attributedTitle))resetAttributedTitle{
+    
+    return ^(NSAttributedString *attributedTitle){
+        
+        self->_attributedTitle = attributedTitle;
+        
+        return self;
+    };
+}
+
 - (JKAlertAction *(^)(UIColor *color))setTitleColor{
     
     return ^(UIColor *color){
@@ -157,6 +179,12 @@
     return ^(UIView *(^customView)(JKAlertAction *action)){
         
         self.customView = !customView ? nil : customView(self);
+        
+        if (self.customView) {
+            
+            // 重新计算rowHeight
+            self->_rowHeight = -1;
+        }
         
         return self;
     };
