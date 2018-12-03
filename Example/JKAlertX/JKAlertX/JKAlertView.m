@@ -249,6 +249,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /** 自定义消失动画 */
 @property (nonatomic, copy) void (^customDismissAnimationBlock)(JKAlertView *view, UIView *animationView);
 
+/** 监听重新布局完成 */
+@property (nonatomic, copy) void (^relayoutComplete)(JKAlertView *view);
+
 #pragma mark
 #pragma mark - 外界可自定义属性 移至内部 外界全部改为使用链式语法修改 2018-09-28
 
@@ -2447,10 +2450,10 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             break;
     }
     
-    [self relayoutFinished];
+    [self layoutUIFinish];
 }
 
-- (void)relayoutFinished{
+- (void)layoutUIFinish{
     
     [_tableView reloadData];
     
@@ -3587,12 +3590,29 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             [UIView animateWithDuration:0.25 animations:^{
                 
                 [self layoutUI];
+                
+            } completion:^(BOOL finished) {
+                
+                !self.relayoutComplete ? : self.relayoutComplete(self);
             }];
             
         } else {
             
             [self layoutUI];
+            
+            !self.relayoutComplete ? : self.relayoutComplete(self);
         }
+        
+        return self;
+    };
+}
+
+/** 监听重新布局完成 */
+- (id<JKAlertViewProtocol> (^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete{
+    
+    return ^(void(^relayoutComplete)(JKAlertView *view)){
+        
+        self.relayoutComplete = relayoutComplete;
         
         return self;
     };

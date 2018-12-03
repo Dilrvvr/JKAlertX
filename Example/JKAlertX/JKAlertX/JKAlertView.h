@@ -399,6 +399,9 @@
 /** 重新布局 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^relayout)(BOOL animated);
 
+/** 重新布局完成的block */
+@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view));
+
 
 #pragma mark - 其它适配
 
