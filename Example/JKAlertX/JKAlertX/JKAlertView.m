@@ -29,9 +29,14 @@ static CGFloat    const JKAlertScrollViewMaxH = 176; // (JKAlertButtonH * 4)
 
 static CGFloat    const JKAlertButtonH = 46;
 static NSInteger  const JKAlertPlainButtonBeginTag = 100;
-static NSString * const JKAlertDismissNotification = @"JKAlertDismissNotification";
 
 static CGFloat    const JKAlertSheetTitleMargin = 6;
+
+/** 移除全部的通知 */
+static NSString * const JKAlertDismissAllNotification = @"JKAlertDismissAllNotification";
+
+/** 根据key来移除的通知 */
+static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKeyNotification";
 
 @interface JKAlertHighlightedButton : UIButton
 
@@ -490,7 +495,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
  */
 + (void(^)(void))dismissAll{
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissAllNotification object:nil];
     
     return ^{};
 }
@@ -503,7 +508,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     return ^(NSString *dismissKey){
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissNotification object:dismissKey];
+        [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissForKeyNotification object:dismissKey];
     };
 }
 
@@ -1040,7 +1045,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissNotification:) name:JKAlertDismissNotification object:self.dismissKey];
+    // 移除全部的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissAllNotification:) name:JKAlertDismissAllNotification object:nil];
+    
+    // 根据key来移除的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissForKeyNotification:) name:JKAlertDismissForKeyNotification object:nil];
 }
 
 #pragma mark - setter------------------------
@@ -1876,10 +1885,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     return ^(NSString *dimissKey){
         
         self.dismissKey = dimissKey;
-        
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:JKAlertDismissNotification object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissNotification:) name:JKAlertDismissNotification object:self.dismissKey];
         
         return self;
     };
@@ -3338,8 +3343,6 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     if (_plainView != nil) {
         
         [self endEditing:YES];
-        
-        return;
     }
     
     if (_clickPlainBlankDismiss) {
@@ -3349,18 +3352,20 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 // 通过通知来dismiss
-- (void)dismissNotification:(NSNotification *)noti{
-    
-    if ([noti.object isEqualToString:self.dismissKey]) {
-        
-        self.dismiss();
-        
-        return;
-    }
+- (void)dismissAllNotification:(NSNotification *)noti{
     
     if (self.isDismissAllNoneffective) { return; }
     
     self.dismiss();
+}
+
+// 通过key通知来dismiss
+- (void)dismissForKeyNotification:(NSNotification *)noti{
+    
+    if ([noti.object isEqualToString:self.dismissKey]) {
+        
+        self.dismiss();
+    }
 }
 
 - (void(^)(void))dismiss{
