@@ -29,6 +29,9 @@
 /** 重新布局 */
 - (id<JKAlertViewProtocol> (^)(BOOL animated))relayout;
 
+/** 监听重新布局完成 */
+- (id<JKAlertViewProtocol> (^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete;
+
 /** 重新设置alertTitle */
 - (id<JKAlertViewProtocol> (^)(NSString *alertTitle))resetAlertTitle;
 
