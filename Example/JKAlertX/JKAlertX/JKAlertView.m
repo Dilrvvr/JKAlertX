@@ -42,6 +42,12 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
 
 @end
 
+@interface JKAlertSeparatorLayerButton : UIButton
+
+/** topSeparatorLineLayer */
+@property (nonatomic, weak) CALayer *topSeparatorLineLayer;
+@end
+
 @interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, JKAlertViewProtocol>
 {
     BOOL JKAlertIsIphoneX;
@@ -162,9 +168,6 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
 
 /** plainButtonVLineLayer */
 @property (nonatomic, weak) CALayer *plainButtonVLineLayer;
-
-/** plainButtonHLineLayer */
-@property (nonatomic, weak) CALayer *plainButtonHLineLayer;
 
 /** plainCornerRadius */
 @property (nonatomic, assign) CGFloat plainCornerRadius;
@@ -2646,29 +2649,29 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
         
         JKAlertAction *action = self.actions[i];
         
-        UIButton *btn = [self.scrollView viewWithTag:JKAlertPlainButtonBeginTag + i];
+        JKAlertSeparatorLayerButton *button = [self.scrollView viewWithTag:JKAlertPlainButtonBeginTag + i];
         
-        if (!btn) {
+        if (!button) {
             
-            btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-            [self.scrollView addSubview:btn];
+            button = [JKAlertSeparatorLayerButton buttonWithType:(UIButtonTypeCustom)];
+            [self.scrollView addSubview:button];
             
-            [btn setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
+            [button setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
             
-            [btn addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+            [button addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
             
-            btn.tag = JKAlertPlainButtonBeginTag + i;
+            button.tag = JKAlertPlainButtonBeginTag + i;
         }
         
-        btn.frame = CGRectMake(X, Y, W, JKAlertButtonH);
+        button.frame = CGRectMake(X, Y, W, JKAlertButtonH);
         
-        [self adjustButton:btn action:action];
+        [self adjustButton:button action:action];
         
         if ([action customView] != nil) {
             
-            btn.frame = CGRectMake(X, Y, W, [action customView].frame.size.height);
+            button.frame = CGRectMake(X, Y, W, [action customView].frame.size.height);
             
-            [action customView].frame = btn.bounds;
+            [action customView].frame = button.bounds;
         }
         
         if (i == 0) {
@@ -2678,7 +2681,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
         
         if (i == 1 && count == 2) {
             
-            btn.frame = CGRectMake(X, Y, W, [self.scrollView viewWithTag:JKAlertPlainButtonBeginTag].frame.size.height);
+            button.frame = CGRectMake(X, Y, W, [self.scrollView viewWithTag:JKAlertPlainButtonBeginTag].frame.size.height);
         }
         
         if (action.separatorLineHidden) {
@@ -2692,7 +2695,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
             if (!self.plainButtonVLineLayer) {
                 
                 CALayer *vline = [CALayer layer];
-                [btn.layer addSublayer:vline];
+                [button.layer addSublayer:vline];
                 vline.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2].CGColor;
                 self.plainButtonVLineLayer = vline;
             }
@@ -2704,14 +2707,14 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
         
         if (action.separatorLineHidden) { continue; }
         
-        if (!self.plainButtonHLineLayer) {
+        if (!button.topSeparatorLineLayer) {
             CALayer *hline = [CALayer layer];
             hline.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2].CGColor;
-            [btn.layer addSublayer:hline];
-            self.plainButtonHLineLayer = hline;
+            [button.layer addSublayer:hline];
+            button.topSeparatorLineLayer = hline;
         }
         
-        self.plainButtonHLineLayer.frame = CGRectMake(0.3, 0, btn.frame.size.width, JKAlertSeparatorLineWH);
+        button.topSeparatorLineLayer.frame = CGRectMake(0.3, 0, button.frame.size.width, JKAlertSeparatorLineWH);
     }
 }
 
@@ -3755,6 +3758,13 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
     
     self.backgroundColor = highlighted ? [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.3] : [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
 }
+@end
+
+
+
+
+@implementation JKAlertSeparatorLayerButton
+
 @end
 
 
