@@ -1639,12 +1639,12 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
             
             [UIView animateWithDuration:0.25 animations:^{
                 
-                self->_plainView.center = CGPointMake(self->_plainView.center.x, self->_plainView.center.y + centerOffsetY);
+                self->_plainView.center = CGPointMake(self->_plainView.center.x, self->JKAlertScreenH * 0.5 + self.plainCenterOffsetY + centerOffsetY);
             }];
             
         }else{
             
-            self->_plainView.center = CGPointMake(self->_plainView.center.x, self->_plainView.center.y + centerOffsetY);
+            self->_plainView.center = CGPointMake(self->_plainView.center.x, self->JKAlertScreenH * 0.5 + self.plainCenterOffsetY + centerOffsetY);
         }
         
         return self;
