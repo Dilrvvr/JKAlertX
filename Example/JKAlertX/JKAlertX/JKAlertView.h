@@ -217,6 +217,12 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setFlowlayoutItemWidth)(CGFloat width);
 
 /**
+ * 设置collection的水平（左右方向）的sectionInset
+ * 默认0，为0时自动设置为item间距的一半
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionHorizontalInset)(CGFloat inset);
+
+/**
  * 设置是否将两个collection合体
  * 设为YES可让两个collection同步滚动
  * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action

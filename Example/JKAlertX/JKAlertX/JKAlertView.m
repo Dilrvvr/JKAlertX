@@ -318,6 +318,12 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
 @property (nonatomic, assign) CGFloat flowlayoutItemWidth;
 
 /**
+ * 设置collection的水平（左右方向）的sectionInset
+ * 默认0，为0时自动设置为item间距的一半
+ */
+@property (nonatomic, assign) CGFloat collectionHorizontalInset;
+
+/**
  * 是否将两个collection合体
  * 设为YES可让两个collection同步滚动
  * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
@@ -1755,7 +1761,19 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
     };
 }
 
-
+/**
+ * 设置collection的水平（左右方向）的sectionInset
+ * 默认0，为0时自动设置为item间距的一半
+ */
+- (JKAlertView *(^)(CGFloat inset))setCollectionHorizontalInset{
+    
+    return ^(CGFloat inset){
+        
+        self.collectionHorizontalInset = inset;
+        
+        return self;
+    };
+}
 
 /**
  * 设置actionSheet样式添加自定义的titleView
@@ -3106,23 +3124,32 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
     
     self.sheetContainerView.frame = rect;
     
-    CGFloat itemMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * count) / count;
+    CGFloat totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * count - self.collectionHorizontalInset * 2);
+    
+    CGFloat itemMargin = totalMargin / ((self.collectionHorizontalInset == 0) ? count : count - 1);
     
     itemMargin = itemMargin < 0 ? 0 : itemMargin;
     
+    CGFloat leftRightInset = self.collectionHorizontalInset == 0 ? itemMargin * 0.5 : self.collectionHorizontalInset;
+    
     if (count2 > 0) {
         
-        CGFloat itemMargin2 = (JKAlertScreenW - self.flowlayout2.itemSize.width * count2) / count2;
+        totalMargin = (JKAlertScreenW - self.flowlayout2.itemSize.width * count2 - self.collectionHorizontalInset * 2);
+        
+        CGFloat itemMargin2 = totalMargin / ((self.collectionHorizontalInset == 0) ? count2 : count2 - 1);
+        
         itemMargin2 = itemMargin2 < 0 ? 0 : itemMargin2;
         
         itemMargin = MIN(itemMargin, itemMargin2);
         
-        self.flowlayout2.sectionInset = UIEdgeInsetsMake(self.flowlayout2.sectionInset.top, itemMargin * 0.5, 0, itemMargin * 0.5);
+        leftRightInset = self.collectionHorizontalInset == 0 ? itemMargin * 0.5 : self.collectionHorizontalInset;
+        
+        self.flowlayout2.sectionInset = UIEdgeInsetsMake(self.flowlayout2.sectionInset.top, leftRightInset, 0, leftRightInset);
         self.flowlayout2.minimumLineSpacing = itemMargin;
         self.flowlayout2.minimumInteritemSpacing = itemMargin;
     }
     
-    self.flowlayout.sectionInset = UIEdgeInsetsMake(self.flowlayout.sectionInset.top, itemMargin * 0.5, 0, itemMargin * 0.5);
+    self.flowlayout.sectionInset = UIEdgeInsetsMake(self.flowlayout.sectionInset.top, leftRightInset, 0, leftRightInset);
     self.flowlayout.minimumLineSpacing = itemMargin;
     self.flowlayout.minimumInteritemSpacing = itemMargin;
     
