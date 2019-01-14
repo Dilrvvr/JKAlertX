@@ -6,10 +6,10 @@
 //  Copyright © 2017年 安永博. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "JKBaseAlertView.h"
 #import "JKAlertAction.h"
 
-@interface JKAlertView : UIView
+@interface JKAlertView : JKBaseAlertView
 
 #pragma mark - 公共部分
 

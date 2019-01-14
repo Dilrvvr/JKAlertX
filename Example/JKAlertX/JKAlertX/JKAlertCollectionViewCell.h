@@ -6,11 +6,11 @@
 //  Copyright © 2018年 安永博. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "JKBaseAlertCollectionViewCell.h"
 
 @class JKAlertAction;
 
-@interface JKAlertCollectionViewCell : UICollectionViewCell
+@interface JKAlertCollectionViewCell : JKBaseAlertCollectionViewCell
 
 /** action */
 @property (nonatomic, strong) JKAlertAction *action;
