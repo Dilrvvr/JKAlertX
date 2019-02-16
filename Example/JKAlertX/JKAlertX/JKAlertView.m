@@ -1022,19 +1022,19 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 - (void)setAlertStyle:(JKAlertStyle)alertStyle{
     _alertStyle = alertStyle;
     
-    _clickPlainBlankDismiss = YES;
+    _clickPlainBlankDismiss = NO;
     
     switch (_alertStyle) {
         case JKAlertStylePlain:
         {
             [self plainView];
-            _clickPlainBlankDismiss = NO;
         }
             break;
             
         case JKAlertStyleActionSheet:
         {
             [self tableView];
+            _clickPlainBlankDismiss = YES;
         }
             break;
             
@@ -1043,6 +1043,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
             CancelMargin = 10;
             
             [self collectionView];
+            _clickPlainBlankDismiss = YES;
         }
             break;
             
