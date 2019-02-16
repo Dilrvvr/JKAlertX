@@ -11,18 +11,6 @@
 #import "JKAlertCollectionViewCell.h"
 #import "JKAlertTextView.h"
 
-#define JKAlertScreenScale [UIScreen mainScreen].scale
-
-#define JKAlertCurrentHomeIndicatorHeight (JKAlertIsIphoneX ? 34: 0)
-
-#define JKAlertAdjustHomeIndicatorHeight (AutoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight : 0)
-
-#define JKAlertRowHeight ((JKAlertScreenW > 321) ? 53 : 46)
-
-#define JKAlertTextContainerViewMaxH (JKAlertPlainViewMaxH - JKAlertScrollViewMaxH)
-
-#define JKAlertSheetMaxH (JKAlertScreenH * 0.85)
-
 static CGFloat    const JKAlertMinTitleLabelH = (22);
 static CGFloat    const JKAlertMinMessageLabelH = (17);
 static CGFloat    const JKAlertScrollViewMaxH = 176; // (JKAlertButtonH * 4)
@@ -31,12 +19,6 @@ static CGFloat    const JKAlertButtonH = 46;
 static NSInteger  const JKAlertPlainButtonBeginTag = 100;
 
 static CGFloat    const JKAlertSheetTitleMargin = 6;
-
-/** 移除全部的通知 */
-static NSString * const JKAlertDismissAllNotification = @"JKAlertDismissAllNotification";
-
-/** 根据key来移除的通知 */
-static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKeyNotification";
 
 @interface JKAlertHighlightedButton : UIButton
 
@@ -100,9 +82,6 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
 /** 配置弹出视图的容器view */
 @property (nonatomic, copy) void (^containerViewConfig)(UIView *containerView);
 
-/** contentView */
-@property (nonatomic, weak) UIView *contentView;
-
 /** sheetContainerView */
 @property (nonatomic, weak) UIView *sheetContainerView;
 
@@ -138,9 +117,6 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
 
 /** collectionButton */
 @property (nonatomic, weak) JKAlertHighlightedButton *collectionButton;
-
-/** 最底层背景按钮 */
-@property (nonatomic, weak) UIButton *dismissButton;
 
 /** actions */
 @property (nonatomic, strong) NSMutableArray *actions;
@@ -956,28 +932,9 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
 
 #pragma mark - 初始化------------------------
 
-- (instancetype)initWithFrame:(CGRect)frame{
-    if (self = [super initWithFrame:frame]) {
-        [self initialization];
-    }
-    return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
-    if (self = [super initWithCoder:aDecoder]) {
-        [self initialization];
-    }
-    return self;
-}
-
-- (void)initialization{
-    
-    [self setupDefaultData];
-    
-    [self setupUI];
-}
-
-- (void)setupDefaultData{
+/** 初始化自身属性 */
+- (void)initializeProperty{
+    [super initializeProperty];
     
     /** 屏幕宽度 */
     JKAlertScreenW = [UIScreen mainScreen].bounds.size.width;
@@ -1024,33 +981,32 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
     GlobalBackgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
 }
 
-- (void)setupUI{
+/** 构造函数初始化时调用 注意调用super */
+- (void)initialization{
+    [super initialization];
     
-    UIView *contentView = [[UIView alloc] init];
-    contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
-    [self insertSubview:contentView atIndex:0];
-    self.contentView = contentView;
+    [self addNotifications];
+}
+
+/** 创建UI */
+- (void)createUI{
+    [super createUI];
     
-    contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *contentViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[contentView]-0-|" options:0 metrics:nil views:@{@"contentView" : contentView}];
-    [self addConstraints:contentViewCons1];
+}
+
+/** 布局UI */
+- (void)layoutUI{
+    [super layoutUI];
     
-    NSArray *contentViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[contentView]-0-|" options:0 metrics:nil views:@{@"contentView" : contentView}];
-    [self addConstraints:contentViewCons2];
+}
+
+/** 初始化UI数据 */
+- (void)initializeUIData{
+    [super initializeUIData];
     
-    UIButton *dismissButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    dismissButton.backgroundColor = nil;
-    [self.contentView insertSubview:dismissButton atIndex:0];
-    self.dismissButton = dismissButton;
-    
-    dismissButton.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *dismissButtonCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[dismissButton]-0-|" options:0 metrics:nil views:@{@"dismissButton" : dismissButton}];
-    [self.contentView addConstraints:dismissButtonCons1];
-    
-    NSArray *dismissButtonCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[dismissButton]-0-|" options:0 metrics:nil views:@{@"dismissButton" : dismissButton}];
-    [self.contentView addConstraints:dismissButtonCons2];
-    
-    [dismissButton addTarget:self action:@selector(dismissButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
+- (void)addNotifications{
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
@@ -1132,7 +1088,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
     
     [self.plainView addSubview:_customHUD];
     
-    [self layoutUI];
+    [self calculateUI];
 }
 
 - (void)setCustomSheetTitleView:(UIView *)customSheetTitleView{
@@ -2012,7 +1968,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
             break;
     }
     
-    [self layoutUI];
+    [self calculateUI];
 }
 
 #pragma mark - 添加action------------------------
@@ -2283,14 +2239,14 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
     
     if (_alertStyle == JKAlertStyleHUD) {
         
-        [self layoutUI];
+        [self calculateUI];
         
         [_scrollView removeFromSuperview];
         
         return;
     }
     
-    [self layoutUI];
+    [self calculateUI];
 }
 
 // sheet样式
@@ -2306,7 +2262,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
     self.cancelAction.setSeparatorLineHidden(YES);
     [self.actions.lastObject setSeparatorLineHidden:YES];
     
-    [self layoutUI];
+    [self calculateUI];
 }
 
 // collectionSheet样式
@@ -2319,7 +2275,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
         self.cancelAction.setTitleColor([UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1]);
     }
     
-    [self layoutUI];
+    [self calculateUI];
 }
 
 - (void)adjustButton:(UIButton *)button action:(JKAlertAction *)action{
@@ -2390,7 +2346,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
 
 #pragma mark - 计算frame------------------------------------
 
-- (void)layoutUI{
+- (void)calculateUI{
     
     self.frame = [UIScreen mainScreen].bounds;
     
@@ -2476,10 +2432,10 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
             break;
     }
     
-    [self layoutUIFinish];
+    [self calculateUIFinish];
 }
 
-- (void)layoutUIFinish{
+- (void)calculateUIFinish{
     
     [_tableView reloadData];
     
@@ -3317,7 +3273,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
         
         JKAlertPlainViewMaxH = JKAlertScreenH - 100;
         
-        [self layoutUI];
+        [self calculateUI];
         
         [UIView animateWithDuration:0.25 animations:^{
             
@@ -3334,7 +3290,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
             
             JKAlertPlainViewMaxH = maxH;
             
-            [self layoutUI];
+            [self calculateUI];
         }
         
         if (frame.size.height <= maxH) {
@@ -3353,7 +3309,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
         
         JKAlertPlainViewMaxH = maxH;
         
-        [self layoutUI];
+        [self calculateUI];
         
         frame = _plainView.frame;
         frame.origin.y = [self isLandScape] ? 5 : (JKAlertIsIphoneX ? 44 : 20);
@@ -3624,7 +3580,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
             
             [UIView animateWithDuration:0.25 animations:^{
                 
-                [self layoutUI];
+                [self calculateUI];
                 
             } completion:^(BOOL finished) {
                 
@@ -3633,7 +3589,7 @@ static NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKe
             
         } else {
             
-            [self layoutUI];
+            [self calculateUI];
             
             !self.relayoutComplete ? : self.relayoutComplete(self);
         }

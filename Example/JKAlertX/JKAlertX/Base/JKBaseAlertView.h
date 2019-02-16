@@ -8,10 +8,29 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface JKBaseAlertView : UIView
 
-@end
+/** contentView */
+@property (nonatomic, weak, readonly) UIView *contentView;
 
-NS_ASSUME_NONNULL_END
+/** 最底层背景按钮 */
+@property (nonatomic, weak, readonly) UIButton *dismissButton;
+
+
+/** 初始化自身属性 交给子类重写 super自动调用该方法 */
+- (void)initializeProperty NS_REQUIRES_SUPER;
+
+/** 构造函数初始化时调用 注意调用super */
+- (void)initialization NS_REQUIRES_SUPER;
+
+/** 创建UI 交给子类重写 super自动调用该方法 */
+- (void)createUI NS_REQUIRES_SUPER;
+
+/** 布局UI 交给子类重写 super自动调用该方法 */
+- (void)layoutUI NS_REQUIRES_SUPER;
+
+/** 初始化数据 交给子类重写 super自动调用该方法 */
+- (void)initializeUIData NS_REQUIRES_SUPER;
+
+- (void)dismissButtonClick:(UIButton *)button;
+@end

@@ -7,3 +7,10 @@
 //
 
 #import "JKAlertConst.h"
+
+
+/** 移除全部的通知 */
+NSString * const JKAlertDismissAllNotification = @"JKAlertDismissAllNotification";
+
+/** 根据key来移除的通知 */
+NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKeyNotification";

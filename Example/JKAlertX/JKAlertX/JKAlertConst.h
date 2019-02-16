@@ -101,10 +101,32 @@ typedef enum : NSUInteger {
 } JKAlertActionStyle;
 
 
+#pragma mark
+#pragma mark - 通知
+
+/** 移除全部的通知 */
+UIKIT_EXTERN NSString * const JKAlertDismissAllNotification;
+
+/** 根据key来移除的通知 */
+UIKIT_EXTERN NSString * const JKAlertDismissForKeyNotification;
 
 
 #pragma mark
 #pragma mark - 宏定义
+
+#define JKAlertScreenScale [UIScreen mainScreen].scale
+
+#define JKAlertCurrentHomeIndicatorHeight (JKAlertIsIphoneX ? 34: 0)
+
+#define JKAlertAdjustHomeIndicatorHeight (AutoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight : 0)
+
+#define JKAlertRowHeight ((JKAlertScreenW > 321) ? 53 : 46)
+
+#define JKAlertTextContainerViewMaxH (JKAlertPlainViewMaxH - JKAlertScrollViewMaxH)
+
+#define JKAlertSheetMaxH (JKAlertScreenH * 0.85)
+
+
 
 #define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
 
