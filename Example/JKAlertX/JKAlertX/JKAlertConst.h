@@ -124,7 +124,7 @@ UIKIT_EXTERN NSString * const JKAlertDismissForKeyNotification;
 
 #define JKAlertTextContainerViewMaxH (JKAlertPlainViewMaxH - JKAlertScrollViewMaxH)
 
-#define JKAlertSheetMaxH (JKAlertScreenH * 0.85)
+//#define JKAlertSheetMaxH (JKAlertScreenH * 0.85)
 
 
 

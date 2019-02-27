@@ -42,6 +42,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     CGFloat JKAlertPlainViewMaxH;
     CGFloat JKAlertTitleMessageMargin;
     
+    CGFloat JKAlertSheetMaxH;
+    
     /** 分隔线宽度或高度 */
     CGFloat JKAlertSeparatorLineWH;
     
@@ -955,6 +957,8 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     
     JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
     
+    JKAlertSheetMaxH = JKAlertScreenH * 0.85;
+    
     _HUDHeight = -1;
     _enableDeallocLog = NO;
     _messageMinHeight = -1;
@@ -1752,6 +1756,17 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         return self;
     };
 }
+
+/** 设置sheet样式最大高度 默认屏幕高度 * 0.85 */
+- (JKAlertView *(^)(CGFloat height))setSheetMaxHeight{
+    
+    return ^(CGFloat height){
+        
+        self->JKAlertSheetMaxH = height;
+        
+        return self;
+    };
+};
 
 /**
  * 设置collection样式添加自定义的titleView

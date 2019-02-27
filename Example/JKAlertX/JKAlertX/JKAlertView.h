@@ -204,6 +204,9 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void));
 
+/** 设置sheet样式最大高度 默认屏幕高度 * 0.85 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setSheetMaxHeight)(CGFloat height);
+
 
 #pragma mark - collectionSheet样式
 
