@@ -2130,6 +2130,11 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 /** 显示 */
 - (id<JKAlertViewProtocol>(^)(void))show{
     
+    if (_textFieldArr.count <= 0) {
+        
+        [[UIApplication sharedApplication].delegate.window endEditing:YES];
+    }
+    
     if (Showed) {
         
         return ^{
