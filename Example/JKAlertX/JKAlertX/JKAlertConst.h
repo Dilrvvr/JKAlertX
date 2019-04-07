@@ -87,7 +87,7 @@ typedef enum : NSUInteger {
     
     /**
      * 默认样式
-     * plain默认系统蓝色 [UIColor colorWithRed:0 green:119.0/255.0 blue:251.0/255.0 alpha:1]
+     * plain默认系统蓝色 [UIColor colorWithRed:0 green:122.0/255.0 blue:255.0/255.0 alpha:1]
      * 其它样式默认黑色字体 RGB都为51
      */
     JKAlertActionStyleDefault,
@@ -125,6 +125,11 @@ UIKIT_EXTERN NSString * const JKAlertDismissForKeyNotification;
 #define JKAlertTextContainerViewMaxH (JKAlertPlainViewMaxH - JKAlertScrollViewMaxH)
 
 //#define JKAlertSheetMaxH (JKAlertScreenH * 0.85)
+
+
+#define JKAlertSystemBlueColor [UIColor colorWithRed:0.f green:122.0/255.0 blue:255.0/255.0 alpha:1]
+
+#define JKAlertSystemRedColor [UIColor colorWithRed:255.0/255.0 green:59.0/255.0 blue:48.0/255.0 alpha:1]
 
 
 

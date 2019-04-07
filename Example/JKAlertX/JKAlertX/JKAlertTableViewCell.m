@@ -139,7 +139,7 @@
                 
             case JKAlertActionStyleDestructive:
                 
-                _action.setTitleColor([UIColor redColor]);
+                _action.setTitleColor(JKAlertSystemRedColor);
                 break;
                 
             default:

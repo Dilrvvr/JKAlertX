@@ -2327,7 +2327,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         switch (action.alertActionStyle) {
             case JKAlertActionStyleDefault:
                 
-                action.setTitleColor((_alertStyle == JKAlertStylePlain ? [UIColor colorWithRed:0 green:119.0/255.0 blue:251.0/255.0 alpha:1] : [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1]));
+                action.setTitleColor((_alertStyle == JKAlertStylePlain ? JKAlertSystemBlueColor : [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1]));
                 break;
                 
             case JKAlertActionStyleCancel:
@@ -2337,7 +2337,7 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
                 
             case JKAlertActionStyleDestructive:
                 
-                action.setTitleColor([UIColor redColor]);
+                action.setTitleColor([UIColor colorWithRed:255.0/255.0 green:59.0/255.0 blue:48.0/255.0 alpha:1]);
                 break;
                 
             default:
