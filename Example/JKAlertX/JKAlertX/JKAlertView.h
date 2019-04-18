@@ -111,9 +111,9 @@
 
 /**
  * 设置用于通知消失的key
- * 设置该值后可以使用类方法 JKAlertView.DismissForKey(dimissKey); 来手动消失
+ * 设置该值后可以使用类方法 JKAlertView.DismissForKey(dismissKey); 来手动消失
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDismissKey)(NSString *dimissKey);
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissKey)(NSString *dismissKey);
 
 
 #pragma mark - plain样式

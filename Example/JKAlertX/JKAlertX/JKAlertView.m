@@ -1871,13 +1871,13 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 /**
  * 设置用于通知消失的key
- * 设置该值后可以使用类方法 JKAlertView.DismissForKey(dimissKey); 来手动消失
+ * 设置该值后可以使用类方法 JKAlertView.DismissForKey(dismissKey); 来手动消失
  */
-- (JKAlertView *(^)(NSString *dimissKey))setDismissKey{
+- (JKAlertView *(^)(NSString *dismissKey))setDismissKey{
     
-    return ^(NSString *dimissKey){
+    return ^(NSString *dismissKey){
         
-        self.dismissKey = dimissKey;
+        self.dismissKey = dismissKey;
         
         return self;
     };
