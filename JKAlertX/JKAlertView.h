@@ -6,10 +6,10 @@
 //  Copyright © 2017年 安永博. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "JKBaseAlertView.h"
 #import "JKAlertAction.h"
 
-@interface JKAlertView : UIView
+@interface JKAlertView : JKBaseAlertView
 
 #pragma mark - 公共部分
 
@@ -111,9 +111,9 @@
 
 /**
  * 设置用于通知消失的key
- * 设置该值后可以使用类方法 JKAlertView.DismissForKey(dimissKey); 来手动消失
+ * 设置该值后可以使用类方法 JKAlertView.DismissForKey(dismissKey); 来手动消失
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDismissKey)(NSString *dimissKey);
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissKey)(NSString *dismissKey);
 
 
 #pragma mark - plain样式
@@ -204,6 +204,9 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void));
 
+/** 设置sheet样式最大高度 默认屏幕高度 * 0.85 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setSheetMaxHeight)(CGFloat height);
+
 
 #pragma mark - collectionSheet样式
 
@@ -215,6 +218,12 @@
  * 默认的高度是宽度-6，暂不支持自定义高度
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setFlowlayoutItemWidth)(CGFloat width);
+
+/**
+ * 设置collection的水平（左右方向）的sectionInset
+ * 默认0，为0时自动设置为item间距的一半
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionHorizontalInset)(CGFloat inset);
 
 /**
  * 设置是否将两个collection合体
