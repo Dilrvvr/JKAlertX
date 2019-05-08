@@ -310,7 +310,7 @@
 // use customSuperView
 - (IBAction)collectionSheet:(id)sender {
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setBottomButtonMargin(10).setCustomSuperView(self.view);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setBottomButtonMargin(10);
     
     // 第1组
     alertView.setCollectionAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
