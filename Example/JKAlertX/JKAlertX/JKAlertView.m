@@ -466,9 +466,9 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
         
         alertView = [[JKAlertView alloc] init];
         
-        alertView.customHUD = customView;
-        
         !configuration ? : configuration(alertView);
+        
+        alertView.customHUD = customView;
         
         [alertView show];
     };
@@ -1228,6 +1228,28 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
     return ^(UIView *customSuperView){
         
         self.customSuperView = customSuperView;
+        
+        if (customSuperView) {
+            
+            CGFloat rotation = [[self.customSuperView.layer valueForKeyPath:@"transform.rotation.z"] floatValue];
+            
+            if ((rotation > 1.57 && rotation < 1.58) ||
+                (rotation > -1.58 && rotation < -1.57)) {
+                
+                self->JKAlertScreenW = MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                self->JKAlertScreenH = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                
+            } else {
+                
+                self->JKAlertScreenW = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                self->JKAlertScreenH = MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+            }
+            
+            self->JKAlertPlainViewMaxH = (self->JKAlertScreenH - 100);
+            
+            self->JKAlertSheetMaxH = self->JKAlertScreenH * 0.85;
+            self->textContainerViewCurrentMaxH_ = (self->JKAlertScreenH - 100 - JKAlertButtonH * 4);
+        }
         
         return self;
     };

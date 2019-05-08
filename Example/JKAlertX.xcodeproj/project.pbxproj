@@ -19,6 +19,7 @@
 		509E494121C0BDF500B160A5 /* UIControl+JKAlertX.m in Sources */ = {isa = PBXBuildFile; fileRef = 509E494021C0BDF500B160A5 /* UIControl+JKAlertX.m */; };
 		509E494421C0BE0500B160A5 /* UIGestureRecognizer+JKAlertX.m in Sources */ = {isa = PBXBuildFile; fileRef = 509E494321C0BE0500B160A5 /* UIGestureRecognizer+JKAlertX.m */; };
 		50AB436E21EC7BEF004D8B4E /* JKBaseAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AB436D21EC7BEF004D8B4E /* JKBaseAlertView.m */; };
+		50AF62312282D97100E94DF3 /* TransformLandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AF62302282D97100E94DF3 /* TransformLandscapeViewController.m */; };
 		50F2F13021A57C96005B3242 /* JKAlertConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F2F12F21A57C96005B3242 /* JKAlertConst.m */; };
 		B7D5AA5C207CFBE8001152D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D5AA5B207CFBE8001152D9 /* AppDelegate.m */; };
 		B7D5AA5F207CFBE8001152D9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D5AA5E207CFBE8001152D9 /* ViewController.m */; };
@@ -52,6 +53,8 @@
 		509E494321C0BE0500B160A5 /* UIGestureRecognizer+JKAlertX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+JKAlertX.m"; sourceTree = "<group>"; };
 		50AB436C21EC7BEF004D8B4E /* JKBaseAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKBaseAlertView.h; sourceTree = "<group>"; };
 		50AB436D21EC7BEF004D8B4E /* JKBaseAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKBaseAlertView.m; sourceTree = "<group>"; };
+		50AF622F2282D97100E94DF3 /* TransformLandscapeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransformLandscapeViewController.h; sourceTree = "<group>"; };
+		50AF62302282D97100E94DF3 /* TransformLandscapeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransformLandscapeViewController.m; sourceTree = "<group>"; };
 		50F2F12E21A57C96005B3242 /* JKAlertConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertConst.h; sourceTree = "<group>"; };
 		50F2F12F21A57C96005B3242 /* JKAlertConst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertConst.m; sourceTree = "<group>"; };
 		B7D5AA57207CFBE8001152D9 /* JKAlertX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JKAlertX.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -156,6 +159,8 @@
 				5038B34F216B597700FA5588 /* JKAlertX */,
 				B7D5AA5D207CFBE8001152D9 /* ViewController.h */,
 				B7D5AA5E207CFBE8001152D9 /* ViewController.m */,
+				50AF622F2282D97100E94DF3 /* TransformLandscapeViewController.h */,
+				50AF62302282D97100E94DF3 /* TransformLandscapeViewController.m */,
 				506C31C7215DD82E00FD6D31 /* Assets.xcassets */,
 				B7D5AA60207CFBE8001152D9 /* Main.storyboard */,
 				B7D5AA65207CFBE8001152D9 /* LaunchScreen.storyboard */,
@@ -251,6 +256,7 @@
 				5038B35B216B599D00FA5588 /* JKAlertView.m in Sources */,
 				50318C6F207CFD090059B4BA /* JKShareView.m in Sources */,
 				509E494421C0BE0500B160A5 /* UIGestureRecognizer+JKAlertX.m in Sources */,
+				50AF62312282D97100E94DF3 /* TransformLandscapeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
