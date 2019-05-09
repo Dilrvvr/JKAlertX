@@ -11,14 +11,6 @@
 #import "JKAlertCollectionViewCell.h"
 #import "JKAlertTextView.h"
 
-static CGFloat    const JKAlertMinTitleLabelH = (22);
-static CGFloat    const JKAlertMinMessageLabelH = (17);
-static CGFloat    const JKAlertScrollViewMaxH = 176; // (JKAlertButtonH * 4)
-
-static CGFloat    const JKAlertButtonH = 46;
-static NSInteger  const JKAlertPlainButtonBeginTag = 100;
-
-static CGFloat    const JKAlertSheetTitleMargin = 6;
 
 @interface JKAlertHighlightedButton : UIButton
 
@@ -3613,6 +3605,12 @@ static CGFloat    const JKAlertSheetTitleMargin = 6;
 }
 
 #pragma mark - JKAlertViewProtocol
+
+/** 准备重新布局 返回JKAlertViewProtocol协议对象，去调用相应协议方法 */
+- (id<JKAlertViewProtocol> (^)(void))prepareToRelayout{
+    
+    return ^{ return self; };
+}
 
 /** 重新布局 */
 - (id<JKAlertViewProtocol> (^)(BOOL animated))relayout{
