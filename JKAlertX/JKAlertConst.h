@@ -58,25 +58,28 @@ typedef enum : NSUInteger {
      * none
      * 该样式将不会创建JKAlertView
      */
-    JKAlertStyleNone,
+    JKAlertStyleNone = 0,
     
-    /** 面板 */
-    JKAlertStylePlain,
+    /** 面板 use JKAlertStyleAlert instead. */
+    JKAlertStylePlain = 1,
     
     /** 列表 */
-    JKAlertStyleActionSheet,
+    JKAlertStyleActionSheet = 2,
     
     /**
      * collectionView样式
      * 该样式没有message，只有一个title
      */
-    JKAlertStyleCollectionSheet,
+    JKAlertStyleCollectionSheet = 3,
     
     /**
      * HUD提示
      * 该样式没有message，只有一个title
      */
-    JKAlertStyleHUD,
+    JKAlertStyleHUD = 4,
+    
+    /** 面板 */
+    JKAlertStyleAlert = JKAlertStylePlain,
     
 } JKAlertStyle;
 
@@ -101,6 +104,7 @@ typedef enum : NSUInteger {
 } JKAlertActionStyle;
 
 
+
 #pragma mark
 #pragma mark - 通知
 
@@ -109,6 +113,21 @@ UIKIT_EXTERN NSString * const JKAlertDismissAllNotification;
 
 /** 根据key来移除的通知 */
 UIKIT_EXTERN NSString * const JKAlertDismissForKeyNotification;
+
+
+
+#pragma mark
+#pragma mark - 常量
+
+UIKIT_EXTERN CGFloat    const JKAlertMinTitleLabelH;// = (22);
+UIKIT_EXTERN CGFloat    const JKAlertMinMessageLabelH;// = (17);
+UIKIT_EXTERN CGFloat    const JKAlertScrollViewMaxH;// = 176; // (JKAlertButtonH * 4)
+
+UIKIT_EXTERN CGFloat    const JKAlertButtonH;// = 46;
+UIKIT_EXTERN NSInteger  const JKAlertPlainButtonBeginTag;// = 100;
+
+UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6;
+
 
 
 #pragma mark
@@ -124,8 +143,6 @@ UIKIT_EXTERN NSString * const JKAlertDismissForKeyNotification;
 
 #define JKAlertTextContainerViewMaxH (JKAlertPlainViewMaxH - JKAlertScrollViewMaxH)
 
-//#define JKAlertSheetMaxH (JKAlertScreenH * 0.85)
-
 
 #define JKAlertSystemBlueColor [UIColor colorWithRed:0.f green:122.0/255.0 blue:255.0/255.0 alpha:1]
 
@@ -133,6 +150,6 @@ UIKIT_EXTERN NSString * const JKAlertDismissForKeyNotification;
 
 
 
-#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
+//#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
 
-#define JKAlertXDeprecatedCustomizer NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, "请使用customizer")
+//#define JKAlertXDeprecatedCustomizer NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, "请使用customizer")

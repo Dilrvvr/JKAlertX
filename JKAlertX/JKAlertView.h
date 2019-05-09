@@ -28,6 +28,7 @@
  * 默认添加到keywindow上
  * customSuperView在show之前有效
  * customSuperViewsize最好和屏幕大小一致，否则可能出现问题
+ * 请务必保证customSuperView.frame有值！
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomSuperView)(UIView *customSuperView);
 
@@ -405,10 +406,18 @@
 
 #pragma mark - 显示之后更新UI
 
+/** 准备重新布局 返回JKAlertViewProtocol协议对象，去调用相应协议方法 */
+@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^prepareToRelayout)(void);
+
 /** 重新布局 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^relayout)(BOOL animated);
 
-/** 重新布局完成的block */
+/**
+ * 重新布局完成的block
+ * ****************** WARNING!!! ******************
+ * 如果需要在block中再次relayout，请在block中销毁该block
+ * 即调用setRelayoutComplete(nil); 否则会造成死循环
+ */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view));
 
 

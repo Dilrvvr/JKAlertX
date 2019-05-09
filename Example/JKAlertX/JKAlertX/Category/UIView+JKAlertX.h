@@ -18,4 +18,24 @@
 
 /** 无限旋转动画 */
 - (void)JKAlertX_addInfinityRotationAnimationWithDuration:(CGFloat)duration key:(NSString *)key;
+
+/**
+ * 添加虚线
+ * 要添加虚线的view
+ * return value : isRenderImage == YES返回UIImage 否则返回CAShapeLayer
+ */
+- (id)JKAlertX_addDashLineWithLineWidth:(CGFloat)lineWidth
+                              lineColor:(UIColor *)lineColor
+                              dashWidth:(CGFloat)dashWidth
+                              dashSpace:(CGFloat)dashSpace
+                             startPoint:(CGPoint)startPoint
+                               endPoint:(CGPoint)endPoint
+                          isRenderImage:(BOOL)isRenderImage;
+
+/** 渐变背景 */
+- (CAGradientLayer *)JKAlertX_addGradientLayerWithColors:(NSArray <UIColor *> *)colors
+                                               locations:(NSArray *)locations
+                                              startPoint:(CGPoint)startPoint
+                                                endPoint:(CGPoint)endPoint
+                                                   frame:(CGRect)frame;
 @end
