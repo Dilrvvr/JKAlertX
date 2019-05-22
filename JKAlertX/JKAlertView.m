@@ -2014,12 +2014,47 @@
     };
 }
 
+/** 链式移除action */
+- (JKAlertView *(^)(JKAlertAction *action))removeAction{
+    
+    return ^(JKAlertAction *action){
+        
+        [self removeAction:action];
+        
+        return self;
+    };
+}
+
 /** 链式添加action */
 - (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex))insertAction{
     
     return ^(JKAlertAction *action, NSUInteger atIndex){
         
         [self insertAction:action atIndex:atIndex];
+        
+        return self;
+    };
+}
+
+/** 链式移除action */
+- (JKAlertView *(^)(NSUInteger index))removeActionAtIndex{
+    
+    return ^(NSUInteger index){
+        
+        [self removeActionAtIndex:index];
+        
+        return self;
+    };
+}
+
+/** 链式获取action */
+- (JKAlertView *(^)(NSUInteger index, void(^)(JKAlertAction *action)))getActionAtIndex{
+    
+    return ^(NSUInteger index, void(^getAction)(JKAlertAction *action)){
+        
+        JKAlertAction *action = [self getActionAtIndex:index];
+        
+        !getAction ? : getAction(action);
         
         return self;
     };
@@ -2058,6 +2093,14 @@
     [self.actions addObject:action];
 }
 
+/** 移除action */
+- (void)removeAction:(JKAlertAction *)action{
+    
+    if (!action || ![self.actions containsObject:action]) { return; }
+    
+    [self.actions removeObject:action];
+}
+
 /** 添加action */
 - (void)insertAction:(JKAlertAction *)action atIndex:(NSUInteger)index{
     
@@ -2066,6 +2109,24 @@
     action.alertView = self;
     
     [self.actions insertObject:action atIndex:index];
+}
+
+/** 移除action */
+- (void)removeActionAtIndex:(NSUInteger)index{
+    
+    if (index < 0 || index >= self.actions.count) { return; }
+    
+    [self.actions removeObjectAtIndex:index];
+}
+
+/** 获取action */
+- (JKAlertAction *)getActionAtIndex:(NSUInteger)index{
+    
+    if (index < 0 || index >= self.actions.count) { return nil; }
+    
+    JKAlertAction *action = [self.actions objectAtIndex:index];
+    
+    return action;
 }
 
 /** 添加第二个collectionView的action */
@@ -2087,6 +2148,212 @@
     
     [self.actions2 insertObject:action atIndex:index];
 }
+
+
+#pragma mark - action数组操作
+
+/** 添加action */
+- (JKAlertView *(^)(JKAlertAction *action, BOOL isSecondCollection))addActionTo{
+    
+    return ^(JKAlertAction *action, BOOL isSecondCollection) {
+        
+        [self addAction:action isSecondCollection:isSecondCollection];
+        
+        return self;
+    };
+}
+
+/** 链式移除action */
+- (JKAlertView *(^)(JKAlertAction *action, BOOL isSecondCollection))removeActionFrom{
+    
+    return ^(JKAlertAction *action, BOOL isSecondCollection) {
+        
+        [self removeAction:action isSecondCollection:isSecondCollection];
+        
+        return self;
+    };
+}
+
+/** 链式添加action */
+- (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex, BOOL isSecondCollection))insertActionTo{
+    
+    return ^(JKAlertAction *action, NSUInteger atIndex, BOOL isSecondCollection) {
+        
+        [self insertAction:action atIndex:atIndex isSecondCollection:isSecondCollection];
+        
+        return self;
+    };
+}
+
+/** 链式移除action */
+- (JKAlertView *(^)(NSUInteger index, BOOL isSecondCollection))removeActionAtIndexFrom{
+    
+    return ^(NSUInteger index, BOOL isSecondCollection) {
+        
+        [self removeActionAtIndex:index isSecondCollection:isSecondCollection];
+        
+        return self;
+    };
+}
+
+/** 链式获取action */
+- (JKAlertView *(^)(NSUInteger index, BOOL isSecondCollection, void(^)(JKAlertAction *action)))getActionAtIndexFrom{
+    
+    return ^(NSUInteger index, BOOL isSecondCollection, void(^getAction)(JKAlertAction *action)) {
+        
+        JKAlertAction *action = [self getActionAtIndex:index isSecondCollection:isSecondCollection];
+        
+        !getAction ? : getAction(action);
+        
+        return self;
+    };
+}
+
+/** 链式获取action数组 */
+- (JKAlertView *(^)(BOOL isSecondCollection, void(^)(NSArray *actionArray)))getActionArrayFrom{
+    
+    return ^(BOOL isSecondCollection, void(^getActionArray)(NSArray *actionArray)) {
+        
+        !getActionArray ? : getActionArray([self getActionArrayIsSecondCollection:isSecondCollection]);
+        
+        return self;
+    };
+}
+
+/** 链式清空action数组 */
+- (JKAlertView *(^)(BOOL isSecondCollection))clearActionArrayFrom{
+    
+    return ^(BOOL isSecondCollection) {
+        
+        [self clearActionArrayIsSecondCollection:isSecondCollection];
+        
+        return self;
+    };
+}
+
+/** 添加action */
+- (void)addAction:(JKAlertAction *)action isSecondCollection:(BOOL)isSecondCollection{
+    
+    if (!action) { return; }
+    
+    action.alertView = self;
+    
+    if (isSecondCollection) {
+        
+        [self.actions2 addObject:action];
+        
+    } else {
+        
+        [self.actions addObject:action];
+    }
+}
+
+/** 移除action */
+- (void)removeAction:(JKAlertAction *)action isSecondCollection:(BOOL)isSecondCollection{
+    
+    if (!action) { return; }
+    
+    if (isSecondCollection) {
+        
+        if ([self.actions2 containsObject:action]) {
+            
+            [self.actions2 removeObject:action];
+        }
+        
+    } else {
+        
+        if ([self.actions containsObject:action]) {
+            
+            [self.actions removeObject:action];
+        }
+    }
+}
+
+/** 添加action */
+- (void)insertAction:(JKAlertAction *)action atIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection{
+    
+    if (!action) { return; }
+    
+    action.alertView = self;
+    
+    if (isSecondCollection) {
+        
+        [self.actions2 insertObject:action atIndex:index];
+        
+    } else {
+        
+        [self.actions insertObject:action atIndex:index];
+    }
+}
+
+/** 移除action */
+- (void)removeActionAtIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection{
+    
+    if (index < 0) { return; }
+    
+    if (isSecondCollection) {
+        
+        if (index >= self.actions2.count) { return; }
+        
+        [self.actions2 removeObjectAtIndex:index];
+        
+    } else {
+        
+        if (index >= self.actions.count) { return; }
+        
+        [self.actions removeObjectAtIndex:index];
+    }
+}
+
+/** 获取action */
+- (JKAlertAction *)getActionAtIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection{
+    
+    if (index < 0) { return nil; }
+    
+    JKAlertAction *action = nil;
+    
+    if (isSecondCollection) {
+        
+        if (index >= self.actions2.count) { return nil; }
+        
+        action = [self.actions2 objectAtIndex:index];
+        
+    } else {
+        
+        if (index >= self.actions.count) { return nil; }
+        
+        action = [self.actions objectAtIndex:index];
+    }
+    
+    return action;
+}
+
+/** 获取action数组 */
+- (NSArray *)getActionArrayIsSecondCollection:(BOOL)isSecondCollection{
+    
+    if (isSecondCollection) {
+        
+        return [self.actions2 copy];
+        
+    } else {
+        
+        return [self.actions copy];
+    }
+}
+
+/** 清空action数组 */
+- (void)clearActionArrayIsSecondCollection:(BOOL)isSecondCollection{
+    
+    if (isSecondCollection) {
+        
+        [_actions2 removeAllObjects];
+        
+    } else {
+        
+        [_actions removeAllObjects];
+    }
+}
+
 
 
 #pragma mark - 添加textField

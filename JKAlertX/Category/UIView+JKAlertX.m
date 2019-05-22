@@ -45,6 +45,14 @@
 /** 无限旋转动画 */
 - (void)JKAlertX_addInfinityRotationAnimationWithDuration:(CGFloat)duration key:(NSString *)key{
     
+    [self JKAlertX_addRotationAnimationWithDuration:duration repeatCount:INFINITY key:key];
+}
+
+/** 旋转动画 */
+- (void)JKAlertX_addRotationAnimationWithDuration:(CGFloat)duration
+                                      repeatCount:(float)repeatCount
+                                              key:(NSString *)key{
+    
     if (key && [self.layer animationForKey:key]) {
         
         return;
@@ -52,10 +60,10 @@
     
     CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     
-    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0];
+    rotationAnimation.toValue = [NSNumber numberWithFloat:M_PI * 2.0];
     rotationAnimation.duration = duration;
     rotationAnimation.autoreverses = NO;
-    rotationAnimation.repeatCount = INFINITY;
+    rotationAnimation.repeatCount = repeatCount;
     rotationAnimation.fillMode = kCAFillModeForwards;
     rotationAnimation.removedOnCompletion = NO;
     [self.layer addAnimation:rotationAnimation forKey:key];
