@@ -334,6 +334,53 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^insertAction)(JKAlertAction *action, NSUInteger atIndex);
 
 
+
+#pragma mark - action数组操作
+
+/** 添加action */
+- (void)addAction:(JKAlertAction *)action isSecondCollection:(BOOL)isSecondCollection;
+
+/** 移除action */
+- (void)removeAction:(JKAlertAction *)action isSecondCollection:(BOOL)isSecondCollection;
+
+/** 添加action */
+- (void)insertAction:(JKAlertAction *)action atIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection;
+
+/** 移除action */
+- (void)removeActionAtIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection;
+
+/** 获取action */
+- (JKAlertAction *)getActionAtIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection;
+
+/** 获取action数组 */
+- (NSArray *)getActionArrayIsSecondCollection:(BOOL)isSecondCollection;
+
+/** 清空action数组 */
+- (void)clearActionArrayIsSecondCollection:(BOOL)isSecondCollection;
+
+/** 链式添加action */
+@property (nonatomic, copy, readonly) JKAlertView *(^addActionTo)(JKAlertAction *action, BOOL isSecondCollection);
+
+/** 链式移除action */
+@property (nonatomic, copy, readonly) JKAlertView *(^removeActionFrom)(JKAlertAction *action, BOOL isSecondCollection);
+
+/** 链式添加action */
+@property (nonatomic, copy, readonly) JKAlertView *(^insertActionTo)(JKAlertAction *action, NSUInteger atIndex, BOOL isSecondCollection);
+
+/** 链式移除action */
+@property (nonatomic, copy, readonly) JKAlertView *(^removeActionAtIndexFrom)(NSUInteger index, BOOL isSecondCollection);
+
+/** 链式获取action */
+@property (nonatomic, copy, readonly) JKAlertView *(^getActionAtIndexFrom)(NSUInteger index, BOOL isSecondCollection, void(^)(JKAlertAction *action));
+
+/** 链式获取action数组 */
+@property (nonatomic, copy, readonly) JKAlertView *(^getActionArrayFrom)(BOOL isSecondCollection, void(^)(NSArray *actionArray));
+
+/** 链式清空action数组 */
+@property (nonatomic, copy, readonly) JKAlertView *(^clearActionArrayFrom)(BOOL isSecondCollection);
+
+
+
 #pragma mark - 添加textField
 
 /**

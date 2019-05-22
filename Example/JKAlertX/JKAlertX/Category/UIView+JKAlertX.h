@@ -19,6 +19,11 @@
 /** 无限旋转动画 */
 - (void)JKAlertX_addInfinityRotationAnimationWithDuration:(CGFloat)duration key:(NSString *)key;
 
+/** 旋转动画 */
+- (void)JKAlertX_addRotationAnimationWithDuration:(CGFloat)duration
+                                      repeatCount:(float)repeatCount
+                                              key:(NSString *)key;
+
 /**
  * 添加虚线
  * 要添加虚线的view
