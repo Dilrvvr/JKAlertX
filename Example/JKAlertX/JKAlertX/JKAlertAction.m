@@ -123,6 +123,17 @@
     };
 }
 
+/** 设置是否为setBackgroundImage */
+- (JKAlertAction *(^)(BOOL isBackgroundImage))setIsBackgroundImage{
+    
+    return ^(BOOL isBackgroundImage){
+        
+        self.isBackgroundImage = isBackgroundImage;
+        
+        return self;
+    };
+}
+
 - (JKAlertAction *(^)(UIImage *image))setNormalImage{
     
     return ^(UIImage *image){

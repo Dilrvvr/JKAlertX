@@ -294,6 +294,12 @@
 @property (nonatomic, assign) CGFloat collectionHorizontalInset;
 
 /**
+ * 设置两个collectionView之间的间距
+ * 有第二个collectionView时有效 默认0, 最小为0
+ */
+@property (nonatomic, assign) CGFloat collectionViewMargin;
+
+/**
  * 是否将两个collection合体
  * 设为YES可让两个collection同步滚动
  * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
@@ -1751,6 +1757,20 @@
 }
 
 /**
+ * 设置两个collectionView之间的间距
+ * 有第二个collectionView时有效 默认0, 最小为0
+ */
+- (JKAlertView *(^)(CGFloat margin))setCollectionViewMargin{
+    
+    return ^(CGFloat margin){
+        
+        self.collectionViewMargin = margin < 0 ? 0 : margin;
+        
+        return self;
+    };
+}
+
+/**
  * 设置actionSheet样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
@@ -1840,6 +1860,11 @@
     return ^(UIView *(^backGroundView)(void)){
         
         self.backGroundView = !backGroundView ? nil : backGroundView();
+        
+        if (self.alertStyle == JKAlertStyleCollectionSheet) {
+            
+            self.collectionTopContainerView.backgroundColor = (self.backGroundView ? nil : self->GlobalBackgroundColor);
+        }
         
         return self;
     };
@@ -3316,7 +3341,7 @@
     
     if (count2 > 0) {
         
-        self.collectionView2.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame), JKAlertScreenW, self.collectionView.frame.size.height);
+        self.collectionView2.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame) + self.collectionViewMargin, JKAlertScreenW, self.collectionView.frame.size.height);
         
         self.flowlayout2.itemSize = CGSizeMake(self.flowlayoutItemWidth, self.flowlayoutItemWidth - 6);
         self.flowlayout2.sectionInset = UIEdgeInsetsMake(self.flowlayout2.itemSize.height - self.collectionView2.frame.size.height, 0, 0, 0);
@@ -3349,6 +3374,8 @@
         
         if (self.collectionAction.customView) {
             
+            self.collectionButton.backgroundColor = nil;
+            
             frame.size.height = self.collectionAction.customView.frame.size.height;
         }
         
@@ -3360,6 +3387,8 @@
     frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, CGRectGetMaxY(_collectionButton ? _collectionButton.frame : (_collectionView2 ? _collectionView2.frame : _collectionView.frame)) + CancelMargin, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
     
     if (self.cancelAction.customView) {
+        
+        self.cancelButton.backgroundColor = nil;
         
         frame.size.height = self.cancelAction.customView.frame.size.height;
     }

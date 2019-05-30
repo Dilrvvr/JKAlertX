@@ -227,6 +227,12 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionHorizontalInset)(CGFloat inset);
 
 /**
+ * 设置两个collectionView之间的间距
+ * 有第二个collectionView时有效 默认0, 最小为0
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionViewMargin)(CGFloat margin);
+
+/**
  * 设置是否将两个collection合体
  * 设为YES可让两个collection同步滚动
  * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action

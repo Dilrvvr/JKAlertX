@@ -26,7 +26,7 @@
 - (UIButton *)imageButton{
     if (!_imageButton) {
         
-        UIButton *imageButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
+        UIButton *imageButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         imageButton.userInteractionEnabled = NO;
         [self.contentView addSubview:imageButton];
         
@@ -167,8 +167,23 @@
     
     self.titleLabel.text = action.title;
     
-    [self.imageButton setBackgroundImage:_action.normalImage forState:(UIControlStateNormal)];
-    [self.imageButton setBackgroundImage:_action.hightlightedImage forState:(UIControlStateHighlighted)];
+    
+    if (_action.isBackgroundImage) {
+        
+        [self.imageButton setImage:nil forState:(UIControlStateNormal)];
+        [self.imageButton setImage:nil forState:(UIControlStateHighlighted)];
+        
+        [self.imageButton setBackgroundImage:_action.normalImage forState:(UIControlStateNormal)];
+        [self.imageButton setBackgroundImage:_action.hightlightedImage forState:(UIControlStateHighlighted)];
+        
+    } else {
+        
+        [self.imageButton setImage:_action.normalImage forState:(UIControlStateNormal)];
+        [self.imageButton setImage:_action.hightlightedImage forState:(UIControlStateHighlighted)];
+        
+        [self.imageButton setBackgroundImage:nil forState:(UIControlStateNormal)];
+        [self.imageButton setBackgroundImage:nil forState:(UIControlStateHighlighted)];
+    }
 }
 
 - (void)setCustomView:(UIView *)customView{
