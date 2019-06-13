@@ -3390,7 +3390,7 @@
         
         self.cancelButton.backgroundColor = nil;
         
-        frame.size.height = self.cancelAction.customView.frame.size.height;
+        frame.size.height = self.cancelAction.customView.frame.size.height - (self.cancelButton.titleEdgeInsets.bottom > 0 ? JKAlertCurrentHomeIndicatorHeight : 0);
     }
     
     self.cancelButton.frame = frame;
@@ -3456,10 +3456,11 @@
         cancelButtonFrame.size.height += JKAlertCurrentHomeIndicatorHeight;
         self.cancelButton.frame = cancelButtonFrame;
         
-        //        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
+        self.cancelAction.customView.frame = self.cancelButton.bounds;
+        
         [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0)];
         
-        self.cancelAction.customView.frame = self.cancelButton.bounds;
+        //        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
     }
 }
 
