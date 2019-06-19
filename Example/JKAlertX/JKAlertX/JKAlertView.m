@@ -3558,6 +3558,11 @@
     
     [self startShowAnimation];
     
+    if (self.observerSuperView && self.observerSuperView != self.superview) {
+        
+        [self removeAllOberserver];
+    }
+    
     if (ObserverAdded) { return; }
     
     self.observerSuperView = self.superview;
@@ -3565,6 +3570,16 @@
     [self.superview addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionNew) context:nil];
     
     ObserverAdded = YES;
+}
+
+- (void)removeAllOberserver{
+    
+    if (ObserverAdded) {
+        
+        [self.observerSuperView removeObserver:self forKeyPath:@"frame"];
+    }
+    
+    ObserverAdded = NO;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
@@ -4103,10 +4118,7 @@
 
 - (void)dealloc{
     
-    if (ObserverAdded) {
-        
-        [self.observerSuperView removeObserver:self forKeyPath:@"frame"];
-    }
+    [self removeAllOberserver];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
