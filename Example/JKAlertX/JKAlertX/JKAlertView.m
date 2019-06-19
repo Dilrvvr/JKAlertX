@@ -3558,6 +3558,8 @@
     
     [self startShowAnimation];
     
+    if (ObserverAdded) { return; }
+    
     self.observerSuperView = self.superview;
     
     [self.superview addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionNew) context:nil];
