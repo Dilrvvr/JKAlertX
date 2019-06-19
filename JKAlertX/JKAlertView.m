@@ -62,7 +62,12 @@
     
     CGFloat JKAlertScreenW;
     CGFloat JKAlertScreenH;
+    
+    BOOL ObserverAdded;
 }
+
+/** observerSuperView */
+@property (nonatomic, weak) UIView *observerSuperView;
 
 /** customSuperView */
 @property (nonatomic, weak) UIView *customSuperView;
@@ -260,6 +265,12 @@
 /** dealloc时会调用的block */
 @property (nonatomic, copy) void (^deallocBlock)(void);
 
+/** 监听superView尺寸改变时将要自适应的block */
+@property (nonatomic, copy) void (^willAdaptBlock)(JKAlertView *view, UIView *containerView);
+
+/** 监听superView尺寸改变时自适应完成的block */
+@property (nonatomic, copy) void (^didAdaptBlock)(JKAlertView *view, UIView *containerView);
+
 /**
  * plain和HUD样式centerY的偏移
  * 正数表示向下偏移，负数表示向上偏移
@@ -292,6 +303,12 @@
  * 默认0，为0时自动设置为item间距的一半
  */
 @property (nonatomic, assign) CGFloat collectionHorizontalInset;
+
+/**
+ * 设置两个collectionView之间的间距
+ * 有第二个collectionView时有效 默认0, 最小为0
+ */
+@property (nonatomic, assign) CGFloat collectionViewMargin;
 
 /**
  * 是否将两个collection合体
@@ -930,11 +947,13 @@
 - (void)initializeProperty{
     [super initializeProperty];
     
+    UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
+    
     /** 屏幕宽度 */
-    JKAlertScreenW = [UIScreen mainScreen].bounds.size.width;
+    JKAlertScreenW = keyWindow.bounds.size.width;
     
     /** 屏幕高度 */
-    JKAlertScreenH = [UIScreen mainScreen].bounds.size.height;
+    JKAlertScreenH = keyWindow.bounds.size.height;
     
     _isLandScape = [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight;
     
@@ -1228,19 +1247,16 @@
             if ((rotation > 1.57 && rotation < 1.58) ||
                 (rotation > -1.58 && rotation < -1.57)) {
                 
-                self->JKAlertScreenW = MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                self->JKAlertScreenH = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                self->JKAlertScreenW = self.customSuperView.frame.size.height;//MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                self->JKAlertScreenH = self.customSuperView.frame.size.width;//MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
                 
-            } else {
+            } else  {
                 
-                self->JKAlertScreenW = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                self->JKAlertScreenH = MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                //self->JKAlertScreenW = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                //self->JKAlertScreenH = MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                
+                [self updateWidthHeight];
             }
-            
-            self->JKAlertPlainViewMaxH = (self->JKAlertScreenH - 100);
-            
-            self->JKAlertSheetMaxH = self->JKAlertScreenH * 0.85;
-            self->textContainerViewCurrentMaxH_ = (self->JKAlertScreenH - 100 - JKAlertButtonH * 4);
         }
         
         return self;
@@ -1751,6 +1767,20 @@
 }
 
 /**
+ * 设置两个collectionView之间的间距
+ * 有第二个collectionView时有效 默认0, 最小为0
+ */
+- (JKAlertView *(^)(CGFloat margin))setCollectionViewMargin{
+    
+    return ^(CGFloat margin){
+        
+        self.collectionViewMargin = margin < 0 ? 0 : margin;
+        
+        return self;
+    };
+}
+
+/**
  * 设置actionSheet样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
@@ -1840,6 +1870,11 @@
     return ^(UIView *(^backGroundView)(void)){
         
         self.backGroundView = !backGroundView ? nil : backGroundView();
+        
+        if (self.alertStyle == JKAlertStyleCollectionSheet) {
+            
+            self.collectionTopContainerView.backgroundColor = (self.backGroundView ? nil : self->GlobalBackgroundColor);
+        }
         
         return self;
     };
@@ -1935,15 +1970,26 @@
     
     !self.orientationChangeBlock ? : self.orientationChangeBlock(self, [UIApplication sharedApplication].statusBarOrientation);
     
+    [self updateWidthHeight];
+    
+    [self calculateUI];
+}
+
+- (void)updateWidthHeight{
+    
+    UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
+    
+    UIView *superView = self.superview ? self.superview : keyWindow;
+    
     switch ([UIApplication sharedApplication].statusBarOrientation){
         case UIInterfaceOrientationPortrait:{
             
             //orientationLabel.text = "面向设备保持垂直，Home键位于下部"
             
             /** 屏幕宽度 */
-            JKAlertScreenW = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            //JKAlertScreenW = MIN(superView.bounds.size.width, superView.bounds.size.height);
             /** 屏幕高度 */
-            JKAlertScreenH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            //JKAlertScreenH = MAX(superView.bounds.size.width, superView.bounds.size.height);
             
             _isLandScape = NO;
         }
@@ -1953,9 +1999,9 @@
             //orientationLabel.text = "面向设备保持垂直，Home键位于上部"
             
             /** 屏幕宽度 */
-            JKAlertScreenW = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            //JKAlertScreenW = MIN(superView.bounds.size.width, superView.bounds.size.height);
             /** 屏幕高度 */
-            JKAlertScreenH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            //JKAlertScreenH = MAX(superView.bounds.size.width, superView.bounds.size.height);
             
             _isLandScape = NO;
         }
@@ -1965,9 +2011,9 @@
             //orientationLabel.text = "面向设备保持水平，Home键位于左侧"
             
             /** 屏幕宽度 */
-            JKAlertScreenW = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            //JKAlertScreenW = MAX(superView.bounds.size.width, superView.bounds.size.height);
             /** 屏幕高度 */
-            JKAlertScreenH = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            //JKAlertScreenH = MIN(superView.bounds.size.width, superView.bounds.size.height);
             
             _isLandScape = YES;
             
@@ -1984,9 +2030,9 @@
             //orientationLabel.text = "面向设备保持水平，Home键位于右侧"
             
             /** 屏幕宽度 */
-            JKAlertScreenW = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            //JKAlertScreenW = MAX(superView.bounds.size.width, superView.bounds.size.height);
             /** 屏幕高度 */
-            JKAlertScreenH = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            //JKAlertScreenH = MIN(superView.bounds.size.width, superView.bounds.size.height);
             
             _isLandScape = YES;
         }
@@ -1997,8 +2043,15 @@
         }
             break;
     }
+    /** 屏幕宽度 */
+    JKAlertScreenW = superView.bounds.size.width;//MIN(superView.bounds.size.width, superView.bounds.size.height);
+    /** 屏幕高度 */
+    JKAlertScreenH = superView.bounds.size.height;//MAX(superView.bounds.size.width, superView.bounds.size.height);
     
-    [self calculateUI];
+    JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
+    
+    JKAlertSheetMaxH = JKAlertScreenH * 0.85;
+    textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
 }
 
 #pragma mark - 添加action------------------------
@@ -2461,7 +2514,7 @@
         
         [self.customSuperView addSubview:self];
         
-    }else{
+    } else {
         
         [[UIApplication sharedApplication].delegate.window addSubview:self];
     }
@@ -2489,6 +2542,28 @@
     return ^(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)){
         
         self.orientationChangeBlock = orientationChangeBlock;
+        
+        return self;
+    };
+}
+
+/** 设置监听superView尺寸改变时将要自适应的block */
+- (JKAlertView *(^)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)))setWillAutoAdaptSuperViewBlock{
+    
+    return ^JKAlertView *(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)){
+        
+        self.willAdaptBlock = willAdaptBlock;
+        
+        return self;
+    };
+}
+
+/** 设置监听superView尺寸改变时自适应完成的block */
+- (JKAlertView *(^)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)))setDidAutoAdaptSuperViewBlock{
+    
+    return ^JKAlertView *(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)){
+        
+        self.didAdaptBlock = didAdaptBlock;
         
         return self;
     };
@@ -2648,9 +2723,25 @@
 
 #pragma mark - 计算frame------------------------------------
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    
+    /* 判断当前的SizeClass,如果为width compact&height regular 则说明正在分屏
+    BOOL isTrait = (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) &&
+    (self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular);
+    
+    if (isTrait) {
+        
+        NSLog(@"正在分屏");
+        
+    } else {
+        
+        NSLog(@"取消分屏");
+    } //*/
+}
+
 - (void)calculateUI{
     
-    self.frame = [UIScreen mainScreen].bounds;
+    self.frame = CGRectMake(0, 0, JKAlertScreenW, JKAlertScreenH);
     
     if (_customHUD) {
         
@@ -3316,7 +3407,7 @@
     
     if (count2 > 0) {
         
-        self.collectionView2.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame), JKAlertScreenW, self.collectionView.frame.size.height);
+        self.collectionView2.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame) + self.collectionViewMargin, JKAlertScreenW, self.collectionView.frame.size.height);
         
         self.flowlayout2.itemSize = CGSizeMake(self.flowlayoutItemWidth, self.flowlayoutItemWidth - 6);
         self.flowlayout2.sectionInset = UIEdgeInsetsMake(self.flowlayout2.itemSize.height - self.collectionView2.frame.size.height, 0, 0, 0);
@@ -3349,6 +3440,8 @@
         
         if (self.collectionAction.customView) {
             
+            self.collectionButton.backgroundColor = nil;
+            
             frame.size.height = self.collectionAction.customView.frame.size.height;
         }
         
@@ -3361,7 +3454,9 @@
     
     if (self.cancelAction.customView) {
         
-        frame.size.height = self.cancelAction.customView.frame.size.height;
+        self.cancelButton.backgroundColor = nil;
+        
+        frame.size.height = self.cancelAction.customView.frame.size.height - (self.cancelButton.titleEdgeInsets.bottom > 0 ? JKAlertCurrentHomeIndicatorHeight : 0);
     }
     
     self.cancelButton.frame = frame;
@@ -3427,10 +3522,11 @@
         cancelButtonFrame.size.height += JKAlertCurrentHomeIndicatorHeight;
         self.cancelButton.frame = cancelButtonFrame;
         
-        //        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
+        self.cancelAction.customView.frame = self.cancelButton.bounds;
+        
         [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0)];
         
-        self.cancelAction.customView.frame = self.cancelButton.bounds;
+        //        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
     }
 }
 
@@ -3461,6 +3557,26 @@
     }
     
     [self startShowAnimation];
+    
+    self.observerSuperView = self.superview;
+    
+    [self.superview addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionNew) context:nil];
+    
+    ObserverAdded = YES;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    
+    if (object == self.superview && [keyPath isEqualToString:@"frame"]) {
+        
+        [self updateWidthHeight];
+        
+        !self.willAdaptBlock ? : self.willAdaptBlock(self, (_plainView ? _plainView : _sheetContainerView));
+        
+        self.relayout(YES);
+        
+        !self.didAdaptBlock ? : self.didAdaptBlock(self, (_plainView ? _plainView : _sheetContainerView));
+    }
 }
 
 - (void)startShowAnimation{
@@ -3984,6 +4100,11 @@
 }
 
 - (void)dealloc{
+    
+    if (ObserverAdded) {
+        
+        [self.observerSuperView removeObserver:self forKeyPath:@"frame"];
+    }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     

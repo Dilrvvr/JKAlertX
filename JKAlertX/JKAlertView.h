@@ -227,6 +227,12 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionHorizontalInset)(CGFloat inset);
 
 /**
+ * 设置两个collectionView之间的间距
+ * 有第二个collectionView时有效 默认0, 最小为0
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionViewMargin)(CGFloat margin);
+
+/**
  * 设置是否将两个collection合体
  * 设为YES可让两个collection同步滚动
  * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
@@ -437,6 +443,12 @@
 
 /** 监听屏幕旋转 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));
+
+/** 设置监听superView尺寸改变时将要自适应的block */
+@property (nonatomic, copy, readonly) JKAlertView * (^setWillAutoAdaptSuperViewBlock)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView));
+
+/** 设置监听superView尺寸改变时自适应完成的block */
+@property (nonatomic, copy, readonly) JKAlertView * (^setDidAutoAdaptSuperViewBlock)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView));
 
 /** 监听JKAlertView即将开始消失动画 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setWillDismiss)(void(^willDismiss)(void));

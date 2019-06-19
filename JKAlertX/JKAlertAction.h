@@ -26,6 +26,9 @@
 /** handler */
 @property (nonatomic, copy, readonly) void (^handler)(JKAlertAction *action);
 
+/** isBackgroundImage */
+@property (nonatomic, assign) BOOL isBackgroundImage;
+
 /** normalImage */
 @property (nonatomic, strong) UIImage *normalImage;
 
@@ -89,6 +92,9 @@
  * 若自定义的view挡住了原有action交互，推荐使用action.alertView.dismiss();来移除当前的JKAlertView
  */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setCustomView)(UIView *(^customView)(JKAlertAction *action));
+
+/** 设置是否为setBackgroundImage */
+@property (nonatomic, copy, readonly) JKAlertAction *(^setIsBackgroundImage)(BOOL isBackgroundImage);
 
 /** 设置普通状态图片 */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setNormalImage)(UIImage *image);
