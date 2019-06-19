@@ -259,6 +259,12 @@
         [containerView JKAlertX_clipRoundWithRadius:8 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
     });
     
+    alertView.setDidAutoAdaptSuperViewBlock(^(JKAlertView *view, UIView *containerView) {
+        
+        // 加个圆角
+        [containerView JKAlertX_clipRoundWithRadius:8 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
+    });
+    
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];

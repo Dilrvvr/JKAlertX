@@ -444,6 +444,12 @@
 /** 监听屏幕旋转 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));
 
+/** 设置监听superView尺寸改变时将要自适应的block */
+@property (nonatomic, copy, readonly) JKAlertView * (^setWillAutoAdaptSuperViewBlock)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView));
+
+/** 设置监听superView尺寸改变时自适应完成的block */
+@property (nonatomic, copy, readonly) JKAlertView * (^setDidAutoAdaptSuperViewBlock)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView));
+
 /** 监听JKAlertView即将开始消失动画 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setWillDismiss)(void(^willDismiss)(void));
 
