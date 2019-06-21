@@ -3567,7 +3567,7 @@
     
     self.observerSuperView = self.superview;
     
-    [self.superview addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionNew) context:nil];
+    [self.superview addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:nil];
     
     ObserverAdded = YES;
 }
@@ -3585,6 +3585,11 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     
     if (object == self.superview && [keyPath isEqualToString:@"frame"]) {
+        
+        CGRect oldFrame = [[change objectForKey:NSKeyValueChangeOldKey] CGRectValue];
+        CGRect currentFrame = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
+        
+        if (CGSizeEqualToSize(oldFrame.size, currentFrame.size)) { return; }
         
         [self updateWidthHeight];
         
