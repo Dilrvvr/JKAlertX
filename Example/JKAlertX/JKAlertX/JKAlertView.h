@@ -151,8 +151,8 @@
 /**
  * 设置plain样式title和messagex上下之间的分隔线是否隐藏，默认YES
  * 当设置为NO时:
-        1、setTextViewTopBottomMargin将自动改为title上下间距
-        2、setTitleMessageMargin将自动改为message的上下间距
+ 1、setTextViewTopBottomMargin将自动改为title上下间距
+ 2、setTitleMessageMargin将自动改为message的上下间距
  * leftRightMargin : 分隔线的左右间距
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setPlainTitleMessageSeparatorHidden)(BOOL separatorHidden, CGFloat leftRightMargin);
@@ -221,6 +221,12 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setFlowlayoutItemWidth)(CGFloat width);
 
 /**
+ * 设置collection列数（每行数量）
+ * 默认0，自动设置，不得大于自动设置的数量
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionColumnCount)(NSInteger columnCount);
+
+/**
  * 设置collection的水平（左右方向）的sectionInset
  * 默认0，为0时自动设置为item间距的一半
  */
@@ -251,6 +257,12 @@
  * JKAlertAction使用类方法初始化时每个参数传nil或者直接自己实例化一个即为空action
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setShowPageControl)(BOOL showPageControl);
+
+/**
+ * 设置pageControl
+ * 必须setShowPageControl为YES之后才会有值
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionPageControlConfig)(void(^)(UIPageControl *pageControl));
 
 /** 设置colletion样式的底部按钮左右间距 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionButtonLeftRightMargin)(CGFloat margin);

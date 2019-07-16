@@ -299,6 +299,12 @@
 @property (nonatomic, assign) CGFloat flowlayoutItemWidth;
 
 /**
+ * collection列数（每行数量）
+ * 默认0，自动设置，不得大于自动设置的数量
+ */
+@property (nonatomic, assign) NSInteger collectionColumnCount;
+
+/**
  * 设置collection的水平（左右方向）的sectionInset
  * 默认0，为0时自动设置为item间距的一半
  */
@@ -1571,6 +1577,24 @@
 }
 
 /**
+ * 设置pageControl
+ * 必须setShowPageControl为YES之后才会有值
+ */
+- (JKAlertView *(^)(void (^)(UIPageControl *pageControl)))setCollectionPageControlConfig{
+    
+    return ^(void (^pageControlConfig)(UIPageControl *pageControl)){
+        
+        if (self.showPageControl) {
+            
+            !pageControlConfig ? : pageControlConfig(self.pageControl);
+        }
+        
+        return self;
+    };
+}
+//@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionPageControlConfig)(void(^)(UIPageControl *pageControl))
+
+/**
  * 设置HUD样式dismiss的时间，默认1s
  * 小于等于0表示不自动隐藏
  */
@@ -1669,7 +1693,7 @@
 - (JKAlertView *(^)(void (^containerViewConfig)(UIView *containerView)))setContainerViewConfig{
     
     return ^(void (^containerViewConfig)(UIView *containerView)){
-      
+        
         self.containerViewConfig = containerViewConfig;
         
         return self;
@@ -1747,6 +1771,20 @@
     return ^(CGFloat width){
         
         self.flowlayoutItemWidth = width;
+        
+        return self;
+    };
+}
+
+/**
+ * 设置collection列数（每行数量）
+ * 默认0，自动设置，不得大于自动设置的数量
+ */
+- (JKAlertView *(^)(NSInteger columnCount))setCollectionColumnCount{
+    
+    return ^(NSInteger columnCount){
+        
+        self.collectionColumnCount = columnCount;
         
         return self;
     };
@@ -2726,17 +2764,17 @@
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
     
     /* 判断当前的SizeClass,如果为width compact&height regular 则说明正在分屏
-    BOOL isTrait = (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) &&
-    (self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular);
-    
-    if (isTrait) {
-        
-        NSLog(@"正在分屏");
-        
-    } else {
-        
-        NSLog(@"取消分屏");
-    } //*/
+     BOOL isTrait = (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) &&
+     (self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular);
+     
+     if (isTrait) {
+     
+     NSLog(@"正在分屏");
+     
+     } else {
+     
+     NSLog(@"取消分屏");
+     } //*/
 }
 
 - (void)calculateUI{
@@ -3477,9 +3515,23 @@
     
     self.sheetContainerView.frame = rect;
     
-    CGFloat totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * count - self.collectionHorizontalInset * 2);
+    CGFloat totalMargin = 0;
     
-    CGFloat itemMargin = totalMargin / ((self.collectionHorizontalInset == 0) ? count : count - 1);
+    CGFloat itemMargin = 0;
+    
+    if (self.collectionColumnCount > 0) {
+        
+        totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * self.collectionColumnCount - self.collectionHorizontalInset * 2);
+        
+        itemMargin = totalMargin / ((self.collectionHorizontalInset == 0) ? self.collectionColumnCount : self.collectionColumnCount - 1);
+    }
+    
+    if (totalMargin < 0 || self.collectionColumnCount <= 0) {
+        
+        totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * count - self.collectionHorizontalInset * 2);
+        
+        itemMargin = totalMargin / ((self.collectionHorizontalInset == 0) ? count : count - 1);
+    }
     
     itemMargin = itemMargin < 0 ? 0 : itemMargin;
     
@@ -3487,9 +3539,21 @@
     
     if (count2 > 0) {
         
-        totalMargin = (JKAlertScreenW - self.flowlayout2.itemSize.width * count2 - self.collectionHorizontalInset * 2);
+        CGFloat itemMargin2 = 0;
         
-        CGFloat itemMargin2 = totalMargin / ((self.collectionHorizontalInset == 0) ? count2 : count2 - 1);
+        if (self.collectionColumnCount > 0) {
+            
+            totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * self.collectionColumnCount - self.collectionHorizontalInset * 2);
+            
+            itemMargin2 = totalMargin / ((self.collectionHorizontalInset == 0) ? self.collectionColumnCount : self.collectionColumnCount - 1);
+        }
+        
+        if (totalMargin < 0 || self.collectionColumnCount <= 0) {
+            
+            totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * count - self.collectionHorizontalInset * 2);
+            
+            itemMargin2 = totalMargin / ((self.collectionHorizontalInset == 0) ? count2 : count2 - 1);
+        }
         
         itemMargin2 = itemMargin2 < 0 ? 0 : itemMargin2;
         
