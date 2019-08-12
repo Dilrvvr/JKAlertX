@@ -987,12 +987,14 @@
     
     TBMargin = 20;
     PlainViewWidth = 290;
-    AutoAdjustHomeIndicator = YES;
-    FillHomeIndicator = YES;
+    _collectionViewMargin = 10;
     JKAlertTitleMessageMargin = 7;
     CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
     JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
+    
+    FillHomeIndicator = YES;
+    AutoAdjustHomeIndicator = YES;
     
     self.flowlayoutItemWidth = 76;
     self.textViewLeftRightMargin = 20;
@@ -1806,7 +1808,7 @@
 
 /**
  * 设置两个collectionView之间的间距
- * 有第二个collectionView时有效 默认0, 最小为0
+ * 有第二个collectionView时有效 默认10, 最小为0
  */
 - (JKAlertView *(^)(CGFloat margin))setCollectionViewMargin{
     
@@ -3439,13 +3441,13 @@
         _customSheetTitleView.frame = CGRectMake(_iPhoneXLandscapeTextMargin, 0, JKAlertScreenW - _iPhoneXLandscapeTextMargin * 2, _customSheetTitleView.frame.size.height);
     }
     
-    self.collectionView.frame = CGRectMake(0, CGRectGetMaxY(self.textContainerView.frame), JKAlertScreenW, self.flowlayoutItemWidth - 6 + 10);
+    self.collectionView.frame = CGRectMake(0, CGRectGetMaxY(self.textContainerView.frame), JKAlertScreenW, self.flowlayoutItemWidth - 6 + self.collectionViewMargin);
     self.flowlayout.itemSize = CGSizeMake(self.flowlayoutItemWidth, self.flowlayoutItemWidth - 6);
     self.flowlayout.sectionInset = UIEdgeInsetsMake(self.flowlayout.itemSize.height - self.collectionView.frame.size.height, 0, 0, 0);
     
     if (count2 > 0) {
         
-        self.collectionView2.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame) + self.collectionViewMargin, JKAlertScreenW, self.collectionView.frame.size.height);
+        self.collectionView2.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame), JKAlertScreenW, self.collectionView.frame.size.height - self.collectionViewMargin);
         
         self.flowlayout2.itemSize = CGSizeMake(self.flowlayoutItemWidth, self.flowlayoutItemWidth - 6);
         self.flowlayout2.sectionInset = UIEdgeInsetsMake(self.flowlayout2.itemSize.height - self.collectionView2.frame.size.height, 0, 0, 0);

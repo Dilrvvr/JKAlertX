@@ -11,8 +11,8 @@
 
 @interface JKAlertCollectionViewCell ()
 
-/** imageButton */
-@property (nonatomic, weak) UIButton *imageButton;
+/** iconImageView */
+@property (nonatomic, weak) UIImageView *iconImageView;
 
 /** titleLabel */
 @property (nonatomic, weak) UILabel *titleLabel;
@@ -23,23 +23,26 @@
 
 @implementation JKAlertCollectionViewCell
 
-- (UIButton *)imageButton{
-    if (!_imageButton) {
-        
-        UIButton *imageButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        imageButton.userInteractionEnabled = NO;
-        [self.contentView addSubview:imageButton];
-        
-        imageButton.translatesAutoresizingMaskIntoConstraints = NO;
-        NSLayoutConstraint *imageButtonTopCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeTop) multiplier:1 constant:0];
-        NSLayoutConstraint *imageButtonLeftCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeLeft) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeLeft) multiplier:1 constant:15];
-        NSLayoutConstraint *imageButtonRightCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeRight) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeRight) multiplier:1 constant:-15];
-        NSLayoutConstraint *imageButtonHeightCons = [NSLayoutConstraint constraintWithItem:imageButton attribute:(NSLayoutAttributeHeight) relatedBy:(NSLayoutRelationEqual) toItem:imageButton attribute:(NSLayoutAttributeWidth) multiplier:1 constant:0];
-        [self.contentView addConstraints:@[imageButtonTopCons, imageButtonLeftCons, imageButtonRightCons, imageButtonHeightCons]];
-        
-        _imageButton = imageButton;
+- (UIImageView *)iconImageView{
+    if (!_iconImageView) {
+        if (!_iconImageView) {
+            
+            UIImageView *iconImageView = [[UIImageView alloc] init];
+            iconImageView.userInteractionEnabled = NO;
+            [self.contentView addSubview:iconImageView];
+            
+            iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
+            NSLayoutConstraint *imageButtonTopCons = [NSLayoutConstraint constraintWithItem:iconImageView attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeTop) multiplier:1 constant:0];
+            NSLayoutConstraint *imageButtonLeftCons = [NSLayoutConstraint constraintWithItem:iconImageView attribute:(NSLayoutAttributeLeft) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeLeft) multiplier:1 constant:15];
+            NSLayoutConstraint *imageButtonRightCons = [NSLayoutConstraint constraintWithItem:iconImageView attribute:(NSLayoutAttributeRight) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeRight) multiplier:1 constant:-15];
+            NSLayoutConstraint *imageButtonHeightCons = [NSLayoutConstraint constraintWithItem:iconImageView attribute:(NSLayoutAttributeHeight) relatedBy:(NSLayoutRelationEqual) toItem:iconImageView attribute:(NSLayoutAttributeWidth) multiplier:1 constant:0];
+            [self.contentView addConstraints:@[imageButtonTopCons, imageButtonLeftCons, imageButtonRightCons, imageButtonHeightCons]];
+            
+            _iconImageView = iconImageView;
+        }
+        return _iconImageView;
     }
-    return _imageButton;
+    return _iconImageView;
 }
 
 - (UILabel *)titleLabel{
@@ -83,7 +86,16 @@
 - (void)setSelected:(BOOL)selected{
     [super setSelected:selected];
     
-    _imageButton.highlighted = selected;
+    if (self.action.hightlightedImage) {
+        
+        _iconImageView.alpha = 1;
+        
+        _iconImageView.highlighted = selected;
+        
+    } else {
+        
+        _iconImageView.alpha = selected ? 0.5 : 1;
+    }
     
     _titleLabel.highlighted = selected;
 }
@@ -91,7 +103,16 @@
 - (void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:highlighted];
     
-    _imageButton.highlighted = highlighted;
+    if (self.action.hightlightedImage) {
+        
+        _iconImageView.alpha = 1;
+        
+        _iconImageView.highlighted = highlighted;
+        
+    } else {
+        
+        _iconImageView.alpha = highlighted ? 0.5 : 1;
+    }
     
     _titleLabel.highlighted = highlighted;
 }
@@ -100,7 +121,7 @@
     _action = action;
     
     _titleLabel.hidden = NO;
-    _imageButton.hidden = _titleLabel.hidden;
+    _iconImageView.hidden = _titleLabel.hidden;
     
     /*
     if (self.customView && self.customView.superview != self.contentView) {
@@ -121,7 +142,7 @@
     if (action.customView != nil) {
         
         _titleLabel.hidden = YES;
-        _imageButton.hidden = _titleLabel.hidden;
+        _iconImageView.hidden = _titleLabel.hidden;
         
         self.customView.hidden = NO;
         
@@ -168,22 +189,9 @@
     self.titleLabel.text = action.title;
     
     
-    if (_action.isBackgroundImage) {
-        
-        [self.imageButton setImage:nil forState:(UIControlStateNormal)];
-        [self.imageButton setImage:nil forState:(UIControlStateHighlighted)];
-        
-        [self.imageButton setBackgroundImage:_action.normalImage forState:(UIControlStateNormal)];
-        [self.imageButton setBackgroundImage:_action.hightlightedImage forState:(UIControlStateHighlighted)];
-        
-    } else {
-        
-        [self.imageButton setImage:_action.normalImage forState:(UIControlStateNormal)];
-        [self.imageButton setImage:_action.hightlightedImage forState:(UIControlStateHighlighted)];
-        
-        [self.imageButton setBackgroundImage:nil forState:(UIControlStateNormal)];
-        [self.imageButton setBackgroundImage:nil forState:(UIControlStateHighlighted)];
-    }
+    self.iconImageView.contentMode = action.imageContentMode;
+    self.iconImageView.image = _action.normalImage;
+    self.iconImageView.highlightedImage = _action.hightlightedImage;
 }
 
 - (void)setCustomView:(UIView *)customView{

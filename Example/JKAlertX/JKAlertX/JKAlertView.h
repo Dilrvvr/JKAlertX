@@ -234,7 +234,7 @@
 
 /**
  * 设置两个collectionView之间的间距
- * 有第二个collectionView时有效 默认0, 最小为0
+ * 有第二个collectionView时有效 默认10, 最小为0
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionViewMargin)(CGFloat margin);
 

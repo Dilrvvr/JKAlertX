@@ -79,6 +79,8 @@
     _rowHeight = -1;
     _separatorLineHidden = NO;
     _autoDismiss = YES;
+    
+    _imageContentMode = UIViewContentModeScaleAspectFill;
 }
 
 /** 重新设置title */
@@ -123,12 +125,12 @@
     };
 }
 
-/** 设置是否为setBackgroundImage */
-- (JKAlertAction *(^)(BOOL isBackgroundImage))setIsBackgroundImage{
+/** 设置imageContentMode 默认UIViewContentModeScaleAspectFill */
+- (JKAlertAction *(^)(UIViewContentMode contentMode))setImageContentMode{
     
-    return ^(BOOL isBackgroundImage){
+    return ^(UIViewContentMode contentMode){
         
-        self.isBackgroundImage = isBackgroundImage;
+        self.imageContentMode = contentMode;
         
         return self;
     };
