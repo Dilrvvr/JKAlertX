@@ -299,6 +299,12 @@
 @property (nonatomic, assign) CGFloat flowlayoutItemWidth;
 
 /**
+ * collection列数（每行数量）
+ * 默认0，自动设置，不得大于自动设置的数量
+ */
+@property (nonatomic, assign) NSInteger collectionColumnCount;
+
+/**
  * 设置collection的水平（左右方向）的sectionInset
  * 默认0，为0时自动设置为item间距的一半
  */
@@ -981,12 +987,14 @@
     
     TBMargin = 20;
     PlainViewWidth = 290;
-    AutoAdjustHomeIndicator = YES;
-    FillHomeIndicator = YES;
+    _collectionViewMargin = 10;
     JKAlertTitleMessageMargin = 7;
     CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
     JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
+    
+    FillHomeIndicator = YES;
+    AutoAdjustHomeIndicator = YES;
     
     self.flowlayoutItemWidth = 76;
     self.textViewLeftRightMargin = 20;
@@ -1571,6 +1579,24 @@
 }
 
 /**
+ * 设置pageControl
+ * 必须setShowPageControl为YES之后才会有值
+ */
+- (JKAlertView *(^)(void (^)(UIPageControl *pageControl)))setCollectionPageControlConfig{
+    
+    return ^(void (^pageControlConfig)(UIPageControl *pageControl)){
+        
+        if (self.showPageControl) {
+            
+            !pageControlConfig ? : pageControlConfig(self.pageControl);
+        }
+        
+        return self;
+    };
+}
+//@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionPageControlConfig)(void(^)(UIPageControl *pageControl))
+
+/**
  * 设置HUD样式dismiss的时间，默认1s
  * 小于等于0表示不自动隐藏
  */
@@ -1669,7 +1695,7 @@
 - (JKAlertView *(^)(void (^containerViewConfig)(UIView *containerView)))setContainerViewConfig{
     
     return ^(void (^containerViewConfig)(UIView *containerView)){
-      
+        
         self.containerViewConfig = containerViewConfig;
         
         return self;
@@ -1753,6 +1779,20 @@
 }
 
 /**
+ * 设置collection列数（每行数量）
+ * 默认0，自动设置，不得大于自动设置的数量
+ */
+- (JKAlertView *(^)(NSInteger columnCount))setCollectionColumnCount{
+    
+    return ^(NSInteger columnCount){
+        
+        self.collectionColumnCount = columnCount;
+        
+        return self;
+    };
+}
+
+/**
  * 设置collection的水平（左右方向）的sectionInset
  * 默认0，为0时自动设置为item间距的一半
  */
@@ -1768,7 +1808,7 @@
 
 /**
  * 设置两个collectionView之间的间距
- * 有第二个collectionView时有效 默认0, 最小为0
+ * 有第二个collectionView时有效 默认10, 最小为0
  */
 - (JKAlertView *(^)(CGFloat margin))setCollectionViewMargin{
     
@@ -2726,17 +2766,17 @@
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
     
     /* 判断当前的SizeClass,如果为width compact&height regular 则说明正在分屏
-    BOOL isTrait = (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) &&
-    (self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular);
-    
-    if (isTrait) {
-        
-        NSLog(@"正在分屏");
-        
-    } else {
-        
-        NSLog(@"取消分屏");
-    } //*/
+     BOOL isTrait = (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) &&
+     (self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular);
+     
+     if (isTrait) {
+     
+     NSLog(@"正在分屏");
+     
+     } else {
+     
+     NSLog(@"取消分屏");
+     } //*/
 }
 
 - (void)calculateUI{
@@ -3401,13 +3441,13 @@
         _customSheetTitleView.frame = CGRectMake(_iPhoneXLandscapeTextMargin, 0, JKAlertScreenW - _iPhoneXLandscapeTextMargin * 2, _customSheetTitleView.frame.size.height);
     }
     
-    self.collectionView.frame = CGRectMake(0, CGRectGetMaxY(self.textContainerView.frame), JKAlertScreenW, self.flowlayoutItemWidth - 6 + 10);
+    self.collectionView.frame = CGRectMake(0, CGRectGetMaxY(self.textContainerView.frame), JKAlertScreenW, self.flowlayoutItemWidth - 6 + self.collectionViewMargin);
     self.flowlayout.itemSize = CGSizeMake(self.flowlayoutItemWidth, self.flowlayoutItemWidth - 6);
     self.flowlayout.sectionInset = UIEdgeInsetsMake(self.flowlayout.itemSize.height - self.collectionView.frame.size.height, 0, 0, 0);
     
     if (count2 > 0) {
         
-        self.collectionView2.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame) + self.collectionViewMargin, JKAlertScreenW, self.collectionView.frame.size.height);
+        self.collectionView2.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame), JKAlertScreenW, self.collectionView.frame.size.height - self.collectionViewMargin);
         
         self.flowlayout2.itemSize = CGSizeMake(self.flowlayoutItemWidth, self.flowlayoutItemWidth - 6);
         self.flowlayout2.sectionInset = UIEdgeInsetsMake(self.flowlayout2.itemSize.height - self.collectionView2.frame.size.height, 0, 0, 0);
@@ -3477,9 +3517,23 @@
     
     self.sheetContainerView.frame = rect;
     
-    CGFloat totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * count - self.collectionHorizontalInset * 2);
+    CGFloat totalMargin = 0;
     
-    CGFloat itemMargin = totalMargin / ((self.collectionHorizontalInset == 0) ? count : count - 1);
+    CGFloat itemMargin = 0;
+    
+    if (self.collectionColumnCount > 0) {
+        
+        totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * self.collectionColumnCount - self.collectionHorizontalInset * 2);
+        
+        itemMargin = totalMargin / ((self.collectionHorizontalInset == 0) ? self.collectionColumnCount : self.collectionColumnCount - 1);
+    }
+    
+    if (totalMargin < 0 || self.collectionColumnCount <= 0) {
+        
+        totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * count - self.collectionHorizontalInset * 2);
+        
+        itemMargin = totalMargin / ((self.collectionHorizontalInset == 0) ? count : count - 1);
+    }
     
     itemMargin = itemMargin < 0 ? 0 : itemMargin;
     
@@ -3487,9 +3541,21 @@
     
     if (count2 > 0) {
         
-        totalMargin = (JKAlertScreenW - self.flowlayout2.itemSize.width * count2 - self.collectionHorizontalInset * 2);
+        CGFloat itemMargin2 = 0;
         
-        CGFloat itemMargin2 = totalMargin / ((self.collectionHorizontalInset == 0) ? count2 : count2 - 1);
+        if (self.collectionColumnCount > 0) {
+            
+            totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * self.collectionColumnCount - self.collectionHorizontalInset * 2);
+            
+            itemMargin2 = totalMargin / ((self.collectionHorizontalInset == 0) ? self.collectionColumnCount : self.collectionColumnCount - 1);
+        }
+        
+        if (totalMargin < 0 || self.collectionColumnCount <= 0) {
+            
+            totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * count - self.collectionHorizontalInset * 2);
+            
+            itemMargin2 = totalMargin / ((self.collectionHorizontalInset == 0) ? count2 : count2 - 1);
+        }
         
         itemMargin2 = itemMargin2 < 0 ? 0 : itemMargin2;
         
@@ -3567,7 +3633,7 @@
     
     self.observerSuperView = self.superview;
     
-    [self.superview addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionNew) context:nil];
+    [self.superview addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:nil];
     
     ObserverAdded = YES;
 }
@@ -3585,6 +3651,11 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     
     if (object == self.superview && [keyPath isEqualToString:@"frame"]) {
+        
+        CGRect oldFrame = [[change objectForKey:NSKeyValueChangeOldKey] CGRectValue];
+        CGRect currentFrame = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
+        
+        if (CGSizeEqualToSize(oldFrame.size, currentFrame.size)) { return; }
         
         [self updateWidthHeight];
         

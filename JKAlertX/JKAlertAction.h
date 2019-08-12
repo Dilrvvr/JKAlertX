@@ -26,8 +26,8 @@
 /** handler */
 @property (nonatomic, copy, readonly) void (^handler)(JKAlertAction *action);
 
-/** isBackgroundImage */
-@property (nonatomic, assign) BOOL isBackgroundImage;
+/** imageContentMode */
+@property (nonatomic, assign) UIViewContentMode imageContentMode;
 
 /** normalImage */
 @property (nonatomic, strong) UIImage *normalImage;
@@ -93,8 +93,8 @@
  */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setCustomView)(UIView *(^customView)(JKAlertAction *action));
 
-/** 设置是否为setBackgroundImage */
-@property (nonatomic, copy, readonly) JKAlertAction *(^setIsBackgroundImage)(BOOL isBackgroundImage);
+/** 设置imageContentMode 默认UIViewContentModeScaleAspectFill */
+@property (nonatomic, copy, readonly) JKAlertAction *(^setImageContentMode)(UIViewContentMode contentMode);
 
 /** 设置普通状态图片 */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setNormalImage)(UIImage *image);
