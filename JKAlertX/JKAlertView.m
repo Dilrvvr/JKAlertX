@@ -3294,7 +3294,7 @@
         _customSheetTitleView.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
     }
     
-    _plainTextContainerBottomLineLayer.hidden = rect.size.height == 0;
+    _plainTextContainerBottomLineLayer.hidden = (rect.size.height == 0 || (!_customSheetTitleView && self.actions.count <= 0));
     
     _textContainerView.frame = rect;
     _scrollView.contentSize = rect.size;
