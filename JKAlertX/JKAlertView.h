@@ -100,7 +100,7 @@
 
 /**
  * 设置背景view
- * 默认是一个UIToolbar
+ * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setBackGroundView)(UIView *(^backGroundView)(void));
 
