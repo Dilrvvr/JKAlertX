@@ -64,6 +64,8 @@
     CGFloat JKAlertScreenH;
     
     BOOL ObserverAdded;
+    
+    BOOL SheetMaxHeightSetted;
 }
 
 /** observerSuperView */
@@ -621,11 +623,11 @@
 
 - (UIView *)backGroundView{
     if (!_backGroundView) {
-        UIToolbar *toolbar = [[UIToolbar alloc] init];
-        toolbar.clipsToBounds = YES;
-        //UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
-        toolbar.clipsToBounds = YES;
-        self.backGroundView = toolbar;
+        //UIToolbar *toolbar = [[UIToolbar alloc] init];
+        //toolbar.clipsToBounds = YES;
+        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+        effectView.clipsToBounds = YES;
+        self.backGroundView = effectView;
     }
     return _backGroundView;
 }
@@ -1258,6 +1260,8 @@
                 self->JKAlertScreenW = self.customSuperView.frame.size.height;//MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
                 self->JKAlertScreenH = self.customSuperView.frame.size.width;//MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
                 
+                [self updateMaxHeight];
+                
             } else  {
                 
                 //self->JKAlertScreenW = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
@@ -1848,6 +1852,8 @@
         
         self->JKAlertSheetMaxH = height;
         
+        self->SheetMaxHeightSetted = YES;
+        
         return self;
     };
 };
@@ -1903,7 +1909,7 @@
 
 /**
  * 设置背景view
- * 默认是一个UIToolbar
+ * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
  */
 - (JKAlertView *(^)(UIView *(^backGroundView)(void)))setBackGroundView{
     
@@ -2088,9 +2094,18 @@
     /** 屏幕高度 */
     JKAlertScreenH = superView.bounds.size.height;//MAX(superView.bounds.size.width, superView.bounds.size.height);
     
+    [self updateMaxHeight];
+}
+
+- (void)updateMaxHeight{
+    
     JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
     
-    JKAlertSheetMaxH = JKAlertScreenH * 0.85;
+    if (!SheetMaxHeightSetted) {
+        
+        JKAlertSheetMaxH = JKAlertScreenH * 0.85;
+    }
+    
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
 }
 
@@ -3423,9 +3438,9 @@
     
     _iPhoneXLandscapeTextMargin = 0;
     
-    if (JKAlertScreenH * 0.8 - 395 > JKAlertMinTitleLabelH) {
+    if (JKAlertSheetMaxH - 395 > JKAlertMinTitleLabelH) {
         
-        rect.size.height = rect.size.height > JKAlertScreenH * 0.8 - 395 ? JKAlertScreenH * 0.8 - 395 : rect.size.height;
+        rect.size.height = rect.size.height > JKAlertSheetMaxH - 395 ? JKAlertSheetMaxH - 395 : rect.size.height;
     }
     
     rect.size.height = self.titleTextView.hidden ? -TBMargin * 2 : rect.size.height;
@@ -3509,10 +3524,10 @@
     
     self.scrollView.contentSize = rect.size;
     
-    if (rect.size.height > JKAlertScreenH * 0.8) {
+    if (rect.size.height > JKAlertSheetMaxH) {
         
-        rect.size.height = JKAlertScreenH * 0.8;
-        rect.origin.y = JKAlertScreenH * 0.2;
+        rect.size.height = JKAlertSheetMaxH;
+        rect.origin.y = JKAlertScreenH - JKAlertSheetMaxH;
     }
     
     self.sheetContainerView.frame = rect;

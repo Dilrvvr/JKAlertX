@@ -197,5 +197,10 @@
     [super setHighlighted:highlighted animated:animated];
     
     _titleButton.highlighted = highlighted;
+    
+    if (@available(iOS 13.0, *)) {
+        
+        self.contentView.alpha = highlighted ? 0.5 : 1;
+    }
 }
 @end
