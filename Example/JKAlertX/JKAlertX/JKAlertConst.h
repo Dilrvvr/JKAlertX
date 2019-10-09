@@ -144,6 +144,14 @@ UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6;
 #define JKAlertTextContainerViewMaxH (JKAlertPlainViewMaxH - JKAlertScrollViewMaxH)
 
 
+// 快速设置颜色
+#define JKAlertColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+#define JKAlertColorAlpha(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
+// RGB相等颜色
+#define JKAlertSameRGBColor(rgb) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:1]
+#define JKAlertSameRGBColorAlpha(rgb, a) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:(a)]
+
 #define JKAlertSystemBlueColor [UIColor colorWithRed:0.f green:122.0/255.0 blue:255.0/255.0 alpha:1]
 
 #define JKAlertSystemRedColor [UIColor colorWithRed:255.0/255.0 green:59.0/255.0 blue:48.0/255.0 alpha:1]
@@ -153,3 +161,17 @@ UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6;
 //#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
 
 //#define JKAlertXDeprecatedCustomizer NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, "请使用customizer")
+
+
+#pragma mark
+#pragma mark - 函数
+
+
+/// 颜色适配
+UIColor * JKALertAdaptColor (UIColor *lightColor, UIColor *darkColor);
+
+/// 全局背景色
+UIColor * JKALertGlobalBackgroundColor (void);
+
+/// 全局高亮背景色
+UIColor * JKALertGlobalHighlightedBackgroundColor (void);
