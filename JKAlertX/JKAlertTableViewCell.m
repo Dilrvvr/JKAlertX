@@ -74,13 +74,13 @@
 - (void)initialization{
     
     self.backgroundColor = nil;//[UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
-    self.contentView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];//nil;//self.backgroundColor;
+    self.contentView.backgroundColor = JKALertGlobalBackgroundColor();
     
     self.selectedBackgroundView = [[UIView alloc] init];
-    self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.3];
+    self.selectedBackgroundView.backgroundColor = JKALertGlobalHighlightedBackgroundColor();
     
     UIView *bottomLineView = [[UIView alloc] init];
-    bottomLineView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    bottomLineView.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
     [self.contentView addSubview:bottomLineView];
     self.bottomLineView = bottomLineView;
     
@@ -129,12 +129,12 @@
         switch (_action.alertActionStyle) {
             case JKAlertActionStyleDefault:
                 
-                _action.setTitleColor([UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1]);
+                _action.setTitleColor(JKALertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
                 break;
                 
             case JKAlertActionStyleCancel:
                 
-                _action.setTitleColor([UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1]);
+                _action.setTitleColor(JKALertAdaptColor(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102)));
                 break;
                 
             case JKAlertActionStyleDestructive:
