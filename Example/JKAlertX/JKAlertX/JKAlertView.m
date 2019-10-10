@@ -3090,7 +3090,7 @@
             button = [JKAlertSeparatorLayerButton buttonWithType:(UIButtonTypeCustom)];
             [self.scrollView addSubview:button];
             
-            [button setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
+            //[button setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
             
             [button addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
             
@@ -3716,7 +3716,7 @@
         
         if (!self.isClearFullScreenBackgroundColor) {
             
-            self.contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+            self.contentView.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.3]);
         }
         self.fullScreenBackGroundView.alpha = 1;
         
@@ -3908,7 +3908,7 @@
     
     [UIView animateWithDuration:0.25 animations:^{
         
-        self.contentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0];
+        self.contentView.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
         self.fullScreenBackGroundView.alpha = 0;
         
         [self dismissAnimationOperation];
@@ -4280,32 +4280,8 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
 - (void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:highlighted];
     
-    
-    UIColor *normalColor = JKAlertSameRGBColorAlpha(247, 0.7);
-    UIColor *highlightedColor = JKAlertSameRGBColorAlpha(247, 0.3);
-    
-    if (@available(iOS 13.0, *)) {
-        
-        normalColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            
-            if ([traitCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
-                
-                return JKAlertSameRGBColorAlpha(247, 0.7);
-            }
-
-            return JKAlertSameRGBColorAlpha(8, 0.7);
-        }];
-        
-        highlightedColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            
-            if ([traitCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
-                
-                return JKAlertSameRGBColorAlpha(247, 0.3);
-            }
-
-            return JKAlertSameRGBColorAlpha(8, 0.3);
-        }];
-    }
+    UIColor *normalColor = JKALertAdaptColor(JKAlertSameRGBColorAlpha(247, 0.7), JKAlertSameRGBColorAlpha(8, 0.7));
+    UIColor *highlightedColor = JKALertAdaptColor(JKAlertSameRGBColorAlpha(247, 0.3), JKAlertSameRGBColorAlpha(8, 0.3));
     
     self.backgroundColor = highlighted ? highlightedColor : normalColor;
 }
@@ -4316,6 +4292,14 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
 
 @implementation JKAlertSeparatorLayerButton
 
+- (void)setHighlighted:(BOOL)highlighted{
+    [super setHighlighted:highlighted];
+    
+    UIColor *normalColor = JKALertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+    UIColor *highlightedColor = JKALertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+    
+    self.backgroundColor = highlighted ? highlightedColor : nil;
+}
 @end
 
 
