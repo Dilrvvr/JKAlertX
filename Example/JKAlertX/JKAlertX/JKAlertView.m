@@ -2781,6 +2781,7 @@
 #pragma mark - 计算frame------------------------------------
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [super traitCollectionDidChange:previousTraitCollection];
 
     if (@available(iOS 13.0, *)) {
         
