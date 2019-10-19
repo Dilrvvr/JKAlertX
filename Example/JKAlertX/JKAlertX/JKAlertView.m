@@ -2787,7 +2787,7 @@
         
         if ([self.backGroundView isKindOfClass:[UIVisualEffectView class]]) {
             
-            BOOL isLight = ([previousTraitCollection userInterfaceStyle] != UIUserInterfaceStyleLight);
+            BOOL isLight = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight);
             
             [(UIVisualEffectView *)self.backGroundView setEffect:[UIBlurEffect effectWithStyle:isLight ? UIBlurEffectStyleExtraLight : UIBlurEffectStyleDark]];
         }
