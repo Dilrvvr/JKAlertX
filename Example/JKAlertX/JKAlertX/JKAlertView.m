@@ -185,7 +185,7 @@
 @property (nonatomic, weak) UIView *plainTitleMessageSeparatorView;
 
 /** plain样式文字容器底部 分隔线 */
-@property (nonatomic, weak) UIView *plainTextContainerBottomLineView;
+@property (nonatomic, weak) UIView *textContainerBottomLineView;
 
 /** titleTextView */
 @property (nonatomic, weak) JKAlertTextView *titleTextView;
@@ -310,6 +310,9 @@
  * 默认0，为0时自动设置为item间距的一半
  */
 @property (nonatomic, assign) CGFloat collectionHorizontalInset;
+
+/** collection的title下分隔线是否隐藏 */
+@property (nonatomic, assign) BOOL collectionTitleSeperatorHidden;
 
 /**
  * 设置两个collectionView之间的间距
@@ -658,7 +661,7 @@
         UIView *hline = [UIView new];
         hline.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
         [self.textContainerView addSubview:hline];
-        _plainTextContainerBottomLineView = hline;
+        _textContainerBottomLineView = hline;
         
         //        NSString *hVF = [NSString stringWithFormat:@"H:|-%d-[bottomLineView]-%d-|", (int)_iPhoneXLandscapeTextMargin, (int)_iPhoneXLandscapeTextMargin];
         //
@@ -816,6 +819,11 @@
         
         [self.textContainerView addSubview:self.titleTextView];
         
+        UIView *hline = [UIView new];
+        hline.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+        [self.textContainerView addSubview:hline];
+        _textContainerBottomLineView = hline;
+        
         UICollectionViewFlowLayout *flowlayout = [[UICollectionViewFlowLayout alloc] init];
         flowlayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _flowlayout = flowlayout;
@@ -912,7 +920,7 @@
             UIView *hline = [UIView new];
             hline.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
             [self.textContainerView addSubview:hline];
-            _plainTextContainerBottomLineView = hline;
+            _textContainerBottomLineView = hline;
             
             // 分隔线
             UIView *hline2 = [UIView new];
@@ -989,6 +997,7 @@
     _dismissTimeInterval = 1;
     _textViewUserInteractionEnabled = YES;
     _plainTitleMessageSeparatorHidden = YES;
+    _collectionTitleSeperatorHidden = YES;
     _iPhoneXLandscapeTextMargin = 0;//((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
     TBMargin = 20;
@@ -1807,6 +1816,17 @@
     return ^(CGFloat inset){
         
         self.collectionHorizontalInset = inset;
+        
+        return self;
+    };
+}
+
+/** 设置collection的title下分隔线是否隐藏 默认YES */
+- (JKAlertView *(^)(BOOL hidden))setCollectionTitleSeperatorHidden{
+    
+    return ^(BOOL hidden){
+        
+        self.collectionTitleSeperatorHidden = hidden;
         
         return self;
     };
@@ -3042,11 +3062,11 @@
     
     self.plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
     
-    if (_plainTextContainerBottomLineView.hidden) { return; }
+    if (_textContainerBottomLineView.hidden) { return; }
     
-    _plainTextContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
+    _textContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
     
-    _plainTextContainerBottomLineView.hidden = (self.textContainerView.frame.size.height <= 0 || self.scrollView.frame.size.height <= 0);
+    _textContainerBottomLineView.hidden = (self.textContainerView.frame.size.height <= 0 || self.scrollView.frame.size.height <= 0);
     
     if (_HUDHeight > 0) {
         
@@ -3111,7 +3131,7 @@
         
         if (i == 0) {
             
-            _plainTextContainerBottomLineView.hidden = action.separatorLineHidden;
+            _textContainerBottomLineView.hidden = action.separatorLineHidden;
         }
         
         if (i == 1 && count == 2) {
@@ -3322,7 +3342,7 @@
         _customSheetTitleView.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
     }
     
-    _plainTextContainerBottomLineView.hidden = (rect.size.height == 0 || (!_customSheetTitleView && self.actions.count <= 0));
+    _textContainerBottomLineView.hidden = (rect.size.height == 0 || (!_customSheetTitleView && self.actions.count <= 0));
     
     _textContainerView.frame = rect;
     _scrollView.contentSize = rect.size;
@@ -3334,7 +3354,7 @@
     
     _tableView.scrollEnabled = _tableView.frame.size.height < tableViewH;
     
-    _plainTextContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
+    _textContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
 }
 
 - (void)adjustSheetFrame{
@@ -3469,7 +3489,21 @@
         _customSheetTitleView.frame = CGRectMake(_iPhoneXLandscapeTextMargin, 0, JKAlertScreenW - _iPhoneXLandscapeTextMargin * 2, _customSheetTitleView.frame.size.height);
     }
     
-    self.collectionView.frame = CGRectMake(0, CGRectGetMaxY(self.textContainerView.frame), JKAlertScreenW, self.flowlayoutItemWidth - 6 + self.collectionViewMargin);
+    if (self.collectionTitleSeperatorHidden) {
+        
+        _textContainerBottomLineView.hidden = YES;
+        
+    } else {
+        
+        _textContainerBottomLineView.hidden = (self.textContainerView.frame.size.height == 0 || (!_customSheetTitleView && self.actions.count <= 0 && self.actions2.count <= 0));
+    }
+    
+    CGFloat collectionViewY = CGRectGetMaxY(self.textContainerView.frame) + (_textContainerBottomLineView.hidden ? 0 : 10);
+    
+    CGFloat collectionViewHeight = (self.actions.count <= 0) ? 0 : self.flowlayoutItemWidth - 6 + self.collectionViewMargin;
+    
+    self.collectionView.frame = CGRectMake(0, collectionViewY, JKAlertScreenW, collectionViewHeight);
+    
     self.flowlayout.itemSize = CGSizeMake(self.flowlayoutItemWidth, self.flowlayoutItemWidth - 6);
     self.flowlayout.sectionInset = UIEdgeInsetsMake(self.flowlayout.itemSize.height - self.collectionView.frame.size.height, 0, 0, 0);
     
@@ -3622,6 +3656,8 @@
         
         //        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
     }
+    
+    _textContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
 }
 
 #pragma mark - 布局自定义HUD

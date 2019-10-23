@@ -303,6 +303,8 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setBottomButtonMargin(10).setCustomSuperView(self.view);
     
+    //alertView.setCollectionTitleSeperatorHidden(NO);
+    
     // 第1组
     alertView.setCollectionAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -312,7 +314,7 @@
             
             return [UIView new];
             
-        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").resetOther().setTitleTextColor([UIColor redColor]).setBottomButtonMargin(0.5).relayout(YES);
+        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").resetOther().setTitleTextColor([UIColor redColor]).setBottomButtonMargin(0.25).relayout(YES);
         
     }].setAutoDismiss(NO)).setShowPageControl(YES);
     
