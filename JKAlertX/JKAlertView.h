@@ -149,7 +149,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setTitleMessageMargin)(CGFloat margin);
 
 /**
- * 设置plain样式title和messagex上下之间的分隔线是否隐藏，默认YES
+ * 设置plain样式title和message上下之间的分隔线是否隐藏，默认YES
  * 当设置为NO时:
  1、setTextViewTopBottomMargin将自动改为title上下间距
  2、setTitleMessageMargin将自动改为message的上下间距
@@ -231,6 +231,9 @@
  * 默认0，为0时自动设置为item间距的一半
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionHorizontalInset)(CGFloat inset);
+
+/** 设置collection的title下分隔线是否隐藏 默认YES */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionTitleSeperatorHidden)(BOOL hidden);
 
 /**
  * 设置两个collectionView之间的间距
