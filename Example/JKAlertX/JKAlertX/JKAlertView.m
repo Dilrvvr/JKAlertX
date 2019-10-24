@@ -3546,11 +3546,11 @@
             
         } else if (_collectionView2) {
             
-            Y = CGRectGetMaxY(_collectionView2.frame);
+            Y = CGRectGetMaxY(_collectionView2.frame) + 10;
             
         } else if (_collectionView) {
             
-            Y = CGRectGetMaxY(_collectionView.frame);
+            Y = CGRectGetMaxY(_collectionView.frame) + (_collectionView.frame.size.height > 0 ? 10 : 0);
         }
         
         Y += CancelMargin;
@@ -3581,11 +3581,11 @@
         
     } else if (_collectionView2) {
         
-        Y = CGRectGetMaxY(_collectionView2.frame);
+        Y = CGRectGetMaxY(_collectionView2.frame) + 10;
         
     } else if (_collectionView) {
         
-        Y = CGRectGetMaxY(_collectionView.frame);
+        Y = CGRectGetMaxY(_collectionView.frame) + (_collectionView.frame.size.height > 0 ? 10 : 0);
     }
     
     Y += CancelMargin;
@@ -3605,7 +3605,22 @@
     
     rect = CGRectMake(0, JKAlertScreenH - (CGRectGetMaxY(self.cancelButton.frame) + JKAlertAdjustHomeIndicatorHeight), JKAlertScreenW, CGRectGetMaxY(self.cancelButton.frame) + JKAlertAdjustHomeIndicatorHeight);
     
-    self.collectionTopContainerView.frame = CGRectMake(0, 0, JKAlertScreenW, (_pageControl ? CGRectGetMaxY(_pageControl.frame) : (_collectionView2 ? CGRectGetMaxY(_collectionView2.frame) : CGRectGetMaxY(_collectionView.frame))));
+    CGFloat height = 0;
+    
+    if (_pageControl) {
+        
+        height = CGRectGetMaxY(_pageControl.frame);
+        
+    } else if (_collectionView2) {
+        
+        height = CGRectGetMaxY(_collectionView2.frame) + 10;
+        
+    } else if (_collectionView) {
+        
+        height = CGRectGetMaxY(_collectionView.frame) + _collectionView.frame.size.height > 0 ? 10 : 0;
+    }
+    
+    self.collectionTopContainerView.frame = CGRectMake(0, 0, JKAlertScreenW, height);
     
     self.scrollView.contentSize = rect.size;
     
