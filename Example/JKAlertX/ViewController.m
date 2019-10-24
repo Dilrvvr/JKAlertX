@@ -301,7 +301,7 @@
 // use customSuperView
 - (IBAction)collectionSheet:(id)sender {
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setCompoundCollection(YES).setCollectionPagingEnabled(YES);//.setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25);//.setBottomButtonMargin(10).setCustomSuperView(self.view);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setCompoundCollection(YES).setCollectionPagingEnabled(YES).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setBottomButtonMargin(10).setCustomSuperView(self.view);
     
     //alertView.setCollectionTitleSeperatorHidden(NO);
     

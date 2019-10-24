@@ -3687,7 +3687,7 @@
     self.flowlayout.minimumLineSpacing = itemMargin;
     self.flowlayout.minimumInteritemSpacing = itemMargin;
     
-    _pageControl.numberOfPages = ceil((itemMargin + _flowlayout.itemSize.width) * count / JKAlertScreenW);
+    _pageControl.numberOfPages = ceil(((itemMargin + _flowlayout.itemSize.width) * count - 5) / JKAlertScreenW);
     
     // 处理iPhoneX并且横屏的情况
     _collectionView.contentInset = (JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH && itemMargin < 44) ? UIEdgeInsetsMake(0, 44 - itemMargin, 0, 44 - itemMargin) : UIEdgeInsetsZero;
@@ -4156,13 +4156,22 @@
     _collectionView2.contentOffset = scrollView.contentOffset;
 }
 
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    
+    if (scrollView == _tableView) {
+        return;
+    }
+    
+    _pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / JKAlertScreenW);
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     
     if (scrollView == _tableView) {
         return;
     }
     
-    _pageControl.currentPage = ceil(scrollView.contentOffset.x / JKAlertScreenW);
+    _pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / JKAlertScreenW);
 }
 
 #pragma mark - plain样式按钮点击------------------------
