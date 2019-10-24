@@ -1492,7 +1492,7 @@
     
     return ^(CGFloat width){
         
-        self->PlainViewWidth = width < 0 ? 0 : (width > MIN(JKAlertScreenW, JKAlertScreenH) ? MIN(JKAlertScreenW, JKAlertScreenH) : width);
+        self->PlainViewWidth = width < 0 ? 0 : (width > MIN(self->JKAlertScreenW, self->JKAlertScreenH) ? MIN(self->JKAlertScreenW, self->JKAlertScreenH) : width);
         
         return self;
     };
@@ -1554,7 +1554,7 @@
     
     return ^(BOOL fillHomeIndicator){
         
-        if (!JKAlertIsIphoneX) { return self; }
+        if (!self->JKAlertIsIphoneX) { return self; }
         
         self->FillHomeIndicator = fillHomeIndicator;
         
@@ -1646,7 +1646,7 @@
     
     return ^(CGFloat Y, BOOL animated){
         
-        CGRect frame = _plainView.frame;
+        CGRect frame = self->_plainView.frame;
         frame.origin.y = Y;
         
         if (animated) {
@@ -3534,11 +3534,28 @@
     
     CGRect frame = CGRectZero;
     
+    CGFloat Y = 0;
+    
     if (self.collectionAction) {
         
         [self adjustButton:self.collectionButton action:self.collectionAction];
         
-        frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, CGRectGetMaxY(_pageControl ? _pageControl.frame : (_collectionView2 ? _collectionView2.frame : _collectionView.frame)) + CancelMargin, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
+        if (_pageControl) {
+            
+            Y = CGRectGetMaxY(_pageControl.frame);
+            
+        } else if (_collectionView2) {
+            
+            Y = CGRectGetMaxY(_collectionView2.frame);
+            
+        } else if (_collectionView) {
+            
+            Y = CGRectGetMaxY(_collectionView.frame);
+        }
+        
+        Y += CancelMargin;
+        
+        frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
         
         if (self.collectionAction.customView) {
             
@@ -3552,7 +3569,28 @@
         self.collectionAction.customView.frame = self.collectionButton.bounds;
     }
     
-    frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, CGRectGetMaxY(_collectionButton ? _collectionButton.frame : (_collectionView2 ? _collectionView2.frame : _collectionView.frame)) + CancelMargin, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
+    Y = 0;
+    
+    if (_collectionButton) {
+        
+        Y = CGRectGetMaxY(_collectionButton.frame);
+        
+    } else if (_pageControl) {
+        
+        Y = CGRectGetMaxY(_pageControl.frame);
+        
+    } else if (_collectionView2) {
+        
+        Y = CGRectGetMaxY(_collectionView2.frame);
+        
+    } else if (_collectionView) {
+        
+        Y = CGRectGetMaxY(_collectionView.frame);
+    }
+    
+    Y += CancelMargin;
+    
+    frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
     
     if (self.cancelAction.customView) {
         
@@ -4332,7 +4370,7 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
 - (void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:highlighted];
     
-    UIColor *normalColor = JKALertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+    //UIColor *normalColor = JKALertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
     UIColor *highlightedColor = JKALertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
     
     self.backgroundColor = highlighted ? highlightedColor : nil;
