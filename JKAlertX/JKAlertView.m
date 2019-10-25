@@ -3617,7 +3617,7 @@
         
     } else if (_collectionView) {
         
-        height = CGRectGetMaxY(_collectionView.frame) + _collectionView.frame.size.height > 0 ? 10 : 0;
+        height = CGRectGetMaxY(_collectionView.frame) + (_collectionView.frame.size.height > 0 ? 10 : 0);
     }
     
     self.collectionTopContainerView.frame = CGRectMake(0, 0, JKAlertScreenW, height);
