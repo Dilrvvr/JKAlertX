@@ -43,6 +43,7 @@
     
     CGFloat CancelMargin;
     CGFloat PlainViewWidth;
+    CGFloat OriginalPlainWidth;
     
     /** 是否自动适配 iPhone X homeIndicator */
     BOOL AutoAdjustHomeIndicator;
@@ -271,6 +272,12 @@
 
 /** 监听superView尺寸改变时自适应完成的block */
 @property (nonatomic, copy) void (^didAdaptBlock)(JKAlertView *view, UIView *containerView);
+
+/** 是否自动弹出键盘 默认YES */
+@property (nonatomic, assign) BOOL autoShowKeyboard;
+
+/** 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO */
+@property (nonatomic, assign) BOOL autoReducePlainWidth;
 
 /**
  * plain和HUD样式centerY的偏移
@@ -1002,12 +1009,14 @@
     
     TBMargin = 20;
     PlainViewWidth = 290;
+    OriginalPlainWidth = PlainViewWidth;
     _collectionViewMargin = 10;
     JKAlertTitleMessageMargin = 7;
     CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
     JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
     
+    _autoShowKeyboard = YES;
     FillHomeIndicator = YES;
     AutoAdjustHomeIndicator = YES;
     
@@ -1490,13 +1499,43 @@
  */
 - (JKAlertView *(^)(CGFloat width))setPlainWidth{
     
-    return ^(CGFloat width){
+    return ^(CGFloat width) {
         
-        self->PlainViewWidth = width < 0 ? 0 : (width > MIN(self->JKAlertScreenW, self->JKAlertScreenH) ? MIN(self->JKAlertScreenW, self->JKAlertScreenH) : width);
+        //self->PlainViewWidth = width < 0 ? 0 : (width > MIN(self->JKAlertScreenW, self->JKAlertScreenH) ? MIN(self->JKAlertScreenW, self->JKAlertScreenH) : width);
+        
+        self->PlainViewWidth = MIN(MAX(0, width), self->JKAlertScreenW);
+        
+        self->OriginalPlainWidth = self->PlainViewWidth;
         
         return self;
     };
 }
+
+/**
+ * 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO
+ */
+ - (JKAlertView *(^)(BOOL autoReducePlainWidth))setAutoReducePlainWidth{
+     
+     return ^(BOOL autoReducePlainWidth) {
+
+         self.autoReducePlainWidth = autoReducePlainWidth;
+         
+         return self;
+     };
+ }
+
+/**
+ * 设置是否自动弹出键盘 默认YES
+ */
+ - (JKAlertView *(^)(BOOL autoShowKeyboard))setAutoShowKeyboard{
+     
+     return ^(BOOL autoShowKeyboard) {
+
+         self.autoShowKeyboard = autoShowKeyboard;
+         
+         return self;
+     };
+ }
 
 /**
  * 设置plain样式的圆角
@@ -1656,7 +1695,7 @@
                 self->_plainView.frame = frame;
             }];
             
-        }else{
+        } else {
             
             self->_plainView.frame = frame;
         }
@@ -1680,7 +1719,7 @@
                 self->_plainView.center = CGPointMake(self->_plainView.center.x, self->JKAlertScreenH * 0.5 + self.plainCenterOffsetY + centerOffsetY);
             }];
             
-        }else{
+        } else {
             
             self->_plainView.center = CGPointMake(self->_plainView.center.x, self->JKAlertScreenH * 0.5 + self.plainCenterOffsetY + centerOffsetY);
         }
@@ -2861,7 +2900,7 @@
         
         _titleTextView.text = self.alertTitle;
         
-    }else{
+    } else {
         
         _titleTextView.hidden = YES;
     }
@@ -2874,7 +2913,7 @@
         
         _messageTextView.text = self.message;
         
-    }else{
+    } else {
         
         _messageTextView.hidden = YES;
     }
@@ -2927,6 +2966,22 @@
 
 #pragma mark - 布局plain
 - (void)layoutPlain{
+    
+    if (self.autoReducePlainWidth) {
+        
+        UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
+        
+        UIView *superView = self.superview ? self.superview : keyWindow;
+        
+        CGFloat safeAreaInset = 0;
+        
+        if (@available(iOS 11.0, *)) {
+            
+            safeAreaInset = MAX(superView.safeAreaInsets.left, superView.safeAreaInsets.right);;
+        }
+        
+        PlainViewWidth = MIN(OriginalPlainWidth, JKAlertScreenW - safeAreaInset * 2);
+    }
     
     _plainView.frame = CGRectMake((JKAlertScreenW - PlainViewWidth) * 0.5, (JKAlertScreenH - 200) * 0.5, PlainViewWidth, 200);
     _textContainerView.frame = CGRectMake(0, 0, PlainViewWidth, TBMargin + JKAlertMinTitleLabelH + JKAlertTitleMessageMargin + JKAlertMinMessageLabelH + TBMargin);
@@ -3454,7 +3509,7 @@
             
             count2 = count;
             
-        }else{
+        } else {
             
             for (NSInteger i = 0; i < count2 - count; i++) {
                 
@@ -3521,7 +3576,7 @@
             
             self.pageControl.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame), self.sheetContainerView.frame.size.width, 27);
             
-        }else{
+        } else {
             
             if (_compoundCollection) {
                 
@@ -3792,7 +3847,7 @@
         
         self.customShowAnimationBlock(self, _plainView ? _plainView : _sheetContainerView);
         
-    }else{
+    } else {
         
         _plainView.alpha = 0;
         _plainView.transform = CGAffineTransformMakeScale(1.2, 1.2);
@@ -3843,7 +3898,7 @@
     
     self->oldPlainViewFrame = self->_plainView.frame;
     
-    if (self.currentTextField) {
+    if (self.autoShowKeyboard && self.currentTextField) {
         
         if (!self.currentTextField.hidden) {
             
@@ -3852,7 +3907,7 @@
                 [self.currentTextField becomeFirstResponder];
             }
             
-        }else{
+        } else {
             
             for (UITextField *tf in _textFieldArr) {
                 
@@ -3903,7 +3958,7 @@
             [self layoutIfNeeded];
         }];
         
-    }else{
+    } else {
         
         CGFloat maxH = JKAlertScreenH - (JKAlertIsIphoneX ? 44 : 20) - keyboardFrame.size.height - 40;
         
@@ -4075,7 +4130,7 @@
         
         cell.action = self.actions[indexPath.row];
         
-    }else{
+    } else {
         
         cell.action = self.cancelAction;
     }

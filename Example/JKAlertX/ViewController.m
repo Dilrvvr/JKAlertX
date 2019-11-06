@@ -106,9 +106,15 @@
         // 点击空白处也退出
         // alertView.setClickPlainBlankDismiss(YES);
         
+        // 自动缩小宽度以适应屏幕宽度
+        alertView.setPlainWidth(500).setAutoReducePlainWidth(YES);
+        
         // title和message之间加分隔线
         alertView.setPlainTitleMessageSeparatorHidden(NO, 0).
         setTextViewTopBottomMargin(15).setTitleMessageMargin(0).setMessageMinHeight(100);
+        
+        // 向上偏移50
+        alertView.setPlainCenterOffsetY(-50);
         
         // 配置关闭按钮
         alertView.setPlainCloseButtonConfig(^(UIButton *closeButton) {
@@ -134,9 +140,6 @@
             }).relayout(YES);
             
         }].setAutoDismiss(NO)];
-        
-        // 向上偏移100
-        alertView.setPlainCenterOffsetY(-100);
         
         // 自定义展示动画
         alertView.setCustomShowAnimationBlock(^(JKAlertView *view, UIView *animationView) {

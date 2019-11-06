@@ -127,6 +127,16 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setPlainWidth)(CGFloat width);
 
 /**
+ * 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setAutoReducePlainWidth)(BOOL autoReducePlainWidth);
+
+/**
+ * 设置是否自动弹出键盘 默认YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setAutoShowKeyboard)(BOOL autoShowKeyboard);
+
+/**
  * 设置plain样式的圆角
  * 默认8 不可小于0
  */
