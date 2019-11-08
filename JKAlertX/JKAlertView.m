@@ -155,6 +155,9 @@
 /** clickPlainBlankDismiss */
 @property (nonatomic, assign) BOOL clickPlainBlankDismiss;
 
+/** 监听点击空白处的block */
+@property (nonatomic, copy) void (^blankClickBlock)(void);
+
 /** plain样式title和messagex上下之间的分隔线是否隐藏 默认YES */
 @property (nonatomic, assign) BOOL plainTitleMessageSeparatorHidden;
 
@@ -1738,6 +1741,17 @@
     return ^(BOOL shouldDismiss){
         
         self.clickPlainBlankDismiss = shouldDismiss;
+        
+        return self;
+    };
+}
+
+/** 设置监听点击空白处的block */
+- (JKAlertView * (^)(void(^blankClickBlock)(void)))setBlankClickBlock{
+    
+    return ^(void(^blankClickBlock)(void)){
+        
+        self.blankClickBlock = blankClickBlock;
         
         return self;
     };
@@ -4004,14 +4018,15 @@
 
 - (void)dismissButtonClick:(UIButton *)button{
     
-    if (_plainView != nil) {
-        
-        [self endEditing:YES];
-    }
+    !self.blankClickBlock ? : self.blankClickBlock();
     
     if (_clickPlainBlankDismiss) {
         
         self.dismiss();
+        
+    } else {
+        
+        [self endEditing:YES];
     }
 }
 
