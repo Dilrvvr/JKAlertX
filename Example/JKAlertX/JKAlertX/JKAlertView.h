@@ -18,6 +18,9 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setClickBlankDismiss)(BOOL shouldDismiss);
 
+/** 设置监听点击空白处的block */
+@property (nonatomic, copy, readonly) JKAlertView *(^setBlankClickBlock)(void(^blankClickBlock)(void));
+
 /**
  * 配置弹出视图的容器view，加圆角等
  */
