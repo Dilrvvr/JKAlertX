@@ -66,6 +66,8 @@
     BOOL ObserverAdded;
     
     BOOL SheetMaxHeightSetted;
+    
+    CGFloat GestureIndicatorHeight;
 }
 
 /** observerSuperView */
@@ -85,6 +87,9 @@
 
 /** sheetContainerView */
 @property (nonatomic, weak) UIView *sheetContainerView;
+
+/** sheetContentView */
+@property (nonatomic, weak) UIView *sheetContentView;
 
 /** collectionTopContainerView */
 @property (nonatomic, weak) UIView *collectionTopContainerView;
@@ -365,6 +370,14 @@
 /** 用于通知消失的key */
 @property (nonatomic, copy) NSString *dismissKey;
 
+/** enableGestureDismiss */
+@property (nonatomic, assign) BOOL enableGestureDismiss;
+
+/** topGestureIndicatorView */
+@property (nonatomic, weak) UIView *topGestureIndicatorView;
+
+/** topGestureLineView */
+@property (nonatomic, weak) UIView *topGestureLineView;
 @end
 
 @implementation JKAlertView
@@ -664,6 +677,32 @@
     return _sheetContainerView;
 }
 
+- (UIView *)sheetContentView{
+    if (!_sheetContentView) {
+        UIView *sheetContentView = [[UIView alloc] init];
+        [self.sheetContainerView insertSubview:sheetContentView aboveSubview:self.backGroundView];
+        _sheetContentView = sheetContentView;
+    }
+    return _sheetContentView;
+}
+
+- (UIView *)topGestureIndicatorView{
+    if (!_topGestureIndicatorView) {
+        UIView *topGestureIndicatorView = [[UIView alloc] init];
+        topGestureIndicatorView.backgroundColor = JKALertGlobalBackgroundColor();
+        [self.sheetContainerView addSubview:topGestureIndicatorView];
+        _topGestureIndicatorView = topGestureIndicatorView;
+        
+        UIView *topGestureLineView = [[UIView alloc] initWithFrame:CGRectMake((JKAlertScreenW - 40) * 0.5, 14.5, 40, 5)];
+        topGestureLineView.userInteractionEnabled = NO;
+        topGestureLineView.layer.cornerRadius = 2.5;
+        topGestureLineView.backgroundColor = JKALertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+        [topGestureIndicatorView addSubview:topGestureLineView];
+        _topGestureLineView = topGestureLineView;
+    }
+    return _topGestureIndicatorView;
+}
+
 - (UITableView *)tableView{
     if (!_tableView) {
         
@@ -684,7 +723,7 @@
         
         // title和message的容器view
         self.textContainerView.backgroundColor = JKALertGlobalBackgroundColor();
-        [self.sheetContainerView addSubview:self.textContainerView];
+        [self.sheetContentView addSubview:self.textContainerView];
         
         [self.textContainerView insertSubview:self.scrollView atIndex:0];
         
@@ -715,8 +754,8 @@
         
         [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
         
-        [_sheetContainerView addSubview:tableView];
-        [_sheetContainerView insertSubview:tableView belowSubview:self.textContainerView];
+        [_sheetContentView addSubview:tableView];
+        [_sheetContentView insertSubview:tableView belowSubview:self.textContainerView];
         
         tableView.rowHeight = JKAlertRowHeight;
         tableView.sectionFooterHeight = 0;
@@ -749,7 +788,7 @@
     if (!_collectionTopContainerView) {
         UIView *collectionTopContainerView = [[UIView alloc] init];
         collectionTopContainerView.backgroundColor = JKALertGlobalBackgroundColor();
-        [self.sheetContainerView addSubview:collectionTopContainerView];
+        [self.sheetContentView addSubview:collectionTopContainerView];
         _collectionTopContainerView = collectionTopContainerView;
     }
     return _collectionTopContainerView;
@@ -804,7 +843,7 @@
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
         
-        [self.sheetContainerView insertSubview:self.scrollView atIndex:1];
+        [self.sheetContentView insertSubview:self.scrollView atIndex:1];
         
         self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0);
         
@@ -1014,6 +1053,7 @@
     PlainViewWidth = 290;
     OriginalPlainWidth = PlainViewWidth;
     _collectionViewMargin = 10;
+    GestureIndicatorHeight = 34;
     JKAlertTitleMessageMargin = 7;
     CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
     JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
@@ -1027,6 +1067,10 @@
     self.textViewLeftRightMargin = 20;
     self.titleTextViewAlignment = NSTextAlignmentCenter;
     self.messageTextViewAlignment = NSTextAlignmentCenter;
+    
+    // TODO: JKTODO <#注释#>
+    
+    _enableGestureDismiss = YES;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -1161,25 +1205,7 @@
 - (void)setCustomPlainTitleView:(UIView *)customPlainTitleView{
     _customPlainTitleView = customPlainTitleView;
     
-    if (!_customPlainTitleView) {
-        return;
-    }
-    
-    //    if (!_customPlainTitleScrollView) {
-    //
-    //        UIScrollView *scrollView = [[UIScrollView alloc] init];
-    //        [_textContainerView insertSubview:scrollView atIndex:0];
-    //        _customPlainTitleScrollView = self.plainTextContainerScrollView;
-    //
-    //        [self adjustScrollView:scrollView];
-    //
-    //        scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    //        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : scrollView}];
-    //        [_textContainerView addConstraints:scrollViewCons1];
-    //
-    //        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : scrollView}];
-    //        [_textContainerView addConstraints:scrollViewCons2];
-    //    }
+    if (!_customPlainTitleView) { return; }
     
     _titleTextView.hidden = !_customPlainTitleViewOnlyForMessage;
     _messageTextView.hidden = YES;
@@ -3418,7 +3444,22 @@
     
     [self adjustSheetFrame];
     
-    _sheetContainerView.frame = CGRectMake(0, JKAlertScreenH - (_textContainerView.frame.size.height + _tableView.frame.size.height), JKAlertScreenW, _textContainerView.frame.size.height + _tableView.frame.size.height);
+    CGFloat sheetContainerHeight = _textContainerView.frame.size.height + _tableView.frame.size.height;
+    
+    GestureIndicatorHeight = self.enableGestureDismiss ? 34 : 0;
+    
+    sheetContainerHeight += GestureIndicatorHeight;
+    
+    _sheetContainerView.frame = CGRectMake(0, JKAlertScreenH - sheetContainerHeight, JKAlertScreenW, sheetContainerHeight);
+    
+    self.topGestureIndicatorView.frame = CGRectMake(0, 0, _sheetContainerView.frame.size.width, GestureIndicatorHeight);
+    
+    self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - 40) * 0.5, 14.5, 40, 5);
+    
+    self.topGestureIndicatorView.hidden = !self.enableGestureDismiss;
+    
+    _sheetContentView.frame = CGRectMake(0, GestureIndicatorHeight, _sheetContainerView.frame.size.width, sheetContainerHeight - GestureIndicatorHeight);
+    
     _scrollView.frame = CGRectMake(0, 0, _textContainerView.bounds.size.width, _textContainerView.bounds.size.height);
     
     _tableView.scrollEnabled = _tableView.frame.size.height < tableViewH;
@@ -3699,7 +3740,24 @@
         rect.origin.y = JKAlertScreenH - JKAlertSheetMaxH;
     }
     
+    CGFloat sheetContainerHeight = rect.size.height;
+    
+    GestureIndicatorHeight = self.enableGestureDismiss ? 34 : 0;
+    
+    sheetContainerHeight += GestureIndicatorHeight;
+    
+    rect.size.height = sheetContainerHeight;
+    rect.origin.y = JKAlertScreenH - sheetContainerHeight;
+    
     self.sheetContainerView.frame = rect;
+    
+    self.topGestureIndicatorView.frame = CGRectMake(0, 0, _sheetContainerView.frame.size.width, GestureIndicatorHeight);
+    
+    self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - 40) * 0.5, 14.5, 40, 5);
+    
+    self.topGestureIndicatorView.hidden = !self.enableGestureDismiss;
+    
+    _sheetContentView.frame = CGRectMake(0, GestureIndicatorHeight, _sheetContainerView.frame.size.width, sheetContainerHeight - GestureIndicatorHeight);
     
     CGFloat totalMargin = 0;
     
