@@ -103,6 +103,12 @@ typedef enum : NSUInteger {
     
 } JKAlertActionStyle;
 
+typedef NS_ENUM(NSUInteger, JKAlertScrollDirection) {
+    JKAlertScrollDirectionNone,
+    JKAlertScrollDirectionUp,
+    JKAlertScrollDirectionDown,
+};
+
 
 
 #pragma mark
@@ -128,6 +134,12 @@ UIKIT_EXTERN NSInteger  const JKAlertPlainButtonBeginTag;// = 100;
 
 UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6;
 
+UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorHeight;// = 20;
+
+UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineWidth;// = 40;
+
+UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 5;
+
 
 
 #pragma mark
@@ -151,6 +163,9 @@ UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6;
 // RGB相等颜色
 #define JKAlertSameRGBColor(rgb) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:1]
 #define JKAlertSameRGBColorAlpha(rgb, a) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:(a)]
+
+// 随机色
+#define JKAlertRandomColor [UIColor colorWithRed:arc4random_uniform(100)/100.0 green:arc4random_uniform(100)/100.0 blue:arc4random_uniform(100)/100.0 alpha:1]
 
 #define JKAlertSystemBlueColor [UIColor colorWithRed:0.f green:122.0/255.0 blue:255.0/255.0 alpha:1]
 

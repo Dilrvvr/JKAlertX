@@ -31,6 +31,12 @@ NSInteger  const JKAlertPlainButtonBeginTag = 100;
 
 CGFloat    const JKAlertSheetTitleMargin = 6;
 
+CGFloat    const JKAlertTopGestureIndicatorHeight = 20;
+
+CGFloat    const JKAlertTopGestureIndicatorLineWidth = 40;
+
+CGFloat    const JKAlertTopGestureIndicatorLineHeight = 5;
+
 
 
 #pragma mark
