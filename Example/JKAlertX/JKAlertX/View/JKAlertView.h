@@ -13,8 +13,8 @@
 
 #pragma mark - 公共部分
 
-/** 设置是否允许手势退出 默认NO 仅限sheet样式 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setEnableGestureDismiss)(BOOL enableGestureDismiss);
+/** 设置是否允许手势退出 默认NO NO 仅限sheet样式 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setEnableGestureDismiss)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture);
 
 /**
  * 设置点击空白处是否消失，plain默认NO，其它YES
@@ -223,6 +223,12 @@
 
 /** 设置sheet样式最大高度 默认屏幕高度 * 0.85 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setSheetMaxHeight)(CGFloat height);
+
+/** 设置UITableViewDataSource */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDataSource)(id<UITableViewDataSource> dataSource);
+
+/** 设置UITableViewDelegate */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDelegate)(id<UITableViewDelegate> delegate);
 
 
 #pragma mark - collectionSheet样式

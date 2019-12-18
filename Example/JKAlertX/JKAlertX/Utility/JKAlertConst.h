@@ -149,9 +149,7 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 5;
 
 #define JKAlertScreenScale [UIScreen mainScreen].scale
 
-#define JKAlertCurrentHomeIndicatorHeight (JKAlertIsIphoneX ? 34: 0)
-
-#define JKAlertAdjustHomeIndicatorHeight (AutoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight : 0)
+#define JKAlertAdjustHomeIndicatorHeight (AutoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight() : 0)
 
 #define JKAlertRowHeight ((JKAlertScreenW > 321) ? 53 : 46)
 
@@ -192,3 +190,15 @@ UIColor * JKALertGlobalBackgroundColor (void);
 
 /// 全局高亮背景色
 UIColor * JKALertGlobalHighlightedBackgroundColor (void);
+
+/// 是否X设备
+BOOL JKALertIsDeviceX (void);
+
+/// 是否iPad
+BOOL JKALertIsDeviceiPad (void);
+
+/// 当前是否横屏
+BOOL JKALertIsLandscape (void);
+
+/// 当前HomeIndicator高度
+CGFloat JKAlertCurrentHomeIndicatorHeight (void);

@@ -21,7 +21,7 @@
 @property (nonatomic, weak) UIView *customView;
 
 /** titleButtonHeightCons */
-@property (nonatomic, strong) NSLayoutConstraint *titleButtonHeightCons;
+//@property (nonatomic, strong) NSLayoutConstraint *titleButtonHeightCons;
 @end
 
 @implementation JKAlertTableViewCell
@@ -35,12 +35,13 @@
         button.titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         [self.contentView insertSubview:button atIndex:0];
         
-        button.translatesAutoresizingMaskIntoConstraints = NO;
         //        NSArray *labelCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[label]-15-|" options:0 metrics:nil views:@{@"label" : label}];
         //        [self addConstraints:labelCons1];
         
         //        NSArray *labelCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[label]-0-|" options:0 metrics:nil views:@{@"label" : label}];
         //        [self addConstraints:labelCons2];
+        /*
+        button.translatesAutoresizingMaskIntoConstraints = NO;
         
         NSLayoutConstraint *consLeft = [NSLayoutConstraint constraintWithItem:button attribute:(NSLayoutAttributeLeft) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeLeft) multiplier:1 constant:0];
         [self addConstraint:consLeft];
@@ -52,7 +53,7 @@
         [self addConstraint:consTop];
         
         _titleButtonHeightCons = [NSLayoutConstraint constraintWithItem:button attribute:(NSLayoutAttributeHeight) relatedBy:(NSLayoutRelationEqual) toItem:nil attribute:(NSLayoutAttributeNotAnAttribute) multiplier:1 constant:0];
-        [self addConstraint:_titleButtonHeightCons];
+        [self addConstraint:_titleButtonHeightCons]; //*/
         
         _titleButton = button;
     }
@@ -163,7 +164,7 @@
     [self.titleButton setImage:action.normalImage forState:(UIControlStateNormal)];
     [self.titleButton setImage:action.hightlightedImage forState:(UIControlStateHighlighted)];
     
-    _titleButtonHeightCons.constant = _action.rowHeight;
+    //_titleButtonHeightCons.constant = _action.rowHeight;
 }
 
 - (void)setCustomView:(UIView *)customView{
@@ -172,19 +173,31 @@
     if (_customView == nil) { return; }
     
     [self.contentView insertSubview:customView atIndex:0];
-    
+    /*
     customView.translatesAutoresizingMaskIntoConstraints = NO;
     NSArray *customViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[customView]-0-|" options:0 metrics:nil views:@{@"customView" : customView}];
     [self addConstraints:customViewCons1];
     
     NSArray *customViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[customView]-0-|" options:0 metrics:nil views:@{@"customView" : customView}];
-    [self addConstraints:customViewCons2];
+    [self addConstraints:customViewCons2]; //*/
 }
 
 - (void)layoutSubviews{
     [super layoutSubviews];
     
+    self.contentView.frame = self.bounds;
     self.selectedBackgroundView.frame = self.contentView.frame;
+    
+    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInsets = self.alertSuperView.safeAreaInsets;
+    }
+    
+    _titleButton.frame = CGRectMake(safeAreaInsets.left, 0, self.contentView.frame.size.width - (safeAreaInsets.left + safeAreaInsets.right), self.contentView.frame.size.height);
+    
+    _customView.frame = CGRectMake(safeAreaInsets.left, 0, self.contentView.frame.size.width - (safeAreaInsets.left + safeAreaInsets.right), self.contentView.frame.size.height);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
