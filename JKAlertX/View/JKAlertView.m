@@ -10,7 +10,7 @@
 #import "JKAlertTableViewCell.h"
 #import "JKAlertCollectionViewCell.h"
 #import "JKAlertTextView.h"
-
+#import "JKAlertPanGestureRecognizer.h"
 
 @interface JKAlertHighlightedButton : UIButton
 
@@ -22,10 +22,8 @@
 @property (nonatomic, weak) UIView *topSeparatorLineView;
 @end
 
-@interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, JKAlertViewProtocol>
+@interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, JKAlertViewProtocol, UIGestureRecognizerDelegate>
 {
-    BOOL JKAlertIsIphoneX;
-    
     CGFloat TBMargin;
     CGFloat textContainerViewCurrentMaxH_;
     BOOL    _enableDeallocLog;
@@ -66,6 +64,26 @@
     BOOL ObserverAdded;
     
     BOOL SheetMaxHeightSetted;
+    
+    CGFloat GestureIndicatorHeight;
+    
+    CGFloat lastContainerY;
+    CGFloat currentContainerY;
+    
+    CGFloat lastContainerX;
+    CGFloat currentContainerX;
+    
+    JKAlertScrollDirection beginScrollDirection;
+    JKAlertScrollDirection endScrollDirection;
+    
+    BOOL disableScrollSheetContainerView;
+    
+    BOOL isBeginDragging;
+    BOOL isDragging;
+    
+    //CGFloat lastTableViewOffsetY;
+    
+    BOOL isSheetDismissHorizontal;
 }
 
 /** observerSuperView */
@@ -85,6 +103,9 @@
 
 /** sheetContainerView */
 @property (nonatomic, weak) UIView *sheetContainerView;
+
+/** sheetContentView */
+@property (nonatomic, weak) UIView *sheetContentView;
 
 /** collectionTopContainerView */
 @property (nonatomic, weak) UIView *collectionTopContainerView;
@@ -365,6 +386,29 @@
 /** 用于通知消失的key */
 @property (nonatomic, copy) NSString *dismissKey;
 
+/** enableVerticalGestureDismiss */
+@property (nonatomic, assign) BOOL enableVerticalGestureDismiss;
+
+/** enableHorizontalGestureDismiss */
+@property (nonatomic, assign) BOOL enableHorizontalGestureDismiss;
+
+/** topGestureIndicatorView */
+@property (nonatomic, weak) UIView *topGestureIndicatorView;
+
+/** topGestureLineView */
+@property (nonatomic, weak) UIView *topGestureLineView;
+
+/** verticalDismissPanGesture */
+@property (nonatomic, strong) JKAlertPanGestureRecognizer *verticalDismissPanGesture;
+
+/** horizontalDismissPanGesture */
+@property (nonatomic, strong) JKAlertPanGestureRecognizer *horizontalDismissPanGesture;
+
+/** tableViewDataSource */
+@property (nonatomic, weak) id tableViewDataSource;
+
+/** tableViewDelegate */
+@property (nonatomic, weak) id tableViewDelegate;
 @end
 
 @implementation JKAlertView
@@ -586,12 +630,13 @@
 
 - (UIScrollView *)plainTextContainerScrollView{
     if (!_plainTextContainerScrollView) {
-        UIScrollView *scrollView = [[UIScrollView alloc] init];
-        [self addSubview:scrollView];
+        UIScrollView *plainTextContainerScrollView = [[UIScrollView alloc] init];
+        plainTextContainerScrollView.delegate = self;
+        [self addSubview:plainTextContainerScrollView];
         
-        [self adjustScrollView:scrollView];
+        [self adjustScrollView:plainTextContainerScrollView];
         
-        _plainTextContainerScrollView = scrollView;
+        _plainTextContainerScrollView = plainTextContainerScrollView;
         
         [self.textContainerView insertSubview:_plainTextContainerScrollView atIndex:0];
         
@@ -608,6 +653,7 @@
 - (UIScrollView *)scrollView{
     if (!_scrollView) {
         UIScrollView *scrollView = [[UIScrollView alloc] init];
+        scrollView.delegate = self;
         [self addSubview:scrollView];
         
         [self adjustScrollView:scrollView];
@@ -658,10 +704,48 @@
         [self.contentView addSubview:sheetContainerView];
         _sheetContainerView = sheetContainerView;
         
+        _verticalDismissPanGesture = [[JKAlertPanGestureRecognizer alloc] initWithTarget:self action:@selector(verticalPanGestureAction:)];
+        _verticalDismissPanGesture.direction = JKAlertPanGestureDirectionVertical;
+        _verticalDismissPanGesture.delegate = self;
+        
+        _horizontalDismissPanGesture = [[JKAlertPanGestureRecognizer alloc] initWithTarget:self action:@selector(horizontalPanGestureAction:)];
+        _horizontalDismissPanGesture.direction = JKAlertPanGestureDirectionToRight;
+        _horizontalDismissPanGesture.delegate = self;
+        
+        [sheetContainerView addGestureRecognizer:_verticalDismissPanGesture];
+        [sheetContainerView addGestureRecognizer:_horizontalDismissPanGesture];
+        
         // 背景
         [self backGroundView];
     }
     return _sheetContainerView;
+}
+
+- (UIView *)sheetContentView{
+    if (!_sheetContentView) {
+        UIView *sheetContentView = [[UIView alloc] init];
+        [self.sheetContainerView insertSubview:sheetContentView aboveSubview:self.backGroundView];
+        _sheetContentView = sheetContentView;
+    }
+    return _sheetContentView;
+}
+
+- (UIView *)topGestureIndicatorView{
+    if (!_topGestureIndicatorView) {
+        UIView *topGestureIndicatorView = [[UIView alloc] init];
+        topGestureIndicatorView.userInteractionEnabled = NO;
+        topGestureIndicatorView.backgroundColor = JKALertGlobalBackgroundColor();
+        [self.sheetContainerView addSubview:topGestureIndicatorView];
+        _topGestureIndicatorView = topGestureIndicatorView;
+        
+        UIView *topGestureLineView = [[UIView alloc] initWithFrame:CGRectMake((JKAlertScreenW - 40) * 0.5, 14.5, 40, 5)];
+        topGestureLineView.userInteractionEnabled = NO;
+        topGestureLineView.layer.cornerRadius = 2.5;
+        topGestureLineView.backgroundColor = JKALertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+        [topGestureIndicatorView addSubview:topGestureLineView];
+        _topGestureLineView = topGestureLineView;
+    }
+    return _topGestureIndicatorView;
 }
 
 - (UITableView *)tableView{
@@ -673,22 +757,11 @@
         [self.textContainerView addSubview:hline];
         _textContainerBottomLineView = hline;
         
-        //        NSString *hVF = [NSString stringWithFormat:@"H:|-%d-[bottomLineView]-%d-|", (int)_iPhoneXLandscapeTextMargin, (int)_iPhoneXLandscapeTextMargin];
-        //
-        //        bottomLineView.translatesAutoresizingMaskIntoConstraints = NO;
-        //        NSArray *bottomLineViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:hVF options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
-        //        [self.textContainerView addConstraints:bottomLineViewCons1];
-        //
-        //        NSArray *bottomLineViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomLineView(0.5)]-0-|" options:0 metrics:nil views:@{@"bottomLineView" : bottomLineView}];
-        //        [self.textContainerView addConstraints:bottomLineViewCons2];
-        
         // title和message的容器view
         self.textContainerView.backgroundColor = JKALertGlobalBackgroundColor();
-        [self.sheetContainerView addSubview:self.textContainerView];
+        [self.sheetContentView addSubview:self.textContainerView];
         
         [self.textContainerView insertSubview:self.scrollView atIndex:0];
-        
-        //        self.scrollView.scrollEnabled = NO;
         
         [self.scrollView addSubview:self.titleTextView];
         
@@ -696,27 +769,27 @@
         
         UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStyleGrouped)];
         
-        tableView.dataSource = self;
-        tableView.delegate = self;
+        tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
+        tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
         
         tableView.scrollsToTop = NO;
         tableView.scrollEnabled = NO;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, FillHomeIndicator ? 0 :  JKAlertAdjustHomeIndicatorHeight, 0);
-        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0);
+        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight(), 0);
         
         if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
             
-            tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight, 34);
+            tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
         }
         
         tableView.backgroundColor = nil;
         
         [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
         
-        [_sheetContainerView addSubview:tableView];
-        [_sheetContainerView insertSubview:tableView belowSubview:self.textContainerView];
+        [_sheetContentView addSubview:tableView];
+        [_sheetContentView insertSubview:tableView belowSubview:self.textContainerView];
         
         tableView.rowHeight = JKAlertRowHeight;
         tableView.sectionFooterHeight = 0;
@@ -736,9 +809,10 @@
             // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
         }
         
-        //        if (@available(iOS 11.0, *)) {
-        //            tbView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        //        }
+        if (@available(iOS 13.0, *)) {
+            
+            [tableView setAutomaticallyAdjustsScrollIndicatorInsets:NO];
+        }
         
         _tableView = tableView;
     }
@@ -749,7 +823,7 @@
     if (!_collectionTopContainerView) {
         UIView *collectionTopContainerView = [[UIView alloc] init];
         collectionTopContainerView.backgroundColor = JKALertGlobalBackgroundColor();
-        [self.sheetContainerView addSubview:collectionTopContainerView];
+        [self.sheetContentView addSubview:collectionTopContainerView];
         _collectionTopContainerView = collectionTopContainerView;
     }
     return _collectionTopContainerView;
@@ -804,13 +878,13 @@
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
         
-        [self.sheetContainerView insertSubview:self.scrollView atIndex:1];
+        [self.sheetContentView insertSubview:self.scrollView atIndex:1];
         
         self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0);
         
         if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
             
-            self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight, 34);
+            self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
         }
         
         self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -987,18 +1061,9 @@
     
     _isLandScape = [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight;
     
-    if (@available(iOS 11.0, *)) {
-        
-        JKAlertIsIphoneX = UIApplication.sharedApplication.delegate.window.safeAreaInsets.bottom > 0;
-        
-    } else {
-        
-        JKAlertIsIphoneX = NO;
-    }
-    
     JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
     
-    JKAlertSheetMaxH = JKAlertScreenH * 0.85;
+    JKAlertSheetMaxH = (JKAlertScreenH > JKAlertScreenW) ? JKAlertScreenH * 0.85 : JKAlertScreenH * 0.8;
     
     _HUDHeight = -1;
     _enableDeallocLog = NO;
@@ -1008,7 +1073,7 @@
     _textViewUserInteractionEnabled = YES;
     _plainTitleMessageSeparatorHidden = YES;
     _collectionTitleSeperatorHidden = YES;
-    _iPhoneXLandscapeTextMargin = 0;//((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
+    _iPhoneXLandscapeTextMargin = 0;//((JKALertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
     TBMargin = 20;
     PlainViewWidth = 290;
@@ -1027,6 +1092,9 @@
     self.textViewLeftRightMargin = 20;
     self.titleTextViewAlignment = NSTextAlignmentCenter;
     self.messageTextViewAlignment = NSTextAlignmentCenter;
+    
+    _enableVerticalGestureDismiss = NO;
+    _enableHorizontalGestureDismiss = NO;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -1161,25 +1229,7 @@
 - (void)setCustomPlainTitleView:(UIView *)customPlainTitleView{
     _customPlainTitleView = customPlainTitleView;
     
-    if (!_customPlainTitleView) {
-        return;
-    }
-    
-    //    if (!_customPlainTitleScrollView) {
-    //
-    //        UIScrollView *scrollView = [[UIScrollView alloc] init];
-    //        [_textContainerView insertSubview:scrollView atIndex:0];
-    //        _customPlainTitleScrollView = self.plainTextContainerScrollView;
-    //
-    //        [self adjustScrollView:scrollView];
-    //
-    //        scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    //        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : scrollView}];
-    //        [_textContainerView addConstraints:scrollViewCons1];
-    //
-    //        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : scrollView}];
-    //        [_textContainerView addConstraints:scrollViewCons2];
-    //    }
+    if (!_customPlainTitleView) { return; }
     
     _titleTextView.hidden = !_customPlainTitleViewOnlyForMessage;
     _messageTextView.hidden = YES;
@@ -1596,26 +1646,13 @@
     
     return ^(BOOL fillHomeIndicator){
         
-        if (!self->JKAlertIsIphoneX) { return self; }
+        if (!JKALertIsDeviceX()) { return self; }
         
         self->FillHomeIndicator = fillHomeIndicator;
         
         return self;
     };
 }
-
-/** 设置是否自动适配 iPhone X homeIndicator 默认YES
- - (JKAlertView *(^)(BOOL autoAdjust))setAutoLandscapeNotch{
- 
- return ^(BOOL autoAdjust){
- 
- if (!JKAlertIsIphoneX) { return self; }
- 
- self->_iPhoneXLandscapeTextMargin = autoAdjust ? 44 : 0;
- 
- return self;
- };
- } */
 
 /**
  * 设置是否显示pageControl
@@ -1731,7 +1768,17 @@
     };
 }
 
-
+/** 设置是否允许手势退出 仅限sheet样式 */
+- (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture))setEnableGestureDismiss{
+    
+    return ^(BOOL enableVerticalGesture, BOOL enableHorizontalGesture){
+        
+        self.enableVerticalGestureDismiss = enableVerticalGesture;
+        self.enableHorizontalGestureDismiss = enableHorizontalGesture;
+        
+        return self;
+    };
+}
 
 /**
  * 设置点击空白处是否消失，plain默认NO，其它YES
@@ -1933,6 +1980,30 @@
     };
 };
 
+/** 设置UITableViewDataSource */
+- (JKAlertView *(^)(id<UITableViewDataSource> dataSource))setCustomTableViewDataSource{
+    
+    return ^(id<UITableViewDataSource> dataSource){
+        
+        self.tableViewDataSource = dataSource;
+        self->_tableView.dataSource = dataSource ? dataSource : self;
+        
+        return self;
+    };
+};
+
+/** 设置UITableViewDelegate */
+- (JKAlertView *(^)(id<UITableViewDelegate> delegate))setCustomTableViewDelegate{
+    
+    return ^(id<UITableViewDelegate> delegate){
+        
+        self.tableViewDelegate = delegate;
+        self->_tableView.delegate = delegate ? delegate : self;
+        
+        return self;
+    };
+};
+
 /**
  * 设置collection样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
@@ -2082,7 +2153,7 @@
 
 - (void)orientationChanged:(NSNotification *)noti{
     
-    _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0);
+    _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight(), 0);
     
     if (_alertStyle == JKAlertStyleCollectionSheet) {
         
@@ -2138,11 +2209,11 @@
             
             _isLandScape = YES;
             
-            _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight, 34);
+            _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
             
             if (_alertStyle == JKAlertStyleCollectionSheet) {
                 
-                _scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight, 34);
+                _scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
             }
         }
             break;
@@ -2178,7 +2249,7 @@
     
     if (!SheetMaxHeightSetted) {
         
-        JKAlertSheetMaxH = JKAlertScreenH * 0.85;
+        JKAlertSheetMaxH = (JKAlertScreenH > JKAlertScreenW) ? JKAlertScreenH * 0.85 : JKAlertScreenH * 0.8;
     }
     
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
@@ -2910,7 +2981,7 @@
         
         _titleTextView.attributedText = self.alertAttributedTitle;
         
-    }else if (self.alertTitle) {
+    } else if (self.alertTitle) {
         
         _titleTextView.text = self.alertTitle;
         
@@ -2923,7 +2994,7 @@
         
         _messageTextView.attributedText = self.attributedMessage;
         
-    }else if (self.message) {
+    } else if (self.message) {
         
         _messageTextView.text = self.message;
         
@@ -2976,6 +3047,8 @@
     [_collectionView reloadData];
     
     [_collectionView2 reloadData];
+    
+    //[_tableView setContentOffset:CGPointMake(_tableView.contentOffset.x, lastTableViewOffsetY) animated:YES];
 }
 
 #pragma mark - 布局plain
@@ -3025,7 +3098,7 @@
         
         rect.size.height = 0;
         
-    }else if (self.titleTextView.hidden && !self.messageTextView.hidden) {
+    } else if (self.titleTextView.hidden && !self.messageTextView.hidden) {
         
         _plainTitleMessageSeparatorView.hidden = YES;
         
@@ -3037,7 +3110,7 @@
         
         _messageMinHeight = (_messageMinHeight == -1 ? 30 : _messageMinHeight);
         
-    }else if (self.messageTextView.hidden && !self.titleTextView.hidden) {
+    } else if (self.messageTextView.hidden && !self.titleTextView.hidden) {
         
         self.titleTextView.frame = CGRectMake((PlainViewWidth - self.titleTextView.frame.size.width) * 0.5, 0, self.titleTextView.frame.size.width, self.titleTextView.frame.size.height);
         
@@ -3257,13 +3330,13 @@
         frame.size.height = JKAlertScrollViewMaxH;
         self.scrollView.frame = frame;
         
-    }else if (self.textContainerView.frame.size.height > JKAlertTextContainerViewMaxH) {
+    } else if (self.textContainerView.frame.size.height > JKAlertTextContainerViewMaxH) {
         
         frame = self.textContainerView.frame;
         frame.size.height = (frame.size.height + self.scrollView.frame.size.height) > JKAlertPlainViewMaxH ? JKAlertPlainViewMaxH - self.scrollView.frame.size.height : frame.size.height;
         self.textContainerView.frame = frame;
         
-    }else if (self.scrollView.frame.size.height > JKAlertScrollViewMaxH) {
+    } else if (self.scrollView.frame.size.height > JKAlertScrollViewMaxH) {
         
         frame = self.scrollView.frame;
         frame.origin.y = self.textContainerView.frame.size.height;
@@ -3325,7 +3398,7 @@
      frame.size.height = maxH;
      self.messageTextView.frame = frame;
      
-     }else if (self.titleTextView.frame.size.height > maxH) {
+     } else if (self.titleTextView.frame.size.height > maxH) {
      
      frame = self.titleTextView.frame;
      frame.size.height = textContainerViewCurrentMaxH_ - TBMargin - JKAlertTitleMessageMargin - TBMargin - self.messageTextView.frame.size.height;
@@ -3335,7 +3408,7 @@
      frame.origin.y = CGRectGetMaxY(self.titleTextView.frame) + JKAlertTitleMessageMargin;
      self.messageTextView.frame = frame;
      
-     }else if (self.messageTextView.frame.size.height > maxH) {
+     } else if (self.messageTextView.frame.size.height > maxH) {
      
      frame = self.messageTextView.frame;
      frame.origin.y = CGRectGetMaxY(self.titleTextView.frame) + JKAlertTitleMessageMargin;
@@ -3356,7 +3429,7 @@
         self.messageTextView.font = [UIFont systemFontOfSize:15];
     }
     
-    _iPhoneXLandscapeTextMargin = ((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
+    _iPhoneXLandscapeTextMargin = 0;//((JKALertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
     _textContainerView.frame = CGRectMake(_iPhoneXLandscapeTextMargin, 0, JKAlertScreenW - _iPhoneXLandscapeTextMargin * 2, JKAlertRowHeight);
     
@@ -3378,9 +3451,18 @@
     
     _sheetContainerView.frame = CGRectMake(0, JKAlertScreenH, JKAlertScreenW, _textContainerView.frame.size.height + _tableView.frame.size.height);
     
-    [self.titleTextView calculateFrameWithMaxWidth:_textContainerView.frame.size.width - self.textViewLeftRightMargin * 2 minHeight:JKAlertMinTitleLabelH originY:JKAlertSheetTitleMargin superView:_textContainerView];
+    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
     
-    [self.messageTextView calculateFrameWithMaxWidth:_textContainerView.frame.size.width - self.textViewLeftRightMargin * 2 minHeight:JKAlertMinMessageLabelH originY:CGRectGetMaxY(self.titleTextView.frame) + JKAlertSheetTitleMargin superView:_textContainerView];
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInsets = self.customSuperView ? self.customSuperView.safeAreaInsets : [UIApplication sharedApplication].delegate.window.safeAreaInsets;
+    }
+    
+    CGFloat maxWidth = _textContainerView.frame.size.width - self.textViewLeftRightMargin * 2 - (safeAreaInsets.left + safeAreaInsets.right);
+    
+    [self.titleTextView calculateFrameWithMaxWidth:maxWidth minHeight:JKAlertMinTitleLabelH originY:JKAlertSheetTitleMargin superView:_textContainerView];
+    
+    [self.messageTextView calculateFrameWithMaxWidth:maxWidth minHeight:JKAlertMinMessageLabelH originY:CGRectGetMaxY(self.titleTextView.frame) + JKAlertSheetTitleMargin superView:_textContainerView];
     
     CGRect rect = _textContainerView.frame;
     rect.size.height = JKAlertSheetTitleMargin + self.titleTextView.frame.size.height + JKAlertSheetTitleMargin + self.messageTextView.frame.size.height + JKAlertSheetTitleMargin;
@@ -3416,9 +3498,24 @@
     _textContainerView.frame = rect;
     _scrollView.contentSize = rect.size;
     
+    GestureIndicatorHeight = self.enableVerticalGestureDismiss ? JKAlertTopGestureIndicatorHeight : 0;
+    
     [self adjustSheetFrame];
     
-    _sheetContainerView.frame = CGRectMake(0, JKAlertScreenH - (_textContainerView.frame.size.height + _tableView.frame.size.height), JKAlertScreenW, _textContainerView.frame.size.height + _tableView.frame.size.height);
+    CGFloat sheetContainerHeight = _textContainerView.frame.size.height + _tableView.frame.size.height;
+    
+    sheetContainerHeight += GestureIndicatorHeight;
+    
+    _sheetContainerView.frame = CGRectMake(0, JKAlertScreenH - sheetContainerHeight, JKAlertScreenW, sheetContainerHeight);
+    
+    self.topGestureIndicatorView.frame = CGRectMake(0, 0, _sheetContainerView.frame.size.width, GestureIndicatorHeight);
+    
+    self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - JKAlertTopGestureIndicatorLineWidth) * 0.5, (JKAlertTopGestureIndicatorHeight - JKAlertTopGestureIndicatorLineHeight) * 0.5, JKAlertTopGestureIndicatorLineWidth, JKAlertTopGestureIndicatorLineHeight);
+    
+    self.topGestureIndicatorView.hidden = !self.enableVerticalGestureDismiss;
+    
+    _sheetContentView.frame = CGRectMake(0, GestureIndicatorHeight, _sheetContainerView.frame.size.width, sheetContainerHeight - GestureIndicatorHeight);
+    
     _scrollView.frame = CGRectMake(0, 0, _textContainerView.bounds.size.width, _textContainerView.bounds.size.height);
     
     _tableView.scrollEnabled = _tableView.frame.size.height < tableViewH;
@@ -3468,13 +3565,13 @@
         frame.size.height = JKAlertSheetMaxH * 0.5;
         self.tableView.frame = frame;
         
-    }else if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5) {
+    } else if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5) {
         
         frame = self.textContainerView.frame;
         frame.size.height = (frame.size.height + self.tableView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.tableView.frame.size.height : frame.size.height;
         self.textContainerView.frame = frame;
         
-    }else if (self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
+    } else if (self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
         
         frame = self.tableView.frame;
         frame.origin.y = self.textContainerView.frame.size.height;
@@ -3534,9 +3631,18 @@
         }
     }
     
-    _iPhoneXLandscapeTextMargin = ((JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
+    _iPhoneXLandscapeTextMargin = 0;//((JKALertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
-    CGRect rect = [self.titleTextView calculateFrameWithMaxWidth:JKAlertScreenW - self.textViewLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2 minHeight:JKAlertMinTitleLabelH originY:0 superView:self.textContainerView];
+    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInsets = self.customSuperView ? self.customSuperView.safeAreaInsets : [UIApplication sharedApplication].delegate.window.safeAreaInsets;
+    }
+    
+    CGFloat maxWidth = JKAlertScreenW - self.textViewLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2 - (safeAreaInsets.left + safeAreaInsets.right);
+    
+    CGRect rect = [self.titleTextView calculateFrameWithMaxWidth:maxWidth minHeight:JKAlertMinTitleLabelH originY:0 superView:self.textContainerView];
     
     _iPhoneXLandscapeTextMargin = 0;
     
@@ -3665,7 +3771,7 @@
         
         self.cancelButton.backgroundColor = nil;
         
-        frame.size.height = self.cancelAction.customView.frame.size.height - (self.cancelButton.titleEdgeInsets.bottom > 0 ? JKAlertCurrentHomeIndicatorHeight : 0);
+        frame.size.height = self.cancelAction.customView.frame.size.height - (self.cancelButton.titleEdgeInsets.bottom > 0 ? JKAlertCurrentHomeIndicatorHeight() : 0);
     }
     
     self.cancelButton.frame = frame;
@@ -3693,13 +3799,30 @@
     
     self.scrollView.contentSize = rect.size;
     
+    GestureIndicatorHeight = self.enableVerticalGestureDismiss ? JKAlertTopGestureIndicatorHeight : 0;
+    
     if (rect.size.height > JKAlertSheetMaxH) {
         
         rect.size.height = JKAlertSheetMaxH;
         rect.origin.y = JKAlertScreenH - JKAlertSheetMaxH;
     }
     
+    CGFloat sheetContainerHeight = rect.size.height;
+    
+    sheetContainerHeight += GestureIndicatorHeight;
+    
+    rect.size.height = sheetContainerHeight;
+    rect.origin.y = JKAlertScreenH - sheetContainerHeight;
+    
     self.sheetContainerView.frame = rect;
+    
+    self.topGestureIndicatorView.frame = CGRectMake(0, 0, _sheetContainerView.frame.size.width, GestureIndicatorHeight);
+    
+    self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - JKAlertTopGestureIndicatorLineWidth) * 0.5, (JKAlertTopGestureIndicatorHeight - JKAlertTopGestureIndicatorLineHeight) * 0.5, JKAlertTopGestureIndicatorLineWidth, JKAlertTopGestureIndicatorLineHeight);
+    
+    self.topGestureIndicatorView.hidden = !self.enableVerticalGestureDismiss;
+    
+    _sheetContentView.frame = CGRectMake(0, GestureIndicatorHeight, _sheetContainerView.frame.size.width, sheetContainerHeight - GestureIndicatorHeight);
     
     CGFloat totalMargin = 0;
     
@@ -3759,7 +3882,7 @@
     _pageControl.numberOfPages = ceil(((itemMargin + _flowlayout.itemSize.width) * count - 5) / JKAlertScreenW);
     
     // 处理iPhoneX并且横屏的情况
-    _collectionView.contentInset = (JKAlertIsIphoneX && JKAlertScreenW > JKAlertScreenH && itemMargin < 44) ? UIEdgeInsetsMake(0, 44 - itemMargin, 0, 44 - itemMargin) : UIEdgeInsetsZero;
+    _collectionView.contentInset = (JKALertIsDeviceX() && JKAlertScreenW > JKAlertScreenH && itemMargin < 44) ? UIEdgeInsetsMake(0, 44, 0, 44) : UIEdgeInsetsZero;
     _collectionView2.contentInset = _collectionView.contentInset;
     
     // 分页
@@ -3769,12 +3892,12 @@
     if (FillHomeIndicator) {
         
         CGRect cancelButtonFrame = self.cancelButton.frame;
-        cancelButtonFrame.size.height += JKAlertCurrentHomeIndicatorHeight;
+        cancelButtonFrame.size.height += JKAlertCurrentHomeIndicatorHeight();
         self.cancelButton.frame = cancelButtonFrame;
         
         self.cancelAction.customView.frame = self.cancelButton.bounds;
         
-        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight, 0)];
+        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight(), 0)];
         
         //        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
     }
@@ -3877,6 +4000,7 @@
             
             self.contentView.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.3]);
         }
+        
         self.fullScreenBackGroundView.alpha = 1;
         
         [self showAnimationOperation];
@@ -3885,7 +4009,28 @@
         
         if (self.customShowAnimationBlock) { return; }
         
-        self.showAnimationDidComplete();
+        if (self.enableVerticalGestureDismiss &&
+            (self->_sheetContainerView != nil)) {
+            
+            [UIView animateWithDuration:0.25 animations:^{
+                [UIView setAnimationCurve:(UIViewAnimationCurveEaseInOut)];
+                
+                self->_sheetContainerView.transform = CGAffineTransformIdentity;
+                
+                CGRect rect = self->_sheetContainerView.frame;
+                rect.size.height -= 5;
+                rect.origin.y = self->JKAlertScreenH - rect.size.height;
+                self->_sheetContainerView.frame = rect;
+                
+            } completion:^(BOOL finished) {
+
+                self.showAnimationDidComplete();
+            }];
+            
+        } else {
+            
+            self.showAnimationDidComplete();
+        }
     }];
 }
 
@@ -3893,12 +4038,28 @@
     
     if (self.customShowAnimationBlock) { return; }
     
-    CGRect rect = _sheetContainerView.frame;
-    rect.origin.y = JKAlertScreenH - _sheetContainerView.frame.size.height;
-    _sheetContainerView.frame = rect;
-    
     _plainView.transform = CGAffineTransformIdentity;
     _plainView.alpha = 1;
+    
+    if (_enableVerticalGestureDismiss &&
+        (_sheetContainerView != nil)) {
+        
+        [UIView setAnimationCurve:(UIViewAnimationCurveEaseOut)];
+        
+        CGRect rect = _sheetContainerView.frame;
+        
+        rect.size.height += 5;
+        rect.origin.y = JKAlertScreenH - rect.size.height;
+        _sheetContainerView.frame = rect;
+        
+        _sheetContainerView.transform = CGAffineTransformMakeScale(1, ((rect.size.height + 10 )/ rect.size.height));
+        
+    } else {
+        
+        CGRect rect = _sheetContainerView.frame;
+        rect.origin.y = JKAlertScreenH - _sheetContainerView.frame.size.height;
+        _sheetContainerView.frame = rect;
+    }
 }
 
 - (void(^)(void))showAnimationDidComplete{
@@ -3974,7 +4135,7 @@
         
     } else {
         
-        CGFloat maxH = JKAlertScreenH - (JKAlertIsIphoneX ? 44 : 20) - keyboardFrame.size.height - 40;
+        CGFloat maxH = JKAlertScreenH - (JKALertIsDeviceX() ? 44 : 20) - keyboardFrame.size.height - 40;
         
         if ([self isLandScape]) {
             
@@ -3987,7 +4148,7 @@
         
         if (frame.size.height <= maxH) {
             
-            frame.origin.y = (JKAlertIsIphoneX ? 44 : 20) + (maxH - frame.size.height) * 0.5;
+            frame.origin.y = (JKALertIsDeviceX() ? 44 : 20) + (maxH - frame.size.height) * 0.5;
             
             if ([self isLandScape]) {
                 
@@ -4004,7 +4165,7 @@
         [self calculateUI];
         
         frame = _plainView.frame;
-        frame.origin.y = [self isLandScape] ? 5 : (JKAlertIsIphoneX ? 44 : 20);
+        frame.origin.y = [self isLandScape] ? 5 : (JKALertIsDeviceX() ? 44 : 20);
         _plainView.frame = frame;
         
         [UIView animateWithDuration:0.25 animations:^{
@@ -4063,8 +4224,11 @@
     // 即将消失
     !self.willDismissHandler ? : self.willDismissHandler();
     
-    // 自定义消失动画
-    !self.customDismissAnimationBlock ? : self.customDismissAnimationBlock(self, _plainView ? _plainView : _sheetContainerView);
+    if (!isSheetDismissHorizontal || (self.alertStyle != JKAlertStyleActionSheet && self.alertStyle != JKAlertStyleCollectionSheet)) {
+        
+        // 自定义消失动画
+        !self.customDismissAnimationBlock ? : self.customDismissAnimationBlock(self, _plainView ? _plainView : _sheetContainerView);
+    }
     
     [UIView animateWithDuration:0.25 animations:^{
         
@@ -4083,10 +4247,29 @@
 
 - (void)dismissAnimationOperation{
     
-    if (self.customDismissAnimationBlock) { return; }
+    if (self.customDismissAnimationBlock) {
+        
+        if (isSheetDismissHorizontal) {
+            
+            CGRect rect = _sheetContainerView.frame;
+            rect.origin.x = JKAlertScreenW;
+            _sheetContainerView.frame = rect;
+        }
+        
+        return;
+    }
     
     CGRect rect = _sheetContainerView.frame;
-    rect.origin.y = JKAlertScreenH;
+    
+    if (isSheetDismissHorizontal) {
+        
+        rect.origin.x = JKAlertScreenW;
+        
+    } else {
+        
+        rect.origin.y = JKAlertScreenH;
+    }
+    
     _sheetContainerView.frame = rect;
     
     _plainView.transform = CGAffineTransformMakeScale(0.8, 0.8);
@@ -4141,6 +4324,8 @@
         cell = [[JKAlertTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
     }
     
+    cell.alertSuperView = self.customSuperView ? self.customSuperView : [UIApplication sharedApplication].delegate.window;
+    
     if (indexPath.section == 0) {
         
         cell.action = self.actions[indexPath.row];
@@ -4161,7 +4346,7 @@
     
     if (!FillHomeIndicator) { return action.rowHeight; }
     
-    return indexPath.section == 0 ? action.rowHeight : action.rowHeight + JKAlertCurrentHomeIndicatorHeight;
+    return indexPath.section == 0 ? action.rowHeight : action.rowHeight + JKAlertCurrentHomeIndicatorHeight();
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -4217,31 +4402,573 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-    if (!self.compoundCollection || scrollView == _tableView) {
-        return;
+    switch (self.alertStyle) {
+        case JKAlertStyleActionSheet:
+        {
+            if (!self.enableVerticalGestureDismiss) { return; }
+            
+            if ((scrollView == self.scrollView &&
+                self.tableView.isDecelerating) ||
+                (scrollView == self.tableView &&
+                self.scrollView.isDecelerating)) {
+                    return;
+            }
+            
+            [self solveVerticalScroll:scrollView];
+        }
+            break;
+        case JKAlertStyleCollectionSheet:
+        {
+            if (scrollView == self.scrollView) {
+                
+                [self solveVerticalScroll:scrollView];
+                
+            } else {
+                
+                [self solveHorizontalScroll:scrollView];
+                
+                if (self.compoundCollection) {
+                    
+                    _collectionView.contentOffset = scrollView.contentOffset;
+                    
+                    _collectionView2.contentOffset = scrollView.contentOffset;
+                }
+            }
+        }
+            break;
+            
+        default:
+            break;
     }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     
-    _collectionView.contentOffset = scrollView.contentOffset;
+    switch (self.alertStyle) {
+        case JKAlertStyleActionSheet:
+        {
+            if (!self.enableVerticalGestureDismiss) { return; }
+            
+            beginScrollDirection = JKAlertScrollDirectionNone;
+            endScrollDirection = JKAlertScrollDirectionNone;
+            
+            lastContainerY = self.sheetContainerView.frame.origin.y;
+        }
+            break;
+        case JKAlertStyleCollectionSheet:
+        {
+            if (scrollView == self.scrollView) {
+                
+                if (!self.enableVerticalGestureDismiss) { return; }
+                
+                beginScrollDirection = JKAlertScrollDirectionNone;
+                endScrollDirection = JKAlertScrollDirectionNone;
+                
+                lastContainerY = self.sheetContainerView.frame.origin.y;
+                
+            } else {
+                
+                if (!self.enableHorizontalGestureDismiss) { return; }
+                
+                isBeginDragging = YES;
+                beginScrollDirection = JKAlertScrollDirectionNone;
+                endScrollDirection = JKAlertScrollDirectionNone;
+                
+                lastContainerX = self.sheetContainerView.frame.origin.x;
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
     
-    _collectionView2.contentOffset = scrollView.contentOffset;
+    switch (self.alertStyle) {
+        case JKAlertStyleActionSheet:
+        {
+            [self solveWillEndDraggingVertically:scrollView withVelocity:velocity];
+        }
+            break;
+        case JKAlertStyleCollectionSheet:
+        {
+            if (scrollView == self.scrollView) {
+                
+                [self solveWillEndDraggingVertically:scrollView withVelocity:velocity];
+                
+            } else {
+                
+                [self solveWillEndDraggingHorizontally:scrollView withVelocity:velocity];
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
     
-    if (scrollView == _tableView) {
-        return;
+    if (self.alertStyle == JKAlertStyleCollectionSheet &&
+        [scrollView isKindOfClass:[UICollectionView class]]) {
+        
+        _pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / JKAlertScreenW);
     }
-    
-    _pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / JKAlertScreenW);
 }
-
+///*
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     
-    if (scrollView == _tableView) {
+    switch (self.alertStyle) {
+        case JKAlertStyleActionSheet:
+        {
+            if (!self.enableVerticalGestureDismiss) { return; }
+            
+            if (self.scrollView.isDecelerating ||
+                self.tableView.isDecelerating) {
+                return;
+            }
+            
+            disableScrollSheetContainerView = NO;
+            
+            //[self checkVerticalSlideShouldDismiss];
+        }
+            break;
+        case JKAlertStyleCollectionSheet:
+        {
+            if (scrollView == self.scrollView) {
+                
+                if (!self.enableVerticalGestureDismiss) { return; }
+                
+                disableScrollSheetContainerView = NO;
+                
+                //[self checkVerticalSlideShouldDismiss];
+                
+            } else {
+                
+                _pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / JKAlertScreenW);
+                
+                if (!self.enableHorizontalGestureDismiss) { return; }
+                
+                if (self.collectionView.isDecelerating ||
+                    self.collectionView2.isDecelerating) {
+                    return;
+                }
+                
+                disableScrollSheetContainerView = NO;
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)solveVerticalScroll:(UIScrollView *)scrollView{
+    
+    if (!self.enableVerticalGestureDismiss || !scrollView.isDragging || disableScrollSheetContainerView) { return; }
+    
+    //NSLog(@"contentOffset-->%@", NSStringFromCGPoint(scrollView.contentOffset));
+    
+    if (scrollView.contentOffset.y + scrollView.contentInset.top <= 0) {
+        
+        CGRect frame = self.sheetContainerView.frame;
+        
+        frame.origin.y -= (scrollView.contentOffset.y + scrollView.contentInset.top);
+        
+        self.sheetContainerView.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
+        
+    } else if (self.sheetContainerView.frame.origin.y > JKAlertScreenH - self.sheetContainerView.frame.size.height) {
+        
+        CGRect frame = self.sheetContainerView.frame;
+        
+        frame.origin.y -= (scrollView.contentOffset.y + scrollView.contentInset.top);
+        
+        self.sheetContainerView.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
+    }
+    
+    if (scrollView.isDragging) {
+        
+        [self checkVerticalSlideDirection];
+    }
+}
+
+- (void)solveHorizontalScroll:(UIScrollView *)scrollView{
+    
+    if (!self.enableHorizontalGestureDismiss) { return; }
+    
+    if ((scrollView == self.collectionView &&
+        self.collectionView2.isDecelerating) ||
+        (scrollView == self.collectionView2 &&
+        self.collectionView.isDecelerating)) {
+            return;
+    }
+    
+    if (!scrollView.isDragging || disableScrollSheetContainerView) { return; }
+    
+    //NSLog(@"contentOffset-->%@", NSStringFromCGPoint(scrollView.contentOffset));
+    
+    if (scrollView.contentOffset.x + scrollView.contentInset.left < 0) {
+        
+        CGRect frame = self.sheetContainerView.frame;
+        
+        frame.origin.x -= (scrollView.contentOffset.x + scrollView.contentInset.left);
+        
+        self.sheetContainerView.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(-scrollView.contentInset.left, scrollView.contentOffset.y);
+        
+    } else if (self.sheetContainerView.frame.origin.x > JKAlertScreenW - self.sheetContainerView.frame.size.width) {
+        
+        CGRect frame = self.sheetContainerView.frame;
+        
+        frame.origin.x -= (scrollView.contentOffset.x + scrollView.contentInset.left);
+        
+        self.sheetContainerView.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(-scrollView.contentInset.left, scrollView.contentOffset.y);
+    }
+    
+    if (scrollView.isDragging) {
+        
+        [self checkHorizontalSlideDirection];
+    }
+}
+
+- (void)solveWillEndDraggingVertically:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
+    
+    if (!self.enableVerticalGestureDismiss) { return; }
+    
+    if (scrollView.contentOffset.y + scrollView.contentInset.top > 0) {
+        
+        disableScrollSheetContainerView = YES;
+        
         return;
     }
     
-    _pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / JKAlertScreenW);
+    if (velocity.y < -1.5 && beginScrollDirection == endScrollDirection) {
+        
+        [self dismiss];
+        
+    } else {
+        
+        [self checkVerticalSlideShouldDismiss];
+    }
+}
+
+- (void)solveWillEndDraggingHorizontally:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
+    
+    if (!self.enableHorizontalGestureDismiss) { return; }
+    
+    if (scrollView.contentOffset.x + scrollView.contentInset.left > 0) {
+        
+        disableScrollSheetContainerView = YES;
+        
+        return;
+    }
+    
+    if (velocity.x < -1.5 && beginScrollDirection == endScrollDirection) {
+        
+        isSheetDismissHorizontal = YES;
+        
+        [self dismiss];
+        
+    } else {
+        
+        [self checkHorizontalSlideShouldDismiss];
+    }
+}
+
+- (void)checkVerticalSlideDirection{
+
+    currentContainerY = self.sheetContainerView.frame.origin.y;
+    
+    if (currentContainerY < lastContainerY) {
+        
+        if (beginScrollDirection == JKAlertScrollDirectionNone) {
+            
+            beginScrollDirection = JKAlertScrollDirectionUp;
+        }
+        
+        endScrollDirection = JKAlertScrollDirectionUp;
+        
+        //JKLog("上滑-------")
+    }
+    
+    if (currentContainerY > lastContainerY) {
+        
+        //JKLog("下滑-------")
+        
+        if (beginScrollDirection == JKAlertScrollDirectionNone) {
+            
+            beginScrollDirection = JKAlertScrollDirectionDown;
+        }
+        
+        endScrollDirection = JKAlertScrollDirectionDown;
+    }
+    
+    lastContainerY = currentContainerY;
+}
+
+- (void)checkHorizontalSlideDirection{
+
+    currentContainerX = self.sheetContainerView.frame.origin.x;
+    
+    if (currentContainerX < lastContainerX) {
+        
+        if (beginScrollDirection == JKAlertScrollDirectionNone) {
+            
+            beginScrollDirection = JKAlertScrollDirectionLeft;
+        }
+        
+        endScrollDirection = JKAlertScrollDirectionLeft;
+        
+        //JKLog("左滑-------")
+    }
+    
+    if (currentContainerX > lastContainerX) {
+        
+        //JKLog("右滑-------")
+        
+        if (beginScrollDirection == JKAlertScrollDirectionNone) {
+            
+            beginScrollDirection = JKAlertScrollDirectionRight;
+        }
+        
+        endScrollDirection = JKAlertScrollDirectionRight;
+    }
+    
+    lastContainerX = currentContainerX;
+}
+
+- (void)checkVerticalSlideShouldDismiss{
+    
+    CGFloat correctSheetContainerY = (JKAlertScreenH - self.sheetContainerView.frame.size.height);
+    
+    CGFloat currentSheetContainerY = self.sheetContainerView.frame.origin.y;
+    
+    CGFloat delta = currentSheetContainerY - correctSheetContainerY;
+    
+    if ((delta > self.sheetContainerView.frame.size.height * 0.5) &&
+        beginScrollDirection == endScrollDirection) {
+        
+        [self dismiss];
+        
+    } else if (fabs(correctSheetContainerY - currentSheetContainerY) > 1) {
+        
+        //self.relayout(YES);
+        
+        [self relayoutSheetContainerView];
+    }
+}
+
+- (void)checkHorizontalSlideShouldDismiss{
+    
+    CGFloat correctSheetContainerX = (JKAlertScreenW - self.sheetContainerView.frame.size.width);
+    
+    CGFloat currentSheetContainerX = self.sheetContainerView.frame.origin.x;
+    
+    CGFloat delta = currentSheetContainerX - correctSheetContainerX;
+    
+    if ((delta > self.sheetContainerView.frame.size.width * 0.5) &&
+        beginScrollDirection == endScrollDirection) {
+        
+        isSheetDismissHorizontal = YES;
+        
+        [self dismiss];
+        
+    } else if (fabs(correctSheetContainerX - currentSheetContainerX) > 1) {
+        
+        //self.relayout(YES);
+        
+        [self relayoutSheetContainerView];
+    }
+}
+
+- (void)relayoutSheetContainerView{
+    
+    CGRect frame = self.sheetContainerView.frame;
+    frame.origin.y = JKAlertScreenH - frame.size.height;
+    frame.origin.x = 0;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.sheetContainerView.frame = frame;
+    }];
+}
+
+#pragma mark
+#pragma mark - 滑动手势
+
+- (void)verticalPanGestureAction:(UIPanGestureRecognizer *)panGesture{
+    
+    switch (panGesture.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+            beginScrollDirection = JKAlertScrollDirectionNone;
+            endScrollDirection = JKAlertScrollDirectionNone;
+            
+            lastContainerY = self.sheetContainerView.frame.origin.y;
+        }
+            break;
+        case UIGestureRecognizerStateChanged:
+        {
+            // 获取偏移
+            CGPoint point = [panGesture translationInView:self.contentView];
+            
+            CGPoint center = self.sheetContainerView.center;
+            
+            if (point.y > 0) {
+                
+                center.y += point.y;
+                
+            } else {
+                
+                if (center.y <= (JKAlertScreenH - self.sheetContainerView.frame.size.height) + self.sheetContainerView.frame.size.height * 0.5) {
+
+                    center.y += (point.y * 0.01);
+                    
+                } else {
+                    
+                    center.y += point.y;
+                }
+            }
+            
+            self.sheetContainerView.center = center;
+            
+            // 归零
+            [panGesture setTranslation:CGPointZero inView:self.contentView];
+            
+            [self checkVerticalSlideDirection];
+        }
+            break;
+            
+        default:
+        {
+            CGPoint velocity = [panGesture velocityInView:panGesture.view];
+            CGFloat magnitude = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
+            CGFloat slideMult = magnitude / 200;
+            
+            float slideFactor = 0.1 * slideMult;
+            CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
+            
+            CGFloat correctSheetContainerY = (JKAlertScreenH - self.sheetContainerView.frame.size.height);
+            
+            CGFloat currentSheetContainerY = self.sheetContainerView.frame.origin.y;
+            
+            if (((finalPoint.y - self.sheetContainerView.frame.size.height * 0.5) - (JKAlertScreenH - self.sheetContainerView.frame.size.height) > self.sheetContainerView.frame.size.height * 0.5) &&
+                beginScrollDirection == endScrollDirection) {
+                
+                [self dismiss];
+                
+            } else if (fabs(correctSheetContainerY - currentSheetContainerY) > 1) {
+                
+                //self.relayout(YES);
+                
+                [self relayoutSheetContainerView];
+            }
+        }
+            break;
+    }
+}
+
+- (void)horizontalPanGestureAction:(UIPanGestureRecognizer *)panGesture{
+    
+    switch (panGesture.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+            beginScrollDirection = JKAlertScrollDirectionNone;
+            endScrollDirection = JKAlertScrollDirectionNone;
+            
+            lastContainerX = self.sheetContainerView.frame.origin.x;
+        }
+            break;
+        case UIGestureRecognizerStateChanged:
+        {
+            // 获取偏移
+            CGPoint point = [panGesture translationInView:self.contentView];
+            
+            CGPoint center = self.sheetContainerView.center;
+            
+            if (point.x > 0) {
+                
+                center.x += point.x;
+                
+            } else {
+                
+                if (center.x <= (JKAlertScreenW - self.sheetContainerView.frame.size.width) + self.sheetContainerView.frame.size.width * 0.5) {
+
+                    center.x += (point.x * 0.01);
+                    
+                } else {
+                    
+                    center.x += point.x;
+                }
+            }
+            
+            self.sheetContainerView.center = center;
+            
+            // 归零
+            [panGesture setTranslation:CGPointZero inView:self.contentView];
+            
+            [self checkHorizontalSlideDirection];
+        }
+            break;
+            
+        default:
+        {
+            CGPoint velocity = [panGesture velocityInView:panGesture.view];
+            CGFloat magnitude = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
+            CGFloat slideMult = magnitude / 200;
+            
+            float slideFactor = 0.1 * slideMult;
+            CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
+            
+            CGFloat correctSheetContainerX = (JKAlertScreenW - self.sheetContainerView.frame.size.width);
+            
+            CGFloat currentSheetContainerX = self.sheetContainerView.frame.origin.x;
+            
+            if (((finalPoint.x - self.sheetContainerView.frame.size.width * 0.5) - (JKAlertScreenW - self.sheetContainerView.frame.size.width) > self.sheetContainerView.frame.size.width * 0.5) &&
+                beginScrollDirection == endScrollDirection) {
+                
+                isSheetDismissHorizontal = YES;
+                
+                [self dismiss];
+                
+            } else if (fabs(correctSheetContainerX - currentSheetContainerX) > 1) {
+                
+                //self.relayout(YES);
+                
+                [self relayoutSheetContainerView];
+            }
+        }
+            break;
+    }
+}
+
+#pragma mark
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    
+    if (gestureRecognizer == self.verticalDismissPanGesture) {
+        
+        return self.enableVerticalGestureDismiss;
+    }
+    
+    if (gestureRecognizer == self.horizontalDismissPanGesture) {
+        
+        return self.enableHorizontalGestureDismiss;
+    }
+    
+    return YES;
 }
 
 #pragma mark - plain样式按钮点击------------------------
@@ -4281,6 +5008,8 @@
 
 /** 重新布局 */
 - (id<JKAlertViewProtocol> (^)(BOOL animated))relayout{
+    
+    //lastTableViewOffsetY = _tableView.contentOffset.y;
     
     return ^(BOOL animated){
         

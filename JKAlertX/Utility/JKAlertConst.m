@@ -31,6 +31,12 @@ NSInteger  const JKAlertPlainButtonBeginTag = 100;
 
 CGFloat    const JKAlertSheetTitleMargin = 6;
 
+CGFloat    const JKAlertTopGestureIndicatorHeight = 20;
+
+CGFloat    const JKAlertTopGestureIndicatorLineWidth = 40;
+
+CGFloat    const JKAlertTopGestureIndicatorLineHeight = 5;
+
 
 
 #pragma mark
@@ -83,4 +89,53 @@ UIColor * JKALertGlobalHighlightedBackgroundColor (void) {
     }
     
     return HighlightedBackgroundColor_;
+}
+
+/// 是否X设备
+BOOL JKALertIsDeviceX (void) {
+    
+    static BOOL JKALertIsDeviceX_ = NO;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        
+        if (@available(iOS 11.0, *)) {
+            
+            if (!JKALertIsDeviceiPad()) {
+                
+                JKALertIsDeviceX_ = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom > 0;
+            }
+        }
+    });
+    
+    return JKALertIsDeviceX_;
+}
+
+/// 是否iPad
+BOOL JKALertIsDeviceiPad (void){
+    
+    static BOOL JKALertIsDeviceiPad_ = NO;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        
+        if (@available(iOS 11.0, *)) {
+            
+            JKALertIsDeviceiPad_ = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+        }
+    });
+    
+    return JKALertIsDeviceiPad_;
+}
+
+/// 当前是否横屏
+BOOL JKALertIsLandscape (void) {
+    
+    return [UIScreen mainScreen].bounds.size.width > [UIScreen mainScreen].bounds.size.height;
+}
+
+/// 当前HomeIndicator高度
+CGFloat JKAlertCurrentHomeIndicatorHeight (void) {
+    
+    return JKALertIsDeviceX() ? (JKALertIsLandscape() ? 21 : 34) : 0;
 }

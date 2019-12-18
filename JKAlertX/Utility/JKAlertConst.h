@@ -103,6 +103,14 @@ typedef enum : NSUInteger {
     
 } JKAlertActionStyle;
 
+typedef NS_ENUM(NSUInteger, JKAlertScrollDirection) {
+    JKAlertScrollDirectionNone = 0,
+    JKAlertScrollDirectionUp,
+    JKAlertScrollDirectionDown,
+    JKAlertScrollDirectionLeft,
+    JKAlertScrollDirectionRight,
+};
+
 
 
 #pragma mark
@@ -128,6 +136,12 @@ UIKIT_EXTERN NSInteger  const JKAlertPlainButtonBeginTag;// = 100;
 
 UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6;
 
+UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorHeight;// = 20;
+
+UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineWidth;// = 40;
+
+UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 5;
+
 
 
 #pragma mark
@@ -135,9 +149,7 @@ UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6;
 
 #define JKAlertScreenScale [UIScreen mainScreen].scale
 
-#define JKAlertCurrentHomeIndicatorHeight (JKAlertIsIphoneX ? 34: 0)
-
-#define JKAlertAdjustHomeIndicatorHeight (AutoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight : 0)
+#define JKAlertAdjustHomeIndicatorHeight (AutoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight() : 0)
 
 #define JKAlertRowHeight ((JKAlertScreenW > 321) ? 53 : 46)
 
@@ -151,6 +163,9 @@ UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6;
 // RGB相等颜色
 #define JKAlertSameRGBColor(rgb) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:1]
 #define JKAlertSameRGBColorAlpha(rgb, a) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:(a)]
+
+// 随机色
+#define JKAlertRandomColor [UIColor colorWithRed:arc4random_uniform(100)/100.0 green:arc4random_uniform(100)/100.0 blue:arc4random_uniform(100)/100.0 alpha:1]
 
 #define JKAlertSystemBlueColor [UIColor colorWithRed:0.f green:122.0/255.0 blue:255.0/255.0 alpha:1]
 
@@ -175,3 +190,15 @@ UIColor * JKALertGlobalBackgroundColor (void);
 
 /// 全局高亮背景色
 UIColor * JKALertGlobalHighlightedBackgroundColor (void);
+
+/// 是否X设备
+BOOL JKALertIsDeviceX (void);
+
+/// 是否iPad
+BOOL JKALertIsDeviceiPad (void);
+
+/// 当前是否横屏
+BOOL JKALertIsLandscape (void);
+
+/// 当前HomeIndicator高度
+CGFloat JKAlertCurrentHomeIndicatorHeight (void);

@@ -14,4 +14,7 @@
 
 /** action */
 @property (nonatomic, strong) JKAlertAction *action;
+
+/** alertSuperView */
+@property (nonatomic, weak) UIView *alertSuperView;
 @end
