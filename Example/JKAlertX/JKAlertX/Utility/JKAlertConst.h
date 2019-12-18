@@ -104,9 +104,11 @@ typedef enum : NSUInteger {
 } JKAlertActionStyle;
 
 typedef NS_ENUM(NSUInteger, JKAlertScrollDirection) {
-    JKAlertScrollDirectionNone,
+    JKAlertScrollDirectionNone = 0,
     JKAlertScrollDirectionUp,
     JKAlertScrollDirectionDown,
+    JKAlertScrollDirectionLeft,
+    JKAlertScrollDirectionRight,
 };
 
 
