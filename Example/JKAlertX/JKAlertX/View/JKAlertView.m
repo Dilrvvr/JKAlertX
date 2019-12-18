@@ -4000,6 +4000,7 @@
             
             self.contentView.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.3]);
         }
+        
         self.fullScreenBackGroundView.alpha = 1;
         
         [self showAnimationOperation];
@@ -4008,7 +4009,28 @@
         
         if (self.customShowAnimationBlock) { return; }
         
-        self.showAnimationDidComplete();
+        if (self.enableVerticalGestureDismiss &&
+            (self->_sheetContainerView != nil)) {
+            
+            [UIView animateWithDuration:0.25 animations:^{
+                [UIView setAnimationCurve:(UIViewAnimationCurveEaseInOut)];
+                
+                self->_sheetContainerView.transform = CGAffineTransformIdentity;
+                
+                CGRect rect = self->_sheetContainerView.frame;
+                rect.size.height -= 5;
+                rect.origin.y = self->JKAlertScreenH - rect.size.height;
+                self->_sheetContainerView.frame = rect;
+                
+            } completion:^(BOOL finished) {
+
+                self.showAnimationDidComplete();
+            }];
+            
+        } else {
+            
+            self.showAnimationDidComplete();
+        }
     }];
 }
 
@@ -4016,12 +4038,28 @@
     
     if (self.customShowAnimationBlock) { return; }
     
-    CGRect rect = _sheetContainerView.frame;
-    rect.origin.y = JKAlertScreenH - _sheetContainerView.frame.size.height;
-    _sheetContainerView.frame = rect;
-    
     _plainView.transform = CGAffineTransformIdentity;
     _plainView.alpha = 1;
+    
+    if (_enableVerticalGestureDismiss &&
+        (_sheetContainerView != nil)) {
+        
+        [UIView setAnimationCurve:(UIViewAnimationCurveEaseOut)];
+        
+        CGRect rect = _sheetContainerView.frame;
+        
+        rect.size.height += 5;
+        rect.origin.y = JKAlertScreenH - rect.size.height;
+        _sheetContainerView.frame = rect;
+        
+        _sheetContainerView.transform = CGAffineTransformMakeScale(1, ((rect.size.height + 10 )/ rect.size.height));
+        
+    } else {
+        
+        CGRect rect = _sheetContainerView.frame;
+        rect.origin.y = JKAlertScreenH - _sheetContainerView.frame.size.height;
+        _sheetContainerView.frame = rect;
+    }
 }
 
 - (void(^)(void))showAnimationDidComplete{
