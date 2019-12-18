@@ -81,7 +81,7 @@
     BOOL isBeginDragging;
     BOOL isDragging;
     
-    CGFloat lastTableViewOffsetY;
+    //CGFloat lastTableViewOffsetY;
     
     BOOL isSheetDismissHorizontal;
 }
@@ -4763,7 +4763,9 @@
         
     } else if (fabs(correctSheetContainerY - currentSheetContainerY) > 1) {
         
-        self.relayout(YES);
+        //self.relayout(YES);
+        
+        [self relayoutSheetContainerView];
     }
 }
 
@@ -4784,8 +4786,22 @@
         
     } else if (fabs(correctSheetContainerX - currentSheetContainerX) > 1) {
         
-        self.relayout(YES);
+        //self.relayout(YES);
+        
+        [self relayoutSheetContainerView];
     }
+}
+
+- (void)relayoutSheetContainerView{
+    
+    CGRect frame = self.sheetContainerView.frame;
+    frame.origin.y = JKAlertScreenH - frame.size.height;
+    frame.origin.x = 0;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.sheetContainerView.frame = frame;
+    }];
 }
 
 #pragma mark
@@ -4854,7 +4870,9 @@
                 
             } else if (fabs(correctSheetContainerY - currentSheetContainerY) > 1) {
                 
-                self.relayout(YES);
+                //self.relayout(YES);
+                
+                [self relayoutSheetContainerView];
             }
         }
             break;
@@ -4926,7 +4944,9 @@
                 
             } else if (fabs(correctSheetContainerX - currentSheetContainerX) > 1) {
                 
-                self.relayout(YES);
+                //self.relayout(YES);
+                
+                [self relayoutSheetContainerView];
             }
         }
             break;
@@ -4989,7 +5009,7 @@
 /** 重新布局 */
 - (id<JKAlertViewProtocol> (^)(BOOL animated))relayout{
     
-    lastTableViewOffsetY = _tableView.contentOffset.y;
+    //lastTableViewOffsetY = _tableView.contentOffset.y;
     
     return ^(BOOL animated){
         
