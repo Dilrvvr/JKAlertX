@@ -280,6 +280,11 @@
         
         if (action.isAutoDismiss) { return; }
         
+        action.alertView.resetOther().getActionAtIndexFrom(1, NO, ^(JKAlertAction *action) {
+           
+            action.separatorLineHidden = YES;
+        });
+        
         action.setAutoDismiss(YES).setCustomView(^UIView *(JKAlertAction *action) {
             
             return [UIView new];

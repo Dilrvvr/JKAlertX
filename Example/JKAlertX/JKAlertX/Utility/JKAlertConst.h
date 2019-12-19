@@ -138,9 +138,9 @@ UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6;
 
 UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorHeight;// = 20;
 
-UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineWidth;// = 36;
+UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineWidth;// = 40;
 
-UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 5;
+UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4;
 
 
 

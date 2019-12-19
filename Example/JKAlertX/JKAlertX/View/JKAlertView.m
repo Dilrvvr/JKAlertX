@@ -744,10 +744,10 @@
         UIView *topGestureLineView = [[UIView alloc] init];
         
         //UIToolbar *topGestureLineView = [[UIToolbar alloc] init];
-        topGestureLineView.alpha = 0.9;
+        //topGestureLineView.alpha = 0.9;
         topGestureLineView.userInteractionEnabled = NO;
-        topGestureLineView.layer.cornerRadius = 2.5;
-        topGestureLineView.layer.masksToBounds = YES;
+        topGestureLineView.layer.cornerRadius = 2;
+        //topGestureLineView.layer.masksToBounds = YES;
         topGestureLineView.backgroundColor = JKALertAdaptColor(JKAlertSameRGBColor(208), JKAlertSameRGBColor(47));
         [topGestureIndicatorView addSubview:topGestureLineView];
         
