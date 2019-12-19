@@ -195,7 +195,7 @@
         safeAreaInsets = self.alertSuperView.safeAreaInsets;
     }
     
-    _titleButton.frame = CGRectMake(safeAreaInsets.left, 0, self.contentView.frame.size.width - (safeAreaInsets.left + safeAreaInsets.right), self.contentView.frame.size.height);
+    _titleButton.frame = CGRectMake(safeAreaInsets.left, 0, self.contentView.frame.size.width - (safeAreaInsets.left + safeAreaInsets.right), self.action.rowHeight);
     
     _customView.frame = CGRectMake(safeAreaInsets.left, 0, self.contentView.frame.size.width - (safeAreaInsets.left + safeAreaInsets.right), self.contentView.frame.size.height);
 }

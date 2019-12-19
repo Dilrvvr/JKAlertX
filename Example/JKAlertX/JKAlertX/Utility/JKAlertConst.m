@@ -8,7 +8,6 @@
 
 #import "JKAlertConst.h"
 
-
 #pragma mark
 #pragma mark - 通知
 
@@ -33,7 +32,7 @@ CGFloat    const JKAlertSheetTitleMargin = 6;
 
 CGFloat    const JKAlertTopGestureIndicatorHeight = 20;
 
-CGFloat    const JKAlertTopGestureIndicatorLineWidth = 40;
+CGFloat    const JKAlertTopGestureIndicatorLineWidth = 36;
 
 CGFloat    const JKAlertTopGestureIndicatorLineHeight = 5;
 
