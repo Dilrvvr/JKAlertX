@@ -8,7 +8,6 @@
 
 #import "JKAlertConst.h"
 
-
 #pragma mark
 #pragma mark - 通知
 
@@ -35,7 +34,7 @@ CGFloat    const JKAlertTopGestureIndicatorHeight = 20;
 
 CGFloat    const JKAlertTopGestureIndicatorLineWidth = 40;
 
-CGFloat    const JKAlertTopGestureIndicatorLineHeight = 5;
+CGFloat    const JKAlertTopGestureIndicatorLineHeight = 4;
 
 
 

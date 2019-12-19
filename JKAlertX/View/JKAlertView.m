@@ -409,6 +409,9 @@
 
 /** tableViewDelegate */
 @property (nonatomic, weak) id tableViewDelegate;
+
+/** bottolFillView */
+@property (nonatomic, weak) UIView *bottolFillView;
 @end
 
 @implementation JKAlertView
@@ -738,11 +741,16 @@
         [self.sheetContainerView addSubview:topGestureIndicatorView];
         _topGestureIndicatorView = topGestureIndicatorView;
         
-        UIView *topGestureLineView = [[UIView alloc] initWithFrame:CGRectMake((JKAlertScreenW - 40) * 0.5, 14.5, 40, 5)];
+        UIView *topGestureLineView = [[UIView alloc] init];
+        
+        //UIToolbar *topGestureLineView = [[UIToolbar alloc] init];
+        //topGestureLineView.alpha = 0.9;
         topGestureLineView.userInteractionEnabled = NO;
-        topGestureLineView.layer.cornerRadius = 2.5;
-        topGestureLineView.backgroundColor = JKALertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+        topGestureLineView.layer.cornerRadius = 2;
+        //topGestureLineView.layer.masksToBounds = YES;
+        topGestureLineView.backgroundColor = JKALertAdaptColor(JKAlertSameRGBColor(208), JKAlertSameRGBColor(47));
         [topGestureIndicatorView addSubview:topGestureLineView];
+        
         _topGestureLineView = topGestureLineView;
     }
     return _topGestureIndicatorView;
@@ -3990,6 +3998,12 @@
         _plainView.transform = CGAffineTransformMakeScale(1.2, 1.2);
         
         _sheetContainerView.frame = CGRectMake(_sheetContainerView.frame.origin.x, JKAlertScreenH, _sheetContainerView.frame.size.width, _sheetContainerView.frame.size.height);
+        
+        if (_enableVerticalGestureDismiss &&
+            (_sheetContainerView != nil)) {
+            
+            self.bottolFillView.frame = CGRectMake(0, CGRectGetMaxY(_sheetContainerView.frame) - 1, _sheetContainerView.frame.size.width, 16);
+        }
     }
     
     self.fullScreenBackGroundView.alpha = 0;
@@ -4012,17 +4026,20 @@
         if (self.enableVerticalGestureDismiss &&
             (self->_sheetContainerView != nil)) {
             
-            [UIView animateWithDuration:0.25 animations:^{
+            self.window.userInteractionEnabled = YES;
+            
+            [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionAllowUserInteraction  animations:^{
                 [UIView setAnimationCurve:(UIViewAnimationCurveEaseInOut)];
                 
-                self->_sheetContainerView.transform = CGAffineTransformIdentity;
-                
                 CGRect rect = self->_sheetContainerView.frame;
-                rect.size.height -= 5;
                 rect.origin.y = self->JKAlertScreenH - rect.size.height;
                 self->_sheetContainerView.frame = rect;
                 
+                self.bottolFillView.frame = CGRectMake(0, self->JKAlertScreenH, rect.size.width, 16);
+                
             } completion:^(BOOL finished) {
+                
+                self.bottolFillView.hidden = YES;
 
                 self.showAnimationDidComplete();
             }];
@@ -4048,11 +4065,10 @@
         
         CGRect rect = _sheetContainerView.frame;
         
-        rect.size.height += 5;
-        rect.origin.y = JKAlertScreenH - rect.size.height;
+        rect.origin.y = JKAlertScreenH - rect.size.height - 15;
         _sheetContainerView.frame = rect;
         
-        _sheetContainerView.transform = CGAffineTransformMakeScale(1, ((rect.size.height + 10 )/ rect.size.height));
+        self.bottolFillView.frame = CGRectMake(0, CGRectGetMaxY(_sheetContainerView.frame) - 1, _sheetContainerView.frame.size.width, 16);
         
     } else {
         
@@ -4761,7 +4777,7 @@
         
         [self dismiss];
         
-    } else if (fabs(correctSheetContainerY - currentSheetContainerY) > 1) {
+    } else {
         
         //self.relayout(YES);
         
@@ -4784,7 +4800,7 @@
         
         [self dismiss];
         
-    } else if (fabs(correctSheetContainerX - currentSheetContainerX) > 1) {
+    } else {
         
         //self.relayout(YES);
         
@@ -4801,6 +4817,10 @@
     [UIView animateWithDuration:0.25 animations:^{
         
         self.sheetContainerView.frame = frame;
+        self->_bottolFillView.frame = CGRectMake(0, CGRectGetMaxY(frame), frame.size.width, self->_bottolFillView.frame.size.height);
+        
+    } completion:^(BOOL finished) {
+        
     }];
 }
 
@@ -4816,12 +4836,14 @@
             endScrollDirection = JKAlertScrollDirectionNone;
             
             lastContainerY = self.sheetContainerView.frame.origin.y;
+            
+            self.bottolFillView.hidden = NO;
         }
             break;
         case UIGestureRecognizerStateChanged:
         {
             // 获取偏移
-            CGPoint point = [panGesture translationInView:self.contentView];
+            CGPoint point = [panGesture translationInView:self.sheetContainerView];
             
             CGPoint center = self.sheetContainerView.center;
             
@@ -4833,7 +4855,7 @@
                 
                 if (center.y <= (JKAlertScreenH - self.sheetContainerView.frame.size.height) + self.sheetContainerView.frame.size.height * 0.5) {
 
-                    center.y += (point.y * 0.01);
+                    center.y += (point.y * 0.05);
                     
                 } else {
                     
@@ -4843,8 +4865,12 @@
             
             self.sheetContainerView.center = center;
             
+            CGFloat maxY = CGRectGetMaxY(self.sheetContainerView.frame) - 1;
+            
+            self.bottolFillView.frame = CGRectMake(0, maxY, self.sheetContainerView.frame.size.width, MAX(JKAlertScreenH - maxY + 1, 0));
+            
             // 归零
-            [panGesture setTranslation:CGPointZero inView:self.contentView];
+            [panGesture setTranslation:CGPointZero inView:self.sheetContainerView];
             
             [self checkVerticalSlideDirection];
         }
@@ -4859,16 +4885,12 @@
             float slideFactor = 0.1 * slideMult;
             CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
             
-            CGFloat correctSheetContainerY = (JKAlertScreenH - self.sheetContainerView.frame.size.height);
-            
-            CGFloat currentSheetContainerY = self.sheetContainerView.frame.origin.y;
-            
             if (((finalPoint.y - self.sheetContainerView.frame.size.height * 0.5) - (JKAlertScreenH - self.sheetContainerView.frame.size.height) > self.sheetContainerView.frame.size.height * 0.5) &&
                 beginScrollDirection == endScrollDirection) {
                 
                 [self dismiss];
                 
-            } else if (fabs(correctSheetContainerY - currentSheetContainerY) > 1) {
+            } else {
                 
                 //self.relayout(YES);
                 
@@ -4931,10 +4953,6 @@
             float slideFactor = 0.1 * slideMult;
             CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
             
-            CGFloat correctSheetContainerX = (JKAlertScreenW - self.sheetContainerView.frame.size.width);
-            
-            CGFloat currentSheetContainerX = self.sheetContainerView.frame.origin.x;
-            
             if (((finalPoint.x - self.sheetContainerView.frame.size.width * 0.5) - (JKAlertScreenW - self.sheetContainerView.frame.size.width) > self.sheetContainerView.frame.size.width * 0.5) &&
                 beginScrollDirection == endScrollDirection) {
                 
@@ -4942,7 +4960,7 @@
                 
                 [self dismiss];
                 
-            } else if (fabs(correctSheetContainerX - currentSheetContainerX) > 1) {
+            } else {
                 
                 //self.relayout(YES);
                 
@@ -5097,6 +5115,44 @@
         
         return self;
     };
+}
+
+#pragma mark
+#pragma mark - Property
+
+- (UIView *)bottolFillView{
+    if (!_bottolFillView) {
+        UIView *bottolFillView = [[UIView alloc] init];
+        
+        if (self.backGroundView) {
+            
+            UIView *bgView = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.backGroundView]];
+            
+            [bottolFillView insertSubview:bgView atIndex:0];
+            
+            bgView.translatesAutoresizingMaskIntoConstraints = NO;
+            NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[bgView]-0-|" options:0 metrics:nil views:@{@"bgView" : bgView}];
+            [bottolFillView addConstraints:cons1];
+            
+            NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[bgView]-0-|" options:0 metrics:nil views:@{@"bgView" : bgView}];
+            [bottolFillView addConstraints:cons2];
+        }
+        
+        UIView *bgColorView = [[UIView alloc] init];
+        [bottolFillView addSubview:bgColorView];
+        
+        bgColorView.translatesAutoresizingMaskIntoConstraints = NO;
+        NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[bgColorView]-0-|" options:0 metrics:nil views:@{@"bgColorView" : bgColorView}];
+        [bottolFillView addConstraints:cons1];
+        
+        NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[bgColorView]-0-|" options:0 metrics:nil views:@{@"bgColorView" : bgColorView}];
+        [bottolFillView addConstraints:cons2];
+        
+        bgColorView.backgroundColor = JKALertGlobalBackgroundColor();
+        [self insertSubview:bottolFillView aboveSubview:self.dismissButton];
+        _bottolFillView = bottolFillView;
+    }
+    return _bottolFillView;
 }
 
 #pragma mark - dealloc------------------------
