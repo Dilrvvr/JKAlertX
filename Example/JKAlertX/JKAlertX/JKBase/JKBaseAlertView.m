@@ -15,6 +15,48 @@
 
 @implementation JKBaseAlertView
 
+- (UITableView *)createTableView{
+    
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStyleGrouped)];
+    
+    tableView.backgroundColor = nil;
+    
+    tableView.scrollsToTop = NO;
+    tableView.scrollEnabled = NO;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight(), 0);
+    
+    if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
+        
+        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
+    }
+    
+    tableView.rowHeight = 44;
+    tableView.sectionFooterHeight = 0;
+    tableView.sectionHeaderHeight = 0;
+    
+    tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGFLOAT_MIN)];
+    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGFLOAT_MIN)];
+    
+    SEL selector = NSSelectorFromString(@"setContentInsetAdjustmentBehavior:");
+    
+    if ([tableView respondsToSelector:selector]) {
+        
+        IMP imp = [tableView methodForSelector:selector];
+        void (*func)(id, SEL, NSInteger) = (void *)imp;
+        func(tableView, selector, 2);
+        
+        // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
+    }
+    
+    if (@available(iOS 13.0, *)) {
+        
+        [tableView setAutomaticallyAdjustsScrollIndicatorInsets:NO];
+    }
+    
+    return tableView;
+}
 
 #pragma mark
 #pragma mark - 初始化

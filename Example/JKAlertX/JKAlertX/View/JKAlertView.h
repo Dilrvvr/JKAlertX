@@ -15,7 +15,7 @@
 #pragma mark 公共部分
 
 /** 设置是否允许手势退出 默认NO NO 仅限sheet样式 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setEnableGestureDismiss)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture);
+@property (nonatomic, copy, readonly) JKAlertView *(^setEnableGestureDismiss)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator);
 
 /**
  * 设置点击空白处是否消失，plain默认NO，其它YES
