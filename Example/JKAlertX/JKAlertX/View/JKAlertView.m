@@ -67,6 +67,7 @@
     
     CGFloat GestureIndicatorHeight;
     
+    CGFloat correctContainerY;
     CGFloat lastContainerY;
     CGFloat currentContainerY;
     
@@ -789,7 +790,7 @@
         tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
         tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
         
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, FillHomeIndicator ? 0 :  JKAlertAdjustHomeIndicatorHeight, 0);
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, FillHomeIndicator ? -30 :  JKAlertAdjustHomeIndicatorHeight, 0);
         
         [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
         
@@ -3037,6 +3038,8 @@
 
 - (void)calculateUIFinish{
     
+    correctContainerY = JKAlertScreenH - _sheetContainerView.frame.size.height;
+    
     [_tableView reloadData];
     
     [_collectionView reloadData];
@@ -4365,6 +4368,10 @@
     return (section == 0) ? CGFLOAT_MIN : CancelMargin;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return nil;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return CGFLOAT_MIN;
 }
@@ -4585,21 +4592,25 @@
     
     //NSLog(@"contentOffset-->%@", NSStringFromCGPoint(scrollView.contentOffset));
     
-    if (scrollView.contentOffset.y + scrollView.contentInset.top <= 0) {
+    if (scrollView.contentOffset.y + scrollView.contentInset.top < 0) {
         
         CGRect frame = self.sheetContainerView.frame;
         
         frame.origin.y -= (scrollView.contentOffset.y + scrollView.contentInset.top);
+        
+        frame.origin.y = (frame.origin.y < correctContainerY) ? correctContainerY : frame.origin.y;
         
         self.sheetContainerView.frame = frame;
         
         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
         
-    } else if (self.sheetContainerView.frame.origin.y > JKAlertScreenH - self.sheetContainerView.frame.size.height) {
+    } else if (self.sheetContainerView.frame.origin.y > correctContainerY + 0.5) {
         
         CGRect frame = self.sheetContainerView.frame;
         
         frame.origin.y -= (scrollView.contentOffset.y + scrollView.contentInset.top);
+        
+        frame.origin.y = (frame.origin.y < correctContainerY) ? correctContainerY : frame.origin.y;
         
         self.sheetContainerView.frame = frame;
         
@@ -4762,7 +4773,7 @@
 
 - (void)checkVerticalSlideShouldDismiss{
     
-    CGFloat correctSheetContainerY = (JKAlertScreenH - self.sheetContainerView.frame.size.height);
+    CGFloat correctSheetContainerY = (correctContainerY);
     
     CGFloat currentSheetContainerY = self.sheetContainerView.frame.origin.y;
     
@@ -4849,7 +4860,7 @@
                 
             } else {
                 
-                if (center.y <= (JKAlertScreenH - self.sheetContainerView.frame.size.height) + self.sheetContainerView.frame.size.height * 0.5) {
+                if (center.y <= (correctContainerY) + self.sheetContainerView.frame.size.height * 0.5) {
 
                     center.y += (point.y * 0.05);
                     
@@ -4881,7 +4892,7 @@
             float slideFactor = 0.1 * slideMult;
             CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
             
-            if (((finalPoint.y - self.sheetContainerView.frame.size.height * 0.5) - (JKAlertScreenH - self.sheetContainerView.frame.size.height) > self.sheetContainerView.frame.size.height * 0.5) &&
+            if (((finalPoint.y - self.sheetContainerView.frame.size.height * 0.5) - (correctContainerY) > self.sheetContainerView.frame.size.height * 0.5) &&
                 beginScrollDirection == endScrollDirection) {
                 
                 [self dismiss];
