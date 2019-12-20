@@ -790,7 +790,7 @@
         tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
         tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
         
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, FillHomeIndicator ? -30 :  JKAlertAdjustHomeIndicatorHeight, 0);
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, FillHomeIndicator ? 0 :  JKAlertAdjustHomeIndicatorHeight, 0);
         
         [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
         
