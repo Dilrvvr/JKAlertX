@@ -25,19 +25,16 @@
     tableView.scrollEnabled = NO;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    tableView.rowHeight = 44;
+    tableView.sectionFooterHeight = 0;
+    tableView.sectionHeaderHeight = 0;
+    
     tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight(), 0);
     
     if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
         
         tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
     }
-    
-    tableView.rowHeight = 44;
-    tableView.sectionFooterHeight = 0;
-    tableView.sectionHeaderHeight = 0;
-    
-    tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGFLOAT_MIN)];
-    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGFLOAT_MIN)];
     
     SEL selector = NSSelectorFromString(@"setContentInsetAdjustmentBehavior:");
     
