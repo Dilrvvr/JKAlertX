@@ -796,7 +796,9 @@
         
         tableView.rowHeight = JKAlertRowHeight;
         
-        [_sheetContentView addSubview:tableView];
+        tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
+        tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
+        
         [_sheetContentView insertSubview:tableView belowSubview:self.textContainerView];
         
         _tableView = tableView;
@@ -4472,6 +4474,11 @@
             endScrollDirection = JKAlertScrollDirectionNone;
             
             lastContainerY = self.sheetContainerView.frame.origin.y;
+            
+            if (scrollView.contentOffset.y + scrollView.contentInset.top < 0) {
+                
+                disableScrollSheetContainerView = YES;
+            }
         }
             break;
         case JKAlertStyleCollectionSheet:
@@ -4494,6 +4501,11 @@
                 endScrollDirection = JKAlertScrollDirectionNone;
                 
                 lastContainerX = self.sheetContainerView.frame.origin.x;
+                
+                if (scrollView.contentOffset.x + scrollView.contentInset.left < 0) {
+                    
+                    disableScrollSheetContainerView = YES;
+                }
             }
         }
             break;
@@ -4604,7 +4616,9 @@
         
         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
         
-    } else if (self.sheetContainerView.frame.origin.y > correctContainerY + 0.5) {
+        NSLog(@"1");
+        
+    } else if (self.sheetContainerView.frame.origin.y > correctContainerY + 0.1) {
         
         CGRect frame = self.sheetContainerView.frame;
         
@@ -4615,6 +4629,8 @@
         self.sheetContainerView.frame = frame;
         
         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
+        
+        NSLog(@"2");
     }
     
     if (scrollView.isDragging) {
