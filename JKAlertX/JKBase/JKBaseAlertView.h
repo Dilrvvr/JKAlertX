@@ -16,6 +16,7 @@
 /** 最底层背景按钮 */
 @property (nonatomic, weak, readonly) UIButton *dismissButton;
 
+- (UITableView *)createTableView;
 
 /** 初始化自身属性 交给子类重写 super自动调用该方法 */
 - (void)initializeProperty NS_REQUIRES_SUPER;

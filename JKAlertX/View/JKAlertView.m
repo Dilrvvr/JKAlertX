@@ -230,6 +230,7 @@
 /** 显示动画完成的回调 */
 @property (nonatomic, copy) void (^showAnimationCompleteHandler)(JKAlertView *view);
 
+#pragma mark
 #pragma mark - textField
 
 /** textFieldContainerView */
@@ -392,6 +393,9 @@
 /** enableHorizontalGestureDismiss */
 @property (nonatomic, assign) BOOL enableHorizontalGestureDismiss;
 
+/** showGestureIndicator */
+@property (nonatomic, assign) BOOL showGestureIndicator;
+
 /** topGestureIndicatorView */
 @property (nonatomic, weak) UIView *topGestureIndicatorView;
 
@@ -410,11 +414,14 @@
 /** tableViewDelegate */
 @property (nonatomic, weak) id tableViewDelegate;
 
-/** bottolFillView */
-@property (nonatomic, weak) UIView *bottolFillView;
+/** bottomFillView */
+@property (nonatomic, weak) UIView *bottomFillView;
 @end
 
 @implementation JKAlertView
+
+#pragma mark
+#pragma mark - 类方法
 
 + (instancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message style:(JKAlertStyle)alertStyle{
     
@@ -575,7 +582,8 @@
     };
 }
 
-#pragma mark - 懒加载------------------------
+#pragma mark
+#pragma mark - 懒加载
 
 - (NSMutableArray *)actions{
     if (!_actions) {
@@ -736,6 +744,7 @@
 - (UIView *)topGestureIndicatorView{
     if (!_topGestureIndicatorView) {
         UIView *topGestureIndicatorView = [[UIView alloc] init];
+        topGestureIndicatorView.hidden = YES;
         topGestureIndicatorView.userInteractionEnabled = NO;
         topGestureIndicatorView.backgroundColor = JKALertGlobalBackgroundColor();
         [self.sheetContainerView addSubview:topGestureIndicatorView];
@@ -775,52 +784,19 @@
         
         [self.scrollView addSubview:self.messageTextView];
         
-        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStyleGrouped)];
+        UITableView *tableView = [self createTableView];
         
         tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
         tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
         
-        tableView.scrollsToTop = NO;
-        tableView.scrollEnabled = NO;
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        
         tableView.contentInset = UIEdgeInsetsMake(0, 0, FillHomeIndicator ? 0 :  JKAlertAdjustHomeIndicatorHeight, 0);
-        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight(), 0);
-        
-        if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
-            
-            tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
-        }
-        
-        tableView.backgroundColor = nil;
         
         [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
         
+        tableView.rowHeight = JKAlertRowHeight;
+        
         [_sheetContentView addSubview:tableView];
         [_sheetContentView insertSubview:tableView belowSubview:self.textContainerView];
-        
-        tableView.rowHeight = JKAlertRowHeight;
-        tableView.sectionFooterHeight = 0;
-        tableView.sectionHeaderHeight = 0;
-        
-        tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
-        tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
-        
-        SEL selector = NSSelectorFromString(@"setContentInsetAdjustmentBehavior:");
-        
-        if ([tableView respondsToSelector:selector]) {
-            
-            IMP imp = [tableView methodForSelector:selector];
-            void (*func)(id, SEL, NSInteger) = (void *)imp;
-            func(tableView, selector, 2);
-            
-            // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
-        }
-        
-        if (@available(iOS 13.0, *)) {
-            
-            [tableView setAutomaticallyAdjustsScrollIndicatorInsets:NO];
-        }
         
         _tableView = tableView;
     }
@@ -1053,7 +1029,8 @@
     return _closeButton;
 }
 
-#pragma mark - 初始化------------------------
+#pragma mark
+#pragma mark - 初始化
 
 /** 初始化自身属性 */
 - (void)initializeProperty{
@@ -1141,7 +1118,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissForKeyNotification:) name:JKAlertDismissForKeyNotification object:nil];
 }
 
-#pragma mark - setter------------------------
+#pragma mark
+#pragma mark - Setter
 
 - (void)setAlertStyle:(JKAlertStyle)alertStyle{
     _alertStyle = alertStyle;
@@ -1317,7 +1295,8 @@
     _messageMinHeight = messageMinHeight < 0 ? 0 : messageMinHeight;
 }
 
-#pragma mark - 链式setter------------------------
+#pragma mark
+#pragma mark - 链式Setter
 
 /**
  * 设置自定义的父控件
@@ -1777,12 +1756,14 @@
 }
 
 /** 设置是否允许手势退出 仅限sheet样式 */
-- (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture))setEnableGestureDismiss{
+- (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator))setEnableGestureDismiss{
     
-    return ^(BOOL enableVerticalGesture, BOOL enableHorizontalGesture){
+    return ^(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator){
         
         self.enableVerticalGestureDismiss = enableVerticalGesture;
         self.enableHorizontalGestureDismiss = enableHorizontalGesture;
+        
+        self.showGestureIndicator = showGestureIndicator;
         
         return self;
     };
@@ -2157,7 +2138,8 @@
     };
 }
 
-#pragma mark - 监听屏幕旋转------------------------
+#pragma mark
+#pragma mark - 监听屏幕旋转
 
 - (void)orientationChanged:(NSNotification *)noti{
     
@@ -2263,7 +2245,8 @@
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
 }
 
-#pragma mark - 添加action------------------------
+#pragma mark
+#pragma mark - 添加action
 
 /** 添加action */
 - (JKAlertView *(^)(JKAlertAction *action))addAction{
@@ -2412,6 +2395,7 @@
 }
 
 
+#pragma mark
 #pragma mark - action数组操作
 
 /** 添加action */
@@ -2618,6 +2602,7 @@
 
 
 
+#pragma mark
 #pragma mark - 添加textField
 
 /**
@@ -2668,7 +2653,8 @@
     };
 }
 
-#pragma mark - 显示------------------------
+#pragma mark
+#pragma mark - 显示
 
 /** 显示 */
 - (id<JKAlertViewProtocol>(^)(void))show{
@@ -2930,7 +2916,8 @@
     }
 }
 
-#pragma mark - 计算frame------------------------------------
+#pragma mark
+#pragma mark - 计算frame
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
     [super traitCollectionDidChange:previousTraitCollection];
@@ -3059,6 +3046,7 @@
     //[_tableView setContentOffset:CGPointMake(_tableView.contentOffset.x, lastTableViewOffsetY) animated:YES];
 }
 
+#pragma mark
 #pragma mark - 布局plain
 - (void)layoutPlain{
     
@@ -3425,6 +3413,7 @@
      } */
 }
 
+#pragma mark
 #pragma mark - 布局actionSheet
 
 - (void)layoutActionSheet{
@@ -3506,7 +3495,7 @@
     _textContainerView.frame = rect;
     _scrollView.contentSize = rect.size;
     
-    GestureIndicatorHeight = self.enableVerticalGestureDismiss ? JKAlertTopGestureIndicatorHeight : 0;
+    GestureIndicatorHeight = (self.enableVerticalGestureDismiss && self.showGestureIndicator) ? JKAlertTopGestureIndicatorHeight : 0;
     
     [self adjustSheetFrame];
     
@@ -3520,7 +3509,7 @@
     
     self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - JKAlertTopGestureIndicatorLineWidth) * 0.5, (JKAlertTopGestureIndicatorHeight - JKAlertTopGestureIndicatorLineHeight) * 0.5, JKAlertTopGestureIndicatorLineWidth, JKAlertTopGestureIndicatorLineHeight);
     
-    self.topGestureIndicatorView.hidden = !self.enableVerticalGestureDismiss;
+    self.topGestureIndicatorView.hidden = (!self.enableVerticalGestureDismiss || !self.showGestureIndicator);
     
     _sheetContentView.frame = CGRectMake(0, GestureIndicatorHeight, _sheetContainerView.frame.size.width, sheetContainerHeight - GestureIndicatorHeight);
     
@@ -3592,6 +3581,7 @@
     self.tableView.frame = frame;
 }
 
+#pragma mark
 #pragma mark - 布局collectionSheet
 
 - (void)layoutCollectionSheet{
@@ -3807,7 +3797,7 @@
     
     self.scrollView.contentSize = rect.size;
     
-    GestureIndicatorHeight = self.enableVerticalGestureDismiss ? JKAlertTopGestureIndicatorHeight : 0;
+    GestureIndicatorHeight = (self.enableVerticalGestureDismiss && self.showGestureIndicator) ? JKAlertTopGestureIndicatorHeight : 0;
     
     if (rect.size.height > JKAlertSheetMaxH) {
         
@@ -3828,7 +3818,7 @@
     
     self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - JKAlertTopGestureIndicatorLineWidth) * 0.5, (JKAlertTopGestureIndicatorHeight - JKAlertTopGestureIndicatorLineHeight) * 0.5, JKAlertTopGestureIndicatorLineWidth, JKAlertTopGestureIndicatorLineHeight);
     
-    self.topGestureIndicatorView.hidden = !self.enableVerticalGestureDismiss;
+    self.topGestureIndicatorView.hidden = (!self.enableVerticalGestureDismiss || !self.showGestureIndicator);
     
     _sheetContentView.frame = CGRectMake(0, GestureIndicatorHeight, _sheetContainerView.frame.size.width, sheetContainerHeight - GestureIndicatorHeight);
     
@@ -3913,6 +3903,7 @@
     _textContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
 }
 
+#pragma mark
 #pragma mark - 布局自定义HUD
 
 - (void)layoutCustomHUD{
@@ -3925,14 +3916,13 @@
     self.plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
 }
 
-#pragma mark - 动画弹出来------------------------
+#pragma mark
+#pragma mark - 动画弹出来
 
 - (void)didMoveToSuperview{
     [super didMoveToSuperview];
     
-    if (!self.superview) {
-        return;
-    }
+    if (!self.superview) { return; }
     
     if (self.currentTextField != nil) {
         
@@ -4002,7 +3992,7 @@
         if (_enableVerticalGestureDismiss &&
             (_sheetContainerView != nil)) {
             
-            self.bottolFillView.frame = CGRectMake(0, CGRectGetMaxY(_sheetContainerView.frame) - 1, _sheetContainerView.frame.size.width, 16);
+            self.bottomFillView.frame = CGRectMake(0, CGRectGetMaxY(_sheetContainerView.frame) - 1, _sheetContainerView.frame.size.width, 16);
         }
     }
     
@@ -4026,6 +4016,8 @@
         if (self.enableVerticalGestureDismiss &&
             (self->_sheetContainerView != nil)) {
             
+            self.verticalDismissPanGesture.enabled = NO;
+            
             self.window.userInteractionEnabled = YES;
             
             [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionAllowUserInteraction  animations:^{
@@ -4035,11 +4027,13 @@
                 rect.origin.y = self->JKAlertScreenH - rect.size.height;
                 self->_sheetContainerView.frame = rect;
                 
-                self.bottolFillView.frame = CGRectMake(0, self->JKAlertScreenH, rect.size.width, 16);
+                self.bottomFillView.frame = CGRectMake(0, self->JKAlertScreenH, rect.size.width, 16);
                 
             } completion:^(BOOL finished) {
                 
-                self.bottolFillView.hidden = YES;
+                self.bottomFillView.hidden = YES;
+                
+                self.verticalDismissPanGesture.enabled = YES;
 
                 self.showAnimationDidComplete();
             }];
@@ -4068,7 +4062,7 @@
         rect.origin.y = JKAlertScreenH - rect.size.height - 15;
         _sheetContainerView.frame = rect;
         
-        self.bottolFillView.frame = CGRectMake(0, CGRectGetMaxY(_sheetContainerView.frame) - 1, _sheetContainerView.frame.size.width, 16);
+        self.bottomFillView.frame = CGRectMake(0, CGRectGetMaxY(_sheetContainerView.frame) - 1, _sheetContainerView.frame.size.width, 16);
         
     } else {
         
@@ -4125,6 +4119,7 @@
     return ^{};
 }
 
+#pragma mark
 #pragma mark - 监听键盘
 
 //- (BOOL)isLandScape{
@@ -4191,7 +4186,8 @@
     }
 }
 
-#pragma mark - 退出------------------------
+#pragma mark
+#pragma mark - 退出
 
 - (void)dismissButtonClick:(UIButton *)button{
     
@@ -4313,6 +4309,7 @@
     return ^{};
 }
 
+#pragma mark
 #pragma mark - 强制更改frame为屏幕尺寸
 
 - (void)setFrame:(CGRect)frame{
@@ -4320,7 +4317,8 @@
     [super setFrame:frame];
 }
 
-#pragma mark - UITableViewDataSource------------------------
+#pragma mark
+#pragma mark - UITableViewDataSource, UITableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
@@ -4354,8 +4352,6 @@
     return cell;
 }
 
-#pragma mark - UITableViewDelegate------------------------
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     JKAlertAction *action = indexPath.section == 0 ? self.actions[indexPath.row] : self.cancelAction;
@@ -4387,7 +4383,8 @@
     !action.handler ? : action.handler(action);
 }
 
-#pragma mark - UICollectionViewDataSource------------------------
+#pragma mark
+#pragma mark - UICollectionViewDataSource, UICollectionViewDelegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return collectionView == self.collectionView ? self.actions.count : self.actions2.count;
@@ -4402,8 +4399,6 @@
     return cell;
 }
 
-#pragma mark - UICollectionViewDelegate------------------------
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
@@ -4414,7 +4409,8 @@
     !action.handler ? : action.handler(action);
 }
 
-#pragma mark - UIScrollViewDelegate------------------------
+#pragma mark
+#pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -4424,8 +4420,8 @@
             if (!self.enableVerticalGestureDismiss) { return; }
             
             if ((scrollView == self.scrollView &&
-                self.tableView.isDecelerating) ||
-                (scrollView == self.tableView &&
+                _tableView.isDecelerating) ||
+                (scrollView == _tableView &&
                 self.scrollView.isDecelerating)) {
                     return;
             }
@@ -4543,7 +4539,7 @@
             if (!self.enableVerticalGestureDismiss) { return; }
             
             if (self.scrollView.isDecelerating ||
-                self.tableView.isDecelerating) {
+                _tableView.isDecelerating) {
                 return;
             }
             
@@ -4817,7 +4813,7 @@
     [UIView animateWithDuration:0.25 animations:^{
         
         self.sheetContainerView.frame = frame;
-        self->_bottolFillView.frame = CGRectMake(0, CGRectGetMaxY(frame), frame.size.width, self->_bottolFillView.frame.size.height);
+        self->_bottomFillView.frame = CGRectMake(0, CGRectGetMaxY(frame), frame.size.width, self->_bottomFillView.frame.size.height);
         
     } completion:^(BOOL finished) {
         
@@ -4837,7 +4833,7 @@
             
             lastContainerY = self.sheetContainerView.frame.origin.y;
             
-            self.bottolFillView.hidden = NO;
+            self.bottomFillView.hidden = NO;
         }
             break;
         case UIGestureRecognizerStateChanged:
@@ -4867,7 +4863,7 @@
             
             CGFloat maxY = CGRectGetMaxY(self.sheetContainerView.frame) - 1;
             
-            self.bottolFillView.frame = CGRectMake(0, maxY, self.sheetContainerView.frame.size.width, MAX(JKAlertScreenH - maxY + 1, 0));
+            self.bottomFillView.frame = CGRectMake(0, maxY, self.sheetContainerView.frame.size.width, MAX(JKAlertScreenH - maxY + 1, 0));
             
             // 归零
             [panGesture setTranslation:CGPointZero inView:self.sheetContainerView];
@@ -4989,7 +4985,8 @@
     return YES;
 }
 
-#pragma mark - plain样式按钮点击------------------------
+#pragma mark
+#pragma mark - plain样式按钮点击
 
 - (void)plainButtonClick:(UIButton *)button{
     
@@ -5000,7 +4997,8 @@
     !action.handler ? : action.handler(action);
 }
 
-#pragma mark - collection样式按钮点击------------------------
+#pragma mark
+#pragma mark - collection样式按钮点击
 
 - (void)collectionButtonClick{
     
@@ -5016,6 +5014,7 @@
     if (self.cancelAction.autoDismiss) { [self dismiss]; }
 }
 
+#pragma mark
 #pragma mark - JKAlertViewProtocol
 
 /** 准备重新布局 返回JKAlertViewProtocol协议对象，去调用相应协议方法 */
@@ -5120,42 +5119,43 @@
 #pragma mark
 #pragma mark - Property
 
-- (UIView *)bottolFillView{
-    if (!_bottolFillView) {
-        UIView *bottolFillView = [[UIView alloc] init];
+- (UIView *)bottomFillView{
+    if (!_bottomFillView) {
+        UIView *bottomFillView = [[UIView alloc] init];
         
         if (self.backGroundView) {
             
             UIView *bgView = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.backGroundView]];
             
-            [bottolFillView insertSubview:bgView atIndex:0];
+            [bottomFillView insertSubview:bgView atIndex:0];
             
             bgView.translatesAutoresizingMaskIntoConstraints = NO;
             NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[bgView]-0-|" options:0 metrics:nil views:@{@"bgView" : bgView}];
-            [bottolFillView addConstraints:cons1];
+            [bottomFillView addConstraints:cons1];
             
             NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[bgView]-0-|" options:0 metrics:nil views:@{@"bgView" : bgView}];
-            [bottolFillView addConstraints:cons2];
+            [bottomFillView addConstraints:cons2];
         }
         
         UIView *bgColorView = [[UIView alloc] init];
-        [bottolFillView addSubview:bgColorView];
+        [bottomFillView addSubview:bgColorView];
         
         bgColorView.translatesAutoresizingMaskIntoConstraints = NO;
         NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[bgColorView]-0-|" options:0 metrics:nil views:@{@"bgColorView" : bgColorView}];
-        [bottolFillView addConstraints:cons1];
+        [bottomFillView addConstraints:cons1];
         
         NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[bgColorView]-0-|" options:0 metrics:nil views:@{@"bgColorView" : bgColorView}];
-        [bottolFillView addConstraints:cons2];
+        [bottomFillView addConstraints:cons2];
         
         bgColorView.backgroundColor = JKALertGlobalBackgroundColor();
-        [self insertSubview:bottolFillView aboveSubview:self.dismissButton];
-        _bottolFillView = bottolFillView;
+        [self insertSubview:bottomFillView aboveSubview:self.dismissButton];
+        _bottomFillView = bottomFillView;
     }
-    return _bottolFillView;
+    return _bottomFillView;
 }
 
-#pragma mark - dealloc------------------------
+#pragma mark
+#pragma mark - dealloc
 
 /** 允许dealloc打印，用于检查循环引用 */
 - (JKAlertView *(^)(BOOL enable))enableDeallocLog{

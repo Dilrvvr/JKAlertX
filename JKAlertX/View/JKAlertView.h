@@ -11,10 +11,11 @@
 
 @interface JKAlertView : JKBaseAlertView
 
-#pragma mark - 公共部分
+#pragma mark
+#pragma mark 公共部分
 
 /** 设置是否允许手势退出 默认NO NO 仅限sheet样式 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setEnableGestureDismiss)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture);
+@property (nonatomic, copy, readonly) JKAlertView *(^setEnableGestureDismiss)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator);
 
 /**
  * 设置点击空白处是否消失，plain默认NO，其它YES
@@ -123,7 +124,8 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setDismissKey)(NSString *dismissKey);
 
 
-#pragma mark - plain样式
+#pragma mark
+#pragma mark plain样式
 
 /**
  * 设置plain样式的宽度
@@ -196,7 +198,8 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
 
 
-#pragma mark - HUD样式
+#pragma mark
+#pragma mark HUD样式
 
 /**
  * 设置HUD样式dismiss的时间，默认1s
@@ -211,7 +214,8 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setHUDHeight)(CGFloat height);
 
 
-#pragma mark - actionSheet样式
+#pragma mark
+#pragma mark actionSheet样式
 
 /**
  * 设置actionSheet样式添加自定义的titleView
@@ -231,7 +235,8 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDelegate)(id<UITableViewDelegate> delegate);
 
 
-#pragma mark - collectionSheet样式
+#pragma mark
+#pragma mark collectionSheet样式
 
 /**
  * 设置collection的itemSize的宽度
@@ -316,7 +321,8 @@
 
 
 
-#pragma mark - 类方法
+#pragma mark
+#pragma mark 类方法
 
 /** 函数式类方法 */
 @property (class, nonatomic, copy, readonly) id<JKAlertViewProtocol> (^show)(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView));
@@ -362,7 +368,8 @@
 @property (class, nonatomic, copy, readonly) void (^dismissForKey)(NSString *dismissKey);
 
 
-#pragma mark - 添加action
+#pragma mark
+#pragma mark 添加action
 
 /** 添加action */
 - (void)addAction:(JKAlertAction *)action;
@@ -378,7 +385,8 @@
 
 
 
-#pragma mark - action数组操作
+#pragma mark
+#pragma mark action数组操作
 
 /** 添加action */
 - (void)addAction:(JKAlertAction *)action isSecondCollection:(BOOL)isSecondCollection;
@@ -424,7 +432,8 @@
 
 
 
-#pragma mark - 添加textField
+#pragma mark
+#pragma mark 添加textField
 
 /**
  * 添加textField 默认高度30
@@ -443,7 +452,8 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^addTextFieldWithConfigurationHandler)(void (^)(JKAlertView *view, UITextField *textField));
 
 
-#pragma mark - 显示
+#pragma mark
+#pragma mark 显示
 
 /** 显示 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^show)(void);
@@ -455,7 +465,8 @@
 @property (nonatomic, copy, readonly) void (^dismiss)(void);
 
 
-#pragma mark - 自定义动画
+#pragma mark
+#pragma mark 自定义动画
 
 /**
  * 设置自定义展示动画，动画完成一定要调用showAnimationDidComplete
@@ -473,7 +484,8 @@
 @property (nonatomic, copy, readonly) void (^dismissAnimationDidComplete)(void);
 
 
-#pragma mark - 状态监听
+#pragma mark
+#pragma mark 状态监听
 
 /** 监听显示动画完成 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
@@ -500,7 +512,8 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable);
 
 
-#pragma mark - 显示之后更新UI
+#pragma mark
+#pragma mark 显示之后更新UI
 
 /** 准备重新布局 返回JKAlertViewProtocol协议对象，去调用相应协议方法 */
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^prepareToRelayout)(void);
@@ -517,7 +530,8 @@
 @property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view));
 
 
-#pragma mark - 其它适配
+#pragma mark
+#pragma mark 其它适配
 
 /** 设置action和colletion样式的底部按钮上下间距 不可小于0 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setBottomButtonMargin)(CGFloat margin);
