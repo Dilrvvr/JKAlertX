@@ -230,6 +230,7 @@
 /** 显示动画完成的回调 */
 @property (nonatomic, copy) void (^showAnimationCompleteHandler)(JKAlertView *view);
 
+#pragma mark
 #pragma mark - textField
 
 /** textFieldContainerView */
@@ -416,6 +417,9 @@
 
 @implementation JKAlertView
 
+#pragma mark
+#pragma mark - 类方法
+
 + (instancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message style:(JKAlertStyle)alertStyle{
     
     if (alertStyle == JKAlertStyleNone) {
@@ -575,7 +579,8 @@
     };
 }
 
-#pragma mark - 懒加载------------------------
+#pragma mark
+#pragma mark - 懒加载
 
 - (NSMutableArray *)actions{
     if (!_actions) {
@@ -1053,7 +1058,8 @@
     return _closeButton;
 }
 
-#pragma mark - 初始化------------------------
+#pragma mark
+#pragma mark - 初始化
 
 /** 初始化自身属性 */
 - (void)initializeProperty{
@@ -1141,7 +1147,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissForKeyNotification:) name:JKAlertDismissForKeyNotification object:nil];
 }
 
-#pragma mark - setter------------------------
+#pragma mark
+#pragma mark - Setter
 
 - (void)setAlertStyle:(JKAlertStyle)alertStyle{
     _alertStyle = alertStyle;
@@ -1317,7 +1324,8 @@
     _messageMinHeight = messageMinHeight < 0 ? 0 : messageMinHeight;
 }
 
-#pragma mark - 链式setter------------------------
+#pragma mark
+#pragma mark - 链式Setter
 
 /**
  * 设置自定义的父控件
@@ -2157,7 +2165,8 @@
     };
 }
 
-#pragma mark - 监听屏幕旋转------------------------
+#pragma mark
+#pragma mark - 监听屏幕旋转
 
 - (void)orientationChanged:(NSNotification *)noti{
     
@@ -2263,7 +2272,8 @@
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
 }
 
-#pragma mark - 添加action------------------------
+#pragma mark
+#pragma mark - 添加action
 
 /** 添加action */
 - (JKAlertView *(^)(JKAlertAction *action))addAction{
@@ -2412,6 +2422,7 @@
 }
 
 
+#pragma mark
 #pragma mark - action数组操作
 
 /** 添加action */
@@ -2618,6 +2629,7 @@
 
 
 
+#pragma mark
 #pragma mark - 添加textField
 
 /**
@@ -2668,7 +2680,8 @@
     };
 }
 
-#pragma mark - 显示------------------------
+#pragma mark
+#pragma mark - 显示
 
 /** 显示 */
 - (id<JKAlertViewProtocol>(^)(void))show{
@@ -2930,7 +2943,8 @@
     }
 }
 
-#pragma mark - 计算frame------------------------------------
+#pragma mark
+#pragma mark - 计算frame
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
     [super traitCollectionDidChange:previousTraitCollection];
@@ -3059,6 +3073,7 @@
     //[_tableView setContentOffset:CGPointMake(_tableView.contentOffset.x, lastTableViewOffsetY) animated:YES];
 }
 
+#pragma mark
 #pragma mark - 布局plain
 - (void)layoutPlain{
     
@@ -3425,6 +3440,7 @@
      } */
 }
 
+#pragma mark
 #pragma mark - 布局actionSheet
 
 - (void)layoutActionSheet{
@@ -3592,6 +3608,7 @@
     self.tableView.frame = frame;
 }
 
+#pragma mark
 #pragma mark - 布局collectionSheet
 
 - (void)layoutCollectionSheet{
@@ -3913,6 +3930,7 @@
     _textContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
 }
 
+#pragma mark
 #pragma mark - 布局自定义HUD
 
 - (void)layoutCustomHUD{
@@ -3925,14 +3943,13 @@
     self.plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
 }
 
-#pragma mark - 动画弹出来------------------------
+#pragma mark
+#pragma mark - 动画弹出来
 
 - (void)didMoveToSuperview{
     [super didMoveToSuperview];
     
-    if (!self.superview) {
-        return;
-    }
+    if (!self.superview) { return; }
     
     if (self.currentTextField != nil) {
         
@@ -4125,6 +4142,7 @@
     return ^{};
 }
 
+#pragma mark
 #pragma mark - 监听键盘
 
 //- (BOOL)isLandScape{
@@ -4191,7 +4209,8 @@
     }
 }
 
-#pragma mark - 退出------------------------
+#pragma mark
+#pragma mark - 退出
 
 - (void)dismissButtonClick:(UIButton *)button{
     
@@ -4313,6 +4332,7 @@
     return ^{};
 }
 
+#pragma mark
 #pragma mark - 强制更改frame为屏幕尺寸
 
 - (void)setFrame:(CGRect)frame{
@@ -4320,7 +4340,8 @@
     [super setFrame:frame];
 }
 
-#pragma mark - UITableViewDataSource------------------------
+#pragma mark
+#pragma mark - UITableViewDataSource, UITableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
@@ -4354,8 +4375,6 @@
     return cell;
 }
 
-#pragma mark - UITableViewDelegate------------------------
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     JKAlertAction *action = indexPath.section == 0 ? self.actions[indexPath.row] : self.cancelAction;
@@ -4387,7 +4406,8 @@
     !action.handler ? : action.handler(action);
 }
 
-#pragma mark - UICollectionViewDataSource------------------------
+#pragma mark
+#pragma mark - UICollectionViewDataSource, UICollectionViewDelegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return collectionView == self.collectionView ? self.actions.count : self.actions2.count;
@@ -4402,8 +4422,6 @@
     return cell;
 }
 
-#pragma mark - UICollectionViewDelegate------------------------
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
@@ -4414,7 +4432,8 @@
     !action.handler ? : action.handler(action);
 }
 
-#pragma mark - UIScrollViewDelegate------------------------
+#pragma mark
+#pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -4989,7 +5008,8 @@
     return YES;
 }
 
-#pragma mark - plain样式按钮点击------------------------
+#pragma mark
+#pragma mark - plain样式按钮点击
 
 - (void)plainButtonClick:(UIButton *)button{
     
@@ -5000,7 +5020,8 @@
     !action.handler ? : action.handler(action);
 }
 
-#pragma mark - collection样式按钮点击------------------------
+#pragma mark
+#pragma mark - collection样式按钮点击
 
 - (void)collectionButtonClick{
     
@@ -5016,6 +5037,7 @@
     if (self.cancelAction.autoDismiss) { [self dismiss]; }
 }
 
+#pragma mark
 #pragma mark - JKAlertViewProtocol
 
 /** 准备重新布局 返回JKAlertViewProtocol协议对象，去调用相应协议方法 */
@@ -5155,7 +5177,8 @@
     return _bottolFillView;
 }
 
-#pragma mark - dealloc------------------------
+#pragma mark
+#pragma mark - dealloc
 
 /** 允许dealloc打印，用于检查循环引用 */
 - (JKAlertView *(^)(BOOL enable))enableDeallocLog{
