@@ -21,20 +21,21 @@ NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKeyNotifi
 #pragma mark
 #pragma mark - 常量
 
-CGFloat    const JKAlertMinTitleLabelH = (22);
-CGFloat    const JKAlertMinMessageLabelH = (17);
-CGFloat    const JKAlertScrollViewMaxH = 176; // (JKAlertButtonH * 4)
+CGFloat    const JKAlertMinTitleLabelH = (22.0);
+CGFloat    const JKAlertMinMessageLabelH = (17.0);
+CGFloat    const JKAlertScrollViewMaxH = 176.0; // (JKAlertButtonH * 4.0)
 
-CGFloat    const JKAlertButtonH = 46;
+CGFloat    const JKAlertButtonH = 46.0;
+
 NSInteger  const JKAlertPlainButtonBeginTag = 100;
 
-CGFloat    const JKAlertSheetTitleMargin = 6;
+CGFloat    const JKAlertSheetTitleMargin = 6.0;
 
-CGFloat    const JKAlertTopGestureIndicatorHeight = 20;
+CGFloat    const JKAlertTopGestureIndicatorHeight = 20.0;
 
-CGFloat    const JKAlertTopGestureIndicatorLineWidth = 40;
+CGFloat    const JKAlertTopGestureIndicatorLineWidth = 40.0;
 
-CGFloat    const JKAlertTopGestureIndicatorLineHeight = 4;
+CGFloat    const JKAlertTopGestureIndicatorLineHeight = 4.0;
 
 
 
@@ -71,7 +72,7 @@ UIColor * JKALertGlobalBackgroundColor (void) {
     
     if (!GlobalBackgroundColor_) {
         
-        GlobalBackgroundColor_ = JKALertAdaptColor(JKAlertSameRGBColorAlpha(247, 0.7), JKAlertSameRGBColorAlpha(8, 0.7));
+        GlobalBackgroundColor_ = JKALertAdaptColor(JKAlertSameRGBColorAlpha(247.0, 0.7), JKAlertSameRGBColorAlpha(8.0, 0.7));
     }
     
     return GlobalBackgroundColor_;
@@ -84,7 +85,7 @@ UIColor * JKALertGlobalHighlightedBackgroundColor (void) {
     
     if (!HighlightedBackgroundColor_) {
         
-        HighlightedBackgroundColor_ = JKALertAdaptColor(JKAlertSameRGBColorAlpha(247, 0.3), JKAlertSameRGBColorAlpha(8, 0.3));
+        HighlightedBackgroundColor_ = JKALertAdaptColor(JKAlertSameRGBColorAlpha(247.0, 0.3), JKAlertSameRGBColorAlpha(8.0, 0.3));
     }
     
     return HighlightedBackgroundColor_;
@@ -102,7 +103,7 @@ BOOL JKALertIsDeviceX (void) {
             
             if (!JKALertIsDeviceiPad()) {
                 
-                JKALertIsDeviceX_ = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom > 0;
+                JKALertIsDeviceX_ = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom > 0.0;
             }
         }
     });
@@ -136,5 +137,5 @@ BOOL JKALertIsLandscape (void) {
 /// 当前HomeIndicator高度
 CGFloat JKAlertCurrentHomeIndicatorHeight (void) {
     
-    return JKALertIsDeviceX() ? (JKALertIsLandscape() ? 21 : 34) : 0;
+    return JKALertIsDeviceX() ? (JKALertIsLandscape() ? 21.0 : 34.0) : 0.0;
 }

@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    CGRect rect = [UIApplication sharedApplication].delegate.window.frame;
+    CGRect rect = [UIApplication sharedApplication].delegate.window.bounds;
     
     UILabel *testLabel = [[UILabel alloc] initWithFrame:rect];
     testLabel.textAlignment = NSTextAlignmentCenter;
@@ -38,7 +38,7 @@
 - (void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     
-    self.testLabel.frame = self.view.bounds;
+    //self.testLabel.frame = self.view.bounds;
 }
 
 - (IBAction)customCollectionActionView:(id)sender {
