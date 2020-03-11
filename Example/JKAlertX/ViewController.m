@@ -283,6 +283,12 @@
         action.alertView.resetOther().getActionAtIndexFrom(1, NO, ^(JKAlertAction *action) {
            
             action.separatorLineHidden = YES;
+            
+        }).getCancelOrCollectionAction(YES, ^(JKAlertAction *action) {
+            
+            if (!action) { return; }
+            
+            action.resetTitle(@"关闭").setTitleColor([UIColor redColor]);
         });
         
         action.setAutoDismiss(YES).setCustomView(^UIView *(JKAlertAction *action) {

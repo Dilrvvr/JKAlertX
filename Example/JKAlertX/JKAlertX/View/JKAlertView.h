@@ -403,6 +403,12 @@
 /** 获取action */
 - (JKAlertAction *)getActionAtIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection;
 
+/** 获取cancelAction */
+- (JKAlertAction *)getCancelAction;
+
+/** 获取collectionAction */
+- (JKAlertAction *)getCollectionAction;
+
 /** 获取action数组 */
 - (NSArray *)getActionArrayIsSecondCollection:(BOOL)isSecondCollection;
 
@@ -423,6 +429,9 @@
 
 /** 链式获取action */
 @property (nonatomic, copy, readonly) JKAlertView *(^getActionAtIndexFrom)(NSUInteger index, BOOL isSecondCollection, void(^)(JKAlertAction *action));
+
+/** 链式获取cancelAction或collectionAction */
+@property (nonatomic, copy, readonly) JKAlertView *(^getCancelOrCollectionAction)(BOOL isCancelAction, void(^)(JKAlertAction *action));
 
 /** 链式获取action数组 */
 @property (nonatomic, copy, readonly) JKAlertView *(^getActionArrayFrom)(BOOL isSecondCollection, void(^)(NSArray *actionArray));

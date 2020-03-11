@@ -2458,6 +2458,19 @@
     };
 }
 
+/** 链式获取cancelAction或collectionAction */
+- (JKAlertView *(^)(BOOL isCancelAction, void(^)(JKAlertAction *action)))getCancelOrCollectionAction{
+    
+    return ^(BOOL isCancelAction, void(^getAction)(JKAlertAction *action)) {
+        
+        JKAlertAction *action = isCancelAction ? [self getCancelAction] : [self getCollectionAction];
+        
+        !getAction ? : getAction(action);
+        
+        return self;
+    };
+}
+
 /** 链式获取action数组 */
 - (JKAlertView *(^)(BOOL isSecondCollection, void(^)(NSArray *actionArray)))getActionArrayFrom{
     
@@ -2575,6 +2588,18 @@
     }
     
     return action;
+}
+
+/** 获取cancelAction */
+- (JKAlertAction *)getCancelAction{
+    
+    return _cancelAction;
+}
+
+/** 获取collectionAction */
+- (JKAlertAction *)getCollectionAction{
+    
+    return _collectionAction;
 }
 
 /** 获取action数组 */
