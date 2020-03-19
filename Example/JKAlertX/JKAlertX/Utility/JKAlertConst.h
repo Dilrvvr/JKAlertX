@@ -210,9 +210,10 @@ CGFloat JKAlertCurrentHomeIndicatorHeight (void);
  @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
  @param delay 延时执行时间
  @param timeInterval 执行间隔时间
+ @param repeat 是否重复执行
  @param handler 重复执行事件
  */
-dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInterval, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
+dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
 
 /**
  开启一个定时器
@@ -222,6 +223,7 @@ dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInt
  @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
  @param delay 延时执行时间
  @param timeInterval 执行间隔时间
+ @param repeat 是否重复执行 
  @param handler 重复执行事件
  */
-dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
+dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));

@@ -147,13 +147,14 @@ CGFloat JKAlertCurrentHomeIndicatorHeight (void) {
  @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
  @param delay 延时执行时间
  @param timeInterval 执行间隔时间
+ @param repeat 是否重复执行 
  @param handler 重复执行事件
  */
-dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInterval, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void))) {
+dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void))) {
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
-    return JKAlertX_dispatchTimerWithQueue(queue, target, delay, timeInterval, handler);
+    return JKAlertX_dispatchTimerWithQueue(queue, target, delay, timeInterval, repeat, handler);
 }
 
 /**
@@ -164,9 +165,10 @@ dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInt
  @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
  @param delay 延时执行时间
  @param timeInterval 执行间隔时间
+ @param repeat 是否重复执行
  @param handler 重复执行事件
  */
-dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void))) {
+dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void))) {
     
     __block dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     
@@ -177,7 +179,9 @@ dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id tar
     dispatch_source_set_timer(timer, delayTime, interval, 0);
     
     void(^stopTimerBlock)(void) = ^{
-
+        
+        if (!timer) { return; }
+        
         dispatch_source_cancel(timer);
         
         timer = nil;
@@ -188,13 +192,18 @@ dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id tar
     
     dispatch_source_set_event_handler(timer, ^{
         
+        if (!timer) {
+            
+            NSLog(@"timer已销毁");
+            
+            return;
+        }
+        
         if (weakTarget)  {
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 if (!timer) {
-                    
-                    // TODO: JKTODO timer已销毁
                     
                     NSLog(@"timer已销毁");
                     
@@ -202,11 +211,21 @@ dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id tar
                 }
                 
                 !handler ? : handler(timer, stopTimerBlock);
+                
+                if (repeat) { return; }
+                    
+                if (!timer) { return; }
+                        
+                dispatch_source_cancel(timer);
+                
+                timer = nil;
             });
             
         } else {
 
             NSLog(@"timer-->target已销毁");
+                
+            if (!timer) { return; }
             
             dispatch_source_cancel(timer);
             
