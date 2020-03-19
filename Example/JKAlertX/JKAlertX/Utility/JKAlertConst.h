@@ -202,3 +202,26 @@ BOOL JKALertIsLandscape (void);
 
 /// 当前HomeIndicator高度
 CGFloat JKAlertCurrentHomeIndicatorHeight (void);
+
+/**
+ 开启一个定时器，默认在dispatch_get_global_queue队里执行
+ warning : 注意循环引用！！！
+ 
+ @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
+ @param delay 延时执行时间
+ @param timeInterval 执行间隔时间
+ @param handler 重复执行事件
+ */
+dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInterval, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
+
+/**
+ 开启一个定时器
+ warning : 注意循环引用！！！
+ 
+ @param queue 定时器执行的队列
+ @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
+ @param delay 延时执行时间
+ @param timeInterval 执行间隔时间
+ @param handler 重复执行事件
+ */
+dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));

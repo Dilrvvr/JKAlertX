@@ -139,3 +139,83 @@ CGFloat JKAlertCurrentHomeIndicatorHeight (void) {
     
     return JKALertIsDeviceX() ? (JKALertIsLandscape() ? 21.0 : 34.0) : 0.0;
 }
+
+/**
+ 开启一个定时器，默认在dispatch_get_global_queue队里执行
+ warning : 注意循环引用！！！
+ 
+ @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
+ @param delay 延时执行时间
+ @param timeInterval 执行间隔时间
+ @param handler 重复执行事件
+ */
+dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInterval, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void))) {
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    return JKAlertX_dispatchTimerWithQueue(queue, target, delay, timeInterval, handler);
+}
+
+/**
+ 开启一个定时器
+ warning : 注意循环引用！！！
+ 
+ @param queue 定时器执行的队列
+ @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
+ @param delay 延时执行时间
+ @param timeInterval 执行间隔时间
+ @param handler 重复执行事件
+ */
+dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void))) {
+    
+    __block dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    
+    uint64_t interval = (uint64_t)(timeInterval * NSEC_PER_SEC);
+    
+    dispatch_time_t delayTime = dispatch_walltime(NULL, (int64_t)(delay * NSEC_PER_SEC));
+    
+    dispatch_source_set_timer(timer, delayTime, interval, 0);
+    
+    void(^stopTimerBlock)(void) = ^{
+
+        dispatch_source_cancel(timer);
+        
+        timer = nil;
+    };
+    
+    // 设置回调
+    __weak __typeof(target) weakTarget = target;
+    
+    dispatch_source_set_event_handler(timer, ^{
+        
+        if (weakTarget)  {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                if (!timer) {
+                    
+                    // TODO: JKTODO timer已销毁
+                    
+                    NSLog(@"timer已销毁");
+                    
+                    return;
+                }
+                
+                !handler ? : handler(timer, stopTimerBlock);
+            });
+            
+        } else {
+
+            NSLog(@"timer-->target已销毁");
+            
+            dispatch_source_cancel(timer);
+            
+            timer = nil;
+        }
+    });
+    
+    // 启动定时器
+    dispatch_resume(timer);
+    
+    return timer;
+}
