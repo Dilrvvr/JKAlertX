@@ -197,6 +197,11 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
 
+/**
+ * 设置是否自动适配键盘
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setAutoAdaptKeyboard)(BOOL autoAdaptKeyboard);
+
 
 #pragma mark
 #pragma mark HUD样式

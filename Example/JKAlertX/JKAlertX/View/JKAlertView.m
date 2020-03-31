@@ -417,6 +417,9 @@
 
 /** bottomFillView */
 @property (nonatomic, weak) UIView *bottomFillView;
+
+/** 是否自动适配键盘 */
+@property (nonatomic, assign) BOOL autoAdaptKeyboard;
 @end
 
 @implementation JKAlertView
@@ -1753,6 +1756,19 @@
             
             self->_plainView.center = CGPointMake(self->_plainView.center.x, self->JKAlertScreenH * 0.5 + self.plainCenterOffsetY + centerOffsetY);
         }
+        
+        return self;
+    };
+}
+
+/**
+ * 设置是否自动适配键盘
+ */
+- (JKAlertView *(^)(BOOL autoAdaptKeyboard))setAutoAdaptKeyboard{
+    
+    return ^(BOOL autoAdaptKeyboard){
+        
+        self.autoAdaptKeyboard = autoAdaptKeyboard;
         
         return self;
     };
@@ -3954,7 +3970,8 @@
     
     if (!self.superview) { return; }
     
-    if (self.currentTextField != nil) {
+    if (self.currentTextField != nil ||
+        (self.alertStyle == JKAlertStylePlain && self.autoAdaptKeyboard)) {
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
     }
