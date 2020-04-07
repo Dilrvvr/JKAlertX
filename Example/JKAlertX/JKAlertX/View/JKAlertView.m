@@ -228,6 +228,9 @@
 /** 消失后的回调 */
 @property (nonatomic, copy) void (^didDismissHandler)(void);
 
+/** 即将显示动画的回调 */
+@property (nonatomic, copy) void (^willShowAnimationCompleteHandler)(JKAlertView *view);
+
 /** 显示动画完成的回调 */
 @property (nonatomic, copy) void (^showAnimationCompleteHandler)(JKAlertView *view);
 
@@ -2703,10 +2706,7 @@
 /** 显示 */
 - (id<JKAlertViewProtocol>(^)(void))show{
     
-    if (_textFieldArr.count <= 0) {
-        
-        [[UIApplication sharedApplication].delegate.window endEditing:YES];
-    }
+    [[UIApplication sharedApplication].delegate.window endEditing:YES];
     
     if (Showed) {
         
@@ -2764,8 +2764,19 @@
     };
 }
 
+/** 监听即将开始显示动画 */
+- (JKAlertView * (^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation{
+    
+    return ^(void(^willShowAnimation)(JKAlertView *view)){
+        
+        self.willShowAnimationCompleteHandler = willShowAnimation;
+        
+        return self;
+    };
+}
+
 /** 监听JKAlertView显示动画完成 */
-- (id<JKAlertViewProtocol>(^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete{
+- (JKAlertView * (^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete{
     
     return ^(void(^showAnimationComplete)(JKAlertView *view)){
         
@@ -4024,6 +4035,8 @@
 - (void)startShowAnimation{
     
     self.window.userInteractionEnabled = NO;
+    
+    !self.willShowAnimationCompleteHandler ? : self.willShowAnimationCompleteHandler(self);
     
     if (self.customShowAnimationBlock) {
         

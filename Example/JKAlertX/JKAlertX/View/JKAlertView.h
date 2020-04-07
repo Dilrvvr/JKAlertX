@@ -501,8 +501,11 @@
 #pragma mark
 #pragma mark 状态监听
 
+/** 监听即将开始显示动画 */
+@property (nonatomic, copy, readonly) JKAlertView * (^setWillShowAnimation)(void(^willShowAnimation)(JKAlertView *view));
+
 /** 监听显示动画完成 */
-@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
+@property (nonatomic, copy, readonly) JKAlertView * (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
 
 /** 监听屏幕旋转 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));
