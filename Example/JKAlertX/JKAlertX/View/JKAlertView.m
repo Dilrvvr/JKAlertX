@@ -4962,7 +4962,7 @@
             CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
             
             if (((finalPoint.y - self.sheetContainerView.frame.size.height * 0.5) - (correctContainerY) > self.sheetContainerView.frame.size.height * 0.5) &&
-                beginScrollDirection == endScrollDirection) {
+                (endScrollDirection == JKAlertScrollDirectionDown || (beginScrollDirection == endScrollDirection))) {
                 
                 [self dismiss];
                 
