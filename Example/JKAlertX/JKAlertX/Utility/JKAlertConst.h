@@ -203,6 +203,9 @@ BOOL JKALertIsLandscape (void);
 /// 当前HomeIndicator高度
 CGFloat JKAlertCurrentHomeIndicatorHeight (void);
 
+/// 停止定时器的block
+typedef void(^JKAlertXStopTimerBlock)(void);
+
 /**
  开启一个定时器，默认在dispatch_get_global_queue队里执行
  warning : 注意循环引用！！！
@@ -213,7 +216,7 @@ CGFloat JKAlertCurrentHomeIndicatorHeight (void);
  @param repeat 是否重复执行
  @param handler 重复执行事件
  */
-dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
+JKAlertXStopTimerBlock JKAlertX_dispatchTimer(id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
 
 /**
  开启一个定时器
@@ -226,4 +229,4 @@ dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInt
  @param repeat 是否重复执行 
  @param handler 重复执行事件
  */
-dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
+JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));

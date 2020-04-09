@@ -150,7 +150,7 @@ CGFloat JKAlertCurrentHomeIndicatorHeight (void) {
  @param repeat 是否重复执行 
  @param handler 重复执行事件
  */
-dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void))) {
+JKAlertXStopTimerBlock JKAlertX_dispatchTimer(id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void))) {
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
@@ -168,7 +168,7 @@ dispatch_source_t JKAlertX_dispatchTimer(id target, double delay, double timeInt
  @param repeat 是否重复执行
  @param handler 重复执行事件
  */
-dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void))) {
+JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void))) {
     
     __block dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     
@@ -178,7 +178,7 @@ dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id tar
     
     dispatch_source_set_timer(timer, delayTime, interval, 0);
     
-    void(^stopTimerBlock)(void) = ^{
+    JKAlertXStopTimerBlock stopTimerBlock = ^{
         
         if (!timer) { return; }
         
@@ -236,5 +236,5 @@ dispatch_source_t JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id tar
     // 启动定时器
     dispatch_resume(timer);
     
-    return timer;
+    return stopTimerBlock;
 }
