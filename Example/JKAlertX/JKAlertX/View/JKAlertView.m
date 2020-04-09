@@ -682,18 +682,18 @@
 }
 
 - (void)adjustScrollView:(UIScrollView *)scrollView{
+    
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.scrollsToTop = NO;
     
-    SEL selector = NSSelectorFromString(@"setContentInsetAdjustmentBehavior:");
+    if (@available(iOS 11.0, *)) {
+        
+        scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
     
-    if ([scrollView respondsToSelector:selector]) {
+    if (@available(iOS 13.0, *)) {
         
-        IMP imp = [scrollView methodForSelector:selector];
-        void (*func)(id, SEL, NSInteger) = (void *)imp;
-        func(scrollView, selector, 2);
-        
-        // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
+        scrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
     }
 }
 
@@ -917,15 +917,14 @@
         
         [collectionView registerClass:[JKAlertCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class])];
         
-        SEL selector = NSSelectorFromString(@"setContentInsetAdjustmentBehavior:");
+        if (@available(iOS 11.0, *)) {
+            
+            collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
         
-        if ([collectionView respondsToSelector:selector]) {
+        if (@available(iOS 13.0, *)) {
             
-            IMP imp = [collectionView methodForSelector:selector];
-            void (*func)(id, SEL, NSInteger) = (void *)imp;
-            func(collectionView, selector, 2);
-            
-            // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
+            collectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
         }
         
         [self.collectionTopContainerView insertSubview:collectionView belowSubview:self.textContainerView];
@@ -956,15 +955,14 @@
         
         [collectionView registerClass:[JKAlertCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class])];
         
-        SEL selector = NSSelectorFromString(@"setContentInsetAdjustmentBehavior:");
+        if (@available(iOS 11.0, *)) {
+            
+            collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
         
-        if ([collectionView respondsToSelector:selector]) {
+        if (@available(iOS 13.0, *)) {
             
-            IMP imp = [collectionView methodForSelector:selector];
-            void (*func)(id, SEL, NSInteger) = (void *)imp;
-            func(collectionView, selector, 2);
-            
-            // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
+            collectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
         }
         
         [self.collectionTopContainerView addSubview:collectionView];
