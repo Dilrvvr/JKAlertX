@@ -197,6 +197,11 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
 
+/**
+ * 设置是否自动适配键盘
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setAutoAdaptKeyboard)(BOOL autoAdaptKeyboard);
+
 
 #pragma mark
 #pragma mark HUD样式
@@ -403,6 +408,12 @@
 /** 获取action */
 - (JKAlertAction *)getActionAtIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection;
 
+/** 获取cancelAction */
+- (JKAlertAction *)getCancelAction;
+
+/** 获取collectionAction */
+- (JKAlertAction *)getCollectionAction;
+
 /** 获取action数组 */
 - (NSArray *)getActionArrayIsSecondCollection:(BOOL)isSecondCollection;
 
@@ -423,6 +434,9 @@
 
 /** 链式获取action */
 @property (nonatomic, copy, readonly) JKAlertView *(^getActionAtIndexFrom)(NSUInteger index, BOOL isSecondCollection, void(^)(JKAlertAction *action));
+
+/** 链式获取cancelAction或collectionAction */
+@property (nonatomic, copy, readonly) JKAlertView *(^getCancelOrCollectionAction)(BOOL isCancelAction, void(^)(JKAlertAction *action));
 
 /** 链式获取action数组 */
 @property (nonatomic, copy, readonly) JKAlertView *(^getActionArrayFrom)(BOOL isSecondCollection, void(^)(NSArray *actionArray));
@@ -487,8 +501,11 @@
 #pragma mark
 #pragma mark 状态监听
 
+/** 监听即将开始显示动画 */
+@property (nonatomic, copy, readonly) JKAlertView * (^setWillShowAnimation)(void(^willShowAnimation)(JKAlertView *view));
+
 /** 监听显示动画完成 */
-@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
+@property (nonatomic, copy, readonly) JKAlertView * (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
 
 /** 监听屏幕旋转 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));

@@ -228,6 +228,9 @@
 /** 消失后的回调 */
 @property (nonatomic, copy) void (^didDismissHandler)(void);
 
+/** 即将显示动画的回调 */
+@property (nonatomic, copy) void (^willShowAnimationCompleteHandler)(JKAlertView *view);
+
 /** 显示动画完成的回调 */
 @property (nonatomic, copy) void (^showAnimationCompleteHandler)(JKAlertView *view);
 
@@ -417,6 +420,9 @@
 
 /** bottomFillView */
 @property (nonatomic, weak) UIView *bottomFillView;
+
+/** 是否自动适配键盘 */
+@property (nonatomic, assign) BOOL autoAdaptKeyboard;
 @end
 
 @implementation JKAlertView
@@ -676,18 +682,18 @@
 }
 
 - (void)adjustScrollView:(UIScrollView *)scrollView{
+    
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.scrollsToTop = NO;
     
-    SEL selector = NSSelectorFromString(@"setContentInsetAdjustmentBehavior:");
+    if (@available(iOS 11.0, *)) {
+        
+        scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
     
-    if ([scrollView respondsToSelector:selector]) {
+    if (@available(iOS 13.0, *)) {
         
-        IMP imp = [scrollView methodForSelector:selector];
-        void (*func)(id, SEL, NSInteger) = (void *)imp;
-        func(scrollView, selector, 2);
-        
-        // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
+        scrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
     }
 }
 
@@ -911,15 +917,14 @@
         
         [collectionView registerClass:[JKAlertCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class])];
         
-        SEL selector = NSSelectorFromString(@"setContentInsetAdjustmentBehavior:");
+        if (@available(iOS 11.0, *)) {
+            
+            collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
         
-        if ([collectionView respondsToSelector:selector]) {
+        if (@available(iOS 13.0, *)) {
             
-            IMP imp = [collectionView methodForSelector:selector];
-            void (*func)(id, SEL, NSInteger) = (void *)imp;
-            func(collectionView, selector, 2);
-            
-            // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
+            collectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
         }
         
         [self.collectionTopContainerView insertSubview:collectionView belowSubview:self.textContainerView];
@@ -950,15 +955,14 @@
         
         [collectionView registerClass:[JKAlertCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class])];
         
-        SEL selector = NSSelectorFromString(@"setContentInsetAdjustmentBehavior:");
+        if (@available(iOS 11.0, *)) {
+            
+            collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
         
-        if ([collectionView respondsToSelector:selector]) {
+        if (@available(iOS 13.0, *)) {
             
-            IMP imp = [collectionView methodForSelector:selector];
-            void (*func)(id, SEL, NSInteger) = (void *)imp;
-            func(collectionView, selector, 2);
-            
-            // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
+            collectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
         }
         
         [self.collectionTopContainerView addSubview:collectionView];
@@ -1758,6 +1762,19 @@
     };
 }
 
+/**
+ * 设置是否自动适配键盘
+ */
+- (JKAlertView *(^)(BOOL autoAdaptKeyboard))setAutoAdaptKeyboard{
+    
+    return ^(BOOL autoAdaptKeyboard){
+        
+        self.autoAdaptKeyboard = autoAdaptKeyboard;
+        
+        return self;
+    };
+}
+
 /** 设置是否允许手势退出 仅限sheet样式 */
 - (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator))setEnableGestureDismiss{
     
@@ -2458,6 +2475,19 @@
     };
 }
 
+/** 链式获取cancelAction或collectionAction */
+- (JKAlertView *(^)(BOOL isCancelAction, void(^)(JKAlertAction *action)))getCancelOrCollectionAction{
+    
+    return ^(BOOL isCancelAction, void(^getAction)(JKAlertAction *action)) {
+        
+        JKAlertAction *action = isCancelAction ? [self getCancelAction] : [self getCollectionAction];
+        
+        !getAction ? : getAction(action);
+        
+        return self;
+    };
+}
+
 /** 链式获取action数组 */
 - (JKAlertView *(^)(BOOL isSecondCollection, void(^)(NSArray *actionArray)))getActionArrayFrom{
     
@@ -2577,6 +2607,18 @@
     return action;
 }
 
+/** 获取cancelAction */
+- (JKAlertAction *)getCancelAction{
+    
+    return _cancelAction;
+}
+
+/** 获取collectionAction */
+- (JKAlertAction *)getCollectionAction{
+    
+    return _collectionAction;
+}
+
 /** 获取action数组 */
 - (NSArray *)getActionArrayIsSecondCollection:(BOOL)isSecondCollection{
     
@@ -2662,10 +2704,7 @@
 /** 显示 */
 - (id<JKAlertViewProtocol>(^)(void))show{
     
-    if (_textFieldArr.count <= 0) {
-        
-        [[UIApplication sharedApplication].delegate.window endEditing:YES];
-    }
+    [[UIApplication sharedApplication].delegate.window endEditing:YES];
     
     if (Showed) {
         
@@ -2723,8 +2762,19 @@
     };
 }
 
+/** 监听即将开始显示动画 */
+- (JKAlertView * (^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation{
+    
+    return ^(void(^willShowAnimation)(JKAlertView *view)){
+        
+        self.willShowAnimationCompleteHandler = willShowAnimation;
+        
+        return self;
+    };
+}
+
 /** 监听JKAlertView显示动画完成 */
-- (id<JKAlertViewProtocol>(^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete{
+- (JKAlertView * (^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete{
     
     return ^(void(^showAnimationComplete)(JKAlertView *view)){
         
@@ -3929,7 +3979,8 @@
     
     if (!self.superview) { return; }
     
-    if (self.currentTextField != nil) {
+    if (self.currentTextField != nil ||
+        (self.alertStyle == JKAlertStylePlain && self.autoAdaptKeyboard)) {
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
     }
@@ -3982,6 +4033,8 @@
 - (void)startShowAnimation{
     
     self.window.userInteractionEnabled = NO;
+    
+    !self.willShowAnimationCompleteHandler ? : self.willShowAnimationCompleteHandler(self);
     
     if (self.customShowAnimationBlock) {
         
@@ -4909,7 +4962,7 @@
             CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
             
             if (((finalPoint.y - self.sheetContainerView.frame.size.height * 0.5) - (correctContainerY) > self.sheetContainerView.frame.size.height * 0.5) &&
-                beginScrollDirection == endScrollDirection) {
+                (endScrollDirection == JKAlertScrollDirectionDown || (beginScrollDirection == endScrollDirection))) {
                 
                 [self dismiss];
                 

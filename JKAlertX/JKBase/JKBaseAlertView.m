@@ -36,20 +36,14 @@
         tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
     }
     
-    SEL selector = NSSelectorFromString(@"setContentInsetAdjustmentBehavior:");
-    
-    if ([tableView respondsToSelector:selector]) {
+    if (@available(iOS 11.0, *)) {
         
-        IMP imp = [tableView methodForSelector:selector];
-        void (*func)(id, SEL, NSInteger) = (void *)imp;
-        func(tableView, selector, 2);
-        
-        // [tbView performSelector:@selector(setContentInsetAdjustmentBehavior:) withObject:@(2)];
+        tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     
     if (@available(iOS 13.0, *)) {
         
-        [tableView setAutomaticallyAdjustsScrollIndicatorInsets:NO];
+        tableView.automaticallyAdjustsScrollIndicatorInsets = NO;
     }
     
     return tableView;

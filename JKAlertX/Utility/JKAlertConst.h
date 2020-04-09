@@ -127,20 +127,20 @@ UIKIT_EXTERN NSString * const JKAlertDismissForKeyNotification;
 #pragma mark
 #pragma mark - 常量
 
-UIKIT_EXTERN CGFloat    const JKAlertMinTitleLabelH;// = (22);
-UIKIT_EXTERN CGFloat    const JKAlertMinMessageLabelH;// = (17);
-UIKIT_EXTERN CGFloat    const JKAlertScrollViewMaxH;// = 176; // (JKAlertButtonH * 4)
+UIKIT_EXTERN CGFloat    const JKAlertMinTitleLabelH;// = (22.0);
+UIKIT_EXTERN CGFloat    const JKAlertMinMessageLabelH;// = (17.0);
+UIKIT_EXTERN CGFloat    const JKAlertScrollViewMaxH;// = 176.0; // (JKAlertButtonH * 4.0)
 
-UIKIT_EXTERN CGFloat    const JKAlertButtonH;// = 46;
+UIKIT_EXTERN CGFloat    const JKAlertButtonH;// = 46.0;
 UIKIT_EXTERN NSInteger  const JKAlertPlainButtonBeginTag;// = 100;
 
-UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6;
+UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6.0;
 
-UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorHeight;// = 20;
+UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorHeight;// = 20.0;
 
-UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineWidth;// = 40;
+UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineWidth;// = 40.0;
 
-UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4;
+UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 
 
 
@@ -149,27 +149,27 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4;
 
 #define JKAlertScreenScale [UIScreen mainScreen].scale
 
-#define JKAlertAdjustHomeIndicatorHeight (AutoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight() : 0)
+#define JKAlertAdjustHomeIndicatorHeight (AutoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight() : 0.0)
 
-#define JKAlertRowHeight ((JKAlertScreenW > 321) ? 53 : 46)
+#define JKAlertRowHeight ((JKAlertScreenW > 321.0) ? 53.0 : 46.0)
 
 #define JKAlertTextContainerViewMaxH (JKAlertPlainViewMaxH - JKAlertScrollViewMaxH)
 
 
 // 快速设置颜色
-#define JKAlertColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+#define JKAlertColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 #define JKAlertColorAlpha(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 
 // RGB相等颜色
-#define JKAlertSameRGBColor(rgb) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:1]
+#define JKAlertSameRGBColor(rgb) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:1.0]
 #define JKAlertSameRGBColorAlpha(rgb, a) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:(a)]
 
 // 随机色
-#define JKAlertRandomColor [UIColor colorWithRed:arc4random_uniform(100)/100.0 green:arc4random_uniform(100)/100.0 blue:arc4random_uniform(100)/100.0 alpha:1]
+#define JKAlertRandomColor [UIColor colorWithRed:(arc4random_uniform(256)/255.0) green:(arc4random_uniform(256)/255.0) blue:(arc4random_uniform(256)/255.0) alpha:1.0]
 
-#define JKAlertSystemBlueColor [UIColor colorWithRed:0.f green:122.0/255.0 blue:255.0/255.0 alpha:1]
+#define JKAlertSystemBlueColor [UIColor colorWithRed:0.0 green:122.0/255.0 blue:255.0/255.0 alpha:1.0]
 
-#define JKAlertSystemRedColor [UIColor colorWithRed:255.0/255.0 green:59.0/255.0 blue:48.0/255.0 alpha:1]
+#define JKAlertSystemRedColor [UIColor colorWithRed:255.0/255.0 green:59.0/255.0 blue:48.0/255.0 alpha:1.0]
 
 
 
@@ -202,3 +202,31 @@ BOOL JKALertIsLandscape (void);
 
 /// 当前HomeIndicator高度
 CGFloat JKAlertCurrentHomeIndicatorHeight (void);
+
+/// 停止定时器的block
+typedef void(^JKAlertXStopTimerBlock)(void);
+
+/**
+ 开启一个定时器，默认在dispatch_get_global_queue队里执行
+ warning : 注意循环引用！！！
+ 
+ @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
+ @param delay 延时执行时间
+ @param timeInterval 执行间隔时间
+ @param repeat 是否重复执行
+ @param handler 重复执行事件
+ */
+JKAlertXStopTimerBlock JKAlertX_dispatchTimer(id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
+
+/**
+ 开启一个定时器
+ warning : 注意循环引用！！！
+ 
+ @param queue 定时器执行的队列
+ @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
+ @param delay 延时执行时间
+ @param timeInterval 执行间隔时间
+ @param repeat 是否重复执行 
+ @param handler 重复执行事件
+ */
+JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
