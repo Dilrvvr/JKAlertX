@@ -84,7 +84,7 @@
 - (void)createUI{
     
     UIView *contentView = [[UIView alloc] init];
-    contentView.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
+    contentView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
     [self insertSubview:contentView atIndex:0];
     _contentView = contentView;
     

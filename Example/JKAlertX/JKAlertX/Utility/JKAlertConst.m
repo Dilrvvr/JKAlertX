@@ -43,7 +43,7 @@ CGFloat    const JKAlertTopGestureIndicatorLineHeight = 4.0;
 #pragma mark - 函数
 
 /// 颜色适配
-UIColor * JKALertAdaptColor (UIColor *lightColor, UIColor *darkColor) {
+UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor) {
     
     if (@available(iOS 13.0, *)) {
         
@@ -66,70 +66,70 @@ UIColor * JKALertAdaptColor (UIColor *lightColor, UIColor *darkColor) {
 }
 
 /// 全局背景色
-UIColor * JKALertGlobalBackgroundColor (void) {
+UIColor * JKAlertGlobalBackgroundColor (void) {
     
     static UIColor *GlobalBackgroundColor_ = nil;
     
     if (!GlobalBackgroundColor_) {
         
-        GlobalBackgroundColor_ = JKALertAdaptColor(JKAlertSameRGBColorAlpha(247.0, 0.7), JKAlertSameRGBColorAlpha(8.0, 0.7));
+        GlobalBackgroundColor_ = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(247.0, 0.7), JKAlertSameRGBColorAlpha(8.0, 0.7));
     }
     
     return GlobalBackgroundColor_;
 }
 
 /// 全局高亮背景色
-UIColor * JKALertGlobalHighlightedBackgroundColor (void) {
+UIColor * JKAlertGlobalHighlightedBackgroundColor (void) {
     
     static UIColor *HighlightedBackgroundColor_ = nil;
     
     if (!HighlightedBackgroundColor_) {
         
-        HighlightedBackgroundColor_ = JKALertAdaptColor(JKAlertSameRGBColorAlpha(247.0, 0.3), JKAlertSameRGBColorAlpha(8.0, 0.3));
+        HighlightedBackgroundColor_ = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(247.0, 0.3), JKAlertSameRGBColorAlpha(8.0, 0.3));
     }
     
     return HighlightedBackgroundColor_;
 }
 
 /// 是否X设备
-BOOL JKALertIsDeviceX (void) {
+BOOL JKAlertIsDeviceX (void) {
     
-    static BOOL JKALertIsDeviceX_ = NO;
+    static BOOL JKAlertIsDeviceX_ = NO;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
         if (@available(iOS 11.0, *)) {
             
-            if (!JKALertIsDeviceiPad()) {
+            if (!JKAlertIsDeviceiPad()) {
                 
-                JKALertIsDeviceX_ = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom > 0.0;
+                JKAlertIsDeviceX_ = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom > 0.0;
             }
         }
     });
     
-    return JKALertIsDeviceX_;
+    return JKAlertIsDeviceX_;
 }
 
 /// 是否iPad
-BOOL JKALertIsDeviceiPad (void){
+BOOL JKAlertIsDeviceiPad (void){
     
-    static BOOL JKALertIsDeviceiPad_ = NO;
+    static BOOL JKAlertIsDeviceiPad_ = NO;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
         if (@available(iOS 11.0, *)) {
             
-            JKALertIsDeviceiPad_ = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+            JKAlertIsDeviceiPad_ = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
         }
     });
     
-    return JKALertIsDeviceiPad_;
+    return JKAlertIsDeviceiPad_;
 }
 
 /// 当前是否横屏
-BOOL JKALertIsLandscape (void) {
+BOOL JKAlertIsLandscape (void) {
     
     return [UIScreen mainScreen].bounds.size.width > [UIScreen mainScreen].bounds.size.height;
 }
@@ -137,7 +137,7 @@ BOOL JKALertIsLandscape (void) {
 /// 当前HomeIndicator高度
 CGFloat JKAlertCurrentHomeIndicatorHeight (void) {
     
-    return JKALertIsDeviceX() ? (JKALertIsLandscape() ? 21.0 : 34.0) : 0.0;
+    return JKAlertIsDeviceX() ? (JKAlertIsLandscape() ? 21.0 : 34.0) : 0.0;
 }
 
 /**

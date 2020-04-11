@@ -156,12 +156,12 @@
         switch (_action.alertActionStyle) {
             case JKAlertActionStyleDefault:
                 
-                _action.setTitleColor(JKALertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
+                _action.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
                 break;
                 
             case JKAlertActionStyleCancel:
                 
-                _action.setTitleColor(JKALertAdaptColor(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102)));
+                _action.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102)));
                 break;
                 
             case JKAlertActionStyleDestructive:

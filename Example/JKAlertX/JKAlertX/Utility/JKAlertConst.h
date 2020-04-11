@@ -183,22 +183,22 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 
 
 /// 颜色适配
-UIColor * JKALertAdaptColor (UIColor *lightColor, UIColor *darkColor);
+UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor);
 
 /// 全局背景色
-UIColor * JKALertGlobalBackgroundColor (void);
+UIColor * JKAlertGlobalBackgroundColor (void);
 
 /// 全局高亮背景色
-UIColor * JKALertGlobalHighlightedBackgroundColor (void);
+UIColor * JKAlertGlobalHighlightedBackgroundColor (void);
 
 /// 是否X设备
-BOOL JKALertIsDeviceX (void);
+BOOL JKAlertIsDeviceX (void);
 
 /// 是否iPad
-BOOL JKALertIsDeviceiPad (void);
+BOOL JKAlertIsDeviceiPad (void);
 
 /// 当前是否横屏
-BOOL JKALertIsLandscape (void);
+BOOL JKAlertIsLandscape (void);
 
 /// 当前HomeIndicator高度
 CGFloat JKAlertCurrentHomeIndicatorHeight (void);

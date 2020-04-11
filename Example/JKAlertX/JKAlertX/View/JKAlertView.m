@@ -625,7 +625,7 @@
 - (JKAlertTextView *)titleTextView{
     if (!_titleTextView) {
         JKAlertTextView *titleTextView = [[JKAlertTextView alloc] init];
-        titleTextView.textColor = self.alertStyle == JKAlertStylePlain ? JKALertAdaptColor(JKAlertSameRGBColor(25.5), JKAlertSameRGBColor(229.5)) : JKALertAdaptColor(JKAlertSameRGBColor(89.25), JKAlertSameRGBColor(165.75));
+        titleTextView.textColor = self.alertStyle == JKAlertStylePlain ? JKAlertAdaptColor(JKAlertSameRGBColor(25.5), JKAlertSameRGBColor(229.5)) : JKAlertAdaptColor(JKAlertSameRGBColor(89.25), JKAlertSameRGBColor(165.75));
         titleTextView.font = self.alertStyle == JKAlertStylePlain ? [UIFont boldSystemFontOfSize:17] : [UIFont systemFontOfSize:17];
         [self addSubview:titleTextView];
         
@@ -637,7 +637,7 @@
 - (JKAlertTextView *)messageTextView{
     if (!_messageTextView) {
         JKAlertTextView *messageTextView = [[JKAlertTextView alloc] init];
-        messageTextView.textColor = self.alertStyle == JKAlertStyleActionSheet ? JKALertAdaptColor(JKAlertSameRGBColor(140.25), JKAlertSameRGBColor(114.75)) : JKALertAdaptColor(JKAlertSameRGBColor(76.5), JKAlertSameRGBColor(178.5));
+        messageTextView.textColor = self.alertStyle == JKAlertStyleActionSheet ? JKAlertAdaptColor(JKAlertSameRGBColor(140.25), JKAlertSameRGBColor(114.75)) : JKAlertAdaptColor(JKAlertSameRGBColor(76.5), JKAlertSameRGBColor(178.5));
         messageTextView.font = self.alertStyle == JKAlertStylePlain ? [UIFont systemFontOfSize:14] : [UIFont systemFontOfSize:13];
         [self addSubview:messageTextView];
         
@@ -753,7 +753,7 @@
         UIView *topGestureIndicatorView = [[UIView alloc] init];
         topGestureIndicatorView.hidden = YES;
         topGestureIndicatorView.userInteractionEnabled = NO;
-        topGestureIndicatorView.backgroundColor = JKALertGlobalBackgroundColor();
+        topGestureIndicatorView.backgroundColor = JKAlertGlobalBackgroundColor();
         [self.sheetContainerView addSubview:topGestureIndicatorView];
         _topGestureIndicatorView = topGestureIndicatorView;
         
@@ -764,7 +764,7 @@
         topGestureLineView.userInteractionEnabled = NO;
         topGestureLineView.layer.cornerRadius = 2;
         //topGestureLineView.layer.masksToBounds = YES;
-        topGestureLineView.backgroundColor = JKALertAdaptColor(JKAlertSameRGBColor(208), JKAlertSameRGBColor(47));
+        topGestureLineView.backgroundColor = JKAlertAdaptColor(JKAlertSameRGBColor(208), JKAlertSameRGBColor(47));
         [topGestureIndicatorView addSubview:topGestureLineView];
         
         _topGestureLineView = topGestureLineView;
@@ -777,12 +777,12 @@
         
         // 分隔线
         UIView *hline = [UIView new];
-        hline.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+        hline.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
         [self.textContainerView addSubview:hline];
         _textContainerBottomLineView = hline;
         
         // title和message的容器view
-        self.textContainerView.backgroundColor = JKALertGlobalBackgroundColor();
+        self.textContainerView.backgroundColor = JKAlertGlobalBackgroundColor();
         [self.sheetContentView addSubview:self.textContainerView];
         
         [self.textContainerView insertSubview:self.scrollView atIndex:0];
@@ -815,7 +815,7 @@
 - (UIView *)collectionTopContainerView{
     if (!_collectionTopContainerView) {
         UIView *collectionTopContainerView = [[UIView alloc] init];
-        collectionTopContainerView.backgroundColor = JKALertGlobalBackgroundColor();
+        collectionTopContainerView.backgroundColor = JKAlertGlobalBackgroundColor();
         [self.sheetContentView addSubview:collectionTopContainerView];
         _collectionTopContainerView = collectionTopContainerView;
     }
@@ -828,9 +828,9 @@
         JKAlertHighlightedButton *cancelButton = [JKAlertHighlightedButton buttonWithType:(UIButtonTypeCustom)];
         [self.scrollView addSubview:cancelButton];
         
-        cancelButton.backgroundColor = JKALertGlobalBackgroundColor();
+        cancelButton.backgroundColor = JKAlertGlobalBackgroundColor();
         cancelButton.titleLabel.font = [UIFont systemFontOfSize:17];
-        [cancelButton setTitleColor:JKALertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)) forState:(UIControlStateNormal)];
+        [cancelButton setTitleColor:JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)) forState:(UIControlStateNormal)];
         [cancelButton addTarget:self action:@selector(cancelButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
         
         _cancelButton = cancelButton;
@@ -841,10 +841,10 @@
 - (JKAlertHighlightedButton *)collectionButton{
     if (!_collectionButton) {
         JKAlertHighlightedButton *collectionButton = [JKAlertHighlightedButton buttonWithType:(UIButtonTypeCustom)];
-        collectionButton.backgroundColor = JKALertGlobalBackgroundColor();
+        collectionButton.backgroundColor = JKAlertGlobalBackgroundColor();
         [self.scrollView addSubview:collectionButton];
         collectionButton.titleLabel.font = [UIFont systemFontOfSize:17];
-        [collectionButton setTitleColor:JKALertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)) forState:(UIControlStateNormal)];
+        [collectionButton setTitleColor:JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)) forState:(UIControlStateNormal)];
         [collectionButton addTarget:self action:@selector(collectionButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
         //        [collectionButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
         
@@ -857,8 +857,8 @@
     if (!_pageControl) {
         UIPageControl *pageControl = [[UIPageControl alloc] init];
         pageControl.backgroundColor = nil;
-        pageControl.pageIndicatorTintColor = JKALertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
-        pageControl.currentPageIndicatorTintColor = JKALertAdaptColor(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
+        pageControl.pageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+        pageControl.currentPageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
         pageControl.userInteractionEnabled = NO;
         
         [self.collectionTopContainerView addSubview:pageControl];
@@ -897,7 +897,7 @@
         [self.textContainerView addSubview:self.titleTextView];
         
         UIView *hline = [UIView new];
-        hline.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+        hline.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
         [self.textContainerView addSubview:hline];
         _textContainerBottomLineView = hline;
         
@@ -993,14 +993,14 @@
             
             // 分隔线
             UIView *hline = [UIView new];
-            hline.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+            hline.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
             [self.textContainerView addSubview:hline];
             _textContainerBottomLineView = hline;
             
             // 分隔线
             UIView *hline2 = [UIView new];
             hline2.hidden = YES;
-            hline2.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+            hline2.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
             [self.plainTextContainerScrollView addSubview:hline2];
             _plainTitleMessageSeparatorView = hline2;
         }
@@ -1065,7 +1065,7 @@
     _textViewUserInteractionEnabled = YES;
     _plainTitleMessageSeparatorHidden = YES;
     _collectionTitleSeperatorHidden = YES;
-    _iPhoneXLandscapeTextMargin = 0;//((JKALertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
+    _iPhoneXLandscapeTextMargin = 0;//((JKAlertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
     TBMargin = 20;
     PlainViewWidth = 290;
@@ -1640,7 +1640,7 @@
     
     return ^(BOOL fillHomeIndicator){
         
-        if (!JKALertIsDeviceX()) { return self; }
+        if (!JKAlertIsDeviceX()) { return self; }
         
         self->FillHomeIndicator = fillHomeIndicator;
         
@@ -2074,7 +2074,7 @@
         
         if (self.alertStyle == JKAlertStyleCollectionSheet) {
             
-            self.collectionTopContainerView.backgroundColor = (self.backGroundView ? nil : JKALertGlobalBackgroundColor());
+            self.collectionTopContainerView.backgroundColor = (self.backGroundView ? nil : JKAlertGlobalBackgroundColor());
         }
         
         return self;
@@ -2660,7 +2660,7 @@
     
     UITextField *tf = [[UITextField alloc] init];
     
-    tf.backgroundColor = JKALertGlobalBackgroundColor();
+    tf.backgroundColor = JKAlertGlobalBackgroundColor();
     
     if (_textFieldContainerView == nil) {
         
@@ -2881,7 +2881,7 @@
         
         self.cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
         self.cancelAction.setTitleFont([UIFont systemFontOfSize:17]);
-        self.cancelAction.setTitleColor(JKALertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
+        self.cancelAction.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
     }
     
     self.cancelAction.setSeparatorLineHidden(YES);
@@ -2897,7 +2897,7 @@
         
         self.cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
         self.cancelAction.setTitleFont([UIFont systemFontOfSize:17]);
-        self.cancelAction.setTitleColor(JKALertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
+        self.cancelAction.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
     }
     
     [self calculateUI];
@@ -2931,12 +2931,12 @@
         switch (action.alertActionStyle) {
             case JKAlertActionStyleDefault:
                 
-                action.setTitleColor((_alertStyle == JKAlertStylePlain ? JKAlertSystemBlueColor : JKALertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204))));
+                action.setTitleColor((_alertStyle == JKAlertStylePlain ? JKAlertSystemBlueColor : JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204))));
                 break;
                 
             case JKAlertActionStyleCancel:
                 
-                action.setTitleColor(JKALertAdaptColor(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102)));
+                action.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102)));
                 break;
                 
             case JKAlertActionStyleDestructive:
@@ -3344,7 +3344,7 @@
                 
                 UIView *vline = [UIView new];
                 [button addSubview:vline];
-                vline.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+                vline.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
                 self.plainButtonVLineView = vline;
             }
             
@@ -3357,7 +3357,7 @@
         
         if (!button.topSeparatorLineView) {
             UIView *hline = [UIView new];
-            hline.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+            hline.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
             [button addSubview:hline];
             button.topSeparatorLineView = hline;
         }
@@ -3481,7 +3481,7 @@
         self.messageTextView.font = [UIFont systemFontOfSize:15];
     }
     
-    _iPhoneXLandscapeTextMargin = 0;//((JKALertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
+    _iPhoneXLandscapeTextMargin = 0;//((JKAlertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
     _textContainerView.frame = CGRectMake(_iPhoneXLandscapeTextMargin, 0, JKAlertScreenW - _iPhoneXLandscapeTextMargin * 2, JKAlertRowHeight);
     
@@ -3684,7 +3684,7 @@
         }
     }
     
-    _iPhoneXLandscapeTextMargin = 0;//((JKALertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
+    _iPhoneXLandscapeTextMargin = 0;//((JKAlertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
     UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
     
@@ -3935,7 +3935,7 @@
     _pageControl.numberOfPages = ceil(((itemMargin + _flowlayout.itemSize.width) * count - 5) / JKAlertScreenW);
     
     // 处理iPhoneX并且横屏的情况
-    _collectionView.contentInset = (JKALertIsDeviceX() && JKAlertScreenW > JKAlertScreenH && itemMargin < 44) ? UIEdgeInsetsMake(0, 44, 0, 44) : UIEdgeInsetsZero;
+    _collectionView.contentInset = (JKAlertIsDeviceX() && JKAlertScreenW > JKAlertScreenH && itemMargin < 44) ? UIEdgeInsetsMake(0, 44, 0, 44) : UIEdgeInsetsZero;
     _collectionView2.contentInset = _collectionView.contentInset;
     
     // 分页
@@ -4060,7 +4060,7 @@
         
         if (!self.isClearFullScreenBackgroundColor) {
             
-            self.contentView.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.3]);
+            self.contentView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.3]);
         }
         
         self.fullScreenBackGroundView.alpha = 1;
@@ -4204,7 +4204,7 @@
         
     } else {
         
-        CGFloat maxH = JKAlertScreenH - (JKALertIsDeviceX() ? 44 : 20) - keyboardFrame.size.height - 40;
+        CGFloat maxH = JKAlertScreenH - (JKAlertIsDeviceX() ? 44 : 20) - keyboardFrame.size.height - 40;
         
         if ([self isLandScape]) {
             
@@ -4217,7 +4217,7 @@
         
         if (frame.size.height <= maxH) {
             
-            frame.origin.y = (JKALertIsDeviceX() ? 44 : 20) + (maxH - frame.size.height) * 0.5;
+            frame.origin.y = (JKAlertIsDeviceX() ? 44 : 20) + (maxH - frame.size.height) * 0.5;
             
             if ([self isLandScape]) {
                 
@@ -4234,7 +4234,7 @@
         [self calculateUI];
         
         frame = _plainView.frame;
-        frame.origin.y = [self isLandScape] ? 5 : (JKALertIsDeviceX() ? 44 : 20);
+        frame.origin.y = [self isLandScape] ? 5 : (JKAlertIsDeviceX() ? 44 : 20);
         _plainView.frame = frame;
         
         [UIView animateWithDuration:0.25 animations:^{
@@ -4302,7 +4302,7 @@
     
     [UIView animateWithDuration:0.25 animations:^{
         
-        self.contentView.backgroundColor = JKALertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
+        self.contentView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
         self.fullScreenBackGroundView.alpha = 0;
         
         [self dismissAnimationOperation];
@@ -4791,12 +4791,12 @@
         
         endScrollDirection = JKAlertScrollDirectionUp;
         
-        //JKLog("上滑-------")
+        //NSLog(@"上滑-------current:%.3f  last:%.3f", currentContainerY, lastContainerY);
     }
     
     if (currentContainerY > lastContainerY) {
         
-        //JKLog("下滑-------")
+        //NSLog(@"下滑-------current:%.3f  last:%.3f", currentContainerY, lastContainerY);
         
         if (beginScrollDirection == JKAlertScrollDirectionNone) {
             
@@ -5227,7 +5227,7 @@
         NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[bgColorView]-0-|" options:0 metrics:nil views:@{@"bgColorView" : bgColorView}];
         [bottomFillView addConstraints:cons2];
         
-        bgColorView.backgroundColor = JKALertGlobalBackgroundColor();
+        bgColorView.backgroundColor = JKAlertGlobalBackgroundColor();
         [self insertSubview:bottomFillView aboveSubview:self.dismissButton];
         _bottomFillView = bottomFillView;
     }
@@ -5314,8 +5314,8 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
 - (void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:highlighted];
     
-    UIColor *normalColor = JKALertAdaptColor(JKAlertSameRGBColorAlpha(247, 0.7), JKAlertSameRGBColorAlpha(8, 0.7));
-    UIColor *highlightedColor = JKALertAdaptColor(JKAlertSameRGBColorAlpha(247, 0.3), JKAlertSameRGBColorAlpha(8, 0.3));
+    UIColor *normalColor = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(247, 0.7), JKAlertSameRGBColorAlpha(8, 0.7));
+    UIColor *highlightedColor = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(247, 0.3), JKAlertSameRGBColorAlpha(8, 0.3));
     
     self.backgroundColor = highlighted ? highlightedColor : normalColor;
 }
@@ -5329,8 +5329,8 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
 - (void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:highlighted];
     
-    //UIColor *normalColor = JKALertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
-    UIColor *highlightedColor = JKALertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+    //UIColor *normalColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+    UIColor *highlightedColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
     
     self.backgroundColor = highlighted ? highlightedColor : nil;
 }
