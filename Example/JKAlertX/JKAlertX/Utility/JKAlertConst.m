@@ -7,6 +7,7 @@
 //
 
 #import "JKAlertConst.h"
+#import "JKAlertView.h"
 
 #pragma mark
 #pragma mark - 通知
@@ -237,4 +238,64 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     dispatch_resume(timer);
     
     return stopTimerBlock;
+}
+
+/// 仅DEBUG下执行
+void JKTodo_Debug_Execute(void(^executeBlock)(void)) {
+    #if defined(DEBUG)
+    
+    !executeBlock ? : executeBlock();
+    
+    #endif
+}
+
+/// 在DEBUG/Develop下执行
+void JKTodo_Debug_Develop_Execute(void(^executeBlock)(void)) {
+    #if defined(DEBUG) || defined(CONFIGURATION_Develop)
+    
+    !executeBlock ? : executeBlock();
+    
+    #endif
+}
+
+void JKTodo_Alert(NSString *title, NSString *message, NSTimeInterval showDelay);
+
+/// 弹框展示debug信息
+void JKTodo_Debug_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) {
+#if defined(DEBUG) || defined(CONFIGURATION_Develop)
+    JKTodo_Alert(title, message, showDelay);
+#endif
+}
+
+/// 弹框展示debug信息
+void JKTodo_Debug_Develop_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) {
+#if defined(DEBUG) || defined(CONFIGURATION_Develop)
+    JKTodo_Alert(title, message, showDelay);
+#endif
+}
+
+void JKTodo_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        JKAlertView *alertView = [JKAlertView alertViewWithTitle:[@"JKDebug-" stringByAppendingString:(title ? title : @"")] message:[@"--- 此弹框仅用于调试 ---\n" stringByAppendingString:(message ? message : @"")] style:(JKAlertStyleAlert)];
+        
+        alertView.setMessageTextViewAlignment(NSTextAlignmentLeft).setTextViewCanSelectText(YES);
+        
+        [alertView addAction:[JKAlertAction actionWithTitle:@"OK" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+            
+        }]];
+        
+        if (showDelay <= 0) {
+            
+            [alertView show];
+            
+            return;
+        }
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(showDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [alertView show];
+        });
+    });
 }

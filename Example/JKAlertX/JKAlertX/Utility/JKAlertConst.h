@@ -60,7 +60,10 @@ typedef enum : NSUInteger {
      */
     JKAlertStyleNone = 0,
     
-    /** 面板 use JKAlertStyleAlert instead. */
+    /**
+     * 面板
+     * use JKAlertStyleAlert instead.
+     */
     JKAlertStylePlain = 1,
     
     /** 列表 */
@@ -82,9 +85,6 @@ typedef enum : NSUInteger {
     JKAlertStyleAlert = JKAlertStylePlain,
     
 } JKAlertStyle;
-
-
-
 
 typedef enum : NSUInteger {
     
@@ -181,7 +181,6 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 #pragma mark
 #pragma mark - 函数
 
-
 /// 颜色适配
 UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor);
 
@@ -230,3 +229,15 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimer(id target, double delay, double ti
  @param handler 重复执行事件
  */
 JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
+
+/// 仅DEBUG下执行
+void JKTodo_Debug_Execute(void(^executeBlock)(void));
+
+/// 在DEBUG/Develop下执行
+void JKTodo_Debug_Develop_Execute(void(^executeBlock)(void));
+
+/// 弹框展示debug信息
+void JKTodo_Debug_Alert(NSString *title, NSString *message, NSTimeInterval showDelay);
+
+/// 弹框展示debug信息
+void JKTodo_Debug_Develop_Alert(NSString *title, NSString *message, NSTimeInterval showDelay);
