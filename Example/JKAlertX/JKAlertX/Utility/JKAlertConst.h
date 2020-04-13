@@ -181,6 +181,9 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 #pragma mark
 #pragma mark - 函数
 
+/// 判断黑暗模式获取其中一个对象
+id JKAlertJudgeDarkMode (id <UITraitEnvironment> environment, id light, id dark);
+
 /// 颜色适配
 UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor);
 
@@ -201,6 +204,9 @@ BOOL JKAlertIsLandscape (void);
 
 /// 当前HomeIndicator高度
 CGFloat JKAlertCurrentHomeIndicatorHeight (void);
+
+#pragma mark
+#pragma mark - 封装定时器
 
 /// 停止定时器的block
 typedef void(^JKAlertXStopTimerBlock)(void);
@@ -229,6 +235,11 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimer(id target, double delay, double ti
  @param handler 重复执行事件
  */
 JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
+
+
+
+#pragma mark
+#pragma mark - DEBUG
 
 /// 仅DEBUG下执行
 void JKTodo_Debug_Execute(void(^executeBlock)(void));

@@ -43,6 +43,21 @@ CGFloat    const JKAlertTopGestureIndicatorLineHeight = 4.0;
 #pragma mark
 #pragma mark - 函数
 
+/// 判断黑暗模式获取其中一个对象
+id JKAlertJudgeDarkMode (id <UITraitEnvironment> environment, id light, id dark) {
+    
+    if (!environment.traitCollection) { return light; }
+    
+    if (@available(iOS 13.0, *)) {
+        
+        BOOL isLight = ([environment.traitCollection userInterfaceStyle] == UIUserInterfaceStyleLight);
+        
+        return isLight ? light : dark;
+    }
+    
+    return light;
+}
+
 /// 颜色适配
 UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor) {
     
@@ -140,6 +155,9 @@ CGFloat JKAlertCurrentHomeIndicatorHeight (void) {
     
     return JKAlertIsDeviceX() ? (JKAlertIsLandscape() ? 21.0 : 34.0) : 0.0;
 }
+
+#pragma mark
+#pragma mark - 封装定时器
 
 /**
  开启一个定时器，默认在dispatch_get_global_queue队里执行
@@ -240,22 +258,21 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     return stopTimerBlock;
 }
 
+#pragma mark
+#pragma mark - DEBUG
+
 /// 仅DEBUG下执行
 void JKTodo_Debug_Execute(void(^executeBlock)(void)) {
-    #if defined(DEBUG)
-    
+#if defined(DEBUG)
     !executeBlock ? : executeBlock();
-    
-    #endif
+#endif
 }
 
 /// 在DEBUG/Develop下执行
 void JKTodo_Debug_Develop_Execute(void(^executeBlock)(void)) {
-    #if defined(DEBUG) || defined(CONFIGURATION_Develop)
-    
+#if defined(DEBUG) || defined(CONFIGURATION_Develop)
     !executeBlock ? : executeBlock();
-    
-    #endif
+#endif
 }
 
 void JKTodo_Alert(NSString *title, NSString *message, NSTimeInterval showDelay);
