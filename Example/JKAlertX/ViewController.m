@@ -107,7 +107,7 @@
         // alertView.setClickPlainBlankDismiss(YES);
         
         // 自动缩小宽度以适应屏幕宽度
-        alertView.setPlainWidth(500).setAutoReducePlainWidth(YES);
+        //alertView.setPlainWidth(500).setAutoReducePlainWidth(YES);
         
         // title和message之间加分隔线
         alertView.setPlainTitleMessageSeparatorHidden(NO, 0).
