@@ -4319,6 +4319,18 @@
     } else {
         
         [self endEditing:YES];
+        
+        if (self.alertStyle == JKAlertStyleActionSheet ||
+            self.alertStyle == JKAlertStyleCollectionSheet) {
+            
+            // 动画抖一下
+            CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.x"];
+            animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+            animation.repeatCount = 1;
+            animation.values = @[@(-2), @(-4), @(-6), @(2), @0];
+            animation.duration = 0.5;
+            [self.sheetContainerView.layer addAnimation:animation forKey:nil];
+        }
     }
 }
 
@@ -4992,12 +5004,20 @@
             
             if (point.y > 0) {
                 
-                center.y += point.y;
+                if (!self.clickPlainBlankDismiss) {
+                    
+                    center.y += (point.y * 0.05);
+                    
+                } else {
+                    
+                    center.y += point.y;
+                }
                 
             } else {
                 
-                if (center.y <= (correctContainerY) + self.sheetContainerView.frame.size.height * 0.5) {
-
+                if (!self.clickPlainBlankDismiss ||
+                    (center.y <= (correctContainerY) + self.sheetContainerView.frame.size.height * 0.5)) {
+                    
                     center.y += (point.y * 0.05);
                     
                 } else {
@@ -5028,7 +5048,10 @@
             float slideFactor = 0.1 * slideMult;
             CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
             
-            if (((finalPoint.y - self.sheetContainerView.frame.size.height * 0.5) - (correctContainerY) > self.sheetContainerView.frame.size.height * 0.5) &&
+            BOOL isSlideHalf = ((finalPoint.y - self.sheetContainerView.frame.size.height * 0.5) - (correctContainerY) > self.sheetContainerView.frame.size.height * 0.5);
+            
+            if (isSlideHalf &&
+                self.clickPlainBlankDismiss &&
                 (endScrollDirection == JKAlertScrollDirectionDown)) {
                 
                 [self dismiss];
@@ -5064,13 +5087,21 @@
             
             if (point.x > 0) {
                 
-                center.x += point.x;
+                if (!self.clickPlainBlankDismiss) {
+                    
+                    center.x += (point.x * 0.02);
+                    
+                } else {
+                    
+                    center.x += point.x;
+                }
                 
             } else {
                 
-                if (center.x <= (JKAlertScreenW - self.sheetContainerView.frame.size.width) + self.sheetContainerView.frame.size.width * 0.5) {
-
-                    center.x += (point.x * 0.01);
+                if (!self.clickPlainBlankDismiss ||
+                    (center.x <= (JKAlertScreenW - self.sheetContainerView.frame.size.width) + self.sheetContainerView.frame.size.width * 0.5)) {
+                    
+                    center.x += (point.x * 0.02);
                     
                 } else {
                     
@@ -5095,8 +5126,9 @@
             
             float slideFactor = 0.1 * slideMult;
             CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
-            
-            if (((finalPoint.x - self.sheetContainerView.frame.size.width * 0.5) - (JKAlertScreenW - self.sheetContainerView.frame.size.width) > self.sheetContainerView.frame.size.width * 0.5) &&
+            BOOL isSlideHalf = ((finalPoint.x - self.sheetContainerView.frame.size.width * 0.5) - (JKAlertScreenW - self.sheetContainerView.frame.size.width) > self.sheetContainerView.frame.size.width * 0.5);
+            if (isSlideHalf &&
+                self.clickPlainBlankDismiss &&
                 beginScrollDirection == endScrollDirection) {
                 
                 isSheetDismissHorizontal = YES;
