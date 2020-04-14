@@ -372,6 +372,14 @@
  */
 @property (class, nonatomic, copy, readonly) void (^dismissForKey)(NSString *dismissKey);
 
+/**
+ * 移除当前所有的JKAlertView
+ * 本质是发送一个通知，让所有的JKAlertView对象执行消失操作
+ * 执行该操作会清空所有的JKAlertView，即使setDismissAllNoneffective为YES亦然，请谨慎操作
+ * ***谨慎使用该方法***
+ */
+@property (class, nonatomic, copy, readonly) void (^clearAll)(void);
+
 
 #pragma mark
 #pragma mark 添加action

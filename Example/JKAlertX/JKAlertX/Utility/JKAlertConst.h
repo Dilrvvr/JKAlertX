@@ -122,6 +122,9 @@ UIKIT_EXTERN NSString * const JKAlertDismissAllNotification;
 /** 根据key来移除的通知 */
 UIKIT_EXTERN NSString * const JKAlertDismissForKeyNotification;
 
+/** 清空全部弹框的通知 */
+UIKIT_EXTERN NSString * const JKAlertClearAllNotification;
+
 
 
 #pragma mark

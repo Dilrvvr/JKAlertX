@@ -18,6 +18,9 @@ NSString * const JKAlertDismissAllNotification = @"JKAlertDismissAllNotification
 /** 根据key来移除的通知 */
 NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKeyNotification";
 
+/** 清空全部弹框的通知 */
+NSString * const JKAlertClearAllNotification = @"JKAlertClearAllNotification";
+
 
 #pragma mark
 #pragma mark - 常量
@@ -128,7 +131,7 @@ BOOL JKAlertIsDeviceX (void) {
 }
 
 /// 是否iPad
-BOOL JKAlertIsDeviceiPad (void){
+BOOL JKAlertIsDeviceiPad (void) {
     
     static BOOL JKAlertIsDeviceiPad_ = NO;
     

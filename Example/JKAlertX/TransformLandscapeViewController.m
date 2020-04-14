@@ -45,7 +45,7 @@
     
     [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].setCustomSuperView(self.testLabel).setTitleTextViewAlignment(NSTextAlignmentCenter).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action){
+    }].setCustomView(^(JKAlertAction *action) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
         label.numberOfLines = 0;
@@ -57,7 +57,7 @@
         
     }).setNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action){
+    }].setCustomView(^(JKAlertAction *action) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
         label.numberOfLines = 0;
@@ -88,7 +88,7 @@
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action){
+    }].setCustomView(^(JKAlertAction *action) {
         
         UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
         
@@ -414,7 +414,7 @@
     
     [JKAlertView alertViewWithTitle:@"提示" message:@"这是action样式的customView\n想自定义titleView并固定在顶部的话可以使用setCustomActionSheetTitleView\n想自定义titleView并跟随tableView滚动的话可以将title和message赋值nil，并将第一个JKAlertAction设为空action，然后给这个空action赋值customView即可" style:(JKAlertStyleActionSheet)].setCustomSuperView(self.testLabel).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action){
+    }].setCustomView(^(JKAlertAction *action) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200)];
         label.backgroundColor = [UIColor orangeColor];
@@ -634,7 +634,7 @@
     // 第1组
     alertView.setCollectionAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action){
+    }].setCustomView(^(JKAlertAction *action) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
         label.backgroundColor = [UIColor orangeColor];
@@ -656,7 +656,7 @@
         
     })).setShowPageControl(YES).setCancelAction([JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action){
+    }].setCustomView(^(JKAlertAction *action) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
         label.backgroundColor = [UIColor orangeColor];

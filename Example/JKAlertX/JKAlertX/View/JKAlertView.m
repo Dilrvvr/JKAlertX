@@ -449,7 +449,7 @@
 /** 链式实例化 */
 + (JKAlertView *(^)(NSString *title, NSString *message, JKAlertStyle style))alertView{
     
-    return ^(NSString *title, NSString *message, JKAlertStyle style){
+    return ^(NSString *title, NSString *message, JKAlertStyle style) {
         
         return [JKAlertView alertViewWithTitle:title message:message style:style];
     };
@@ -474,7 +474,7 @@
 /** 函数式类方法 */
 + (id<JKAlertViewProtocol> (^)(NSString *title, NSString *message, JKAlertStyle style, void(^)(JKAlertView *alertView)))show{
     
-    return ^(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView)){
+    return ^(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView)) {
         
         JKAlertView *view = [self alertViewWithTitle:title message:message style:style];
         
@@ -489,7 +489,7 @@
 /** 链式实例化 */
 + (JKAlertView *(^)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style))alertViewAttributed{
     
-    return ^(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style){
+    return ^(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style) {
         
         return [JKAlertView alertViewWithAttributedTitle:attributedTitle attributedMessage:attributedMessage style:style];
     };
@@ -498,7 +498,7 @@
 /** 显示文字HUD */
 + (void (^)(NSString *title, void(^configuration)(JKAlertView *alertView)))showHUDWithTitle{
     
-    return ^(NSString *title, void(^configuration)(JKAlertView *alertView)){
+    return ^(NSString *title, void(^configuration)(JKAlertView *alertView)) {
         
         JKAlertView *alertView = nil;
         
@@ -518,7 +518,7 @@
 /** 显示富文本HUD */
 + (void (^)(NSAttributedString *attributedTitle, void(^configuration)(JKAlertView *alertView)))showHUDWithAttributedTitle{
     
-    return ^(NSAttributedString *attributedTitle, void(^configuration)(JKAlertView *alertView)){
+    return ^(NSAttributedString *attributedTitle, void(^configuration)(JKAlertView *alertView)) {
         
         JKAlertView *alertView = nil;
         
@@ -543,7 +543,7 @@
  */
 + (void (^)(UIView *(^customHUD)(void), void(^configuration)(JKAlertView *alertView)))showCustomHUD{
     
-    return ^(UIView *(^customHUD)(void), void(^configuration)(JKAlertView *alertView)){
+    return ^(UIView *(^customHUD)(void), void(^configuration)(JKAlertView *alertView)) {
         
         JKAlertView *alertView = nil;
         
@@ -583,9 +583,23 @@
  */
 + (void(^)(NSString *dismissKey))dismissForKey{
     
-    return ^(NSString *dismissKey){
+    return ^(NSString *dismissKey) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissForKeyNotification object:dismissKey];
+    };
+}
+
+/**
+ * 移除当前所有的JKAlertView
+ * 本质是发送一个通知，让所有的JKAlertView对象执行消失操作
+ * 执行该操作会清空所有的JKAlertView，即使setDismissAllNoneffective为YES亦然，请谨慎操作
+ * ***谨慎使用该方法***
+ */
++ (void(^)(void))clearAll{
+    
+    return ^{
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertClearAllNotification object:nil];
     };
 }
 
@@ -1123,6 +1137,9 @@
     
     // 根据key来移除的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissForKeyNotification:) name:JKAlertDismissForKeyNotification object:nil];
+    
+    // 清空全部的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearAllNotification:) name:JKAlertClearAllNotification object:nil];
 }
 
 #pragma mark
@@ -1313,7 +1330,7 @@
  */
 - (JKAlertView *(^)(UIView *customSuperView))setCustomSuperView{
     
-    return ^(UIView *customSuperView){
+    return ^(UIView *customSuperView) {
         
         self.customSuperView = customSuperView;
         
@@ -1345,7 +1362,7 @@
 /** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 - (JKAlertView *(^)(JKAlertAction *action))setCancelAction{
     
-    return ^(JKAlertAction *action){
+    return ^(JKAlertAction *action) {
         
         self.cancelAction = action;
         
@@ -1356,7 +1373,7 @@
 /** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
 - (JKAlertView *(^)(JKAlertAction *action))setCollectionAction{
     
-    return ^(JKAlertAction *action){
+    return ^(JKAlertAction *action) {
         
         self.collectionAction = action;
         
@@ -1372,7 +1389,7 @@
  */
 - (JKAlertView *(^)(UIColor *textColor))setTitleTextColor{
     
-    return ^(UIColor *textColor){
+    return ^(UIColor *textColor) {
         
         self->titleTextColor = textColor;
         
@@ -1386,7 +1403,7 @@
  */
 - (JKAlertView *(^)(UIFont *font))setTitleTextFont{
     
-    return ^(UIFont *font){
+    return ^(UIFont *font) {
         
         self->titleFont = font;
         
@@ -1400,7 +1417,7 @@
  */
 - (JKAlertView *(^)(UIColor *textColor))setMessageTextColor{
     
-    return ^(UIColor *textColor){
+    return ^(UIColor *textColor) {
         
         self->messageTextColor = textColor;
         
@@ -1415,7 +1432,7 @@
  */
 - (JKAlertView *(^)(UIFont *font))setMessageTextFont{
     
-    return ^(UIFont *font){
+    return ^(UIFont *font) {
         
         self->messageFont = font;
         
@@ -1426,7 +1443,7 @@
 /** 设置titleTextViewDelegate */
 - (JKAlertView *(^)(id<UITextViewDelegate> delegate))setTitleTextViewDelegate{
     
-    return ^(id<UITextViewDelegate> delegate){
+    return ^(id<UITextViewDelegate> delegate) {
         
         self.titleTextViewDelegate = delegate;
         
@@ -1437,7 +1454,7 @@
 /** 设置messageTextViewDelegate */
 - (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewDelegate{
     
-    return ^(id<UITextViewDelegate> delegate){
+    return ^(id<UITextViewDelegate> delegate) {
         
         self.messageTextViewDelegate = delegate;
         
@@ -1448,7 +1465,7 @@
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 - (JKAlertView *(^)(BOOL userInteractionEnabled))setTextViewUserInteractionEnabled{
     
-    return ^(BOOL userInteractionEnabled){
+    return ^(BOOL userInteractionEnabled) {
         
         self.textViewUserInteractionEnabled = userInteractionEnabled;
         
@@ -1459,7 +1476,7 @@
 /** 设置title和message是否可以选择文字，默认NO */
 - (JKAlertView *(^)(BOOL canselectText))setTextViewCanSelectText{
     
-    return ^(BOOL canSelectText){
+    return ^(BOOL canSelectText) {
         
         self.textViewCanSelectText = canSelectText;
         
@@ -1470,7 +1487,7 @@
 /** 设置titleTextView的文字水平样式 */
 - (JKAlertView *(^)(NSTextAlignment textAlignment))setTitleTextViewAlignment{
     
-    return ^(NSTextAlignment textAlignment){
+    return ^(NSTextAlignment textAlignment) {
         
         self.titleTextViewAlignment = textAlignment;
         
@@ -1481,7 +1498,7 @@
 /** 设置messageTextView的文字水平样式 */
 - (JKAlertView *(^)(NSTextAlignment textAlignment))setMessageTextViewAlignment{
     
-    return ^(NSTextAlignment textAlignment){
+    return ^(NSTextAlignment textAlignment) {
         
         self.messageTextViewAlignment = textAlignment;
         
@@ -1492,7 +1509,7 @@
 /** 设置title和message的左右间距 默认15 */
 - (JKAlertView *(^)(CGFloat margin))setTextViewLeftRightMargin{
     
-    return ^(CGFloat margin){
+    return ^(CGFloat margin) {
         
         self.textViewLeftRightMargin = margin;
         
@@ -1509,7 +1526,7 @@
  */
 - (JKAlertView *(^)(CGFloat margin))setTextViewTopBottomMargin{
     
-    return ^(CGFloat margin){
+    return ^(CGFloat margin) {
         
         self->TBMargin = margin;
         
@@ -1520,7 +1537,7 @@
 /** 设置colletion样式的底部按钮左右间距 */
 - (JKAlertView *(^)(CGFloat margin))setCollectionButtonLeftRightMargin{
     
-    return ^(CGFloat margin){
+    return ^(CGFloat margin) {
         
         self.collectionButtonLeftRightMargin = margin;
         
@@ -1531,7 +1548,7 @@
 /** 设置action和colletion样式的底部按钮上下间距 不可小于0 */
 - (JKAlertView *(^)(CGFloat margin))setBottomButtonMargin{
     
-    return ^(CGFloat margin){
+    return ^(CGFloat margin) {
         
         self->CancelMargin = margin < 0 ? 0 : margin;
         
@@ -1590,7 +1607,7 @@
  */
 - (JKAlertView *(^)(CGFloat cornerRadius))setPlainCornerRadius{
     
-    return ^(CGFloat cornerRadius){
+    return ^(CGFloat cornerRadius) {
         
         self.plainCornerRadius = cornerRadius;
         
@@ -1605,7 +1622,7 @@
  */
 - (JKAlertView *(^)(BOOL compoundCollection))setCompoundCollection{
     
-    return ^(BOOL compoundCollection){
+    return ^(BOOL compoundCollection) {
         
         self.compoundCollection = compoundCollection;
         
@@ -1616,7 +1633,7 @@
 /** 设置collection是否分页 */
 - (JKAlertView *(^)(BOOL collectionPagingEnabled))setCollectionPagingEnabled{
     
-    return ^(BOOL collectionPagingEnabled){
+    return ^(BOOL collectionPagingEnabled) {
         
         self.collectionPagingEnabled = collectionPagingEnabled;
         
@@ -1627,7 +1644,7 @@
 /** 设置是否自动适配 iPhone X homeIndicator 默认YES */
 - (JKAlertView *(^)(BOOL autoAdjust))setAutoAdjustHomeIndicator{
     
-    return ^(BOOL autoAdjust){
+    return ^(BOOL autoAdjust) {
         
         self->AutoAdjustHomeIndicator = autoAdjust;
         
@@ -1638,7 +1655,7 @@
 /** 设置是否填充底部 iPhone X homeIndicator 默认YES */
 - (JKAlertView *(^)(BOOL fillHomeIndicator))setFillHomeIndicator{
     
-    return ^(BOOL fillHomeIndicator){
+    return ^(BOOL fillHomeIndicator) {
         
         if (!JKAlertIsDeviceX()) { return self; }
         
@@ -1658,7 +1675,7 @@
  */
 - (JKAlertView *(^)(BOOL showPageControl))setShowPageControl{
     
-    return ^(BOOL showPageControl){
+    return ^(BOOL showPageControl) {
         
         self.showPageControl = showPageControl;
         
@@ -1672,7 +1689,7 @@
  */
 - (JKAlertView *(^)(void (^)(UIPageControl *pageControl)))setCollectionPageControlConfig{
     
-    return ^(void (^pageControlConfig)(UIPageControl *pageControl)){
+    return ^(void (^pageControlConfig)(UIPageControl *pageControl)) {
         
         if (self.showPageControl) {
             
@@ -1690,7 +1707,7 @@
  */
 - (JKAlertView *(^)(CGFloat dismissTimeInterval))setDismissTimeInterval{
     
-    return ^(CGFloat dismissTimeInterval){
+    return ^(CGFloat dismissTimeInterval) {
         
         self.dismissTimeInterval = dismissTimeInterval;
         
@@ -1704,7 +1721,7 @@
  */
 - (JKAlertView *(^)(CGFloat centerOffsetY))setPlainCenterOffsetY{
     
-    return ^(CGFloat centerOffsetY){
+    return ^(CGFloat centerOffsetY) {
         
         self.plainCenterOffsetY = centerOffsetY;
         
@@ -1717,7 +1734,7 @@
  */
 - (JKAlertView *(^)(CGFloat Y, BOOL animated))setPlainY{
     
-    return ^(CGFloat Y, BOOL animated){
+    return ^(CGFloat Y, BOOL animated) {
         
         CGRect frame = self->_plainView.frame;
         frame.origin.y = Y;
@@ -1744,7 +1761,7 @@
  */
 - (JKAlertView *(^)(CGFloat centerOffsetY, BOOL animated))movePlainCenterOffsetY{
     
-    return ^(CGFloat centerOffsetY, BOOL animated){
+    return ^(CGFloat centerOffsetY, BOOL animated) {
         
         if (animated) {
             
@@ -1767,7 +1784,7 @@
  */
 - (JKAlertView *(^)(BOOL autoAdaptKeyboard))setAutoAdaptKeyboard{
     
-    return ^(BOOL autoAdaptKeyboard){
+    return ^(BOOL autoAdaptKeyboard) {
         
         self.autoAdaptKeyboard = autoAdaptKeyboard;
         
@@ -1778,7 +1795,7 @@
 /** 设置是否允许手势退出 仅限sheet样式 */
 - (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator))setEnableGestureDismiss{
     
-    return ^(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator){
+    return ^(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator) {
         
         self.enableVerticalGestureDismiss = enableVerticalGesture;
         self.enableHorizontalGestureDismiss = enableHorizontalGesture;
@@ -1794,7 +1811,7 @@
  */
 - (JKAlertView *(^)(BOOL shouldDismiss))setClickBlankDismiss{
     
-    return ^(BOOL shouldDismiss){
+    return ^(BOOL shouldDismiss) {
         
         self.clickPlainBlankDismiss = shouldDismiss;
         
@@ -1805,7 +1822,7 @@
 /** 设置监听点击空白处的block */
 - (JKAlertView * (^)(void(^blankClickBlock)(void)))setBlankClickBlock{
     
-    return ^(void(^blankClickBlock)(void)){
+    return ^(void(^blankClickBlock)(void)) {
         
         self.blankClickBlock = blankClickBlock;
         
@@ -1818,7 +1835,7 @@
  */
 - (JKAlertView *(^)(void (^containerViewConfig)(UIView *containerView)))setContainerViewConfig{
     
-    return ^(void (^containerViewConfig)(UIView *containerView)){
+    return ^(void (^containerViewConfig)(UIView *containerView)) {
         
         self.containerViewConfig = containerViewConfig;
         
@@ -1835,7 +1852,7 @@
  */
 - (JKAlertView *(^)(BOOL separatorHidden, CGFloat leftRightMargin))setPlainTitleMessageSeparatorHidden{
     
-    return ^(BOOL separatorHidden, CGFloat leftRightMargin){
+    return ^(BOOL separatorHidden, CGFloat leftRightMargin) {
         
         self.plainTitleMessageSeparatorHidden = separatorHidden;
         
@@ -1852,7 +1869,7 @@
  */
 - (JKAlertView *(^)(CGFloat minHeight))setMessageMinHeight{
     
-    return ^(CGFloat minHeight){
+    return ^(CGFloat minHeight) {
         
         self.messageMinHeight = minHeight;
         
@@ -1863,7 +1880,7 @@
 /** 设置plain样式关闭按钮 */
 - (JKAlertView *(^)(void (^)(UIButton *button)))setPlainCloseButtonConfig{
     
-    return ^(void (^closeButtonConfig)(UIButton *button)){
+    return ^(void (^closeButtonConfig)(UIButton *button)) {
         
         !closeButtonConfig ? : closeButtonConfig(self.closeButton);
         
@@ -1877,7 +1894,7 @@
  */
 - (JKAlertView *(^)(CGFloat height))setHUDHeight{
     
-    return ^(CGFloat height){
+    return ^(CGFloat height) {
         
         self.HUDHeight = height;
         
@@ -1894,7 +1911,7 @@
  */
 - (JKAlertView *(^)(CGFloat width))setFlowlayoutItemWidth{
     
-    return ^(CGFloat width){
+    return ^(CGFloat width) {
         
         self.flowlayoutItemWidth = width;
         
@@ -1908,7 +1925,7 @@
  */
 - (JKAlertView *(^)(NSInteger columnCount))setCollectionColumnCount{
     
-    return ^(NSInteger columnCount){
+    return ^(NSInteger columnCount) {
         
         self.collectionColumnCount = columnCount;
         
@@ -1922,7 +1939,7 @@
  */
 - (JKAlertView *(^)(CGFloat inset))setCollectionHorizontalInset{
     
-    return ^(CGFloat inset){
+    return ^(CGFloat inset) {
         
         self.collectionHorizontalInset = inset;
         
@@ -1933,7 +1950,7 @@
 /** 设置collection的title下分隔线是否隐藏 默认YES */
 - (JKAlertView *(^)(BOOL hidden))setCollectionTitleSeperatorHidden{
     
-    return ^(BOOL hidden){
+    return ^(BOOL hidden) {
         
         self.collectionTitleSeperatorHidden = hidden;
         
@@ -1947,7 +1964,7 @@
  */
 - (JKAlertView *(^)(CGFloat margin))setCollectionViewMargin{
     
-    return ^(CGFloat margin){
+    return ^(CGFloat margin) {
         
         self.collectionViewMargin = margin < 0 ? 0 : margin;
         
@@ -1963,7 +1980,7 @@
  */
 - (JKAlertView *(^)(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)))setCustomActionSheetTitleView{
     
-    return ^(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)){
+    return ^(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)) {
         
         self.customSheetTitleView = !customView ? nil : customView();
         
@@ -1979,7 +1996,7 @@
 /** 设置sheet样式最大高度 默认屏幕高度 * 0.85 */
 - (JKAlertView *(^)(CGFloat height))setSheetMaxHeight{
     
-    return ^(CGFloat height){
+    return ^(CGFloat height) {
         
         self->JKAlertSheetMaxH = height;
         
@@ -1992,7 +2009,7 @@
 /** 设置UITableViewDataSource */
 - (JKAlertView *(^)(id<UITableViewDataSource> dataSource))setCustomTableViewDataSource{
     
-    return ^(id<UITableViewDataSource> dataSource){
+    return ^(id<UITableViewDataSource> dataSource) {
         
         self.tableViewDataSource = dataSource;
         self->_tableView.dataSource = dataSource ? dataSource : self;
@@ -2004,7 +2021,7 @@
 /** 设置UITableViewDelegate */
 - (JKAlertView *(^)(id<UITableViewDelegate> delegate))setCustomTableViewDelegate{
     
-    return ^(id<UITableViewDelegate> delegate){
+    return ^(id<UITableViewDelegate> delegate) {
         
         self.tableViewDelegate = delegate;
         self->_tableView.delegate = delegate ? delegate : self;
@@ -2020,7 +2037,7 @@
  */
 - (JKAlertView *(^)(UIView *(^customView)(void)))setCustomCollectionTitleView{
     
-    return ^(UIView *(^customView)(void)){
+    return ^(UIView *(^customView)(void)) {
         
         self.customSheetTitleView = !customView ? nil : customView();
         
@@ -2037,7 +2054,7 @@
  */
 - (JKAlertView *(^)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)))setCustomPlainTitleView{
     
-    return ^(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)){
+    return ^(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)) {
         
         self.customPlainTitleViewOnlyForMessage = onlyForMessage;
         
@@ -2054,7 +2071,7 @@
  */
 - (JKAlertView *(^)(CGFloat margin))setTitleMessageMargin{
     
-    return ^(CGFloat margin){
+    return ^(CGFloat margin) {
         
         self->JKAlertTitleMessageMargin = margin;
         
@@ -2068,7 +2085,7 @@
  */
 - (JKAlertView *(^)(UIView *(^backGroundView)(void)))setBackGroundView{
     
-    return ^(UIView *(^backGroundView)(void)){
+    return ^(UIView *(^backGroundView)(void)) {
         
         self.backGroundView = !backGroundView ? nil : backGroundView();
         
@@ -2084,7 +2101,7 @@
 /** 设置全屏背景是否透明，默认黑色 0.4 alpha */
 - (JKAlertView *(^)(BOOL isClearFullScreenBackgroundColor))setClearFullScreenBackgroundColor{
     
-    return ^(BOOL isClearFullScreenBackgroundColor){
+    return ^(BOOL isClearFullScreenBackgroundColor) {
         
         self.isClearFullScreenBackgroundColor = isClearFullScreenBackgroundColor;
         
@@ -2097,7 +2114,7 @@
  */
 - (JKAlertView *(^)(UIView *(^backGroundView)(void)))setFullScreenBackGroundView{
     
-    return ^(UIView *(^backGroundView)(void)){
+    return ^(UIView *(^backGroundView)(void)) {
         
         self.fullScreenBackGroundView = !backGroundView ? nil : backGroundView();
         
@@ -2111,7 +2128,7 @@
  */
 - (JKAlertView *(^)(BOOL isNoneffective))setDismissAllNoneffective{
     
-    return ^(BOOL isNoneffective){
+    return ^(BOOL isNoneffective) {
         
         self.isDismissAllNoneffective = isNoneffective;
         
@@ -2125,7 +2142,7 @@
  */
 - (JKAlertView *(^)(NSString *dismissKey))setDismissKey{
     
-    return ^(NSString *dismissKey){
+    return ^(NSString *dismissKey) {
         
         self.dismissKey = dismissKey;
         
@@ -2139,7 +2156,7 @@
  */
 - (JKAlertView *(^)(void (^)(JKAlertView *view, UIView *animationView)))setCustomShowAnimationBlock{
     
-    return ^(void (^showAnimationBlock)(JKAlertView *view, UIView *animationView)){
+    return ^(void (^showAnimationBlock)(JKAlertView *view, UIView *animationView)) {
         
         self.customShowAnimationBlock = showAnimationBlock;
         
@@ -2150,7 +2167,7 @@
 /** 设置自定义消失动画 */
 - (JKAlertView *(^)(void (^)(JKAlertView *view, UIView *animationView)))setCustomDismissAnimationBlock{
     
-    return ^(void (^dismissAnimationBlock)(JKAlertView *view, UIView *animationView)){
+    return ^(void (^dismissAnimationBlock)(JKAlertView *view, UIView *animationView)) {
         
         self.customDismissAnimationBlock = dismissAnimationBlock;
         
@@ -2183,7 +2200,7 @@
     
     UIView *superView = self.superview ? self.superview : keyWindow;
     
-    switch ([UIApplication sharedApplication].statusBarOrientation){
+    switch ([UIApplication sharedApplication].statusBarOrientation) {
         case UIInterfaceOrientationPortrait:{
             
             //orientationLabel.text = "面向设备保持垂直，Home键位于下部"
@@ -2271,7 +2288,7 @@
 /** 添加action */
 - (JKAlertView *(^)(JKAlertAction *action))addAction{
     
-    return ^(JKAlertAction *action){
+    return ^(JKAlertAction *action) {
         
         [self addAction:action];
         
@@ -2282,7 +2299,7 @@
 /** 链式移除action */
 - (JKAlertView *(^)(JKAlertAction *action))removeAction{
     
-    return ^(JKAlertAction *action){
+    return ^(JKAlertAction *action) {
         
         [self removeAction:action];
         
@@ -2293,7 +2310,7 @@
 /** 链式添加action */
 - (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex))insertAction{
     
-    return ^(JKAlertAction *action, NSUInteger atIndex){
+    return ^(JKAlertAction *action, NSUInteger atIndex) {
         
         [self insertAction:action atIndex:atIndex];
         
@@ -2304,7 +2321,7 @@
 /** 链式移除action */
 - (JKAlertView *(^)(NSUInteger index))removeActionAtIndex{
     
-    return ^(NSUInteger index){
+    return ^(NSUInteger index) {
         
         [self removeActionAtIndex:index];
         
@@ -2315,7 +2332,7 @@
 /** 链式获取action */
 - (JKAlertView *(^)(NSUInteger index, void(^)(JKAlertAction *action)))getActionAtIndex{
     
-    return ^(NSUInteger index, void(^getAction)(JKAlertAction *action)){
+    return ^(NSUInteger index, void(^getAction)(JKAlertAction *action)) {
         
         JKAlertAction *action = [self getActionAtIndex:index];
         
@@ -2328,7 +2345,7 @@
 /** 添加第二个collectionView的action */
 - (JKAlertView *(^)(JKAlertAction *action))addSecondCollectionAction{
     
-    return ^(JKAlertAction *action){
+    return ^(JKAlertAction *action) {
         
         [self addSecondCollectionAction:action];
         
@@ -2340,7 +2357,7 @@
 /** collection链式添加第二个collectionView的action */
 - (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex))insertSecondCollectionAction{
     
-    return ^(JKAlertAction *action, NSUInteger atIndex){
+    return ^(JKAlertAction *action, NSUInteger atIndex) {
         
         [self insertSecondCollectionAction:action atIndex:atIndex];
         
@@ -2690,7 +2707,7 @@
  */
 - (JKAlertView *(^)(void (^)(JKAlertView *view, UITextField *textField)))addTextFieldWithConfigurationHandler{
     
-    return ^(void (^configurationHandler)(JKAlertView *view, UITextField *textField)){
+    return ^(void (^configurationHandler)(JKAlertView *view, UITextField *textField)) {
         
         [self addTextFieldWithConfigurationHandler:configurationHandler];
         
@@ -2765,7 +2782,7 @@
 /** 监听即将开始显示动画 */
 - (JKAlertView * (^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation{
     
-    return ^(void(^willShowAnimation)(JKAlertView *view)){
+    return ^(void(^willShowAnimation)(JKAlertView *view)) {
         
         self.willShowAnimationCompleteHandler = willShowAnimation;
         
@@ -2776,7 +2793,7 @@
 /** 监听JKAlertView显示动画完成 */
 - (JKAlertView * (^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete{
     
-    return ^(void(^showAnimationComplete)(JKAlertView *view)){
+    return ^(void(^showAnimationComplete)(JKAlertView *view)) {
         
         self.showAnimationCompleteHandler = showAnimationComplete;
         
@@ -2787,7 +2804,7 @@
 /** 监听屏幕旋转 */
 - (JKAlertView * (^)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)))setOrientationChangeBlock{
     
-    return ^(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)){
+    return ^(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) {
         
         self.orientationChangeBlock = orientationChangeBlock;
         
@@ -2798,7 +2815,7 @@
 /** 设置监听superView尺寸改变时将要自适应的block */
 - (JKAlertView *(^)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)))setWillAutoAdaptSuperViewBlock{
     
-    return ^JKAlertView *(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)){
+    return ^JKAlertView *(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)) {
         
         self.willAdaptBlock = willAdaptBlock;
         
@@ -2809,7 +2826,7 @@
 /** 设置监听superView尺寸改变时自适应完成的block */
 - (JKAlertView *(^)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)))setDidAutoAdaptSuperViewBlock{
     
-    return ^JKAlertView *(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)){
+    return ^JKAlertView *(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)) {
         
         self.didAdaptBlock = didAdaptBlock;
         
@@ -2820,7 +2837,7 @@
 /** 显示并监听JKAlertView消失动画完成 */
 - (void(^)(void(^dismissComplete)(void)))showWithDismissComplete{
     
-    return ^(void(^dismissComplete)(void)){
+    return ^(void(^dismissComplete)(void)) {
         
         [self show];
         
@@ -2831,7 +2848,7 @@
 /** 监听JKAlertView即将消失 */
 - (id<JKAlertViewProtocol> (^)(void(^willDismiss)(void)))setWillDismiss{
     
-    return ^id<JKAlertViewProtocol> (void(^willDismiss)(void)){
+    return ^id<JKAlertViewProtocol> (void(^willDismiss)(void)) {
         
         self.willDismissHandler = willDismiss;
         
@@ -2842,7 +2859,7 @@
 /** 监听JKAlertView消失动画完成 */
 - (id<JKAlertViewProtocol> (^)(void(^dismissComplete)(void)))setDismissComplete{
     
-    return ^(void(^dismissComplete)(void)){
+    return ^(void(^dismissComplete)(void)) {
         
         self.didDismissHandler = dismissComplete;
         
@@ -2853,7 +2870,7 @@
 /** 设置dealloc时会调用的block */
 - (void(^)(void(^deallocBlock)(void)))setDeallocBlock{
     
-    return ^(void(^deallocBlock)(void)){
+    return ^(void(^deallocBlock)(void)) {
         
         self.deallocBlock = deallocBlock;
     };
@@ -4278,6 +4295,12 @@
     }
 }
 
+// 通过通知来dismiss
+- (void)clearAllNotification:(NSNotification *)noti{
+    
+    self.dismiss();
+}
+
 - (void(^)(void))dismiss{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -5108,7 +5131,7 @@
     
     //lastTableViewOffsetY = _tableView.contentOffset.y;
     
-    return ^(BOOL animated){
+    return ^(BOOL animated) {
         
         if (animated) {
             
@@ -5135,7 +5158,7 @@
 /** 监听重新布局完成 */
 - (id<JKAlertViewProtocol> (^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete{
     
-    return ^(void(^relayoutComplete)(JKAlertView *view)){
+    return ^(void(^relayoutComplete)(JKAlertView *view)) {
         
         self.relayoutComplete = relayoutComplete;
         
@@ -5146,7 +5169,7 @@
 /** 重新设置alertTitle */
 - (id<JKAlertViewProtocol> (^)(NSString *alertTitle))resetAlertTitle{
     
-    return ^(NSString *alertTitle){
+    return ^(NSString *alertTitle) {
         
         self.alertTitle = alertTitle;
         
@@ -5157,7 +5180,7 @@
 /** 重新设置alertAttributedTitle */
 - (id<JKAlertViewProtocol> (^)(NSAttributedString *alertAttributedTitle))resetAlertAttributedTitle{
     
-    return ^(NSAttributedString *alertAttributedTitle){
+    return ^(NSAttributedString *alertAttributedTitle) {
         
         self.alertAttributedTitle = alertAttributedTitle;
         
@@ -5168,7 +5191,7 @@
 /** 重新设置message */
 - (id<JKAlertViewProtocol> (^)(NSString *message))resetMessage{
     
-    return ^(NSString *message){
+    return ^(NSString *message) {
         
         self.message = message;
         
@@ -5179,7 +5202,7 @@
 /** 重新设置attributedMessage */
 - (id<JKAlertViewProtocol> (^)(NSAttributedString *attributedMessage))resetAttributedMessage{
     
-    return ^(NSAttributedString *attributedMessage){
+    return ^(NSAttributedString *attributedMessage) {
         
         self.attributedMessage = attributedMessage;
         
@@ -5240,7 +5263,7 @@
 /** 允许dealloc打印，用于检查循环引用 */
 - (JKAlertView *(^)(BOOL enable))enableDeallocLog{
     
-    return ^(BOOL enable){
+    return ^(BOOL enable) {
         
         self->_enableDeallocLog = enable;
         
