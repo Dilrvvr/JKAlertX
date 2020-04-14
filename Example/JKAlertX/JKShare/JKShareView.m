@@ -241,7 +241,7 @@
         self.pageControl.pageIndicatorTintColor = JKColor(88, 88, 88);
         self.pageControl.currentPageIndicatorTintColor = JKColor(218, 218, 218);
         
-    }else{ // 日间模式
+    } else { // 日间模式
         self.shareContainerView.backgroundColor = JKColor(237, 237, 237);
         self.titleLabel.textColor = [UIColor blackColor];
         [self.collectionBtn setBackgroundImage:[UIImage imageNamed:@"bg_normal_day"] forState:(UIControlStateNormal)];

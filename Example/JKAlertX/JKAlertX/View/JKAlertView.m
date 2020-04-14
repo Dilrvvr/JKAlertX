@@ -423,6 +423,9 @@
 
 /** 是否自动适配键盘 */
 @property (nonatomic, assign) BOOL autoAdaptKeyboard;
+
+/** plain样式弹出键盘时与键盘的间距 竖屏 */
+@property (nonatomic, assign) CGFloat plainKeyboardMargin;
 @end
 
 @implementation JKAlertView
@@ -590,7 +593,7 @@
 }
 
 /**
- * 移除当前所有的JKAlertView
+ * 清空当前所有的JKAlertView
  * 本质是发送一个通知，让所有的JKAlertView对象执行消失操作
  * 执行该操作会清空所有的JKAlertView，即使setDismissAllNoneffective为YES亦然，请谨慎操作
  * ***谨慎使用该方法***
@@ -1787,6 +1790,19 @@
     return ^(BOOL autoAdaptKeyboard) {
         
         self.autoAdaptKeyboard = autoAdaptKeyboard;
+        
+        return self;
+    };
+}
+
+/**
+ * 设置弹框底部与键盘间距
+ */
+- (JKAlertView *(^)(CGFloat plainKeyboardMargin))setPlainKeyboardMargin{
+    
+    return ^(CGFloat plainKeyboardMargin) {
+        
+        self.plainKeyboardMargin = MAX(plainKeyboardMargin, 0);
         
         return self;
     };
@@ -4208,6 +4224,10 @@
     
     CGRect frame = _plainView.frame;
     
+    NSNumber *curve = noti.userInfo[UIKeyboardAnimationCurveUserInfoKey];
+    
+    NSInteger animationCurve = (curve ? [curve integerValue] : 7);
+    
     if (keyboardFrame.origin.y >= JKAlertScreenH) { // 退出键盘
         
         JKAlertPlainViewMaxH = JKAlertScreenH - 100;
@@ -4215,26 +4235,34 @@
         [self calculateUI];
         
         [UIView animateWithDuration:0.25 animations:^{
+            [UIView setAnimationCurve:animationCurve];
             
             [self layoutIfNeeded];
         }];
         
-    } else {
+    } else { // 弹出键盘
         
         CGFloat maxH = JKAlertScreenH - (JKAlertIsDeviceX() ? 44 : 20) - keyboardFrame.size.height - 40;
+        
+        BOOL lockKeyboardMargin = (self.plainKeyboardMargin > 0);
         
         if ([self isLandScape]) {
             
             maxH = JKAlertScreenH - 5 - keyboardFrame.size.height - 5;
             
-            JKAlertPlainViewMaxH = maxH;
+        } else if (lockKeyboardMargin) {
             
-            [self calculateUI];
+            maxH = maxH + 20 - self.plainKeyboardMargin;
         }
         
         if (frame.size.height <= maxH) {
             
             frame.origin.y = (JKAlertIsDeviceX() ? 44 : 20) + (maxH - frame.size.height) * 0.5;
+            
+            if (lockKeyboardMargin) {
+                
+                frame.origin.y = keyboardFrame.origin.y - self.plainKeyboardMargin - frame.size.height;
+            }
             
             if ([self isLandScape]) {
                 
@@ -4251,10 +4279,26 @@
         [self calculateUI];
         
         frame = _plainView.frame;
-        frame.origin.y = [self isLandScape] ? 5 : (JKAlertIsDeviceX() ? 44 : 20);
+        
+        if ([self isLandScape]) {
+            
+            frame.origin.y = 5;
+            
+        } else if (lockKeyboardMargin) {
+            
+            frame.origin.y = keyboardFrame.origin.y - self.plainKeyboardMargin - frame.size.height;
+            
+            frame.origin.y = MAX(frame.origin.y, (JKAlertIsDeviceX() ? 44 : 20));
+            
+        } else {
+            
+            frame.origin.y = (JKAlertIsDeviceX() ? 44 : 20);
+        }
+        
         _plainView.frame = frame;
         
         [UIView animateWithDuration:0.25 animations:^{
+            [UIView setAnimationCurve:animationCurve];
             
             [self layoutIfNeeded];
         }];

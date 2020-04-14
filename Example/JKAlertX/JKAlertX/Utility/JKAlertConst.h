@@ -174,11 +174,10 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 
 #define JKAlertSystemRedColor [UIColor colorWithRed:255.0/255.0 green:59.0/255.0 blue:48.0/255.0 alpha:1.0]
 
-
-
 //#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
 
 //#define JKAlertXDeprecatedCustomizer NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, "请使用customizer")
+
 
 
 #pragma mark
@@ -207,6 +206,8 @@ BOOL JKAlertIsLandscape (void);
 
 /// 当前HomeIndicator高度
 CGFloat JKAlertCurrentHomeIndicatorHeight (void);
+
+
 
 #pragma mark
 #pragma mark - 封装定时器
