@@ -35,7 +35,7 @@
  */
 + (JKAlertAction *(^)(NSString *title, JKAlertActionStyle style, void(^handler)(JKAlertAction *action)))action{
     
-    return ^(NSString *title, JKAlertActionStyle style, void(^handler)(JKAlertAction *action)){
+    return ^(NSString *title, JKAlertActionStyle style, void(^handler)(JKAlertAction *action)) {
         
         return [JKAlertAction actionWithTitle:title style:style handler:handler];
     };
@@ -60,7 +60,7 @@
  */
 + (JKAlertAction *(^)(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action)))actionAttributed{
     
-    return ^(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action)){
+    return ^(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action)) {
         
         return [JKAlertAction actionWithAttributedTitle:attributedTitle handler:handler];
     };
@@ -86,7 +86,7 @@
 /** 重新设置title */
 - (JKAlertAction *(^)(NSString *title))resetTitle{
     
-    return ^(NSString *title){
+    return ^(NSString *title) {
         
         self->_title = title;
         
@@ -97,7 +97,7 @@
 /** 重新设置attributedTitle */
 - (JKAlertAction *(^)(NSAttributedString *attributedTitle))resetAttributedTitle{
     
-    return ^(NSAttributedString *attributedTitle){
+    return ^(NSAttributedString *attributedTitle) {
         
         self->_attributedTitle = attributedTitle;
         
@@ -107,7 +107,7 @@
 
 - (JKAlertAction *(^)(UIColor *color))setTitleColor{
     
-    return ^(UIColor *color){
+    return ^(UIColor *color) {
         
         self.titleColor = color;
         
@@ -117,7 +117,7 @@
 
 - (JKAlertAction *(^)(UIFont *font))setTitleFont{
     
-    return ^(UIFont *font){
+    return ^(UIFont *font) {
         
         self.titleFont = font;
         
@@ -128,7 +128,7 @@
 /** 设置imageContentMode 默认UIViewContentModeScaleAspectFill */
 - (JKAlertAction *(^)(UIViewContentMode contentMode))setImageContentMode{
     
-    return ^(UIViewContentMode contentMode){
+    return ^(UIViewContentMode contentMode) {
         
         self.imageContentMode = contentMode;
         
@@ -138,7 +138,7 @@
 
 - (JKAlertAction *(^)(UIImage *image))setNormalImage{
     
-    return ^(UIImage *image){
+    return ^(UIImage *image) {
         
         self.normalImage = image;
         
@@ -148,7 +148,7 @@
 
 - (JKAlertAction *(^)(UIImage *image))setHightlightedImage{
     
-    return ^(UIImage *image){
+    return ^(UIImage *image) {
         
         self.hightlightedImage = image;
         
@@ -159,7 +159,7 @@
 /** 设置是否隐藏分隔线 */
 - (JKAlertAction *(^)(BOOL hidden))setSeparatorLineHidden{
     
-    return ^(BOOL hidden){
+    return ^(BOOL hidden) {
         
         self.separatorLineHidden = hidden;
         
@@ -170,7 +170,7 @@
 /** 设置执行操作后是否自动消失 */
 - (JKAlertAction *(^)(BOOL autoDismiss))setAutoDismiss{
     
-    return ^(BOOL autoDismiss){
+    return ^(BOOL autoDismiss) {
         
         self.autoDismiss = autoDismiss;
         
@@ -189,7 +189,7 @@
  */
 - (JKAlertAction *(^)(UIView *(^customView)(JKAlertAction *action)))setCustomView{
     
-    return ^(UIView *(^customView)(JKAlertAction *action)){
+    return ^(UIView *(^customView)(JKAlertAction *action)) {
         
         self.customView = !customView ? nil : customView(self);
         

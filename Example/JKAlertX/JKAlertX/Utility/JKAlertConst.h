@@ -122,6 +122,9 @@ UIKIT_EXTERN NSString * const JKAlertDismissAllNotification;
 /** 根据key来移除的通知 */
 UIKIT_EXTERN NSString * const JKAlertDismissForKeyNotification;
 
+/** 根据category来移除的通知 */
+UIKIT_EXTERN NSString * const JKAlertDismissForCategoryNotification;
+
 /** 清空全部弹框的通知 */
 UIKIT_EXTERN NSString * const JKAlertClearAllNotification;
 
@@ -129,6 +132,9 @@ UIKIT_EXTERN NSString * const JKAlertClearAllNotification;
 
 #pragma mark
 #pragma mark - 常量
+
+/** 可以手势滑动退出时 点击空白处不dismiss的抖动动画key */
+UIKIT_EXTERN NSString * const JKAlertDismissFailedShakeAnimationKey;
 
 UIKIT_EXTERN CGFloat    const JKAlertMinTitleLabelH;// = (22.0);
 UIKIT_EXTERN CGFloat    const JKAlertMinMessageLabelH;// = (17.0);

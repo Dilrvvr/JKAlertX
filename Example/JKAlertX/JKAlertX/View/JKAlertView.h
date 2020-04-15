@@ -119,9 +119,16 @@
 
 /**
  * 设置用于通知消失的key
- * 设置该值后可以使用类方法 JKAlertView.DismissForKey(dismissKey); 来手动消失
+ * 设置该值后可以使用类方法 JKAlertView.dismissForKey(dismissKey); 来手动消失
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setDismissKey)(NSString *dismissKey);
+
+/**
+ * 设置用于通知消失的类别
+ * 可以将多个弹框设置同一类别，方便移除同一类别的弹框
+ * 设置该值后可以使用类方法 JKAlertView.dismissForCategory(dismissCategory); 来手动消失
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissCategory)(NSString *dismissCategory);
 
 
 #pragma mark
@@ -376,6 +383,12 @@
  * 本质是发送一个通知，让dismissKey为该值的JKAlertView对象执行消失操作
  */
 @property (class, nonatomic, copy, readonly) void (^dismissForKey)(NSString *dismissKey);
+
+/**
+ * 移除设置了同一dismissCategory的多个JKAlertView
+ * 本质是发送一个通知，让dismissCategory为该值的JKAlertView对象执行消失操作
+ */
+@property (class, nonatomic, copy, readonly) void (^dismissForCategory)(NSString *dismissCategory);
 
 /**
  * 清空当前所有的JKAlertView

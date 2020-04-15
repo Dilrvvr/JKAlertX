@@ -391,6 +391,9 @@
 /** 用于通知消失的key */
 @property (nonatomic, copy) NSString *dismissKey;
 
+/** 用于通知消失的类别的key */
+@property (nonatomic, copy) NSString *dismissCategory;
+
 /** enableVerticalGestureDismiss */
 @property (nonatomic, assign) BOOL enableVerticalGestureDismiss;
 
@@ -589,6 +592,18 @@
     return ^(NSString *dismissKey) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissForKeyNotification object:dismissKey];
+    };
+}
+
+/**
+ * 移除设置了同一dismissCategory的多个JKAlertView
+ * 本质是发送一个通知，让dismissCategory为该值的JKAlertView对象执行消失操作
+ */
++ (void(^)(NSString *dismissCategory))dismissForCategory{
+    
+    return ^(NSString *dismissCategory) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissForCategoryNotification object:dismissCategory];
     };
 }
 
@@ -1133,6 +1148,7 @@
 
 - (void)addNotifications{
     
+    // 屏幕旋转的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
     // 移除全部的通知
@@ -1140,6 +1156,9 @@
     
     // 根据key来移除的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissForKeyNotification:) name:JKAlertDismissForKeyNotification object:nil];
+    
+    // 根据category来移除的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissForCategoryNotification:) name:JKAlertDismissForCategoryNotification object:nil];
     
     // 清空全部的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearAllNotification:) name:JKAlertClearAllNotification object:nil];
@@ -2161,6 +2180,21 @@
     return ^(NSString *dismissKey) {
         
         self.dismissKey = dismissKey;
+        
+        return self;
+    };
+}
+
+/**
+ * 设置用于通知消失的类别
+ * 可以将多个弹框设置同一类别，方便移除同一类别的弹框
+ * 设置该值后可以使用类方法 JKAlertView.dismissForCategory(dismissCategory); 来手动消失
+ */
+- (JKAlertView *(^)(NSString *dismissCategory))setDismissCategory{
+    
+    return ^(NSString *dismissCategory) {
+        
+        self.dismissCategory = dismissCategory;
         
         return self;
     };
@@ -4320,16 +4354,20 @@
         
         [self endEditing:YES];
         
-        if (self.alertStyle == JKAlertStyleActionSheet ||
-            self.alertStyle == JKAlertStyleCollectionSheet) {
+        if ((self.enableVerticalGestureDismiss ||
+             self.enableHorizontalGestureDismiss) &&
+            (self.alertStyle == JKAlertStyleActionSheet ||
+             self.alertStyle == JKAlertStyleCollectionSheet)) {
+            
+            if ([self.sheetContainerView.layer animationForKey:JKAlertDismissFailedShakeAnimationKey]) { return; }
             
             // 动画抖一下
             CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.x"];
             animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
             animation.repeatCount = 1;
-            animation.values = @[@(-2), @(-4), @(-6), @(2), @0];
+            animation.values = @[@(-2), @(-4), @(-6), @(3), @0];
             animation.duration = 0.5;
-            [self.sheetContainerView.layer addAnimation:animation forKey:nil];
+            [self.sheetContainerView.layer addAnimation:animation forKey:JKAlertDismissFailedShakeAnimationKey];
         }
     }
 }
@@ -4345,7 +4383,22 @@
 // 通过key通知来dismiss
 - (void)dismissForKeyNotification:(NSNotification *)noti{
     
-    if ([noti.object isEqualToString:self.dismissKey]) {
+    if (!self.dismissKey) { return; }
+    
+    if ([noti.object isKindOfClass:[NSString class]] &&
+        [noti.object isEqualToString:self.dismissKey]) {
+        
+        self.dismiss();
+    }
+}
+
+// 通过category通知来dismiss
+- (void)dismissForCategoryNotification:(NSNotification *)noti{
+    
+    if (!self.dismissCategory) { return; }
+    
+    if ([noti.object isKindOfClass:[NSString class]] &&
+        [noti.object isEqualToString:self.dismissCategory]) {
         
         self.dismiss();
     }

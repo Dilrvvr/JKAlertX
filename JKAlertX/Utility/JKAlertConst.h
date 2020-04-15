@@ -60,7 +60,10 @@ typedef enum : NSUInteger {
      */
     JKAlertStyleNone = 0,
     
-    /** 面板 use JKAlertStyleAlert instead. */
+    /**
+     * 面板
+     * use JKAlertStyleAlert instead.
+     */
     JKAlertStylePlain = 1,
     
     /** 列表 */
@@ -82,9 +85,6 @@ typedef enum : NSUInteger {
     JKAlertStyleAlert = JKAlertStylePlain,
     
 } JKAlertStyle;
-
-
-
 
 typedef enum : NSUInteger {
     
@@ -122,10 +122,19 @@ UIKIT_EXTERN NSString * const JKAlertDismissAllNotification;
 /** 根据key来移除的通知 */
 UIKIT_EXTERN NSString * const JKAlertDismissForKeyNotification;
 
+/** 根据category来移除的通知 */
+UIKIT_EXTERN NSString * const JKAlertDismissForCategoryNotification;
+
+/** 清空全部弹框的通知 */
+UIKIT_EXTERN NSString * const JKAlertClearAllNotification;
+
 
 
 #pragma mark
 #pragma mark - 常量
+
+/** 可以手势滑动退出时 点击空白处不dismiss的抖动动画key */
+UIKIT_EXTERN NSString * const JKAlertDismissFailedShakeAnimationKey;
 
 UIKIT_EXTERN CGFloat    const JKAlertMinTitleLabelH;// = (22.0);
 UIKIT_EXTERN CGFloat    const JKAlertMinMessageLabelH;// = (17.0);
@@ -171,37 +180,43 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 
 #define JKAlertSystemRedColor [UIColor colorWithRed:255.0/255.0 green:59.0/255.0 blue:48.0/255.0 alpha:1.0]
 
-
-
 //#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
 
 //#define JKAlertXDeprecatedCustomizer NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, "请使用customizer")
 
 
+
 #pragma mark
 #pragma mark - 函数
 
+/// 判断黑暗模式获取其中一个对象
+id JKAlertJudgeDarkMode (id <UITraitEnvironment> environment, id light, id dark);
 
 /// 颜色适配
-UIColor * JKALertAdaptColor (UIColor *lightColor, UIColor *darkColor);
+UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor);
 
 /// 全局背景色
-UIColor * JKALertGlobalBackgroundColor (void);
+UIColor * JKAlertGlobalBackgroundColor (void);
 
 /// 全局高亮背景色
-UIColor * JKALertGlobalHighlightedBackgroundColor (void);
+UIColor * JKAlertGlobalHighlightedBackgroundColor (void);
 
 /// 是否X设备
-BOOL JKALertIsDeviceX (void);
+BOOL JKAlertIsDeviceX (void);
 
 /// 是否iPad
-BOOL JKALertIsDeviceiPad (void);
+BOOL JKAlertIsDeviceiPad (void);
 
 /// 当前是否横屏
-BOOL JKALertIsLandscape (void);
+BOOL JKAlertIsLandscape (void);
 
 /// 当前HomeIndicator高度
 CGFloat JKAlertCurrentHomeIndicatorHeight (void);
+
+
+
+#pragma mark
+#pragma mark - 封装定时器
 
 /// 停止定时器的block
 typedef void(^JKAlertXStopTimerBlock)(void);
@@ -230,3 +245,20 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimer(id target, double delay, double ti
  @param handler 重复执行事件
  */
 JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
+
+
+
+#pragma mark
+#pragma mark - DEBUG
+
+/// 仅DEBUG下执行
+void JKTodo_Debug_Execute(void(^executeBlock)(void));
+
+/// 在DEBUG/Develop下执行
+void JKTodo_Debug_Develop_Execute(void(^executeBlock)(void));
+
+/// 弹框展示debug信息
+void JKTodo_Debug_Alert(NSString *title, NSString *message, NSTimeInterval showDelay);
+
+/// 弹框展示debug信息
+void JKTodo_Debug_Develop_Alert(NSString *title, NSString *message, NSTimeInterval showDelay);
