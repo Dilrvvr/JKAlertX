@@ -81,6 +81,12 @@ typedef enum : NSUInteger {
      */
     JKAlertStyleHUD = 4,
     
+    /** 顶部通知 */
+    JKAlertStyleNotification = 5,
+    
+    /** 自定义 */
+    //JKAlertStyleCustom = 6,
+    
     /** 面板 */
     JKAlertStyleAlert = JKAlertStylePlain,
     
