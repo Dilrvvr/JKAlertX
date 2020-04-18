@@ -34,11 +34,11 @@
 /** 显示 */
 @property (nonatomic, copy, readonly) JKAlertView * (^show)(void);
 
-/** 退出 */
-@property (nonatomic, copy, readonly) void (^dismiss)(void);
-
 /** 显示并监听JKAlertView消失动画完成 */
 @property (nonatomic, copy, readonly) void (^showWithDismissComplete)(void(^dismissComplete)(void));
+
+/** 退出 */
+@property (nonatomic, copy, readonly) void (^dismiss)(void);
 
 
 #pragma mark
@@ -367,7 +367,6 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^insertSecondCollectionAction)(JKAlertAction *action, NSUInteger atIndex);
 
 
-
 #pragma mark
 #pragma mark 类方法
 
@@ -436,7 +435,6 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^insertAction)(JKAlertAction *action, NSUInteger atIndex);
 
 
-
 #pragma mark
 #pragma mark action数组操作
 
@@ -490,7 +488,6 @@
 
 /** 链式清空action数组 */
 @property (nonatomic, copy, readonly) JKAlertView *(^clearActionArrayFrom)(BOOL isSecondCollection);
-
 
 
 #pragma mark
