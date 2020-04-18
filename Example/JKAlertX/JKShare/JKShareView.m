@@ -154,7 +154,7 @@
     // 显示短信界面
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:msgVc animated:YES completion:^{
         self.currentStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
-        [[UIApplication sharedApplication] setStatusBarStyle:(UIStatusBarStyleDefault)];
+        //[[UIApplication sharedApplication] setStatusBarStyle:(UIStatusBarStyleDefault)];
     }];
 }
 
@@ -220,7 +220,7 @@
         [controller dismissViewControllerAnimated:YES completion:nil];
     }
     
-    [[UIApplication sharedApplication] setStatusBarStyle:(self.currentStatusBarStyle)];
+    //[[UIApplication sharedApplication] setStatusBarStyle:(self.currentStatusBarStyle)];
     
     [self dismiss];
 }

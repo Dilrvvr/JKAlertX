@@ -22,7 +22,7 @@
 @property (nonatomic, weak) UIView *topSeparatorLineView;
 @end
 
-@interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, JKAlertViewProtocol, UIGestureRecognizerDelegate>
+@interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
 {
     CGFloat TBMargin;
     CGFloat textContainerViewCurrentMaxH_;
@@ -222,17 +222,17 @@
 /** scrollView */
 @property (nonatomic, weak) UIScrollView *scrollView;
 
+/** 即将显示动画的回调 */
+@property (nonatomic, copy) void (^willShowHandler)(JKAlertView *view);
+
+/** 显示动画完成的回调 */
+@property (nonatomic, copy) void (^didShowHandler)(JKAlertView *view);
+
 /** 即将消失的回调 */
 @property (nonatomic, copy) void (^willDismissHandler)(void);
 
 /** 消失后的回调 */
 @property (nonatomic, copy) void (^didDismissHandler)(void);
-
-/** 即将显示动画的回调 */
-@property (nonatomic, copy) void (^willShowAnimationCompleteHandler)(JKAlertView *view);
-
-/** 显示动画完成的回调 */
-@property (nonatomic, copy) void (^showAnimationCompleteHandler)(JKAlertView *view);
 
 #pragma mark
 #pragma mark - textField
@@ -478,7 +478,7 @@
 }
 
 /** 函数式类方法 */
-+ (id<JKAlertViewProtocol> (^)(NSString *title, NSString *message, JKAlertStyle style, void(^)(JKAlertView *alertView)))show{
++ (JKAlertView * (^)(NSString *title, NSString *message, JKAlertStyle style, void(^)(JKAlertView *alertView)))show{
     
     return ^(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView)) {
         
@@ -2769,7 +2769,7 @@
 #pragma mark - 显示
 
 /** 显示 */
-- (id<JKAlertViewProtocol>(^)(void))show{
+- (JKAlertView *(^)(void))show{
     
     [[UIApplication sharedApplication].delegate.window endEditing:YES];
     
@@ -2829,28 +2829,6 @@
     };
 }
 
-/** 监听即将开始显示动画 */
-- (JKAlertView * (^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation{
-    
-    return ^(void(^willShowAnimation)(JKAlertView *view)) {
-        
-        self.willShowAnimationCompleteHandler = willShowAnimation;
-        
-        return self;
-    };
-}
-
-/** 监听JKAlertView显示动画完成 */
-- (JKAlertView * (^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete{
-    
-    return ^(void(^showAnimationComplete)(JKAlertView *view)) {
-        
-        self.showAnimationCompleteHandler = showAnimationComplete;
-        
-        return self;
-    };
-}
-
 /** 监听屏幕旋转 */
 - (JKAlertView * (^)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)))setOrientationChangeBlock{
     
@@ -2895,10 +2873,62 @@
     };
 }
 
-/** 监听JKAlertView即将消失 */
-- (id<JKAlertViewProtocol> (^)(void(^willDismiss)(void)))setWillDismiss{
+/** 监听即将开始显示动画 */
+- (JKAlertView * (^)(void(^willShowHandler)(JKAlertView *view)))setWillShowHandler{
     
-    return ^id<JKAlertViewProtocol> (void(^willDismiss)(void)) {
+    return ^(void(^willShowHandler)(JKAlertView *view)) {
+        
+        self.willShowHandler = willShowHandler;
+        
+        return self;
+    };
+}
+
+- (JKAlertView * (^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation{
+    
+    return ^(void(^willShowAnimation)(JKAlertView *view)) {
+        
+        self.willShowHandler = willShowAnimation;
+        
+        return self;
+    };
+}
+
+/** 监听JKAlertView显示动画完成 */
+- (JKAlertView * (^)(void(^didShowHandler)(JKAlertView *view)))setDidShowHandler{
+    
+    return ^(void(^didShowHandler)(JKAlertView *view)) {
+        
+        self.didShowHandler = didShowHandler;
+        
+        return self;
+    };
+}
+
+- (JKAlertView * (^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete{
+    
+    return ^(void(^showAnimationComplete)(JKAlertView *view)) {
+        
+        self.didShowHandler = showAnimationComplete;
+        
+        return self;
+    };
+}
+
+/** 监听JKAlertView即将消失 */
+- (JKAlertView * (^)(void(^willDismissHandler)(void)))setWillDismissHandler{
+    
+    return ^JKAlertView * (void(^willDismissHandler)(void)) {
+        
+        self.willDismissHandler = willDismissHandler;
+        
+        return self;
+    };
+}
+
+- (JKAlertView * (^)(void(^willDismiss)(void)))setWillDismiss{
+    
+    return ^JKAlertView * (void(^willDismiss)(void)) {
         
         self.willDismissHandler = willDismiss;
         
@@ -2907,7 +2937,17 @@
 }
 
 /** 监听JKAlertView消失动画完成 */
-- (id<JKAlertViewProtocol> (^)(void(^dismissComplete)(void)))setDismissComplete{
+- (JKAlertView * (^)(void(^didDismissHandler)(void)))setDidDismissHandler{
+    
+    return ^(void(^didDismissHandler)(void)) {
+        
+        self.didDismissHandler = didDismissHandler;
+        
+        return self;
+    };
+}
+
+- (JKAlertView * (^)(void(^dismissComplete)(void)))setDismissComplete{
     
     return ^(void(^dismissComplete)(void)) {
         
@@ -4101,7 +4141,7 @@
     
     self.window.userInteractionEnabled = NO;
     
-    !self.willShowAnimationCompleteHandler ? : self.willShowAnimationCompleteHandler(self);
+    !self.willShowHandler ? : self.willShowHandler(self);
     
     if (self.customShowAnimationBlock) {
         
@@ -4204,7 +4244,7 @@
     self->_titleTextView.delegate = self.titleTextViewDelegate;
     self->_messageTextView.delegate = self.messageTextViewDelegate;
     
-    !self.showAnimationCompleteHandler ? : self.showAnimationCompleteHandler(self);
+    !self.didShowHandler ? : self.didShowHandler(self);
     
     self->oldPlainViewFrame = self->_plainView.frame;
     
@@ -5249,14 +5289,14 @@
 #pragma mark
 #pragma mark - JKAlertViewProtocol
 
-/** 准备重新布局 返回JKAlertViewProtocol协议对象，去调用相应协议方法 */
-- (id<JKAlertViewProtocol> (^)(void))prepareToRelayout{
+/** 准备重新布局 */
+- (JKAlertView * (^)(void))prepareToRelayout{
     
     return ^{ return self; };
 }
 
 /** 重新布局 */
-- (id<JKAlertViewProtocol> (^)(BOOL animated))relayout{
+- (JKAlertView * (^)(BOOL animated))relayout{
     
     //lastTableViewOffsetY = _tableView.contentOffset.y;
     
@@ -5285,7 +5325,7 @@
 }
 
 /** 监听重新布局完成 */
-- (id<JKAlertViewProtocol> (^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete{
+- (JKAlertView * (^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete{
     
     return ^(void(^relayoutComplete)(JKAlertView *view)) {
         
@@ -5296,7 +5336,7 @@
 }
 
 /** 重新设置alertTitle */
-- (id<JKAlertViewProtocol> (^)(NSString *alertTitle))resetAlertTitle{
+- (JKAlertView * (^)(NSString *alertTitle))resetAlertTitle{
     
     return ^(NSString *alertTitle) {
         
@@ -5307,7 +5347,7 @@
 }
 
 /** 重新设置alertAttributedTitle */
-- (id<JKAlertViewProtocol> (^)(NSAttributedString *alertAttributedTitle))resetAlertAttributedTitle{
+- (JKAlertView * (^)(NSAttributedString *alertAttributedTitle))resetAlertAttributedTitle{
     
     return ^(NSAttributedString *alertAttributedTitle) {
         
@@ -5318,7 +5358,7 @@
 }
 
 /** 重新设置message */
-- (id<JKAlertViewProtocol> (^)(NSString *message))resetMessage{
+- (JKAlertView * (^)(NSString *message))resetMessage{
     
     return ^(NSString *message) {
         
@@ -5329,7 +5369,7 @@
 }
 
 /** 重新设置attributedMessage */
-- (id<JKAlertViewProtocol> (^)(NSAttributedString *attributedMessage))resetAttributedMessage{
+- (JKAlertView * (^)(NSAttributedString *attributedMessage))resetAttributedMessage{
     
     return ^(NSAttributedString *attributedMessage) {
         

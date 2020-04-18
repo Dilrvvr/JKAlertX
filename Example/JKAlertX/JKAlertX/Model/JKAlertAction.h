@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "JKAlertConst.h"
 
+@class JKAlertView;
+
 @interface JKAlertAction : NSObject
 
 /** title */
@@ -36,7 +38,7 @@
 @property (nonatomic, strong) UIImage *hightlightedImage;
 
 /** aciton所处的alertView 仅用于dismiss */
-@property (nonatomic, weak) id <JKAlertViewProtocol> alertView;
+@property (nonatomic, weak) JKAlertView *alertView;
 
 /**
  * 是否是空的action

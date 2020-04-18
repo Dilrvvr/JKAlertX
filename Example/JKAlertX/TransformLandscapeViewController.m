@@ -148,7 +148,7 @@
             
             if (action.autoDismiss) { return; }
             
-            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").resetOther().setMessageMinHeight(80).setPlainCloseButtonConfig(^(UIButton *closeButton) {
+            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").setMessageMinHeight(80).setPlainCloseButtonConfig(^(UIButton *closeButton) {
                 
                 closeButton.hidden = YES;
                 
@@ -191,7 +191,7 @@
         });
         
         // 显示动画完毕后，向上偏移150
-        alertView.setShowAnimationComplete(^(JKAlertView *view) {
+        alertView.setDidShowHandler(^(JKAlertView *view) {
             
             //        view.movePlainCenterOffsetY(-150, YES);
         });
@@ -296,7 +296,7 @@
             
             return [UIView new];
             
-        }).alertView.resetMessage(@"message已更新").resetOther().setMessageTextColor([UIColor redColor]).relayout(YES);
+        }).alertView.resetMessage(@"message已更新").setMessageTextColor([UIColor redColor]).relayout(YES);
         
     }].setAutoDismiss(NO)];
     
@@ -327,7 +327,7 @@
             
             return [UIView new];
             
-        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").resetOther().setTitleTextColor([UIColor redColor]).setBottomButtonMargin(0.5).relayout(YES);
+        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").setTitleTextColor([UIColor redColor]).setBottomButtonMargin(0.5).relayout(YES);
         
     }].setAutoDismiss(NO)).setShowPageControl(YES);
     
