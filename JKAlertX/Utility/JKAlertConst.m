@@ -39,6 +39,8 @@ CGFloat    const JKAlertButtonH = 46.0;
 
 NSInteger  const JKAlertPlainButtonBeginTag = 100;
 
+CGFloat    const JKAlertSheetSpringHeight = 15.0;
+
 CGFloat    const JKAlertSheetTitleMargin = 6.0;
 
 CGFloat    const JKAlertTopGestureIndicatorHeight = 20.0;

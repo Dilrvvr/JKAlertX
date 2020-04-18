@@ -159,6 +159,19 @@
     
     if (self.maxRecognizeTime > 0) {
         
+        UITouch *touch = [touches anyObject];
+        
+        CGPoint location = [touch locationInView:self.view];
+        
+        if (self.minDistance > 0 &&
+            fabs(self.beganLocation.x - location.x) < self.minDistance &&
+            fabs(self.beganLocation.y - location.y) < self.minDistance) {
+            
+            self.state = UIGestureRecognizerStateFailed;
+            
+            return;
+        }
+        
         if (self.state == UIGestureRecognizerStatePossible &&
             event.timestamp - self.beganTime > self.maxRecognizeTime) {
             

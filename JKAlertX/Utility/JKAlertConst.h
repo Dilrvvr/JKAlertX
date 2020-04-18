@@ -8,45 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class JKAlertView;
-
 #pragma mark
 #pragma mark - 协议
 
-@protocol JKAlertViewProtocol
-
-@required
-
-/** 退出 */
-- (void(^)(void))dismiss;
-
-/** 监听JKAlertView即将即将开始消失动画 */
-- (id<JKAlertViewProtocol> (^)(void(^willDismiss)(void)))setWillDismiss;
-
-/** 监听JKAlertView消失动画完成 */
-- (id<JKAlertViewProtocol> (^)(void(^dismissComplete)(void)))setDismissComplete;
-
-/** 重新布局 */
-- (id<JKAlertViewProtocol> (^)(BOOL animated))relayout;
-
-/** 监听重新布局完成 */
-- (id<JKAlertViewProtocol> (^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete;
-
-/** 重新设置alertTitle */
-- (id<JKAlertViewProtocol> (^)(NSString *alertTitle))resetAlertTitle;
-
-/** 重新设置alertAttributedTitle */
-- (id<JKAlertViewProtocol> (^)(NSAttributedString *alertAttributedTitle))resetAlertAttributedTitle;
-
-/** 重新设置message */
-- (id<JKAlertViewProtocol> (^)(NSString *message))resetMessage;
-
-/** 重新设置attributedMessage */
-- (id<JKAlertViewProtocol> (^)(NSAttributedString *attributedMessage))resetAttributedMessage;
-
-/** 重新设置其它属性，调用该方法返回JKAlertView，设置好其它属性后，再调用relayout即可 */
-- (JKAlertView * (^)(void))resetOther;
-@end
 
 
 #pragma mark
@@ -80,6 +44,12 @@ typedef enum : NSUInteger {
      * 该样式没有message，只有一个title
      */
     JKAlertStyleHUD = 4,
+    
+    /** 顶部通知 */
+    JKAlertStyleNotification = 5,
+    
+    /** 自定义 */
+    //JKAlertStyleCustom = 6,
     
     /** 面板 */
     JKAlertStyleAlert = JKAlertStylePlain,
@@ -145,6 +115,8 @@ UIKIT_EXTERN NSInteger  const JKAlertPlainButtonBeginTag;// = 100;
 
 UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6.0;
 
+UIKIT_EXTERN CGFloat    const JKAlertSheetSpringHeight;// = 15.0;
+
 UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorHeight;// = 20.0;
 
 UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineWidth;// = 40.0;
@@ -180,7 +152,7 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 
 #define JKAlertSystemRedColor [UIColor colorWithRed:255.0/255.0 green:59.0/255.0 blue:48.0/255.0 alpha:1.0]
 
-//#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
+#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
 
 //#define JKAlertXDeprecatedCustomizer NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, "请使用customizer")
 

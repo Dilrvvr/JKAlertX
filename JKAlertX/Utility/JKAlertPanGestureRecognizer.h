@@ -30,6 +30,9 @@ typedef NS_ENUM(NSUInteger, JKAlertPanGestureDirection) {
 /** 最大识别时间 超过该时间将状态置为识别失败 */
 @property (nonatomic, assign) NSTimeInterval maxRecognizeTime;
 
+/** 在最大识别时间内需要滑动的最小距离 小于该值则将状态置为识别失败 */
+@property (nonatomic, assign) CGFloat minDistance;
+
 /** panGestureDidDelayBlock */
 @property (nonatomic, copy) void (^panGestureDidDelayBlock)(JKAlertPanGestureRecognizer *panGesture);
 @end

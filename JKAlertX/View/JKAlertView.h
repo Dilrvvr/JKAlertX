@@ -12,6 +12,36 @@
 @interface JKAlertView : JKBaseAlertView
 
 #pragma mark
+#pragma mark - 基本方法
+
+/** 实例化 */
++ (instancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message style:(JKAlertStyle)alertStyle;
+
+/** 富文本实例化 */
++ (instancetype)alertViewWithAttributedTitle:(NSAttributedString *)attributedTitle attributedMessage:(NSAttributedString *)attributedMessage style:(JKAlertStyle)alertStyle;
+
+/** 添加action */
+- (void)addAction:(JKAlertAction *)action;
+
+/**
+ * 添加textField 默认高度30
+ * textField之间的间距是1，和其superView的上下左右间距也是1
+ * textField可以直接对其superView进行一些属性修改，如背景色
+ * block中的参数view用于调用dismiss()来移除当前弹框
+ */
+- (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *view, UITextField *textField))configurationHandler;
+
+/** 显示 */
+@property (nonatomic, copy, readonly) JKAlertView * (^show)(void);
+
+/** 显示并监听JKAlertView消失动画完成 */
+@property (nonatomic, copy, readonly) void (^showWithDismissComplete)(void(^dismissComplete)(void));
+
+/** 退出 */
+@property (nonatomic, copy, readonly) void (^dismiss)(void);
+
+
+#pragma mark
 #pragma mark 公共部分
 
 /** 设置是否允许手势退出 默认NO NO 仅限sheet样式 */
@@ -245,11 +275,17 @@
 /** 设置sheet样式最大高度 默认屏幕高度 * 0.85 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setSheetMaxHeight)(CGFloat height);
 
+/** 自定义配置tableView */
+@property (nonatomic, copy, readonly) JKAlertView *(^setTableViewConfiguration)(void(^)(UITableView *tableView));
+
 /** 设置UITableViewDataSource */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDataSource)(id<UITableViewDataSource> dataSource);
 
 /** 设置UITableViewDelegate */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDelegate)(id<UITableViewDelegate> delegate);
+
+/** 设置actionSheet底部取消按钮是否固定在底部 默认NO */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPinCancelButton)(BOOL pinCancelButton);
 
 
 #pragma mark
@@ -337,21 +373,14 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^insertSecondCollectionAction)(JKAlertAction *action, NSUInteger atIndex);
 
 
-
 #pragma mark
 #pragma mark 类方法
 
 /** 函数式类方法 */
-@property (class, nonatomic, copy, readonly) id<JKAlertViewProtocol> (^show)(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView));
-
-/** 实例化 */
-+ (instancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message style:(JKAlertStyle)alertStyle;
+@property (class, nonatomic, copy, readonly) JKAlertView * (^show)(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView));
 
 /** 链式实例化 */
 @property (class, nonatomic, copy, readonly) JKAlertView * (^alertView)(NSString *title, NSString *message, JKAlertStyle style);
-
-/** 富文本实例化 */
-+ (instancetype)alertViewWithAttributedTitle:(NSAttributedString *)attributedTitle attributedMessage:(NSAttributedString *)attributedMessage style:(JKAlertStyle)alertStyle;
 
 /** 富文本链式实例化 */
 @property (class, nonatomic, copy, readonly) JKAlertView * (^alertViewAttributed)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style);
@@ -403,9 +432,6 @@
 #pragma mark 添加action
 
 /** 添加action */
-- (void)addAction:(JKAlertAction *)action;
-
-/** 添加action */
 - (void)insertAction:(JKAlertAction *)action atIndex:(NSUInteger)index;
 
 /** 链式添加action */
@@ -413,7 +439,6 @@
 
 /** 链式添加action */
 @property (nonatomic, copy, readonly) JKAlertView *(^insertAction)(JKAlertAction *action, NSUInteger atIndex);
-
 
 
 #pragma mark
@@ -471,17 +496,8 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^clearActionArrayFrom)(BOOL isSecondCollection);
 
 
-
 #pragma mark
 #pragma mark 添加textField
-
-/**
- * 添加textField 默认高度30
- * textField之间的间距是1，和其superView的上下左右间距也是1
- * textField可以直接对其superView进行一些属性修改，如背景色
- * block中的参数view用于调用dismiss()来移除当前弹框
- */
-- (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *view, UITextField *textField))configurationHandler;
 
 /**
  * 链式添加textField 默认高度30
@@ -490,19 +506,6 @@
  * block中的参数view用于调用dismiss()来移除当前弹框
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^addTextFieldWithConfigurationHandler)(void (^)(JKAlertView *view, UITextField *textField));
-
-
-#pragma mark
-#pragma mark 显示
-
-/** 显示 */
-@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^show)(void);
-
-/** 显示并监听JKAlertView消失动画完成 */
-@property (nonatomic, copy, readonly) void (^showWithDismissComplete)(void(^dismissComplete)(void));
-
-/** 退出 */
-@property (nonatomic, copy, readonly) void (^dismiss)(void);
 
 
 #pragma mark
@@ -528,10 +531,20 @@
 #pragma mark 状态监听
 
 /** 监听即将开始显示动画 */
-@property (nonatomic, copy, readonly) JKAlertView * (^setWillShowAnimation)(void(^willShowAnimation)(JKAlertView *view));
+@property (nonatomic, copy, readonly) JKAlertView * (^setWillShowHandler)(void(^willShowHandler)(JKAlertView *view));
+@property (nonatomic, copy, readonly) JKAlertView * (^setWillShowAnimation)(void(^willShowAnimation)(JKAlertView *view)) JKAlertXDeprecated("use setWillShowHandler");
 
 /** 监听显示动画完成 */
-@property (nonatomic, copy, readonly) JKAlertView * (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view));
+@property (nonatomic, copy, readonly) JKAlertView * (^setDidShowHandler)(void(^didShowHandler)(JKAlertView *view));
+@property (nonatomic, copy, readonly) JKAlertView * (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view)) JKAlertXDeprecated("use setDidShowHandler");
+
+/** 监听JKAlertView即将开始消失动画 */
+@property (nonatomic, copy, readonly) JKAlertView * (^setWillDismissHandler)(void(^willDismissHandler)(void));
+@property (nonatomic, copy, readonly) JKAlertView * (^setWillDismiss)(void(^willDismiss)(void)) JKAlertXDeprecated("use setWillDismissHandler");
+
+/** 监听JKAlertView消失动画完成 */
+@property (nonatomic, copy, readonly) JKAlertView * (^setDidDismissHandler)(void(^didDismissHandler)(void));
+@property (nonatomic, copy, readonly) JKAlertView * (^setDismissComplete)(void(^dismissComplete)(void));
 
 /** 监听屏幕旋转 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));
@@ -541,12 +554,6 @@
 
 /** 设置监听superView尺寸改变时自适应完成的block */
 @property (nonatomic, copy, readonly) JKAlertView * (^setDidAutoAdaptSuperViewBlock)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView));
-
-/** 监听JKAlertView即将开始消失动画 */
-@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setWillDismiss)(void(^willDismiss)(void));
-
-/** 监听JKAlertView消失动画完成 */
-@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setDismissComplete)(void(^dismissComplete)(void));
 
 /** 设置dealloc时会调用的block */
 @property (nonatomic, copy, readonly) void (^setDeallocBlock)(void(^deallocBlock)(void));
@@ -558,11 +565,26 @@
 #pragma mark
 #pragma mark 显示之后更新UI
 
-/** 准备重新布局 返回JKAlertViewProtocol协议对象，去调用相应协议方法 */
-@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^prepareToRelayout)(void);
+/** 准备重新布局 */
+@property (nonatomic, copy, readonly) JKAlertView * (^prepareToRelayout)(void) JKAlertXDeprecated("JKAlertViewProtocol已移除，无需调用该方法");
+
+/** 重新设置其它属性，调用该方法返回JKAlertView，设置好其它属性后，再调用relayout即可 */
+@property (nonatomic, copy, readonly) JKAlertView * (^resetOther)(void)JKAlertXDeprecated("JKAlertViewProtocol已移除，无需调用该方法");
+
+/** 重新设置alertTitle */
+@property (nonatomic, copy, readonly) JKAlertView * (^resetAlertTitle)(NSString *alertTitle);
+
+/** 重新设置alertAttributedTitle */
+@property (nonatomic, copy, readonly) JKAlertView * (^resetAlertAttributedTitle)(NSAttributedString *alertAttributedTitle);
+
+/** 重新设置message */
+@property (nonatomic, copy, readonly) JKAlertView * (^resetMessage)(NSString *message);
+
+/** 重新设置attributedMessage */
+@property (nonatomic, copy, readonly) JKAlertView * (^resetAttributedMessage)(NSAttributedString *attributedMessage);
 
 /** 重新布局 */
-@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^relayout)(BOOL animated);
+@property (nonatomic, copy, readonly) JKAlertView * (^relayout)(BOOL animated);
 
 /**
  * 重新布局完成的block
@@ -570,7 +592,7 @@
  * 如果需要在block中再次relayout，请在block中销毁该block
  * 即调用setRelayoutComplete(nil); 否则会造成死循环
  */
-@property (nonatomic, copy, readonly) id<JKAlertViewProtocol> (^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view));
+@property (nonatomic, copy, readonly) JKAlertView * (^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view));
 
 
 #pragma mark

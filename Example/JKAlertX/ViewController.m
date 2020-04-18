@@ -256,6 +256,9 @@
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好" style:(JKAlertStyleActionSheet)].setEnableGestureDismiss(YES, YES, YES);
 //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil style:(JKAlertStyleActionSheet)];
     
+    // 固定底部取消按钮
+    //alertView.setPinCancelButton(YES);
+    
     alertView.setContainerViewConfig(^(UIView *containerView) {
        
         // 加个圆角
