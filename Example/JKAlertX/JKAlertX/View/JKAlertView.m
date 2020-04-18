@@ -421,6 +421,9 @@
 /** tableViewDelegate */
 @property (nonatomic, weak) id tableViewDelegate;
 
+/** 是否固定取消按钮在底部 */
+@property (nonatomic, assign) BOOL pinCancelButton;
+
 /** bottomFillView */
 @property (nonatomic, weak) UIView *bottomFillView;
 
@@ -828,8 +831,6 @@
         tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
         tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
         
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, FillHomeIndicator ? 0 :  JKAlertAdjustHomeIndicatorHeight, 0);
-        
         [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
         
         tableView.rowHeight = JKAlertRowHeight;
@@ -905,12 +906,7 @@
         
         [self.sheetContentView insertSubview:self.scrollView atIndex:1];
         
-        self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0);
-        
-        if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
-            
-            self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
-        }
+        [self updateInsets];
         
         self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -2076,6 +2072,19 @@
     };
 }
 
+/** 设置actionSheet底部取消按钮是否固定在底部 默认NO */
+- (JKAlertView *(^)(BOOL pinCancelButton))setPinCancelButton{
+    
+    return ^(BOOL pinCancelButton) {
+        
+        self.pinCancelButton = pinCancelButton;
+        
+        [self updateInsets];
+        
+        return self;
+    };
+}
+
 /**
  * 设置collection样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
@@ -2241,18 +2250,52 @@
 
 - (void)orientationChanged:(NSNotification *)noti{
     
-    _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight(), 0);
-    
-    if (_alertStyle == JKAlertStyleCollectionSheet) {
-        
-        _scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0);
-    }
-    
     !self.orientationChangeBlock ? : self.orientationChangeBlock(self, [UIApplication sharedApplication].statusBarOrientation);
     
     [self updateWidthHeight];
     
     [self calculateUI];
+    
+    [self updateInsets];
+}
+
+- (void)updateInsets{
+    
+    if (!_tableView && (_alertStyle != JKAlertStyleCollectionSheet)) { return; }
+    
+    UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
+    
+    UIView *superView = self.superview ? self.superview : keyWindow;
+    
+    CGFloat safeAreaInset = 0;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInset = MAX(superView.safeAreaInsets.left, superView.safeAreaInsets.right);;
+    }
+    
+    if (_tableView) {
+        
+        CGFloat bottomInset = 0;
+        
+        if (!self.pinCancelButton) {
+            
+            bottomInset = JKAlertAdjustHomeIndicatorHeight;
+            
+            if (AutoAdjustHomeIndicator && FillHomeIndicator) {
+                
+                bottomInset = 0;
+            }
+        }
+        
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, bottomInset, 0);
+        _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, (self.pinCancelButton ? 0 : JKAlertCurrentHomeIndicatorHeight()), safeAreaInset);
+    }
+    
+    if (_alertStyle == JKAlertStyleCollectionSheet) {
+        
+        _scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight(), safeAreaInset);
+    }
 }
 
 - (void)updateWidthHeight{
@@ -2296,13 +2339,6 @@
             //JKAlertScreenH = MIN(superView.bounds.size.width, superView.bounds.size.height);
             
             _isLandScape = YES;
-            
-            _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
-            
-            if (_alertStyle == JKAlertStyleCollectionSheet) {
-                
-                _scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
-            }
         }
             break;
         case UIInterfaceOrientationLandscapeRight:{
@@ -3691,6 +3727,61 @@
     _tableView.scrollEnabled = _tableView.frame.size.height < tableViewH;
     
     _textContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
+    
+    [self updateInsets];
+    
+    if (!self.pinCancelButton || !self.cancelAction) {
+        
+        [_cancelButton removeFromSuperview];
+        
+        return;
+    }
+    
+    if (self.cancelButton.superview != _sheetContentView) {
+        
+        [_sheetContentView addSubview:self.cancelButton];
+    }
+    
+    [self adjustButton:self.cancelButton action:self.cancelAction];
+    
+    CGFloat cancelHeight = self.cancelAction.rowHeight;
+    
+    CGRect frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, _sheetContentView.frame.size.height - cancelHeight - JKAlertAdjustHomeIndicatorHeight, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, cancelHeight);
+    
+    if (self.cancelAction.customView) {
+        
+        self.cancelButton.backgroundColor = nil;
+        
+        frame.size.height = self.cancelAction.customView.frame.size.height - (self.cancelButton.titleEdgeInsets.bottom > 0 ? JKAlertAdjustHomeIndicatorHeight : 0);
+    }
+    
+    self.cancelButton.frame = frame;
+    
+    self.cancelAction.customView.frame = self.cancelButton.bounds;
+    
+    if (FillHomeIndicator) {
+        
+        frame = self.cancelButton.frame;
+        frame.size.height += JKAlertAdjustHomeIndicatorHeight;
+        frame.origin.y = _sheetContentView.frame.size.height - frame.size.height;
+        self.cancelButton.frame = frame;
+        
+        self.cancelAction.customView.frame = self.cancelButton.bounds;
+        
+        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0)];
+        
+        //        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
+        
+    } else {
+        
+        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsZero];
+    }
+    
+    frame = self.tableView.frame;
+    
+    frame.size.height -= (_sheetContentView.frame.size.height - self.cancelButton.frame.origin.y + CancelMargin);
+    
+    self.tableView.frame = frame;
 }
 
 - (void)adjustSheetFrame{
@@ -3942,7 +4033,7 @@
         
         self.cancelButton.backgroundColor = nil;
         
-        frame.size.height = self.cancelAction.customView.frame.size.height - (self.cancelButton.titleEdgeInsets.bottom > 0 ? JKAlertCurrentHomeIndicatorHeight() : 0);
+        frame.size.height = self.cancelAction.customView.frame.size.height - (self.cancelButton.titleEdgeInsets.bottom > 0 ? JKAlertAdjustHomeIndicatorHeight : 0);
     }
     
     self.cancelButton.frame = frame;
@@ -4063,17 +4154,23 @@
     if (FillHomeIndicator) {
         
         CGRect cancelButtonFrame = self.cancelButton.frame;
-        cancelButtonFrame.size.height += JKAlertCurrentHomeIndicatorHeight();
+        cancelButtonFrame.size.height += JKAlertAdjustHomeIndicatorHeight;
         self.cancelButton.frame = cancelButtonFrame;
         
         self.cancelAction.customView.frame = self.cancelButton.bounds;
         
-        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight(), 0)];
+        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0)];
         
         //        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
+        
+    } else {
+        
+        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsZero];
     }
     
     _textContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
+    
+    [self updateInsets];
 }
 
 #pragma mark
@@ -4167,8 +4264,10 @@
         
         if (_enableVerticalGestureDismiss &&
             (_sheetContainerView != nil)) {
+            _sheetContainerView.layer.anchorPoint = CGPointMake(0.5, 1);
+            //self.bottomFillView.frame = CGRectMake(0, CGRectGetMaxY(_sheetContainerView.frame) - 1, _sheetContainerView.frame.size.width, 16);
             
-            self.bottomFillView.frame = CGRectMake(0, CGRectGetMaxY(_sheetContainerView.frame) - 1, _sheetContainerView.frame.size.width, 16);
+            //self->_bottomFillView.backgroundColor = ((!AutoAdjustHomeIndicator || (AutoAdjustHomeIndicator && FillHomeIndicator)) ? JKAlertGlobalBackgroundColor() : nil);
         }
     }
     
@@ -4199,15 +4298,17 @@
             [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionAllowUserInteraction  animations:^{
                 [UIView setAnimationCurve:(UIViewAnimationCurveEaseInOut)];
                 
-                CGRect rect = self->_sheetContainerView.frame;
-                rect.origin.y = self->JKAlertScreenH - rect.size.height;
-                self->_sheetContainerView.frame = rect;
+                //CGRect rect = self->_sheetContainerView.frame;
+                //rect.origin.y = self->JKAlertScreenH - rect.size.height;
+                //self->_sheetContainerView.frame = rect;
                 
-                self.bottomFillView.frame = CGRectMake(0, self->JKAlertScreenH, rect.size.width, 16);
+                self->_sheetContainerView.transform = CGAffineTransformIdentity;
+                
+                //self->_bottomFillView.frame = CGRectMake(0, self->JKAlertScreenH, rect.size.width, 16);
                 
             } completion:^(BOOL finished) {
                 
-                self.bottomFillView.hidden = YES;
+                //self->_bottomFillView.hidden = YES;
                 
                 self.verticalDismissPanGesture.enabled = YES;
 
@@ -4235,10 +4336,12 @@
         
         CGRect rect = _sheetContainerView.frame;
         
-        rect.origin.y = JKAlertScreenH - rect.size.height - 15;
+        rect.origin.y = JKAlertScreenH - rect.size.height;
         _sheetContainerView.frame = rect;
         
-        self.bottomFillView.frame = CGRectMake(0, CGRectGetMaxY(_sheetContainerView.frame) - 1, _sheetContainerView.frame.size.width, 16);
+        _sheetContainerView.transform = CGAffineTransformMakeScale(1, (_sheetContainerView.frame.size.height + JKAlertSheetSpringHeight) / _sheetContainerView.frame.size.height);
+        
+        //self->_bottomFillView.frame = CGRectMake(0, CGRectGetMaxY(_sheetContainerView.frame) - 1, _sheetContainerView.frame.size.width, 16);
         
     } else {
         
@@ -4563,11 +4666,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return self.alertStyle == JKAlertStyleActionSheet ? (self.cancelAction.rowHeight > 0 ? 2 : 1) : 0;
+    return (self.alertStyle == JKAlertStyleActionSheet) ? ((self.cancelAction.rowHeight > 0 && !self.pinCancelButton) ? 2 : 1) : 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0 ? self.actions.count : 1;
+    return section == 0 ? self.actions.count : (self.pinCancelButton ? 0 : 1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -4599,7 +4702,7 @@
     
     if (!FillHomeIndicator) { return action.rowHeight; }
     
-    return indexPath.section == 0 ? action.rowHeight : action.rowHeight + JKAlertCurrentHomeIndicatorHeight();
+    return indexPath.section == 0 ? action.rowHeight : action.rowHeight + JKAlertAdjustHomeIndicatorHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -4836,7 +4939,10 @@
 
 - (void)solveVerticalScroll:(UIScrollView *)scrollView{
     
-    if (!self.enableVerticalGestureDismiss || !scrollView.isDragging || disableScrollSheetContainerView) { return; }
+    if (!self.enableVerticalGestureDismiss ||
+        !self.clickPlainBlankDismiss ||
+        !scrollView.isDragging ||
+        disableScrollSheetContainerView) { return; }
     
     //NSLog(@"contentOffset-->%@", NSStringFromCGPoint(scrollView.contentOffset));
     
@@ -4852,7 +4958,7 @@
         
         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
         
-        NSLog(@"1");
+        //NSLog(@"1");
         
     } else if (self.sheetContainerView.frame.origin.y > correctContainerY + 0.1) {
         
@@ -4866,7 +4972,7 @@
         
         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
         
-        NSLog(@"2");
+        //NSLog(@"2");
     }
     
     if (scrollView.isDragging) {
@@ -4877,7 +4983,7 @@
 
 - (void)solveHorizontalScroll:(UIScrollView *)scrollView{
     
-    if (!self.enableHorizontalGestureDismiss) { return; }
+    if (!self.enableHorizontalGestureDismiss || !self.clickPlainBlankDismiss) { return; }
     
     if ((scrollView == self.collectionView &&
         self.collectionView2.isDecelerating) ||
@@ -4919,7 +5025,7 @@
 
 - (void)solveWillEndDraggingVertically:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.enableVerticalGestureDismiss) { return; }
+    if (!self.enableVerticalGestureDismiss || !self.clickPlainBlankDismiss) { return; }
     
     if (scrollView.contentOffset.y + scrollView.contentInset.top > 0) {
         
@@ -4940,7 +5046,7 @@
 
 - (void)solveWillEndDraggingHorizontally:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.enableHorizontalGestureDismiss) { return; }
+    if (!self.enableHorizontalGestureDismiss || !self.clickPlainBlankDismiss) { return; }
     
     if (scrollView.contentOffset.x + scrollView.contentInset.left > 0) {
         
@@ -5076,7 +5182,7 @@
     [UIView animateWithDuration:0.25 animations:^{
         
         self.sheetContainerView.frame = frame;
-        self->_bottomFillView.frame = CGRectMake(0, CGRectGetMaxY(frame), frame.size.width, self->_bottomFillView.frame.size.height);
+        //self->_bottomFillView.frame = CGRectMake(0, CGRectGetMaxY(frame), frame.size.width, self->_bottomFillView.frame.size.height);
         
     } completion:^(BOOL finished) {
         
@@ -5096,7 +5202,7 @@
             
             lastContainerY = self.sheetContainerView.frame.origin.y;
             
-            self.bottomFillView.hidden = NO;
+            //self->_bottomFillView.hidden = NO;
         }
             break;
         case UIGestureRecognizerStateChanged:
@@ -5104,37 +5210,37 @@
             // 获取偏移
             CGPoint point = [panGesture translationInView:self.sheetContainerView];
             
-            CGPoint center = self.sheetContainerView.center;
+            CGRect frame = self.sheetContainerView.frame;
             
             if (point.y > 0) {
                 
                 if (!self.clickPlainBlankDismiss) {
                     
-                    center.y += (point.y * 0.05);
+                    frame.origin.y += (point.y * 0.01);
                     
                 } else {
                     
-                    center.y += point.y;
+                    frame.origin.y += point.y;
                 }
                 
             } else {
                 
                 if (!self.clickPlainBlankDismiss ||
-                    (center.y <= (correctContainerY) + self.sheetContainerView.frame.size.height * 0.5)) {
+                    (frame.origin.y <= (correctContainerY))) {
                     
-                    center.y += (point.y * 0.05);
+                    frame.origin.y += (point.y * 0.01);
                     
                 } else {
                     
-                    center.y += point.y;
+                    frame.origin.y += point.y;
                 }
             }
             
-            self.sheetContainerView.center = center;
+            self.sheetContainerView.frame = frame;
             
-            CGFloat maxY = CGRectGetMaxY(self.sheetContainerView.frame) - 1;
+            //CGFloat maxY = CGRectGetMaxY(self.sheetContainerView.frame) - 1;
             
-            self.bottomFillView.frame = CGRectMake(0, maxY, self.sheetContainerView.frame.size.width, MAX(JKAlertScreenH - maxY + 1, 0));
+            //self->_bottomFillView.frame = CGRectMake(0, maxY, self.sheetContainerView.frame.size.width, MAX(JKAlertScreenH - maxY + 1, 0));
             
             // 归零
             [panGesture setTranslation:CGPointZero inView:self.sheetContainerView];
@@ -5145,6 +5251,13 @@
             
         default:
         {
+            if (!self.clickPlainBlankDismiss) {
+                
+                [self relayoutSheetContainerView];
+                
+                return;
+            }
+            
             CGPoint velocity = [panGesture velocityInView:panGesture.view];
             CGFloat magnitude = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
             CGFloat slideMult = magnitude / 200;
@@ -5224,6 +5337,13 @@
             
         default:
         {
+            if (!self.clickPlainBlankDismiss) {
+                
+                [self relayoutSheetContainerView];
+                
+                return;
+            }
+            
             CGPoint velocity = [panGesture velocityInView:panGesture.view];
             CGFloat magnitude = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
             CGFloat slideMult = magnitude / 200;

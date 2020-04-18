@@ -115,6 +115,8 @@ UIKIT_EXTERN NSInteger  const JKAlertPlainButtonBeginTag;// = 100;
 
 UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6.0;
 
+UIKIT_EXTERN CGFloat    const JKAlertSheetSpringHeight;// = 15.0;
+
 UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorHeight;// = 20.0;
 
 UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineWidth;// = 40.0;

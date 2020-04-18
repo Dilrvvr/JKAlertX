@@ -284,6 +284,9 @@
 /** 设置UITableViewDelegate */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDelegate)(id<UITableViewDelegate> delegate);
 
+/** 设置actionSheet底部取消按钮是否固定在底部 默认NO */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPinCancelButton)(BOOL pinCancelButton);
+
 
 #pragma mark
 #pragma mark collectionSheet样式
