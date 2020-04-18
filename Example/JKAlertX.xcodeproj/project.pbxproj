@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50035A0C244AC8D20049B1B5 /* JKAlertBaseCustomizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 50035A0B244AC8D20049B1B5 /* JKAlertBaseCustomizer.m */; };
+		50035A0F244AC9640049B1B5 /* JKAlertCommonCustomizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 50035A0E244AC9640049B1B5 /* JKAlertCommonCustomizer.m */; };
 		50318C6F207CFD090059B4BA /* JKShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50318C68207CFD090059B4BA /* JKShareView.m */; };
 		50318C70207CFD090059B4BA /* JKShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 50318C69207CFD090059B4BA /* JKShareManager.m */; };
 		5038B35B216B599D00FA5588 /* JKAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038B351216B599D00FA5588 /* JKAlertView.m */; };
@@ -31,6 +33,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		50035A0A244AC8D20049B1B5 /* JKAlertBaseCustomizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseCustomizer.h; sourceTree = "<group>"; };
+		50035A0B244AC8D20049B1B5 /* JKAlertBaseCustomizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseCustomizer.m; sourceTree = "<group>"; };
+		50035A0D244AC9640049B1B5 /* JKAlertCommonCustomizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertCommonCustomizer.h; sourceTree = "<group>"; };
+		50035A0E244AC9640049B1B5 /* JKAlertCommonCustomizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertCommonCustomizer.m; sourceTree = "<group>"; };
 		50318C66207CFD090059B4BA /* JKShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKShareView.h; sourceTree = "<group>"; };
 		50318C67207CFD090059B4BA /* JKShareManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKShareManager.h; sourceTree = "<group>"; };
 		50318C68207CFD090059B4BA /* JKShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKShareView.m; sourceTree = "<group>"; };
@@ -85,6 +91,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		50035A09244AC88F0049B1B5 /* JKCustomizer */ = {
+			isa = PBXGroup;
+			children = (
+				50035A0A244AC8D20049B1B5 /* JKAlertBaseCustomizer.h */,
+				50035A0B244AC8D20049B1B5 /* JKAlertBaseCustomizer.m */,
+				50035A0D244AC9640049B1B5 /* JKAlertCommonCustomizer.h */,
+				50035A0E244AC9640049B1B5 /* JKAlertCommonCustomizer.m */,
+			);
+			path = JKCustomizer;
+			sourceTree = "<group>";
+		};
 		50318C65207CFD090059B4BA /* JKShare */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +119,7 @@
 				5038B35A216B599D00FA5588 /* JKAlertX.h */,
 				50AB436F21EC7C08004D8B4E /* JKBase */,
 				509E494521C0BE9C00B160A5 /* JKCategory */,
+				50035A09244AC88F0049B1B5 /* JKCustomizer */,
 				505A282A23A9CBD000BD4DA9 /* Model */,
 				505A282923A9CBC700BD4DA9 /* Utility */,
 				505A282B23A9CBE100BD4DA9 /* View */,
@@ -290,6 +308,7 @@
 				509E494121C0BDF500B160A5 /* UIControl+JKAlertX.m in Sources */,
 				5038B35E216B599D00FA5588 /* JKAlertTableViewCell.m in Sources */,
 				B7D5AA6A207CFBE8001152D9 /* main.m in Sources */,
+				50035A0F244AC9640049B1B5 /* JKAlertCommonCustomizer.m in Sources */,
 				50F2F13021A57C96005B3242 /* JKAlertConst.m in Sources */,
 				5038B35C216B599D00FA5588 /* JKAlertTextView.m in Sources */,
 				50AB436E21EC7BEF004D8B4E /* JKBaseAlertView.m in Sources */,
@@ -297,6 +316,7 @@
 				5038B35F216B599D00FA5588 /* JKAlertAction.m in Sources */,
 				5038B35B216B599D00FA5588 /* JKAlertView.m in Sources */,
 				50318C6F207CFD090059B4BA /* JKShareView.m in Sources */,
+				50035A0C244AC8D20049B1B5 /* JKAlertBaseCustomizer.m in Sources */,
 				5093697C2412345B00C16DEF /* NSObject+JKSafeCrachProtection.m in Sources */,
 				509E494421C0BE0500B160A5 /* UIGestureRecognizer+JKAlertX.m in Sources */,
 				50AF62312282D97100E94DF3 /* TransformLandscapeViewController.m in Sources */,
