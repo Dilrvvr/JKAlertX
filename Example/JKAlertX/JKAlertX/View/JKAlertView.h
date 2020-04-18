@@ -275,6 +275,9 @@
 /** 设置sheet样式最大高度 默认屏幕高度 * 0.85 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setSheetMaxHeight)(CGFloat height);
 
+/** 自定义配置tableView */
+@property (nonatomic, copy, readonly) JKAlertView *(^setTableViewConfiguration)(void(^)(UITableView *tableView));
+
 /** 设置UITableViewDataSource */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDataSource)(id<UITableViewDataSource> dataSource);
 

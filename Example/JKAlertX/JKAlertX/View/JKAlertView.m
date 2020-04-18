@@ -2039,7 +2039,18 @@
         
         return self;
     };
-};
+}
+
+/** 自定义配置tableView */
+- (JKAlertView * (^)(void(^)(UITableView *tableView)))setTableViewConfiguration{
+    
+    return ^(void(^tableViewConfiguration)(UITableView *tableView)) {
+        
+        !tableViewConfiguration ? : tableViewConfiguration(self->_tableView);
+        
+        return self;
+    };
+}
 
 /** 设置UITableViewDataSource */
 - (JKAlertView *(^)(id<UITableViewDataSource> dataSource))setCustomTableViewDataSource{
@@ -2051,7 +2062,7 @@
         
         return self;
     };
-};
+}
 
 /** 设置UITableViewDelegate */
 - (JKAlertView *(^)(id<UITableViewDelegate> delegate))setCustomTableViewDelegate{
@@ -2063,7 +2074,7 @@
         
         return self;
     };
-};
+}
 
 /**
  * 设置collection样式添加自定义的titleView
