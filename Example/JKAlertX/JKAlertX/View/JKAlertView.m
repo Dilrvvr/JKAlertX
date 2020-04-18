@@ -174,8 +174,8 @@
 /** closeButton */
 @property (nonatomic, weak) UIButton *closeButton;
 
-/** clickPlainBlankDismiss */
-@property (nonatomic, assign) BOOL clickPlainBlankDismiss;
+/** clickBlankDismiss */
+@property (nonatomic, assign) BOOL clickBlankDismiss;
 
 /** 监听点击空白处的block */
 @property (nonatomic, copy) void (^blankClickBlock)(void);
@@ -1166,7 +1166,7 @@
 - (void)setAlertStyle:(JKAlertStyle)alertStyle{
     _alertStyle = alertStyle;
     
-    _clickPlainBlankDismiss = NO;
+    _clickBlankDismiss = NO;
     
     switch (_alertStyle) {
         case JKAlertStylePlain:
@@ -1178,7 +1178,7 @@
         case JKAlertStyleActionSheet:
         {
             [self tableView];
-            _clickPlainBlankDismiss = YES;
+            _clickBlankDismiss = YES;
         }
             break;
             
@@ -1187,7 +1187,7 @@
             CancelMargin = 10;
             
             [self collectionView];
-            _clickPlainBlankDismiss = YES;
+            _clickBlankDismiss = YES;
         }
             break;
             
@@ -1844,7 +1844,7 @@
     
     return ^(BOOL shouldDismiss) {
         
-        self.clickPlainBlankDismiss = shouldDismiss;
+        self.clickBlankDismiss = shouldDismiss;
         
         return self;
     };
@@ -4500,7 +4500,7 @@
     
     !self.blankClickBlock ? : self.blankClickBlock();
     
-    if (_clickPlainBlankDismiss) {
+    if (_clickBlankDismiss) {
         
         self.dismiss();
         
@@ -4940,7 +4940,7 @@
 - (void)solveVerticalScroll:(UIScrollView *)scrollView{
     
     if (!self.enableVerticalGestureDismiss ||
-        !self.clickPlainBlankDismiss ||
+        !self.clickBlankDismiss ||
         !scrollView.isDragging ||
         disableScrollSheetContainerView) { return; }
     
@@ -4983,7 +4983,7 @@
 
 - (void)solveHorizontalScroll:(UIScrollView *)scrollView{
     
-    if (!self.enableHorizontalGestureDismiss || !self.clickPlainBlankDismiss) { return; }
+    if (!self.enableHorizontalGestureDismiss || !self.clickBlankDismiss) { return; }
     
     if ((scrollView == self.collectionView &&
         self.collectionView2.isDecelerating) ||
@@ -5025,7 +5025,7 @@
 
 - (void)solveWillEndDraggingVertically:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.enableVerticalGestureDismiss || !self.clickPlainBlankDismiss) { return; }
+    if (!self.enableVerticalGestureDismiss || !self.clickBlankDismiss) { return; }
     
     if (scrollView.contentOffset.y + scrollView.contentInset.top > 0) {
         
@@ -5046,7 +5046,7 @@
 
 - (void)solveWillEndDraggingHorizontally:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.enableHorizontalGestureDismiss || !self.clickPlainBlankDismiss) { return; }
+    if (!self.enableHorizontalGestureDismiss || !self.clickBlankDismiss) { return; }
     
     if (scrollView.contentOffset.x + scrollView.contentInset.left > 0) {
         
@@ -5214,7 +5214,7 @@
             
             if (point.y > 0) {
                 
-                if (!self.clickPlainBlankDismiss) {
+                if (!self.clickBlankDismiss) {
                     
                     frame.origin.y += (point.y * 0.01);
                     
@@ -5225,7 +5225,7 @@
                 
             } else {
                 
-                if (!self.clickPlainBlankDismiss ||
+                if (!self.clickBlankDismiss ||
                     (frame.origin.y <= (correctContainerY))) {
                     
                     frame.origin.y += (point.y * 0.01);
@@ -5251,7 +5251,7 @@
             
         default:
         {
-            if (!self.clickPlainBlankDismiss) {
+            if (!self.clickBlankDismiss) {
                 
                 [self relayoutSheetContainerView];
                 
@@ -5263,12 +5263,12 @@
             CGFloat slideMult = magnitude / 200;
             
             float slideFactor = 0.1 * slideMult;
-            CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
+            CGPoint finalPoint = CGPointMake(0, self.sheetContainerView.frame.origin.y + (velocity.y * slideFactor));
             
-            BOOL isSlideHalf = ((finalPoint.y - self.sheetContainerView.frame.size.height * 0.5) - (correctContainerY) > self.sheetContainerView.frame.size.height * 0.5);
+            BOOL isSlideHalf = (finalPoint.y - correctContainerY > self.sheetContainerView.frame.size.height * 0.5);
             
             if (isSlideHalf &&
-                self.clickPlainBlankDismiss &&
+                self.clickBlankDismiss &&
                 (endScrollDirection == JKAlertScrollDirectionDown)) {
                 
                 [self dismiss];
@@ -5304,7 +5304,7 @@
             
             if (point.x > 0) {
                 
-                if (!self.clickPlainBlankDismiss) {
+                if (!self.clickBlankDismiss) {
                     
                     center.x += (point.x * 0.02);
                     
@@ -5315,7 +5315,7 @@
                 
             } else {
                 
-                if (!self.clickPlainBlankDismiss ||
+                if (!self.clickBlankDismiss ||
                     (center.x <= (JKAlertScreenW - self.sheetContainerView.frame.size.width) + self.sheetContainerView.frame.size.width * 0.5)) {
                     
                     center.x += (point.x * 0.02);
@@ -5337,7 +5337,7 @@
             
         default:
         {
-            if (!self.clickPlainBlankDismiss) {
+            if (!self.clickBlankDismiss) {
                 
                 [self relayoutSheetContainerView];
                 
@@ -5352,7 +5352,7 @@
             CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
             BOOL isSlideHalf = ((finalPoint.x - self.sheetContainerView.frame.size.width * 0.5) - (JKAlertScreenW - self.sheetContainerView.frame.size.width) > self.sheetContainerView.frame.size.width * 0.5);
             if (isSlideHalf &&
-                self.clickPlainBlankDismiss &&
+                self.clickBlankDismiss &&
                 beginScrollDirection == endScrollDirection) {
                 
                 isSheetDismissHorizontal = YES;

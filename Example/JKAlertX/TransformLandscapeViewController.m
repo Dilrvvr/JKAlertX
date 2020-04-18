@@ -125,7 +125,7 @@
     JKAlertView.show(@"定位服务未开启", @"请进入系统「设置」->「隐私」->「定位服务」中打开开关，并允许妙菜使用定位服务", JKAlertStylePlain, ^(JKAlertView *alertView) {
         
         // 点击空白处也退出
-        // alertView.setClickPlainBlankDismiss(YES);
+        // alertView.setclickBlankDismiss(YES);
         
         // title和message之间加分隔线
         alertView.setCustomSuperView(self.testLabel).setPlainTitleMessageSeparatorHidden(NO, 0).
