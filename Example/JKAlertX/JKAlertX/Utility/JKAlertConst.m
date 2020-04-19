@@ -8,6 +8,7 @@
 
 #import "JKAlertConst.h"
 #import "JKAlertView.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 #pragma mark
 #pragma mark - 通知
@@ -166,6 +167,22 @@ CGFloat JKAlertCurrentHomeIndicatorHeight (void) {
     
     return JKAlertIsDeviceX() ? (JKAlertIsLandscape() ? 21.0 : 34.0) : 0.0;
 }
+
+/// 让手机振动一下
+void JKAlertVibrateDevice (void) {
+    
+    // 普通短震，3D Touch 中 Peek 震动反馈
+    AudioServicesPlaySystemSound(1519);
+    
+    // 普通短震，3D Touch 中 Pop 震动反馈
+    //AudioServicesPlaySystemSound(1520);
+    
+    // 连续三次短震
+    //AudioServicesPlaySystemSound(1521);
+    
+    //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+}
+
 
 #pragma mark
 #pragma mark - 封装定时器
