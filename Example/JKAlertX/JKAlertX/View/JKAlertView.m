@@ -2271,7 +2271,7 @@
     
     if (@available(iOS 11.0, *)) {
         
-        safeAreaInset = MAX(superView.safeAreaInsets.left, superView.safeAreaInsets.right);;
+        safeAreaInset = MAX(superView.safeAreaInsets.left, superView.safeAreaInsets.right);
     }
     
     if (_tableView) {
@@ -3269,7 +3269,7 @@
         
         if (@available(iOS 11.0, *)) {
             
-            safeAreaInset = MAX(superView.safeAreaInsets.left, superView.safeAreaInsets.right);;
+            safeAreaInset = MAX(superView.safeAreaInsets.left, superView.safeAreaInsets.right);
         }
         
         PlainViewWidth = MIN(OriginalPlainWidth, JKAlertScreenW - safeAreaInset * 2);
