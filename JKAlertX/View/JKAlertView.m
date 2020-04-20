@@ -432,6 +432,9 @@
 
 /** plain样式弹出键盘时与键盘的间距 竖屏 */
 @property (nonatomic, assign) CGFloat plainKeyboardMargin;
+
+/** show的时候是否振动 默认NO */
+@property (nonatomic, assign) BOOL shouldVibrate;
 @end
 
 @implementation JKAlertView
@@ -564,6 +567,8 @@
         UIView *customView = customHUD();
         
         alertView = [[JKAlertView alloc] init];
+        
+        alertView.alertStyle = JKAlertStyleHUD;
         
         !configuration ? : configuration(alertView);
         
@@ -1232,8 +1237,6 @@
     [self.plainView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     [self.plainView addSubview:_customHUD];
-    
-    [self calculateUI];
 }
 
 - (void)setCustomSheetTitleView:(UIView *)customSheetTitleView{
@@ -1558,6 +1561,17 @@
     return ^(CGFloat margin) {
         
         self.collectionButtonLeftRightMargin = margin;
+        
+        return self;
+    };
+}
+
+/** 设置show的时候是否振动 默认NO */
+- (JKAlertView *(^)(CGFloat shouldVibrate))setShouldVibrate{
+    
+    return ^(CGFloat shouldVibrate) {
+        
+        self.shouldVibrate = shouldVibrate;
         
         return self;
     };
@@ -2271,7 +2285,7 @@
     
     if (@available(iOS 11.0, *)) {
         
-        safeAreaInset = MAX(superView.safeAreaInsets.left, superView.safeAreaInsets.right);;
+        safeAreaInset = MAX(superView.safeAreaInsets.left, superView.safeAreaInsets.right);
     }
     
     if (_tableView) {
@@ -3269,7 +3283,7 @@
         
         if (@available(iOS 11.0, *)) {
             
-            safeAreaInset = MAX(superView.safeAreaInsets.left, superView.safeAreaInsets.right);;
+            safeAreaInset = MAX(superView.safeAreaInsets.left, superView.safeAreaInsets.right);
         }
         
         PlainViewWidth = MIN(OriginalPlainWidth, JKAlertScreenW - safeAreaInset * 2);
@@ -4198,6 +4212,11 @@
         (self.alertStyle == JKAlertStylePlain && self.autoAdaptKeyboard)) {
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    }
+    
+    if (self.shouldVibrate) {
+        
+        JKAlertVibrateDevice();
     }
     
     [self startShowAnimation];

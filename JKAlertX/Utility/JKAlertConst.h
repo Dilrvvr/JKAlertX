@@ -185,6 +185,9 @@ BOOL JKAlertIsLandscape (void);
 /// 当前HomeIndicator高度
 CGFloat JKAlertCurrentHomeIndicatorHeight (void);
 
+/// 让手机振动一下
+void JKAlertVibrateDevice (void);
+
 
 
 #pragma mark
