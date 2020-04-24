@@ -74,7 +74,7 @@
 
 - (void)initialization{
     
-    self.backgroundColor = nil;//[UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:0.7];
+    self.backgroundColor = nil;
     self.contentView.backgroundColor = JKAlertGlobalBackgroundColor();
     
     self.selectedBackgroundView = [[UIView alloc] init];
@@ -100,6 +100,9 @@
     self.bottomLineView.hidden = _action.separatorLineHidden;
     
     _titleButton.hidden = NO;
+    
+    self.contentView.backgroundColor = action.backgroundColor;
+    self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
     
     /*
     if (self.customView && self.customView.superview != self.contentView) {

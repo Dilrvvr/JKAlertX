@@ -14,6 +14,11 @@
 
 @interface JKAlertHighlightedButton : UIButton
 
+/** normalBackgroundColor */
+@property (nonatomic, strong) UIColor *normalBackgroundColor;
+
+/** highlightedBackgroundColor */
+@property (nonatomic, strong) UIColor *highlightedBackgroundColor;
 @end
 
 @interface JKAlertSeparatorLayerButton : UIButton
@@ -3769,6 +3774,9 @@
     
     [self adjustButton:self.cancelButton action:self.cancelAction];
     
+    self.cancelButton.normalBackgroundColor = self.cancelAction.backgroundColor;
+    self.cancelButton.highlightedBackgroundColor = self.cancelAction.seletedBackgroundColor;
+    
     CGFloat cancelHeight = self.cancelAction.rowHeight;
     
     CGRect frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, _sheetContentView.frame.size.height - cancelHeight - JKAlertAdjustHomeIndicatorHeight, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, cancelHeight);
@@ -3994,6 +4002,9 @@
     
     [self adjustButton:self.cancelButton action:self.cancelAction];
     
+    self.cancelButton.normalBackgroundColor = self.cancelAction.backgroundColor;
+    self.cancelButton.highlightedBackgroundColor = self.cancelAction.seletedBackgroundColor;
+    
     CGRect frame = CGRectZero;
     
     CGFloat Y = 0;
@@ -4001,6 +4012,9 @@
     if (self.collectionAction) {
         
         [self adjustButton:self.collectionButton action:self.collectionAction];
+        
+        self.collectionButton.normalBackgroundColor = self.collectionAction.backgroundColor;
+        self.collectionButton.highlightedBackgroundColor = self.collectionAction.seletedBackgroundColor;
         
         if (_pageControl) {
             
@@ -5448,7 +5462,7 @@
 }
 
 #pragma mark
-#pragma mark - JKAlertViewProtocol
+#pragma mark - Relayout
 
 /** 准备重新布局 */
 - (JKAlertView * (^)(void))prepareToRelayout{
@@ -5667,10 +5681,7 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
 - (void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:highlighted];
     
-    UIColor *normalColor = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(247, 0.7), JKAlertSameRGBColorAlpha(8, 0.7));
-    UIColor *highlightedColor = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(247, 0.3), JKAlertSameRGBColorAlpha(8, 0.3));
-    
-    self.backgroundColor = highlighted ? highlightedColor : normalColor;
+    self.backgroundColor = highlighted ? self.highlightedBackgroundColor : self.normalBackgroundColor;
 }
 @end
 

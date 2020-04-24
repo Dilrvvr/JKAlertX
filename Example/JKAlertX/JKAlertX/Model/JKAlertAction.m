@@ -81,6 +81,9 @@
     _autoDismiss = YES;
     
     _imageContentMode = UIViewContentModeScaleAspectFill;
+    
+    _backgroundColor = JKAlertGlobalBackgroundColor();
+    _seletedBackgroundColor = JKAlertGlobalHighlightedBackgroundColor();
 }
 
 /** 重新设置title */
@@ -120,6 +123,34 @@
     return ^(UIFont *font) {
         
         self.titleFont = font;
+        
+        return self;
+    };
+}
+
+/**
+* 设置backgroundColor 默认JKAlertGlobalBackgroundColor()
+* 仅 actionSheet 与 collectionSheet的底部按钮 有效
+* */
+- (JKAlertAction *(^)(UIColor *backgroundColor))setBackgroundColor{
+    
+    return ^(UIColor *backgroundColor) {
+        
+        self.backgroundColor = backgroundColor;
+        
+        return self;
+    };
+}
+
+/**
+ * 设置seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()
+ * 仅 actionSheet 与 collectionSheet的底部按钮 有效
+ * */
+- (JKAlertAction *(^)(UIColor *seletedBackgroundColor))setSeletedBackgroundColor{
+    
+    return ^(UIColor *seletedBackgroundColor) {
+        
+        self.seletedBackgroundColor = seletedBackgroundColor;
         
         return self;
     };

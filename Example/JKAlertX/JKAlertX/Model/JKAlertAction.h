@@ -68,6 +68,30 @@
 /** 设置titleFont 默认nil */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setTitleFont)(UIFont *font);
 
+/**
+ * backgroundColor 默认JKAlertGlobalBackgroundColor()
+ * 仅 actionSheet 与 collectionSheet的底部按钮 有效
+ * */
+@property (nonatomic, strong) UIColor *backgroundColor;
+
+/**
+ * 设置backgroundColor 默认JKAlertGlobalBackgroundColor()
+ * 仅 actionSheet 与 collectionSheet的底部按钮 有效
+ * */
+@property (nonatomic, copy, readonly) JKAlertAction *(^setBackgroundColor)(UIColor *backgroundColor);
+
+/**
+ * seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()
+ * 仅 actionSheet 与 collectionSheet的底部按钮 有效
+ * */
+@property (nonatomic, strong) UIColor *seletedBackgroundColor;
+
+/**
+ * 设置seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()
+ * 仅 actionSheet 与 collectionSheet的底部按钮 有效
+ * */
+@property (nonatomic, copy, readonly) JKAlertAction *(^setSeletedBackgroundColor)(UIColor *seletedBackgroundColor);
+
 /** 执行操作后是否自动消失 */
 @property (nonatomic, assign, getter=isAutoDismiss) BOOL autoDismiss;
 
