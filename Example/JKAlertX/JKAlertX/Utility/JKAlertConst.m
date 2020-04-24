@@ -325,7 +325,7 @@ void JKTodo_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) 
         
         JKAlertView *alertView = [JKAlertView alertViewWithTitle:[@"JKDebug-" stringByAppendingString:(title ? title : @"")] message:[@"--- 此弹框仅用于调试 ---\n" stringByAppendingString:(message ? message : @"")] style:(JKAlertStyleAlert)];
         
-        alertView.setMessageTextViewAlignment(NSTextAlignmentLeft).setTextViewCanSelectText(YES);
+        alertView.setMessageTextViewAlignment(NSTextAlignmentLeft).setTextViewShouldSelectText(YES);
         
         [alertView addAction:[JKAlertAction actionWithTitle:@"OK" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             

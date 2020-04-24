@@ -40,7 +40,7 @@
         
         [JKShareManager shareUrl:url text:title description:description imageUrl:imageUrl shareType:(JKShareTypeWechatTimeline)];
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).enableDeallocLog(YES).show().setDismissComplete(^{
+    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).enableDeallocLog(YES).show().setDidDismissHandler(^{
         
         
     });
