@@ -273,7 +273,7 @@
 @property (nonatomic, assign) BOOL textViewUserInteractionEnabled;
 
 /** title和message是否可以选择文字，默认NO */
-@property (nonatomic, assign) BOOL textViewCanSelectText;
+@property (nonatomic, assign) BOOL textViewShouldSelectText;
 
 /** titleTextViewDelegate */
 @property (nonatomic, weak) id<UITextViewDelegate> titleTextViewDelegate;
@@ -1495,11 +1495,22 @@
 }
 
 /** 设置title和message是否可以选择文字，默认NO */
+- (JKAlertView *(^)(BOOL canselectText))setTextViewShouldSelectText{
+    
+    return ^(BOOL shouldSelectText) {
+        
+        self.textViewShouldSelectText = shouldSelectText;
+        
+        return self;
+    };
+}
+//@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewShouldSelectText)(BOOL shouldSelectText)
+/** 设置title和message是否可以选择文字，默认NO */
 - (JKAlertView *(^)(BOOL canselectText))setTextViewCanSelectText{
     
     return ^(BOOL canSelectText) {
         
-        self.textViewCanSelectText = canSelectText;
+        self.textViewShouldSelectText = canSelectText;
         
         return self;
     };
@@ -3184,8 +3195,8 @@
     _titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
     _messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
     
-    _titleTextView.canSelectText = self.textViewCanSelectText;
-    _messageTextView.canSelectText = self.textViewCanSelectText;
+    _titleTextView.shouldSelectText = self.textViewShouldSelectText;
+    _messageTextView.shouldSelectText = self.textViewShouldSelectText;
     
     _titleTextView.textColor = titleTextColor ? titleTextColor : _titleTextView.textColor;
     _messageTextView.textColor = messageTextColor ? messageTextColor : _messageTextView.textColor;
