@@ -98,6 +98,9 @@
 /** 设置执行操作后是否自动消失 */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setAutoDismiss)(BOOL autoDismiss);
 
+/** 可以在这个block内自定义其它属性 */
+@property (nonatomic, copy, readonly) JKAlertAction *(^setCustomizePropertyHandler)(void(^customizePropertyHandler)(JKAlertAction *customizePropertyAction));
+
 /**
  * 自定义的view
  * 注意要自己计算好frame

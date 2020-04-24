@@ -86,6 +86,17 @@
     _seletedBackgroundColor = JKAlertGlobalHighlightedBackgroundColor();
 }
 
+/** 在这个block内自定义action的其它属性 */
+- (JKAlertAction *(^)(void(^customizePropertyHandler)(JKAlertAction *customizePropertyAction)))setCustomizePropertyHandler{
+    
+    return ^(void(^customizePropertyHandler)(JKAlertAction *customizePropertyAction)) {
+        
+        !customizePropertyHandler ? : customizePropertyHandler(self);
+        
+        return self;
+    };
+}
+
 /** 重新设置title */
 - (JKAlertAction *(^)(NSString *title))resetTitle{
     

@@ -44,6 +44,9 @@
 #pragma mark
 #pragma mark 公共部分
 
+/** 可以在这个block内自定义其它属性 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomizePropertyHandler)(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView));
+
 /** 设置是否允许手势退出 默认NO NO 仅限sheet样式 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setEnableGestureDismiss)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator);
 

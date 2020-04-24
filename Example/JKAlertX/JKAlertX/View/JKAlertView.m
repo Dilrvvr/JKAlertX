@@ -1853,6 +1853,17 @@
     };
 }
 
+/** 在这个block内自定义其它属性 */
+- (JKAlertView *(^)(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)))setCustomizePropertyHandler{
+    
+    return ^(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)) {
+        
+        !customizePropertyHandler ? : customizePropertyHandler(self);
+        
+        return self;
+    };
+}
+
 /** 设置是否允许手势退出 仅限sheet样式 */
 - (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator))setEnableGestureDismiss{
     
