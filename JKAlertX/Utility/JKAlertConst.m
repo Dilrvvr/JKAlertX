@@ -171,8 +171,11 @@ CGFloat JKAlertCurrentHomeIndicatorHeight (void) {
 /// 让手机振动一下
 void JKAlertVibrateDevice (void) {
     
+    // iPad没有震动
+    if (JKAlertIsDeviceiPad()) { return; }
+    
     // 普通短震，3D Touch 中 Peek 震动反馈
-    AudioServicesPlaySystemSound(1519);
+    //AudioServicesPlaySystemSound(1519);
     
     // 普通短震，3D Touch 中 Pop 震动反馈
     //AudioServicesPlaySystemSound(1520);
@@ -181,6 +184,13 @@ void JKAlertVibrateDevice (void) {
     //AudioServicesPlaySystemSound(1521);
     
     //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    
+    if (@available(iOS 10.0, *)) {
+        
+        UIImpactFeedbackGenerator *feedbackGenertor = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
+        
+        [feedbackGenertor impactOccurred];
+    }
 }
 
 
@@ -325,7 +335,7 @@ void JKTodo_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) 
         
         JKAlertView *alertView = [JKAlertView alertViewWithTitle:[@"JKDebug-" stringByAppendingString:(title ? title : @"")] message:[@"--- 此弹框仅用于调试 ---\n" stringByAppendingString:(message ? message : @"")] style:(JKAlertStyleAlert)];
         
-        alertView.setMessageTextViewAlignment(NSTextAlignmentLeft).setTextViewCanSelectText(YES);
+        alertView.setMessageTextViewAlignment(NSTextAlignmentLeft).setTextViewShouldSelectText(YES);
         
         [alertView addAction:[JKAlertAction actionWithTitle:@"OK" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             

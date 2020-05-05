@@ -81,6 +81,23 @@
     _autoDismiss = YES;
     
     _imageContentMode = UIViewContentModeScaleAspectFill;
+    
+    _backgroundColor = JKAlertGlobalBackgroundColor();
+    _seletedBackgroundColor = JKAlertGlobalHighlightedBackgroundColor();
+    
+    // TODO: JKTODO delete
+    _isPireced = YES;
+}
+
+/** 在这个block内自定义action的其它属性 */
+- (JKAlertAction *(^)(void(^customizePropertyHandler)(JKAlertAction *customizePropertyAction)))setCustomizePropertyHandler{
+    
+    return ^(void(^customizePropertyHandler)(JKAlertAction *customizePropertyAction)) {
+        
+        !customizePropertyHandler ? : customizePropertyHandler(self);
+        
+        return self;
+    };
 }
 
 /** 重新设置title */
@@ -125,6 +142,34 @@
     };
 }
 
+/**
+* 设置backgroundColor 默认JKAlertGlobalBackgroundColor()
+* 仅 actionSheet 与 collectionSheet的底部按钮 有效
+* */
+- (JKAlertAction *(^)(UIColor *backgroundColor))setBackgroundColor{
+    
+    return ^(UIColor *backgroundColor) {
+        
+        self.backgroundColor = backgroundColor;
+        
+        return self;
+    };
+}
+
+/**
+ * 设置seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()
+ * 仅 actionSheet 与 collectionSheet的底部按钮 有效
+ * */
+- (JKAlertAction *(^)(UIColor *seletedBackgroundColor))setSeletedBackgroundColor{
+    
+    return ^(UIColor *seletedBackgroundColor) {
+        
+        self.seletedBackgroundColor = seletedBackgroundColor;
+        
+        return self;
+    };
+}
+
 /** 设置imageContentMode 默认UIViewContentModeScaleAspectFill */
 - (JKAlertAction *(^)(UIViewContentMode contentMode))setImageContentMode{
     
@@ -162,6 +207,17 @@
     return ^(BOOL hidden) {
         
         self.separatorLineHidden = hidden;
+        
+        return self;
+    };
+}
+
+/** 设置是否镂空 */
+- (JKAlertAction *(^)(BOOL isPireced))setPireced{
+    
+    return ^(BOOL isPireced) {
+        
+        self.isPireced = isPireced;
         
         return self;
     };

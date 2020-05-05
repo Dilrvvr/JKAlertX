@@ -70,7 +70,7 @@
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
     
-    if (_canSelectText) {
+    if (_shouldSelectText) {
         
         return [super canPerformAction:action withSender:sender];
     }

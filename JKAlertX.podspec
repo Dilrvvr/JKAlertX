@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "JKAlertX"
-  s.version      = "1.0.11"
+  s.version      = "1.0.12"
   s.summary      = "An AlertView for iOS. Support User Customization Perfectly. iOS弹框，包含alert/actionsheet/collectionSheet/HUD四种样式。自动适配横屏，完美支持自定义。 支持链式语法，简单优雅！"
 
   # This description is used to generate tags and improve search results.

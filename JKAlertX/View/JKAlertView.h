@@ -44,6 +44,9 @@
 #pragma mark
 #pragma mark 公共部分
 
+/** 可以在这个block内自定义其它属性 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomizePropertyHandler)(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView));
+
 /** 设置是否允许手势退出 默认NO NO 仅限sheet样式 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setEnableGestureDismiss)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator);
 
@@ -81,7 +84,8 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled);
 
 /** 设置title和message是否可以选择文字，默认NO */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText);
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewShouldSelectText)(BOOL shouldSelectText);
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText) JKAlertXDeprecated("use setTextViewShouldSelectText");
 
 /**
  * 设置titleTextColor
@@ -286,6 +290,13 @@
 
 /** 设置actionSheet底部取消按钮是否固定在底部 默认NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setPinCancelButton)(BOOL pinCancelButton);
+
+/**
+ * 设置actionSheet是否镂空
+ * 类似UIAlertControllerStyleActionSheet效果
+ * 设置为YES后，setPinCancelButton将强制为YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setActionSheetPierced)(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor);
 
 
 #pragma mark
@@ -544,7 +555,7 @@
 
 /** 监听JKAlertView消失动画完成 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setDidDismissHandler)(void(^didDismissHandler)(void));
-@property (nonatomic, copy, readonly) JKAlertView * (^setDismissComplete)(void(^dismissComplete)(void));
+@property (nonatomic, copy, readonly) JKAlertView * (^setDismissComplete)(void(^dismissComplete)(void)) JKAlertXDeprecated("use setDidDismissHandler");
 
 /** 监听屏幕旋转 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));

@@ -68,11 +68,44 @@
 /** 设置titleFont 默认nil */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setTitleFont)(UIFont *font);
 
+/**
+ * backgroundColor 默认JKAlertGlobalBackgroundColor()
+ * 仅 actionSheet 与 collectionSheet的底部按钮 有效
+ * */
+@property (nonatomic, strong) UIColor *backgroundColor;
+
+/**
+ * 设置backgroundColor 默认JKAlertGlobalBackgroundColor()
+ * 仅 actionSheet 与 collectionSheet的底部按钮 有效
+ * */
+@property (nonatomic, copy, readonly) JKAlertAction *(^setBackgroundColor)(UIColor *backgroundColor);
+
+/**
+ * seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()
+ * 仅 actionSheet 与 collectionSheet的底部按钮 有效
+ * */
+@property (nonatomic, strong) UIColor *seletedBackgroundColor;
+
+/**
+ * 设置seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()
+ * 仅 actionSheet 与 collectionSheet的底部按钮 有效
+ * */
+@property (nonatomic, copy, readonly) JKAlertAction *(^setSeletedBackgroundColor)(UIColor *seletedBackgroundColor);
+
+/** 是否镂空 */
+@property (nonatomic, assign) BOOL isPireced;
+
+/** 设置是否镂空 */
+@property (nonatomic, copy, readonly) JKAlertAction *(^setPireced)(BOOL isPireced);
+
 /** 执行操作后是否自动消失 */
 @property (nonatomic, assign, getter=isAutoDismiss) BOOL autoDismiss;
 
 /** 设置执行操作后是否自动消失 */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setAutoDismiss)(BOOL autoDismiss);
+
+/** 可以在这个block内自定义其它属性 */
+@property (nonatomic, copy, readonly) JKAlertAction *(^setCustomizePropertyHandler)(void(^customizePropertyHandler)(JKAlertAction *customizePropertyAction));
 
 /**
  * 自定义的view
