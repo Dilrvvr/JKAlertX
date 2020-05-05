@@ -92,6 +92,12 @@
  * */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setSeletedBackgroundColor)(UIColor *seletedBackgroundColor);
 
+/** 是否镂空 */
+@property (nonatomic, assign) BOOL isPireced;
+
+/** 设置是否镂空 */
+@property (nonatomic, copy, readonly) JKAlertAction *(^setPireced)(BOOL isPireced);
+
 /** 执行操作后是否自动消失 */
 @property (nonatomic, assign, getter=isAutoDismiss) BOOL autoDismiss;
 

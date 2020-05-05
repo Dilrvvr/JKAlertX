@@ -291,6 +291,13 @@
 /** 设置actionSheet底部取消按钮是否固定在底部 默认NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setPinCancelButton)(BOOL pinCancelButton);
 
+/**
+ * 设置actionSheet是否镂空
+ * 类似UIAlertControllerStyleActionSheet效果
+ * 设置为YES后，setPinCancelButton将强制为YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setActionSheetPierced)(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor);
+
 
 #pragma mark
 #pragma mark collectionSheet样式

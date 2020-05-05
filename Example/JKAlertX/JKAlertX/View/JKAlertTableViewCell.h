@@ -6,15 +6,8 @@
 //  Copyright © 2017年 安永博. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "JKAlertBaseTableViewCell.h"
 
-@class JKAlertAction;
+@interface JKAlertTableViewCell : JKAlertBaseTableViewCell
 
-@interface JKAlertTableViewCell : UITableViewCell
-
-/** action */
-@property (nonatomic, strong) JKAlertAction *action;
-
-/** alertSuperView */
-@property (nonatomic, weak) UIView *alertSuperView;
 @end

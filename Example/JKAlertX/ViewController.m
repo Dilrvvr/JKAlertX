@@ -263,14 +263,22 @@
     alertView.setContainerViewConfig(^(UIView *containerView) {
        
         // 加个圆角
-        [containerView JKAlertX_clipRoundWithRadius:8 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
+        [containerView JKAlertX_clipRoundWithRadius:10 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
+    });
+    
+    alertView.setWillAutoAdaptSuperViewBlock(^(JKAlertView *view, UIView *containerView) {
+        
+        containerView.layer.mask = nil;
     });
     
     alertView.setDidAutoAdaptSuperViewBlock(^(JKAlertView *view, UIView *containerView) {
         
         // 加个圆角
-        [containerView JKAlertX_clipRoundWithRadius:8 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
+        [containerView JKAlertX_clipRoundWithRadius:10 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
     });
+    
+    // 类似系统样式
+    alertView.setActionSheetPierced(YES, 10, 15, [UIColor whiteColor], [UIColor blackColor]);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         

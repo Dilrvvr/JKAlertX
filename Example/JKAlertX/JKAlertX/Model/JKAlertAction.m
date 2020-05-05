@@ -84,6 +84,9 @@
     
     _backgroundColor = JKAlertGlobalBackgroundColor();
     _seletedBackgroundColor = JKAlertGlobalHighlightedBackgroundColor();
+    
+    // TODO: JKTODO delete
+    _isPireced = YES;
 }
 
 /** 在这个block内自定义action的其它属性 */
@@ -204,6 +207,17 @@
     return ^(BOOL hidden) {
         
         self.separatorLineHidden = hidden;
+        
+        return self;
+    };
+}
+
+/** 设置是否镂空 */
+- (JKAlertAction *(^)(BOOL isPireced))setPireced{
+    
+    return ^(BOOL isPireced) {
+        
+        self.isPireced = isPireced;
         
         return self;
     };

@@ -7,10 +7,12 @@
 //
 
 #import "JKAlertView.h"
-#import "JKAlertTableViewCell.h"
-#import "JKAlertCollectionViewCell.h"
-#import "JKAlertTextView.h"
 #import "JKAlertPanGestureRecognizer.h"
+#import "JKAlertPiercedTableViewCell.h"
+#import "JKAlertCollectionViewCell.h"
+#import "JKAlertTableViewCell.h"
+#import "JKAlertTextView.h"
+#import "UIView+JKAlertX.h"
 
 @interface JKAlertHighlightedButton : UIButton
 
@@ -32,7 +34,6 @@
     CGFloat TBMargin;
     CGFloat textContainerViewCurrentMaxH_;
     BOOL    _enableDeallocLog;
-    CGFloat _iPhoneXLandscapeTextMargin;
     
     CGFloat JKAlertPlainViewMaxH;
     CGFloat JKAlertTitleMessageMargin;
@@ -223,6 +224,9 @@
 
 /** messageTextView */
 @property (nonatomic, weak) JKAlertTextView *messageTextView;
+
+/** piercedCancelBackgroundView */
+@property (nonatomic, weak) UIView *piercedCancelBackgroundView;
 
 /** scrollView */
 @property (nonatomic, weak) UIScrollView *scrollView;
@@ -440,6 +444,18 @@
 
 /** show的时候是否振动 默认NO */
 @property (nonatomic, assign) BOOL shouldVibrate;
+
+/** action sheet样式是否镂空 */
+@property (nonatomic, assign) BOOL isActionSheetPierced;
+
+/** 镂空左右的间距 默认15 */
+@property (nonatomic, assign) CGFloat piercedMargin;
+
+/** 镂空整体圆角 */
+@property (nonatomic, assign) CGFloat piercedCornerRadius;
+
+/** 镂空时背景色 */
+@property (nonatomic, strong) UIColor *piercedBackgroundColor;
 @end
 
 @implementation JKAlertView
@@ -798,8 +814,8 @@
         UIView *topGestureIndicatorView = [[UIView alloc] init];
         topGestureIndicatorView.hidden = YES;
         topGestureIndicatorView.userInteractionEnabled = NO;
-        topGestureIndicatorView.backgroundColor = JKAlertGlobalBackgroundColor();
-        [self.sheetContainerView addSubview:topGestureIndicatorView];
+        //topGestureIndicatorView.backgroundColor = JKAlertGlobalBackgroundColor();
+        [self.sheetContentView addSubview:topGestureIndicatorView];
         _topGestureIndicatorView = topGestureIndicatorView;
         
         UIView *topGestureLineView = [[UIView alloc] init];
@@ -842,11 +858,14 @@
         tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
         
         [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
+        [tableView registerClass:[JKAlertPiercedTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertPiercedTableViewCell class])];
         
         tableView.rowHeight = JKAlertRowHeight;
         
         tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
         tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
+        
+        tableView.showsHorizontalScrollIndicator = NO;
         
         [_sheetContentView insertSubview:tableView belowSubview:self.textContainerView];
         
@@ -1103,7 +1122,6 @@
     _textViewUserInteractionEnabled = YES;
     _plainTitleMessageSeparatorHidden = YES;
     _collectionTitleSeperatorHidden = YES;
-    _iPhoneXLandscapeTextMargin = 0;//((JKAlertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
     
     TBMargin = 20;
     PlainViewWidth = 290;
@@ -1125,6 +1143,8 @@
     
     _enableVerticalGestureDismiss = NO;
     _enableHorizontalGestureDismiss = NO;
+    
+    _piercedMargin = 15;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -2118,7 +2138,37 @@
     
     return ^(BOOL pinCancelButton) {
         
-        self.pinCancelButton = pinCancelButton;
+        self.pinCancelButton = self.isActionSheetPierced ? YES : pinCancelButton;
+        
+        [self updateInsets];
+        
+        return self;
+    };
+}
+
+/**
+ * 设置actionSheet是否镂空
+ * 类似UIAlertControllerStyleActionSheet效果
+ * 设置为YES后，setPinCancelButton将强制为YES
+ */
+- (JKAlertView *(^)(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor))setActionSheetPierced{
+    
+    return ^(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) {
+        
+        self.isActionSheetPierced = isPierced;
+        
+        if (!isPierced) {
+            
+            return self;
+        }
+        
+        self.piercedCornerRadius = cornerRadius;
+        
+        self.piercedMargin = horizontalMargin;
+        
+        self.piercedBackgroundColor = JKAlertAdaptColor(lightBackgroundColor ? lightBackgroundColor : [UIColor whiteColor], darkBackgroundColor ? darkBackgroundColor : [UIColor blackColor]);
+        
+        self.pinCancelButton = YES;
         
         [self updateInsets];
         
@@ -3668,6 +3718,26 @@
 
 - (void)layoutActionSheet{
     
+    GestureIndicatorHeight = (self.enableVerticalGestureDismiss && self.showGestureIndicator) ? JKAlertTopGestureIndicatorHeight : 0;
+    
+    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInsets = self.customSuperView ? self.customSuperView.safeAreaInsets : [UIApplication sharedApplication].delegate.window.safeAreaInsets;
+    }
+    
+    CGFloat containerWidth = JKAlertScreenW;
+    
+    self.backGroundView.hidden = NO;
+    
+    if (self.isActionSheetPierced) {
+        
+        containerWidth -= (self.piercedMargin * 2 + safeAreaInsets.left + safeAreaInsets.right);
+        
+        self.backGroundView.hidden = YES;
+    }
+    
     self.titleTextView.scrollEnabled = NO;
     self.messageTextView.scrollEnabled = NO;
     
@@ -3676,9 +3746,7 @@
         self.messageTextView.font = [UIFont systemFontOfSize:15];
     }
     
-    _iPhoneXLandscapeTextMargin = 0;//((JKAlertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
-    
-    _textContainerView.frame = CGRectMake(_iPhoneXLandscapeTextMargin, 0, JKAlertScreenW - _iPhoneXLandscapeTextMargin * 2, JKAlertRowHeight);
+    _textContainerView.frame = CGRectMake(0, GestureIndicatorHeight, containerWidth, JKAlertRowHeight);
     
     CGFloat tableViewH = 0;
     
@@ -3692,20 +3760,23 @@
         tableViewH += (self.cancelAction.rowHeight + CancelMargin);
     }
     
-    tableViewH += JKAlertAdjustHomeIndicatorHeight;
-    
-    _tableView.frame = CGRectMake(0, CGRectGetMaxY(_textContainerView.frame), JKAlertScreenW, tableViewH);
-    
-    _sheetContainerView.frame = CGRectMake(0, JKAlertScreenH, JKAlertScreenW, _textContainerView.frame.size.height + _tableView.frame.size.height);
-    
-    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
-    
-    if (@available(iOS 11.0, *)) {
+    if (self.isActionSheetPierced) {
         
-        safeAreaInsets = self.customSuperView ? self.customSuperView.safeAreaInsets : [UIApplication sharedApplication].delegate.window.safeAreaInsets;
+        tableViewH += CancelMargin;
     }
     
+    tableViewH += JKAlertAdjustHomeIndicatorHeight;
+    
+    _tableView.frame = CGRectMake(0, CGRectGetMaxY(_textContainerView.frame), containerWidth, tableViewH);
+    
+    _sheetContainerView.frame = CGRectMake((JKAlertScreenW - containerWidth) * 0.5, JKAlertScreenH, containerWidth, _textContainerView.frame.size.height + _tableView.frame.size.height);
+    
     CGFloat maxWidth = _textContainerView.frame.size.width - self.textViewLeftRightMargin * 2 - (safeAreaInsets.left + safeAreaInsets.right);
+    
+    if (self.isActionSheetPierced) {
+        
+        maxWidth -= (self.piercedMargin * 2);
+    }
     
     [self.titleTextView calculateFrameWithMaxWidth:maxWidth minHeight:JKAlertMinTitleLabelH originY:JKAlertSheetTitleMargin superView:_textContainerView];
     
@@ -3745,15 +3816,19 @@
     _textContainerView.frame = rect;
     _scrollView.contentSize = rect.size;
     
-    GestureIndicatorHeight = (self.enableVerticalGestureDismiss && self.showGestureIndicator) ? JKAlertTopGestureIndicatorHeight : 0;
-    
     [self adjustSheetFrame];
     
     CGFloat sheetContainerHeight = _textContainerView.frame.size.height + _tableView.frame.size.height;
     
     sheetContainerHeight += GestureIndicatorHeight;
     
-    _sheetContainerView.frame = CGRectMake(0, JKAlertScreenH - sheetContainerHeight, JKAlertScreenW, sheetContainerHeight);
+    _sheetContainerView.frame = CGRectMake((JKAlertScreenW - containerWidth) * 0.5, JKAlertScreenH - sheetContainerHeight, containerWidth, sheetContainerHeight);
+    
+    self.topGestureIndicatorView.backgroundColor = self.isActionSheetPierced ? nil : JKAlertGlobalBackgroundColor();
+    
+    self.textContainerView.backgroundColor = self.isActionSheetPierced ? nil : JKAlertGlobalBackgroundColor();
+    
+    self.sheetContentView.backgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : nil;
     
     self.topGestureIndicatorView.frame = CGRectMake(0, 0, _sheetContainerView.frame.size.width, GestureIndicatorHeight);
     
@@ -3761,7 +3836,7 @@
     
     self.topGestureIndicatorView.hidden = (!self.enableVerticalGestureDismiss || !self.showGestureIndicator);
     
-    _sheetContentView.frame = CGRectMake(0, GestureIndicatorHeight, _sheetContainerView.frame.size.width, sheetContainerHeight - GestureIndicatorHeight);
+    _sheetContentView.frame = CGRectMake(0, 0, _sheetContainerView.frame.size.width, sheetContainerHeight);
     
     _scrollView.frame = CGRectMake(0, 0, _textContainerView.bounds.size.width, _textContainerView.bounds.size.height);
     
@@ -3778,19 +3853,19 @@
         return;
     }
     
-    if (self.cancelButton.superview != _sheetContentView) {
+    if (self.cancelButton.superview != _sheetContainerView) {
         
-        [_sheetContentView addSubview:self.cancelButton];
+        [_sheetContainerView addSubview:self.cancelButton];
     }
     
     [self adjustButton:self.cancelButton action:self.cancelAction];
     
-    self.cancelButton.normalBackgroundColor = self.cancelAction.backgroundColor;
+    self.cancelButton.normalBackgroundColor = self.isActionSheetPierced ? nil : self.cancelAction.backgroundColor;
     self.cancelButton.highlightedBackgroundColor = self.cancelAction.seletedBackgroundColor;
     
     CGFloat cancelHeight = self.cancelAction.rowHeight;
     
-    CGRect frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, _sheetContentView.frame.size.height - cancelHeight - JKAlertAdjustHomeIndicatorHeight, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, cancelHeight);
+    CGRect frame = CGRectMake(self.collectionButtonLeftRightMargin, _sheetContentView.frame.size.height - cancelHeight - JKAlertAdjustHomeIndicatorHeight, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2, cancelHeight);
     
     if (self.cancelAction.customView) {
         
@@ -3803,7 +3878,21 @@
     
     self.cancelAction.customView.frame = self.cancelButton.bounds;
     
-    if (FillHomeIndicator) {
+    if (self.isActionSheetPierced) {
+        
+        frame = self.cancelButton.frame;
+        
+        frame.size.width = _sheetContentView.frame.size.width;
+        
+        frame.origin.y = _sheetContentView.frame.size.height - frame.size.height - JKAlertAdjustHomeIndicatorHeight - CancelMargin;
+        
+        self.cancelButton.frame = frame;
+        
+        self.cancelAction.customView.frame = self.cancelButton.bounds;
+        
+        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+        
+    } else if (FillHomeIndicator) {
         
         frame = self.cancelButton.frame;
         frame.size.height += JKAlertAdjustHomeIndicatorHeight;
@@ -3826,6 +3915,44 @@
     frame.size.height -= (_sheetContentView.frame.size.height - self.cancelButton.frame.origin.y + CancelMargin);
     
     self.tableView.frame = frame;
+    
+    if (self.isActionSheetPierced) {
+        
+        frame = self.sheetContentView.frame;
+        frame.size.height = CGRectGetMaxY(self.tableView.frame);
+        self.sheetContentView.frame = frame;
+        
+        self.sheetContentView.layer.cornerRadius = self.piercedCornerRadius;
+        self.sheetContentView.layer.masksToBounds = YES;
+        
+        self.cancelButton.layer.cornerRadius = self.piercedCornerRadius;
+        self.cancelButton.layer.masksToBounds = YES;
+        
+        if (!self.piercedCancelBackgroundView) {
+            
+            UIView *piercedCancelBackgroundView = [[UIView alloc] init];
+            [self.sheetContainerView insertSubview:piercedCancelBackgroundView belowSubview:self.cancelButton];
+            _piercedCancelBackgroundView = piercedCancelBackgroundView;
+        }
+        
+        self.piercedCancelBackgroundView.backgroundColor = self.piercedBackgroundColor;
+        
+        self.piercedCancelBackgroundView.frame = self.cancelButton.frame;
+        
+        self.piercedCancelBackgroundView.layer.cornerRadius = self.piercedCornerRadius;
+        self.piercedCancelBackgroundView.layer.masksToBounds = YES;
+        
+        if (JKAlertIsDeviceX() &&
+            JKAlertAdjustHomeIndicatorHeight > 0) {
+            
+            frame = _sheetContainerView.frame;
+            frame.origin.y += CancelMargin;
+            frame.size.height -= CancelMargin;
+            _sheetContainerView.frame = frame;
+        }
+    }
+    
+    self.piercedCancelBackgroundView.hidden = !self.isActionSheetPierced;
 }
 
 - (void)adjustSheetFrame{
@@ -3866,7 +3993,7 @@
         self.textContainerView.frame = frame;
         
         frame = self.tableView.frame;
-        frame.origin.y = self.textContainerView.frame.size.height;
+        frame.origin.y = CGRectGetMaxY(self.textContainerView.frame);
         frame.size.height = JKAlertSheetMaxH * 0.5;
         self.tableView.frame = frame;
         
@@ -3879,13 +4006,13 @@
     } else if (self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
         
         frame = self.tableView.frame;
-        frame.origin.y = self.textContainerView.frame.size.height;
+        frame.origin.y = CGRectGetMaxY(self.textContainerView.frame);
         frame.size.height = (frame.size.height + self.textContainerView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.textContainerView.frame.size.height : frame.size.height;
         self.tableView.frame = frame;
     }
     
     frame = self.tableView.frame;
-    frame.origin.y = self.textContainerView.frame.size.height;
+    frame.origin.y = CGRectGetMaxY(self.textContainerView.frame);
     self.tableView.frame = frame;
 }
 
@@ -3893,6 +4020,8 @@
 #pragma mark - 布局collectionSheet
 
 - (void)layoutCollectionSheet{
+    
+    GestureIndicatorHeight = (self.enableVerticalGestureDismiss && self.showGestureIndicator) ? JKAlertTopGestureIndicatorHeight : 0;
     
     NSInteger count = self.actions.count;
     NSInteger count2 = self.actions2.count;
@@ -3937,8 +4066,6 @@
         }
     }
     
-    _iPhoneXLandscapeTextMargin = 0;//((JKAlertIsDeviceX() && JKAlertScreenW > JKAlertScreenH) ? 44 : 0);
-    
     UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
     
     if (@available(iOS 11.0, *)) {
@@ -3946,11 +4073,9 @@
         safeAreaInsets = self.customSuperView ? self.customSuperView.safeAreaInsets : [UIApplication sharedApplication].delegate.window.safeAreaInsets;
     }
     
-    CGFloat maxWidth = JKAlertScreenW - self.textViewLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2 - (safeAreaInsets.left + safeAreaInsets.right);
+    CGFloat maxWidth = JKAlertScreenW - self.textViewLeftRightMargin * 2 - - (safeAreaInsets.left + safeAreaInsets.right);
     
     CGRect rect = [self.titleTextView calculateFrameWithMaxWidth:maxWidth minHeight:JKAlertMinTitleLabelH originY:0 superView:self.textContainerView];
-    
-    _iPhoneXLandscapeTextMargin = 0;
     
     if (JKAlertSheetMaxH - 395 > JKAlertMinTitleLabelH) {
         
@@ -3961,13 +4086,13 @@
     
     self.titleTextView.frame = rect;
     
-    self.textContainerView.frame = CGRectMake(0, 0, JKAlertScreenW, TBMargin + rect.size.height + TBMargin);
+    self.textContainerView.frame = CGRectMake(0, GestureIndicatorHeight, JKAlertScreenW, TBMargin + rect.size.height + TBMargin);
     self.titleTextView.center = CGPointMake(self.textContainerView.frame.size.width * 0.5, self.textContainerView.frame.size.height * 0.5);
     
     if (_customSheetTitleView) {
         
-        self.textContainerView.frame = CGRectMake(0, 0, JKAlertScreenW, _customSheetTitleView.frame.size.height);
-        _customSheetTitleView.frame = CGRectMake(_iPhoneXLandscapeTextMargin, 0, JKAlertScreenW - _iPhoneXLandscapeTextMargin * 2, _customSheetTitleView.frame.size.height);
+        self.textContainerView.frame = CGRectMake(0, GestureIndicatorHeight, JKAlertScreenW, _customSheetTitleView.frame.size.height);
+        _customSheetTitleView.frame = CGRectMake(0, 0, JKAlertScreenW, _customSheetTitleView.frame.size.height);
     }
     
     if (self.collectionTitleSeperatorHidden) {
@@ -4042,7 +4167,7 @@
         
         Y += CancelMargin;
         
-        frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
+        frame = CGRectMake(self.collectionButtonLeftRightMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2, JKAlertButtonH);
         
         if (self.collectionAction.customView) {
             
@@ -4077,7 +4202,7 @@
     
     Y += CancelMargin;
     
-    frame = CGRectMake(self.collectionButtonLeftRightMargin + _iPhoneXLandscapeTextMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2 - _iPhoneXLandscapeTextMargin * 2, JKAlertButtonH);
+    frame = CGRectMake(self.collectionButtonLeftRightMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2, JKAlertButtonH);
     
     if (self.cancelAction.customView) {
         
@@ -4111,8 +4236,6 @@
     
     self.scrollView.contentSize = rect.size;
     
-    GestureIndicatorHeight = (self.enableVerticalGestureDismiss && self.showGestureIndicator) ? JKAlertTopGestureIndicatorHeight : 0;
-    
     if (rect.size.height > JKAlertSheetMaxH) {
         
         rect.size.height = JKAlertSheetMaxH;
@@ -4121,7 +4244,7 @@
     
     CGFloat sheetContainerHeight = rect.size.height;
     
-    sheetContainerHeight += GestureIndicatorHeight;
+    //sheetContainerHeight += GestureIndicatorHeight;
     
     rect.size.height = sheetContainerHeight;
     rect.origin.y = JKAlertScreenH - sheetContainerHeight;
@@ -4134,7 +4257,7 @@
     
     self.topGestureIndicatorView.hidden = (!self.enableVerticalGestureDismiss || !self.showGestureIndicator);
     
-    _sheetContentView.frame = CGRectMake(0, GestureIndicatorHeight, _sheetContainerView.frame.size.width, sheetContainerHeight - GestureIndicatorHeight);
+    _sheetContentView.frame = CGRectMake(0, 0, _sheetContainerView.frame.size.width, sheetContainerHeight);
     
     CGFloat totalMargin = 0;
     
@@ -4292,11 +4415,7 @@
         
         [self updateWidthHeight];
         
-        !self.willAdaptBlock ? : self.willAdaptBlock(self, (_plainView ? _plainView : _sheetContainerView));
-        
         self.relayout(YES);
-        
-        !self.didAdaptBlock ? : self.didAdaptBlock(self, (_plainView ? _plainView : _sheetContainerView));
     }
 }
 
@@ -4730,7 +4849,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    JKAlertTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
+    JKAlertBaseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(self.isActionSheetPierced ? [JKAlertPiercedTableViewCell class] : [JKAlertTableViewCell class])];
     
     if (cell == nil) {
         
@@ -5232,7 +5351,7 @@
     
     CGRect frame = self.sheetContainerView.frame;
     frame.origin.y = JKAlertScreenH - frame.size.height;
-    frame.origin.x = 0;
+    frame.origin.x = (JKAlertScreenW - frame.size.width) * 0.5;
     
     [UIView animateWithDuration:0.25 animations:^{
         
@@ -5371,7 +5490,7 @@
             } else {
                 
                 if (!self.clickBlankDismiss ||
-                    (center.x <= (JKAlertScreenW - self.sheetContainerView.frame.size.width) + self.sheetContainerView.frame.size.width * 0.5)) {
+                    (center.x <= (JKAlertScreenW * 0.5))) {
                     
                     center.x += (point.x * 0.02);
                     
@@ -5488,6 +5607,8 @@
     
     return ^(BOOL animated) {
         
+        !self.willAdaptBlock ? : self.willAdaptBlock(self, (self->_plainView ? self->_plainView : self->_sheetContainerView));
+        
         if (animated) {
             
             [UIView animateWithDuration:0.25 animations:^{
@@ -5497,6 +5618,8 @@
             } completion:^(BOOL finished) {
                 
                 !self.relayoutComplete ? : self.relayoutComplete(self);
+                
+                !self.didAdaptBlock ? : self.didAdaptBlock(self, (self->_plainView ? self->_plainView : self->_sheetContainerView));
             }];
             
         } else {
@@ -5504,6 +5627,8 @@
             [self calculateUI];
             
             !self.relayoutComplete ? : self.relayoutComplete(self);
+            
+            !self.didAdaptBlock ? : self.didAdaptBlock(self, (self->_plainView ? self->_plainView : self->_sheetContainerView));
         }
         
         return self;
@@ -5689,10 +5814,21 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
 
 @implementation JKAlertHighlightedButton
 
+- (void)setNormalBackgroundColor:(UIColor *)normalBackgroundColor{
+    _normalBackgroundColor = normalBackgroundColor;
+    
+    self.backgroundColor = normalBackgroundColor;
+}
+
 - (void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:highlighted];
     
     self.backgroundColor = highlighted ? self.highlightedBackgroundColor : self.normalBackgroundColor;
+    
+    if (!self.normalBackgroundColor) {
+        
+        self.alpha = highlighted ? 0.5 : 1;
+    }
 }
 @end
 
