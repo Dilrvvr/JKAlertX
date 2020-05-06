@@ -17,7 +17,7 @@
 @property (nonatomic, weak, readonly) UIButton *dismissButton;
 
 /** alertContainerView */
-@property (nonatomic, weak, readonly) UIView *alertContainerView;
+//@property (nonatomic, weak, readonly) UIView *alertContainerView;
 
 - (UITableView *)createTableView;
 

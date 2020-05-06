@@ -2162,9 +2162,9 @@
             return self;
         }
         
-        self.piercedCornerRadius = cornerRadius;
+        self.piercedCornerRadius = MAX(cornerRadius, 0);
         
-        self.piercedMargin = horizontalMargin;
+        self.piercedMargin = MAX(horizontalMargin, 0);
         
         self.piercedBackgroundColor = JKAlertAdaptColor(lightBackgroundColor ? lightBackgroundColor : [UIColor whiteColor], darkBackgroundColor ? darkBackgroundColor : [UIColor blackColor]);
         
