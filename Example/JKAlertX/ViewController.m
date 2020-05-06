@@ -278,7 +278,7 @@
     });
     
     // 类似系统样式
-    alertView.setActionSheetPierced(YES, 10, 15, [UIColor whiteColor], [UIColor blackColor]);
+    alertView.setBottomButtonMargin(8).setActionSheetPierced(YES, 10, 15, 24, [UIColor whiteColor], [UIColor blackColor]);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
