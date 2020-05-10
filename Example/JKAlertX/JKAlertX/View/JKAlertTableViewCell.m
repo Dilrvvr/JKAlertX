@@ -7,7 +7,6 @@
 //
 
 #import "JKAlertTableViewCell.h"
-#import "JKAlertAction.h"
 
 @interface JKAlertTableViewCell ()
 
@@ -16,72 +15,71 @@
 @implementation JKAlertTableViewCell
 
 #pragma mark
-#pragma mark - 初始化
+#pragma mark - Public Methods
 
-/** 初始化自身属性 交给子类重写 super自动调用该方法 */
-- (void)initializeProperty{
+
+
+#pragma mark
+#pragma mark - Override
+
+
+
+#pragma mark
+#pragma mark - Private Methods
+
+
+
+#pragma mark
+#pragma mark - Private Selector
+
+
+
+#pragma mark
+#pragma mark - UITableViewDataSource & UITableViewDelegate
+
+
+
+#pragma mark
+#pragma mark - Custom Delegates
+
+
+
+#pragma mark
+#pragma mark - Initialization & Build UI
+
+/** 初始化自身属性 */
+- (void)initializeProperty {
     [super initializeProperty];
     
 }
 
 /** 构造函数初始化时调用 注意调用super */
-- (void)initialization{
+- (void)initialization {
     [super initialization];
     
 }
 
-/** 创建UI 交给子类重写 super自动调用该方法 */
-- (void)createUI{
+/** 创建UI */
+- (void)createUI {
     [super createUI];
     
 }
 
-/** 布局UI 交给子类重写 super自动调用该方法 */
-- (void)layoutUI{
+/** 布局UI */
+- (void)layoutUI {
     [super layoutUI];
     
 }
 
-/** 初始化UI数据 交给子类重写 super自动调用该方法 */
-- (void)initializeUIData{
+/** 初始化UI数据 */
+- (void)initializeUIData {
     [super initializeUIData];
     
 }
 
 #pragma mark
-#pragma mark - Override
+#pragma mark - Private Property
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    
-    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        safeAreaInsets = self.alertSuperView.safeAreaInsets;
-    }
-    
-    self.contentView.frame = self.bounds;
-    
-    self.selectedBackgroundView.frame = self.contentView.frame;
-
-    self.titleButton.frame = CGRectMake(safeAreaInsets.left, 0, self.frame.size.width - (safeAreaInsets.left + safeAreaInsets.right), self.action.rowHeight);
-    
-    self.customView.frame = self.contentView.bounds;
-}
-
-#pragma mark
-#pragma mark - 点击事件
-
-
-
-#pragma mark
-#pragma mark - 赋值
-
-
-
-#pragma mark
-#pragma mark - Property
 
 
 

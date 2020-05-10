@@ -7,7 +7,6 @@
 //
 
 #import "JKAlertActionView.h"
-#import "JKAlertAction.h"
 
 @interface JKAlertActionView ()
 
@@ -18,35 +17,40 @@
 #pragma mark
 #pragma mark - Public Methods
 
-- (void)setAction:(JKAlertAction *)action {
-    _action = action;
-    
-    self.titleLabel.text = nil;
-    
-    self.titleLabel.attributedText = nil;
-    
-    self.titleLabel.font = action.titleFont;
-    self.titleLabel.textColor = action.titleColor;
-    
-    if (action.attributedTitle) {
-        
-        self.titleLabel.attributedText = action.attributedTitle;
-        
-    } else if (action.title) {
-        
-        self.titleLabel.text = action.title;
-    }
-    
-    [self setNeedsLayout];
-}
-
 #pragma mark
 #pragma mark - Override
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    [self.titleLabel sizeToFit];
     
+    CGFloat imageWH = 0;
+    
+    CGFloat titleImageInset = 0;
+    
+    if (self.iconImageView.highlighted &&
+        self.iconImageView.highlightedImage) {
+        
+        imageWH = 30;
+        
+        titleImageInset = 5;
+        
+    } else if (self.iconImageView.image) {
+        
+        imageWH = 30;
+        
+        titleImageInset = 5;
+    }
+    
+    CGFloat titleLabelWidth = MIN(self.contentView.frame.size.width - imageWH - titleImageInset, self.titleLabel.frame.size.width);
+    
+    self.titleLabel.frame = CGRectMake((self.contentView.frame.size.width - titleLabelWidth + imageWH + titleImageInset) * 0.5, 0, titleLabelWidth, self.contentView.frame.size.height);
+    
+    if (!self.iconImageView.hidden) {
+
+        self.iconImageView.frame = CGRectMake(self.titleLabel.frame.origin.x - titleImageInset - imageWH, (self.titleLabel.frame.size.height - imageWH) * 0.5, imageWH, imageWH);
+    }
 }
 
 #pragma mark

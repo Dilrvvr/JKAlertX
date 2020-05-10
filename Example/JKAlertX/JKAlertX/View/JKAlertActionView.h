@@ -8,10 +8,6 @@
 
 #import "JKAlertBaseActionView.h"
 
-@class JKAlertAction;
-
 @interface JKAlertActionView : JKAlertBaseActionView
 
-/** action */
-@property (nonatomic, strong) JKAlertAction *action;
 @end

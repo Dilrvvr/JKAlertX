@@ -7,10 +7,16 @@
 //
 
 #import "JKAlertBaseActionView.h"
+#import "JKAlertAction.h"
 #import "JKAlertConst.h"
 
 @interface JKAlertBaseActionView ()
 
+/** containerView */
+@property (nonatomic, weak) UIView *containerView;
+
+/** customView */
+@property (nonatomic, weak) UIView *customView;
 @end
 
 @implementation JKAlertBaseActionView
@@ -18,10 +24,71 @@
 #pragma mark
 #pragma mark - Public Methods
 
+- (void)setAction:(JKAlertAction *)action {
+    _action = action;
+    
+    self.titleLabel.text = nil;
+    self.titleLabel.attributedText = nil;
+    
+    self.iconImageView.image = nil;
+    self.iconImageView.highlightedImage = nil;
+    
+    self.backgroundView.backgroundColor = action.backgroundColor;
+    
+    self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
+    
+    [self.customView removeFromSuperview];
+    self.customView = nil;
+    
+    if (action.customView) {
+        
+        self.containerView.hidden = YES;
+        
+        self.customView = action.customView;
+        
+        [self.contentView addSubview:action.customView];
+        
+        return;
+    }
+    
+    self.containerView.hidden = NO;
+    
+    self.titleLabel.font = action.titleFont;
+    self.titleLabel.textColor = action.titleColor;
+    
+    if (action.attributedTitle) {
+        
+        self.titleLabel.attributedText = action.attributedTitle;
+        
+    } else if (action.title) {
+        
+        self.titleLabel.text = action.title;
+    }
+    
+    self.iconImageView.image = action.normalImage;
+    self.iconImageView.highlightedImage = action.hightlightedImage;
+    
+    [self setNeedsLayout];
+}
+
 - (void)setSeleted:(BOOL)seleted {
     _seleted = seleted;
     
-    self.alpha = seleted ? 0.5 : 1.0;
+    self.backgroundView.hidden = seleted;
+    self.selectedBackgroundView.hidden = !self.backgroundView.hidden;
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    _highlighted = highlighted;
+    
+    self.backgroundView.hidden = highlighted;
+    self.selectedBackgroundView.hidden = !self.backgroundView.hidden;
+    
+    self.alpha = highlighted ? 0.5 : 1.0;
+    
+    self.iconImageView.highlighted = highlighted;
+    
+    [self setNeedsLayout];
 }
 
 #pragma mark
@@ -46,9 +113,25 @@
     
     self.backgroundView.frame = self.bounds;
     
-    UIEdgeInsets safeAreaInset = JKAlertSafeAreaInset();
+    self.selectedBackgroundView.frame = self.bounds;
     
-    self.contentView.frame = CGRectMake(safeAreaInset.left, 0, self.frame.size.width - safeAreaInset.left - safeAreaInset.right, self.frame.size.height);
+    if (self.isFullContentWidth) {
+        
+        self.contentView.frame = CGRectMake(0, 0, self.frame.size.width, self.action.rowHeight);
+        
+    } else {
+        
+        UIEdgeInsets safeAreaInset = JKAlertSafeAreaInset();
+        
+        self.contentView.frame = CGRectMake(safeAreaInset.left, 0, self.frame.size.width - safeAreaInset.left - safeAreaInset.right, self.action.rowHeight);
+    }
+    
+    self.containerView.frame = self.contentView.bounds;
+    
+    if (self.customView) {
+        
+        self.customView.frame = self.contentView.bounds;
+    }
 }
 
 #pragma mark
@@ -77,6 +160,7 @@
 /** 初始化自身属性 交给子类重写 super自动调用该方法 */
 - (void)initializeProperty {
     
+    self.userInteractionEnabled = NO;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -95,9 +179,18 @@
     [self addSubview:backgroundView];
     _backgroundView = backgroundView;
     
+    UIView *selectedBackgroundView = [[UIView alloc] init];
+    selectedBackgroundView.hidden = YES;
+    [self addSubview:selectedBackgroundView];
+    _selectedBackgroundView = selectedBackgroundView;
+    
     UIView *contentView = [[UIView alloc] init];
     [self addSubview:contentView];
     _contentView = contentView;
+    
+    UIView *containerView = [[UIView alloc] init];
+    [self addSubview:containerView];
+    _containerView = containerView;
     
     UIImageView *iconImageView = [[UIImageView alloc] init];
     [self.contentView addSubview:iconImageView];

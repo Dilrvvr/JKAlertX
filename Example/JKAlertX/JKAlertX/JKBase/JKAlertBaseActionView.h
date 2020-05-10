@@ -8,7 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class JKAlertAction;
+
 @interface JKAlertBaseActionView : UIView
+
+/** action */
+@property (nonatomic, strong) JKAlertAction *action;
 
 /** iconImageView */
 @property (nonatomic, weak, readonly) UIImageView *iconImageView;
@@ -16,14 +21,23 @@
 /** titleLabel */
 @property (nonatomic, weak, readonly) UILabel *titleLabel;
 
+/** isFullContentWidth */
+@property (nonatomic, assign) BOOL isFullContentWidth;
+
 /** seleted */
 @property (nonatomic, assign) BOOL seleted;
+
+/** highlighted */
+@property (nonatomic, assign) BOOL highlighted;
 
 #pragma mark
 #pragma mark - Private
 
 /** backgroundView */
 @property (nonatomic, weak, readonly) UIView *backgroundView;
+
+/** selectedBackgroundView */
+@property (nonatomic, weak, readonly) UIView *selectedBackgroundView;
 
 /** contentView */
 @property (nonatomic, weak, readonly) UIView *contentView;
