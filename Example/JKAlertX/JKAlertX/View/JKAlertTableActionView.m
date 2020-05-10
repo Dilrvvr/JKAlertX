@@ -1,18 +1,18 @@
 //
-//  JKAlertActionView.m
+//  JKAlertTableActionView.m
 //  JKAlertX
 //
 //  Created by albertcc on 2020/5/10.
 //  Copyright © 2020 安永博. All rights reserved.
 //
 
-#import "JKAlertActionView.h"
+#import "JKAlertTableActionView.h"
 
-@interface JKAlertActionView ()
+@interface JKAlertTableActionView ()
 
 @end
 
-@implementation JKAlertActionView
+@implementation JKAlertTableActionView
 
 #pragma mark
 #pragma mark - Public Methods

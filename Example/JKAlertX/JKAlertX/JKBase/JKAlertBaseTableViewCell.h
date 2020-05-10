@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class JKAlertAction, JKAlertActionView;
+@class JKAlertAction, JKAlertTableActionView;
 
 @interface JKAlertBaseTableViewCell : UITableViewCell
 
 /** actionView */
-@property (nonatomic, weak) JKAlertActionView *actionView;
+@property (nonatomic, weak) JKAlertTableActionView *actionView;
 
 /** 底部分隔线 */
 @property (nonatomic, weak, readonly) UIView *bottomLineView;

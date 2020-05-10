@@ -1,5 +1,5 @@
 //
-//  JKAlertActionView.h
+//  JKAlertTableActionView.h
 //  JKAlertX
 //
 //  Created by albertcc on 2020/5/10.
@@ -8,6 +8,6 @@
 
 #import "JKAlertBaseActionView.h"
 
-@interface JKAlertActionView : JKAlertBaseActionView
+@interface JKAlertTableActionView : JKAlertBaseActionView
 
 @end

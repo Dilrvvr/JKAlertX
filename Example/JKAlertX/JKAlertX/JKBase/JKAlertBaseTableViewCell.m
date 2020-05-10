@@ -7,7 +7,7 @@
 //
 
 #import "JKAlertBaseTableViewCell.h"
-#import "JKAlertActionView.h"
+#import "JKAlertTableActionView.h"
 #import "JKAlertAction.h"
 #import "JKAlertConst.h"
 
@@ -48,7 +48,7 @@
     self.selectedBackgroundView = [[UIView alloc] init];
     self.selectedBackgroundView.backgroundColor = nil;
     
-    JKAlertActionView *actionView = [[JKAlertActionView alloc] init];
+    JKAlertTableActionView *actionView = [[JKAlertTableActionView alloc] init];
     [self.contentView addSubview:actionView];
     _actionView = actionView;
     

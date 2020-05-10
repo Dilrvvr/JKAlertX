@@ -7,7 +7,7 @@
 //
 
 #import "JKAlertPiercedTableViewCell.h"
-#import "JKAlertActionView.h"
+#import "JKAlertTableActionView.h"
 
 @implementation JKAlertPiercedTableViewCell
 
