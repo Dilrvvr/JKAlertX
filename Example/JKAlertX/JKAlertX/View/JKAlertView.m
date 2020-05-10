@@ -135,6 +135,9 @@
 /** collectionView2 */
 @property (nonatomic, weak) UICollectionView *collectionView2;
 
+/** isClearTextContainerBackground */
+@property (nonatomic, assign) BOOL isClearTextContainerBackground;
+
 /** sheet样式添加自定义的titleView */
 @property (nonatomic, weak) UIView *customSheetTitleView;
 
@@ -2079,6 +2082,8 @@
         
         self.customSheetTitleView = !customView ? nil : customView();
         
+        self.isClearTextContainerBackground = isClearContainerBackgroundColor;
+        
         if (isClearContainerBackgroundColor) {
             
             self->_textContainerView.backgroundColor = nil;
@@ -3831,7 +3836,7 @@
     
     self.topGestureIndicatorView.backgroundColor = self.isActionSheetPierced ? nil : JKAlertGlobalBackgroundColor();
     
-    self.textContainerView.backgroundColor = self.isActionSheetPierced ? nil : JKAlertGlobalBackgroundColor();
+    self.textContainerView.backgroundColor = self.isActionSheetPierced ? nil : (self.isClearTextContainerBackground ? nil : JKAlertGlobalBackgroundColor());
     
     self.sheetContentView.backgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : nil;
     
