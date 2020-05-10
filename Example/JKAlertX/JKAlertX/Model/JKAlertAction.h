@@ -29,7 +29,7 @@
 @property (nonatomic, copy, readonly) void (^handler)(JKAlertAction *action);
 
 /** 图片尺寸 默认 */
-@property (nonatomic, assign) CGSize imageSize;
+//@property (nonatomic, assign) CGSize imageSize;
 
 /** imageContentMode */
 @property (nonatomic, assign) UIViewContentMode imageContentMode;

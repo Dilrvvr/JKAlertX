@@ -30,6 +30,7 @@
 		B7D5AA62207CFBE8001152D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7D5AA60207CFBE8001152D9 /* Main.storyboard */; };
 		B7D5AA67207CFBE8001152D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7D5AA65207CFBE8001152D9 /* LaunchScreen.storyboard */; };
 		B7D5AA6A207CFBE8001152D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D5AA69207CFBE8001152D9 /* main.m */; };
+		C00983B324683D8B0089D819 /* JKAlertActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C00983B224683D8B0089D819 /* JKAlertActionButton.m */; };
 		C01D8B5E2467B67B006E2E03 /* JKAlertBaseActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C01D8B5D2467B67B006E2E03 /* JKAlertBaseActionView.m */; };
 		C01D8B612467B8C0006E2E03 /* JKAlertTableActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C01D8B602467B8C0006E2E03 /* JKAlertTableActionView.m */; };
 /* End PBXBuildFile section */
@@ -80,6 +81,8 @@
 		B7D5AA66207CFBE8001152D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B7D5AA68207CFBE8001152D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7D5AA69207CFBE8001152D9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C00983B124683D8B0089D819 /* JKAlertActionButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertActionButton.h; sourceTree = "<group>"; };
+		C00983B224683D8B0089D819 /* JKAlertActionButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertActionButton.m; sourceTree = "<group>"; };
 		C01D8B5C2467B67B006E2E03 /* JKAlertBaseActionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseActionView.h; sourceTree = "<group>"; };
 		C01D8B5D2467B67B006E2E03 /* JKAlertBaseActionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseActionView.m; sourceTree = "<group>"; };
 		C01D8B5F2467B8C0006E2E03 /* JKAlertTableActionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertTableActionView.h; sourceTree = "<group>"; };
@@ -144,12 +147,14 @@
 		505A282B23A9CBE100BD4DA9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C01D8B5F2467B8C0006E2E03 /* JKAlertTableActionView.h */,
-				C01D8B602467B8C0006E2E03 /* JKAlertTableActionView.m */,
+				C00983B124683D8B0089D819 /* JKAlertActionButton.h */,
+				C00983B224683D8B0089D819 /* JKAlertActionButton.m */,
 				5038B354216B599D00FA5588 /* JKAlertCollectionViewCell.h */,
 				5038B356216B599D00FA5588 /* JKAlertCollectionViewCell.m */,
 				509800C424615FBF00EAAD00 /* JKAlertPiercedTableViewCell.h */,
 				509800C524615FBF00EAAD00 /* JKAlertPiercedTableViewCell.m */,
+				C01D8B5F2467B8C0006E2E03 /* JKAlertTableActionView.h */,
+				C01D8B602467B8C0006E2E03 /* JKAlertTableActionView.m */,
 				5038B350216B599D00FA5588 /* JKAlertTableViewCell.h */,
 				5038B358216B599D00FA5588 /* JKAlertTableViewCell.m */,
 				5038B355216B599D00FA5588 /* JKAlertTextView.h */,
@@ -313,6 +318,7 @@
 				5038B35E216B599D00FA5588 /* JKAlertTableViewCell.m in Sources */,
 				B7D5AA6A207CFBE8001152D9 /* main.m in Sources */,
 				50F2F13021A57C96005B3242 /* JKAlertConst.m in Sources */,
+				C00983B324683D8B0089D819 /* JKAlertActionButton.m in Sources */,
 				C01D8B612467B8C0006E2E03 /* JKAlertTableActionView.m in Sources */,
 				5038B35C216B599D00FA5588 /* JKAlertTextView.m in Sources */,
 				50AB436E21EC7BEF004D8B4E /* JKBaseAlertView.m in Sources */,

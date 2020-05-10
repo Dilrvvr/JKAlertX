@@ -108,9 +108,8 @@ UIKIT_EXTERN NSString * const JKAlertDismissFailedShakeAnimationKey;
 
 UIKIT_EXTERN CGFloat    const JKAlertMinTitleLabelH;// = (22.0);
 UIKIT_EXTERN CGFloat    const JKAlertMinMessageLabelH;// = (17.0);
-UIKIT_EXTERN CGFloat    const JKAlertScrollViewMaxH;// = 176.0; // (JKAlertButtonH * 4.0)
+UIKIT_EXTERN CGFloat    const JKAlertScrollViewMaxH;// = 176.0; // (JKAlertActionButtonH * 4.0)
 
-UIKIT_EXTERN CGFloat    const JKAlertButtonH;// = 46.0;
 UIKIT_EXTERN NSInteger  const JKAlertPlainButtonBeginTag;// = 100;
 
 UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6.0;
@@ -136,6 +135,7 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 
 #define JKAlertTextContainerViewMaxH (JKAlertPlainViewMaxH - JKAlertScrollViewMaxH)
 
+#define JKAlertActionButtonH (([UIScreen mainScreen].bounds.size.width > 321) ? 53 : 46)
 
 // 快速设置颜色
 #define JKAlertColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]

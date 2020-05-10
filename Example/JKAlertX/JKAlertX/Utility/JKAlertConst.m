@@ -34,9 +34,7 @@ NSString * const JKAlertDismissFailedShakeAnimationKey = @"JKAlertDismissFailedS
 
 CGFloat    const JKAlertMinTitleLabelH = (22.0);
 CGFloat    const JKAlertMinMessageLabelH = (17.0);
-CGFloat    const JKAlertScrollViewMaxH = 176.0; // (JKAlertButtonH * 4.0)
-
-CGFloat    const JKAlertButtonH = 46.0;
+CGFloat    const JKAlertScrollViewMaxH = 176.0; // (JKAlertActionButtonH * 4.0)
 
 NSInteger  const JKAlertPlainButtonBeginTag = 100;
 

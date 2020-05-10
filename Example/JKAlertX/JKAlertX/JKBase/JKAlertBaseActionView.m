@@ -84,7 +84,7 @@
     self.backgroundView.hidden = highlighted;
     self.selectedBackgroundView.hidden = !self.backgroundView.hidden;
     
-    self.alpha = highlighted ? 0.5 : 1.0;
+    self.contentView.alpha = highlighted ? 0.5 : 1.0;
     
     self.iconImageView.highlighted = highlighted;
     
@@ -189,11 +189,11 @@
     _contentView = contentView;
     
     UIView *containerView = [[UIView alloc] init];
-    [self addSubview:containerView];
+    [self.contentView addSubview:containerView];
     _containerView = containerView;
     
     UIImageView *iconImageView = [[UIImageView alloc] init];
-    [self.contentView addSubview:iconImageView];
+    [self.containerView addSubview:iconImageView];
     _iconImageView = iconImageView;
     
     UILabel *titleLabel = [[UILabel alloc] init];
@@ -201,7 +201,7 @@
     titleLabel.font = [UIFont systemFontOfSize:17];
     titleLabel.textColor = [UIColor blackColor];
     titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
-    [self.contentView addSubview:titleLabel];
+    [self.containerView addSubview:titleLabel];
     _titleLabel = titleLabel;
 }
 

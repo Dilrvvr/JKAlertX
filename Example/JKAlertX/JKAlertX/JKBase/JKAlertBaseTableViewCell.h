@@ -24,6 +24,9 @@
 /** alertSuperView */
 @property (nonatomic, weak) UIView *alertSuperView;
 
+/** piercedBackgroundColor */
+@property (nonatomic, strong) UIColor *piercedBackgroundColor;
+
 #pragma mark
 #pragma mark - Private
 

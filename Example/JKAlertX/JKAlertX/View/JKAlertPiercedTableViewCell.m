@@ -14,7 +14,17 @@
 #pragma mark
 #pragma mark - Public Methods
 
+- (void)setPiercedBackgroundColor:(UIColor *)piercedBackgroundColor {
+    [super setPiercedBackgroundColor:piercedBackgroundColor];
+    
+    [self updatePierced];
+}
 
+- (void)setAction:(JKAlertAction *)action {
+    [super setAction:action];
+    
+    [self updatePierced];
+}
 
 #pragma mark
 #pragma mark - Override
@@ -24,7 +34,14 @@
 #pragma mark
 #pragma mark - Private Methods
 
-
+- (void)updatePierced {
+    
+    if (self.piercedBackgroundColor) {
+        
+        self.actionView.backgroundView.backgroundColor = self.piercedBackgroundColor;
+        self.actionView.selectedBackgroundView.backgroundColor = self.piercedBackgroundColor;
+    }
+}
 
 #pragma mark
 #pragma mark - Private Selector
