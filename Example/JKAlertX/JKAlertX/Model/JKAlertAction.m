@@ -16,15 +16,11 @@
 
 @implementation JKAlertAction
 
-+ (instancetype)actionWithTitle:(NSString *)title style:(JKAlertActionStyle)style handler:(void(^)(JKAlertAction *action))handler{
++ (instancetype)actionWithTitle:(NSString *)title
+                          style:(JKAlertActionStyle)style
+                        handler:(void(^)(JKAlertAction *action))handler{
     
-    JKAlertAction *action = [[JKAlertAction alloc] init];
-    
-    action->_title = [title copy];
-    action->_handler = handler;
-    action->_alertActionStyle = style;
-    
-    return action;
+    return [self actionWithTitle:title attributedTitle:nil style:style handler:handler];
 }
 
 /**
@@ -43,13 +39,7 @@
 
 + (instancetype)actionWithAttributedTitle:(NSAttributedString *)attributedTitle handler:(void(^)(JKAlertAction *action))handler{
     
-    JKAlertAction *action = [[JKAlertAction alloc] init];
-    
-    action->_attributedTitle = attributedTitle;
-    action->_handler = handler;
-    action->_alertActionStyle = JKAlertActionStyleDefault;
-    
-    return action;
+    return [self actionWithTitle:nil attributedTitle:attributedTitle style:JKAlertActionStyleDefault handler:handler];
 }
 
 /**
@@ -66,6 +56,32 @@
     };
 }
 
++ (instancetype)actionWithTitle:(NSString *)title
+                attributedTitle:(NSAttributedString *)attributedTitle
+                          style:(JKAlertActionStyle)style
+                        handler:(void(^)(JKAlertAction *action))handler {
+    
+    JKAlertAction *action = [[JKAlertAction alloc] init];
+    
+    action->_title = [title copy];
+    action->_handler = [handler copy];
+    action->_attributedTitle = [attributedTitle copy];
+    action->_alertActionStyle = JKAlertActionStyleDefault;
+    
+    switch (action.alertActionStyle) {
+        case JKAlertActionStyleCancel:
+            action.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102)));
+            break;
+        case JKAlertActionStyleDestructive:
+            action.setTitleColor(JKAlertSystemRedColor);
+            break;
+        default:
+            break;
+    }
+    
+    return action;
+}
+
 - (instancetype)init{
     if (self = [super init]) {
         
@@ -80,10 +96,14 @@
     _separatorLineHidden = NO;
     _autoDismiss = YES;
     
+    
     _imageContentMode = UIViewContentModeScaleAspectFill;
     
     _backgroundColor = JKAlertGlobalBackgroundColor();
     _seletedBackgroundColor = JKAlertGlobalHighlightedBackgroundColor();
+    
+    _titleFont = [UIFont systemFontOfSize:17];
+    _titleColor = JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204));
 }
 
 /** 在这个block内自定义action的其它属性 */

@@ -15,9 +15,9 @@
 
 @implementation JKBaseAlertView
 
-- (UITableView *)createTableView{
+- (UITableView *)createTableViewWithStyle:(UITableViewStyle)style{
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStyleGrouped)];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:style];
     
     tableView.backgroundColor = nil;
     

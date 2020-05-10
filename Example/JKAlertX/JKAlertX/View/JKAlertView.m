@@ -858,7 +858,7 @@
         
         [self.scrollView addSubview:self.messageTextView];
         
-        UITableView *tableView = [self createTableView];
+        UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
         
         tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
         tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;

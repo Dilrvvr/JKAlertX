@@ -188,6 +188,12 @@ CGFloat JKAlertCurrentHomeIndicatorHeight (void);
 /// 让手机振动一下
 void JKAlertVibrateDevice (void);
 
+/// 获取keyWindow
+UIWindow * JKAlertKeyWindow (void);
+
+/// 获取keyWindow的safeAreaInsets
+UIEdgeInsets JKAlertSafeAreaInset (void);
+
 
 
 #pragma mark

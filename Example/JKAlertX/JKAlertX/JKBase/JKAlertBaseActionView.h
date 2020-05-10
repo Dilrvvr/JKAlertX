@@ -1,25 +1,32 @@
 //
-//  JKBaseAlertView.h
+//  JKAlertBaseActionView.h
 //  JKAlertX
 //
-//  Created by albert on 2019/1/14.
-//  Copyright © 2019 安永博. All rights reserved.
+//  Created by albertcc on 2020/5/10.
+//  Copyright © 2020 安永博. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface JKBaseAlertView : UIView
+@interface JKAlertBaseActionView : UIView
+
+/** iconImageView */
+@property (nonatomic, weak, readonly) UIImageView *iconImageView;
+
+/** titleLabel */
+@property (nonatomic, weak, readonly) UILabel *titleLabel;
+
+/** seleted */
+@property (nonatomic, assign) BOOL seleted;
+
+#pragma mark
+#pragma mark - Private
+
+/** backgroundView */
+@property (nonatomic, weak, readonly) UIView *backgroundView;
 
 /** contentView */
 @property (nonatomic, weak, readonly) UIView *contentView;
-
-/** 最底层背景按钮 */
-@property (nonatomic, weak, readonly) UIButton *dismissButton;
-
-/** alertContainerView */
-//@property (nonatomic, weak, readonly) UIView *alertContainerView;
-
-- (UITableView *)createTableViewWithStyle:(UITableViewStyle)style;
 
 /** 初始化自身属性 交给子类重写 super自动调用该方法 */
 - (void)initializeProperty NS_REQUIRES_SUPER;
@@ -35,6 +42,4 @@
 
 /** 初始化数据 交给子类重写 super自动调用该方法 */
 - (void)initializeUIData NS_REQUIRES_SUPER;
-
-- (void)dismissButtonClick:(UIButton *)button;
 @end
