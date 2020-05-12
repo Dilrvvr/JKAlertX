@@ -97,6 +97,14 @@
     [super setHighlighted:highlighted animated:animated];
     
     [self.actionView setHighlighted:highlighted];
+    
+    self.bottomLineView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    
+    self.bottomLineView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
 }
 
 #pragma mark
