@@ -20,18 +20,10 @@
 #pragma mark
 #pragma mark - Public Methods
 
-- (void)setPiercedBackgroundColor:(UIColor *)piercedBackgroundColor {
-    _piercedBackgroundColor = piercedBackgroundColor;
-    
-    [self updatePierced];
-}
-
 - (void)setAction:(JKAlertAction *)action {
     _action = action;
     
     self.actionView.action = action;
-    
-    [self updatePierced];
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
@@ -65,15 +57,6 @@
 
 #pragma mark
 #pragma mark - Private Methods
-
-- (void)updatePierced {
-    
-    if (_piercedBackgroundColor) {
-        
-        self.actionView.backgroundView.backgroundColor = _piercedBackgroundColor;
-        self.actionView.selectedBackgroundView.backgroundColor = _piercedBackgroundColor;
-    }
-}
 
 #pragma mark
 #pragma mark - Private Selector

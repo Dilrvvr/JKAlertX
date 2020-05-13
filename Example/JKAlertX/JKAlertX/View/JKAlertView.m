@@ -1227,7 +1227,23 @@
     
     _cancelAction = cancelAction;
     
-    _cancelAction.alertView = self;
+    [self setAlertViewToAction:_cancelAction];
+}
+
+- (void)setAlertViewToAction:(JKAlertAction *)action {
+    
+    action.alertView = self;
+    
+    if (self.alertStyle == JKAlertStyleActionSheet) {
+
+        action.isPierced = self.isActionSheetPierced;
+        action.piercedBackgroundColor = self.piercedBackgroundColor;
+        
+    } else {
+
+        action.isPierced = NO;
+        action.piercedBackgroundColor = nil;
+    }
 }
 
 /**
@@ -1409,7 +1425,7 @@
         
         self.collectionAction = action;
         
-        self.collectionAction.alertView = self;
+        [self setAlertViewToAction:self.collectionAction];
         
         return self;
     };
@@ -2143,7 +2159,20 @@
     
     return ^(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) {
         
+        if (self.alertStyle != JKAlertStyleActionSheet) {
+            
+            return self;
+        }
+        
         self.isActionSheetPierced = isPierced;
+        
+        self.piercedBackgroundColor = JKAlertAdaptColor(lightBackgroundColor ? lightBackgroundColor : [UIColor whiteColor], darkBackgroundColor ? darkBackgroundColor : [UIColor blackColor]);
+        
+        [self.actions enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            obj.isPierced = self.isActionSheetPierced;
+            obj.piercedBackgroundColor = self.piercedBackgroundColor;
+        }];
         
         if (!isPierced) {
             
@@ -2154,11 +2183,9 @@
         
         self.piercedHorizontalMargin = MAX(horizontalMargin, 0);
         
-        self.piercedBackgroundColor = JKAlertAdaptColor(lightBackgroundColor ? lightBackgroundColor : [UIColor whiteColor], darkBackgroundColor ? darkBackgroundColor : [UIColor blackColor]);
-        
         self.pinCancelButton = YES;
         
-        self.piercedBottomMargin = JKAlertIsDeviceX() ? 0 : MAX(bottomMargin, 0);
+        self.piercedBottomMargin = MAX(bottomMargin, 0);
         
         [self updateInsets];
         
@@ -2548,7 +2575,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     [self.actions addObject:action];
 }
@@ -2566,7 +2593,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     [self.actions insertObject:action atIndex:index];
 }
@@ -2594,7 +2621,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     [self.actions2 addObject:action];
 }
@@ -2604,7 +2631,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     [self.actions2 insertObject:action atIndex:index];
 }
@@ -2710,7 +2737,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     if (isSecondCollection) {
         
@@ -2748,7 +2775,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     if (isSecondCollection) {
         
@@ -3750,9 +3777,13 @@
         tableViewH += (self.cancelAction.rowHeight + CancelMargin);
     }
     
+    CGFloat realPiercedBottomMargin = 0;
+    
     if (self.isActionSheetPierced) {
         
-        tableViewH += self.piercedBottomMargin;
+        realPiercedBottomMargin = MAX((self.piercedBottomMargin - JKAlertAdjustHomeIndicatorHeight), 0);
+        
+        tableViewH += realPiercedBottomMargin;
     }
     
     tableViewH += JKAlertAdjustHomeIndicatorHeight;
@@ -3848,9 +3879,9 @@
         [_sheetContainerView addSubview:self.cancelButton];
     }
     
-    self.cancelButton.action = self.cancelAction;
+    self.cancelAction.piercedBackgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : nil;
     
-    self.cancelButton.piercedBackgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : nil;
+    self.cancelButton.action = self.cancelAction;
     
     CGFloat cancelHeight = self.cancelAction.rowHeight;
     
@@ -3871,7 +3902,7 @@
         
         frame.size.width = _sheetContentView.frame.size.width;
         
-        frame.origin.y = _sheetContentView.frame.size.height - frame.size.height - JKAlertAdjustHomeIndicatorHeight - self.piercedBottomMargin;
+        frame.origin.y = _sheetContentView.frame.size.height - frame.size.height - JKAlertAdjustHomeIndicatorHeight - realPiercedBottomMargin;
         
         self.cancelButton.frame = frame;
         
@@ -4820,8 +4851,6 @@
         
         cell = [[JKAlertTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
     }
-    
-    cell.piercedBackgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : nil;
     
     cell.alertSuperView = self.customSuperView ? self.customSuperView : [UIApplication sharedApplication].delegate.window;
     

@@ -89,6 +89,12 @@
  * */
 @property (nonatomic, strong) UIColor *seletedBackgroundColor;
 
+/** isPierced */
+@property (nonatomic, assign) BOOL isPierced;
+
+/** piercedBackgroundColor */
+@property (nonatomic, strong) UIColor *piercedBackgroundColor;
+
 /**
  * 设置seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()
  * 仅 actionSheet 与 collectionSheet的底部按钮 有效

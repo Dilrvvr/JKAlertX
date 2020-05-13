@@ -14,7 +14,4 @@
 
 /** action */
 @property (nonatomic, strong) JKAlertAction *action;
-
-/** piercedBackgroundColor */
-@property (nonatomic, strong) UIColor *piercedBackgroundColor;
 @end

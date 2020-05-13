@@ -33,9 +33,18 @@
     self.iconImageView.image = nil;
     self.iconImageView.highlightedImage = nil;
     
-    self.backgroundView.backgroundColor = action.backgroundColor;
     
-    self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
+    
+    if (action.isPierced) {
+        
+        self.backgroundView.backgroundColor = action.piercedBackgroundColor;
+        self.selectedBackgroundView.backgroundColor = action.piercedBackgroundColor;
+        
+    } else {
+        
+        self.backgroundView.backgroundColor = action.backgroundColor;
+        self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
+    }
     
     [self.customView removeFromSuperview];
     self.customView = nil;
