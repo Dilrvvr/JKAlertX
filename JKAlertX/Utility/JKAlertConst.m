@@ -34,9 +34,7 @@ NSString * const JKAlertDismissFailedShakeAnimationKey = @"JKAlertDismissFailedS
 
 CGFloat    const JKAlertMinTitleLabelH = (22.0);
 CGFloat    const JKAlertMinMessageLabelH = (17.0);
-CGFloat    const JKAlertScrollViewMaxH = 176.0; // (JKAlertButtonH * 4.0)
-
-CGFloat    const JKAlertButtonH = 46.0;
+CGFloat    const JKAlertScrollViewMaxH = 176.0; // (JKAlertActionButtonH * 4.0)
 
 NSInteger  const JKAlertPlainButtonBeginTag = 100;
 
@@ -191,6 +189,36 @@ void JKAlertVibrateDevice (void) {
         
         [feedbackGenertor impactOccurred];
     }
+}
+
+/// 获取keyWindow
+UIWindow * JKAlertKeyWindow (void) {
+    
+    UIWindow *keyWindow = nil;
+    
+    if ([[UIApplication sharedApplication].delegate respondsToSelector:@selector(window)]) {
+        
+        keyWindow = [[UIApplication sharedApplication].delegate window];
+        
+    } else {
+        
+        keyWindow = [UIApplication sharedApplication].windows.firstObject;
+    }
+    
+    return keyWindow;
+}
+
+/// 获取keyWindow的safeAreaInsets
+UIEdgeInsets JKAlertSafeAreaInset (void) {
+    
+    UIEdgeInsets safeAreaInset = UIEdgeInsetsZero;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInset = JKAlertKeyWindow().safeAreaInsets;
+    }
+    
+    return safeAreaInset;
 }
 
 

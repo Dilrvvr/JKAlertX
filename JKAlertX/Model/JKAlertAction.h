@@ -28,6 +28,9 @@
 /** handler */
 @property (nonatomic, copy, readonly) void (^handler)(JKAlertAction *action);
 
+/** 图片尺寸 默认 */
+//@property (nonatomic, assign) CGSize imageSize;
+
 /** imageContentMode */
 @property (nonatomic, assign) UIViewContentMode imageContentMode;
 
@@ -56,16 +59,16 @@
 /** 是否隐藏分隔线 */
 @property (nonatomic, assign) BOOL separatorLineHidden;
 
-/** titleColor 默认nil */
+/** titleColor 默认 RGB 51 */
 @property (nonatomic, strong) UIColor *titleColor;
 
-/** 设置titleColor 默认nil */
+/** 设置titleColor 默认 RGB 51 */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setTitleColor)(UIColor *color);
 
-/** titleFont 默认nil  */
+/** titleFont 默认[UIFont systemFontOfSize:17]  */
 @property (nonatomic, strong) UIFont *titleFont;
 
-/** 设置titleFont 默认nil */
+/** 设置titleFont 默认[UIFont systemFontOfSize:17] */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setTitleFont)(UIFont *font);
 
 /**
@@ -86,17 +89,17 @@
  * */
 @property (nonatomic, strong) UIColor *seletedBackgroundColor;
 
+/** isPierced */
+@property (nonatomic, assign) BOOL isPierced;
+
+/** piercedBackgroundColor */
+@property (nonatomic, strong) UIColor *piercedBackgroundColor;
+
 /**
  * 设置seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()
  * 仅 actionSheet 与 collectionSheet的底部按钮 有效
  * */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setSeletedBackgroundColor)(UIColor *seletedBackgroundColor);
-
-/** 是否镂空 */
-@property (nonatomic, assign) BOOL isPireced;
-
-/** 设置是否镂空 */
-@property (nonatomic, copy, readonly) JKAlertAction *(^setPireced)(BOOL isPireced);
 
 /** 执行操作后是否自动消失 */
 @property (nonatomic, assign, getter=isAutoDismiss) BOOL autoDismiss;

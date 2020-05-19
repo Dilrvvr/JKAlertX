@@ -15,9 +15,9 @@
 
 @implementation JKBaseAlertView
 
-- (UITableView *)createTableView{
+- (UITableView *)createTableViewWithStyle:(UITableViewStyle)style{
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStyleGrouped)];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:style];
     
     tableView.backgroundColor = nil;
     
@@ -94,10 +94,10 @@
     _dismissButton = dismissButton;
     
     [dismissButton addTarget:self action:@selector(dismissButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    
+    /*
     UIView *alertContainerView = [[UIView alloc] init];
     [self.contentView addSubview:alertContainerView];
-    _alertContainerView = alertContainerView;
+    _alertContainerView = alertContainerView; //*/
 }
 
 /** 布局UI 交给子类重写 super自动调用该方法 */

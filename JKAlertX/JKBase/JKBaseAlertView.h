@@ -17,9 +17,9 @@
 @property (nonatomic, weak, readonly) UIButton *dismissButton;
 
 /** alertContainerView */
-@property (nonatomic, weak, readonly) UIView *alertContainerView;
+//@property (nonatomic, weak, readonly) UIView *alertContainerView;
 
-- (UITableView *)createTableView;
+- (UITableView *)createTableViewWithStyle:(UITableViewStyle)style;
 
 /** 初始化自身属性 交给子类重写 super自动调用该方法 */
 - (void)initializeProperty NS_REQUIRES_SUPER;

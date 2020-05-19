@@ -8,18 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class JKAlertAction;
+@class JKAlertAction, JKAlertTableActionView;
 
 @interface JKAlertBaseTableViewCell : UITableViewCell
 
-/** titleButton */
-@property (nonatomic, weak, readonly) UIButton *titleButton;
+/** actionView */
+@property (nonatomic, weak) JKAlertTableActionView *actionView;
 
 /** 底部分隔线 */
 @property (nonatomic, weak, readonly) UIView *bottomLineView;
-
-/** 自定义view */
-@property (nonatomic, weak) UIView *customView;
 
 /** action */
 @property (nonatomic, strong) JKAlertAction *action;

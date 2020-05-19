@@ -7,43 +7,80 @@
 //
 
 #import "JKAlertPiercedTableViewCell.h"
+#import "JKAlertTableActionView.h"
+#import "JKAlertAction.h"
 
 @implementation JKAlertPiercedTableViewCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
+#pragma mark
+#pragma mark - Public Methods
+
+
+
+#pragma mark
+#pragma mark - Override
+
+
+
+#pragma mark
+#pragma mark - Private Methods
+
+
+
+#pragma mark
+#pragma mark - Private Selector
+
+
+
+#pragma mark
+#pragma mark - UITableViewDataSource & UITableViewDelegate
+
+
+
+#pragma mark
+#pragma mark - Custom Delegates
+
+
+
+#pragma mark
+#pragma mark - Initialization & Build UI
+
+/** 初始化自身属性 */
+- (void)initializeProperty {
+    [super initializeProperty];
+    
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
+/** 构造函数初始化时调用 注意调用super */
+- (void)initialization {
+    [super initialization];
     
-    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        safeAreaInsets = self.alertSuperView.safeAreaInsets;
-    }
-    
-    self.contentView.frame = self.bounds;
-    
-    self.selectedBackgroundView.frame = self.contentView.frame;
-    
-    self.titleButton.frame = self.contentView.bounds;
-    
-    self.customView.frame = self.contentView.bounds;
 }
 
-- (void)setAction:(JKAlertAction *)action{
-    [super setAction:action];
+/** 创建UI */
+- (void)createUI {
+    [super createUI];
     
-    self.contentView.backgroundColor = nil;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+/** 布局UI */
+- (void)layoutUI {
+    [super layoutUI];
+    
 }
+
+/** 初始化UI数据 */
+- (void)initializeUIData {
+    [super initializeUIData];
+    
+    self.actionView.isFullContentWidth = YES;
+}
+
+#pragma mark
+#pragma mark - Private Property
+
+
+
+
 
 @end

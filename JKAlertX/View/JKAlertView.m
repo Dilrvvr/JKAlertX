@@ -13,15 +13,7 @@
 #import "JKAlertTableViewCell.h"
 #import "JKAlertTextView.h"
 #import "UIView+JKAlertX.h"
-
-@interface JKAlertHighlightedButton : UIButton
-
-/** normalBackgroundColor */
-@property (nonatomic, strong) UIColor *normalBackgroundColor;
-
-/** highlightedBackgroundColor */
-@property (nonatomic, strong) UIColor *highlightedBackgroundColor;
-@end
+#import "JKAlertActionButton.h"
 
 @interface JKAlertSeparatorLayerButton : UIButton
 
@@ -135,6 +127,9 @@
 /** collectionView2 */
 @property (nonatomic, weak) UICollectionView *collectionView2;
 
+/** isClearTextContainerBackground */
+@property (nonatomic, assign) BOOL isClearTextContainerBackground;
+
 /** sheet样式添加自定义的titleView */
 @property (nonatomic, weak) UIView *customSheetTitleView;
 
@@ -142,10 +137,10 @@
 @property (nonatomic, weak) UIPageControl *pageControl;
 
 /** cancelButton */
-@property (nonatomic, weak) JKAlertHighlightedButton *cancelButton;
+@property (nonatomic, weak) JKAlertActionButton *cancelButton;
 
 /** collectionButton */
-@property (nonatomic, weak) JKAlertHighlightedButton *collectionButton;
+@property (nonatomic, weak) JKAlertActionButton *collectionButton;
 
 /** actions */
 @property (nonatomic, strong) NSMutableArray *actions;
@@ -224,9 +219,6 @@
 
 /** messageTextView */
 @property (nonatomic, weak) JKAlertTextView *messageTextView;
-
-/** piercedCancelBackgroundView */
-@property (nonatomic, weak) UIView *piercedCancelBackgroundView;
 
 /** scrollView */
 @property (nonatomic, weak) UIScrollView *scrollView;
@@ -449,7 +441,10 @@
 @property (nonatomic, assign) BOOL isActionSheetPierced;
 
 /** 镂空左右的间距 默认15 */
-@property (nonatomic, assign) CGFloat piercedMargin;
+@property (nonatomic, assign) CGFloat piercedHorizontalMargin;
+
+/** 非X设备镂空底部取消按钮距离底部的间距 默认15 */
+@property (nonatomic, assign) CGFloat piercedBottomMargin;
 
 /** 镂空整体圆角 */
 @property (nonatomic, assign) CGFloat piercedCornerRadius;
@@ -852,7 +847,7 @@
         
         [self.scrollView addSubview:self.messageTextView];
         
-        UITableView *tableView = [self createTableView];
+        UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
         
         tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
         tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
@@ -884,15 +879,11 @@
     return _collectionTopContainerView;
 }
 
-- (JKAlertHighlightedButton *)cancelButton{
+- (JKAlertActionButton *)cancelButton{
     if (!_cancelButton) {
         
-        JKAlertHighlightedButton *cancelButton = [JKAlertHighlightedButton buttonWithType:(UIButtonTypeCustom)];
+        JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
         [self.scrollView addSubview:cancelButton];
-        
-        cancelButton.backgroundColor = JKAlertGlobalBackgroundColor();
-        cancelButton.titleLabel.font = [UIFont systemFontOfSize:17];
-        [cancelButton setTitleColor:JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)) forState:(UIControlStateNormal)];
         [cancelButton addTarget:self action:@selector(cancelButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
         
         _cancelButton = cancelButton;
@@ -900,16 +891,11 @@
     return _cancelButton;
 }
 
-- (JKAlertHighlightedButton *)collectionButton{
+- (JKAlertActionButton *)collectionButton{
     if (!_collectionButton) {
-        JKAlertHighlightedButton *collectionButton = [JKAlertHighlightedButton buttonWithType:(UIButtonTypeCustom)];
-        collectionButton.backgroundColor = JKAlertGlobalBackgroundColor();
+        JKAlertActionButton *collectionButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
         [self.scrollView addSubview:collectionButton];
-        collectionButton.titleLabel.font = [UIFont systemFontOfSize:17];
-        [collectionButton setTitleColor:JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)) forState:(UIControlStateNormal)];
         [collectionButton addTarget:self action:@selector(collectionButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
-        //        [collectionButton setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
-        
         _collectionButton = collectionButton;
     }
     return _collectionButton;
@@ -1130,7 +1116,7 @@
     JKAlertTitleMessageMargin = 7;
     CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
     JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
-    textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
+    textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
     
     _autoShowKeyboard = YES;
     FillHomeIndicator = YES;
@@ -1144,7 +1130,7 @@
     _enableVerticalGestureDismiss = NO;
     _enableHorizontalGestureDismiss = NO;
     
-    _piercedMargin = 15;
+    _piercedHorizontalMargin = 15;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -1241,7 +1227,23 @@
     
     _cancelAction = cancelAction;
     
-    _cancelAction.alertView = self;
+    [self setAlertViewToAction:_cancelAction];
+}
+
+- (void)setAlertViewToAction:(JKAlertAction *)action {
+    
+    action.alertView = self;
+    
+    if (self.alertStyle == JKAlertStyleActionSheet) {
+
+        action.isPierced = self.isActionSheetPierced;
+        action.piercedBackgroundColor = self.piercedBackgroundColor;
+        
+    } else {
+
+        action.isPierced = NO;
+        action.piercedBackgroundColor = nil;
+    }
 }
 
 /**
@@ -1423,7 +1425,7 @@
         
         self.collectionAction = action;
         
-        self.collectionAction.alertView = self;
+        [self setAlertViewToAction:self.collectionAction];
         
         return self;
     };
@@ -2076,6 +2078,8 @@
         
         self.customSheetTitleView = !customView ? nil : customView();
         
+        self.isClearTextContainerBackground = isClearContainerBackgroundColor;
+        
         if (isClearContainerBackgroundColor) {
             
             self->_textContainerView.backgroundColor = nil;
@@ -2151,24 +2155,37 @@
  * 类似UIAlertControllerStyleActionSheet效果
  * 设置为YES后，setPinCancelButton将强制为YES
  */
-- (JKAlertView *(^)(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor))setActionSheetPierced{
+- (JKAlertView *(^)(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor))setActionSheetPierced{
     
-    return ^(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) {
+    return ^(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) {
+        
+        if (self.alertStyle != JKAlertStyleActionSheet) {
+            
+            return self;
+        }
         
         self.isActionSheetPierced = isPierced;
+        
+        self.piercedBackgroundColor = JKAlertAdaptColor(lightBackgroundColor ? lightBackgroundColor : [UIColor whiteColor], darkBackgroundColor ? darkBackgroundColor : [UIColor blackColor]);
+        
+        [self.actions enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            obj.isPierced = self.isActionSheetPierced;
+            obj.piercedBackgroundColor = self.piercedBackgroundColor;
+        }];
         
         if (!isPierced) {
             
             return self;
         }
         
-        self.piercedCornerRadius = cornerRadius;
+        self.piercedCornerRadius = MAX(cornerRadius, 0);
         
-        self.piercedMargin = horizontalMargin;
-        
-        self.piercedBackgroundColor = JKAlertAdaptColor(lightBackgroundColor ? lightBackgroundColor : [UIColor whiteColor], darkBackgroundColor ? darkBackgroundColor : [UIColor blackColor]);
+        self.piercedHorizontalMargin = MAX(horizontalMargin, 0);
         
         self.pinCancelButton = YES;
+        
+        self.piercedBottomMargin = MAX(bottomMargin, 0);
         
         [self updateInsets];
         
@@ -2467,7 +2484,7 @@
         JKAlertSheetMaxH = (JKAlertScreenH > JKAlertScreenW) ? JKAlertScreenH * 0.85 : JKAlertScreenH * 0.8;
     }
     
-    textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertButtonH * 4);
+    textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
 }
 
 #pragma mark
@@ -2558,7 +2575,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     [self.actions addObject:action];
 }
@@ -2576,7 +2593,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     [self.actions insertObject:action atIndex:index];
 }
@@ -2604,7 +2621,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     [self.actions2 addObject:action];
 }
@@ -2614,7 +2631,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     [self.actions2 insertObject:action atIndex:index];
 }
@@ -2720,7 +2737,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     if (isSecondCollection) {
         
@@ -2758,7 +2775,7 @@
     
     if (!action) { return; }
     
-    action.alertView = self;
+    [self setAlertViewToAction:action];
     
     if (isSecondCollection) {
         
@@ -3556,7 +3573,7 @@
             button.tag = JKAlertPlainButtonBeginTag + i;
         }
         
-        button.frame = CGRectMake(X, Y, W, JKAlertButtonH);
+        button.frame = CGRectMake(X, Y, W, JKAlertActionButtonH);
         
         [self adjustButton:button action:action];
         
@@ -3593,7 +3610,7 @@
                 self.plainButtonVLineView = vline;
             }
             
-            self.plainButtonVLineView.frame = CGRectMake(0, -0.2, JKAlertSeparatorLineWH, JKAlertButtonH);
+            self.plainButtonVLineView.frame = CGRectMake(0, -0.2, JKAlertSeparatorLineWH, JKAlertActionButtonH);
         }
         
         if (count <= 2 || i == 0) { continue; }
@@ -3733,7 +3750,7 @@
     
     if (self.isActionSheetPierced) {
         
-        containerWidth -= (self.piercedMargin * 2 + safeAreaInsets.left + safeAreaInsets.right);
+        containerWidth -= (self.piercedHorizontalMargin * 2 + safeAreaInsets.left + safeAreaInsets.right);
         
         self.backGroundView.hidden = YES;
     }
@@ -3760,9 +3777,13 @@
         tableViewH += (self.cancelAction.rowHeight + CancelMargin);
     }
     
+    CGFloat realPiercedBottomMargin = 0;
+    
     if (self.isActionSheetPierced) {
         
-        tableViewH += CancelMargin;
+        realPiercedBottomMargin = MAX((self.piercedBottomMargin - JKAlertAdjustHomeIndicatorHeight), 0);
+        
+        tableViewH += realPiercedBottomMargin;
     }
     
     tableViewH += JKAlertAdjustHomeIndicatorHeight;
@@ -3775,7 +3796,7 @@
     
     if (self.isActionSheetPierced) {
         
-        maxWidth -= (self.piercedMargin * 2);
+        maxWidth -= (self.piercedHorizontalMargin * 2);
     }
     
     [self.titleTextView calculateFrameWithMaxWidth:maxWidth minHeight:JKAlertMinTitleLabelH originY:JKAlertSheetTitleMargin superView:_textContainerView];
@@ -3824,9 +3845,9 @@
     
     _sheetContainerView.frame = CGRectMake((JKAlertScreenW - containerWidth) * 0.5, JKAlertScreenH - sheetContainerHeight, containerWidth, sheetContainerHeight);
     
-    self.topGestureIndicatorView.backgroundColor = self.isActionSheetPierced ? nil : JKAlertGlobalBackgroundColor();
+    self.topGestureIndicatorView.backgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : JKAlertGlobalBackgroundColor();
     
-    self.textContainerView.backgroundColor = self.isActionSheetPierced ? nil : JKAlertGlobalBackgroundColor();
+    self.textContainerView.backgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : (self.isClearTextContainerBackground ? nil : JKAlertGlobalBackgroundColor());
     
     self.sheetContentView.backgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : nil;
     
@@ -3858,18 +3879,15 @@
         [_sheetContainerView addSubview:self.cancelButton];
     }
     
-    [self adjustButton:self.cancelButton action:self.cancelAction];
+    self.cancelAction.piercedBackgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : nil;
     
-    self.cancelButton.normalBackgroundColor = self.isActionSheetPierced ? nil : self.cancelAction.backgroundColor;
-    self.cancelButton.highlightedBackgroundColor = self.cancelAction.seletedBackgroundColor;
+    self.cancelButton.action = self.cancelAction;
     
     CGFloat cancelHeight = self.cancelAction.rowHeight;
     
     CGRect frame = CGRectMake(self.collectionButtonLeftRightMargin, _sheetContentView.frame.size.height - cancelHeight - JKAlertAdjustHomeIndicatorHeight, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2, cancelHeight);
     
     if (self.cancelAction.customView) {
-        
-        self.cancelButton.backgroundColor = nil;
         
         frame.size.height = self.cancelAction.customView.frame.size.height - (self.cancelButton.titleEdgeInsets.bottom > 0 ? JKAlertAdjustHomeIndicatorHeight : 0);
     }
@@ -3884,7 +3902,7 @@
         
         frame.size.width = _sheetContentView.frame.size.width;
         
-        frame.origin.y = _sheetContentView.frame.size.height - frame.size.height - JKAlertAdjustHomeIndicatorHeight - CancelMargin;
+        frame.origin.y = _sheetContentView.frame.size.height - frame.size.height - JKAlertAdjustHomeIndicatorHeight - realPiercedBottomMargin;
         
         self.cancelButton.frame = frame;
         
@@ -3928,20 +3946,6 @@
         self.cancelButton.layer.cornerRadius = self.piercedCornerRadius;
         self.cancelButton.layer.masksToBounds = YES;
         
-        if (!self.piercedCancelBackgroundView) {
-            
-            UIView *piercedCancelBackgroundView = [[UIView alloc] init];
-            [self.sheetContainerView insertSubview:piercedCancelBackgroundView belowSubview:self.cancelButton];
-            _piercedCancelBackgroundView = piercedCancelBackgroundView;
-        }
-        
-        self.piercedCancelBackgroundView.backgroundColor = self.piercedBackgroundColor;
-        
-        self.piercedCancelBackgroundView.frame = self.cancelButton.frame;
-        
-        self.piercedCancelBackgroundView.layer.cornerRadius = self.piercedCornerRadius;
-        self.piercedCancelBackgroundView.layer.masksToBounds = YES;
-        
         if (JKAlertIsDeviceX() &&
             JKAlertAdjustHomeIndicatorHeight > 0) {
             
@@ -3951,8 +3955,6 @@
             _sheetContainerView.frame = frame;
         }
     }
-    
-    self.piercedCancelBackgroundView.hidden = !self.isActionSheetPierced;
 }
 
 - (void)adjustSheetFrame{
@@ -4136,10 +4138,7 @@
         }
     }
     
-    [self adjustButton:self.cancelButton action:self.cancelAction];
-    
-    self.cancelButton.normalBackgroundColor = self.cancelAction.backgroundColor;
-    self.cancelButton.highlightedBackgroundColor = self.cancelAction.seletedBackgroundColor;
+    self.cancelButton.action = self.cancelAction;
     
     CGRect frame = CGRectZero;
     
@@ -4147,10 +4146,7 @@
     
     if (self.collectionAction) {
         
-        [self adjustButton:self.collectionButton action:self.collectionAction];
-        
-        self.collectionButton.normalBackgroundColor = self.collectionAction.backgroundColor;
-        self.collectionButton.highlightedBackgroundColor = self.collectionAction.seletedBackgroundColor;
+        self.collectionButton.action = self.collectionAction;
         
         if (_pageControl) {
             
@@ -4167,7 +4163,7 @@
         
         Y += CancelMargin;
         
-        frame = CGRectMake(self.collectionButtonLeftRightMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2, JKAlertButtonH);
+        frame = CGRectMake(self.collectionButtonLeftRightMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2, JKAlertActionButtonH);
         
         if (self.collectionAction.customView) {
             
@@ -4202,7 +4198,7 @@
     
     Y += CancelMargin;
     
-    frame = CGRectMake(self.collectionButtonLeftRightMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2, JKAlertButtonH);
+    frame = CGRectMake(self.collectionButtonLeftRightMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2, JKAlertActionButtonH);
     
     if (self.cancelAction.customView) {
         
@@ -5410,6 +5406,8 @@
                 }
             }
             
+            frame.origin.y = MAX(frame.origin.y, correctContainerY - 5);
+            
             self.sheetContainerView.frame = frame;
             
             //CGFloat maxY = CGRectGetMaxY(self.sheetContainerView.frame) - 1;
@@ -5809,26 +5807,6 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
     }
     
     return theImage;
-}
-@end
-
-@implementation JKAlertHighlightedButton
-
-- (void)setNormalBackgroundColor:(UIColor *)normalBackgroundColor{
-    _normalBackgroundColor = normalBackgroundColor;
-    
-    self.backgroundColor = normalBackgroundColor;
-}
-
-- (void)setHighlighted:(BOOL)highlighted{
-    [super setHighlighted:highlighted];
-    
-    self.backgroundColor = highlighted ? self.highlightedBackgroundColor : self.normalBackgroundColor;
-    
-    if (!self.normalBackgroundColor) {
-        
-        self.alpha = highlighted ? 0.5 : 1;
-    }
 }
 @end
 
