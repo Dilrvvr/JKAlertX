@@ -5406,6 +5406,8 @@
                 }
             }
             
+            frame.origin.y = MAX(frame.origin.y, correctContainerY - 5);
+            
             self.sheetContainerView.frame = frame;
             
             //CGFloat maxY = CGRectGetMaxY(self.sheetContainerView.frame) - 1;
