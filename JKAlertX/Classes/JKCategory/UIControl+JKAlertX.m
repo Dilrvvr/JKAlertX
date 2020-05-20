@@ -13,7 +13,7 @@
 
 static char JKAlertXControlActionTag;
 
-- (void)JKAlertX_addClickOperation:(void(^)(id control))clickOperation{
+- (void)JKAlertX_addClickOperation:(void(^)(id control))clickOperation {
     
     [self JKAlertX_addOperation:clickOperation forControlEvents:(UIControlEventTouchUpInside)];
 }
@@ -27,7 +27,7 @@ static char JKAlertXControlActionTag;
     [self addTarget:self action:@selector(JKAlertX_buttonClick:) forControlEvents:(controlEvents)];
 }
 
-- (void)JKAlertX_buttonClick:(UIControl *)control{
+- (void)JKAlertX_buttonClick:(UIControl *)control {
     
     void(^clickOperation)(id control) = objc_getAssociatedObject(self, &JKAlertXControlActionTag);
     

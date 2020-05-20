@@ -11,7 +11,10 @@
 @implementation UIView (JKAlertX)
 
 /** 切圆角 */
-- (void)JKAlertX_clipRoundWithRadius:(CGFloat)radius corner:(UIRectCorner)corner borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor{
+- (void)JKAlertX_clipRoundWithRadius:(CGFloat)radius
+                              corner:(UIRectCorner)corner
+                         borderWidth:(CGFloat)borderWidth
+                         borderColor:(UIColor *)borderColor {
     
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corner cornerRadii:CGSizeMake(radius, radius)];
     
@@ -43,7 +46,8 @@
 }
 
 /** 无限旋转动画 */
-- (void)JKAlertX_addInfinityRotationAnimationWithDuration:(CGFloat)duration key:(NSString *)key{
+- (void)JKAlertX_addInfinityRotationAnimationWithDuration:(CGFloat)duration
+                                                      key:(NSString *)key {
     
     [self JKAlertX_addRotationAnimationWithDuration:duration repeatCount:INFINITY key:key];
 }
@@ -51,7 +55,7 @@
 /** 旋转动画 */
 - (void)JKAlertX_addRotationAnimationWithDuration:(CGFloat)duration
                                       repeatCount:(float)repeatCount
-                                              key:(NSString *)key{
+                                              key:(NSString *)key {
     
     if (key && [self.layer animationForKey:key]) {
         
@@ -82,7 +86,7 @@
                               dashSpace:(CGFloat)dashSpace
                              startPoint:(CGPoint)startPoint
                                endPoint:(CGPoint)endPoint
-                          isRenderImage:(BOOL)isRenderImage{
+                          isRenderImage:(BOOL)isRenderImage {
     
     assert(lineColor);
     
@@ -130,7 +134,7 @@
                                                locations:(NSArray *)locations
                                               startPoint:(CGPoint)startPoint
                                                 endPoint:(CGPoint)endPoint
-                                                   frame:(CGRect)frame{
+                                                   frame:(CGRect)frame {
     
     CAGradientLayer *gradientLayer = [CAGradientLayer layer];
     [self.layer insertSublayer:gradientLayer atIndex:0];

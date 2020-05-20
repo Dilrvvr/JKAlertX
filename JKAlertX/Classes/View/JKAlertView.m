@@ -3566,8 +3566,6 @@
             button = [JKAlertSeparatorLayerButton buttonWithType:(UIButtonTypeCustom)];
             [self.scrollView addSubview:button];
             
-            //[button setBackgroundImage:JKAlertCreateImageWithColor([UIColor colorWithRed:217.0/255.0 green:217.0/255.0 blue:217.0/255.0 alpha:1], 1, 1, 0) forState:(UIControlStateHighlighted)];
-            
             [button addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
             
             button.tag = JKAlertPlainButtonBeginTag + i;
@@ -5818,10 +5816,7 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
 - (void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:highlighted];
     
-    //UIColor *normalColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
-    UIColor *highlightedColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
-    
-    self.backgroundColor = highlighted ? highlightedColor : nil;
+    self.backgroundColor = highlighted ? JKAlertGlobalHighlightedBackgroundColor() : nil;
 }
 @end
 

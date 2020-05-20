@@ -17,7 +17,8 @@
                          borderColor:(UIColor *)borderColor;
 
 /** 无限旋转动画 */
-- (void)JKAlertX_addInfinityRotationAnimationWithDuration:(CGFloat)duration key:(NSString *)key;
+- (void)JKAlertX_addInfinityRotationAnimationWithDuration:(CGFloat)duration
+                                                      key:(NSString *)key;
 
 /** 旋转动画 */
 - (void)JKAlertX_addRotationAnimationWithDuration:(CGFloat)duration

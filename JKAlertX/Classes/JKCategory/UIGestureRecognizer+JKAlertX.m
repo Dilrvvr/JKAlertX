@@ -13,7 +13,7 @@
 
 static char JKAlertXGestureActionTag;
 
-+ (instancetype)JKAlertX_gestureWithOperation:(void(^)(id gesture))gestureOperation{
++ (instancetype)JKAlertX_gestureWithOperation:(void(^)(id gesture))gestureOperation {
     
     if (!gestureOperation) { return [self new]; }
     
@@ -24,14 +24,14 @@ static char JKAlertXGestureActionTag;
     return gesture;
 }
 
-+ (void)JKAlertX_gestureAction:(UIGestureRecognizer *)gesture{
++ (void)JKAlertX_gestureAction:(UIGestureRecognizer *)gesture {
     
     void(^gestureOperation)(id gesture) = objc_getAssociatedObject(gesture, &JKAlertXGestureActionTag);
     
     !gestureOperation ? : gestureOperation(gesture);
 }
 
-- (void)JKAlertX_addGestureOperation:(void(^)(id gesture))gestureOperation{
+- (void)JKAlertX_addGestureOperation:(void(^)(id gesture))gestureOperation {
     
     if (!gestureOperation) { return; }
     
@@ -40,7 +40,7 @@ static char JKAlertXGestureActionTag;
     [self addTarget:self action:@selector(JKAlertX_gestureAction:)];
 }
 
-- (void)JKAlertX_gestureAction:(UIGestureRecognizer *)gesture{
+- (void)JKAlertX_gestureAction:(UIGestureRecognizer *)gesture {
     
     void(^gestureOperation)(id gesture) = objc_getAssociatedObject(self, &JKAlertXGestureActionTag);
     
