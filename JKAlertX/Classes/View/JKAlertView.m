@@ -2555,72 +2555,6 @@
     self.scrollView.frame = frame;
     
     textContainerViewCurrentMaxH_ = self.textContainerView.frame.size.height;
-    
-    //    [self adjustTextContainerViewFrame];
-}
-
-- (void)adjustTextContainerViewFrame{
-    
-    if (self.messageTextView.hidden && self.titleTextView.hidden) { return; }
-    
-    CGRect frame = CGRectZero;
-    
-    if (self.messageTextView.hidden) {
-        
-        frame = self.titleTextView.frame;
-        //        frame.size.height = frame.size.height > textContainerViewCurrentMaxH_ - TBMargin * 2 ? textContainerViewCurrentMaxH_ - TBMargin * 2 : frame.size.height;
-        //        self.titleTextView.frame = frame;
-        
-        self.plainTextContainerScrollView.contentSize = CGSizeMake(self.plainTextContainerScrollView.frame.size.width, frame.size.height + TBMargin * 2);
-        
-        return;
-    }
-    
-    if (self.titleTextView.hidden) {
-        
-        frame = self.messageTextView.frame;
-        //        frame.size.height = frame.size.height > textContainerViewCurrentMaxH_ - TBMargin * 2 ? textContainerViewCurrentMaxH_ - TBMargin * 2 : frame.size.height;
-        //        self.messageTextView.frame = frame;
-        
-        self.plainTextContainerScrollView.contentSize = CGSizeMake(self.plainTextContainerScrollView.frame.size.width, frame.size.height + TBMargin * 2);
-        
-        return;
-    }
-    
-    CGFloat contentSizeH = self.titleTextView.frame.size.height + JKAlertTitleMessageMargin + self.messageTextView.frame.size.height + TBMargin * 2;
-    
-    self.plainTextContainerScrollView.contentSize = CGSizeMake(self.plainTextContainerScrollView.frame.size.width, contentSizeH);
-    /*
-     CGFloat maxH = (textContainerViewCurrentMaxH_ - TBMargin - JKAlertTitleMessageMargin - TBMargin) * 0.5;
-     
-     if (self.titleTextView.frame.size.height > maxH && self.messageTextView.frame.size.height > maxH) {
-     
-     frame = self.titleTextView.frame;
-     frame.size.height = maxH;
-     self.titleTextView.frame = frame;
-     
-     frame = self.messageTextView.frame;
-     frame.origin.y = CGRectGetMaxY(self.titleTextView.frame) + JKAlertTitleMessageMargin;
-     frame.size.height = maxH;
-     self.messageTextView.frame = frame;
-     
-     } else if (self.titleTextView.frame.size.height > maxH) {
-     
-     frame = self.titleTextView.frame;
-     frame.size.height = textContainerViewCurrentMaxH_ - TBMargin - JKAlertTitleMessageMargin - TBMargin - self.messageTextView.frame.size.height;
-     self.titleTextView.frame = frame;
-     
-     frame = self.messageTextView.frame;
-     frame.origin.y = CGRectGetMaxY(self.titleTextView.frame) + JKAlertTitleMessageMargin;
-     self.messageTextView.frame = frame;
-     
-     } else if (self.messageTextView.frame.size.height > maxH) {
-     
-     frame = self.messageTextView.frame;
-     frame.origin.y = CGRectGetMaxY(self.titleTextView.frame) + JKAlertTitleMessageMargin;
-     frame.size.height = textContainerViewCurrentMaxH_ - TBMargin - JKAlertTitleMessageMargin - TBMargin - self.titleTextView.frame.size.height;
-     self.messageTextView.frame = frame;
-     } */
 }
 
 #pragma mark
@@ -4704,6 +4638,28 @@
     return _textContainerView;
 }
 
+- (UIScrollView *)plainTextContainerScrollView {
+    if (!_plainTextContainerScrollView) {
+        UIScrollView *plainTextContainerScrollView = [[UIScrollView alloc] init];
+        plainTextContainerScrollView.delegate = self;
+        [self addSubview:plainTextContainerScrollView];
+        
+        [self adjustScrollView:plainTextContainerScrollView];
+        
+        _plainTextContainerScrollView = plainTextContainerScrollView;
+        
+        [self.textContainerView insertSubview:_plainTextContainerScrollView atIndex:0];
+        
+        _plainTextContainerScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : _plainTextContainerScrollView}];
+        [_textContainerView addConstraints:scrollViewCons1];
+        
+        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : _plainTextContainerScrollView}];
+        [_textContainerView addConstraints:scrollViewCons2];
+    }
+    return _plainTextContainerScrollView;
+}
+
 - (JKAlertTextView *)titleTextView {
     if (!_titleTextView) {
         JKAlertTextView *titleTextView = [[JKAlertTextView alloc] init];
@@ -4726,28 +4682,6 @@
         _messageTextView = messageTextView;
     }
     return _messageTextView;
-}
-
-- (UIScrollView *)plainTextContainerScrollView {
-    if (!_plainTextContainerScrollView) {
-        UIScrollView *plainTextContainerScrollView = [[UIScrollView alloc] init];
-        plainTextContainerScrollView.delegate = self;
-        [self addSubview:plainTextContainerScrollView];
-        
-        [self adjustScrollView:plainTextContainerScrollView];
-        
-        _plainTextContainerScrollView = plainTextContainerScrollView;
-        
-        [self.textContainerView insertSubview:_plainTextContainerScrollView atIndex:0];
-        
-        _plainTextContainerScrollView.translatesAutoresizingMaskIntoConstraints = NO;
-        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : _plainTextContainerScrollView}];
-        [_textContainerView addConstraints:scrollViewCons1];
-        
-        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : _plainTextContainerScrollView}];
-        [_textContainerView addConstraints:scrollViewCons2];
-    }
-    return _plainTextContainerScrollView;
 }
 
 - (UIScrollView *)scrollView {
