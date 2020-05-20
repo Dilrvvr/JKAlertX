@@ -14,12 +14,7 @@
 #import "JKAlertTextView.h"
 #import "UIView+JKAlertX.h"
 #import "JKAlertActionButton.h"
-
-@interface JKAlertSeparatorLayerButton : UIButton
-
-/** topSeparatorLineView */
-@property (nonatomic, weak) UIView *topSeparatorLineView;
-@end
+#import "JKAlertPlainActionButton.h"
 
 @interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
 {
@@ -3165,72 +3160,6 @@
     [self calculateUI];
 }
 
-- (void)adjustButton:(UIButton *)button action:(JKAlertAction *)action{
-    
-    if (action.customView) {
-        
-        [button addSubview:action.customView];
-        
-        // 有customViewm，清空文字
-        [button setTitle:nil forState:(UIControlStateNormal)];
-        [button setAttributedTitle:nil forState:(UIControlStateNormal)];
-        
-        return;
-    }
-    
-    if (action.title) {
-        
-        [button setTitle:action.title forState:(UIControlStateNormal)];
-    }
-    
-    if (action.attributedTitle) {
-        
-        [button setAttributedTitle:action.attributedTitle forState:(UIControlStateNormal)];
-    }
-    
-    if (action.titleColor == nil) {
-        
-        switch (action.alertActionStyle) {
-            case JKAlertActionStyleDefault:
-                
-                action.setTitleColor((_alertStyle == JKAlertStylePlain ? JKAlertSystemBlueColor : JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204))));
-                break;
-                
-            case JKAlertActionStyleCancel:
-                
-                action.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102)));
-                break;
-                
-            case JKAlertActionStyleDestructive:
-                
-                action.setTitleColor(JKAlertSystemRedColor);
-                break;
-                
-            default:
-                break;
-        }
-    }
-    
-    if (action.titleFont == nil) {
-        
-        action.setTitleFont([UIFont systemFontOfSize:17]);
-    }
-    
-    button.titleLabel.font = action.titleFont;
-    [button setTitleColor:action.titleColor forState:(UIControlStateNormal)];
-    [button setTitleColor:[action.titleColor colorWithAlphaComponent:0.5] forState:(UIControlStateHighlighted)];
-    
-    if (action.normalImage) {
-        
-        [button setImage:action.normalImage forState:(UIControlStateNormal)];
-    }
-    
-    if (action.hightlightedImage) {
-        
-        [button setImage:action.hightlightedImage forState:(UIControlStateHighlighted)];
-    }
-}
-
 #pragma mark
 #pragma mark - 计算frame
 
@@ -3246,19 +3175,6 @@
             [(UIVisualEffectView *)self.backGroundView setEffect:[UIBlurEffect effectWithStyle:isLight ? UIBlurEffectStyleExtraLight : UIBlurEffectStyleDark]];
         }
     }
-    
-    /* 判断当前的SizeClass,如果为width compact&height regular 则说明正在分屏
-     BOOL isTrait = (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) &&
-     (self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular);
-     
-     if (isTrait) {
-     
-     NSLog(@"正在分屏");
-     
-     } else {
-     
-     NSLog(@"取消分屏");
-     } //*/
 }
 
 - (void)calculateUI{
@@ -3559,11 +3475,11 @@
         
         JKAlertAction *action = self.actions[i];
         
-        JKAlertSeparatorLayerButton *button = [self.scrollView viewWithTag:JKAlertPlainButtonBeginTag + i];
+        JKAlertPlainActionButton *button = [self.scrollView viewWithTag:JKAlertPlainButtonBeginTag + i];
         
         if (!button) {
             
-            button = [JKAlertSeparatorLayerButton buttonWithType:(UIButtonTypeCustom)];
+            button = [JKAlertPlainActionButton buttonWithType:(UIButtonTypeCustom)];
             [self.scrollView addSubview:button];
             
             [button addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -3573,7 +3489,7 @@
         
         button.frame = CGRectMake(X, Y, W, JKAlertActionButtonH);
         
-        [self adjustButton:button action:action];
+        button.action = action;
         
         if ([action customView] != nil) {
             
@@ -5807,17 +5723,3 @@ UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat he
     return theImage;
 }
 @end
-
-
-
-
-@implementation JKAlertSeparatorLayerButton
-
-- (void)setHighlighted:(BOOL)highlighted{
-    [super setHighlighted:highlighted];
-    
-    self.backgroundColor = highlighted ? JKAlertGlobalHighlightedBackgroundColor() : nil;
-}
-@end
-
-

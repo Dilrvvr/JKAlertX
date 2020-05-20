@@ -60,8 +60,7 @@ typedef enum : NSUInteger {
     
     /**
      * 默认样式
-     * plain默认系统蓝色 [UIColor colorWithRed:0 green:122.0/255.0 blue:255.0/255.0 alpha:1]
-     * 其它样式默认黑色字体 RGB都为51
+     * 默认黑色字体 RGB都为51
      */
     JKAlertActionStyleDefault,
     
@@ -70,6 +69,9 @@ typedef enum : NSUInteger {
     
     /** 灰色字体 RGB都为153 */
     JKAlertActionStyleCancel,
+    
+    /** 默认系统蓝色 [UIColor colorWithRed:0 green:122.0/255.0 blue:255.0/255.0 alpha:1] */
+    JKAlertActionStyleDefaultBlue,
     
 } JKAlertActionStyle;
 

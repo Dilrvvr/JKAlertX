@@ -75,6 +75,9 @@
         case JKAlertActionStyleDestructive:
             action.setTitleColor(JKAlertSystemRedColor);
             break;
+        case JKAlertActionStyleDefaultBlue:
+            action.setTitleColor(JKAlertSystemBlueColor);
+            break;
         default:
             break;
     }
