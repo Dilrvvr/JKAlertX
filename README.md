@@ -21,27 +21,27 @@ iOS弹框，包含alert/actionsheet/collectionSheet(类似分享面板)/HUD四�
 
 plain带textField样式  
 
-<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/plain.PNG" width="375"><br/>
+<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Snapshots/plain.PNG" width="375"><br/>
 
 actionSheet样式  
 
-<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/actionSheet.PNG" width="375"><br/>
+<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Snapshots/actionSheet.PNG" width="375"><br/>
 
 collectionSheet样式  
 
-<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/collectionSheet.PNG" width="375"><br/>
+<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Snapshots/collectionSheet.PNG" width="375"><br/>
 
 HUD样式  
 
-<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/HUD.PNG" width="375"><br/>
+<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Snapshots/HUD.PNG" width="375"><br/>
 
 actionSheet样式横屏  
 
-<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/actionSheet_Landscape.PNG" width="812"><br/>
+<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Snapshots/actionSheet_Landscape.PNG" width="812"><br/>
 
 collectionSheet样式横屏  
 
-<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/collectionSheetLandscape.PNG" width="812"><br/>
+<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Snapshots/collectionSheetLandscape.PNG" width="812"><br/>
 
 安装
 ==============
@@ -77,4 +77,4 @@ JKAlertX 使用 MIT 许可证，详情见 LICENSE 文件。
 
 
 
-<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Example/Snapshots/wechat.JPG" width="337"><br/>
+<img src="https://raw.github.com/Jacky-An/JKAlertX/master/Snapshots/wechat.JPG" width="337"><br/>

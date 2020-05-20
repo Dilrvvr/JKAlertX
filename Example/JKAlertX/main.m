@@ -2,15 +2,16 @@
 //  main.m
 //  JKAlertX
 //
-//  Created by albert on 2018/4/10.
-//  Copyright © 2018年 安永博. All rights reserved.
+//  Created by jkayb123cool@gmail.com on 05/20/2020.
+//  Copyright (c) 2020 jkayb123cool@gmail.com. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "AppDelegate.h"
+@import UIKit;
+#import "JKAlertAppDelegate.h"
 
-int main(int argc, char * argv[]) {
+int main(int argc, char * argv[])
+{
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([JKAlertAppDelegate class]));
     }
 }

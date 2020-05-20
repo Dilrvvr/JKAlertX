@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '8.0'
+
+target 'JKAlertX_Example' do
+  pod 'JKAlertX', :path => '../'
+
+  target 'JKAlertX_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
