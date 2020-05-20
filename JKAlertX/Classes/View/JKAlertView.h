@@ -85,7 +85,6 @@
 
 /** 设置title和message是否可以选择文字，默认NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewShouldSelectText)(BOOL shouldSelectText);
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText) JKAlertXDeprecated("use setTextViewShouldSelectText");
 
 /**
  * 设置titleTextColor
@@ -544,19 +543,15 @@
 
 /** 监听即将开始显示动画 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setWillShowHandler)(void(^willShowHandler)(JKAlertView *view));
-@property (nonatomic, copy, readonly) JKAlertView * (^setWillShowAnimation)(void(^willShowAnimation)(JKAlertView *view)) JKAlertXDeprecated("use setWillShowHandler");
 
 /** 监听显示动画完成 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setDidShowHandler)(void(^didShowHandler)(JKAlertView *view));
-@property (nonatomic, copy, readonly) JKAlertView * (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view)) JKAlertXDeprecated("use setDidShowHandler");
 
 /** 监听JKAlertView即将开始消失动画 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setWillDismissHandler)(void(^willDismissHandler)(void));
-@property (nonatomic, copy, readonly) JKAlertView * (^setWillDismiss)(void(^willDismiss)(void)) JKAlertXDeprecated("use setWillDismissHandler");
 
 /** 监听JKAlertView消失动画完成 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setDidDismissHandler)(void(^didDismissHandler)(void));
-@property (nonatomic, copy, readonly) JKAlertView * (^setDismissComplete)(void(^dismissComplete)(void)) JKAlertXDeprecated("use setDidDismissHandler");
 
 /** 监听屏幕旋转 */
 @property (nonatomic, copy, readonly) JKAlertView * (^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));
@@ -576,12 +571,6 @@
 
 #pragma mark
 #pragma mark 显示之后更新UI
-
-/** 准备重新布局 */
-@property (nonatomic, copy, readonly) JKAlertView * (^prepareToRelayout)(void) JKAlertXDeprecated("JKAlertViewProtocol已移除，无需调用该方法");
-
-/** 重新设置其它属性，调用该方法返回JKAlertView，设置好其它属性后，再调用relayout即可 */
-@property (nonatomic, copy, readonly) JKAlertView * (^resetOther)(void)JKAlertXDeprecated("JKAlertViewProtocol已移除，无需调用该方法");
 
 /** 重新设置alertTitle */
 @property (nonatomic, copy, readonly) JKAlertView * (^resetAlertTitle)(NSString *alertTitle);

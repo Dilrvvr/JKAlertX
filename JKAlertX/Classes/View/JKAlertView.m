@@ -1096,17 +1096,6 @@
         return self;
     };
 }
-//@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewShouldSelectText)(BOOL shouldSelectText)
-/** 设置title和message是否可以选择文字，默认NO */
-- (JKAlertView *(^)(BOOL canselectText))setTextViewCanSelectText{
-    
-    return ^(BOOL canSelectText) {
-        
-        self.textViewShouldSelectText = canSelectText;
-        
-        return self;
-    };
-}
 
 /** 设置titleTextView的文字水平样式 */
 - (JKAlertView *(^)(NSTextAlignment textAlignment))setTitleTextViewAlignment{
@@ -2604,32 +2593,12 @@
     };
 }
 
-- (JKAlertView * (^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation{
-    
-    return ^(void(^willShowAnimation)(JKAlertView *view)) {
-        
-        self.willShowHandler = willShowAnimation;
-        
-        return self;
-    };
-}
-
 /** 监听JKAlertView显示动画完成 */
 - (JKAlertView * (^)(void(^didShowHandler)(JKAlertView *view)))setDidShowHandler{
     
     return ^(void(^didShowHandler)(JKAlertView *view)) {
         
         self.didShowHandler = didShowHandler;
-        
-        return self;
-    };
-}
-
-- (JKAlertView * (^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete{
-    
-    return ^(void(^showAnimationComplete)(JKAlertView *view)) {
-        
-        self.didShowHandler = showAnimationComplete;
         
         return self;
     };
@@ -2646,32 +2615,12 @@
     };
 }
 
-- (JKAlertView * (^)(void(^willDismiss)(void)))setWillDismiss{
-    
-    return ^JKAlertView * (void(^willDismiss)(void)) {
-        
-        self.willDismissHandler = willDismiss;
-        
-        return self;
-    };
-}
-
 /** 监听JKAlertView消失动画完成 */
 - (JKAlertView * (^)(void(^didDismissHandler)(void)))setDidDismissHandler{
     
     return ^(void(^didDismissHandler)(void)) {
         
         self.didDismissHandler = didDismissHandler;
-        
-        return self;
-    };
-}
-
-- (JKAlertView * (^)(void(^dismissComplete)(void)))setDismissComplete{
-    
-    return ^(void(^dismissComplete)(void)) {
-        
-        self.didDismissHandler = dismissComplete;
         
         return self;
     };
@@ -5056,12 +5005,6 @@
 #pragma mark
 #pragma mark - Relayout
 
-/** 准备重新布局 */
-- (JKAlertView * (^)(void))prepareToRelayout{
-    
-    return ^{ return self; };
-}
-
 /** 重新布局 */
 - (JKAlertView * (^)(BOOL animated))relayout{
     
@@ -5152,15 +5095,6 @@
     };
 }
 
-/** 重新设置其它属性，调用该方法返回JKAlertView，设置好其它属性后，再调用relayout即可 */
-- (JKAlertView * (^)(void))resetOther{
-    
-    return ^{
-        
-        return self;
-    };
-}
-
 #pragma mark
 #pragma mark - Property
 
@@ -5192,51 +5126,5 @@
     }
     
     !self.deallocBlock ? : self.deallocBlock();
-}
-
-UIImage * JKAlertCreateImageWithColor (UIColor *color, CGFloat width, CGFloat height, CGFloat cornerRadius) {
-    
-    if (width <= 0 || height <= 0 || !color) { return nil; }
-    
-    CGRect rect = CGRectMake(0.0f, 0.0f, width, height);
-    
-    UIGraphicsBeginImageContext(rect.size);
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    
-    CGContextFillRect(context, rect);
-    
-    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    if (cornerRadius > 0) {
-        
-        // NO代表透明
-        UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
-        
-        // 获取上下文
-        CGContextRef ctx = UIGraphicsGetCurrentContext();
-        
-        // 添加一个圆
-        //CGContextAddEllipseInRect(ctx, rect);
-        UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:(UIRectCornerAllCorners) cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
-        
-        CGContextAddPath(ctx, path.CGPath);
-        
-        // 裁剪
-        CGContextClip(ctx);
-        
-        // 将图片画上去
-        [theImage drawInRect:rect];
-        
-        theImage = UIGraphicsGetImageFromCurrentImageContext();
-        
-        UIGraphicsEndImageContext();
-    }
-    
-    return theImage;
 }
 @end
