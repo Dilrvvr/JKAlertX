@@ -2,8 +2,8 @@
 //  JKAlertAppDelegate.h
 //  JKAlertX
 //
-//  Created by jkayb123cool@gmail.com on 05/20/2020.
-//  Copyright (c) 2020 jkayb123cool@gmail.com. All rights reserved.
+//  Created by albert on 05/20/2020.
+//  Copyright © 2020 安永博. All rights reserved.
 //
 
 @import UIKit;
