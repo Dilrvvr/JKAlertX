@@ -15,10 +15,14 @@
 #pragma mark - 基本方法
 
 /** 实例化 */
-+ (instancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message style:(JKAlertStyle)alertStyle;
++ (instancetype)alertViewWithTitle:(NSString *)title
+                           message:(NSString *)message
+                             style:(JKAlertStyle)style;
 
 /** 富文本实例化 */
-+ (instancetype)alertViewWithAttributedTitle:(NSAttributedString *)attributedTitle attributedMessage:(NSAttributedString *)attributedMessage style:(JKAlertStyle)alertStyle;
++ (instancetype)alertViewWithAttributedTitle:(NSAttributedString *)attributedTitle
+                           attributedMessage:(NSAttributedString *)attributedMessage
+                                       style:(JKAlertStyle)style;
 
 /** 添加action */
 - (void)addAction:(JKAlertAction *)action;

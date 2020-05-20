@@ -15,6 +15,31 @@
 
 @implementation JKBaseAlertView
 
+#pragma mark
+#pragma mark - Public Methods
+
+
+
+#pragma mark
+#pragma mark - Override
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        [self initialization];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        [self initialization];
+    }
+    return self;
+}
+
+#pragma mark
+#pragma mark - Private Methods
+
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:style];
@@ -49,22 +74,31 @@
     return tableView;
 }
 
+- (void)adjustScrollView:(UIScrollView *)scrollView {
+    
+    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.scrollsToTop = NO;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    
+    if (@available(iOS 13.0, *)) {
+        
+        scrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
+    }
+}
+
 #pragma mark
-#pragma mark - 初始化
+#pragma mark - Private Selector
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        [self initialization];
-    }
-    return self;
+- (void)dismissButtonClick:(UIButton *)button {
+    
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super initWithCoder:aDecoder]) {
-        [self initialization];
-    }
-    return self;
-}
+#pragma mark
+#pragma mark - Initialization & Build UI
 
 /** 初始化自身属性 交给子类重写 super自动调用该方法 */
 - (void)initializeProperty{
@@ -124,26 +158,7 @@
 }
 
 #pragma mark
-#pragma mark - 点击事件
-
-- (void)dismissButtonClick:(UIButton *)button {
-    
-}
-
-#pragma mark
-#pragma mark - 发送请求
-
-
-#pragma mark
-#pragma mark - 处理数据
-
-
-#pragma mark
-#pragma mark - 赋值
-
-
-#pragma mark
-#pragma mark - Property
+#pragma mark - Private Property
 
 
 

@@ -10,6 +10,9 @@
 
 @interface JKBaseAlertView : UIView
 
+#pragma mark
+#pragma mark - Private
+
 /** contentView */
 @property (nonatomic, weak, readonly) UIView *contentView;
 
@@ -20,6 +23,8 @@
 //@property (nonatomic, weak, readonly) UIView *alertContainerView;
 
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style;
+
+- (void)adjustScrollView:(UIScrollView *)scrollView;
 
 /** 初始化自身属性 交给子类重写 super自动调用该方法 */
 - (void)initializeProperty NS_REQUIRES_SUPER;

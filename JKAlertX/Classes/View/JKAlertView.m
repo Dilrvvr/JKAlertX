@@ -23,24 +23,26 @@
 #pragma mark
 #pragma mark - 类方法
 
-+ (instancetype)alertViewWithTitle:(NSString *)title message:(NSString *)message style:(JKAlertStyle)alertStyle{
++ (instancetype)alertViewWithTitle:(NSString *)title
+                           message:(NSString *)message
+                             style:(JKAlertStyle)style {
     
-    if (alertStyle == JKAlertStyleNone) {
+    if (style == JKAlertStyleNone) {
         
         return nil;
     }
     
     JKAlertView *alertView = [[JKAlertView alloc] init];
     
-    alertView.alertStyle = alertStyle;
+    alertView.alertStyle = style;
     alertView.alertTitle = [title copy];
-    alertView.message    = [message copy];
+    alertView.message = [message copy];
     
     return alertView;
 }
 
 /** 链式实例化 */
-+ (JKAlertView *(^)(NSString *title, NSString *message, JKAlertStyle style))alertView{
++ (JKAlertView *(^)(NSString *title, NSString *message, JKAlertStyle style))alertView {
     
     return ^(NSString *title, NSString *message, JKAlertStyle style) {
         
@@ -48,16 +50,15 @@
     };
 }
 
-+ (instancetype)alertViewWithAttributedTitle:(NSAttributedString *)attributedTitle attributedMessage:(NSAttributedString *)attributedMessage style:(JKAlertStyle)alertStyle{
++ (instancetype)alertViewWithAttributedTitle:(NSAttributedString *)attributedTitle
+                           attributedMessage:(NSAttributedString *)attributedMessage
+                                       style:(JKAlertStyle)style {
     
-    if (alertStyle == JKAlertStyleNone) {
-        
-        return nil;
-    }
+    if (style == JKAlertStyleNone) { return nil; }
     
     JKAlertView *alertView = [[JKAlertView alloc] init];
     
-    alertView.alertStyle = alertStyle;
+    alertView.alertStyle = style;
     alertView.alertAttributedTitle = [attributedTitle copy];
     alertView.attributedMessage = [attributedMessage copy];
     
@@ -65,7 +66,7 @@
 }
 
 /** 函数式类方法 */
-+ (JKAlertView * (^)(NSString *title, NSString *message, JKAlertStyle style, void(^)(JKAlertView *alertView)))show{
++ (JKAlertView * (^)(NSString *title, NSString *message, JKAlertStyle style, void(^)(JKAlertView *alertView)))show {
     
     return ^(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView)) {
         
@@ -73,14 +74,14 @@
         
         !configuration ? : configuration(view);
         
-        view.show();
+        [view show];
         
         return view;
     };
 }
 
 /** 链式实例化 */
-+ (JKAlertView *(^)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style))alertViewAttributed{
++ (JKAlertView *(^)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style))alertViewAttributed {
     
     return ^(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style) {
         
@@ -89,16 +90,13 @@
 }
 
 /** 显示文字HUD */
-+ (void (^)(NSString *title, void(^configuration)(JKAlertView *alertView)))showHUDWithTitle{
++ (void (^)(NSString *title, void(^configuration)(JKAlertView *alertView)))showHUDWithTitle {
     
     return ^(NSString *title, void(^configuration)(JKAlertView *alertView)) {
         
         JKAlertView *alertView = nil;
         
-        if (!title) {
-            
-            return;
-        }
+        if (!title) { return; }
         
         alertView = [JKAlertView alertViewWithTitle:title message:nil style:(JKAlertStyleHUD)];
         
@@ -109,16 +107,13 @@
 }
 
 /** 显示富文本HUD */
-+ (void (^)(NSAttributedString *attributedTitle, void(^configuration)(JKAlertView *alertView)))showHUDWithAttributedTitle{
++ (void (^)(NSAttributedString *attributedTitle, void(^configuration)(JKAlertView *alertView)))showHUDWithAttributedTitle {
     
     return ^(NSAttributedString *attributedTitle, void(^configuration)(JKAlertView *alertView)) {
         
         JKAlertView *alertView = nil;
         
-        if (!attributedTitle) {
-            
-            return;
-        }
+        if (!attributedTitle) { return; }
         
         alertView = [JKAlertView alertViewWithAttributedTitle:attributedTitle attributedMessage:nil style:(JKAlertStyleHUD)];
         
@@ -134,16 +129,13 @@
  * customHUD尺寸将完全由自定义控制，默认显示在屏幕中间
  * 注意自己计算好自定义HUD的size，以避免横竖屏出现问题
  */
-+ (void (^)(UIView *(^customHUD)(void), void(^configuration)(JKAlertView *alertView)))showCustomHUD{
++ (void (^)(UIView *(^customHUD)(void), void(^configuration)(JKAlertView *alertView)))showCustomHUD {
     
     return ^(UIView *(^customHUD)(void), void(^configuration)(JKAlertView *alertView)) {
         
         JKAlertView *alertView = nil;
         
-        if (!customHUD) {
-            
-            return;
-        }
+        if (!customHUD) { return; }
         
         UIView *customView = customHUD();
         
@@ -165,7 +157,7 @@
  * 注意如果某个对象setDismissAllNoneffective为YES时，该对象将不会响应通知
  * ***谨慎使用该方法***
  */
-+ (void(^)(void))dismissAll{
++ (void(^)(void))dismissAll {
     
     [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissAllNotification object:nil];
     
@@ -176,7 +168,7 @@
  * 移除设置了dismissKey的JKAlertView
  * 本质是发送一个通知，让dismissKey为该值的JKAlertView对象执行消失操作
  */
-+ (void(^)(NSString *dismissKey))dismissForKey{
++ (void(^)(NSString *dismissKey))dismissForKey {
     
     return ^(NSString *dismissKey) {
         
@@ -188,7 +180,7 @@
  * 移除设置了同一dismissCategory的多个JKAlertView
  * 本质是发送一个通知，让dismissCategory为该值的JKAlertView对象执行消失操作
  */
-+ (void(^)(NSString *dismissCategory))dismissForCategory{
++ (void(^)(NSString *dismissCategory))dismissForCategory {
     
     return ^(NSString *dismissCategory) {
         
@@ -202,543 +194,12 @@
  * 执行该操作会清空所有的JKAlertView，即使setDismissAllNoneffective为YES亦然，请谨慎操作
  * ***谨慎使用该方法***
  */
-+ (void(^)(void))clearAll{
++ (void(^)(void))clearAll {
     
     return ^{
         
         [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertClearAllNotification object:nil];
     };
-}
-
-#pragma mark
-#pragma mark - 懒加载
-
-- (NSMutableArray *)actions{
-    if (!_actions) {
-        _actions = [NSMutableArray array];
-    }
-    return _actions;
-}
-
-- (NSMutableArray *)actions2{
-    if (!_actions2) {
-        _actions2 = [NSMutableArray array];
-    }
-    return _actions2;
-}
-
-- (NSMutableArray *)textFieldArr{
-    if (!_textFieldArr) {
-        _textFieldArr = [NSMutableArray array];
-    }
-    return _textFieldArr;
-}
-
-- (UIView *)textContainerView{
-    if (!_textContainerView) {
-        UIView *textContainerView = [[UIView alloc] init];
-        [self addSubview:textContainerView];
-        _textContainerView = textContainerView;
-    }
-    return _textContainerView;
-}
-
-- (JKAlertTextView *)titleTextView{
-    if (!_titleTextView) {
-        JKAlertTextView *titleTextView = [[JKAlertTextView alloc] init];
-        titleTextView.textColor = self.alertStyle == JKAlertStylePlain ? JKAlertAdaptColor(JKAlertSameRGBColor(25.5), JKAlertSameRGBColor(229.5)) : JKAlertAdaptColor(JKAlertSameRGBColor(89.25), JKAlertSameRGBColor(165.75));
-        titleTextView.font = self.alertStyle == JKAlertStylePlain ? [UIFont boldSystemFontOfSize:17] : [UIFont systemFontOfSize:17];
-        [self addSubview:titleTextView];
-        
-        _titleTextView = titleTextView;
-    }
-    return _titleTextView;
-}
-
-- (JKAlertTextView *)messageTextView{
-    if (!_messageTextView) {
-        JKAlertTextView *messageTextView = [[JKAlertTextView alloc] init];
-        messageTextView.textColor = self.alertStyle == JKAlertStyleActionSheet ? JKAlertAdaptColor(JKAlertSameRGBColor(140.25), JKAlertSameRGBColor(114.75)) : JKAlertAdaptColor(JKAlertSameRGBColor(76.5), JKAlertSameRGBColor(178.5));
-        messageTextView.font = self.alertStyle == JKAlertStylePlain ? [UIFont systemFontOfSize:14] : [UIFont systemFontOfSize:13];
-        [self addSubview:messageTextView];
-        
-        _messageTextView = messageTextView;
-    }
-    return _messageTextView;
-}
-
-- (UIScrollView *)plainTextContainerScrollView{
-    if (!_plainTextContainerScrollView) {
-        UIScrollView *plainTextContainerScrollView = [[UIScrollView alloc] init];
-        plainTextContainerScrollView.delegate = self;
-        [self addSubview:plainTextContainerScrollView];
-        
-        [self adjustScrollView:plainTextContainerScrollView];
-        
-        _plainTextContainerScrollView = plainTextContainerScrollView;
-        
-        [self.textContainerView insertSubview:_plainTextContainerScrollView atIndex:0];
-        
-        _plainTextContainerScrollView.translatesAutoresizingMaskIntoConstraints = NO;
-        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : _plainTextContainerScrollView}];
-        [_textContainerView addConstraints:scrollViewCons1];
-        
-        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : _plainTextContainerScrollView}];
-        [_textContainerView addConstraints:scrollViewCons2];
-    }
-    return _plainTextContainerScrollView;
-}
-
-- (UIScrollView *)scrollView{
-    if (!_scrollView) {
-        UIScrollView *scrollView = [[UIScrollView alloc] init];
-        scrollView.delegate = self;
-        [self addSubview:scrollView];
-        
-        [self adjustScrollView:scrollView];
-        
-        _scrollView = scrollView;
-    }
-    return _scrollView;
-}
-
-- (void)adjustScrollView:(UIScrollView *)scrollView{
-    
-    scrollView.showsHorizontalScrollIndicator = NO;
-    scrollView.scrollsToTop = NO;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    }
-    
-    if (@available(iOS 13.0, *)) {
-        
-        scrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
-    }
-}
-
-- (UIView *)backGroundView{
-    if (!_backGroundView) {
-        //UIToolbar *toolbar = [[UIToolbar alloc] init];
-        //toolbar.clipsToBounds = YES;
-        
-        BOOL isLight = YES;
-        
-        if (@available(iOS 13.0, *)) {
-            
-            isLight = ([self.traitCollection userInterfaceStyle] == UIUserInterfaceStyleLight);
-        }
-        
-        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:isLight ? UIBlurEffectStyleExtraLight : UIBlurEffectStyleDark]];
-        effectView.clipsToBounds = YES;
-        self.backGroundView = effectView;
-    }
-    return _backGroundView;
-}
-
-- (UIView *)sheetContainerView{
-    if (!_sheetContainerView) {
-        UIView *sheetContainerView = [[UIView alloc] init];
-        [self.contentView addSubview:sheetContainerView];
-        _sheetContainerView = sheetContainerView;
-        
-        _verticalDismissPanGesture = [[JKAlertPanGestureRecognizer alloc] initWithTarget:self action:@selector(verticalPanGestureAction:)];
-        _verticalDismissPanGesture.direction = JKAlertPanGestureDirectionVertical;
-        _verticalDismissPanGesture.delegate = self;
-        
-        _horizontalDismissPanGesture = [[JKAlertPanGestureRecognizer alloc] initWithTarget:self action:@selector(horizontalPanGestureAction:)];
-        _horizontalDismissPanGesture.direction = JKAlertPanGestureDirectionToRight;
-        _horizontalDismissPanGesture.delegate = self;
-        
-        [sheetContainerView addGestureRecognizer:_verticalDismissPanGesture];
-        [sheetContainerView addGestureRecognizer:_horizontalDismissPanGesture];
-        
-        // 背景
-        [self backGroundView];
-    }
-    return _sheetContainerView;
-}
-
-- (UIView *)sheetContentView{
-    if (!_sheetContentView) {
-        UIView *sheetContentView = [[UIView alloc] init];
-        [self.sheetContainerView insertSubview:sheetContentView aboveSubview:self.backGroundView];
-        _sheetContentView = sheetContentView;
-    }
-    return _sheetContentView;
-}
-
-- (UIView *)topGestureIndicatorView{
-    if (!_topGestureIndicatorView) {
-        UIView *topGestureIndicatorView = [[UIView alloc] init];
-        topGestureIndicatorView.hidden = YES;
-        topGestureIndicatorView.userInteractionEnabled = NO;
-        //topGestureIndicatorView.backgroundColor = JKAlertGlobalBackgroundColor();
-        [self.sheetContentView addSubview:topGestureIndicatorView];
-        _topGestureIndicatorView = topGestureIndicatorView;
-        
-        UIView *topGestureLineView = [[UIView alloc] init];
-        
-        //UIToolbar *topGestureLineView = [[UIToolbar alloc] init];
-        //topGestureLineView.alpha = 0.9;
-        topGestureLineView.userInteractionEnabled = NO;
-        topGestureLineView.layer.cornerRadius = 2;
-        //topGestureLineView.layer.masksToBounds = YES;
-        topGestureLineView.backgroundColor = JKAlertAdaptColor(JKAlertSameRGBColor(208), JKAlertSameRGBColor(47));
-        [topGestureIndicatorView addSubview:topGestureLineView];
-        
-        _topGestureLineView = topGestureLineView;
-    }
-    return _topGestureIndicatorView;
-}
-
-- (UITableView *)tableView{
-    if (!_tableView) {
-        
-        // 分隔线
-        UIView *hline = [UIView new];
-        hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
-        [self.textContainerView addSubview:hline];
-        _textContainerBottomLineView = hline;
-        
-        // title和message的容器view
-        self.textContainerView.backgroundColor = JKAlertGlobalBackgroundColor();
-        [self.sheetContentView addSubview:self.textContainerView];
-        
-        [self.textContainerView insertSubview:self.scrollView atIndex:0];
-        
-        [self.scrollView addSubview:self.titleTextView];
-        
-        [self.scrollView addSubview:self.messageTextView];
-        
-        UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
-        
-        tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
-        tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
-        
-        [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
-        [tableView registerClass:[JKAlertPiercedTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertPiercedTableViewCell class])];
-        
-        tableView.rowHeight = JKAlertRowHeight;
-        
-        tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
-        tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
-        
-        tableView.showsHorizontalScrollIndicator = NO;
-        
-        [_sheetContentView insertSubview:tableView belowSubview:self.textContainerView];
-        
-        _tableView = tableView;
-    }
-    return _tableView;
-}
-
-- (UIView *)collectionTopContainerView{
-    if (!_collectionTopContainerView) {
-        UIView *collectionTopContainerView = [[UIView alloc] init];
-        collectionTopContainerView.backgroundColor = JKAlertGlobalBackgroundColor();
-        [self.sheetContentView addSubview:collectionTopContainerView];
-        _collectionTopContainerView = collectionTopContainerView;
-    }
-    return _collectionTopContainerView;
-}
-
-- (JKAlertActionButton *)cancelButton{
-    if (!_cancelButton) {
-        
-        JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-        [self.scrollView addSubview:cancelButton];
-        [cancelButton addTarget:self action:@selector(cancelButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
-        
-        _cancelButton = cancelButton;
-    }
-    return _cancelButton;
-}
-
-- (JKAlertActionButton *)collectionButton{
-    if (!_collectionButton) {
-        JKAlertActionButton *collectionButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-        [self.scrollView addSubview:collectionButton];
-        [collectionButton addTarget:self action:@selector(collectionButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
-        _collectionButton = collectionButton;
-    }
-    return _collectionButton;
-}
-
-- (UIPageControl *)pageControl{
-    if (!_pageControl) {
-        UIPageControl *pageControl = [[UIPageControl alloc] init];
-        pageControl.backgroundColor = nil;
-        pageControl.pageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
-        pageControl.currentPageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
-        pageControl.userInteractionEnabled = NO;
-        
-        [self.collectionTopContainerView addSubview:pageControl];
-        
-        _pageControl = pageControl;
-    }
-    return _pageControl;
-}
-
-- (UICollectionView *)collectionView{
-    if (!_collectionView) {
-        
-        [self.sheetContentView insertSubview:self.scrollView atIndex:1];
-        
-        [self updateInsets];
-        
-        self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : self.scrollView}];
-        [self addConstraints:scrollViewCons1];
-        
-        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : self.scrollView}];
-        [self addConstraints:scrollViewCons2];
-        
-        [self.scrollView insertSubview:self.collectionTopContainerView atIndex:0];
-        
-        // title和message的容器view
-        self.textContainerView.backgroundColor = nil;
-        [self.collectionTopContainerView addSubview:self.textContainerView];
-        
-        [self.textContainerView addSubview:self.titleTextView];
-        
-        UIView *hline = [UIView new];
-        hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
-        [self.textContainerView addSubview:hline];
-        _textContainerBottomLineView = hline;
-        
-        UICollectionViewFlowLayout *flowlayout = [[UICollectionViewFlowLayout alloc] init];
-        flowlayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        _flowlayout = flowlayout;
-        
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.textContainerView.frame), JKAlertScreenW, 80) collectionViewLayout:flowlayout];
-        collectionView.backgroundColor = nil;
-        collectionView.showsVerticalScrollIndicator = NO;
-        collectionView.showsHorizontalScrollIndicator = NO;
-        
-        collectionView.dataSource = self;
-        collectionView.delegate = self;
-        
-        collectionView.scrollsToTop = NO;
-        
-        [collectionView registerClass:[JKAlertCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class])];
-        
-        if (@available(iOS 11.0, *)) {
-            
-            collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        }
-        
-        if (@available(iOS 13.0, *)) {
-            
-            collectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
-        }
-        
-        [self.collectionTopContainerView insertSubview:collectionView belowSubview:self.textContainerView];
-        
-        [self cancelButton];
-        
-        _collectionView = collectionView;
-    }
-    return _collectionView;
-}
-
-- (UICollectionView *)collectionView2{
-    if (!_collectionView2) {
-        
-        UICollectionViewFlowLayout *flowlayout = [[UICollectionViewFlowLayout alloc] init];
-        flowlayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        _flowlayout2 = flowlayout;
-        
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_flowlayout2];
-        collectionView.backgroundColor = nil;
-        collectionView.showsVerticalScrollIndicator = NO;
-        collectionView.showsHorizontalScrollIndicator = NO;
-        
-        collectionView.dataSource = self;
-        collectionView.delegate = self;
-        
-        collectionView.scrollsToTop = NO;
-        
-        [collectionView registerClass:[JKAlertCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class])];
-        
-        if (@available(iOS 11.0, *)) {
-            
-            collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        }
-        
-        if (@available(iOS 13.0, *)) {
-            
-            collectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
-        }
-        
-        [self.collectionTopContainerView addSubview:collectionView];
-        
-        _collectionView2 = collectionView;
-    }
-    return _collectionView2;
-}
-
-- (UIView *)plainView{
-    if (!_plainView) {
-        UIView *plainView = [[UIView alloc] init];
-        plainView.clipsToBounds = YES;
-        plainView.layer.cornerRadius = _plainCornerRadius;
-        plainView.frame = CGRectMake((JKAlertScreenW - PlainViewWidth) * 0.5, (JKAlertScreenH - 200) * 0.5, PlainViewWidth, 200);
-        
-        [plainView addSubview:self.textContainerView];
-        
-        [self.plainTextContainerScrollView addSubview:self.titleTextView];
-        
-        [self.plainTextContainerScrollView addSubview:self.messageTextView];
-        
-        [plainView addSubview:self.scrollView];
-        
-        [plainView insertSubview:self.scrollView belowSubview:self.textContainerView];
-        
-        if (_alertStyle == JKAlertStylePlain) {
-            
-            // 分隔线
-            UIView *hline = [UIView new];
-            hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
-            [self.textContainerView addSubview:hline];
-            _textContainerBottomLineView = hline;
-            
-            // 分隔线
-            UIView *hline2 = [UIView new];
-            hline2.hidden = YES;
-            hline2.backgroundColor = JKAlertGlobalSeperatorLineColor();
-            [self.plainTextContainerScrollView addSubview:hline2];
-            _plainTitleMessageSeparatorView = hline2;
-        }
-        
-        [self addSubview:plainView];
-        _plainView = plainView;
-        
-        // 背景
-        [self backGroundView];
-    }
-    return _plainView;
-}
-
-- (UIButton *)closeButton{
-    
-    if (_alertStyle != JKAlertStylePlain) {
-        
-        return nil;
-    }
-    
-    if (!_closeButton) {
-        
-        UIButton *closeButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        [closeButton setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
-        closeButton.titleLabel.font = [UIFont systemFontOfSize:13];
-        closeButton.frame = CGRectMake(PlainViewWidth - 30, 5, 25, 25);
-        [_plainView addSubview:closeButton];
-        
-        [closeButton addTarget:self action:@selector(dismiss) forControlEvents:(UIControlEventTouchUpInside)];
-        
-        _closeButton = closeButton;
-    }
-    return _closeButton;
-}
-
-#pragma mark
-#pragma mark - 初始化
-
-/** 初始化自身属性 */
-- (void)initializeProperty{
-    [super initializeProperty];
-    
-    UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
-    
-    /** 屏幕宽度 */
-    JKAlertScreenW = keyWindow.bounds.size.width;
-    
-    /** 屏幕高度 */
-    JKAlertScreenH = keyWindow.bounds.size.height;
-    
-    _isLandScape = [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight;
-    
-    JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
-    
-    JKAlertSheetMaxH = (JKAlertScreenH > JKAlertScreenW) ? JKAlertScreenH * 0.85 : JKAlertScreenH * 0.8;
-    
-    _HUDHeight = -1;
-    _enableDeallocLog = NO;
-    _messageMinHeight = -1;
-    _plainCornerRadius = 8;
-    _dismissTimeInterval = 1;
-    _textViewUserInteractionEnabled = YES;
-    _plainTitleMessageSeparatorHidden = YES;
-    _collectionTitleSeperatorHidden = YES;
-    
-    TBMargin = 20;
-    PlainViewWidth = 290;
-    OriginalPlainWidth = PlainViewWidth;
-    _collectionViewMargin = 10;
-    JKAlertTitleMessageMargin = 7;
-    CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
-    JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
-    textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
-    
-    _autoShowKeyboard = YES;
-    FillHomeIndicator = YES;
-    AutoAdjustHomeIndicator = YES;
-    
-    self.flowlayoutItemWidth = 76;
-    self.textViewLeftRightMargin = 20;
-    self.titleTextViewAlignment = NSTextAlignmentCenter;
-    self.messageTextViewAlignment = NSTextAlignmentCenter;
-    
-    _enableVerticalGestureDismiss = NO;
-    _enableHorizontalGestureDismiss = NO;
-    
-    _piercedHorizontalMargin = 15;
-}
-
-/** 构造函数初始化时调用 注意调用super */
-- (void)initialization{
-    [super initialization];
-    
-    [self addNotifications];
-}
-
-/** 创建UI */
-- (void)createUI{
-    [super createUI];
-    
-}
-
-/** 布局UI */
-- (void)layoutUI{
-    [super layoutUI];
-    
-}
-
-/** 初始化UI数据 */
-- (void)initializeUIData{
-    [super initializeUIData];
-    
-}
-
-- (void)addNotifications{
-    
-    // 屏幕旋转的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    
-    // 移除全部的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissAllNotification:) name:JKAlertDismissAllNotification object:nil];
-    
-    // 根据key来移除的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissForKeyNotification:) name:JKAlertDismissForKeyNotification object:nil];
-    
-    // 根据category来移除的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissForCategoryNotification:) name:JKAlertDismissForCategoryNotification object:nil];
-    
-    // 清空全部的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearAllNotification:) name:JKAlertClearAllNotification object:nil];
 }
 
 #pragma mark
@@ -2478,7 +1939,7 @@
 #pragma mark - 显示
 
 /** 显示 */
-- (JKAlertView *(^)(void))show{
+- (JKAlertView *(^)(void))show {
     
     [[UIApplication sharedApplication].delegate.window endEditing:YES];
     
@@ -2682,9 +2143,8 @@
 #pragma mark
 #pragma mark - 计算frame
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
-    [super traitCollectionDidChange:previousTraitCollection];
-
+- (void)solveTraitCollectionDidChange {
+    
     if (@available(iOS 13.0, *)) {
         
         if ([self.backGroundView isKindOfClass:[UIVisualEffectView class]]) {
@@ -3791,8 +3251,7 @@
 #pragma mark
 #pragma mark - 动画弹出来
 
-- (void)didMoveToSuperview{
-    [super didMoveToSuperview];
+- (void)solveDidMoveToSuperview {
     
     if (!self.superview) { return; }
     
@@ -4241,14 +3700,6 @@
     [self removeFromSuperview];
     
     return ^{};
-}
-
-#pragma mark
-#pragma mark - 强制更改frame为屏幕尺寸
-
-- (void)setFrame:(CGRect)frame{
-    frame = CGRectMake(0, 0, JKAlertScreenW, JKAlertScreenH);
-    [super setFrame:frame];
 }
 
 #pragma mark
@@ -5096,15 +4547,558 @@
 }
 
 #pragma mark
-#pragma mark - Property
+#pragma mark - Override
 
+- (void)didMoveToSuperview {
+    [super didMoveToSuperview];
+    
+    [self solveDidMoveToSuperview];
+}
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    
+    [self solveTraitCollectionDidChange];
+}
+
+#pragma mark
+#pragma mark - 强制更改frame为屏幕尺寸
+
+- (void)setFrame:(CGRect)frame {
+    
+    CGRect rect = CGRectMake(0, 0, JKAlertScreenW, JKAlertScreenH);
+    
+    [super setFrame:rect];
+}
+
+#pragma mark
+#pragma mark - Private Methods
+
+- (void)addNotifications {
+    
+    // 屏幕旋转的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    
+    // 移除全部的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissAllNotification:) name:JKAlertDismissAllNotification object:nil];
+    
+    // 根据key来移除的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissForKeyNotification:) name:JKAlertDismissForKeyNotification object:nil];
+    
+    // 根据category来移除的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissForCategoryNotification:) name:JKAlertDismissForCategoryNotification object:nil];
+    
+    // 清空全部的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearAllNotification:) name:JKAlertClearAllNotification object:nil];
+}
+
+#pragma mark
+#pragma mark - Initialization & Build UI
+
+/** 初始化自身属性 */
+- (void)initializeProperty {
+    [super initializeProperty];
+    
+    UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
+    
+    /** 屏幕宽度 */
+    JKAlertScreenW = keyWindow.bounds.size.width;
+    
+    /** 屏幕高度 */
+    JKAlertScreenH = keyWindow.bounds.size.height;
+    
+    _isLandScape = [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight;
+    
+    JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
+    
+    JKAlertSheetMaxH = (JKAlertScreenH > JKAlertScreenW) ? JKAlertScreenH * 0.85 : JKAlertScreenH * 0.8;
+    
+    _HUDHeight = -1;
+    _enableDeallocLog = NO;
+    _messageMinHeight = -1;
+    _plainCornerRadius = 8;
+    _dismissTimeInterval = 1;
+    _textViewUserInteractionEnabled = YES;
+    _plainTitleMessageSeparatorHidden = YES;
+    _collectionTitleSeperatorHidden = YES;
+    
+    TBMargin = 20;
+    PlainViewWidth = 290;
+    OriginalPlainWidth = PlainViewWidth;
+    _collectionViewMargin = 10;
+    JKAlertTitleMessageMargin = 7;
+    CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
+    JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
+    textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
+    
+    _autoShowKeyboard = YES;
+    FillHomeIndicator = YES;
+    AutoAdjustHomeIndicator = YES;
+    
+    self.flowlayoutItemWidth = 76;
+    self.textViewLeftRightMargin = 20;
+    self.titleTextViewAlignment = NSTextAlignmentCenter;
+    self.messageTextViewAlignment = NSTextAlignmentCenter;
+    
+    _enableVerticalGestureDismiss = NO;
+    _enableHorizontalGestureDismiss = NO;
+    
+    _piercedHorizontalMargin = 15;
+}
+
+/** 构造函数初始化时调用 注意调用super */
+- (void)initialization {
+    [super initialization];
+    
+    [self addNotifications];
+}
+
+/** 创建UI */
+- (void)createUI {
+    [super createUI];
+    
+}
+
+/** 布局UI */
+- (void)layoutUI {
+    [super layoutUI];
+    
+}
+
+/** 初始化UI数据 */
+- (void)initializeUIData {
+    [super initializeUIData];
+    
+}
+
+#pragma mark
+#pragma mark - Private Property
+
+- (NSMutableArray *)actions {
+    if (!_actions) {
+        _actions = [NSMutableArray array];
+    }
+    return _actions;
+}
+
+- (NSMutableArray *)actions2 {
+    if (!_actions2) {
+        _actions2 = [NSMutableArray array];
+    }
+    return _actions2;
+}
+
+- (NSMutableArray *)textFieldArr {
+    if (!_textFieldArr) {
+        _textFieldArr = [NSMutableArray array];
+    }
+    return _textFieldArr;
+}
+
+- (UIView *)textContainerView {
+    if (!_textContainerView) {
+        UIView *textContainerView = [[UIView alloc] init];
+        [self addSubview:textContainerView];
+        _textContainerView = textContainerView;
+    }
+    return _textContainerView;
+}
+
+- (JKAlertTextView *)titleTextView {
+    if (!_titleTextView) {
+        JKAlertTextView *titleTextView = [[JKAlertTextView alloc] init];
+        titleTextView.textColor = self.alertStyle == JKAlertStylePlain ? JKAlertAdaptColor(JKAlertSameRGBColor(25.5), JKAlertSameRGBColor(229.5)) : JKAlertAdaptColor(JKAlertSameRGBColor(89.25), JKAlertSameRGBColor(165.75));
+        titleTextView.font = self.alertStyle == JKAlertStylePlain ? [UIFont boldSystemFontOfSize:17] : [UIFont systemFontOfSize:17];
+        [self addSubview:titleTextView];
+        
+        _titleTextView = titleTextView;
+    }
+    return _titleTextView;
+}
+
+- (JKAlertTextView *)messageTextView {
+    if (!_messageTextView) {
+        JKAlertTextView *messageTextView = [[JKAlertTextView alloc] init];
+        messageTextView.textColor = self.alertStyle == JKAlertStyleActionSheet ? JKAlertAdaptColor(JKAlertSameRGBColor(140.25), JKAlertSameRGBColor(114.75)) : JKAlertAdaptColor(JKAlertSameRGBColor(76.5), JKAlertSameRGBColor(178.5));
+        messageTextView.font = self.alertStyle == JKAlertStylePlain ? [UIFont systemFontOfSize:14] : [UIFont systemFontOfSize:13];
+        [self addSubview:messageTextView];
+        
+        _messageTextView = messageTextView;
+    }
+    return _messageTextView;
+}
+
+- (UIScrollView *)plainTextContainerScrollView {
+    if (!_plainTextContainerScrollView) {
+        UIScrollView *plainTextContainerScrollView = [[UIScrollView alloc] init];
+        plainTextContainerScrollView.delegate = self;
+        [self addSubview:plainTextContainerScrollView];
+        
+        [self adjustScrollView:plainTextContainerScrollView];
+        
+        _plainTextContainerScrollView = plainTextContainerScrollView;
+        
+        [self.textContainerView insertSubview:_plainTextContainerScrollView atIndex:0];
+        
+        _plainTextContainerScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : _plainTextContainerScrollView}];
+        [_textContainerView addConstraints:scrollViewCons1];
+        
+        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : _plainTextContainerScrollView}];
+        [_textContainerView addConstraints:scrollViewCons2];
+    }
+    return _plainTextContainerScrollView;
+}
+
+- (UIScrollView *)scrollView {
+    if (!_scrollView) {
+        UIScrollView *scrollView = [[UIScrollView alloc] init];
+        scrollView.delegate = self;
+        [self addSubview:scrollView];
+        
+        [self adjustScrollView:scrollView];
+        
+        _scrollView = scrollView;
+    }
+    return _scrollView;
+}
+
+- (UIView *)backGroundView {
+    if (!_backGroundView) {
+        
+        BOOL isLight = YES;
+        
+        if (@available(iOS 13.0, *)) {
+            
+            isLight = ([self.traitCollection userInterfaceStyle] == UIUserInterfaceStyleLight);
+        }
+        
+        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:isLight ? UIBlurEffectStyleExtraLight : UIBlurEffectStyleDark]];
+        effectView.clipsToBounds = YES;
+        self.backGroundView = effectView;
+    }
+    return _backGroundView;
+}
+
+- (UIView *)sheetContainerView {
+    if (!_sheetContainerView) {
+        UIView *sheetContainerView = [[UIView alloc] init];
+        [self.contentView addSubview:sheetContainerView];
+        _sheetContainerView = sheetContainerView;
+        
+        _verticalDismissPanGesture = [[JKAlertPanGestureRecognizer alloc] initWithTarget:self action:@selector(verticalPanGestureAction:)];
+        _verticalDismissPanGesture.direction = JKAlertPanGestureDirectionVertical;
+        _verticalDismissPanGesture.delegate = self;
+        
+        _horizontalDismissPanGesture = [[JKAlertPanGestureRecognizer alloc] initWithTarget:self action:@selector(horizontalPanGestureAction:)];
+        _horizontalDismissPanGesture.direction = JKAlertPanGestureDirectionToRight;
+        _horizontalDismissPanGesture.delegate = self;
+        
+        [sheetContainerView addGestureRecognizer:_verticalDismissPanGesture];
+        [sheetContainerView addGestureRecognizer:_horizontalDismissPanGesture];
+        
+        // 背景
+        [self backGroundView];
+    }
+    return _sheetContainerView;
+}
+
+- (UIView *)sheetContentView {
+    if (!_sheetContentView) {
+        UIView *sheetContentView = [[UIView alloc] init];
+        [self.sheetContainerView insertSubview:sheetContentView aboveSubview:self.backGroundView];
+        _sheetContentView = sheetContentView;
+    }
+    return _sheetContentView;
+}
+
+- (UIView *)topGestureIndicatorView {
+    if (!_topGestureIndicatorView) {
+        UIView *topGestureIndicatorView = [[UIView alloc] init];
+        topGestureIndicatorView.hidden = YES;
+        topGestureIndicatorView.userInteractionEnabled = NO;
+        //topGestureIndicatorView.backgroundColor = JKAlertGlobalBackgroundColor();
+        [self.sheetContentView addSubview:topGestureIndicatorView];
+        _topGestureIndicatorView = topGestureIndicatorView;
+        
+        UIView *topGestureLineView = [[UIView alloc] init];
+        
+        //UIToolbar *topGestureLineView = [[UIToolbar alloc] init];
+        //topGestureLineView.alpha = 0.9;
+        topGestureLineView.userInteractionEnabled = NO;
+        topGestureLineView.layer.cornerRadius = 2;
+        //topGestureLineView.layer.masksToBounds = YES;
+        topGestureLineView.backgroundColor = JKAlertAdaptColor(JKAlertSameRGBColor(208), JKAlertSameRGBColor(47));
+        [topGestureIndicatorView addSubview:topGestureLineView];
+        
+        _topGestureLineView = topGestureLineView;
+    }
+    return _topGestureIndicatorView;
+}
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        
+        // 分隔线
+        UIView *hline = [UIView new];
+        hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
+        [self.textContainerView addSubview:hline];
+        _textContainerBottomLineView = hline;
+        
+        // title和message的容器view
+        self.textContainerView.backgroundColor = JKAlertGlobalBackgroundColor();
+        [self.sheetContentView addSubview:self.textContainerView];
+        
+        [self.textContainerView insertSubview:self.scrollView atIndex:0];
+        
+        [self.scrollView addSubview:self.titleTextView];
+        
+        [self.scrollView addSubview:self.messageTextView];
+        
+        UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
+        
+        tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
+        tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
+        
+        [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
+        [tableView registerClass:[JKAlertPiercedTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertPiercedTableViewCell class])];
+        
+        tableView.rowHeight = JKAlertRowHeight;
+        
+        tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
+        tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
+        
+        tableView.showsHorizontalScrollIndicator = NO;
+        
+        [_sheetContentView insertSubview:tableView belowSubview:self.textContainerView];
+        
+        _tableView = tableView;
+    }
+    return _tableView;
+}
+
+- (UIView *)collectionTopContainerView {
+    if (!_collectionTopContainerView) {
+        UIView *collectionTopContainerView = [[UIView alloc] init];
+        collectionTopContainerView.backgroundColor = JKAlertGlobalBackgroundColor();
+        [self.sheetContentView addSubview:collectionTopContainerView];
+        _collectionTopContainerView = collectionTopContainerView;
+    }
+    return _collectionTopContainerView;
+}
+
+- (JKAlertActionButton *)cancelButton {
+    if (!_cancelButton) {
+        
+        JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
+        [self.scrollView addSubview:cancelButton];
+        [cancelButton addTarget:self action:@selector(cancelButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
+        
+        _cancelButton = cancelButton;
+    }
+    return _cancelButton;
+}
+
+- (JKAlertActionButton *)collectionButton {
+    if (!_collectionButton) {
+        JKAlertActionButton *collectionButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
+        [self.scrollView addSubview:collectionButton];
+        [collectionButton addTarget:self action:@selector(collectionButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
+        _collectionButton = collectionButton;
+    }
+    return _collectionButton;
+}
+
+- (UIPageControl *)pageControl {
+    if (!_pageControl) {
+        UIPageControl *pageControl = [[UIPageControl alloc] init];
+        pageControl.backgroundColor = nil;
+        pageControl.pageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+        pageControl.currentPageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
+        pageControl.userInteractionEnabled = NO;
+        
+        [self.collectionTopContainerView addSubview:pageControl];
+        
+        _pageControl = pageControl;
+    }
+    return _pageControl;
+}
+
+- (UICollectionView *)collectionView {
+    if (!_collectionView) {
+        
+        [self.sheetContentView insertSubview:self.scrollView atIndex:1];
+        
+        [self updateInsets];
+        
+        self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : self.scrollView}];
+        [self addConstraints:scrollViewCons1];
+        
+        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : self.scrollView}];
+        [self addConstraints:scrollViewCons2];
+        
+        [self.scrollView insertSubview:self.collectionTopContainerView atIndex:0];
+        
+        // title和message的容器view
+        self.textContainerView.backgroundColor = nil;
+        [self.collectionTopContainerView addSubview:self.textContainerView];
+        
+        [self.textContainerView addSubview:self.titleTextView];
+        
+        UIView *hline = [UIView new];
+        hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
+        [self.textContainerView addSubview:hline];
+        _textContainerBottomLineView = hline;
+        
+        UICollectionViewFlowLayout *flowlayout = [[UICollectionViewFlowLayout alloc] init];
+        flowlayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        _flowlayout = flowlayout;
+        
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.textContainerView.frame), JKAlertScreenW, 80) collectionViewLayout:flowlayout];
+        collectionView.backgroundColor = nil;
+        collectionView.showsVerticalScrollIndicator = NO;
+        collectionView.showsHorizontalScrollIndicator = NO;
+        
+        collectionView.dataSource = self;
+        collectionView.delegate = self;
+        
+        collectionView.scrollsToTop = NO;
+        
+        [collectionView registerClass:[JKAlertCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class])];
+        
+        if (@available(iOS 11.0, *)) {
+            
+            collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
+        
+        if (@available(iOS 13.0, *)) {
+            
+            collectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
+        }
+        
+        [self.collectionTopContainerView insertSubview:collectionView belowSubview:self.textContainerView];
+        
+        [self cancelButton];
+        
+        _collectionView = collectionView;
+    }
+    return _collectionView;
+}
+
+- (UICollectionView *)collectionView2 {
+    if (!_collectionView2) {
+        
+        UICollectionViewFlowLayout *flowlayout = [[UICollectionViewFlowLayout alloc] init];
+        flowlayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        _flowlayout2 = flowlayout;
+        
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_flowlayout2];
+        collectionView.backgroundColor = nil;
+        collectionView.showsVerticalScrollIndicator = NO;
+        collectionView.showsHorizontalScrollIndicator = NO;
+        
+        collectionView.dataSource = self;
+        collectionView.delegate = self;
+        
+        collectionView.scrollsToTop = NO;
+        
+        [collectionView registerClass:[JKAlertCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class])];
+        
+        if (@available(iOS 11.0, *)) {
+            
+            collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
+        
+        if (@available(iOS 13.0, *)) {
+            
+            collectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
+        }
+        
+        [self.collectionTopContainerView addSubview:collectionView];
+        
+        _collectionView2 = collectionView;
+    }
+    return _collectionView2;
+}
+
+- (UIView *)plainView {
+    if (!_plainView) {
+        UIView *plainView = [[UIView alloc] init];
+        plainView.clipsToBounds = YES;
+        plainView.layer.cornerRadius = _plainCornerRadius;
+        plainView.frame = CGRectMake((JKAlertScreenW - PlainViewWidth) * 0.5, (JKAlertScreenH - 200) * 0.5, PlainViewWidth, 200);
+        
+        [plainView addSubview:self.textContainerView];
+        
+        [self.plainTextContainerScrollView addSubview:self.titleTextView];
+        
+        [self.plainTextContainerScrollView addSubview:self.messageTextView];
+        
+        [plainView addSubview:self.scrollView];
+        
+        [plainView insertSubview:self.scrollView belowSubview:self.textContainerView];
+        
+        if (_alertStyle == JKAlertStylePlain) {
+            
+            // 分隔线
+            UIView *hline = [UIView new];
+            hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
+            [self.textContainerView addSubview:hline];
+            _textContainerBottomLineView = hline;
+            
+            // 分隔线
+            UIView *hline2 = [UIView new];
+            hline2.hidden = YES;
+            hline2.backgroundColor = JKAlertGlobalSeperatorLineColor();
+            [self.plainTextContainerScrollView addSubview:hline2];
+            _plainTitleMessageSeparatorView = hline2;
+        }
+        
+        [self addSubview:plainView];
+        _plainView = plainView;
+        
+        // 背景
+        [self backGroundView];
+    }
+    return _plainView;
+}
+
+- (UIButton *)closeButton {
+    
+    if (_alertStyle != JKAlertStylePlain) {
+        
+        return nil;
+    }
+    
+    if (!_closeButton) {
+        
+        UIButton *closeButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        [closeButton setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
+        closeButton.titleLabel.font = [UIFont systemFontOfSize:13];
+        closeButton.frame = CGRectMake(PlainViewWidth - 30, 5, 25, 25);
+        [_plainView addSubview:closeButton];
+        
+        [closeButton addTarget:self action:@selector(dismiss) forControlEvents:(UIControlEventTouchUpInside)];
+        
+        _closeButton = closeButton;
+    }
+    return _closeButton;
+}
+
+- (BOOL)pinCancelButton {
+    
+    if (self.isActionSheetPierced) { return YES; }
+    
+    return _pinCancelButton;
+}
 
 #pragma mark
 #pragma mark - dealloc
 
 /** 允许dealloc打印，用于检查循环引用 */
-- (JKAlertView *(^)(BOOL enable))enableDeallocLog{
+- (JKAlertView *(^)(BOOL enable))enableDeallocLog {
     
     return ^(BOOL enable) {
         
@@ -5114,7 +5108,7 @@
     };
 }
 
-- (void)dealloc{
+- (void)dealloc {
     
     [self removeAllOberserver];
     
