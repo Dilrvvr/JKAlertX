@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
 # s.description      = <<-DESC
 # TODO: Add long description of the pod here.
-                       DESC
+# DESC
 
   s.homepage         = 'https://github.com/Jacky-An/JKAlertX.git'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'

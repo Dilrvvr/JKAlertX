@@ -117,6 +117,19 @@ UIColor * JKAlertGlobalHighlightedBackgroundColor (void) {
     return HighlightedBackgroundColor_;
 }
 
+/// 全局分隔线背景色
+UIColor * JKAlertGlobalSeperatorLineColor (void) {
+    
+    static UIColor *SeperatorLineColor_ = nil;
+    
+    if (!SeperatorLineColor_) {
+        
+        SeperatorLineColor_ = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);//JKAlertAdaptColor(JKAlertSameRGBColor(217.0), JKAlertSameRGBColor(53.0));
+    }
+    
+    return SeperatorLineColor_;
+}
+
 /// 是否X设备
 BOOL JKAlertIsDeviceX (void) {
     

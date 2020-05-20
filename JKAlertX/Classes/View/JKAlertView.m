@@ -833,7 +833,7 @@
         
         // 分隔线
         UIView *hline = [UIView new];
-        hline.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+        hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
         [self.textContainerView addSubview:hline];
         _textContainerBottomLineView = hline;
         
@@ -940,7 +940,7 @@
         [self.textContainerView addSubview:self.titleTextView];
         
         UIView *hline = [UIView new];
-        hline.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+        hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
         [self.textContainerView addSubview:hline];
         _textContainerBottomLineView = hline;
         
@@ -1036,14 +1036,14 @@
             
             // 分隔线
             UIView *hline = [UIView new];
-            hline.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+            hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
             [self.textContainerView addSubview:hline];
             _textContainerBottomLineView = hline;
             
             // 分隔线
             UIView *hline2 = [UIView new];
             hline2.hidden = YES;
-            hline2.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+            hline2.backgroundColor = JKAlertGlobalSeperatorLineColor();
             [self.plainTextContainerScrollView addSubview:hline2];
             _plainTitleMessageSeparatorView = hline2;
         }
@@ -3606,7 +3606,7 @@
                 
                 UIView *vline = [UIView new];
                 [button addSubview:vline];
-                vline.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+                vline.backgroundColor = JKAlertGlobalSeperatorLineColor();
                 self.plainButtonVLineView = vline;
             }
             
@@ -3619,7 +3619,7 @@
         
         if (!button.topSeparatorLineView) {
             UIView *hline = [UIView new];
-            hline.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+            hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
             [button addSubview:hline];
             button.topSeparatorLineView = hline;
         }

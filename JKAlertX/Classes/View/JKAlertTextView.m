@@ -15,7 +15,10 @@
 @implementation JKAlertTextView
 
 /** 计算frame */
-- (CGRect)calculateFrameWithMaxWidth:(CGFloat)maxWidth minHeight:(CGFloat)minHeight originY:(CGFloat)originY superView:(UIView *)superView{
+- (CGRect)calculateFrameWithMaxWidth:(CGFloat)maxWidth
+                           minHeight:(CGFloat)minHeight
+                             originY:(CGFloat)originY
+                           superView:(UIView *)superView {
     
     if (self.hidden) {
         return CGRectZero;
@@ -44,21 +47,21 @@
 }
 
 #pragma mark - 初始化
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self initialization];
     }
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super initWithCoder:aDecoder]) {
         [self initialization];
     }
     return self;
 }
 
-- (void)initialization{
+- (void)initialization {
     
     self.backgroundColor = nil;
     self.textAlignment = NSTextAlignmentCenter;

@@ -9,6 +9,7 @@
 #import "JKAlertBaseActionView.h"
 #import "JKAlertAction.h"
 #import "JKAlertConst.h"
+#import "JKAlertVisualFormatConstraintManager.h"
 
 @interface JKAlertBaseActionView ()
 
@@ -32,8 +33,6 @@
     
     self.iconImageView.image = nil;
     self.iconImageView.highlightedImage = nil;
-    
-    
     
     if (action.isPierced) {
         
@@ -119,10 +118,6 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
-    self.backgroundView.frame = self.bounds;
-    
-    self.selectedBackgroundView.frame = self.bounds;
     
     if (self.isFullContentWidth) {
         
@@ -217,6 +212,11 @@
 /** 布局UI 交给子类重写 super自动调用该方法 */
 - (void)layoutUI {
     
+    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"H:|-0-[view]-0-|" viewKeyName:@"view" targetView:self.backgroundView constraintsView:self];
+    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"V:|-0-[view]-0-|" viewKeyName:@"view" targetView:self.backgroundView constraintsView:self];
+    
+    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"H:|-0-[view]-0-|" viewKeyName:@"view" targetView:self.selectedBackgroundView constraintsView:self];
+    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"V:|-0-[view]-0-|" viewKeyName:@"view" targetView:self.selectedBackgroundView constraintsView:self];
 }
 
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */

@@ -15,7 +15,7 @@
 
 @implementation JKBaseAlertView
 
-- (UITableView *)createTableViewWithStyle:(UITableViewStyle)style{
+- (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:style];
     
@@ -52,14 +52,14 @@
 #pragma mark
 #pragma mark - 初始化
 
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self initialization];
     }
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super initWithCoder:aDecoder]) {
         [self initialization];
     }
@@ -72,7 +72,7 @@
 }
 
 /** 构造函数初始化时调用 注意调用super */
-- (void)initialization{
+- (void)initialization {
     
     [self initializeProperty];
     [self createUI];
@@ -81,7 +81,7 @@
 }
 
 /** 创建UI 交给子类重写 super自动调用该方法 */
-- (void)createUI{
+- (void)createUI {
     
     UIView *contentView = [[UIView alloc] init];
     contentView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
@@ -101,7 +101,7 @@
 }
 
 /** 布局UI 交给子类重写 super自动调用该方法 */
-- (void)layoutUI{
+- (void)layoutUI {
     
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     NSArray *contentViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[contentView]-0-|" options:0 metrics:nil views:@{@"contentView" : self.contentView}];
@@ -119,14 +119,16 @@
 }
 
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */
-- (void)initializeUIData{
+- (void)initializeUIData {
     
 }
 
 #pragma mark
 #pragma mark - 点击事件
 
-- (void)dismissButtonClick:(UIButton *)button{}
+- (void)dismissButtonClick:(UIButton *)button {
+    
+}
 
 #pragma mark
 #pragma mark - 发送请求

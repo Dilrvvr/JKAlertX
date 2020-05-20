@@ -24,7 +24,7 @@
 
 @implementation JKAlertPanGestureRecognizer
 
-- (instancetype)init{
+- (instancetype)init {
     if (self = [super init]) {
         _maxRecognizeTime = 0.3;
     }
@@ -184,13 +184,13 @@
     [super touchesMoved:touches withEvent:event];
 }
 
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesEnded:touches withEvent:event];
     
     panGestureDidDelayBlockExecute = NO;
 }
 
-- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesCancelled:touches withEvent:event];
     
     panGestureDidDelayBlockExecute = NO;

@@ -173,6 +173,9 @@ UIColor * JKAlertGlobalBackgroundColor (void);
 /// 全局高亮背景色
 UIColor * JKAlertGlobalHighlightedBackgroundColor (void);
 
+/// 全局分隔线背景色
+UIColor * JKAlertGlobalSeperatorLineColor (void);
+
 /// 是否X设备
 BOOL JKAlertIsDeviceX (void);
 

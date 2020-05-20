@@ -20,6 +20,7 @@
 #import "JKAlertAction.h"
 #import "JKAlertConst.h"
 #import "JKAlertPanGestureRecognizer.h"
+#import "JKAlertVisualFormatConstraintManager.h"
 #import "JKAlertActionButton.h"
 #import "JKAlertCollectionViewCell.h"
 #import "JKAlertPiercedTableViewCell.h"

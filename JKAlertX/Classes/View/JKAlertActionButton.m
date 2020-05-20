@@ -58,13 +58,10 @@
 #pragma mark
 #pragma mark - Private Methods
 
+
+
 #pragma mark
 #pragma mark - Private Selector
-
-
-
-#pragma mark
-#pragma mark - UITableViewDataSource & UITableViewDelegate
 
 
 
