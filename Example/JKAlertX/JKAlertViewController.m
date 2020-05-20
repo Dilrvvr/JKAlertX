@@ -199,7 +199,7 @@
     alertView.addAction([JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleCancel) handler:^(JKAlertAction *action) {
         
     }]);
-    
+    alertView.setTextViewCanSelectText(YES);
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefaultBlue) handler:^(JKAlertAction *action) {
         
     }]];

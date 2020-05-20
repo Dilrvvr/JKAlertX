@@ -11,7 +11,7 @@
 @implementation JKAlertView (Deprecated)
 
 /** 设置title和message是否可以选择文字，默认NO */
-- (JKAlertView *(^)(BOOL canselectText))setTextViewCanSelectText{
+- (JKAlertView *(^)(BOOL canselectText))setTextViewCanSelectText {
     
     return ^(BOOL canSelectText) {
         
@@ -21,7 +21,7 @@
     };
 }
 
-- (JKAlertView * (^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation{
+- (JKAlertView * (^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation {
     
     return ^(void(^willShowAnimation)(JKAlertView *view)) {
         
@@ -31,7 +31,7 @@
     };
 }
 
-- (JKAlertView * (^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete{
+- (JKAlertView * (^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete {
     
     return ^(void(^showAnimationComplete)(JKAlertView *view)) {
         
@@ -41,7 +41,7 @@
     };
 }
 
-- (JKAlertView * (^)(void(^willDismiss)(void)))setWillDismiss{
+- (JKAlertView * (^)(void(^willDismiss)(void)))setWillDismiss {
     
     return ^JKAlertView * (void(^willDismiss)(void)) {
         
@@ -51,7 +51,7 @@
     };
 }
 
-- (JKAlertView * (^)(void(^dismissComplete)(void)))setDismissComplete{
+- (JKAlertView * (^)(void(^dismissComplete)(void)))setDismissComplete {
     
     return ^(void(^dismissComplete)(void)) {
         
@@ -62,13 +62,13 @@
 }
 
 /** 准备重新布局 */
-- (JKAlertView * (^)(void))prepareToRelayout{
+- (JKAlertView * (^)(void))prepareToRelayout {
     
     return ^{ return self; };
 }
 
 /** 重新设置其它属性，调用该方法返回JKAlertView，设置好其它属性后，再调用relayout即可 */
-- (JKAlertView * (^)(void))resetOther{
+- (JKAlertView * (^)(void))resetOther {
     
     return ^{
         

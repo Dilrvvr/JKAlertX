@@ -5,7 +5,7 @@
 //  Created by albert on 2020/5/20.
 //
 
-#import <JKAlertX/JKAlertX.h>
+#import "JKAlertView.h"
 
 @interface JKAlertView (Deprecated)
 

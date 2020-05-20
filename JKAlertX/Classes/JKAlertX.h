@@ -12,6 +12,7 @@
 #import "JKAlertView.h"
 #import "UIView+JKAlertX.h"
 #import "UIControl+JKAlertX.h"
+#import "JKAlertView+Deprecated.h"
 #import "UIGestureRecognizer+JKAlertX.h"
 
 #endif /* JKAlertX_h */
