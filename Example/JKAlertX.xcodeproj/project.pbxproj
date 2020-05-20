@@ -12,7 +12,7 @@
 		5098AD072474E86800AEAD73 /* JKAlertAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5098AD032474E86800AEAD73 /* JKAlertAppDelegate.m */; };
 		5098AD082474E86800AEAD73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5098AD052474E86800AEAD73 /* Main.storyboard */; };
 		5098AD092474E86800AEAD73 /* JKAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5098AD062474E86800AEAD73 /* JKAlertViewController.m */; };
-		5098AD0C2474E91500AEAD73 /* TransformLandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5098AD0B2474E91500AEAD73 /* TransformLandscapeViewController.m */; };
+		5098AD0C2474E91500AEAD73 /* JKAlertTransformLandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5098AD0B2474E91500AEAD73 /* JKAlertTransformLandscapeViewController.m */; };
 		5098AD152474E9BD00AEAD73 /* JKShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5098AD102474E9BD00AEAD73 /* JKShareView.m */; };
 		5098AD162474E9BD00AEAD73 /* JKShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5098AD112474E9BD00AEAD73 /* JKShareManager.m */; };
 		5098AD172474E9BD00AEAD73 /* NSObject+JKSafeCrachProtection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5098AD142474E9BD00AEAD73 /* NSObject+JKSafeCrachProtection.m */; };
@@ -49,8 +49,8 @@
 		5098AD042474E86800AEAD73 /* JKAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKAlertViewController.h; sourceTree = "<group>"; };
 		5098AD052474E86800AEAD73 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5098AD062474E86800AEAD73 /* JKAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKAlertViewController.m; sourceTree = "<group>"; };
-		5098AD0A2474E91500AEAD73 /* TransformLandscapeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformLandscapeViewController.h; sourceTree = "<group>"; };
-		5098AD0B2474E91500AEAD73 /* TransformLandscapeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransformLandscapeViewController.m; sourceTree = "<group>"; };
+		5098AD0A2474E91500AEAD73 /* JKAlertTransformLandscapeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKAlertTransformLandscapeViewController.h; sourceTree = "<group>"; };
+		5098AD0B2474E91500AEAD73 /* JKAlertTransformLandscapeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKAlertTransformLandscapeViewController.m; sourceTree = "<group>"; };
 		5098AD0E2474E9BD00AEAD73 /* JKShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKShareView.h; sourceTree = "<group>"; };
 		5098AD0F2474E9BD00AEAD73 /* JKShareManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKShareManager.h; sourceTree = "<group>"; };
 		5098AD102474E9BD00AEAD73 /* JKShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKShareView.m; sourceTree = "<group>"; };
@@ -175,16 +175,15 @@
 		6003F593195388D20070C39A /* Example for JKAlertX */ = {
 			isa = PBXGroup;
 			children = (
-				6003F5A8195388D20070C39A /* Images.xcassets */,
 				5098AD022474E86800AEAD73 /* JKAlertAppDelegate.h */,
 				5098AD032474E86800AEAD73 /* JKAlertAppDelegate.m */,
+				5098AD0A2474E91500AEAD73 /* JKAlertTransformLandscapeViewController.h */,
+				5098AD0B2474E91500AEAD73 /* JKAlertTransformLandscapeViewController.m */,
 				5098AD042474E86800AEAD73 /* JKAlertViewController.h */,
 				5098AD062474E86800AEAD73 /* JKAlertViewController.m */,
 				5098AD0D2474E9BD00AEAD73 /* JKShare */,
 				5098AD122474E9BD00AEAD73 /* JKTest */,
 				6003F594195388D20070C39A /* Supporting Files */,
-				5098AD0A2474E91500AEAD73 /* TransformLandscapeViewController.h */,
-				5098AD0B2474E91500AEAD73 /* TransformLandscapeViewController.m */,
 			);
 			name = "Example for JKAlertX";
 			path = JKAlertX;
@@ -193,6 +192,7 @@
 		6003F594195388D20070C39A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6003F5A8195388D20070C39A /* Images.xcassets */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				5098AD052474E86800AEAD73 /* Main.storyboard */,
 				6003F595195388D20070C39A /* JKAlertX-Info.plist */,
@@ -408,7 +408,7 @@
 				5098AD162474E9BD00AEAD73 /* JKShareManager.m in Sources */,
 				5098AD092474E86800AEAD73 /* JKAlertViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
-				5098AD0C2474E91500AEAD73 /* TransformLandscapeViewController.m in Sources */,
+				5098AD0C2474E91500AEAD73 /* JKAlertTransformLandscapeViewController.m in Sources */,
 				5098AD172474E9BD00AEAD73 /* NSObject+JKSafeCrachProtection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

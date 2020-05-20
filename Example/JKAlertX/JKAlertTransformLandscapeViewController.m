@@ -1,21 +1,21 @@
 //
-//  TransformLandscapeViewController.m
+//  JKAlertTransformLandscapeViewController.m
 //  JKAlertX
 //
 //  Created by albert on 2019/5/8.
 //  Copyright © 2019 安永博. All rights reserved.
 //
 
-#import "TransformLandscapeViewController.h"
+#import "JKAlertTransformLandscapeViewController.h"
 #import "JKAlertX/JKAlertX.h"
 
-@interface TransformLandscapeViewController ()
+@interface JKAlertTransformLandscapeViewController ()
 
 /** testLabel */
 @property (nonatomic, weak) UILabel *testLabel;
 @end
 
-@implementation TransformLandscapeViewController
+@implementation JKAlertTransformLandscapeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

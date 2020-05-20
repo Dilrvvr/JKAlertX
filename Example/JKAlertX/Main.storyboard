@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Wxc-1J-DzS">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,7 +14,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Uju-ka-4AG"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xwJ-lY-8Ru">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zGf-xL-Po7">
@@ -55,7 +53,7 @@
                         <viewControllerLayoutGuide type="bottom" id="QQ3-vc-8Ze"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YyA-hO-VLT">
@@ -202,7 +200,7 @@
                                 </connections>
                             </button>
                             <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8j3-GJ-Vpe">
-                                <rect key="frame" x="80" y="447" width="215" height="200"/>
+                                <rect key="frame" x="80" y="380" width="440" height="200"/>
                                 <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="Irf-uo-Bvd"/>
@@ -221,16 +219,16 @@
             </objects>
             <point key="canvasLocation" x="1346" y="-235"/>
         </scene>
-        <!--Transform Landscape View Controller-->
+        <!--Alert Transform Landscape View Controller-->
         <scene sceneID="Z91-Aq-NAh">
             <objects>
-                <viewController id="jE7-9f-QEG" customClass="TransformLandscapeViewController" sceneMemberID="viewController">
+                <viewController id="jE7-9f-QEG" customClass="JKAlertTransformLandscapeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RfB-RO-CWH"/>
                         <viewControllerLayoutGuide type="bottom" id="sdZ-ZA-hsj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vPd-K2-6Mi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Llr-mk-yV8">

@@ -1,5 +1,5 @@
 //
-//  TransformLandscapeViewController.h
+//  JKAlertTransformLandscapeViewController.h
 //  JKAlertX
 //
 //  Created by albert on 2019/5/8.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TransformLandscapeViewController : UIViewController
+@interface JKAlertTransformLandscapeViewController : UIViewController
 
 @end
 
