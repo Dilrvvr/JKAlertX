@@ -73,6 +73,8 @@ typedef enum : NSUInteger {
     /** 默认系统蓝色 [UIColor colorWithRed:0 green:122.0/255.0 blue:255.0/255.0 alpha:1] */
     JKAlertActionStyleDefaultBlue,
     
+    JKAlertActionStyleDefaultBlack = JKAlertActionStyleDefault,
+    
 } JKAlertActionStyle;
 
 typedef NS_ENUM(NSUInteger, JKAlertScrollDirection) {
