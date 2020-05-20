@@ -66,7 +66,7 @@
     action->_title = [title copy];
     action->_handler = [handler copy];
     action->_attributedTitle = [attributedTitle copy];
-    action->_alertActionStyle = JKAlertActionStyleDefault;
+    action->_alertActionStyle = style;
     
     switch (action.alertActionStyle) {
         case JKAlertActionStyleCancel:
