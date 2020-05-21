@@ -3735,13 +3735,13 @@
 #pragma mark
 #pragma mark - UIScrollViewDelegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (!self.enableVerticalGestureDismiss) { return; }
     
     switch (self.alertStyle) {
         case JKAlertStyleActionSheet:
         {
-            if (!self.enableVerticalGestureDismiss) { return; }
-            
             if ((scrollView == self.scrollView &&
                 _tableView.isDecelerating) ||
                 (scrollView == _tableView &&
@@ -3755,6 +3755,8 @@
         case JKAlertStyleCollectionSheet:
         {
             if (scrollView == self.scrollView) {
+                
+                if (scrollView.isDecelerating) { return; }
                 
                 [self solveVerticalScroll:scrollView];
                 
@@ -3791,7 +3793,7 @@
             
             if (scrollView.contentOffset.y + scrollView.contentInset.top < 0) {
                 
-                disableScrollSheetContainerView = YES;
+                disableScrollToDismiss = YES;
             }
         }
             break;
@@ -3806,6 +3808,11 @@
                 
                 lastContainerY = self.sheetContainerView.frame.origin.y;
                 
+                if (scrollView.contentOffset.y + scrollView.contentInset.top < 0) {
+                    
+                    disableScrollToDismiss = YES;
+                }
+                
             } else {
                 
                 if (!self.enableHorizontalGestureDismiss) { return; }
@@ -3818,7 +3825,7 @@
                 
                 if (scrollView.contentOffset.x + scrollView.contentInset.left < 0) {
                     
-                    disableScrollSheetContainerView = YES;
+                    disableScrollToDismiss = YES;
                 }
             }
         }
@@ -3876,7 +3883,7 @@
                 return;
             }
             
-            disableScrollSheetContainerView = NO;
+            disableScrollToDismiss = NO;
             
             //[self checkVerticalSlideShouldDismiss];
         }
@@ -3887,7 +3894,7 @@
                 
                 if (!self.enableVerticalGestureDismiss) { return; }
                 
-                disableScrollSheetContainerView = NO;
+                disableScrollToDismiss = NO;
                 
                 //[self checkVerticalSlideShouldDismiss];
                 
@@ -3902,7 +3909,7 @@
                     return;
                 }
                 
-                disableScrollSheetContainerView = NO;
+                disableScrollToDismiss = NO;
             }
         }
             break;
@@ -3917,7 +3924,7 @@
     if (!self.enableVerticalGestureDismiss ||
         !self.clickBlankDismiss ||
         !scrollView.isDragging ||
-        disableScrollSheetContainerView) { return; }
+        disableScrollToDismiss) { return; }
     
     //NSLog(@"contentOffset-->%@", NSStringFromCGPoint(scrollView.contentOffset));
     
@@ -3967,7 +3974,7 @@
             return;
     }
     
-    if (!scrollView.isDragging || disableScrollSheetContainerView) { return; }
+    if (!scrollView.isDragging || disableScrollToDismiss) { return; }
     
     //NSLog(@"contentOffset-->%@", NSStringFromCGPoint(scrollView.contentOffset));
     
@@ -4000,11 +4007,11 @@
 
 - (void)solveWillEndDraggingVertically:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.enableVerticalGestureDismiss || !self.clickBlankDismiss) { return; }
+    if (!self.enableVerticalGestureDismiss || !self.clickBlankDismiss || disableScrollToDismiss) { return; }
     
     if (scrollView.contentOffset.y + scrollView.contentInset.top > 0) {
         
-        disableScrollSheetContainerView = YES;
+        disableScrollToDismiss = YES;
         
         return;
     }
@@ -4021,11 +4028,11 @@
 
 - (void)solveWillEndDraggingHorizontally:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.enableHorizontalGestureDismiss || !self.clickBlankDismiss) { return; }
+    if (!self.enableHorizontalGestureDismiss || !self.clickBlankDismiss || disableScrollToDismiss) { return; }
     
     if (scrollView.contentOffset.x + scrollView.contentInset.left > 0) {
         
-        disableScrollSheetContainerView = YES;
+        disableScrollToDismiss = YES;
         
         return;
     }

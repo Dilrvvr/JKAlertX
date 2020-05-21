@@ -64,7 +64,7 @@
     JKAlertScrollDirection beginScrollDirection;
     JKAlertScrollDirection endScrollDirection;
     
-    BOOL disableScrollSheetContainerView;
+    BOOL disableScrollToDismiss;
     
     BOOL isBeginDragging;
     BOOL isDragging;
