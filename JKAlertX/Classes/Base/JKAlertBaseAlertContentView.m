@@ -6,6 +6,7 @@
 //
 
 #import "JKAlertBaseAlertContentView.h"
+#import "JKAlertVisualFormatConstraintManager.h"
 
 @interface JKAlertBaseAlertContentView ()
 
@@ -18,7 +19,28 @@
 #pragma mark
 #pragma mark - Public Methods
 
-
+- (void)setCustomBackgroundView:(UIView *)customBackgroundView {
+    
+    if (_customBackgroundView) {
+        
+        [_customBackgroundView removeFromSuperview];
+    }
+    
+    _customBackgroundView = customBackgroundView;
+    
+    if (_customBackgroundView) {
+        
+        self.backgroundEffectView.hidden = YES;
+        
+        [self.backgroundView addSubview:_customBackgroundView];
+        
+        [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:_customBackgroundView constraintsView:self.backgroundView];
+        
+        return;
+    }
+    
+    self.backgroundEffectView.hidden = NO;
+}
 
 #pragma mark
 #pragma mark - Override

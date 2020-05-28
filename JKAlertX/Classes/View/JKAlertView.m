@@ -37,7 +37,7 @@
     
     alertView.alertStyle = style;
     alertView.alertTitle = [title copy];
-    alertView.message = [message copy];
+    alertView.alertMessage = [message copy];
     
     return alertView;
 }
@@ -2195,9 +2195,9 @@
         
         _messageTextView.attributedText = self.attributedMessage;
         
-    } else if (self.message) {
+    } else if (self.alertMessage) {
         
-        _messageTextView.text = self.message;
+        _messageTextView.text = self.alertMessage;
         
     } else {
         
@@ -2581,7 +2581,7 @@
     self.titleTextView.scrollEnabled = NO;
     self.messageTextView.scrollEnabled = NO;
     
-    if (self.message && !self.alertTitle && !self.alertAttributedTitle) {
+    if (self.alertMessage && !self.alertTitle && !self.alertAttributedTitle) {
         
         self.messageTextView.font = [UIFont systemFontOfSize:15];
     }
@@ -4466,7 +4466,7 @@
     
     return ^(NSString *message) {
         
-        self.message = message;
+        self.alertMessage = message;
         
         return self;
     };

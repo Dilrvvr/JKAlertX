@@ -151,6 +151,8 @@
 /** 初始化自身属性 交给子类重写 super自动调用该方法 */
 - (void)initializeProperty {
     
+    // 默认跟随系统
+    _userInterfaceStyle = JKAlertUserInterfaceStyleSystem;
 }
 
 /** 构造函数初始化时调用 注意调用super */

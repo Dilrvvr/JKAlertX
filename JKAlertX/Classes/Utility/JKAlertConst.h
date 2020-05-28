@@ -87,8 +87,11 @@ typedef NS_ENUM(NSUInteger, JKAlertScrollDirection) {
 
 typedef NS_ENUM(NSUInteger, JKAlertUserInterfaceStyle) {
     
+    /** 无样式 将默认为浅色 */
+    JKAlertUserInterfaceStyleNone = 0,
+    
     /** 跟随系统 */
-    JKAlertUserInterfaceStyleSystem = 0,
+    JKAlertUserInterfaceStyleSystem = 1,
     
     /** 浅色 */
     JKAlertUserInterfaceStyleLight,

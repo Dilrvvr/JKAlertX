@@ -279,7 +279,7 @@
 		6003F582195388D10070C39A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = JKALERT;
+				CLASSPREFIX = JKAlert;
 				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "jkayb123cool@gmail.com";
 				TargetAttributes = {

@@ -147,7 +147,7 @@
 @property (nonatomic, copy) NSAttributedString *alertAttributedTitle;
 
 /** 提示信息 */
-@property (nonatomic, copy) NSString *message;
+@property (nonatomic, copy) NSString *alertMessage;
 
 /** 富文本提示信息 */
 @property (nonatomic, copy) NSAttributedString *attributedMessage;
