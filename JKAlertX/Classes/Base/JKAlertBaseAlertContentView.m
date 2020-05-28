@@ -1,19 +1,19 @@
 //
-//  JKAlertBaseContentView.m
+//  JKAlertBaseAlertContentView.m
 //  JKAlertX
 //
 //  Created by albert on 2020/5/28.
 //
 
-#import "JKAlertBaseContentView.h"
+#import "JKAlertBaseAlertContentView.h"
 
-@interface JKAlertBaseContentView ()
+@interface JKAlertBaseAlertContentView ()
 
 /** backgroundEffectView */
 @property (nonatomic, weak) UIVisualEffectView *backgroundEffectView;
 @end
 
-@implementation JKAlertBaseContentView
+@implementation JKAlertBaseAlertContentView
 
 #pragma mark
 #pragma mark - Public Methods

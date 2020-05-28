@@ -112,6 +112,9 @@ UIKIT_EXTERN NSString * const JKAlertDismissForCategoryNotification;
 /** 清空全部弹框的通知 */
 UIKIT_EXTERN NSString * const JKAlertClearAllNotification;
 
+/** 更新页面样式的通知 */
+UIKIT_EXTERN NSString * const JKAlertUpdateUserInterfaceStyleNotification;
+
 
 
 #pragma mark

@@ -49,10 +49,23 @@
 #pragma mark
 #pragma mark - Private Methods
 
+/// 添加更新页面样式的通知
+- (void)addUpdateUserInterfaceStyleNotification {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserInterfaceStyleNotification:) name:JKAlertUpdateUserInterfaceStyleNotification object:nil];
+}
+
+/// 收到更新页面样式的通知
+- (void)updateUserInterfaceStyleNotification:(NSNotification *)notification {
+    
+    self.userInterfaceStyle = [notification.object unsignedIntegerValue];
+}
+
+/// 处理页面样式变更
 - (void)solveUserInterfaceStyleDidChange {
     
     switch (self.userInterfaceStyle) {
-        case JKAlertUserInterfaceStyleSystem:
+        case JKAlertUserInterfaceStyleSystem: // 跟随系统
         {
             BOOL isLight = YES;
             
@@ -71,18 +84,18 @@
             }
         }
             break;
-        case JKAlertUserInterfaceStyleLight:
+        case JKAlertUserInterfaceStyleLight: // 浅色模式
         {
             [self checkupdateLightModetUI];
         }
             break;
-        case JKAlertUserInterfaceStyleDark:
+        case JKAlertUserInterfaceStyleDark: // 深色模式
         {
             [self checkUpdateDarkModeUI];
         }
             break;
             
-        default:
+        default: // 其它默认浅色模式
         {
             [self checkupdateLightModetUI];
         }
@@ -90,6 +103,7 @@
     }
 }
 
+/// 检查变更为浅色模式
 - (void)checkupdateLightModetUI {
     
     // 当前已经是浅色模式，不处理
@@ -100,6 +114,7 @@
     [self updateLightModetUI];
 }
 
+/// 检查变更为深色模式
 - (void)checkUpdateDarkModeUI {
     
     // 当前已经是深色模式，不处理
@@ -110,10 +125,12 @@
     [self updateLightModetUI];
 }
 
+/// 变更为浅色模式
 - (void)updateLightModetUI {
     
 }
 
+/// 变更为深色模式
 - (void)updateDarkModeUI {
     
 }
@@ -143,6 +160,8 @@
     [self createUI];
     [self layoutUI];
     [self initializeUIData];
+    
+    [self addUpdateUserInterfaceStyleNotification];
 }
 
 /** 创建UI 交给子类重写 super自动调用该方法 */

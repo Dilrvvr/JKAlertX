@@ -25,6 +25,9 @@ NSString * const JKAlertDismissForCategoryNotification = @"JKAlertDismissForCate
 /** 清空全部弹框的通知 */
 NSString * const JKAlertClearAllNotification = @"JKAlertClearAllNotification";
 
+/** 更新页面样式的通知 */
+NSString * const JKAlertUpdateUserInterfaceStyleNotification = @"JKAlertUpdateUserInterfaceStyleNotification";
+
 
 #pragma mark
 #pragma mark - 常量
