@@ -212,11 +212,9 @@
 /** 布局UI 交给子类重写 super自动调用该方法 */
 - (void)layoutUI {
     
-    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"H:|-0-[view]-0-|" viewKeyName:@"view" targetView:self.backgroundView constraintsView:self];
-    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"V:|-0-[view]-0-|" viewKeyName:@"view" targetView:self.backgroundView constraintsView:self];
+    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.backgroundView constraintsView:self];
     
-    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"H:|-0-[view]-0-|" viewKeyName:@"view" targetView:self.selectedBackgroundView constraintsView:self];
-    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"V:|-0-[view]-0-|" viewKeyName:@"view" targetView:self.selectedBackgroundView constraintsView:self];
+    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.selectedBackgroundView constraintsView:self];
 }
 
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */

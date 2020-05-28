@@ -120,11 +120,9 @@
 /** 布局UI 交给子类重写 super自动调用该方法 */
 - (void)layoutUI {
     
-    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"H:|-0-[view]-0-|" viewKeyName:@"view" targetView:self.bottomLineView constraintsView:self];
-    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"V:[view(0.5)]-0-|" viewKeyName:@"view" targetView:self.bottomLineView constraintsView:self];
+    [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:@"V:[view(0.5)]-0-|" viewKeyName:@"view" targetView:self.bottomLineView constraintsView:self];
     
-    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"H:|-0-[view]-0-|" viewKeyName:@"view" targetView:self.actionView constraintsView:self.contentView];
-    [JKAlertVisualFormatConstraintManager addConstraintsWithFormat:@"V:|-0-[view]-0-|" viewKeyName:@"view" targetView:self.actionView constraintsView:self.contentView];
+    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.actionView constraintsView:self.contentView];
 }
 
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */

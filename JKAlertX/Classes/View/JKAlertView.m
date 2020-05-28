@@ -13,6 +13,7 @@
 #import "UIView+JKAlertX.h"
 #import "JKAlertPlainActionButton.h"
 #import "JKAlertView+PrivateProperty.h"
+#import "JKAlertVisualFormatConstraintManager.h"
 
 @interface JKAlertView ()
 
@@ -344,23 +345,23 @@
     _HUDHeight = HUDHeight;
 }
 
-- (void)setBackGroundView:(UIView *)backGroundView{
+- (void)setAlertBackGroundView:(UIView *)alertBackGroundView{
     
-    if (backGroundView == nil) { return; }
+    if (alertBackGroundView == nil) { return; }
     
-    [_backGroundView removeFromSuperview];
+    [_alertBackGroundView removeFromSuperview];
     
-    _backGroundView = backGroundView;
+    _alertBackGroundView = alertBackGroundView;
     
-    [_sheetContainerView insertSubview:_backGroundView atIndex:0];
-    [_plainView insertSubview:_backGroundView atIndex:0];
+    [_sheetContainerView insertSubview:_alertBackGroundView atIndex:0];
+    [_plainView insertSubview:_alertBackGroundView atIndex:0];
     
-    backGroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : backGroundView}];
+    alertBackGroundView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : alertBackGroundView}];
     [_sheetContainerView addConstraints:cons1];
     [_plainView addConstraints:cons1];
     
-    NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : backGroundView}];
+    NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : alertBackGroundView}];
     [_sheetContainerView addConstraints:cons2];
     [_plainView addConstraints:cons2];
 }
@@ -373,14 +374,9 @@
     
     _fullScreenBackGroundView = fullScreenBackGroundView;
     
-    [self.contentView insertSubview:_fullScreenBackGroundView atIndex:0];
+    [self.backgroundView insertSubview:_fullScreenBackGroundView atIndex:0];
     
-    fullScreenBackGroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[fullBackGroundView]-0-|" options:0 metrics:nil views:@{@"fullBackGroundView" : fullScreenBackGroundView}];
-    [self addConstraints:cons1];
-    
-    NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[fullBackGroundView]-0-|" options:0 metrics:nil views:@{@"fullBackGroundView" : fullScreenBackGroundView}];
-    [self addConstraints:cons2];
+    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:fullScreenBackGroundView constraintsView:self.backgroundView];
 }
 
 - (void)setPlainTitleMessageSeparatorHidden:(BOOL)plainTitleMessageSeparatorHidden{
@@ -1265,11 +1261,11 @@
     
     return ^(UIView *(^backGroundView)(void)) {
         
-        self.backGroundView = !backGroundView ? nil : backGroundView();
+        self.alertBackGroundView = !backGroundView ? nil : backGroundView();
         
         if (self.alertStyle == JKAlertStyleCollectionSheet) {
             
-            self.collectionTopContainerView.backgroundColor = (self.backGroundView ? nil : JKAlertGlobalBackgroundColor());
+            self.collectionTopContainerView.backgroundColor = (self.alertBackGroundView ? nil : JKAlertGlobalBackgroundColor());
         }
         
         return self;
@@ -2147,11 +2143,11 @@
     
     if (@available(iOS 13.0, *)) {
         
-        if ([self.backGroundView isKindOfClass:[UIVisualEffectView class]]) {
+        if ([self.alertBackGroundView isKindOfClass:[UIVisualEffectView class]]) {
             
             BOOL isLight = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight);
             
-            [(UIVisualEffectView *)self.backGroundView setEffect:[UIBlurEffect effectWithStyle:isLight ? UIBlurEffectStyleExtraLight : UIBlurEffectStyleDark]];
+            [(UIVisualEffectView *)self.alertBackGroundView setEffect:[UIBlurEffect effectWithStyle:isLight ? UIBlurEffectStyleExtraLight : UIBlurEffectStyleDark]];
         }
     }
 }
@@ -2573,13 +2569,13 @@
     
     CGFloat containerWidth = JKAlertScreenW;
     
-    self.backGroundView.hidden = NO;
+    self.alertBackGroundView.hidden = NO;
     
     if (self.isActionSheetPierced) {
         
         containerWidth -= (self.piercedHorizontalMargin * 2 + safeAreaInsets.left + safeAreaInsets.right);
         
-        self.backGroundView.hidden = YES;
+        self.alertBackGroundView.hidden = YES;
     }
     
     self.titleTextView.scrollEnabled = NO;
@@ -3270,7 +3266,7 @@
         
         if (!self.isClearFullScreenBackgroundColor) {
             
-            self.contentView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.3]);
+            self.backgroundView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.3]);
         }
         
         self.fullScreenBackGroundView.alpha = 1;
@@ -3571,7 +3567,7 @@
     
     [UIView animateWithDuration:0.25 animations:^{
         
-        self.contentView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
+        self.backgroundView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
         self.fullScreenBackGroundView.alpha = 0;
         
         [self dismissAnimationOperation];
@@ -4657,12 +4653,7 @@
         
         [self.textContainerView insertSubview:_plainTextContainerScrollView atIndex:0];
         
-        _plainTextContainerScrollView.translatesAutoresizingMaskIntoConstraints = NO;
-        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : _plainTextContainerScrollView}];
-        [_textContainerView addConstraints:scrollViewCons1];
-        
-        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : _plainTextContainerScrollView}];
-        [_textContainerView addConstraints:scrollViewCons2];
+        [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:_plainTextContainerScrollView constraintsView:_textContainerView];
     }
     return _plainTextContainerScrollView;
 }
@@ -4704,8 +4695,8 @@
     return _scrollView;
 }
 
-- (UIView *)backGroundView {
-    if (!_backGroundView) {
+- (UIView *)alertBackGroundView {
+    if (!_alertBackGroundView) {
         
         BOOL isLight = YES;
         
@@ -4716,9 +4707,9 @@
         
         UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:isLight ? UIBlurEffectStyleExtraLight : UIBlurEffectStyleDark]];
         effectView.clipsToBounds = YES;
-        self.backGroundView = effectView;
+        self.alertBackGroundView = effectView;
     }
-    return _backGroundView;
+    return _alertBackGroundView;
 }
 
 - (UIView *)sheetContainerView {
@@ -4739,7 +4730,7 @@
         [sheetContainerView addGestureRecognizer:_horizontalDismissPanGesture];
         
         // 背景
-        [self backGroundView];
+        [self alertBackGroundView];
     }
     return _sheetContainerView;
 }
@@ -4747,7 +4738,7 @@
 - (UIView *)sheetContentView {
     if (!_sheetContentView) {
         UIView *sheetContentView = [[UIView alloc] init];
-        [self.sheetContainerView insertSubview:sheetContentView aboveSubview:self.backGroundView];
+        [self.sheetContainerView insertSubview:sheetContentView aboveSubview:self.alertBackGroundView];
         _sheetContentView = sheetContentView;
     }
     return _sheetContentView;
@@ -4872,13 +4863,7 @@
         
         [self updateInsets];
         
-        self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        NSArray *scrollViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : self.scrollView}];
-        [self addConstraints:scrollViewCons1];
-        
-        NSArray *scrollViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollView]-0-|" options:0 metrics:nil views:@{@"scrollView" : self.scrollView}];
-        [self addConstraints:scrollViewCons2];
+        [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.scrollView constraintsView:self];
         
         [self.scrollView insertSubview:self.collectionTopContainerView atIndex:0];
         
@@ -5001,7 +4986,7 @@
         _plainView = plainView;
         
         // 背景
-        [self backGroundView];
+        [self alertBackGroundView];
     }
     return _plainView;
 }

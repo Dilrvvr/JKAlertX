@@ -13,6 +13,9 @@
 #pragma mark
 #pragma mark - Private
 
+/** backgroundView */
+@property (nonatomic, weak, readonly) UIView *backgroundView;
+
 /** contentView */
 @property (nonatomic, weak, readonly) UIView *contentView;
 

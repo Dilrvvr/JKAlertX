@@ -8,6 +8,7 @@
 
 #import "JKBaseAlertView.h"
 #import "JKAlertConst.h"
+#import "JKAlertVisualFormatConstraintManager.h"
 
 @interface JKBaseAlertView ()
 
@@ -117,9 +118,14 @@
 /** 创建UI 交给子类重写 super自动调用该方法 */
 - (void)createUI {
     
+    UIView *backgroundView = [[UIView alloc] init];
+    backgroundView.userInteractionEnabled = NO;
+    backgroundView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
+    [self insertSubview:backgroundView atIndex:0];
+    _backgroundView = backgroundView;
+    
     UIView *contentView = [[UIView alloc] init];
-    contentView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
-    [self insertSubview:contentView atIndex:0];
+    [self addSubview:contentView];
     _contentView = contentView;
     
     UIButton *dismissButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -137,19 +143,11 @@
 /** 布局UI 交给子类重写 super自动调用该方法 */
 - (void)layoutUI {
     
-    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *contentViewCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[contentView]-0-|" options:0 metrics:nil views:@{@"contentView" : self.contentView}];
-    [self addConstraints:contentViewCons1];
+    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.backgroundView constraintsView:self];
     
-    NSArray *contentViewCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[contentView]-0-|" options:0 metrics:nil views:@{@"contentView" : self.contentView}];
-    [self addConstraints:contentViewCons2];
+    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.contentView constraintsView:self];
     
-    self.dismissButton.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *dismissButtonCons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[dismissButton]-0-|" options:0 metrics:nil views:@{@"dismissButton" : self.dismissButton}];
-    [self.contentView addConstraints:dismissButtonCons1];
-    
-    NSArray *dismissButtonCons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[dismissButton]-0-|" options:0 metrics:nil views:@{@"dismissButton" : self.dismissButton}];
-    [self.contentView addConstraints:dismissButtonCons2];
+    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.dismissButton constraintsView:self.contentView];
 }
 
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */

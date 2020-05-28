@@ -37,7 +37,7 @@
     
     BOOL Showed;
     
-    UIView  *_backGroundView;
+    UIView  *_alertBackGroundView;
     
     UIColor *titleTextColor;
     UIFont  *titleFont;
@@ -99,7 +99,7 @@
 @property (nonatomic, weak) UIView *collectionTopContainerView;
 
 /** sheet样式的背景view */
-@property (nonatomic, strong) UIView *backGroundView;
+@property (nonatomic, strong) UIView *alertBackGroundView;
 
 /** tableView */
 @property (nonatomic, weak) UITableView *tableView;

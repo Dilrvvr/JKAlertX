@@ -9,8 +9,12 @@
 
 @interface JKAlertVisualFormatConstraintManager : NSObject
 
-+ (void)addConstraintsWithFormat:(NSString *)format
-                     viewKeyName:(NSString *)viewKeyName
-                      targetView:(UIView *)targetView
-                 constraintsView:(UIView *)constraintsView;
++ (void)addConstraintsWithHorizontalFormat:(NSString *)horizontalFormat
+                            verticalFormat:(NSString *)verticalFormat
+                               viewKeyName:(NSString *)viewKeyName
+                                targetView:(UIView *)targetView
+                           constraintsView:(UIView *)constraintsView;
+
++ (void)addZeroEdgeConstraintsWithTargetView:(UIView *)targetView
+                             constraintsView:(UIView *)constraintsView;
 @end
