@@ -6,10 +6,10 @@
 //  Copyright © 2017年 安永博. All rights reserved.
 //
 
-#import "JKBaseAlertView.h"
+#import "JKAlertBaseAlertView.h"
 #import "JKAlertAction.h"
 
-@interface JKAlertView : JKBaseAlertView
+@interface JKAlertView : JKAlertBaseAlertView
 
 #pragma mark
 #pragma mark - 基本方法

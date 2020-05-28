@@ -1,5 +1,5 @@
 //
-//  JKBaseAlertView.h
+//  JKAlertBaseAlertView.h
 //  JKAlertX
 //
 //  Created by albert on 2019/1/14.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JKBaseAlertView : UIView
+@interface JKAlertBaseAlertView : UIView
 
 #pragma mark
 #pragma mark - Private

@@ -85,7 +85,17 @@ typedef NS_ENUM(NSUInteger, JKAlertScrollDirection) {
     JKAlertScrollDirectionRight,
 };
 
-
+typedef NS_ENUM(NSUInteger, JKAlertUserInterfaceStyle) {
+    
+    /** 跟随系统 */
+    JKAlertUserInterfaceStyleSystem = 0,
+    
+    /** 浅色 */
+    JKAlertUserInterfaceStyleLight,
+    
+    /** 深色 */
+    JKAlertUserInterfaceStyleDark,
+};
 
 #pragma mark
 #pragma mark - 通知

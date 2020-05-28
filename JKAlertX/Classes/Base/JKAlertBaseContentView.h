@@ -5,12 +5,8 @@
 //  Created by albert on 2020/5/28.
 //
 
-#import <UIKit/UIKit.h>
+#import "JKAlertBaseView.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface JKAlertBaseContentView : UIView
+@interface JKAlertBaseContentView : JKAlertBaseView
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -180,10 +180,12 @@
 - (void)createUI {
     
     UIView *backgroundView = [[UIView alloc] init];
+    backgroundView.userInteractionEnabled = NO;
     [self addSubview:backgroundView];
     _backgroundView = backgroundView;
     
     UIView *selectedBackgroundView = [[UIView alloc] init];
+    selectedBackgroundView.userInteractionEnabled = NO;
     selectedBackgroundView.hidden = YES;
     [self addSubview:selectedBackgroundView];
     _selectedBackgroundView = selectedBackgroundView;

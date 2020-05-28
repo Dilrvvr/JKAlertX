@@ -1,20 +1,20 @@
 //
-//  JKBaseAlertView.m
+//  JKAlertBaseAlertView.m
 //  JKAlertX
 //
 //  Created by albert on 2019/1/14.
 //  Copyright © 2019 安永博. All rights reserved.
 //
 
-#import "JKBaseAlertView.h"
+#import "JKAlertBaseAlertView.h"
 #import "JKAlertConst.h"
 #import "JKAlertVisualFormatConstraintManager.h"
 
-@interface JKBaseAlertView ()
+@interface JKAlertBaseAlertView ()
 
 @end
 
-@implementation JKBaseAlertView
+@implementation JKAlertBaseAlertView
 
 #pragma mark
 #pragma mark - Public Methods
