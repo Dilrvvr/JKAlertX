@@ -57,7 +57,7 @@
 
 - (void)updateBottomLineColor {
     
-    self.bottomLineView.backgroundColor = JKAlertGlobalSeperatorLineColor();
+    self.bottomLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
 }
 
 #pragma mark

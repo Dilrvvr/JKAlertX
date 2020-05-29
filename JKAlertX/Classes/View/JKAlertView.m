@@ -1057,7 +1057,7 @@
     
     return ^(BOOL hidden) {
         
-        self.collectionTitleSeperatorHidden = hidden;
+        self.collectionTitleSeparatorHidden = hidden;
         
         return self;
     };
@@ -2495,7 +2495,7 @@
                 
                 UIView *vline = [UIView new];
                 [button addSubview:vline];
-                vline.backgroundColor = JKAlertGlobalSeperatorLineColor();
+                vline.backgroundColor = JKAlertGlobalSeparatorLineColor();
                 self.plainButtonVLineView = vline;
             }
             
@@ -2508,7 +2508,7 @@
         
         if (!button.topSeparatorLineView) {
             UIView *hline = [UIView new];
-            hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
+            hline.backgroundColor = JKAlertGlobalSeparatorLineColor();
             [button addSubview:hline];
             button.topSeparatorLineView = hline;
         }
@@ -2920,7 +2920,7 @@
         _customSheetTitleView.frame = CGRectMake(0, 0, JKAlertScreenW, _customSheetTitleView.frame.size.height);
     }
     
-    if (self.collectionTitleSeperatorHidden) {
+    if (self.collectionTitleSeparatorHidden) {
         
         _textContainerBottomLineView.hidden = YES;
         
@@ -4557,7 +4557,7 @@
     _dismissTimeInterval = 1;
     _textViewUserInteractionEnabled = YES;
     _plainTitleMessageSeparatorHidden = YES;
-    _collectionTitleSeperatorHidden = YES;
+    _collectionTitleSeparatorHidden = YES;
     
     TBMargin = 20;
     PlainViewWidth = 290;
@@ -4773,7 +4773,7 @@
         
         // 分隔线
         UIView *hline = [UIView new];
-        hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
+        hline.backgroundColor = JKAlertGlobalSeparatorLineColor();
         [self.textContainerView addSubview:hline];
         _textContainerBottomLineView = hline;
         
@@ -4874,7 +4874,7 @@
         [self.textContainerView addSubview:self.titleTextView];
         
         UIView *hline = [UIView new];
-        hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
+        hline.backgroundColor = JKAlertGlobalSeparatorLineColor();
         [self.textContainerView addSubview:hline];
         _textContainerBottomLineView = hline;
         
@@ -4970,14 +4970,14 @@
             
             // 分隔线
             UIView *hline = [UIView new];
-            hline.backgroundColor = JKAlertGlobalSeperatorLineColor();
+            hline.backgroundColor = JKAlertGlobalSeparatorLineColor();
             [self.textContainerView addSubview:hline];
             _textContainerBottomLineView = hline;
             
             // 分隔线
             UIView *hline2 = [UIView new];
             hline2.hidden = YES;
-            hline2.backgroundColor = JKAlertGlobalSeperatorLineColor();
+            hline2.backgroundColor = JKAlertGlobalSeparatorLineColor();
             [self.plainTextContainerScrollView addSubview:hline2];
             _plainTitleMessageSeparatorView = hline2;
         }

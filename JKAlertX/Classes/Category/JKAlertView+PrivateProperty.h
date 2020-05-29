@@ -338,7 +338,7 @@
 @property (nonatomic, assign) CGFloat collectionHorizontalInset;
 
 /** collection的title下分隔线是否隐藏 */
-@property (nonatomic, assign) BOOL collectionTitleSeperatorHidden;
+@property (nonatomic, assign) BOOL collectionTitleSeparatorHidden;
 
 /**
  * 设置两个collectionView之间的间距

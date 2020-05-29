@@ -21,7 +21,83 @@
 #pragma mark
 #pragma mark - Public Methods
 
+- (void)setCustomContentView:(UIView *)customContentView {
+    
+    if (_customContentView) {
+        
+        [_customContentView removeFromSuperview];
+    }
+}
 
+- (void)setCustomTitleView:(UIView *)customTitleView {
+    
+    if (_customTitleView) {
+        
+        [_customTitleView removeFromSuperview];
+    }
+    
+}
+
+- (void)setCustomMessageView:(UIView *)customMessageView {
+    
+    if (_customMessageView) {
+        
+        [_customMessageView removeFromSuperview];
+    }
+    
+}
+
+- (void)updateTextViewProperty {
+    
+    self.titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
+    self.titleTextView.shouldSelectText = self.textViewShouldSelectText;
+    self.titleTextView.textAlignment = self.titleTextViewAlignment;
+    self.titleTextView.textColor = self.titleTextColor;
+    self.titleTextView.font = self.titleFont;
+    
+    self.titleTextView.text = nil;
+    self.titleTextView.attributedText = nil;
+    
+    if (self.alertAttributedTitle) {
+        
+        self.titleTextView.attributedText = self.alertAttributedTitle;
+        
+    } else if (self.alertTitle) {
+        
+        self.titleTextView.text = self.alertTitle;
+        
+    } else {
+        
+        self.titleTextView.hidden = YES;
+    }
+    
+    self.messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
+    self.messageTextView.shouldSelectText = self.textViewShouldSelectText;
+    self.messageTextView.textAlignment = self.messageTextViewAlignment;
+    self.messageTextView.textColor = self.messageTextColor;
+    self.messageTextView.font = self.messageFont;
+    
+    self.messageTextView.text = nil;
+    self.messageTextView.attributedText = nil;
+    
+    if (self.attributedMessage) {
+        
+        self.messageTextView.attributedText = self.attributedMessage;
+        
+    } else if (self.alertMessage) {
+        
+        self.messageTextView.text = self.alertMessage;
+        
+    } else {
+        
+        self.messageTextView.hidden = YES;
+    }
+}
+
+- (void)calculateUI {
+    
+    
+}
 
 #pragma mark
 #pragma mark - Override

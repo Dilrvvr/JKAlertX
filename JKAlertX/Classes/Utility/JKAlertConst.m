@@ -121,16 +121,16 @@ UIColor * JKAlertGlobalHighlightedBackgroundColor (void) {
 }
 
 /// 全局分隔线背景色
-UIColor * JKAlertGlobalSeperatorLineColor (void) {
+UIColor * JKAlertGlobalSeparatorLineColor (void) {
     
-    static UIColor *SeperatorLineColor_ = nil;
+    static UIColor *SeparatorLineColor_ = nil;
     
-    if (!SeperatorLineColor_) {
+    if (!SeparatorLineColor_) {
         
-        SeperatorLineColor_ = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);//JKAlertAdaptColor(JKAlertSameRGBColor(217.0), JKAlertSameRGBColor(53.0));
+        SeparatorLineColor_ = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);//JKAlertAdaptColor(JKAlertSameRGBColor(217.0), JKAlertSameRGBColor(53.0));
     }
     
-    return SeperatorLineColor_;
+    return SeparatorLineColor_;
 }
 
 /// 是否X设备
