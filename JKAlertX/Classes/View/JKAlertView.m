@@ -14,9 +14,13 @@
 #import "JKAlertPlainActionButton.h"
 #import "JKAlertView+PrivateProperty.h"
 #import "JKAlertVisualFormatConstraintManager.h"
+#import "JKAlertPlainContentView.h"
+#import "JKAlertPlainTextContentView.h"
 
 @interface JKAlertView ()
 
+/** plainContentView */
+@property (nonatomic, weak) JKAlertPlainContentView *plainContentView;
 @end
 
 @implementation JKAlertView
@@ -2104,6 +2108,15 @@
         return;
     }
     
+    
+    // TODO: JKTODO <#注释#>
+    if (!_plainContentView) {
+        
+        JKAlertPlainContentView *plainContentView = [[JKAlertPlainContentView alloc] init];
+        [self addSubview:plainContentView];
+        _plainContentView = plainContentView;
+    }
+    
     [self calculateUI];
 }
 
@@ -2209,6 +2222,16 @@
         _messageTextView.hidden = YES;
     }
     
+    // TODO: JKTODO <#注释#>
+    self.plainContentView.textContentView.alertTitle = self.alertTitle;
+    self.plainContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
+    
+    self.plainContentView.textContentView.alertMessage = self.alertMessage;
+    self.plainContentView.textContentView.attributedMessage = self.attributedMessage;
+    
+    [self.plainContentView.actionArray removeAllObjects];
+    [self.plainContentView.actionArray addObjectsFromArray:self.actions];
+    
     switch (self.alertStyle) {
         case JKAlertStylePlain:
         {
@@ -2273,6 +2296,17 @@
         
         PlainViewWidth = MIN(OriginalPlainWidth, JKAlertScreenW - safeAreaInset * 2);
     }
+    
+    // TODO: JKTODO <#注释#>
+    
+    self.plainContentView.contentWidth = PlainViewWidth;
+    self.plainContentView.maxHeight = JKAlertPlainViewMaxH;
+    self.plainContentView.separatorLineWH = JKAlertSeparatorLineWH;
+    [self.plainContentView calculateUI];
+    self.plainContentView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.8);
+    self.plainContentView.backgroundColor = [UIColor whiteColor];
+    
+    
     
     _plainView.frame = CGRectMake((JKAlertScreenW - PlainViewWidth) * 0.5, (JKAlertScreenH - 200) * 0.5, PlainViewWidth, 200);
     _textContainerView.frame = CGRectMake(0, 0, PlainViewWidth, TBMargin + JKAlertMinTitleLabelH + JKAlertTitleMessageMargin + JKAlertMinMessageLabelH + TBMargin);

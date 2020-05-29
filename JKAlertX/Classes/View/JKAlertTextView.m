@@ -67,6 +67,7 @@
     self.editable = NO;
     self.textContainer.lineFragmentPadding = 0;
     self.textContainerInset = UIEdgeInsetsZero;
+    self.showsHorizontalScrollIndicator = NO;
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {

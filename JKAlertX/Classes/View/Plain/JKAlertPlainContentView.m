@@ -10,6 +10,9 @@
 #import "JKAlertAction.h"
 #import "JKAlertConst.h"
 
+// TODO: JKTODO delete
+#import "JKAlertView.h"
+
 @interface JKAlertPlainContentView ()
 
 /** actionContainerView */
@@ -54,9 +57,11 @@
     
     CGRect frame = CGRectZero;
     
+    CGFloat totalHeight = self.textContentView.frame.size.height + self.actionContainerView.frame.size.height;
+    
     // 总高度未超过最大高度
     if (self.maxHeight <= 0 ||
-        self.textContentView.frame.size.height + self.actionContainerView.frame.size.height <= self.maxHeight) {
+        totalHeight <= self.maxHeight) {
         
         frame = self.textContentView.bounds;
         self.textScrollView.frame = frame;
@@ -67,6 +72,8 @@
         
         self.textScrollView.scrollEnabled = NO;
         self.actionScrollView.scrollEnabled = NO;
+        
+        self.frame = CGRectMake(0, 0, self.contentWidth, totalHeight);
         
         return;
     }
@@ -88,6 +95,8 @@
         
         self.actionScrollView.contentSize = CGSizeMake(0, self.actionContainerView.frame.size.height);
     }
+    
+    self.frame = CGRectMake(0, 0, self.contentWidth, self.maxHeight);
 }
 
 - (void)layoutPlainButtons {
@@ -223,7 +232,6 @@
         action1.customView.frame = button1.bounds;
     }
     
-    
     self.horizontalSeparatorLineView.hidden = action1.separatorLineHidden;
     
     JKAlertAction *action2 = self.actionArray.lastObject;
@@ -241,6 +249,8 @@
     
     button2.frame = frame;
     
+    [self.actionContainerView addSubview:button2];
+    
     button2.action = action2;
     
     button2.topSeparatorLineView.hidden = YES;
@@ -250,6 +260,8 @@
         
         action2.customView.frame = button2.bounds;
     }
+    
+    self.verticalSeparatorLineView.hidden = action2.separatorLineHidden;
     
     if (!self.horizontalSeparatorLineView.hidden) {
         
@@ -277,7 +289,13 @@
     JKAlertAction *action = button.action;
     
     // TODO: JKTODO <#注释#>
-    //if (action.autoDismiss) { [self dismiss]; }
+    if (action.autoDismiss) {
+        
+        [JKAlertView dismissAll];
+        
+        //[self dismiss];
+        
+    }
     
     !action.handler ? : action.handler(action);
 }
@@ -320,11 +338,15 @@
     _actionContainerView = actionContainerView;
     
     UIView *horizontalSeparatorLineView = [[UIView alloc] init];
+    // TODO: JKTODO <#注释#>
+    horizontalSeparatorLineView.backgroundColor = [UIColor redColor];//JKAlertGlobalSeparatorLineColor();
     horizontalSeparatorLineView.hidden = YES;
     [self.actionContainerView addSubview:horizontalSeparatorLineView];
     _horizontalSeparatorLineView = horizontalSeparatorLineView;
     
     UIView *verticalSeparatorLineView = [[UIView alloc] init];
+    // TODO: JKTODO <#注释#>
+    verticalSeparatorLineView.backgroundColor = [UIColor redColor];//JKAlertGlobalSeparatorLineColor();
     verticalSeparatorLineView.hidden = YES;
     [self.actionContainerView addSubview:verticalSeparatorLineView];
     _verticalSeparatorLineView = verticalSeparatorLineView;
