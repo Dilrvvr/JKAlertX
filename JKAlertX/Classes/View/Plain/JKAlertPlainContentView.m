@@ -23,6 +23,9 @@
 
 /** verticalSeparatorLineView */
 @property (nonatomic, weak) UIView *verticalSeparatorLineView;
+
+/** actionButtonArray */
+@property (nonatomic, strong) NSMutableArray *actionButtonArray;
 @end
 
 @implementation JKAlertPlainContentView
@@ -115,11 +118,9 @@
     self.horizontalSeparatorLineView.hidden = YES;
     self.verticalSeparatorLineView.hidden = YES;
     
-    NSArray *subViewsArray = [self.actionContainerView.subviews copy];
+    NSInteger subviewsCount = self.actionButtonArray.count;
     
-    NSInteger subviewsCount = subViewsArray.count;
-    
-    [self.actionContainerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.actionButtonArray makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     CGFloat buttonX = 0;
     CGFloat buttonY = 0;
@@ -152,12 +153,14 @@
         
         if (i < subviewsCount) {
             
-            button = subViewsArray[i];
+            button = self.actionButtonArray[i];
         }
         
         if (!button) {
             
             button = [JKAlertPlainActionButton buttonWithType:(UIButtonTypeCustom)];
+            
+            [self.actionButtonArray addObject:button];
             
             [button addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
         }
@@ -190,10 +193,6 @@
 
 - (void)layoutTwoActionPlainButtons {
     
-    NSArray *subViewsArray = [self.actionContainerView.subviews copy];
-    
-    [self.actionContainerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
     
     CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
     
@@ -202,11 +201,13 @@
     
     JKAlertAction *action1 = self.actionArray.firstObject;
     
-    JKAlertPlainActionButton *button1 = [subViewsArray firstObject];
+    JKAlertPlainActionButton *button1 = [self.actionButtonArray firstObject];
     
-    if (![button1 isKindOfClass:[JKAlertPlainActionButton class]]) {
+    if (!button1 || ![button1 isKindOfClass:[JKAlertPlainActionButton class]]) {
         
         button1 = [JKAlertPlainActionButton buttonWithType:(UIButtonTypeCustom)];
+        
+        [self.actionButtonArray addObject:button1];
         
         [button1 addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     }
@@ -236,11 +237,18 @@
     
     JKAlertAction *action2 = self.actionArray.lastObject;
     
-    JKAlertPlainActionButton *button2 = [subViewsArray lastObject];
+    JKAlertPlainActionButton *button2 = nil;
     
-    if (![button2 isKindOfClass:[JKAlertPlainActionButton class]]) {
+    if (self.actionButtonArray.count > 1) {
+        
+        button2 = [self.actionButtonArray objectAtIndex:1];
+    }
+    
+    if (!button2 || ![button2 isKindOfClass:[JKAlertPlainActionButton class]]) {
         
         button2 = [JKAlertPlainActionButton buttonWithType:(UIButtonTypeCustom)];
+        
+        [self.actionButtonArray addObject:button2];
         
         [button2 addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     }
@@ -339,14 +347,14 @@
     
     UIView *horizontalSeparatorLineView = [[UIView alloc] init];
     // TODO: JKTODO <#注释#>
-    horizontalSeparatorLineView.backgroundColor = [UIColor redColor];//JKAlertGlobalSeparatorLineColor();
+    horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
     horizontalSeparatorLineView.hidden = YES;
     [self.actionContainerView addSubview:horizontalSeparatorLineView];
     _horizontalSeparatorLineView = horizontalSeparatorLineView;
     
     UIView *verticalSeparatorLineView = [[UIView alloc] init];
     // TODO: JKTODO <#注释#>
-    verticalSeparatorLineView.backgroundColor = [UIColor redColor];//JKAlertGlobalSeparatorLineColor();
+    verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
     verticalSeparatorLineView.hidden = YES;
     [self.actionContainerView addSubview:verticalSeparatorLineView];
     _verticalSeparatorLineView = verticalSeparatorLineView;
@@ -367,7 +375,11 @@
 #pragma mark
 #pragma mark - Private Property
 
-
-
+- (NSMutableArray *)actionButtonArray {
+    if (!_actionButtonArray) {
+        _actionButtonArray = [NSMutableArray array];
+    }
+    return _actionButtonArray;
+}
 
 @end

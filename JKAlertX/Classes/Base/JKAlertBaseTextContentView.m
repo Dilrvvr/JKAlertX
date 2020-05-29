@@ -220,7 +220,7 @@
         
         self.messageTextView.frame = frame;
         
-        rect.size.height = CGRectGetMaxY(frame);
+        rect.size.height = CGRectGetMaxY(frame) + self.messageInsets.bottom;
     }
     
     self.frame = rect;
@@ -284,6 +284,12 @@
     _titleInsets = UIEdgeInsetsMake(20, 20, 3.5, 20);
     _messageInsets = UIEdgeInsetsMake(3.5, 20, 20, 20);
     
+    _titleFont = [UIFont systemFontOfSize:17];
+    _messageFont = [UIFont systemFontOfSize:13];
+    
+    _titleTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(89.25) darkColor:JKAlertSameRGBColor(165.75)];
+    _messageTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(76.5) darkColor:JKAlertSameRGBColor(178.5)];
+    
     _titleTextViewAlignment = NSTextAlignmentCenter;
     _messageTextViewAlignment = NSTextAlignmentCenter;
     
@@ -320,9 +326,6 @@
 - (JKAlertTextView *)titleTextView {
     if (!_titleTextView) {
         JKAlertTextView *titleTextView = [[JKAlertTextView alloc] init];
-        titleTextView.font = [UIFont systemFontOfSize:17];
-        // TODO: JKTODO <#注释#>
-        titleTextView.textColor = JKAlertAdaptColor(JKAlertSameRGBColor(89.25), JKAlertSameRGBColor(165.75));
         [self.contentView addSubview:titleTextView];
         _titleTextView = titleTextView;
     }
@@ -332,9 +335,6 @@
 - (JKAlertTextView *)messageTextView {
     if (!_messageTextView) {
         JKAlertTextView *messageTextView = [[JKAlertTextView alloc] init];
-        messageTextView.font = [UIFont systemFontOfSize:13];
-        // TODO: JKTODO <#注释#>
-        messageTextView.textColor = JKAlertAdaptColor(JKAlertSameRGBColor(76.5), JKAlertSameRGBColor(178.5));
         [self.contentView addSubview:messageTextView];
         _messageTextView = messageTextView;
     }

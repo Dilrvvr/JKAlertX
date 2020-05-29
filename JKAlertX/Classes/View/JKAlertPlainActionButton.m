@@ -8,6 +8,7 @@
 #import "JKAlertPlainActionButton.h"
 #import "JKAlertConst.h"
 #import "JKAlertAction.h"
+#import "JKAlertVisualFormatConstraintManager.h"
 
 @implementation JKAlertPlainActionButton
 
@@ -19,6 +20,8 @@
         topSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
         [self addSubview:topSeparatorLineView];
         _topSeparatorLineView = topSeparatorLineView;
+        
+        [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:@"V:|-0-[view(0.5)]" viewKeyName:@"view" targetView:self.topSeparatorLineView constraintsView:self];
     }
     return self;
 }

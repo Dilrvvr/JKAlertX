@@ -44,10 +44,10 @@
 /** separatorLineInsets 默认全部为0 */
 @property (nonatomic, assign) UIEdgeInsets separatorLineInsets;
 
-/** title最小高度 默认30 */
+/** 仅有title时最小高度 默认30 */
 @property (nonatomic, assign) CGFloat titleMinHeight;
 
-/** message最小高度 默认30 */
+/** 仅有message时最小高度 默认30 */
 @property (nonatomic, assign) CGFloat messageMinHeight;
 
 
