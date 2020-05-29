@@ -9,6 +9,21 @@
 
 @interface JKAlertBaseAlertContentView : JKAlertBaseView
 
+/** maxHeight */
+@property (nonatomic, assign) CGFloat maxHeight;
+
+/** contentWidth */
+@property (nonatomic, assign) CGFloat contentWidth;
+
+/** actionArray */
+@property (nonatomic, strong, readonly) NSMutableArray *actionArray;
+
+/** textScrollView */
+@property (nonatomic, weak) UIScrollView *textScrollView;
+
+/** actionScrollView */
+@property (nonatomic, weak) UIScrollView *actionScrollView;
+
 /** customBackgroundView */
 @property (nonatomic, weak) UIView *customBackgroundView;
 
@@ -23,4 +38,6 @@
 
 /** 富文本提示信息 */
 @property (nonatomic, copy) NSAttributedString *attributedMessage;
+
+- (void)calculateUI;
 @end

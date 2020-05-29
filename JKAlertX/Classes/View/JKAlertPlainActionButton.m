@@ -11,12 +11,26 @@
 
 @implementation JKAlertPlainActionButton
 
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        UIView *topSeparatorLineView = [[UIView alloc] init];
+        topSeparatorLineView.hidden = YES;
+        // TODO: JKTODO <#注释#>
+        topSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
+        [self addSubview:topSeparatorLineView];
+        _topSeparatorLineView = topSeparatorLineView;
+    }
+    return self;
+}
+
 - (void)setAction:(JKAlertAction *)action {
     _action = action;
     
+    self.topSeparatorLineView.hidden = action.separatorLineHidden;
+    
     if (action.customView) {
         
-        [self addSubview:action.customView];
+        [self insertSubview:action.customView belowSubview:self.topSeparatorLineView];
         
         // 有customViewm，清空文字
         [self setTitle:nil forState:(UIControlStateNormal)];

@@ -7,10 +7,17 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface JKAlertMultiColor : NSObject
 
-@end
++ (JKAlertMultiColor *)colorWithLightColor:(UIColor *)lightColor
+                                 darkColor:(UIColor *)darkColor;
 
-NS_ASSUME_NONNULL_END
+/** lightColor */
+@property (nonatomic, strong, readonly) UIColor *lightColor;
+
+/** darkColor */
+@property (nonatomic, strong, readonly) UIColor *darkColor;
+
+/** dynamicColor */
+@property (nonatomic, strong, readonly) UIColor *dynamicColor;
+@end

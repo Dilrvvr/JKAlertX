@@ -9,7 +9,9 @@
 #import "JKAlertVisualFormatConstraintManager.h"
 
 @interface JKAlertBaseAlertContentView ()
-
+{
+    NSMutableArray *_actionArray;
+}
 /** backgroundEffectView */
 @property (nonatomic, weak) UIVisualEffectView *backgroundEffectView;
 @end
@@ -18,6 +20,10 @@
 
 #pragma mark
 #pragma mark - Public Methods
+
+- (void)calculateUI {
+    
+}
 
 - (void)setCustomBackgroundView:(UIView *)customBackgroundView {
     
@@ -102,6 +108,32 @@
     backgroundEffectView.clipsToBounds = YES;
     [self.backgroundView addSubview:backgroundEffectView];
     _backgroundEffectView = backgroundEffectView;
+    
+    UIScrollView *textScrollView = [[UIScrollView alloc] init];
+    textScrollView.showsHorizontalScrollIndicator = NO;
+    textScrollView.scrollsToTop = NO;
+    textScrollView.scrollEnabled = NO;
+    if (@available(iOS 11.0, *)) {
+        textScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    if (@available(iOS 13.0, *)) {
+        textScrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
+    }
+    [self.contentView addSubview:textScrollView];
+    _textScrollView = textScrollView;
+    
+    UIScrollView *actionScrollView = [[UIScrollView alloc] init];
+    actionScrollView.showsHorizontalScrollIndicator = NO;
+    actionScrollView.scrollsToTop = NO;
+    actionScrollView.scrollEnabled = NO;
+    if (@available(iOS 11.0, *)) {
+        actionScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    if (@available(iOS 13.0, *)) {
+        actionScrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
+    }
+    [self.contentView addSubview:actionScrollView];
+    _actionScrollView = actionScrollView;
 }
 
 /** 布局UI */
@@ -119,6 +151,11 @@
 #pragma mark
 #pragma mark - Private Property
 
-
+- (NSMutableArray *)actionArray {
+    if (!_actionArray) {
+        _actionArray = [NSMutableArray array];
+    }
+    return _actionArray;
+}
 
 @end

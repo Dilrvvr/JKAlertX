@@ -7,7 +7,9 @@
 
 #import "JKAlertBaseView.h"
 
-@class JKAlertTextView;
+@class JKAlertTextView, JKAlertMultiColor;
+
+// TODO: JKTODO 需外界赋值的属性拎出来
 
 @interface JKAlertBaseTextContentView : JKAlertBaseView
 
@@ -17,12 +19,21 @@
 /** messageTextView */
 @property (nonatomic, weak, readonly) JKAlertTextView *messageTextView;
 
-/** <#注释#> */
-@property (nonatomic, weak) UIView *titleMessageSeparatorLineView;
+/** separatorLineView */
+@property (nonatomic, weak) UIView *separatorLineView;
+
+/** separatorLineHeight */
+@property (nonatomic, assign) CGFloat separatorLineHeight;
+
+/** title和message之间的分隔线是否隐藏 默认YES */
+@property (nonatomic, assign) BOOL separatorLineHidden;
 
 
 /** contentWidth */
 @property (nonatomic, assign) CGFloat contentWidth;
+
+/** safeAreaInsets */
+@property (nonatomic, assign) UIEdgeInsets safeAreaInsets;
 
 /** titleInsets */
 @property (nonatomic, assign) UIEdgeInsets titleInsets;
@@ -30,8 +41,14 @@
 /** messageInsets */
 @property (nonatomic, assign) UIEdgeInsets messageInsets;
 
-/** titleMessageSeparatorLineInsets */
-@property (nonatomic, assign) UIEdgeInsets titleMessageSeparatorLineInsets;
+/** separatorLineInsets */
+@property (nonatomic, assign) UIEdgeInsets separatorLineInsets;
+
+/** title最小高度 默认30 */
+@property (nonatomic, assign) CGFloat titleMinHeight;
+
+/** message最小高度 默认30 */
+@property (nonatomic, assign) CGFloat messageMinHeight;
 
 
 /** customContentView */
@@ -44,11 +61,14 @@
 @property (nonatomic, weak) UIView *customMessageView;
 
 
+/** title和message之间的分隔线颜色 */
+@property (nonatomic, strong) JKAlertMultiColor *separatorLineColor;
+
 /** titleTextColor */
-@property (nonatomic, strong) UIColor *titleTextColor;
+@property (nonatomic, strong) JKAlertMultiColor *titleTextColor;
 
 /** messageTextColor */
-@property (nonatomic, strong) UIColor *messageTextColor;
+@property (nonatomic, strong) JKAlertMultiColor *messageTextColor;
 
 /** titleFont */
 @property (nonatomic, strong) UIFont *titleFont;
@@ -90,9 +110,6 @@
 /** messageTextViewAlignment 默认NSTextAlignmentCenter */
 @property (nonatomic, assign) NSTextAlignment messageTextViewAlignment;
 
-/** title和message的左右间距 默认20 */
-//@property (nonatomic, assign) CGFloat textViewLeftRightMargin;
 
-
-
+- (void)calculateUI;
 @end

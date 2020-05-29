@@ -20,9 +20,7 @@
                              originY:(CGFloat)originY
                            superView:(UIView *)superView {
     
-    if (self.hidden) {
-        return CGRectZero;
-    }
+    if (self.hidden) { return CGRectZero; }
     
     CGRect rect = self.frame;
     rect.origin.y = originY;
