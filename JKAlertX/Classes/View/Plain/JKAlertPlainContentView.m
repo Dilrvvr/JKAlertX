@@ -29,6 +29,9 @@
 
 - (void)calculateUI {
     
+    self.textContentView.contentWidth = self.contentWidth;
+    self.textContentView.separatorLineHeight = self.separatorLineWH;
+    
     [self.textContentView calculateUI];
     
     [self layoutPlainButtons];
@@ -52,7 +55,8 @@
     CGRect frame = CGRectZero;
     
     // 总高度未超过最大高度
-    if (self.textContentView.frame.size.height + self.actionContainerView.frame.size.height <= self.maxHeight) {
+    if (self.maxHeight <= 0 ||
+        self.textContentView.frame.size.height + self.actionContainerView.frame.size.height <= self.maxHeight) {
         
         frame = self.textContentView.bounds;
         self.textScrollView.frame = frame;

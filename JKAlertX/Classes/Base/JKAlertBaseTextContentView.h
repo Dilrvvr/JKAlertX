@@ -35,13 +35,13 @@
 /** safeAreaInsets */
 @property (nonatomic, assign) UIEdgeInsets safeAreaInsets;
 
-/** titleInsets */
+/** titleInsets 默认(20, 20, 3.5, 20) */
 @property (nonatomic, assign) UIEdgeInsets titleInsets;
 
-/** messageInsets */
+/** messageInsets 默认(3.5, 20, 20, 20) */
 @property (nonatomic, assign) UIEdgeInsets messageInsets;
 
-/** separatorLineInsets */
+/** separatorLineInsets 默认全部为0 */
 @property (nonatomic, assign) UIEdgeInsets separatorLineInsets;
 
 /** title最小高度 默认30 */

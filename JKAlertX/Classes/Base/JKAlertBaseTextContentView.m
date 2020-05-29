@@ -280,6 +280,9 @@
     _titleMinHeight = 30;
     _messageMinHeight = 30;
     _separatorLineHidden = YES;
+    
+    _titleInsets = UIEdgeInsetsMake(20, 20, 3.5, 20);
+    _messageInsets = UIEdgeInsetsMake(3.5, 20, 20, 20);
 }
 
 /** 构造函数初始化时调用 注意调用super */
