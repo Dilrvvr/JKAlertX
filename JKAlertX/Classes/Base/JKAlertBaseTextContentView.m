@@ -6,14 +6,14 @@
 //
 
 #import "JKAlertBaseTextContentView.h"
-#import "JKAlertTextView.h"
+#import "JKAlertTextContainerView.h"
 #import "JKAlertMultiColor.h"
 #import "JKAlertConst.h"
 
 @interface JKAlertBaseTextContentView ()
 {
-    __weak JKAlertTextView *_titleTextView;
-    __weak JKAlertTextView *_messageTextView;
+    __weak JKAlertTextContainerView *_titleTextView;
+    __weak JKAlertTextContainerView *_messageTextView;
 }
 @end
 
@@ -69,12 +69,12 @@
 - (void)updateTextViewProperty {
     
     self.titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
-    self.titleTextView.shouldSelectText = self.textViewShouldSelectText;
-    self.titleTextView.textAlignment = self.titleTextViewAlignment;
-    self.titleTextView.font = self.titleFont;
+    self.titleTextView.textView.shouldSelectText = self.textViewShouldSelectText;
+    self.titleTextView.textView.textAlignment = self.titleTextViewAlignment;
+    self.titleTextView.textView.font = self.titleFont;
     
-    self.titleTextView.text = nil;
-    self.titleTextView.attributedText = nil;
+    self.titleTextView.textView.text = nil;
+    self.titleTextView.textView.attributedText = nil;
     
     if (self.customContentView ||
         self.customTitleView) {
@@ -85,13 +85,13 @@
         
         self.titleTextView.hidden = NO;
         
-        self.titleTextView.attributedText = self.alertAttributedTitle;
+        self.titleTextView.textView.attributedText = self.alertAttributedTitle;
         
     } else if (self.alertTitle) {
         
         self.titleTextView.hidden = NO;
         
-        self.titleTextView.text = self.alertTitle;
+        self.titleTextView.textView.text = self.alertTitle;
         
     } else {
         
@@ -99,12 +99,12 @@
     }
     
     self.messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
-    self.messageTextView.shouldSelectText = self.textViewShouldSelectText;
-    self.messageTextView.textAlignment = self.messageTextViewAlignment;
-    self.messageTextView.font = self.messageFont;
+    self.messageTextView.textView.shouldSelectText = self.textViewShouldSelectText;
+    self.messageTextView.textView.textAlignment = self.messageTextViewAlignment;
+    self.messageTextView.textView.font = self.messageFont;
     
-    self.messageTextView.text = nil;
-    self.messageTextView.attributedText = nil;
+    self.messageTextView.textView.text = nil;
+    self.messageTextView.textView.attributedText = nil;
     
     if (self.customContentView ||
         self.customMessageView) {
@@ -115,13 +115,13 @@
         
         self.messageTextView.hidden = NO;
         
-        self.messageTextView.attributedText = self.attributedMessage;
+        self.messageTextView.textView.attributedText = self.attributedMessage;
         
     } else if (self.alertMessage) {
         
         self.messageTextView.hidden = NO;
         
-        self.messageTextView.text = self.alertMessage;
+        self.messageTextView.textView.text = self.alertMessage;
         
     } else {
         
@@ -141,6 +141,10 @@
     
     CGFloat originY = 0;
     CGFloat width = 0;
+    
+    BOOL noCustom = (!self.customContentView && !self.customTitleView && !self.customMessageView);
+    
+    CGFloat minHeight = 0;
     
     if (self.customContentView) {
         
@@ -165,13 +169,22 @@
         
         width = self.contentWidth - self.titleInsets.left - self.titleInsets.right - self.safeAreaInsets.left - self.safeAreaInsets.right;
         
-        frame = [self.titleTextView calculateFrameWithMaxWidth:width minHeight:self.titleMinHeight originY:originY superView:self.contentView];
+        minHeight = (noCustom && self.messageTextView.hidden) ? self.singleMinHeight : self.titleMinHeight;
+        
+        frame = [self.titleTextView calculateFrameWithContentWidth:width minHeight:minHeight originY:originY];
         
         frame.origin.x = self.titleInsets.left + self.safeAreaInsets.left;
         
         self.titleTextView.frame = frame;
         
-        rect.size.height = CGRectGetMaxY(frame) + self.titleInsets.bottom;
+        if (self.messageTextView.hidden) {
+            
+            rect.size.height = CGRectGetMaxY(frame) + self.messageInsets.bottom;
+            
+        } else {
+            
+            rect.size.height = CGRectGetMaxY(frame) + self.titleInsets.bottom;
+        }
     }
     
     if (!self.separatorLineView.hidden) {
@@ -186,7 +199,7 @@
         // 分隔线不计算左右安全区域
         width = self.contentWidth - self.separatorLineInsets.left - self.separatorLineInsets.right;
         
-        frame = CGRectMake(self.separatorLineInsets.left, originY, width, 0.5);
+        frame = CGRectMake(self.separatorLineInsets.left, originY, width, self.separatorLineHeight);
         
         self.separatorLineView.frame = frame;
         
@@ -205,7 +218,14 @@
         
     } else if (!self.messageTextView.hidden) {
         
-        originY = CGRectGetMaxY(rect) + self.messageInsets.top;
+        if (self.titleTextView.hidden) {
+            
+            originY = CGRectGetMaxY(rect) + self.titleInsets.top;
+            
+        } else {
+            
+            originY = CGRectGetMaxY(rect) + self.messageInsets.top;
+        }
         
         if (rect.size.height <= 0) {
             
@@ -214,13 +234,26 @@
         
         width = self.contentWidth - self.messageInsets.left - self.messageInsets.right;
         
-        frame = [self.messageTextView calculateFrameWithMaxWidth:width minHeight:self.messageMinHeight originY:originY superView:self.contentView];
+        minHeight = (noCustom && self.titleTextView.hidden) ? self.singleMinHeight : self.messageMinHeight;
+        
+        frame = [self.messageTextView calculateFrameWithContentWidth:width minHeight:minHeight originY:originY];
         
         frame.origin.x = self.messageInsets.left + self.safeAreaInsets.left;
         
         self.messageTextView.frame = frame;
         
         rect.size.height = CGRectGetMaxY(frame) + self.messageInsets.bottom;
+        
+        CGFloat delta = self.messageMinHeight - self.messageTextView.frame.size.height;
+        
+        if (delta > 0) {
+            
+            rect.size.height += delta;
+            
+            frame.origin.y += (delta * 0.5);
+            
+            self.messageTextView.frame = frame;
+        }
     }
     
     self.frame = rect;
@@ -240,8 +273,8 @@
 - (void)updateLightModetUI {
     [super updateLightModetUI];
     
-    self.titleTextView.textColor = self.titleTextColor.lightColor;
-    self.messageTextView.textColor = self.messageTextColor.lightColor;
+    self.titleTextView.textView.textColor = self.titleTextColor.lightColor;
+    self.messageTextView.textView.textColor = self.messageTextColor.lightColor;
     
     self.separatorLineView.backgroundColor = self.separatorLineColor.lightColor;
 }
@@ -249,8 +282,8 @@
 - (void)updateDarkModeUI {
     [super updateDarkModeUI];
     
-    self.titleTextView.textColor = self.titleTextColor.darkColor;
-    self.messageTextView.textColor = self.messageTextColor.darkColor;
+    self.titleTextView.textView.textColor = self.titleTextColor.darkColor;
+    self.messageTextView.textView.textColor = self.messageTextColor.darkColor;
     
     self.separatorLineView.backgroundColor = self.separatorLineColor.darkColor;
 }
@@ -277,8 +310,6 @@
 - (void)initializeProperty {
     [super initializeProperty];
     
-    _titleMinHeight = 30;
-    _messageMinHeight = 30;
     _separatorLineHidden = YES;
     
     _titleInsets = UIEdgeInsetsMake(20, 20, 3.5, 20);
@@ -294,6 +325,8 @@
     _messageTextViewAlignment = NSTextAlignmentCenter;
     
     _textViewUserInteractionEnabled = YES;
+    
+    _singleMinHeight = 30;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -323,18 +356,18 @@
 #pragma mark
 #pragma mark - Private Property
 
-- (JKAlertTextView *)titleTextView {
+- (JKAlertTextContainerView *)titleTextView {
     if (!_titleTextView) {
-        JKAlertTextView *titleTextView = [[JKAlertTextView alloc] init];
+        JKAlertTextContainerView *titleTextView = [[JKAlertTextContainerView alloc] init];
         [self.contentView addSubview:titleTextView];
         _titleTextView = titleTextView;
     }
     return _titleTextView;
 }
 
-- (JKAlertTextView *)messageTextView {
+- (JKAlertTextContainerView *)messageTextView {
     if (!_messageTextView) {
-        JKAlertTextView *messageTextView = [[JKAlertTextView alloc] init];
+        JKAlertTextContainerView *messageTextView = [[JKAlertTextContainerView alloc] init];
         [self.contentView addSubview:messageTextView];
         _messageTextView = messageTextView;
     }

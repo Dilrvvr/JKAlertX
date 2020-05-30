@@ -122,7 +122,7 @@
     
     _currentUserInterfaceStyle = JKAlertUserInterfaceStyleDark;
     
-    [self updateLightModetUI];
+    [self updateDarkModeUI];
 }
 
 /// 变更为浅色模式

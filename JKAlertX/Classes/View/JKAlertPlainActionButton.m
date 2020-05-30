@@ -21,7 +21,9 @@
         [self addSubview:topSeparatorLineView];
         _topSeparatorLineView = topSeparatorLineView;
         
-        [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:@"V:|-0-[view(0.5)]" viewKeyName:@"view" targetView:self.topSeparatorLineView constraintsView:self];
+        CGFloat lineHeight = JKAlertGlobalSeparatorLineThickness();
+        
+        [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:|-0-[view(%.2f)]", lineHeight] viewKeyName:@"view" targetView:self.topSeparatorLineView constraintsView:self];
     }
     return self;
 }

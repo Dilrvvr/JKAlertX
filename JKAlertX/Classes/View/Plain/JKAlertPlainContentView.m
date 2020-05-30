@@ -33,6 +33,12 @@
 #pragma mark
 #pragma mark - Public Methods
 
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+    _cornerRadius = cornerRadius;
+    
+    self.layer.cornerRadius = cornerRadius;
+}
+
 - (void)calculateUI {
     
     self.textContentView.contentWidth = self.contentWidth;
@@ -296,13 +302,9 @@
     
     JKAlertAction *action = button.action;
     
-    // TODO: JKTODO <#注释#>
     if (action.autoDismiss) {
         
-        [JKAlertView dismissAll];
-        
-        //[self dismiss];
-        
+        [self.alertView dismiss];
     }
     
     !action.handler ? : action.handler(action);
@@ -325,6 +327,7 @@
 - (void)initializeProperty {
     [super initializeProperty];
     
+    _cornerRadius = 8;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -370,6 +373,8 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
+    self.clipsToBounds = YES;
+    self.layer.cornerRadius = self.cornerRadius;
 }
 
 #pragma mark

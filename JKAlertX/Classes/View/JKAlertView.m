@@ -2229,8 +2229,7 @@
     self.plainContentView.textContentView.alertMessage = self.alertMessage;
     self.plainContentView.textContentView.attributedMessage = self.attributedMessage;
     
-    [self.plainContentView.actionArray removeAllObjects];
-    [self.plainContentView.actionArray addObjectsFromArray:self.actions];
+    self.plainContentView.actionArray = self.actions;
     
     switch (self.alertStyle) {
         case JKAlertStylePlain:
@@ -2304,7 +2303,6 @@
     self.plainContentView.separatorLineWH = JKAlertSeparatorLineWH;
     [self.plainContentView calculateUI];
     self.plainContentView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.8);
-    self.plainContentView.backgroundColor = [UIColor whiteColor];
     
     
     
@@ -2476,6 +2474,14 @@
         count = 1;
     }
     
+    BOOL isTwoAction = (count == 2);
+    
+    if (!isTwoAction) {
+        
+        self.textContainerBottomLineView.hidden = YES;
+        self.plainButtonVLineView.hidden = YES;
+    }
+    
     for (NSInteger i = 0; i < count; i++) {
         
         CGFloat X = (count == 2 ? i * PlainViewWidth * 0.5 : 0);
@@ -2490,6 +2496,10 @@
             
             button = [JKAlertPlainActionButton buttonWithType:(UIButtonTypeCustom)];
             [self.scrollView addSubview:button];
+            if (isTwoAction) {
+                
+                button.topSeparatorLineView.hidden = YES;
+            }
             
             [button addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
             
@@ -2507,47 +2517,32 @@
             [action customView].frame = button.bounds;
         }
         
-        if (i == 0) {
+        if (isTwoAction) {
             
-            _textContainerBottomLineView.hidden = action.separatorLineHidden;
-        }
-        
-        if (i == 1 && count == 2) {
+            button.topSeparatorLineView.hidden = YES;
             
-            button.frame = CGRectMake(X, Y, W, [self.scrollView viewWithTag:JKAlertPlainButtonBeginTag].frame.size.height);
-        }
-        
-        if (action.separatorLineHidden) {
-            continue;
-        }
-        
-        if (count == 2 && i == 1) {
-            
-            if (action.separatorLineHidden) { continue; }
-            
-            if (!self.plainButtonVLineView) {
+            if (i == 0) {
                 
-                UIView *vline = [UIView new];
-                [button addSubview:vline];
-                vline.backgroundColor = JKAlertGlobalSeparatorLineColor();
-                self.plainButtonVLineView = vline;
+                _textContainerBottomLineView.hidden = action.separatorLineHidden;
             }
             
-            self.plainButtonVLineView.frame = CGRectMake(0, -0.2, JKAlertSeparatorLineWH, JKAlertActionButtonH);
+            if (i == 1) {
+                
+                button.frame = CGRectMake(X, Y, W, [self.scrollView viewWithTag:JKAlertPlainButtonBeginTag].frame.size.height);
+                
+                if (!self.plainButtonVLineView) {
+                    
+                    UIView *vline = [UIView new];
+                    [button addSubview:vline];
+                    vline.backgroundColor = JKAlertGlobalSeparatorLineColor();
+                    self.plainButtonVLineView = vline;
+                }
+                
+                self.plainButtonVLineView.frame = CGRectMake(0, -0.2, JKAlertSeparatorLineWH, button.frame.size.height);
+                
+                self.plainButtonVLineView.hidden = action.separatorLineHidden;
+            }
         }
-        
-        if (count <= 2 || i == 0) { continue; }
-        
-        if (action.separatorLineHidden) { continue; }
-        
-        if (!button.topSeparatorLineView) {
-            UIView *hline = [UIView new];
-            hline.backgroundColor = JKAlertGlobalSeparatorLineColor();
-            [button addSubview:hline];
-            button.topSeparatorLineView = hline;
-        }
-        
-        button.topSeparatorLineView.frame = CGRectMake(0.3, 0, button.frame.size.width, JKAlertSeparatorLineWH);
     }
 }
 
@@ -4644,6 +4639,29 @@
 
 #pragma mark
 #pragma mark - Private Property
+
+- (UIView *)alertContentView {
+    
+    switch (self.alertStyle) {
+        case JKAlertStylePlain:
+            
+            break;
+        case JKAlertStyleActionSheet:
+            
+            break;
+        case JKAlertStyleCollectionSheet:
+            
+            break;
+        case JKAlertStyleHUD:
+            
+            break;
+            
+        default:
+            break;
+    }
+    
+    return nil;
+}
 
 - (NSMutableArray *)actions {
     if (!_actions) {

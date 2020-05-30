@@ -10,7 +10,7 @@
 
 @interface JKAlertBaseAlertContentView ()
 {
-    NSMutableArray *_actionArray;
+    //NSMutableArray *_actionArray;
 }
 /** backgroundEffectView */
 @property (nonatomic, weak) UIVisualEffectView *backgroundEffectView;
@@ -59,13 +59,19 @@
 - (void)updateLightModetUI {
     [super updateLightModetUI];
     
-    [self.backgroundEffectView setEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+    if (!self.backgroundEffectView.hidden) {
+        
+        [self.backgroundEffectView setEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+    }
 }
 
 - (void)updateDarkModeUI {
     [super updateDarkModeUI];
     
-    [self.backgroundEffectView setEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+    if (!self.backgroundEffectView.hidden) {
+        
+        [self.backgroundEffectView setEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+    }
 }
 
 #pragma mark
@@ -140,6 +146,7 @@
 - (void)layoutUI {
     [super layoutUI];
     
+    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.backgroundEffectView constraintsView:self.backgroundView];
 }
 
 /** 初始化UI数据 */
@@ -151,11 +158,6 @@
 #pragma mark
 #pragma mark - Private Property
 
-- (NSMutableArray *)actionArray {
-    if (!_actionArray) {
-        _actionArray = [NSMutableArray array];
-    }
-    return _actionArray;
-}
+
 
 @end

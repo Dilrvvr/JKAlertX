@@ -5,7 +5,7 @@
 //  Created by albert on 2020/5/20.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface JKAlertVisualFormatConstraintManager : NSObject
 

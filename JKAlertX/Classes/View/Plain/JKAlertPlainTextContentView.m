@@ -6,7 +6,7 @@
 //
 
 #import "JKAlertPlainTextContentView.h"
-#import "JKAlertTextView.h"
+#import "JKAlertTextContainerView.h"
 #import "JKAlertMultiColor.h"
 
 @implementation JKAlertPlainTextContentView
@@ -14,7 +14,10 @@
 #pragma mark
 #pragma mark - Public Methods
 
-
+- (void)calculateUI {
+    [super calculateUI];
+    
+}
 
 #pragma mark
 #pragma mark - Override
@@ -98,8 +101,8 @@
     
     // TODO: JKTODO delete
     
-    self.titleTextView.backgroundColor = JKAlertRandomColor;
-    self.messageTextView.backgroundColor = JKAlertRandomColor;
+    //self.titleTextView.backgroundColor = [UIColor orangeColor];
+    //self.messageTextView.backgroundColor = [UIColor orangeColor];
 }
 
 #pragma mark

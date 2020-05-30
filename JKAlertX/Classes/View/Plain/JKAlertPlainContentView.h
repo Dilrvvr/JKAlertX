@@ -16,4 +16,6 @@
 /** separatorLineWH */
 @property (nonatomic, assign) CGFloat separatorLineWH;
 
+/** 圆角 默认8 */
+@property (nonatomic, assign) CGFloat cornerRadius;
 @end

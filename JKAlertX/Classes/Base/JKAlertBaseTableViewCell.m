@@ -103,8 +103,8 @@
 /** 创建UI 交给子类重写 super自动调用该方法 */
 - (void)createUI {
     
-    //self.selectedBackgroundView = [[UIView alloc] init];
-    //self.selectedBackgroundView.backgroundColor = nil;
+    self.selectedBackgroundView = [[UIView alloc] init];
+    self.selectedBackgroundView.backgroundColor = nil;
     
     JKAlertTableActionView *actionView = [[JKAlertTableActionView alloc] init];
     [self.contentView addSubview:actionView];
@@ -120,7 +120,9 @@
 /** 布局UI 交给子类重写 super自动调用该方法 */
 - (void)layoutUI {
     
-    [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:@"V:[view(0.5)]-0-|" viewKeyName:@"view" targetView:self.bottomLineView constraintsView:self];
+    CGFloat lineHeight = JKAlertGlobalSeparatorLineThickness();
+    
+    [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:[view(%.2f)]-0-|", lineHeight] viewKeyName:@"view" targetView:self.bottomLineView constraintsView:self];
     
     [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.actionView constraintsView:self.contentView];
 }
@@ -131,7 +133,6 @@
     self.backgroundView = nil;
     self.backgroundColor = nil;
     self.contentView.backgroundColor = nil;
-    self.selectedBackgroundView = nil;
     
     [self updateBottomLineColor];
 }

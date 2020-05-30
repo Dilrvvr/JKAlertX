@@ -7,7 +7,12 @@
 
 #import "JKAlertBaseView.h"
 
+@class JKAlertView;
+
 @interface JKAlertBaseAlertContentView : JKAlertBaseView
+
+/** alertView */
+@property (nonatomic, weak) JKAlertView *alertView;
 
 /** maxHeight */
 @property (nonatomic, assign) CGFloat maxHeight;
@@ -16,7 +21,7 @@
 @property (nonatomic, assign) CGFloat contentWidth;
 
 /** actionArray */
-@property (nonatomic, strong, readonly) NSMutableArray *actionArray;
+@property (nonatomic, strong) NSMutableArray *actionArray;
 
 /** textScrollView */
 @property (nonatomic, weak) UIScrollView *textScrollView;

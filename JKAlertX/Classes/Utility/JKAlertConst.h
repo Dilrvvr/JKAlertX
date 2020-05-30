@@ -190,6 +190,9 @@ UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor);
 /// 全局背景色
 UIColor * JKAlertGlobalBackgroundColor (void);
 
+/// 全局分隔线粗细
+CGFloat JKAlertGlobalSeparatorLineThickness (void);
+
 /// 全局高亮背景色
 UIColor * JKAlertGlobalHighlightedBackgroundColor (void);
 

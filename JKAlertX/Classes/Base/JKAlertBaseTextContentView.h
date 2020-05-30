@@ -7,17 +7,17 @@
 
 #import "JKAlertBaseView.h"
 
-@class JKAlertTextView, JKAlertMultiColor;
+@class JKAlertTextContainerView, JKAlertMultiColor;
 
 // TODO: JKTODO 需外界赋值的属性拎出来
 
 @interface JKAlertBaseTextContentView : JKAlertBaseView
 
 /** titleTextView */
-@property (nonatomic, weak, readonly) JKAlertTextView *titleTextView;
+@property (nonatomic, weak, readonly) JKAlertTextContainerView *titleTextView;
 
 /** messageTextView */
-@property (nonatomic, weak, readonly) JKAlertTextView *messageTextView;
+@property (nonatomic, weak, readonly) JKAlertTextContainerView *messageTextView;
 
 /** separatorLineView */
 @property (nonatomic, weak) UIView *separatorLineView;
@@ -44,11 +44,14 @@
 /** separatorLineInsets 默认全部为0 */
 @property (nonatomic, assign) UIEdgeInsets separatorLineInsets;
 
-/** 仅有title时最小高度 默认30 */
+/** title最小高度(不含inset) 默认0 */
 @property (nonatomic, assign) CGFloat titleMinHeight;
 
-/** 仅有message时最小高度 默认30 */
+/** message最小高度(不含inset) 默认0 */
 @property (nonatomic, assign) CGFloat messageMinHeight;
+
+/** 仅有title或message时的最小高度 默认30 */
+@property (nonatomic, assign) CGFloat singleMinHeight;
 
 
 /** customContentView */
@@ -111,5 +114,5 @@
 @property (nonatomic, assign) NSTextAlignment messageTextViewAlignment;
 
 
-- (void)calculateUI;
+- (void)calculateUI NS_REQUIRES_SUPER;
 @end

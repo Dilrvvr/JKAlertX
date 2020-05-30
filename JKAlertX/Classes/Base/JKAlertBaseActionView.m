@@ -37,7 +37,7 @@
     if (action.isPierced) {
         
         self.backgroundView.backgroundColor = action.piercedBackgroundColor;
-        self.selectedBackgroundView.backgroundColor = action.piercedBackgroundColor;
+        self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
         
     } else {
         

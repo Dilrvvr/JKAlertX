@@ -114,10 +114,23 @@ UIColor * JKAlertGlobalHighlightedBackgroundColor (void) {
     
     if (!HighlightedBackgroundColor_) {
         
-        HighlightedBackgroundColor_ = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(247.0, 0.3), JKAlertSameRGBColorAlpha(8.0, 0.3));
+        HighlightedBackgroundColor_ = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(8.0, 0.05), JKAlertSameRGBColorAlpha(247.0, 0.05));
     }
     
     return HighlightedBackgroundColor_;
+}
+
+/// 全局分隔线粗细
+CGFloat JKAlertGlobalSeparatorLineThickness (void) {
+    
+    static CGFloat separatorLineThickness_ = 0;
+    
+    if (separatorLineThickness_ <= 0) {
+        
+        separatorLineThickness_ = 1.0 / [UIScreen mainScreen].scale;
+    }
+    
+    return separatorLineThickness_;
 }
 
 /// 全局分隔线背景色
@@ -127,7 +140,7 @@ UIColor * JKAlertGlobalSeparatorLineColor (void) {
     
     if (!SeparatorLineColor_) {
         
-        SeparatorLineColor_ = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);//JKAlertAdaptColor(JKAlertSameRGBColor(217.0), JKAlertSameRGBColor(53.0));
+        SeparatorLineColor_ = JKAlertAdaptColor(JKAlertSameRGBColor(190), JKAlertSameRGBColor(65));//JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);//JKAlertAdaptColor(JKAlertSameRGBColor(217.0), JKAlertSameRGBColor(53.0));
     }
     
     return SeparatorLineColor_;

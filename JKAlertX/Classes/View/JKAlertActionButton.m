@@ -8,6 +8,7 @@
 
 #import "JKAlertActionButton.h"
 #import "JKAlertTableActionView.h"
+#import "JKAlertAction.h"
 
 @interface JKAlertActionButton ()
 
@@ -24,6 +25,8 @@
     _action = action;
     
     self.actionView.action = action;
+    
+    self.backgroundColor = (action.isPierced ? action.piercedBackgroundColor : nil);
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
