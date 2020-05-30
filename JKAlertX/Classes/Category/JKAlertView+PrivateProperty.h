@@ -74,6 +74,14 @@
     BOOL isSheetDismissHorizontal;
 }
 
+
+// TODO: JKTODO <#注释#>
+
+/** hierarchyFlag */
+@property (nonatomic, assign) BOOL hierarchyFlag;
+
+
+
 /** observerSuperView */
 @property (nonatomic, weak) UIView *observerSuperView;
 

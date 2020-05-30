@@ -10,6 +10,12 @@
 #import "JKAlertAction.h"
 #import "JKAlertVisualFormatConstraintManager.h"
 
+@interface JKAlertPlainActionButton ()
+
+/** customView */
+@property (nonatomic, weak) UIView *customView;
+@end
+
 @implementation JKAlertPlainActionButton
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -33,9 +39,14 @@
     
     self.topSeparatorLineView.hidden = action.separatorLineHidden;
     
+    [_customView removeFromSuperview];
+    _customView = nil;
+    
     if (action.customView) {
         
         [self insertSubview:action.customView belowSubview:self.topSeparatorLineView];
+        
+        _customView = action.customView;
         
         // 有customViewm，清空文字
         [self setTitle:nil forState:(UIControlStateNormal)];
@@ -73,6 +84,11 @@
     [super setHighlighted:highlighted];
     
     self.backgroundColor = highlighted ? JKAlertGlobalHighlightedBackgroundColor() : nil;
+    
+    if (self.action.customView) {
+        
+        self.action.customView.alpha = highlighted ? 0.5 : 1;
+    }
 }
 
 @end

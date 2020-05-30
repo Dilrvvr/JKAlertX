@@ -967,6 +967,22 @@
         
         self.plainTitleMessageSeparatorMargin = leftRightMargin;
         
+        // TODO: JKTODO <#注释#>
+        if (self.hierarchyFlag) {
+            
+            UIEdgeInsets insets = self.plainContentView.textContentView.titleInsets;
+            insets.bottom = insets.top;
+            self.plainContentView.textContentView.titleInsets = insets;
+            
+            insets = self.plainContentView.textContentView.messageInsets;
+            insets.top = insets.bottom;
+            self.plainContentView.textContentView.messageInsets = insets;
+            
+            self.plainContentView.textContentView.separatorLineHidden = separatorHidden;
+            
+            self.plainContentView.textContentView.separatorLineInsets = UIEdgeInsetsMake(0, leftRightMargin, 0, leftRightMargin);
+        }
+        
         return self;
     };
 }
@@ -1237,6 +1253,20 @@
         self.customPlainTitleViewOnlyForMessage = onlyForMessage;
         
         self.customPlainTitleView = !customView ? nil : customView(self);
+        
+        // TODO: JKTODO <#注释#>
+        
+        if (self.hierarchyFlag) {
+            
+            if (self.customPlainTitleViewOnlyForMessage) {
+                
+                self.plainContentView.textContentView.customMessageView = self.customPlainTitleView;
+                
+            } else {
+                
+                self.plainContentView.textContentView.customContentView = self.customPlainTitleView;
+            }
+        }
         
         return self;
     };
@@ -1982,7 +2012,7 @@
             break;
     }
     
-    !self.containerViewConfig ? : self.containerViewConfig(_plainView ? _plainView : _sheetContainerView);
+    !self.containerViewConfig ? : self.containerViewConfig(self.alertContentView);
     
     if (self.customSuperView != nil) {
         
@@ -2108,13 +2138,10 @@
         return;
     }
     
-    
     // TODO: JKTODO <#注释#>
-    if (!_plainContentView) {
+    if (self.hierarchyFlag) {
         
-        JKAlertPlainContentView *plainContentView = [[JKAlertPlainContentView alloc] init];
-        [self addSubview:plainContentView];
-        _plainContentView = plainContentView;
+        self.plainView.hidden = YES;
     }
     
     [self calculateUI];
@@ -2298,11 +2325,16 @@
     
     // TODO: JKTODO <#注释#>
     
-    self.plainContentView.contentWidth = PlainViewWidth;
-    self.plainContentView.maxHeight = JKAlertPlainViewMaxH;
-    self.plainContentView.separatorLineWH = JKAlertSeparatorLineWH;
-    [self.plainContentView calculateUI];
-    self.plainContentView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.8);
+    if (self.hierarchyFlag) {
+        
+        self.plainContentView.contentWidth = PlainViewWidth;
+        self.plainContentView.maxHeight = JKAlertPlainViewMaxH;
+        [self.plainContentView calculateUI];
+        
+        self.plainContentView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
+        
+        return;
+    }
     
     
     
@@ -3274,12 +3306,37 @@
     
     if (self.customShowAnimationBlock) {
         
-        self.customShowAnimationBlock(self, _plainView ? _plainView : _sheetContainerView);
+        self.customShowAnimationBlock(self, self.alertContentView);
         
     } else {
         
-        _plainView.alpha = 0;
-        _plainView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+        switch (self.alertStyle) {
+            case JKAlertStylePlain:
+            {
+                self.alertContentView.alpha = 0;
+                self.alertContentView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+            }
+                break;
+            case JKAlertStyleActionSheet:
+            {
+                
+            }
+                break;
+            case JKAlertStyleCollectionSheet:
+            {
+                
+            }
+                break;
+            case JKAlertStyleHUD:
+            {
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
         
         _sheetContainerView.frame = CGRectMake(_sheetContainerView.frame.origin.x, JKAlertScreenH, _sheetContainerView.frame.size.width, _sheetContainerView.frame.size.height);
         
@@ -3336,8 +3393,32 @@
     
     if (self.customShowAnimationBlock) { return; }
     
-    _plainView.transform = CGAffineTransformIdentity;
-    _plainView.alpha = 1;
+    switch (self.alertStyle) {
+        case JKAlertStylePlain:
+        {
+            self.alertContentView.transform = CGAffineTransformIdentity;
+            self.alertContentView.alpha = 1;
+        }
+            break;
+        case JKAlertStyleActionSheet:
+        {
+            
+        }
+            break;
+        case JKAlertStyleCollectionSheet:
+        {
+            
+        }
+            break;
+        case JKAlertStyleHUD:
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
     
     if (_enableVerticalGestureDismiss &&
         (_sheetContainerView != nil)) {
@@ -3591,7 +3672,7 @@
     if (!isSheetDismissHorizontal || (self.alertStyle != JKAlertStyleActionSheet && self.alertStyle != JKAlertStyleCollectionSheet)) {
         
         // 自定义消失动画
-        !self.customDismissAnimationBlock ? : self.customDismissAnimationBlock(self, _plainView ? _plainView : _sheetContainerView);
+        !self.customDismissAnimationBlock ? : self.customDismissAnimationBlock(self, self.alertContentView);
     }
     
     [UIView animateWithDuration:0.25 animations:^{
@@ -3636,8 +3717,32 @@
     
     _sheetContainerView.frame = rect;
     
-    _plainView.transform = CGAffineTransformMakeScale(0.8, 0.8);
-    _plainView.alpha = 0;
+    switch (self.alertStyle) {
+        case JKAlertStylePlain:
+        {
+            self.alertContentView.transform = CGAffineTransformMakeScale(0.8, 0.8);
+            self.alertContentView.alpha = 0;
+        }
+            break;
+        case JKAlertStyleActionSheet:
+        {
+            
+        }
+            break;
+        case JKAlertStyleCollectionSheet:
+        {
+            
+        }
+            break;
+        case JKAlertStyleHUD:
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (void(^)(void))dismissAnimationDidComplete{
@@ -4565,6 +4670,9 @@
 - (void)initializeProperty {
     [super initializeProperty];
     
+    // TODO: JKTODO <#注释#>
+    _hierarchyFlag = YES;
+    
     UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
     
     /** 屏幕宽度 */
@@ -4642,25 +4750,47 @@
 
 - (UIView *)alertContentView {
     
+    UIView *alertContentView = nil;
+    
+    // TODO: JKTODO <#注释#>
+    
     switch (self.alertStyle) {
         case JKAlertStylePlain:
-            
+        {
+            alertContentView = (self.hierarchyFlag ? self.plainContentView : self.plainView);
+        }
             break;
         case JKAlertStyleActionSheet:
-            
+        {
+            alertContentView = self.sheetContainerView;//(self.hierarchyFlag ? self.plainContentView : self.plainView);
+        }
             break;
         case JKAlertStyleCollectionSheet:
-            
+        {
+            alertContentView = self.sheetContainerView;//(self.hierarchyFlag ? self.plainContentView : self.plainView);
+        }
             break;
         case JKAlertStyleHUD:
-            
+        {
+            alertContentView = self.plainView;//(self.hierarchyFlag ? self.plainContentView : self.plainView);
+        }
             break;
             
         default:
             break;
     }
     
-    return nil;
+    return alertContentView;
+}
+
+- (JKAlertPlainContentView *)plainContentView {
+    if (!_plainContentView) {
+        JKAlertPlainContentView *plainContentView = [[JKAlertPlainContentView alloc] init];
+        plainContentView.alertView = self;
+        [self addSubview:plainContentView];
+        _plainContentView = plainContentView;
+    }
+    return _plainContentView;
 }
 
 - (NSMutableArray *)actions {

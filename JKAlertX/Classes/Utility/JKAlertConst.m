@@ -134,6 +134,20 @@ CGFloat JKAlertGlobalSeparatorLineThickness (void) {
 }
 
 /// 全局分隔线背景色
+JKAlertMultiColor * JKAlertGlobalSeparatorLineMultiColor (void) {
+    
+    static JKAlertMultiColor *separatorLineMultiColor_ = nil;
+    
+    if (!separatorLineMultiColor_) {
+        
+        separatorLineMultiColor_ = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(190) darkColor:JKAlertSameRGBColor(65)];
+    }
+    
+    return separatorLineMultiColor_;
+}
+
+
+/// 全局分隔线背景色
 UIColor * JKAlertGlobalSeparatorLineColor (void) {
     
     static UIColor *SeparatorLineColor_ = nil;

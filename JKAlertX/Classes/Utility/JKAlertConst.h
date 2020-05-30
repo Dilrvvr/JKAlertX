@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JKAlertMultiColor.h"
 
 #pragma mark
 #pragma mark - 协议
@@ -195,6 +196,9 @@ CGFloat JKAlertGlobalSeparatorLineThickness (void);
 
 /// 全局高亮背景色
 UIColor * JKAlertGlobalHighlightedBackgroundColor (void);
+
+/// 全局分隔线背景色
+JKAlertMultiColor * JKAlertGlobalSeparatorLineMultiColor (void);
 
 /// 全局分隔线背景色
 UIColor * JKAlertGlobalSeparatorLineColor (void);

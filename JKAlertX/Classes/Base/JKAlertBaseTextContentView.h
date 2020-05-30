@@ -22,9 +22,6 @@
 /** separatorLineView */
 @property (nonatomic, weak) UIView *separatorLineView;
 
-/** separatorLineHeight */
-@property (nonatomic, assign) CGFloat separatorLineHeight;
-
 /** title和message之间的分隔线是否隐藏 默认YES */
 @property (nonatomic, assign) BOOL separatorLineHidden;
 
@@ -63,9 +60,6 @@
 /** customMessageView */
 @property (nonatomic, weak) UIView *customMessageView;
 
-
-/** title和message之间的分隔线颜色 */
-@property (nonatomic, strong) JKAlertMultiColor *separatorLineColor;
 
 /** titleTextColor */
 @property (nonatomic, strong) JKAlertMultiColor *titleTextColor;

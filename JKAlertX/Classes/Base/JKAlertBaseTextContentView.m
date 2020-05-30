@@ -159,9 +159,11 @@
     
     if (self.customTitleView) { // 自定义titleView
         
-        rect.size.height = self.customTitleView.frame.size.height;
+        frame.size.height = self.customTitleView.frame.size.height;
         
-        self.customTitleView.frame = rect;
+        self.customTitleView.frame = frame;
+        
+        rect.size.height = CGRectGetMaxY(frame);
         
     } else if (!self.titleTextView.hidden) {
         
@@ -199,7 +201,7 @@
         // 分隔线不计算左右安全区域
         width = self.contentWidth - self.separatorLineInsets.left - self.separatorLineInsets.right;
         
-        frame = CGRectMake(self.separatorLineInsets.left, originY, width, self.separatorLineHeight);
+        frame = CGRectMake(self.separatorLineInsets.left, originY, width, JKAlertGlobalSeparatorLineThickness());
         
         self.separatorLineView.frame = frame;
         
@@ -210,11 +212,13 @@
         
         originY = CGRectGetMaxY(rect);
         
-        rect.origin.y = originY;
+        frame.origin.y = originY;
         
-        rect.size.height = self.customMessageView.frame.size.height;
+        frame.size.height = self.customMessageView.frame.size.height;
         
-        self.customMessageView.frame = rect;
+        self.customMessageView.frame = frame;
+        
+        rect.size.height = CGRectGetMaxY(frame);
         
     } else if (!self.messageTextView.hidden) {
         
@@ -276,7 +280,7 @@
     self.titleTextView.textView.textColor = self.titleTextColor.lightColor;
     self.messageTextView.textView.textColor = self.messageTextColor.lightColor;
     
-    self.separatorLineView.backgroundColor = self.separatorLineColor.lightColor;
+    self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
 }
 
 - (void)updateDarkModeUI {
@@ -285,7 +289,7 @@
     self.titleTextView.textView.textColor = self.titleTextColor.darkColor;
     self.messageTextView.textView.textColor = self.messageTextColor.darkColor;
     
-    self.separatorLineView.backgroundColor = self.separatorLineColor.darkColor;
+    self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
 }
 
 #pragma mark

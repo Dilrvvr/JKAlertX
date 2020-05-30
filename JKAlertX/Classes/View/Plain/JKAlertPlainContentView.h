@@ -14,7 +14,7 @@
 @property (nonatomic, weak, readonly) JKAlertPlainTextContentView *textContentView;
 
 /** separatorLineWH */
-@property (nonatomic, assign) CGFloat separatorLineWH;
+//@property (nonatomic, assign) CGFloat separatorLineWH;
 
 /** 圆角 默认8 */
 @property (nonatomic, assign) CGFloat cornerRadius;

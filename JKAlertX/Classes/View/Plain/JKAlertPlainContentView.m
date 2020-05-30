@@ -42,7 +42,6 @@
 - (void)calculateUI {
     
     self.textContentView.contentWidth = self.contentWidth;
-    self.textContentView.separatorLineHeight = self.separatorLineWH;
     
     [self.textContentView calculateUI];
     
@@ -279,13 +278,13 @@
     
     if (!self.horizontalSeparatorLineView.hidden) {
         
-        self.horizontalSeparatorLineView.frame = CGRectMake(0, 0, self.contentWidth, self.separatorLineWH);
+        self.horizontalSeparatorLineView.frame = CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness());
         [self.actionContainerView bringSubviewToFront:self.horizontalSeparatorLineView];
     }
     
     if (!self.verticalSeparatorLineView.hidden) {
         
-        self.verticalSeparatorLineView.frame = CGRectMake((self.contentWidth - self.separatorLineWH) * 0.5, 0, self.separatorLineWH, button1.frame.size.height);
+        self.verticalSeparatorLineView.frame = CGRectMake((self.contentWidth - JKAlertGlobalSeparatorLineThickness()) * 0.5, 0, JKAlertGlobalSeparatorLineThickness(), button1.frame.size.height);
         
         [self.actionContainerView bringSubviewToFront:self.verticalSeparatorLineView];
     }

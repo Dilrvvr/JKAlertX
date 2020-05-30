@@ -75,7 +75,7 @@
         
         [button setTitle:@"我是自定义的view~~" forState:(UIControlStateNormal)];
         button.backgroundColor = [UIColor orangeColor];
-        
+        button.userInteractionEnabled = NO;
         [button JKAlertX_addClickOperation:^(UIButton *control) {
             
             action.alertView.dismiss();

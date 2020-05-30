@@ -190,6 +190,7 @@
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */
 - (void)initializeUIData {
     
+    [self solveUserInterfaceStyleDidChange];
 }
 
 #pragma mark
