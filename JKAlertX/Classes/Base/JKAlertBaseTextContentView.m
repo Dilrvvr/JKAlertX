@@ -148,6 +148,8 @@
     
     if (self.customContentView) {
         
+        self.separatorLineView.hidden = YES;
+        
         rect.size.height = self.customContentView.frame.size.height;
         
         self.customContentView.frame = rect;
@@ -206,6 +208,8 @@
         self.separatorLineView.frame = frame;
         
         rect.size.height = CGRectGetMaxY(frame) + self.separatorLineInsets.bottom;
+        
+        [self.contentView bringSubviewToFront:self.separatorLineView];
     }
     
     if (self.customMessageView) { // 自定义titleView
@@ -381,6 +385,7 @@
 - (UIView *)separatorLineView {
     if (!_separatorLineView) {
         UIView *separatorLineView = [[UIView alloc] init];
+        separatorLineView.userInteractionEnabled = NO;
         separatorLineView.hidden = YES;
         [self.contentView addSubview:separatorLineView];
         _separatorLineView = separatorLineView;

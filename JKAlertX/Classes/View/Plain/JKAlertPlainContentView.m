@@ -26,6 +26,9 @@
 
 /** actionButtonArray */
 @property (nonatomic, strong) NSMutableArray *actionButtonArray;
+
+/** textFieldContainerView */
+@property (nonatomic, weak) UIView *textFieldContainerView;
 @end
 
 @implementation JKAlertPlainContentView
@@ -67,44 +70,91 @@
     
     CGFloat totalHeight = self.textContentView.frame.size.height + self.actionContainerView.frame.size.height;
     
+    frame = self.textContentView.bounds;
+    self.textScrollView.frame = frame;
+    
+    self.textScrollView.contentSize = CGSizeMake(0, frame.size.height);
+    
+    frame = self.actionContainerView.bounds;
+    frame.origin.y = CGRectGetMaxY(self.textScrollView.frame);
+    self.actionScrollView.frame = frame;
+    
+    self.actionScrollView.contentSize = CGSizeMake(0, frame.size.height);
+    
+    CGFloat halfHeight = self.maxHeight * 0.5;
+    
     // 总高度未超过最大高度
     if (self.maxHeight <= 0 ||
         totalHeight <= self.maxHeight) {
         
-        frame = self.textContentView.bounds;
-        self.textScrollView.frame = frame;
-        
-        frame = self.actionContainerView.bounds;
-        frame.origin.y = CGRectGetMaxY(self.textScrollView.frame);
-        self.actionScrollView.frame = frame;
-        
         self.textScrollView.scrollEnabled = NO;
         self.actionScrollView.scrollEnabled = NO;
         
-        self.frame = CGRectMake(0, 0, self.contentWidth, totalHeight);
+    } else if (self.textScrollView.frame.size.height > halfHeight &&
+        self.actionScrollView.frame.size.height > halfHeight) {
         
-        return;
-    }
-    
-    CGFloat halfHeight = self.maxHeight * 0.5;
-    
-    if (self.textContentView.frame.size.height > halfHeight) {
+        // 二者都超过最大高度的一半
         
-        self.textScrollView.frame = CGRectMake(0, 0, self.contentWidth, halfHeight);
+        self.textScrollView.scrollEnabled = YES;
+        self.actionScrollView.scrollEnabled = YES;
+        
+        frame.origin.y = 0;
+        frame.size.height = halfHeight;
+        
+        self.textScrollView.frame = frame;
+        
+        frame.origin.y = CGRectGetMaxY(frame);
+        
+        self.actionScrollView.frame = frame;
+        
+    } else if (self.textScrollView.frame.size.height > halfHeight) {
+        
+        // text高度更高
         
         self.textScrollView.scrollEnabled = YES;
         
-        self.textScrollView.contentSize = CGSizeMake(0, self.textContentView.frame.size.height);
-    }
-    
-    if (self.actionContainerView.frame.size.height > halfHeight) {
+        frame.size.height = self.maxHeight - self.actionScrollView.frame.size.height;
+        frame.origin.y = 0;
+        self.textScrollView.frame = frame;
+        
+        frame.origin.y = CGRectGetMaxY(frame);
+        frame.size.height = self.actionScrollView.frame.size.height;
+        self.actionScrollView.frame = frame;
+        
+    } else if (self.actionScrollView.frame.size.height > halfHeight) {
+        
+        // action高度更高
         
         self.actionScrollView.scrollEnabled = YES;
         
-        self.actionScrollView.contentSize = CGSizeMake(0, self.actionContainerView.frame.size.height);
+        frame.origin.y = CGRectGetMaxY(self.textScrollView.frame);
+        frame.size.height = self.maxHeight - self.textScrollView.frame.size.height;
+        self.actionScrollView.frame = frame;
     }
     
-    self.frame = CGRectMake(0, 0, self.contentWidth, self.maxHeight);
+    if (!self.horizontalSeparatorLineView.hidden) {
+        
+        frame = self.horizontalSeparatorLineView.frame;
+        frame.size.width = self.contentWidth;
+        frame.origin.y = CGRectGetMaxY(self.textScrollView.frame);
+        self.horizontalSeparatorLineView.frame = frame;
+        
+        [self.contentView bringSubviewToFront:self.horizontalSeparatorLineView];
+    }
+    
+    if (!self.verticalSeparatorLineView.hidden) {
+        
+        frame = self.verticalSeparatorLineView.frame;
+        frame.size.height = self.actionScrollView.frame.size.height;
+        frame.origin.x = (self.contentWidth - frame.size.width) * 0.5;
+        frame.origin.y = CGRectGetMaxY(self.textScrollView.frame);
+        
+        self.verticalSeparatorLineView.frame = frame;
+        
+        [self.contentView bringSubviewToFront:self.verticalSeparatorLineView];
+    }
+    
+    self.frame = CGRectMake(0, 0, self.contentWidth, self.textScrollView.frame.size.height + self.actionScrollView.frame.size.height);
 }
 
 - (void)layoutPlainButtons {
@@ -150,8 +200,6 @@
     
     for (NSInteger i = 0; i < actionsCount; i++) {
         
-        buttonY = (i == 0 ? 0 : CGRectGetMaxY(previousButton.frame));
-        
         JKAlertAction *action = self.actionArray[i];
         
         JKAlertPlainActionButton *button = nil;
@@ -170,6 +218,17 @@
             [button addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
         }
         
+        button.action = action;
+        
+        if (i == 0) {
+            
+            button.topSeparatorLineView.hidden = YES;
+            
+            self.horizontalSeparatorLineView.hidden = action.separatorLineHidden;
+        }
+        
+        buttonY = (previousButton ? CGRectGetMaxY(previousButton.frame) : 0);
+        
         frame.origin.y = buttonY;
         frame.size.height = action.rowHeight;
         
@@ -186,8 +245,6 @@
         
         [self.actionContainerView addSubview:button];
         
-        button.action = action;
-        
         rect.size.height += button.frame.size.height;
         
         previousButton = button;
@@ -198,11 +255,9 @@
 
 - (void)layoutTwoActionPlainButtons {
     
-    
     CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
     
     CGRect frame = CGRectZero;
-    
     
     JKAlertAction *action1 = self.actionArray.firstObject;
     
@@ -276,19 +331,6 @@
     
     self.verticalSeparatorLineView.hidden = action2.separatorLineHidden;
     
-    if (!self.horizontalSeparatorLineView.hidden) {
-        
-        self.horizontalSeparatorLineView.frame = CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness());
-        [self.actionContainerView bringSubviewToFront:self.horizontalSeparatorLineView];
-    }
-    
-    if (!self.verticalSeparatorLineView.hidden) {
-        
-        self.verticalSeparatorLineView.frame = CGRectMake((self.contentWidth - JKAlertGlobalSeparatorLineThickness()) * 0.5, 0, JKAlertGlobalSeparatorLineThickness(), button1.frame.size.height);
-        
-        [self.actionContainerView bringSubviewToFront:self.verticalSeparatorLineView];
-    }
-    
     rect.size.height = CGRectGetMaxY(button1.frame);
     
     self.actionContainerView.frame = rect;
@@ -343,22 +385,27 @@
     [self.textScrollView addSubview:textContentView];
     _textContentView = textContentView;
     
+    UIView *textFieldContainerView = [[UIView alloc] init];
+    textFieldContainerView.hidden = YES;
+    [self.textScrollView addSubview:textFieldContainerView];
+    _textFieldContainerView = textFieldContainerView;
+    
     UIView *actionContainerView = [[UIView alloc] init];
     [self.actionScrollView addSubview:actionContainerView];
     _actionContainerView = actionContainerView;
     
-    UIView *horizontalSeparatorLineView = [[UIView alloc] init];
+    UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
     // TODO: JKTODO <#注释#>
     horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
     horizontalSeparatorLineView.hidden = YES;
-    [self.actionContainerView addSubview:horizontalSeparatorLineView];
+    [self.contentView addSubview:horizontalSeparatorLineView];
     _horizontalSeparatorLineView = horizontalSeparatorLineView;
     
-    UIView *verticalSeparatorLineView = [[UIView alloc] init];
+    UIView *verticalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertGlobalSeparatorLineThickness(), 0)];
     // TODO: JKTODO <#注释#>
     verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
     verticalSeparatorLineView.hidden = YES;
-    [self.actionContainerView addSubview:verticalSeparatorLineView];
+    [self.contentView addSubview:verticalSeparatorLineView];
     _verticalSeparatorLineView = verticalSeparatorLineView;
 }
 

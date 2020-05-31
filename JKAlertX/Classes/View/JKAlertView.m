@@ -2472,6 +2472,18 @@
     
     self.plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
     
+    if (!self.plainButtonVLineView.hidden) {
+        
+        CGRect frame = self.plainButtonVLineView.frame;
+        frame.size.height = self.scrollView.frame.size.height;
+        frame.origin.x = self.textContainerView.frame.size.width * 0.5;
+        frame.origin.y = self.plainView.frame.size.height - frame.size.height;
+        
+        self.plainButtonVLineView.frame = frame;
+        
+        [self.plainView bringSubviewToFront:self.plainButtonVLineView];
+    }
+    
     if (_textContainerBottomLineView.hidden) { return; }
     
     _textContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
@@ -2510,7 +2522,6 @@
     
     if (!isTwoAction) {
         
-        self.textContainerBottomLineView.hidden = YES;
         self.plainButtonVLineView.hidden = YES;
     }
     
@@ -2542,6 +2553,13 @@
         
         button.action = action;
         
+        if (i == 0) {
+            
+            button.topSeparatorLineView.hidden = YES;
+            
+            self.textContainerBottomLineView.hidden = action.separatorLineHidden;
+        }
+        
         if ([action customView] != nil) {
             
             button.frame = CGRectMake(X, Y, W, [action customView].frame.size.height);
@@ -2553,11 +2571,6 @@
             
             button.topSeparatorLineView.hidden = YES;
             
-            if (i == 0) {
-                
-                _textContainerBottomLineView.hidden = action.separatorLineHidden;
-            }
-            
             if (i == 1) {
                 
                 button.frame = CGRectMake(X, Y, W, [self.scrollView viewWithTag:JKAlertPlainButtonBeginTag].frame.size.height);
@@ -2565,7 +2578,7 @@
                 if (!self.plainButtonVLineView) {
                     
                     UIView *vline = [UIView new];
-                    [button addSubview:vline];
+                    [self.plainView addSubview:vline];
                     vline.backgroundColor = JKAlertGlobalSeparatorLineColor();
                     self.plainButtonVLineView = vline;
                 }
@@ -4671,7 +4684,7 @@
     [super initializeProperty];
     
     // TODO: JKTODO <#注释#>
-    _hierarchyFlag = YES;
+    //_hierarchyFlag = YES;
     
     UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
     

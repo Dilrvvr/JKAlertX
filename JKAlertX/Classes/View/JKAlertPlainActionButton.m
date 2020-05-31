@@ -21,6 +21,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         UIView *topSeparatorLineView = [[UIView alloc] init];
+        topSeparatorLineView.userInteractionEnabled = NO;
         topSeparatorLineView.hidden = YES;
         // TODO: JKTODO <#注释#>
         topSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
