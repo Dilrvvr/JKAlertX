@@ -10,8 +10,6 @@
 
 @interface JKAlertBaseAlertContentView ()
 
-/** backgroundEffectView */
-@property (nonatomic, weak) UIVisualEffectView *backgroundEffectView;
 @end
 
 @implementation JKAlertBaseAlertContentView

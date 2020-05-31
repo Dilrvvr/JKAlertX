@@ -9,4 +9,6 @@
 
 @interface JKAlertHUDTextContentView : JKAlertBaseTextContentView
 
+/** 默认深色样式 */
+@property (nonatomic, assign) BOOL defaultDarkStyle;
 @end

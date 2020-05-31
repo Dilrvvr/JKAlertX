@@ -32,6 +32,9 @@
 /** actionScrollView */
 @property (nonatomic, weak) UIScrollView *actionScrollView;
 
+/** backgroundEffectView */
+@property (nonatomic, weak) UIVisualEffectView *backgroundEffectView;
+
 /** customBackgroundView */
 @property (nonatomic, weak) UIView *customBackgroundView;
 

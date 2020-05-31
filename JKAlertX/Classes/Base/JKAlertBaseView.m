@@ -23,6 +23,14 @@
     [self solveUserInterfaceStyleDidChange];
 }
 
+/// 变更页面样式
+- (void)updateUserInterfaceStyle {
+    
+    _currentUserInterfaceStyle = JKAlertUserInterfaceStyleNone;
+    
+    [self solveUserInterfaceStyleDidChange];
+}
+
 #pragma mark
 #pragma mark - Override
 

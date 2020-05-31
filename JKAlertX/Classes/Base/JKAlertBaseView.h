@@ -40,6 +40,9 @@
 /** 初始化数据 交给子类重写 super自动调用该方法 */
 - (void)initializeUIData NS_REQUIRES_SUPER;
 
+/// 变更页面样式
+- (void)updateUserInterfaceStyle;
+
 /// 变更为浅色模式
 - (void)updateLightModetUI NS_REQUIRES_SUPER;
 

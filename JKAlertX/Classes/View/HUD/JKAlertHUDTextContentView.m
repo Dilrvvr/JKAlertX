@@ -30,6 +30,17 @@
     }
 }
 
+- (void)setDefaultDarkStyle:(BOOL)defaultDarkStyle {
+    
+    if (_defaultDarkStyle == defaultDarkStyle) { return; }
+    
+    _defaultDarkStyle = defaultDarkStyle;
+    
+    self.titleTextColor = [JKAlertMultiColor colorWithLightColor:self.titleTextColor.darkColor darkColor:self.titleTextColor.lightColor];
+    
+    [self updateUserInterfaceStyle];
+}
+
 #pragma mark
 #pragma mark - Override
 
@@ -44,19 +55,13 @@
 - (void)updateLightModetUI {
     [super updateLightModetUI];
     
-    self.titleTextView.textView.textColor = self.titleTextColor.darkColor;
-    self.messageTextView.textView.textColor = self.messageTextColor.darkColor;
-    
-    self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+    self.titleTextView.textView.textColor = self.titleTextColor.lightColor;
 }
 
 - (void)updateDarkModeUI {
     [super updateDarkModeUI];
     
-    self.titleTextView.textView.textColor = self.titleTextColor.lightColor;
-    self.messageTextView.textView.textColor = self.messageTextColor.lightColor;
-    
-    self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+    self.titleTextView.textView.textColor = self.titleTextColor.darkColor;
 }
 
 #pragma mark
@@ -85,7 +90,9 @@
     
     self.titleFont = [UIFont systemFontOfSize:17];
     
-    self.titleTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(25.5) darkColor:JKAlertSameRGBColor(229.5)];
+    _defaultDarkStyle = YES;
+    
+    self.titleTextColor = [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
 }
 
 /** 构造函数初始化时调用 注意调用super */

@@ -304,6 +304,7 @@
     if (self.hierarchyFlag) {
         
         self.hudContentView.textContentView.customContentView = _customHUD;
+        self.hudContentView.backgroundEffectView.hidden = YES;
         
         if (_customHUD.frame.size.width > 0) {
             

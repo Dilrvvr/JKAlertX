@@ -22,6 +22,22 @@
     self.layer.cornerRadius = cornerRadius;
 }
 
+- (void)setDefaultDarkStyle:(BOOL)defaultDarkStyle {
+    
+    if (_defaultDarkStyle == defaultDarkStyle) { return; }
+    
+    _defaultDarkStyle = defaultDarkStyle;
+    
+    UIBlurEffect *tempEffect = self.darkBlurEffect;
+    
+    self.darkBlurEffect = self.lightBlurEffect;
+    self.lightBlurEffect = tempEffect;
+    
+    [self updateUserInterfaceStyle];
+    
+    self.textContentView.defaultDarkStyle = _defaultDarkStyle;
+}
+
 - (void)calculateUI {
     
     self.textContentView.contentWidth = self.contentWidth;
@@ -70,6 +86,8 @@
     [super initializeProperty];
     
     _cornerRadius = 8;
+    
+    _defaultDarkStyle = YES;
     
     self.darkBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
     
