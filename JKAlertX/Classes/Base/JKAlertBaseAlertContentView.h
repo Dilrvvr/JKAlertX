@@ -14,6 +14,9 @@
 /** alertView */
 @property (nonatomic, weak) JKAlertView *alertView;
 
+/** safeInsets */
+@property (nonatomic, assign) UIEdgeInsets safeInsets;
+
 /** maxHeight */
 @property (nonatomic, assign) CGFloat maxHeight;
 

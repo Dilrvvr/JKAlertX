@@ -29,6 +29,9 @@
 
 /** textFieldContainerView */
 @property (nonatomic, weak) UIView *textFieldContainerView;
+
+/** currentTextField */
+@property (nonatomic, weak) UITextField *currentTextField;
 @end
 
 @implementation JKAlertPlainContentView
@@ -48,9 +51,48 @@
     
     [self.textContentView calculateUI];
     
+    [self layoutTextFieldContainer];
+    
     [self layoutPlainButtons];
     
     [self adjustPlainFrame];
+    
+    [self checkScrollToTextField];
+}
+
+- (void)checkScrollToTextField {
+    
+    if (!_currentTextField ||
+        !_currentTextField.isFirstResponder) {
+        
+        _currentTextField = nil;
+        
+        return;
+    }
+    
+    CGFloat offsetY = self.textScrollView.contentOffset.y;
+    
+    CGRect rect = [self.textFieldContainerView convertRect:_currentTextField.frame  toView:self.textScrollView];
+    
+    // textField在可见位置
+    if (rect.origin.y >= offsetY &&
+        rect.origin.y + rect.size.height < self.textScrollView.frame.size.height + offsetY) {
+        
+        return;
+    }
+    
+    // textField高度大于scrollView
+    if (self.textScrollView.frame.size.height < rect.size.height) {
+        
+        offsetY = rect.origin.y - self.textScrollView.frame.size.height;
+        
+    } else {
+
+        offsetY = rect.origin.y + rect.size.height - self.textScrollView.frame.size.height;
+    }
+    
+    [self.textScrollView setContentOffset:CGPointMake(0, offsetY) animated:YES];
+    
 }
 
 #pragma mark
@@ -64,18 +106,76 @@
 #pragma mark
 #pragma mark - Private Methods
 
+- (void)layoutTextFieldContainer {
+    
+    CGRect frame = CGRectZero;
+    
+    if (self.textFieldArray.count <= 0) {
+        
+        self.textFieldContainerView.hidden = YES;
+        
+        self.textFieldContainerView.frame = CGRectZero;
+        
+        frame.size.width = self.contentWidth;
+        frame.size.height = CGRectGetMaxY(self.textContentView.frame);
+        self.textScrollView.frame = frame;
+        
+        return;
+    }
+    
+    self.textFieldContainerView.hidden = NO;
+    
+    CGFloat borderWidth = JKAlertGlobalSeparatorLineThickness();
+    
+    CGFloat containerWidth = self.contentWidth - self.textFieldContainerInset.left - self.textFieldContainerInset.right;
+    CGFloat containerHeight = 0;
+    
+    frame = CGRectMake(borderWidth, 0, containerWidth - borderWidth * 2, self.textFieldHeight);
+    
+    for (UITextField *tf in self.textFieldArray) {
+        
+        containerHeight += borderWidth;
+        
+        frame.origin.y = containerHeight;
+        frame.size.height = tf.frame.size.height > 0 ? tf.frame.size.height : self.textFieldHeight;
+        
+        tf.frame = frame;
+        
+        containerHeight += (tf.frame.size.height);
+        
+        [self.textFieldContainerView addSubview:tf];
+    }
+    
+    containerHeight += borderWidth;
+    
+    frame = CGRectZero;
+    frame.origin.x = self.safeInsets.left + self.textFieldContainerInset.left;
+    frame.origin.y = CGRectGetMaxY(self.textContentView.frame) + self.textFieldContainerInset.top;
+    frame.size.width = self.contentWidth - self.safeInsets.left - self.textFieldContainerInset.left - self.safeInsets.right - self.textFieldContainerInset.right;
+    frame.size.height = containerHeight;
+    
+    self.textFieldContainerView.frame = frame;
+    
+    frame = CGRectZero;
+    
+    frame.size.width = self.contentWidth;
+    frame.size.height = CGRectGetMaxY(self.textFieldContainerView.frame) + self.textFieldContainerInset.bottom;
+    self.textScrollView.frame = frame;
+}
+
 - (void)adjustPlainFrame {
     
     CGRect frame = CGRectZero;
     
-    CGFloat totalHeight = self.textContentView.frame.size.height + self.actionContainerView.frame.size.height;
+    CGFloat totalHeight = self.textScrollView.frame.size.height + self.actionScrollView.frame.size.height;
     
-    frame = self.textContentView.bounds;
+    frame = self.textScrollView.bounds;
+    
     self.textScrollView.frame = frame;
     
     self.textScrollView.contentSize = CGSizeMake(0, frame.size.height);
     
-    frame = self.actionContainerView.bounds;
+    frame = self.actionScrollView.bounds;
     frame.origin.y = CGRectGetMaxY(self.textScrollView.frame);
     self.actionScrollView.frame = frame;
     
@@ -164,6 +264,7 @@
     if (actionsCount <= 0) {
         
         self.actionScrollView.hidden = YES;
+        self.actionScrollView.frame = CGRectZero;
         
         return;
     }
@@ -190,6 +291,8 @@
     if (isTwoAction) {
         
         [self layoutTwoActionPlainButtons];
+        
+        self.actionScrollView.frame = CGRectMake(0, 0, self.contentWidth, self.actionContainerView.frame.size.height);
         
         return;
     }
@@ -251,6 +354,8 @@
     }
     
     self.actionContainerView.frame = rect;
+    
+    self.actionScrollView.frame = self.actionContainerView.bounds;
 }
 
 - (void)layoutTwoActionPlainButtons {
@@ -341,6 +446,10 @@
     
     self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
     self.verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+    
+    self.textFieldContainerView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+    
+    //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineMultiColor().lightColor CGColor];
 }
 
 - (void)updateDarkModeUI {
@@ -348,6 +457,10 @@
     
     self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
     self.verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+    
+    self.textFieldContainerView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+    
+    //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineMultiColor().darkColor CGColor];
 }
 
 #pragma mark
@@ -383,12 +496,32 @@
     [super initializeProperty];
     
     _cornerRadius = 8;
+    
+    _textFieldHeight = 30;
+    
+    _autoShowKeyboard = YES;
+    
+    _textFieldContainerCornerRadius = 8;
+    
+    _textFieldContainerInset = UIEdgeInsetsMake(0, 20, 20, 20);
 }
 
 /** 构造函数初始化时调用 注意调用super */
 - (void)initialization {
     [super initialization];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidBeginEditingNotification:) name:UITextFieldTextDidBeginEditingNotification object:nil];
+}
+
+- (void)textFieldTextDidBeginEditingNotification:(NSNotification *)notification {
+    
+    if (self.textFieldArray.count <= 0 ||
+        ![self.textFieldArray containsObject:notification.object]) {
+        
+        return;
+    }
+    
+    _currentTextField = (UITextField *)notification.object;
 }
 
 /** 创建UI */
@@ -400,6 +533,9 @@
     _textContentView = textContentView;
     
     UIView *textFieldContainerView = [[UIView alloc] init];
+    //textFieldContainerView.layer.borderWidth = 1;
+    //textFieldContainerView.layer.cornerRadius = 8;
+    textFieldContainerView.clipsToBounds = YES;
     textFieldContainerView.hidden = YES;
     [self.textScrollView addSubview:textFieldContainerView];
     _textFieldContainerView = textFieldContainerView;

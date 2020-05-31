@@ -169,15 +169,15 @@
         
     } else if (!self.titleTextView.hidden) {
         
-        originY = self.titleInsets.top + self.safeAreaInsets.top;
+        originY = self.titleInsets.top + self.safeInsets.top;
         
-        width = self.contentWidth - self.titleInsets.left - self.titleInsets.right - self.safeAreaInsets.left - self.safeAreaInsets.right;
+        width = self.contentWidth - self.titleInsets.left - self.titleInsets.right - self.safeInsets.left - self.safeInsets.right;
         
         minHeight = (noCustom && self.messageTextView.hidden) ? self.singleMinHeight : self.titleMinHeight;
         
         frame = [self.titleTextView calculateFrameWithContentWidth:width minHeight:minHeight originY:originY];
         
-        frame.origin.x = self.titleInsets.left + self.safeAreaInsets.left;
+        frame.origin.x = self.titleInsets.left + self.safeInsets.left;
         
         self.titleTextView.frame = frame;
         
@@ -197,7 +197,7 @@
         
         if (rect.size.height <= 0) {
             
-            originY += self.safeAreaInsets.top;
+            originY += self.safeInsets.top;
         }
         
         // 分隔线不计算左右安全区域
@@ -237,7 +237,7 @@
         
         if (rect.size.height <= 0) {
             
-            originY += self.safeAreaInsets.top;
+            originY += self.safeInsets.top;
         }
         
         width = self.contentWidth - self.messageInsets.left - self.messageInsets.right;
@@ -246,7 +246,7 @@
         
         frame = [self.messageTextView calculateFrameWithContentWidth:width minHeight:minHeight originY:originY];
         
-        frame.origin.x = self.messageInsets.left + self.safeAreaInsets.left;
+        frame.origin.x = self.messageInsets.left + self.safeInsets.left;
         
         self.messageTextView.frame = frame;
         

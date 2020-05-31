@@ -821,19 +821,19 @@
     
     return ^(CGFloat Y, BOOL animated) {
         
-        CGRect frame = self->_plainView.frame;
+        CGRect frame = self.alertContentView.frame;
         frame.origin.y = Y;
         
         if (animated) {
             
             [UIView animateWithDuration:0.25 animations:^{
                 
-                self->_plainView.frame = frame;
+                self.alertContentView.frame = frame;
             }];
             
         } else {
             
-            self->_plainView.frame = frame;
+            self.alertContentView.frame = frame;
         }
         
         return self;
@@ -1926,7 +1926,13 @@
 - (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *view, UITextField *textField))configurationHandler{
     
     UITextField *tf = [[UITextField alloc] init];
-    
+    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 1)];
+    tf.leftView = leftView;
+    tf.leftViewMode = UITextFieldViewModeAlways;
+    UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 4, 1)];
+    tf.rightView = rightView;
+    tf.rightViewMode = UITextFieldViewModeAlways;
+    tf.font = [UIFont systemFontOfSize:13];
     tf.backgroundColor = JKAlertGlobalBackgroundColor();
     
     if (_textFieldContainerView == nil) {
@@ -2257,6 +2263,7 @@
     self.plainContentView.textContentView.attributedMessage = self.attributedMessage;
     
     self.plainContentView.actionArray = self.actions;
+    self.plainContentView.textFieldArray = self.textFieldArr;
     
     switch (self.alertStyle) {
         case JKAlertStylePlain:
@@ -3512,7 +3519,7 @@
     
     CGRect keyboardFrame = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     
-    CGRect frame = _plainView.frame;
+    CGRect frame = self.alertContentView.frame;
     
     NSNumber *curve = noti.userInfo[UIKeyboardAnimationCurveUserInfoKey];
     
@@ -3561,6 +3568,8 @@
             
             self.setPlainY(frame.origin.y, YES);
             
+            //[_plainContentView checkScrollToTextField];
+            
             return;
         }
         
@@ -3568,7 +3577,7 @@
         
         [self calculateUI];
         
-        frame = _plainView.frame;
+        frame = self.alertContentView.frame;
         
         if ([self isLandScape]) {
             
@@ -3585,13 +3594,15 @@
             frame.origin.y = (JKAlertIsDeviceX() ? 44 : 20);
         }
         
-        _plainView.frame = frame;
+        self.alertContentView.frame = frame;
         
         [UIView animateWithDuration:0.25 animations:^{
             [UIView setAnimationCurve:animationCurve];
             
             [self layoutIfNeeded];
         }];
+        
+        //[_plainContentView checkScrollToTextField];
     }
 }
 
