@@ -336,6 +336,20 @@
     self.actionContainerView.frame = rect;
 }
 
+- (void)updateLightModetUI {
+    [super updateLightModetUI];
+    
+    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+    self.verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+}
+
+- (void)updateDarkModeUI {
+    [super updateDarkModeUI];
+    
+    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+    self.verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+}
+
 #pragma mark
 #pragma mark - Private Selector
 
@@ -395,15 +409,11 @@
     _actionContainerView = actionContainerView;
     
     UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
-    // TODO: JKTODO <#注释#>
-    horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
     horizontalSeparatorLineView.hidden = YES;
     [self.contentView addSubview:horizontalSeparatorLineView];
     _horizontalSeparatorLineView = horizontalSeparatorLineView;
     
     UIView *verticalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertGlobalSeparatorLineThickness(), 0)];
-    // TODO: JKTODO <#注释#>
-    verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
     verticalSeparatorLineView.hidden = YES;
     [self.contentView addSubview:verticalSeparatorLineView];
     _verticalSeparatorLineView = verticalSeparatorLineView;

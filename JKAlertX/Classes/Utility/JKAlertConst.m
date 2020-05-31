@@ -140,7 +140,7 @@ JKAlertMultiColor * JKAlertGlobalSeparatorLineMultiColor (void) {
     
     if (!separatorLineMultiColor_) {
         
-        separatorLineMultiColor_ = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.1] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];//[JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(153) darkColor:JKAlertSameRGBColor(102)];
+        separatorLineMultiColor_ = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.1] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
     }
     
     return separatorLineMultiColor_;

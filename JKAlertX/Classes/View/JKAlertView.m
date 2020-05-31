@@ -4684,7 +4684,7 @@
     [super initializeProperty];
     
     // TODO: JKTODO <#注释#>
-    //_hierarchyFlag = YES;
+    _hierarchyFlag = YES;
     
     UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
     
