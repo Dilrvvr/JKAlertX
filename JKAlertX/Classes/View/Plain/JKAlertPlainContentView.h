@@ -33,6 +33,4 @@
 
 /** 是否自动弹出键盘 默认YES */
 @property (nonatomic, assign) BOOL autoShowKeyboard;
-
-//- (void)checkScrollToTextField;
 @end

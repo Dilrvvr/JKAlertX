@@ -3568,8 +3568,6 @@
             
             self.setPlainY(frame.origin.y, YES);
             
-            //[_plainContentView checkScrollToTextField];
-            
             return;
         }
         
@@ -3601,8 +3599,6 @@
             
             [self layoutIfNeeded];
         }];
-        
-        //[_plainContentView checkScrollToTextField];
     }
 }
 
@@ -5210,7 +5206,7 @@
         [closeButton setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
         closeButton.titleLabel.font = [UIFont systemFontOfSize:13];
         closeButton.frame = CGRectMake(PlainViewWidth - 30, 5, 25, 25);
-        [_plainView addSubview:closeButton];
+        [self.alertContentView addSubview:closeButton];
         
         [closeButton addTarget:self action:@selector(dismiss) forControlEvents:(UIControlEventTouchUpInside)];
         
