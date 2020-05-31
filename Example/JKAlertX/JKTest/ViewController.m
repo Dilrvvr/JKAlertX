@@ -138,7 +138,7 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:self.titleString message:self.messageString style:self.jkAlertStyle];
     
-    alertView.setClickBlankDismiss(self.textFieldCount <= 0);
+    alertView.makeTapBlankDismiss(self.textFieldCount <= 0);
     
     if (self.textFieldCount > 0) {
         

@@ -10,10 +10,17 @@
 #define JKAlertX_h
 
 #import "JKAlertView.h"
+#import "JKAlertView+Public.h"
 #import "UIView+JKAlertX.h"
 #import "UIControl+JKAlertX.h"
 #import "JKAlertView+Deprecated.h"
 #import "UIGestureRecognizer+JKAlertX.h"
+
+/**
+ * 2.0更新规则
+ *
+ *
+ */
 
 #endif /* JKAlertX_h */
 

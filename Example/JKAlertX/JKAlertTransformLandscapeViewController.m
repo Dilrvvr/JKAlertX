@@ -43,7 +43,7 @@
 
 - (IBAction)customCollectionActionView:(id)sender {
     
-    [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].setCustomSuperView(self.testLabel).setTitleTextViewAlignment(NSTextAlignmentCenter).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].makeCustomSuperView(self.testLabel).setTitleTextViewAlignment(NSTextAlignmentCenter).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setCustomView(^(JKAlertAction *action) {
         
@@ -80,7 +80,7 @@
 
 - (IBAction)customPlainAction:(id)sender {
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStylePlain)].setCustomSuperView(self.testLabel);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStylePlain)].makeCustomSuperView(self.testLabel);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -128,7 +128,7 @@
         // alertView.setclickBlankDismiss(YES);
         
         // title和message之间加分隔线
-        alertView.setCustomSuperView(self.testLabel).setPlainTitleMessageSeparatorHidden(NO, 0).
+        alertView.makeCustomSuperView(self.testLabel).setPlainTitleMessageSeparatorHidden(NO, 0).
         setTextViewTopBottomMargin(15).setTitleMessageMargin(0).setMessageMinHeight(100);
         
         // 配置关闭按钮
@@ -212,7 +212,7 @@
     
     //    __weak typeof(self) weakSelf = self;
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"请输入帐号密码" style:(JKAlertStylePlain)].setCustomSuperView(self.testLabel);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"请输入帐号密码" style:(JKAlertStylePlain)].makeCustomSuperView(self.testLabel);
     
     alertView.addAction([JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleCancel) handler:^(JKAlertAction *action) {
         
@@ -271,13 +271,13 @@
     
     //    JKAlertView *alertView = [JKAlertView alertViewWithAttributedTitle:nil attributedMessage:[[NSAttributedString alloc] initWithString:@"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好" attributes:@{NSForegroundColorAttributeName : [UIColor redColor], NSFontAttributeName : [UIFont boldSystemFontOfSize:18], NSParagraphStyleAttributeName : para}] style:(JKAlertStyleActionSheet)];
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好" style:(JKAlertStyleActionSheet)].setCustomSuperView(self.testLabel);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好" style:(JKAlertStyleActionSheet)].makeCustomSuperView(self.testLabel);
     //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil style:(JKAlertStyleActionSheet)];
     
-    alertView.setContainerViewConfig(^(UIView *containerView) {
+    alertView.makeAlertContentViewConfiguration(^(UIView *alertContentView) {
         
         // 加个圆角
-        [containerView JKAlertX_clipRoundWithRadius:8 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
+        [alertContentView JKAlertX_clipRoundWithRadius:8 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
     });
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
@@ -316,7 +316,7 @@
 // use customSuperView
 - (IBAction)collectionSheet:(id)sender {
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setBottomButtonMargin(10);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setBottomButtonMargin(10);
     
     // 第1组
     alertView.setCollectionAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
@@ -393,7 +393,7 @@
 
 - (IBAction)testShare:(UIButton *)sender {
     
-    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].setCustomSuperView(self.testLabel).setTitleTextViewAlignment(NSTextAlignmentLeft).setTextViewLeftRightMargin(4).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setOrientationChangeBlock(^(JKAlertView *view, UIInterfaceOrientation orientation) {
+    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].makeCustomSuperView(self.testLabel).setTitleTextViewAlignment(NSTextAlignmentLeft).setTextViewLeftRightMargin(4).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setOrientationChangeBlock(^(JKAlertView *view, UIInterfaceOrientation orientation) {
         
     }).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -412,7 +412,7 @@
 
 - (IBAction)customActionSheetView:(id)sender {
     
-    [JKAlertView alertViewWithTitle:@"提示" message:@"这是action样式的customView\n想自定义titleView并固定在顶部的话可以使用setCustomActionSheetTitleView\n想自定义titleView并跟随tableView滚动的话可以将title和message赋值nil，并将第一个JKAlertAction设为空action，然后给这个空action赋值customView即可" style:(JKAlertStyleActionSheet)].setCustomSuperView(self.testLabel).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"提示" message:@"这是action样式的customView\n想自定义titleView并固定在顶部的话可以使用setCustomActionSheetTitleView\n想自定义titleView并跟随tableView滚动的话可以将title和message赋值nil，并将第一个JKAlertAction设为空action，然后给这个空action赋值customView即可" style:(JKAlertStyleActionSheet)].makeCustomSuperView(self.testLabel).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setCustomView(^(JKAlertAction *action) {
         
@@ -440,7 +440,7 @@
     
     JKAlertView.showHUDWithTitle(@"你好你好你好你好", ^(JKAlertView *alertView) {
         
-        alertView.setCustomSuperView(self.testLabel).setHUDHeight(100).setDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
+        alertView.makeCustomSuperView(self.testLabel).setHUDHeight(100).setDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             
@@ -476,7 +476,7 @@
         
     }, ^(JKAlertView *alertView) {
         
-        alertView.setCustomSuperView(self.testLabel).setDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
+        alertView.makeCustomSuperView(self.testLabel).setDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             
@@ -493,7 +493,7 @@
     NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
     para.alignment = NSTextAlignmentCenter;
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES);
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 100)];
     label.backgroundColor = [UIColor orangeColor];
@@ -594,7 +594,7 @@
     label.text = @"我是自定义的view~~";
     label.attributedText = [[NSAttributedString alloc] initWithString:@"我是自定义的view~~" attributes:@{NSForegroundColorAttributeName : [UIColor redColor]}];
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStylePlain)].setCustomSuperView(self.testLabel);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStylePlain)].makeCustomSuperView(self.testLabel);
     
     // 显示title和message之间的分隔线
     alertView.setPlainTitleMessageSeparatorHidden(NO, 0);
@@ -629,7 +629,7 @@
     NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
     para.alignment = NSTextAlignmentCenter;
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES);
     
     // 第1组
     alertView.setCollectionAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {

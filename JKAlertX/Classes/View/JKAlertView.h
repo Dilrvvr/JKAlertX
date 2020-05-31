@@ -46,35 +46,12 @@
 
 
 #pragma mark
-#pragma mark 公共部分
-
-/** 可以在这个block内自定义其它属性 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomizePropertyHandler)(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView));
+#pragma mark - 公共部分
 
 /** 设置是否允许手势退出 默认NO NO 仅限sheet样式 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setEnableGestureDismiss)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator);
 
-/**
- * 设置点击空白处是否消失，plain默认NO，其它YES
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setClickBlankDismiss)(BOOL shouldDismiss);
 
-/** 设置监听点击空白处的block */
-@property (nonatomic, copy, readonly) JKAlertView *(^setBlankClickBlock)(void(^blankClickBlock)(void));
-
-/**
- * 配置弹出视图的容器view，加圆角等
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setContainerViewConfig)(void (^containerViewConfig)(UIView *containerView));
-
-/**
- * 设置自定义的父控件
- * 默认添加到keywindow上
- * customSuperView在show之前有效
- * customSuperViewsize最好和屏幕大小一致，否则可能出现问题
- * 请务必保证customSuperView.frame有值！
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomSuperView)(UIView *customSuperView);
 
 /**
  * 设置全屏背景view 默认无

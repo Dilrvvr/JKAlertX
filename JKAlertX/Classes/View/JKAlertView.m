@@ -14,17 +14,10 @@
 #import "JKAlertPlainActionButton.h"
 #import "JKAlertView+PrivateProperty.h"
 #import "JKAlertVisualFormatConstraintManager.h"
-#import "JKAlertPlainContentView.h"
-#import "JKAlertPlainTextContentView.h"
-#import "JKAlertHUDContentView.h"
+#import "JKAlertView+Public.h"
 
 @interface JKAlertView ()
 
-/** plainContentView */
-@property (nonatomic, weak) JKAlertPlainContentView *plainContentView;
-
-/** hudContentView */
-@property (nonatomic, weak) JKAlertHUDContentView *hudContentView;
 @end
 
 @implementation JKAlertView
@@ -217,7 +210,7 @@
 - (void)setAlertStyle:(JKAlertStyle)alertStyle{
     _alertStyle = alertStyle;
     
-    _clickBlankDismiss = NO;
+    _tapBlankDismiss = NO;
     
     switch (_alertStyle) {
         case JKAlertStylePlain:
@@ -229,7 +222,7 @@
         case JKAlertStyleActionSheet:
         {
             [self tableView];
-            _clickBlankDismiss = YES;
+            _tapBlankDismiss = YES;
         }
             break;
             
@@ -238,7 +231,7 @@
             CancelMargin = 10;
             
             [self collectionView];
-            _clickBlankDismiss = YES;
+            _tapBlankDismiss = YES;
         }
             break;
             
@@ -417,43 +410,6 @@
 
 #pragma mark
 #pragma mark - 链式Setter
-
-/**
- * 设置自定义的父控件
- * 默认添加到keywindow上
- * customSuperView在show之前有效
- * customSuperViewsize最好和屏幕大小一致，否则可能出现问题
- */
-- (JKAlertView *(^)(UIView *customSuperView))setCustomSuperView{
-    
-    return ^(UIView *customSuperView) {
-        
-        self.customSuperView = customSuperView;
-        
-        if (customSuperView) {
-            
-            CGFloat rotation = [[self.customSuperView.layer valueForKeyPath:@"transform.rotation.z"] floatValue];
-            
-            if ((rotation > 1.57 && rotation < 1.58) ||
-                (rotation > -1.58 && rotation < -1.57)) {
-                
-                self->JKAlertScreenW = self.customSuperView.frame.size.height;//MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                self->JKAlertScreenH = self.customSuperView.frame.size.width;//MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                
-                [self updateMaxHeight];
-                
-            } else  {
-                
-                //self->JKAlertScreenW = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                //self->JKAlertScreenH = MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                
-                [self updateWidthHeight];
-            }
-        }
-        
-        return self;
-    };
-}
 
 /** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 - (JKAlertView *(^)(JKAlertAction *action))setCancelAction{
@@ -912,17 +868,6 @@
     };
 }
 
-/** 在这个block内自定义其它属性 */
-- (JKAlertView *(^)(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)))setCustomizePropertyHandler{
-    
-    return ^(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)) {
-        
-        !customizePropertyHandler ? : customizePropertyHandler(self);
-        
-        return self;
-    };
-}
-
 /** 设置是否允许手势退出 仅限sheet样式 */
 - (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator))setEnableGestureDismiss{
     
@@ -937,42 +882,6 @@
     };
 }
 
-/**
- * 设置点击空白处是否消失，plain默认NO，其它YES
- */
-- (JKAlertView *(^)(BOOL shouldDismiss))setClickBlankDismiss{
-    
-    return ^(BOOL shouldDismiss) {
-        
-        self.clickBlankDismiss = shouldDismiss;
-        
-        return self;
-    };
-}
-
-/** 设置监听点击空白处的block */
-- (JKAlertView * (^)(void(^blankClickBlock)(void)))setBlankClickBlock{
-    
-    return ^(void(^blankClickBlock)(void)) {
-        
-        self.blankClickBlock = blankClickBlock;
-        
-        return self;
-    };
-}
-
-/**
- * 配置弹出视图的容器view，加圆角等
- */
-- (JKAlertView *(^)(void (^containerViewConfig)(UIView *containerView)))setContainerViewConfig{
-    
-    return ^(void (^containerViewConfig)(UIView *containerView)) {
-        
-        self.containerViewConfig = containerViewConfig;
-        
-        return self;
-    };
-}
 
 /**
  * 设置plain样式title和messagex上下之间的分隔线是否隐藏，默认YES
@@ -1473,87 +1382,6 @@
     }
 }
 
-- (void)updateWidthHeight{
-    
-    UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
-    
-    UIView *superView = self.superview ? self.superview : keyWindow;
-    
-    switch ([UIApplication sharedApplication].statusBarOrientation) {
-        case UIInterfaceOrientationPortrait:{
-            
-            //orientationLabel.text = "面向设备保持垂直，Home键位于下部"
-            
-            /** 屏幕宽度 */
-            //JKAlertScreenW = MIN(superView.bounds.size.width, superView.bounds.size.height);
-            /** 屏幕高度 */
-            //JKAlertScreenH = MAX(superView.bounds.size.width, superView.bounds.size.height);
-            
-            _isLandScape = NO;
-        }
-            break;
-        case UIInterfaceOrientationPortraitUpsideDown:{
-            
-            //orientationLabel.text = "面向设备保持垂直，Home键位于上部"
-            
-            /** 屏幕宽度 */
-            //JKAlertScreenW = MIN(superView.bounds.size.width, superView.bounds.size.height);
-            /** 屏幕高度 */
-            //JKAlertScreenH = MAX(superView.bounds.size.width, superView.bounds.size.height);
-            
-            _isLandScape = NO;
-        }
-            break;
-        case UIInterfaceOrientationLandscapeLeft:{
-            
-            //orientationLabel.text = "面向设备保持水平，Home键位于左侧"
-            
-            /** 屏幕宽度 */
-            //JKAlertScreenW = MAX(superView.bounds.size.width, superView.bounds.size.height);
-            /** 屏幕高度 */
-            //JKAlertScreenH = MIN(superView.bounds.size.width, superView.bounds.size.height);
-            
-            _isLandScape = YES;
-        }
-            break;
-        case UIInterfaceOrientationLandscapeRight:{
-            
-            //orientationLabel.text = "面向设备保持水平，Home键位于右侧"
-            
-            /** 屏幕宽度 */
-            //JKAlertScreenW = MAX(superView.bounds.size.width, superView.bounds.size.height);
-            /** 屏幕高度 */
-            //JKAlertScreenH = MIN(superView.bounds.size.width, superView.bounds.size.height);
-            
-            _isLandScape = YES;
-        }
-            break;
-        default:{
-            
-            // orientationLabel.text = "方向未知"
-        }
-            break;
-    }
-    /** 屏幕宽度 */
-    JKAlertScreenW = superView.bounds.size.width;//MIN(superView.bounds.size.width, superView.bounds.size.height);
-    /** 屏幕高度 */
-    JKAlertScreenH = superView.bounds.size.height;//MAX(superView.bounds.size.width, superView.bounds.size.height);
-    
-    [self updateMaxHeight];
-}
-
-- (void)updateMaxHeight{
-    
-    JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
-    
-    if (!SheetMaxHeightSetted) {
-        
-        JKAlertSheetMaxH = (JKAlertScreenH > JKAlertScreenW) ? JKAlertScreenH * 0.85 : JKAlertScreenH * 0.8;
-    }
-    
-    textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
-}
-
 #pragma mark
 #pragma mark - 添加action
 
@@ -2041,7 +1869,7 @@
             break;
     }
     
-    !self.containerViewConfig ? : self.containerViewConfig(self.alertContentView);
+    !self.alertContentViewConfiguration ? : self.alertContentViewConfiguration(self.alertContentView);
     
     if (self.customSuperView != nil) {
         
@@ -3672,7 +3500,9 @@
     
     !self.blankClickBlock ? : self.blankClickBlock();
     
-    if (_clickBlankDismiss) {
+    !self.tapBlankHandler ? : self.tapBlankHandler(self);
+    
+    if (_tapBlankDismiss) {
         
         self.dismiss();
         
@@ -4130,7 +3960,7 @@
 - (void)solveVerticalScroll:(UIScrollView *)scrollView{
     
     if (!self.enableVerticalGestureDismiss ||
-        !self.clickBlankDismiss ||
+        !self.tapBlankDismiss ||
         !scrollView.isDragging ||
         disableScrollToDismiss) { return; }
     
@@ -4173,7 +4003,7 @@
 
 - (void)solveHorizontalScroll:(UIScrollView *)scrollView{
     
-    if (!self.enableHorizontalGestureDismiss || !self.clickBlankDismiss) { return; }
+    if (!self.enableHorizontalGestureDismiss || !self.tapBlankDismiss) { return; }
     
     if ((scrollView == self.collectionView &&
         self.collectionView2.isDecelerating) ||
@@ -4215,7 +4045,7 @@
 
 - (void)solveWillEndDraggingVertically:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.enableVerticalGestureDismiss || !self.clickBlankDismiss || disableScrollToDismiss) { return; }
+    if (!self.enableVerticalGestureDismiss || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
     
     if (scrollView.contentOffset.y + scrollView.contentInset.top > 0) {
         
@@ -4236,7 +4066,7 @@
 
 - (void)solveWillEndDraggingHorizontally:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.enableHorizontalGestureDismiss || !self.clickBlankDismiss || disableScrollToDismiss) { return; }
+    if (!self.enableHorizontalGestureDismiss || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
     
     if (scrollView.contentOffset.x + scrollView.contentInset.left > 0) {
         
@@ -4401,7 +4231,7 @@
             
             if (point.y > 0) {
                 
-                if (!self.clickBlankDismiss) {
+                if (!self.tapBlankDismiss) {
                     
                     frame.origin.y += (point.y * 0.01);
                     
@@ -4412,7 +4242,7 @@
                 
             } else {
                 
-                if (!self.clickBlankDismiss ||
+                if (!self.tapBlankDismiss ||
                     (frame.origin.y <= (correctContainerY))) {
                     
                     frame.origin.y += (point.y * 0.01);
@@ -4436,7 +4266,7 @@
             
         default:
         {
-            if (!self.clickBlankDismiss) {
+            if (!self.tapBlankDismiss) {
                 
                 [self relayoutSheetContainerView];
                 
@@ -4453,7 +4283,7 @@
             BOOL isSlideHalf = (finalPoint.y - correctContainerY > self.sheetContainerView.frame.size.height * 0.5);
             
             if (isSlideHalf &&
-                self.clickBlankDismiss &&
+                self.tapBlankDismiss &&
                 (endScrollDirection == JKAlertScrollDirectionDown)) {
                 
                 [self dismiss];
@@ -4489,7 +4319,7 @@
             
             if (point.x > 0) {
                 
-                if (!self.clickBlankDismiss) {
+                if (!self.tapBlankDismiss) {
                     
                     center.x += (point.x * 0.02);
                     
@@ -4500,7 +4330,7 @@
                 
             } else {
                 
-                if (!self.clickBlankDismiss ||
+                if (!self.tapBlankDismiss ||
                     (center.x <= (JKAlertScreenW * 0.5))) {
                     
                     center.x += (point.x * 0.02);
@@ -4522,7 +4352,7 @@
             
         default:
         {
-            if (!self.clickBlankDismiss) {
+            if (!self.tapBlankDismiss) {
                 
                 [self relayoutSheetContainerView];
                 
@@ -4537,7 +4367,7 @@
             CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
             BOOL isSlideHalf = ((finalPoint.x - self.sheetContainerView.frame.size.width * 0.5) - (JKAlertScreenW - self.sheetContainerView.frame.size.width) > self.sheetContainerView.frame.size.width * 0.5);
             if (isSlideHalf &&
-                self.clickBlankDismiss &&
+                self.tapBlankDismiss &&
                 beginScrollDirection == endScrollDirection) {
                 
                 isSheetDismissHorizontal = YES;

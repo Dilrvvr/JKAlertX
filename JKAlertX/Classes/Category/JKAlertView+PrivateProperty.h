@@ -9,14 +9,18 @@
 #import "JKAlertPanGestureRecognizer.h"
 #import "JKAlertActionButton.h"
 #import "JKAlertTextView.h"
+#import "JKAlertPlainContentView.h"
+#import "JKAlertHUDContentView.h"
 
 @interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
+
+
+
 {
     CGFloat TBMargin;
     CGFloat textContainerViewCurrentMaxH_;
     BOOL    _enableDeallocLog;
     
-    CGFloat JKAlertPlainViewMaxH;
     CGFloat JKAlertTitleMessageMargin;
     
     CGFloat JKAlertSheetMaxH;
@@ -45,8 +49,6 @@
     UIColor *messageTextColor;
     UIFont  *messageFont;
     
-    CGFloat JKAlertScreenW;
-    CGFloat JKAlertScreenH;
     
     BOOL ObserverAdded;
     
@@ -74,28 +76,23 @@
     BOOL isSheetDismissHorizontal;
 }
 
+/** plainContentView */
+@property (nonatomic, weak) JKAlertPlainContentView *plainContentView;
 
-// TODO: JKTODO <#注释#>
+/** hudContentView */
+@property (nonatomic, weak) JKAlertHUDContentView *hudContentView;
 
-/** hierarchyFlag */
-@property (nonatomic, assign) BOOL hierarchyFlag;
 
 
 
 /** observerSuperView */
 @property (nonatomic, weak) UIView *observerSuperView;
 
-/** customSuperView */
-@property (nonatomic, weak) UIView *customSuperView;
-
 /** 全屏的背景view */
 @property (nonatomic, weak) UIView *fullScreenBackGroundView;
 
 /** 全屏背景是否透明，默认黑色 0.4 alpha */
 @property (nonatomic, assign) BOOL isClearFullScreenBackgroundColor;
-
-/** 配置弹出视图的容器view */
-@property (nonatomic, copy) void (^containerViewConfig)(UIView *containerView);
 
 /** sheetContainerView */
 @property (nonatomic, weak) UIView *sheetContainerView;
@@ -172,9 +169,6 @@
 /** closeButton */
 @property (nonatomic, weak) UIButton *closeButton;
 
-/** clickBlankDismiss */
-@property (nonatomic, assign) BOOL clickBlankDismiss;
-
 /** 监听点击空白处的block */
 @property (nonatomic, copy) void (^blankClickBlock)(void);
 
@@ -248,9 +242,6 @@
  * 设置plain样式Y值
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setPlainY)(CGFloat Y, BOOL animated);
-
-/** 是否横屏 */
-@property (nonatomic, assign) BOOL isLandScape;
 
 /** 监听屏幕旋转 */
 @property (nonatomic, copy) void (^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation);
@@ -453,4 +444,7 @@
 
 @interface JKAlertView (PrivateProperty)
 
+- (void)updateWidthHeight;
+
+- (void)updateMaxHeight;
 @end

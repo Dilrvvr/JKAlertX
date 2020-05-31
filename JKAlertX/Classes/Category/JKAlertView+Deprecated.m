@@ -7,6 +7,7 @@
 
 #import "JKAlertView+Deprecated.h"
 #import "JKAlertView+PrivateProperty.h"
+#import "JKAlertView+Public.h"
 
 @implementation JKAlertView (Deprecated)
 
@@ -71,6 +72,95 @@
 - (JKAlertView * (^)(void))resetOther {
     
     return ^{
+        
+        return self;
+    };
+}
+
+
+#pragma mark
+#pragma mark - 公共部分
+
+/** 在这个block内自定义其它属性 */
+- (JKAlertView *(^)(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)))setCustomizePropertyHandler {
+    
+    return ^(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)) {
+        
+        !customizePropertyHandler ? : customizePropertyHandler(self);
+        
+        return self;
+    };
+}
+
+/**
+ * 设置自定义的父控件
+ * 默认添加到keywindow上
+ * customSuperView在show之前有效
+ * customSuperViewsize最好和屏幕大小一致，否则可能出现问题
+ */
+- (JKAlertView *(^)(UIView *customSuperView))setCustomSuperView{
+    
+    return ^(UIView *customSuperView) {
+        
+        self.customSuperView = customSuperView;
+        
+        if (customSuperView) {
+            
+            CGFloat rotation = [[self.customSuperView.layer valueForKeyPath:@"transform.rotation.z"] floatValue];
+            
+            if ((rotation > 1.57 && rotation < 1.58) ||
+                (rotation > -1.58 && rotation < -1.57)) {
+                
+                self->JKAlertScreenW = self.customSuperView.frame.size.height;//MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                self->JKAlertScreenH = self.customSuperView.frame.size.width;//MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                
+                [self updateMaxHeight];
+                
+            } else  {
+                
+                //self->JKAlertScreenW = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                //self->JKAlertScreenH = MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                
+                [self updateWidthHeight];
+            }
+        }
+        
+        return self;
+    };
+}
+
+/**
+ * 设置点击空白处是否消失，plain默认NO，其它YES
+ */
+- (JKAlertView *(^)(BOOL shouldDismiss))setClickBlankDismiss {
+    
+    return ^(BOOL shouldDismiss) {
+        
+        self.tapBlankDismiss = shouldDismiss;
+        
+        return self;
+    };
+}
+
+/** 设置监听点击空白处的block */
+- (JKAlertView * (^)(void(^blankClickBlock)(void)))setBlankClickBlock{
+    
+    return ^(void(^blankClickBlock)(void)) {
+        
+        self.blankClickBlock = blankClickBlock;
+        
+        return self;
+    };
+}
+
+/**
+ * 配置弹出视图的容器view，加圆角等
+ */
+- (JKAlertView *(^)(void (^containerViewConfig)(UIView *containerView)))setContainerViewConfig{
+    
+    return ^(void (^containerViewConfig)(UIView *containerView)) {
+        
+        self.alertContentViewConfiguration = containerViewConfig;
         
         return self;
     };
