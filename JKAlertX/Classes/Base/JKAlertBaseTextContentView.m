@@ -6,7 +6,6 @@
 //
 
 #import "JKAlertBaseTextContentView.h"
-#import "JKAlertTextContainerView.h"
 #import "JKAlertMultiColor.h"
 #import "JKAlertConst.h"
 

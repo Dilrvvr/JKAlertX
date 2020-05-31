@@ -16,11 +16,15 @@
 #import "JKAlertVisualFormatConstraintManager.h"
 #import "JKAlertPlainContentView.h"
 #import "JKAlertPlainTextContentView.h"
+#import "JKAlertHUDContentView.h"
 
 @interface JKAlertView ()
 
 /** plainContentView */
 @property (nonatomic, weak) JKAlertPlainContentView *plainContentView;
+
+/** hudContentView */
+@property (nonatomic, weak) JKAlertHUDContentView *hudContentView;
 @end
 
 @implementation JKAlertView
@@ -290,11 +294,28 @@
 }
 
 - (void)setCustomHUD:(UIView *)customHUD{
+    
+    if (self.alertStyle != JKAlertStyleHUD) { return; }
+    
     _customHUD = customHUD;
     
-    [self.plainView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    // TODO: JKTODO <#注释#>
     
-    [self.plainView addSubview:_customHUD];
+    if (self.hierarchyFlag) {
+        
+        self.hudContentView.textContentView.customContentView = _customHUD;
+        
+        if (_customHUD.frame.size.width > 0) {
+            
+            PlainViewWidth = _customHUD.frame.size.width;
+        }
+        
+        return;
+    }
+    
+    [self.alertContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    [self.alertContentView addSubview:_customHUD];
 }
 
 - (void)setCustomSheetTitleView:(UIView *)customSheetTitleView{
@@ -2010,7 +2031,8 @@
             
         case JKAlertStyleHUD:
         {
-            [self showPlain];
+            self.isClearFullScreenBackgroundColor = YES;
+            [self showHUD];
         }
             break;
             
@@ -2132,17 +2154,21 @@
     };
 }
 
+- (void)showHUD {
+    
+    // TODO: JKTODO <#注释#>
+    if (self.hierarchyFlag) {
+        
+        self.plainView.hidden = YES;
+    }
+    
+    [self calculateUI];
+    
+    [_scrollView removeFromSuperview];
+}
+
 // plain样式 alert
 - (void)showPlain{
-    
-    if (_alertStyle == JKAlertStyleHUD) {
-        
-        [self calculateUI];
-        
-        [_scrollView removeFromSuperview];
-        
-        return;
-    }
     
     // TODO: JKTODO <#注释#>
     if (self.hierarchyFlag) {
@@ -2255,19 +2281,19 @@
         _messageTextView.hidden = YES;
     }
     
-    // TODO: JKTODO <#注释#>
-    self.plainContentView.textContentView.alertTitle = self.alertTitle;
-    self.plainContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
-    
-    self.plainContentView.textContentView.alertMessage = self.alertMessage;
-    self.plainContentView.textContentView.attributedMessage = self.attributedMessage;
-    
-    self.plainContentView.actionArray = self.actions;
-    self.plainContentView.textFieldArray = self.textFieldArr;
-    
     switch (self.alertStyle) {
         case JKAlertStylePlain:
         {
+            // TODO: JKTODO <#注释#>
+            self.plainContentView.textContentView.alertTitle = self.alertTitle;
+            self.plainContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
+            
+            self.plainContentView.textContentView.alertMessage = self.alertMessage;
+            self.plainContentView.textContentView.attributedMessage = self.attributedMessage;
+            
+            self.plainContentView.actionArray = self.actions;
+            self.plainContentView.textFieldArray = self.textFieldArr;
+            
             [self layoutPlain];
         }
             break;
@@ -2286,7 +2312,14 @@
             
         case JKAlertStyleHUD:
         {
-            [self layoutPlain];
+            // TODO: JKTODO <#注释#>
+            self.hudContentView.textContentView.alertTitle = self.alertTitle;
+            self.hudContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
+            
+            self.hudContentView.textContentView.alertMessage = self.alertMessage;
+            self.hudContentView.textContentView.attributedMessage = self.attributedMessage;
+            
+            [self layoutHUD];
         }
             break;
             
@@ -2311,6 +2344,43 @@
 }
 
 #pragma mark
+#pragma mark - 布局HUD
+
+- (void)layoutHUD {
+    
+    // TODO: JKTODO <#注释#>
+    
+    if (self.hierarchyFlag) {
+        
+        if (self.autoReducePlainWidth) {
+            
+            UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
+            
+            UIView *superView = self.superview ? self.superview : keyWindow;
+            
+            CGFloat safeAreaInset = 0;
+            
+            if (@available(iOS 11.0, *)) {
+                
+                safeAreaInset = MAX(superView.safeAreaInsets.left, superView.safeAreaInsets.right);
+            }
+            
+            PlainViewWidth = MIN(OriginalPlainWidth, JKAlertScreenW - safeAreaInset * 2);
+        }
+        
+        self.hudContentView.contentWidth = PlainViewWidth;
+        self.hudContentView.maxHeight = JKAlertPlainViewMaxH;
+        [self.hudContentView calculateUI];
+        
+        self.hudContentView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
+        
+        return;
+    }
+    
+    [self layoutPlain];
+}
+
+#pragma mark
 #pragma mark - 布局plain
 - (void)layoutPlain{
     
@@ -2332,7 +2402,8 @@
     
     // TODO: JKTODO <#注释#>
     
-    if (self.hierarchyFlag) {
+    if (self.hierarchyFlag &&
+        self.alertStyle == JKAlertStylePlain) {
         
         self.plainContentView.contentWidth = PlainViewWidth;
         self.plainContentView.maxHeight = JKAlertPlainViewMaxH;
@@ -3255,8 +3326,8 @@
         return;
     }
     
-    self.plainView.frame = _customHUD.bounds;
-    self.plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
+    self.alertContentView.frame = _customHUD.bounds;
+    self.alertContentView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
 }
 
 #pragma mark
@@ -3331,6 +3402,7 @@
     } else {
         
         switch (self.alertStyle) {
+            case JKAlertStyleHUD:
             case JKAlertStylePlain:
             {
                 self.alertContentView.alpha = 0;
@@ -3343,11 +3415,6 @@
             }
                 break;
             case JKAlertStyleCollectionSheet:
-            {
-                
-            }
-                break;
-            case JKAlertStyleHUD:
             {
                 
             }
@@ -3414,6 +3481,7 @@
     if (self.customShowAnimationBlock) { return; }
     
     switch (self.alertStyle) {
+        case JKAlertStyleHUD:
         case JKAlertStylePlain:
         {
             self.alertContentView.transform = CGAffineTransformIdentity;
@@ -3429,12 +3497,6 @@
         {
             
         }
-            break;
-        case JKAlertStyleHUD:
-        {
-            
-        }
-            break;
             
         default:
             break;
@@ -3738,6 +3800,7 @@
     _sheetContainerView.frame = rect;
     
     switch (self.alertStyle) {
+        case JKAlertStyleHUD:
         case JKAlertStylePlain:
         {
             self.alertContentView.transform = CGAffineTransformMakeScale(0.8, 0.8);
@@ -3753,12 +3816,6 @@
         {
             
         }
-            break;
-        case JKAlertStyleHUD:
-        {
-            
-        }
-            break;
             
         default:
             break;
@@ -4792,7 +4849,7 @@
             break;
         case JKAlertStyleHUD:
         {
-            alertContentView = self.plainView;//(self.hierarchyFlag ? self.plainContentView : self.plainView);
+            alertContentView = (self.hierarchyFlag ? self.hudContentView : self.plainView);
         }
             break;
             
@@ -4811,6 +4868,16 @@
         _plainContentView = plainContentView;
     }
     return _plainContentView;
+}
+
+- (JKAlertHUDContentView *)hudContentView {
+    if (!_hudContentView) {
+        JKAlertHUDContentView *hudContentView = [[JKAlertHUDContentView alloc] init];
+        hudContentView.alertView = self;
+        [self addSubview:hudContentView];
+        _hudContentView = hudContentView;
+    }
+    return _hudContentView;
 }
 
 - (NSMutableArray *)actions {

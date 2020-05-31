@@ -47,5 +47,11 @@
 /** 富文本提示信息 */
 @property (nonatomic, copy) NSAttributedString *attributedMessage;
 
+/** lightBlurEffect */
+@property (nonatomic, strong) UIBlurEffect *lightBlurEffect;
+
+/** darkBlurEffect */
+@property (nonatomic, strong) UIBlurEffect *darkBlurEffect;
+
 - (void)calculateUI;
 @end

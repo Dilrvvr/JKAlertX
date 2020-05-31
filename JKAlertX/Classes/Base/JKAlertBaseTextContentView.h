@@ -6,8 +6,9 @@
 //
 
 #import "JKAlertBaseView.h"
+#import "JKAlertTextContainerView.h"
 
-@class JKAlertTextContainerView, JKAlertMultiColor;
+@class JKAlertMultiColor;
 
 // TODO: JKTODO 需外界赋值的属性拎出来
 
