@@ -42,12 +42,6 @@
     
     UIView  *_alertBackGroundView;
     
-    //UIColor *titleTextColor;
-    //UIFont  *titleFont;
-    
-    UIColor *messageTextColor;
-    //UIFont  *messageFont;
-    
     
     BOOL ObserverAdded;
     
@@ -265,24 +259,6 @@
 
 #pragma mark
 #pragma mark - 外界可自定义属性 移至内部 外界全部改为使用链式语法修改 2018-09-28
-
-/** title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
-//@property (nonatomic, assign) BOOL textViewUserInteractionEnabled;
-
-/** title和message是否可以选择文字，默认NO */
-//@property (nonatomic, assign) BOOL textViewShouldSelectText;
-
-/** titleTextViewDelegate */
-//@property (nonatomic, weak) id<UITextViewDelegate> titleTextViewDelegate;
-
-/** messageTextViewDelegate */
-@property (nonatomic, weak) id<UITextViewDelegate> messageTextViewDelegate;
-
-/** titleTextViewAlignment 默认NSTextAlignmentCenter */
-//@property (nonatomic, assign) NSTextAlignment titleTextViewAlignment;
-
-/** messageTextViewAlignment 默认NSTextAlignmentCenter */
-@property (nonatomic, assign) NSTextAlignment messageTextViewAlignment;
 
 /** title和message的左右间距 默认20 */
 @property (nonatomic, assign) CGFloat textViewLeftRightMargin;

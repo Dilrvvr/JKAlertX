@@ -15,6 +15,24 @@
 
 @implementation JKAlertMultiColor
 
++ (JKAlertMultiColor *)colorWithColor:(UIColor *)color {
+
+    UIColor *lightColor = color;
+    UIColor *darkColor = color;
+    
+    if (@available(iOS 13.0, *)) {
+        
+        UITraitCollection *lightCollection = [UITraitCollection traitCollectionWithUserInterfaceStyle:(UIUserInterfaceStyleLight)];
+        
+        UITraitCollection *darkCollection = [UITraitCollection traitCollectionWithUserInterfaceStyle:(UIUserInterfaceStyleLight)];
+        
+        lightColor = [color resolvedColorWithTraitCollection:lightCollection];
+        darkColor = [color resolvedColorWithTraitCollection:darkCollection];
+    }
+    
+    return [JKAlertMultiColor colorWithLightColor:lightColor darkColor:darkColor];
+}
+
 + (JKAlertMultiColor *)colorWithSingleColor:(UIColor *)singleColor {
     
     return [self colorWithLightColor:singleColor darkColor:singleColor];

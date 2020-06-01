@@ -548,42 +548,6 @@
     };
 }
 
-/**
- * 设置messageTextColor
- * plain默认RGB都为0.55，其它0.3
- */
-- (JKAlertView *(^)(UIColor *textColor))setMessageTextColor{
-    
-    return ^(UIColor *textColor) {
-        
-        self->messageTextColor = textColor;
-        
-        return self;
-    };
-}
-
-/** 设置messageTextViewDelegate */
-- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewDelegate{
-    
-    return ^(id<UITextViewDelegate> delegate) {
-        
-        self.messageTextViewDelegate = delegate;
-        
-        return self;
-    };
-}
-
-/** 设置messageTextView的文字水平样式 */
-- (JKAlertView *(^)(NSTextAlignment textAlignment))setMessageTextViewAlignment{
-    
-    return ^(NSTextAlignment textAlignment) {
-        
-        self.messageTextViewAlignment = textAlignment;
-        
-        return self;
-    };
-}
-
 /** 设置title和message的左右间距 默认15 */
 - (JKAlertView *(^)(CGFloat margin))setTextViewLeftRightMargin{
     
@@ -1993,7 +1957,7 @@
     
     
     //_titleTextView.textAlignment = self.titleTextViewAlignment;
-    _messageTextView.textAlignment = self.messageTextViewAlignment;
+    //_messageTextView.textAlignment = self.messageTextViewAlignment;
     
     //_titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
     //_messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
@@ -2002,7 +1966,7 @@
     //_messageTextView.shouldSelectText = self.textViewShouldSelectText;
     
     //_titleTextView.textColor = titleTextColor ? titleTextColor : _titleTextView.textColor;
-    _messageTextView.textColor = messageTextColor ? messageTextColor : _messageTextView.textColor;
+    //_messageTextView.textColor = messageTextColor ? messageTextColor : _messageTextView.textColor;
     
     //_titleTextView.font = titleFont ? titleFont : _titleTextView.font;
     //_messageTextView.font = messageFont ? messageFont : _messageTextView.font;
@@ -2892,7 +2856,7 @@
     self.window.userInteractionEnabled = YES;
     
     //self->_titleTextView.delegate = self.titleTextViewDelegate;
-    self->_messageTextView.delegate = self.messageTextViewDelegate;
+    //self->_messageTextView.delegate = self.messageTextViewDelegate;
     
     !self.didShowHandler ? : self.didShowHandler(self);
     
@@ -4119,7 +4083,6 @@
     _messageMinHeight = -1;
     _plainCornerRadius = 8;
     _dismissTimeInterval = 1;
-    //_textViewUserInteractionEnabled = YES;
     _plainTitleMessageSeparatorHidden = YES;
     _collectionTitleSeparatorHidden = YES;
     
@@ -4138,8 +4101,6 @@
     
     self.flowlayoutItemWidth = 76;
     self.textViewLeftRightMargin = 20;
-    //self.titleTextViewAlignment = NSTextAlignmentCenter;
-    self.messageTextViewAlignment = NSTextAlignmentCenter;
     
     _enableVerticalGestureDismiss = NO;
     _enableHorizontalGestureDismiss = NO;

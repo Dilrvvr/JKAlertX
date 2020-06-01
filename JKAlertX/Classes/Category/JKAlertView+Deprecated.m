@@ -154,20 +154,7 @@
     
     return ^(UIColor *textColor) {
         
-        UIColor *lightColor = textColor;
-        UIColor *darkColor = textColor;
-        
-        if (@available(iOS 13.0, *)) {
-            
-            UITraitCollection *lightCollection = [UITraitCollection traitCollectionWithUserInterfaceStyle:(UIUserInterfaceStyleLight)];
-            
-            UITraitCollection *darkCollection = [UITraitCollection traitCollectionWithUserInterfaceStyle:(UIUserInterfaceStyleLight)];
-            
-            lightColor = [textColor resolvedColorWithTraitCollection:lightCollection];
-            darkColor = [textColor resolvedColorWithTraitCollection:darkCollection];
-        }
-        
-        self.makeTitleColor([JKAlertMultiColor colorWithLightColor:lightColor darkColor:darkColor]);
+        self.makeTitleColor([JKAlertMultiColor colorWithColor:textColor]);
         
         return self;
     };
@@ -190,8 +177,34 @@
  * plain默认14，其它13
  * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
  */
-- (JKAlertView *(^)(UIFont *font))setMessageTextFont{
+- (JKAlertView *(^)(UIFont *font))setMessageTextFont {
     
     return [self makeMessageFont];
+}
+
+/**
+ * 设置messageTextColor
+ * plain默认RGB都为0.55，其它0.3
+ */
+- (JKAlertView *(^)(UIColor *textColor))setMessageTextColor {
+    
+    return ^(UIColor *textColor) {
+        
+        self.makeMessageColor([JKAlertMultiColor colorWithColor:textColor]);
+        
+        return self;
+    };
+}
+
+/** 设置messageTextView的文字水平样式 */
+- (JKAlertView *(^)(NSTextAlignment textAlignment))setMessageTextViewAlignment {
+    
+    return [self makeMessageAlignment];
+}
+
+/** 设置messageTextViewDelegate */
+- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewDelegate {
+    
+    return [self makeMessageDelegate];
 }
 @end

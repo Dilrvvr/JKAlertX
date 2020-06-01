@@ -82,4 +82,16 @@
  * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextFont)(UIFont *font) JKAlertXDeprecated("use makeMessageFont");
+
+/**
+ * 设置messageTextColor
+ * plain默认RGB都为0.55，其它0.3
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextColor)(UIColor *textColor) JKAlertXDeprecated("use makeMessageColor");
+
+/** 设置messageTextView的文字水平样式 默认NSTextAlignmentCenter */
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewAlignment)(NSTextAlignment textAlignment) JKAlertXDeprecated("use makeMessageAlignment");
+
+/** 设置messageTextViewDelegate */
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id<UITextViewDelegate> delegate) JKAlertXDeprecated("use makeMessageDelegate");
 @end

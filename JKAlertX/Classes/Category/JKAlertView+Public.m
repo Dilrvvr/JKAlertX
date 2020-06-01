@@ -185,19 +185,6 @@
 }
 
 /**
-* 标题textView的代理
-*/
-- (JKAlertView *(^)(id <UITextViewDelegate> delegate))makeTitleDelegate {
-    
-    return ^(id <UITextViewDelegate> delegate) {
-        
-        self.currentTextContentView.titleTextView.textView.delegate = delegate;
-        
-        return self;
-    };
-}
-
-/**
  * 标题文字水平样式
  * 默认NSTextAlignmentCenter
  **/
@@ -206,6 +193,19 @@
     return ^(NSTextAlignment textAlignment) {
         
         self.currentTextContentView.titleTextView.textView.textAlignment = textAlignment;
+        
+        return self;
+    };
+}
+
+/**
+* 标题textView的代理
+*/
+- (JKAlertView *(^)(id <UITextViewDelegate> delegate))makeTitleDelegate {
+    
+    return ^(id <UITextViewDelegate> delegate) {
+        
+        self.currentTextContentView.titleTextView.textView.delegate = delegate;
         
         return self;
     };
@@ -233,16 +233,41 @@
  * message字体颜色
  * plain默认RGB都为0.55，其它0.3
  */
-- (JKAlertView *(^)(UIColor *textColor))makeMessageColor {
+- (JKAlertView * (^)(JKAlertMultiColor *textColor))makeMessageColor {
     
-    return ^(UIColor *textColor) {
-        
-        self->messageTextColor = textColor;
+    return ^(JKAlertMultiColor *textColor) {
         
         if ([self checkHasMessageTextView]) {
             
-            // TODO: JKTODO <#注释#>
-            //self.currentTextContentView.messageTextView.textView.font = font;
+            self.currentTextContentView.messageTextColor = textColor;
+        }
+        
+        return self;
+    };
+}
+
+/** 设置messageTextView的文字水平样式 */
+- (JKAlertView * (^)(NSTextAlignment textAlignment))makeMessageAlignment {
+    
+    return ^(NSTextAlignment textAlignment) {
+        
+        if ([self checkHasMessageTextView]) {
+            
+            self.currentTextContentView.messageTextView.textView.textAlignment = textAlignment;
+        }
+        
+        return self;
+    };
+}
+
+/** 设置messageTextViewDelegate */
+- (JKAlertView * (^)(id <UITextViewDelegate> delegate))makeMessageDelegate {
+    
+    return ^(id <UITextViewDelegate> delegate) {
+        
+        if ([self checkHasMessageTextView]) {
+            
+            self.currentTextContentView.messageTextView.textView.delegate = delegate;
         }
         
         return self;

@@ -115,15 +115,15 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTitleColor)(JKAlertMultiColor *textColor);
 
 /**
+ * 标题文字水平样式
+ * 默认NSTextAlignmentCenter
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeTitleAlignment)(NSTextAlignment textAlignment);
+
+/**
  * 标题textView的代理
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTitleDelegate)(id <UITextViewDelegate> delegate);
-
-/**
- * 标题文字水平样式
- * 默认NSTextAlignmentCenter
- **/
-@property (nonatomic, copy, readonly) JKAlertView *(^makeTitleAlignment)(NSTextAlignment textAlignment);
 
 /**
  * message字体
@@ -136,5 +136,16 @@
  * message字体颜色
  * plain默认RGB都为0.55，其它0.3
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeMessageColor)(UIColor *textColor);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeMessageColor)(JKAlertMultiColor *textColor);
+
+/**
+ * message文字水平样式
+ * 默认NSTextAlignmentCenter
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeMessageAlignment)(NSTextAlignment textAlignment);
+
+/**
+ * message的textView的代理
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeMessageDelegate)(id <UITextViewDelegate> delegate);
 @end

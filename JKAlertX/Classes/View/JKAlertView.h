@@ -64,17 +64,7 @@
 
 
 
-/**
- * 设置messageTextColor
- * plain默认RGB都为0.55，其它0.3
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextColor)(UIColor *textColor);
 
-/** 设置messageTextViewDelegate */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id<UITextViewDelegate> delegate);
-
-/** 设置messageTextView的文字水平样式 默认NSTextAlignmentCenter */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewAlignment)(NSTextAlignment textAlignment);
 
 /** 设置title和message的左右间距 默认20 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin);

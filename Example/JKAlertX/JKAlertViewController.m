@@ -307,7 +307,7 @@
             
             return [UIView new];
             
-        }).alertView.resetMessage(@"message已更新").setMessageTextColor([UIColor redColor]).relayout(YES);
+        }).alertView.resetMessage(@"message已更新").makeMessageColor([JKAlertMultiColor colorWithSingleColor:[UIColor redColor]]).relayout(YES);
         
     }].setAutoDismiss(NO)];
     

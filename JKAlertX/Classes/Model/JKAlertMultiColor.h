@@ -9,6 +9,8 @@
 
 @interface JKAlertMultiColor : NSObject
 
++ (JKAlertMultiColor *)colorWithColor:(UIColor *)color;
+
 + (JKAlertMultiColor *)colorWithSingleColor:(UIColor *)singleColor;
 
 + (JKAlertMultiColor *)colorWithLightColor:(UIColor *)lightColor
