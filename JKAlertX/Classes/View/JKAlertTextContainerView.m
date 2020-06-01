@@ -85,6 +85,7 @@
     [super createUI];
     
     JKAlertTextView *textView = [[JKAlertTextView alloc] init];
+    textView.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:textView];
     _textView = textView;
 }

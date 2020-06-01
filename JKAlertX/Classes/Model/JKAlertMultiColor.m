@@ -15,6 +15,11 @@
 
 @implementation JKAlertMultiColor
 
++ (JKAlertMultiColor *)colorWithSingleColor:(UIColor *)singleColor {
+    
+    return [self colorWithLightColor:singleColor darkColor:singleColor];
+}
+
 + (JKAlertMultiColor *)colorWithLightColor:(UIColor *)lightColor
                                  darkColor:(UIColor *)darkColor {
     

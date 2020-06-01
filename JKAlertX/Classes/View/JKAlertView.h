@@ -8,6 +8,7 @@
 
 #import "JKAlertBaseAlertView.h"
 #import "JKAlertAction.h"
+#import "JKAlertMultiColor.h"
 
 @interface JKAlertView : JKAlertBaseAlertView
 
@@ -61,23 +62,7 @@
 /** 设置全屏背景是否透明，默认黑色 0.4 alpha */
 @property (nonatomic, copy, readonly) JKAlertView *(^setClearFullScreenBackgroundColor)(BOOL isClearFullScreenBackgroundColor);
 
-/** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled);
 
-/** 设置title和message是否可以选择文字，默认NO */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewShouldSelectText)(BOOL shouldSelectText);
-
-/**
- * 设置titleTextColor
- * plain默认RGB都为0.1，其它0.35
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextColor)(UIColor *textColor);
-
-/**
- * 设置titleTextFont
- * plain默认 bold 17，其它17
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextFont)(UIFont *font);
 
 /**
  * 设置messageTextColor
@@ -85,21 +70,8 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextColor)(UIColor *textColor);
 
-/**
- * 设置messageTextFont
- * plain默认14，其它13
- * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextFont)(UIFont *font);
-
-/** 设置titleTextViewDelegate */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewDelegate)(id<UITextViewDelegate> delegate);
-
 /** 设置messageTextViewDelegate */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id<UITextViewDelegate> delegate);
-
-/** 设置titleTextView的文字水平样式 默认NSTextAlignmentCenter */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewAlignment)(NSTextAlignment textAlignment);
 
 /** 设置messageTextView的文字水平样式 默认NSTextAlignmentCenter */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewAlignment)(NSTextAlignment textAlignment);

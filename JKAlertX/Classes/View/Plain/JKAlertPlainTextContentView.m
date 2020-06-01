@@ -48,11 +48,6 @@
 
 
 #pragma mark
-#pragma mark - UITableViewDataSource & UITableViewDelegate
-
-
-
-#pragma mark
 #pragma mark - Custom Delegates
 
 
@@ -64,8 +59,8 @@
 - (void)initializeProperty {
     [super initializeProperty];
     
-    self.titleFont = [UIFont boldSystemFontOfSize:17];
-    self.messageFont = [UIFont systemFontOfSize:14];
+    self.titleTextView.textView.font = [UIFont boldSystemFontOfSize:17];
+    self.messageTextView.textView.font = [UIFont systemFontOfSize:14];
     
     self.titleTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(25.5) darkColor:JKAlertSameRGBColor(229.5)];
     self.messageTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(140.25) darkColor:JKAlertSameRGBColor(114.75)];

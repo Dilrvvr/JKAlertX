@@ -68,12 +68,6 @@
 /** messageTextColor */
 @property (nonatomic, strong) JKAlertMultiColor *messageTextColor;
 
-/** titleFont */
-@property (nonatomic, strong) UIFont *titleFont;
-
-/** messageFont */
-@property (nonatomic, strong) UIFont *messageFont;
-
 
 /** 标题 */
 @property (nonatomic, copy) NSString *alertTitle;
@@ -89,24 +83,30 @@
 
 
 /** title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
-@property (nonatomic, assign) BOOL textViewUserInteractionEnabled;
+//@property (nonatomic, assign) BOOL textViewUserInteractionEnabled;
 
 /** title和message是否可以选择文字，默认NO */
-@property (nonatomic, assign) BOOL textViewShouldSelectText;
+//@property (nonatomic, assign) BOOL textViewShouldSelectText;
+
+/** titleFont */
+//@property (nonatomic, strong) UIFont *titleFont;
+//
+///** messageFont */
+//@property (nonatomic, strong) UIFont *messageFont;
 
 
 /** titleTextViewDelegate */
-@property (nonatomic, weak) id<UITextViewDelegate> titleTextViewDelegate;
-
-/** messageTextViewDelegate */
-@property (nonatomic, weak) id<UITextViewDelegate> messageTextViewDelegate;
-
-
-/** titleTextViewAlignment 默认NSTextAlignmentCenter */
-@property (nonatomic, assign) NSTextAlignment titleTextViewAlignment;
-
-/** messageTextViewAlignment 默认NSTextAlignmentCenter */
-@property (nonatomic, assign) NSTextAlignment messageTextViewAlignment;
+//@property (nonatomic, weak) id<UITextViewDelegate> titleTextViewDelegate;
+//
+///** messageTextViewDelegate */
+//@property (nonatomic, weak) id<UITextViewDelegate> messageTextViewDelegate;
+//
+//
+///** titleTextViewAlignment 默认NSTextAlignmentCenter */
+//@property (nonatomic, assign) NSTextAlignment titleTextViewAlignment;
+//
+///** messageTextViewAlignment 默认NSTextAlignmentCenter */
+//@property (nonatomic, assign) NSTextAlignment messageTextViewAlignment;
 
 
 - (void)calculateUI NS_REQUIRES_SUPER;

@@ -7,7 +7,7 @@
 //
 
 #import "JKShareManager.h"
-#import "JKAlertView.h"
+#import "JKAlertX.h"
 //#import "WXApi.h"
 //#import "WechatAuthSDK.h"
 //#import <TencentOpenAPI/TencentApiInterface.h>
@@ -32,7 +32,7 @@
 //        return;
 //    }
     
-    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].setTitleTextViewAlignment(NSTextAlignmentLeft).setTextViewLeftRightMargin(4).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].makeTitleAlignment(NSTextAlignmentLeft).setTextViewLeftRightMargin(4).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
         [JKShareManager shareUrl:url text:title description:description imageUrl:imageUrl shareType:(JKShareTypeWechatSession)];
         

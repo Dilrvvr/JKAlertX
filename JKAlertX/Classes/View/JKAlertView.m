@@ -324,6 +324,16 @@
         case JKAlertStylePlain:
         {
             _currentAlertContentView = self.plainContentView;
+            _currentTextContentView = self.plainContentView.textContentView;
+        }
+            break;
+            
+        case JKAlertStyleHUD:
+        {
+            _currentAlertContentView = self.hudContentView;
+            _currentTextContentView = self.hudContentView.textContentView;
+            
+            self.isClearFullScreenBackgroundColor = YES;
         }
             break;
             
@@ -345,19 +355,12 @@
         }
             break;
             
-        case JKAlertStyleHUD:
-        {
-            _currentAlertContentView = self.hudContentView;
-            
-            self.isClearFullScreenBackgroundColor = YES;
-        }
-            break;
-            
         default: // 默认为JKAlertStylePlain样式
         {
             _alertStyle = JKAlertStylePlain;
             
             _currentAlertContentView = self.plainContentView;
+            _currentTextContentView = self.plainContentView.textContentView;
         }
             break;
     }
@@ -546,34 +549,6 @@
 }
 
 /**
- * 设置titleTextColor
- * plain默认RGB都为0.1，其它0.35
- */
-- (JKAlertView *(^)(UIColor *textColor))setTitleTextColor{
-    
-    return ^(UIColor *textColor) {
-        
-        self->titleTextColor = textColor;
-        
-        return self;
-    };
-}
-
-/**
- * 设置titleTextFont
- * plain默认 bold 17，其它17
- */
-- (JKAlertView *(^)(UIFont *font))setTitleTextFont{
-    
-    return ^(UIFont *font) {
-        
-        self->titleFont = font;
-        
-        return self;
-    };
-}
-
-/**
  * 设置messageTextColor
  * plain默认RGB都为0.55，其它0.3
  */
@@ -587,71 +562,12 @@
     };
 }
 
-/**
- * 设置messageTextFont
- * plain默认14，其它13
- * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
- */
-- (JKAlertView *(^)(UIFont *font))setMessageTextFont{
-    
-    return ^(UIFont *font) {
-        
-        self->messageFont = font;
-        
-        return self;
-    };
-}
-
-/** 设置titleTextViewDelegate */
-- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setTitleTextViewDelegate{
-    
-    return ^(id<UITextViewDelegate> delegate) {
-        
-        self.titleTextViewDelegate = delegate;
-        
-        return self;
-    };
-}
-
 /** 设置messageTextViewDelegate */
 - (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewDelegate{
     
     return ^(id<UITextViewDelegate> delegate) {
         
         self.messageTextViewDelegate = delegate;
-        
-        return self;
-    };
-}
-
-/** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
-- (JKAlertView *(^)(BOOL userInteractionEnabled))setTextViewUserInteractionEnabled{
-    
-    return ^(BOOL userInteractionEnabled) {
-        
-        self.textViewUserInteractionEnabled = userInteractionEnabled;
-        
-        return self;
-    };
-}
-
-/** 设置title和message是否可以选择文字，默认NO */
-- (JKAlertView *(^)(BOOL canselectText))setTextViewShouldSelectText{
-    
-    return ^(BOOL shouldSelectText) {
-        
-        self.textViewShouldSelectText = shouldSelectText;
-        
-        return self;
-    };
-}
-
-/** 设置titleTextView的文字水平样式 */
-- (JKAlertView *(^)(NSTextAlignment textAlignment))setTitleTextViewAlignment{
-    
-    return ^(NSTextAlignment textAlignment) {
-        
-        self.titleTextViewAlignment = textAlignment;
         
         return self;
     };
@@ -2076,20 +1992,20 @@
     }
     
     
-    _titleTextView.textAlignment = self.titleTextViewAlignment;
+    //_titleTextView.textAlignment = self.titleTextViewAlignment;
     _messageTextView.textAlignment = self.messageTextViewAlignment;
     
-    _titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
-    _messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
+    //_titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
+    //_messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
     
-    _titleTextView.shouldSelectText = self.textViewShouldSelectText;
-    _messageTextView.shouldSelectText = self.textViewShouldSelectText;
+    //_titleTextView.shouldSelectText = self.textViewShouldSelectText;
+    //_messageTextView.shouldSelectText = self.textViewShouldSelectText;
     
-    _titleTextView.textColor = titleTextColor ? titleTextColor : _titleTextView.textColor;
+    //_titleTextView.textColor = titleTextColor ? titleTextColor : _titleTextView.textColor;
     _messageTextView.textColor = messageTextColor ? messageTextColor : _messageTextView.textColor;
     
-    _titleTextView.font = titleFont ? titleFont : _titleTextView.font;
-    _messageTextView.font = messageFont ? messageFont : _messageTextView.font;
+    //_titleTextView.font = titleFont ? titleFont : _titleTextView.font;
+    //_messageTextView.font = messageFont ? messageFont : _messageTextView.font;
     
     if (self.alertAttributedTitle) {
         
@@ -2975,7 +2891,7 @@
     
     self.window.userInteractionEnabled = YES;
     
-    self->_titleTextView.delegate = self.titleTextViewDelegate;
+    //self->_titleTextView.delegate = self.titleTextViewDelegate;
     self->_messageTextView.delegate = self.messageTextViewDelegate;
     
     !self.didShowHandler ? : self.didShowHandler(self);
@@ -4203,7 +4119,7 @@
     _messageMinHeight = -1;
     _plainCornerRadius = 8;
     _dismissTimeInterval = 1;
-    _textViewUserInteractionEnabled = YES;
+    //_textViewUserInteractionEnabled = YES;
     _plainTitleMessageSeparatorHidden = YES;
     _collectionTitleSeparatorHidden = YES;
     
@@ -4222,7 +4138,7 @@
     
     self.flowlayoutItemWidth = 76;
     self.textViewLeftRightMargin = 20;
-    self.titleTextViewAlignment = NSTextAlignmentCenter;
+    //self.titleTextViewAlignment = NSTextAlignmentCenter;
     self.messageTextViewAlignment = NSTextAlignmentCenter;
     
     _enableVerticalGestureDismiss = NO;

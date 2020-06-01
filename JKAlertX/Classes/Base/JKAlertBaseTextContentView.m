@@ -72,10 +72,10 @@
 
 - (void)updateTextViewProperty {
     
-    self.titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
-    self.titleTextView.textView.shouldSelectText = self.textViewShouldSelectText;
-    self.titleTextView.textView.textAlignment = self.titleTextViewAlignment;
-    self.titleTextView.textView.font = self.titleFont;
+    //self.titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
+    //self.titleTextView.textView.shouldSelectText = self.textViewShouldSelectText;
+    //self.titleTextView.textView.textAlignment = self.titleTextViewAlignment;
+    //self.titleTextView.textView.font = self.titleFont;
     
     self.titleTextView.textView.text = nil;
     self.titleTextView.textView.attributedText = nil;
@@ -102,10 +102,10 @@
         self.titleTextView.hidden = YES;
     }
     
-    self.messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
-    self.messageTextView.textView.shouldSelectText = self.textViewShouldSelectText;
-    self.messageTextView.textView.textAlignment = self.messageTextViewAlignment;
-    self.messageTextView.textView.font = self.messageFont;
+    //self.messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
+    //self.messageTextView.textView.shouldSelectText = self.textViewShouldSelectText;
+    //self.messageTextView.textView.textAlignment = self.messageTextViewAlignment;
+    //self.messageTextView.textView.font = self.messageFont;
     
     self.messageTextView.textView.text = nil;
     self.messageTextView.textView.attributedText = nil;
@@ -327,16 +327,13 @@
     _titleInsets = UIEdgeInsetsMake(20, 20, 3.5, 20);
     _messageInsets = UIEdgeInsetsMake(3.5, 20, 20, 20);
     
-    _titleFont = [UIFont systemFontOfSize:17];
-    _messageFont = [UIFont systemFontOfSize:13];
-    
     _titleTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(89.25) darkColor:JKAlertSameRGBColor(165.75)];
     _messageTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(76.5) darkColor:JKAlertSameRGBColor(178.5)];
     
-    _titleTextViewAlignment = NSTextAlignmentCenter;
-    _messageTextViewAlignment = NSTextAlignmentCenter;
+//    _titleTextViewAlignment = NSTextAlignmentCenter;
+//    _messageTextViewAlignment = NSTextAlignmentCenter;
     
-    _textViewUserInteractionEnabled = YES;
+    //_textViewUserInteractionEnabled = YES;
     
     _singleMinHeight = 30;
 }
@@ -371,6 +368,7 @@
 - (JKAlertTextContainerView *)titleTextView {
     if (!_titleTextView) {
         JKAlertTextContainerView *titleTextView = [[JKAlertTextContainerView alloc] init];
+        titleTextView.textView.font = [UIFont systemFontOfSize:17];
         [self.contentView addSubview:titleTextView];
         _titleTextView = titleTextView;
     }
@@ -380,6 +378,7 @@
 - (JKAlertTextContainerView *)messageTextView {
     if (!_messageTextView) {
         JKAlertTextContainerView *messageTextView = [[JKAlertTextContainerView alloc] init];
+        messageTextView.textView.font = [UIFont systemFontOfSize:13];
         [self.contentView addSubview:messageTextView];
         _messageTextView = messageTextView;
     }

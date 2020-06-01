@@ -16,7 +16,7 @@
     
     return ^(BOOL canSelectText) {
         
-        self.textViewShouldSelectText = canSelectText;
+        self.makeTitleMessageShouldSelectText(canSelectText);
         
         return self;
     };
@@ -84,12 +84,7 @@
 /** 在这个block内自定义其它属性 */
 - (JKAlertView *(^)(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)))setCustomizePropertyHandler {
     
-    return ^(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)) {
-        
-        !customizePropertyHandler ? : customizePropertyHandler(self);
-        
-        return self;
-    };
+    return [self makeCustomizationHandler];
 }
 
 /**
@@ -100,32 +95,7 @@
  */
 - (JKAlertView *(^)(UIView *customSuperView))setCustomSuperView {
     
-    return ^(UIView *customSuperView) {
-        
-        self.customSuperView = customSuperView;
-        
-        if (!customSuperView) { return self; }
-        
-        CGFloat rotation = [[self.customSuperView.layer valueForKeyPath:@"transform.rotation.z"] floatValue];
-        
-        if ((rotation > 1.57 && rotation < 1.58) ||
-            (rotation > -1.58 && rotation < -1.57)) {
-            
-            self->JKAlertScreenW = self.customSuperView.frame.size.height;//MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-            self->JKAlertScreenH = self.customSuperView.frame.size.width;//MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-            
-            [self updateMaxHeight];
-            
-        } else  {
-            
-            //self->JKAlertScreenW = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-            //self->JKAlertScreenH = MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-            
-            [self updateWidthHeight];
-        }
-        
-        return self;
-    };
+    return [self makeCustomSuperView];
 }
 
 /**
@@ -133,20 +103,15 @@
  */
 - (JKAlertView *(^)(BOOL shouldDismiss))setClickBlankDismiss {
     
-    return ^(BOOL shouldDismiss) {
-        
-        self.tapBlankDismiss = shouldDismiss;
-        
-        return self;
-    };
+    return [self makeTapBlankDismiss];
 }
 
 /** 设置监听点击空白处的block */
-- (JKAlertView * (^)(void(^blankClickBlock)(void)))setBlankClickBlock{
+- (JKAlertView * (^)(void(^blankClickBlock)(void)))setBlankClickBlock {
     
-    return ^(void(^blankClickBlock)(void)) {
+    return ^(void(^handler)(void)) {
         
-        self.blankClickBlock = blankClickBlock;
+        self.blankClickBlock = handler;
         
         return self;
     };
@@ -155,13 +120,78 @@
 /**
  * 配置弹出视图的容器view，加圆角等
  */
-- (JKAlertView *(^)(void (^containerViewConfig)(UIView *containerView)))setContainerViewConfig{
+- (JKAlertView *(^)(void (^containerViewConfig)(UIView *containerView)))setContainerViewConfig {
     
-    return ^(void (^containerViewConfig)(UIView *containerView)) {
+    return [self makeAlertContentViewConfiguration];
+}
+
+/** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
+- (JKAlertView *(^)(BOOL userInteractionEnabled))setTextViewUserInteractionEnabled {
+
+    return [self makeTitleMessageUserInteractionEnabled];
+}
+
+/** 设置title和message是否可以选择文字，默认NO */
+- (JKAlertView *(^)(BOOL canselectText))setTextViewShouldSelectText {
+    
+    return [self makeTitleMessageShouldSelectText];
+}
+
+/**
+ * 设置titleTextFont
+ * plain默认 bold 17，其它17
+ */
+- (JKAlertView *(^)(UIFont *font))setTitleTextFont {
+    
+    return [self makeTitleFont];
+}
+
+/**
+ * 设置titleTextColor
+ * plain默认RGB都为0.1，其它0.35
+ */
+- (JKAlertView *(^)(UIColor *textColor))setTitleTextColor {
+    
+    return ^(UIColor *textColor) {
         
-        self.alertContentViewConfiguration = containerViewConfig;
+        UIColor *lightColor = textColor;
+        UIColor *darkColor = textColor;
+        
+        if (@available(iOS 13.0, *)) {
+            
+            UITraitCollection *lightCollection = [UITraitCollection traitCollectionWithUserInterfaceStyle:(UIUserInterfaceStyleLight)];
+            
+            UITraitCollection *darkCollection = [UITraitCollection traitCollectionWithUserInterfaceStyle:(UIUserInterfaceStyleLight)];
+            
+            lightColor = [textColor resolvedColorWithTraitCollection:lightCollection];
+            darkColor = [textColor resolvedColorWithTraitCollection:darkCollection];
+        }
+        
+        self.makeTitleColor([JKAlertMultiColor colorWithLightColor:lightColor darkColor:darkColor]);
         
         return self;
     };
+}
+
+/** 设置titleTextViewDelegate */
+- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setTitleTextViewDelegate {
+    
+    return [self makeTitleDelegate];
+}
+
+/** 设置titleTextView的文字水平样式 */
+- (JKAlertView *(^)(NSTextAlignment textAlignment))setTitleTextViewAlignment {
+    
+    return [self makeTitleAlignment];
+}
+
+/**
+ * 设置messageTextFont
+ * plain默认14，其它13
+ * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
+ */
+- (JKAlertView *(^)(UIFont *font))setMessageTextFont{
+    
+    return [self makeMessageFont];
 }
 @end

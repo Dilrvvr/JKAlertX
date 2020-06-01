@@ -9,6 +9,7 @@
 #import "JKAlertPanGestureRecognizer.h"
 #import "JKAlertActionButton.h"
 #import "JKAlertTextView.h"
+#import "JKAlertBaseTextContentView.h"
 #import "JKAlertPlainContentView.h"
 #import "JKAlertHUDContentView.h"
 
@@ -41,11 +42,11 @@
     
     UIView  *_alertBackGroundView;
     
-    UIColor *titleTextColor;
-    UIFont  *titleFont;
+    //UIColor *titleTextColor;
+    //UIFont  *titleFont;
     
     UIColor *messageTextColor;
-    UIFont  *messageFont;
+    //UIFont  *messageFont;
     
     
     BOOL ObserverAdded;
@@ -85,6 +86,9 @@
 
 /** currentAlertContentView */
 @property (nonatomic, weak, readonly) JKAlertBaseAlertContentView *currentAlertContentView;
+
+/** currentAlertContentView */
+@property (nonatomic, weak, readonly) JKAlertBaseTextContentView *currentTextContentView;
 
 
 
@@ -263,19 +267,19 @@
 #pragma mark - 外界可自定义属性 移至内部 外界全部改为使用链式语法修改 2018-09-28
 
 /** title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
-@property (nonatomic, assign) BOOL textViewUserInteractionEnabled;
+//@property (nonatomic, assign) BOOL textViewUserInteractionEnabled;
 
 /** title和message是否可以选择文字，默认NO */
-@property (nonatomic, assign) BOOL textViewShouldSelectText;
+//@property (nonatomic, assign) BOOL textViewShouldSelectText;
 
 /** titleTextViewDelegate */
-@property (nonatomic, weak) id<UITextViewDelegate> titleTextViewDelegate;
+//@property (nonatomic, weak) id<UITextViewDelegate> titleTextViewDelegate;
 
 /** messageTextViewDelegate */
 @property (nonatomic, weak) id<UITextViewDelegate> messageTextViewDelegate;
 
 /** titleTextViewAlignment 默认NSTextAlignmentCenter */
-@property (nonatomic, assign) NSTextAlignment titleTextViewAlignment;
+//@property (nonatomic, assign) NSTextAlignment titleTextViewAlignment;
 
 /** messageTextViewAlignment 默认NSTextAlignmentCenter */
 @property (nonatomic, assign) NSTextAlignment messageTextViewAlignment;

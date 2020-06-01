@@ -22,7 +22,7 @@
 
 - (IBAction)customCollectionActionView:(id)sender {
     
-    [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].setEnableGestureDismiss(YES, YES, YES).setTitleTextViewAlignment(NSTextAlignmentCenter).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].setEnableGestureDismiss(YES, YES, YES).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setCustomView(^(JKAlertAction *action) {
         
@@ -340,7 +340,7 @@
             
             return [UIView new];
             
-        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").setTitleTextColor([UIColor redColor]).setBottomButtonMargin(0.25).relayout(YES);
+        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([JKAlertMultiColor colorWithSingleColor:[UIColor redColor]]).setBottomButtonMargin(0.25).relayout(YES);
         
     }].setAutoDismiss(NO)).setShowPageControl(YES);
     
@@ -406,7 +406,7 @@
 
 - (IBAction)testShare:(UIButton *)sender {
     
-    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].setEnableGestureDismiss(YES, YES, YES).setTitleTextViewAlignment(NSTextAlignmentLeft).setTextViewLeftRightMargin(4).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setOrientationChangeBlock(^(JKAlertView *view, UIInterfaceOrientation orientation) {
+    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].setEnableGestureDismiss(YES, YES, YES).makeTitleAlignment(NSTextAlignmentLeft).setTextViewLeftRightMargin(4).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setOrientationChangeBlock(^(JKAlertView *view, UIInterfaceOrientation orientation) {
         
     }).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         

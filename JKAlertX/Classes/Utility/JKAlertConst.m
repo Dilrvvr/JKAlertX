@@ -7,7 +7,7 @@
 //
 
 #import "JKAlertConst.h"
-#import "JKAlertView.h"
+#import "JKAlertX.h"
 #import <AudioToolbox/AudioToolbox.h>
 
 #pragma mark
@@ -406,7 +406,7 @@ void JKTodo_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) 
         
         JKAlertView *alertView = [JKAlertView alertViewWithTitle:[@"JKDebug-" stringByAppendingString:(title ? title : @"")] message:[@"--- 此弹框仅用于调试 ---\n" stringByAppendingString:(message ? message : @"")] style:(JKAlertStyleAlert)];
         
-        alertView.setMessageTextViewAlignment(NSTextAlignmentLeft).setTextViewShouldSelectText(YES);
+        alertView.setMessageTextViewAlignment(NSTextAlignmentLeft).makeTitleMessageShouldSelectText(YES);
         
         [alertView addAction:[JKAlertAction actionWithTitle:@"OK" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             

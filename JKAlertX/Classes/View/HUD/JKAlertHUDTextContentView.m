@@ -88,7 +88,7 @@
     
     self.titleInsets = UIEdgeInsetsMake(20, 20, 20, 20);
     
-    self.titleFont = [UIFont systemFontOfSize:17];
+    self.titleTextView.textView.font = [UIFont systemFontOfSize:17];
     
     _defaultDarkStyle = YES;
     
