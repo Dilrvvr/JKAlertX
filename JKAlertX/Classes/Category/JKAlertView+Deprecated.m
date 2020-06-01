@@ -98,31 +98,30 @@
  * customSuperView在show之前有效
  * customSuperViewsize最好和屏幕大小一致，否则可能出现问题
  */
-- (JKAlertView *(^)(UIView *customSuperView))setCustomSuperView{
+- (JKAlertView *(^)(UIView *customSuperView))setCustomSuperView {
     
     return ^(UIView *customSuperView) {
         
         self.customSuperView = customSuperView;
         
-        if (customSuperView) {
+        if (!customSuperView) { return self; }
+        
+        CGFloat rotation = [[self.customSuperView.layer valueForKeyPath:@"transform.rotation.z"] floatValue];
+        
+        if ((rotation > 1.57 && rotation < 1.58) ||
+            (rotation > -1.58 && rotation < -1.57)) {
             
-            CGFloat rotation = [[self.customSuperView.layer valueForKeyPath:@"transform.rotation.z"] floatValue];
+            self->JKAlertScreenW = self.customSuperView.frame.size.height;//MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+            self->JKAlertScreenH = self.customSuperView.frame.size.width;//MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
             
-            if ((rotation > 1.57 && rotation < 1.58) ||
-                (rotation > -1.58 && rotation < -1.57)) {
-                
-                self->JKAlertScreenW = self.customSuperView.frame.size.height;//MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                self->JKAlertScreenH = self.customSuperView.frame.size.width;//MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                
-                [self updateMaxHeight];
-                
-            } else  {
-                
-                //self->JKAlertScreenW = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                //self->JKAlertScreenH = MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                
-                [self updateWidthHeight];
-            }
+            [self updateMaxHeight];
+            
+        } else  {
+            
+            //self->JKAlertScreenW = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+            //self->JKAlertScreenH = MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+            
+            [self updateWidthHeight];
         }
         
         return self;

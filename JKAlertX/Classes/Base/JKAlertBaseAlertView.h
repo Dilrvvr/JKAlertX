@@ -22,9 +22,6 @@
 /** 最底层背景按钮 */
 @property (nonatomic, weak, readonly) UIButton *dismissButton;
 
-/** alertContentView */
-@property (nonatomic, weak, readonly) UIView *alertContentView;
-
 /** alertContainerView */
 //@property (nonatomic, weak, readonly) UIView *alertContainerView;
 

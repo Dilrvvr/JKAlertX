@@ -31,6 +31,11 @@
     
     _customContentView = customContentView;
     
+    if (_customContentView.frame.size.width > 0) {
+        
+        self.contentWidth = _customContentView.frame.size.width;
+    }
+    
     [self.contentView addSubview:_customContentView];
     
     self.titleTextView.hidden = YES;

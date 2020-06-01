@@ -28,8 +28,6 @@
     /** 分隔线宽度或高度 */
     CGFloat JKAlertSeparatorLineWH;
     
-    CGRect oldPlainViewFrame;
-    
     CGFloat CancelMargin;
     CGFloat PlainViewWidth;
     CGFloat OriginalPlainWidth;
@@ -81,6 +79,12 @@
 
 /** hudContentView */
 @property (nonatomic, weak) JKAlertHUDContentView *hudContentView;
+
+/** alertContentView */
+@property (nonatomic, weak, readonly) UIView *alertContentView;
+
+/** currentAlertContentView */
+@property (nonatomic, weak, readonly) JKAlertBaseAlertContentView *currentAlertContentView;
 
 
 
@@ -158,7 +162,7 @@
 @property (nonatomic, copy) NSAttributedString *attributedMessage;
 
 /** plainView */
-@property (nonatomic, weak) UIView *plainView;
+//@property (nonatomic, weak) UIView *plainView;
 
 /** plainButtonVLineView */
 @property (nonatomic, weak) UIView *plainButtonVLineView;

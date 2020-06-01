@@ -62,7 +62,8 @@
 
 - (void)checkScrollToTextField {
     
-    if (!_currentTextField ||
+    if (!self.textScrollView.scrollEnabled ||
+        !_currentTextField ||
         !_currentTextField.isFirstResponder) {
         
         _currentTextField = nil;

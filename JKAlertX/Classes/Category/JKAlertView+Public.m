@@ -98,4 +98,27 @@
         return self;
     };
 }
+
+/**
+ * 设置背景view
+ * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
+ */
+- (JKAlertView *(^)(UIView *(^backGroundView)(void)))makeAlertBackgroundView {
+    
+    return ^(UIView *(^backGroundView)(void)) {
+        
+        self.currentAlertContentView.customBackgroundView = !backGroundView ? nil : backGroundView();
+        
+        // TODO: JKTODO delete
+        
+        self.alertBackGroundView = !backGroundView ? nil : backGroundView();
+        
+        if (self.alertStyle == JKAlertStyleCollectionSheet) {
+            
+            self.collectionTopContainerView.backgroundColor = (self.alertBackGroundView ? nil : JKAlertGlobalBackgroundColor());
+        }
+        
+        return self;
+    };
+}
 @end

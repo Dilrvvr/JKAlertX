@@ -32,12 +32,6 @@
 
 /** 是否横屏 */
 @property (nonatomic, assign) BOOL isLandScape;
-
-
-// TODO: JKTODO <#注释#>
-
-/** hierarchyFlag */
-@property (nonatomic, assign) BOOL hierarchyFlag;
 @end
 
 
@@ -75,4 +69,10 @@
  * 配置弹出视图的容器view，加圆角等
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeAlertContentViewConfiguration)(void (^configuration)(UIView *alertContentView));
+
+/**
+ * 设置背景view
+ * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeAlertBackgroundView)(UIView *(^backgroundView)(void));
 @end

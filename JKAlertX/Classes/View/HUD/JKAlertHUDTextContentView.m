@@ -15,7 +15,7 @@
 - (void)setAlertMessage:(NSString *)alertMessage {
     [super setAlertMessage:nil];
     
-    if (!self.alertTitle) {
+    if (alertMessage && !self.alertTitle) {
         
         [super setAlertTitle:alertMessage];
     }
@@ -24,7 +24,7 @@
 - (void)setAttributedMessage:(NSAttributedString *)attributedMessage {
     [super setAttributedMessage:nil];
     
-    if (!self.alertAttributedTitle) {
+    if (attributedMessage && !self.alertAttributedTitle) {
         
         [super setAlertAttributedTitle:attributedMessage];
     }
