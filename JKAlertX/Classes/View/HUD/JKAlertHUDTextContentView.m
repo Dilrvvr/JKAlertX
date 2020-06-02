@@ -52,17 +52,7 @@
 #pragma mark
 #pragma mark - Private Methods
 
-- (void)updateLightModetUI {
-    [super updateLightModetUI];
-    
-    self.titleTextView.textView.textColor = self.titleTextColor.lightColor;
-}
 
-- (void)updateDarkModeUI {
-    [super updateDarkModeUI];
-    
-    self.titleTextView.textView.textColor = self.titleTextColor.darkColor;
-}
 
 #pragma mark
 #pragma mark - Private Selector

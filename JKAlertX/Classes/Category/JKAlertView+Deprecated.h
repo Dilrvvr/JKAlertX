@@ -39,6 +39,13 @@
 
 /** 设置监听点击空白处的block */
 @property (nonatomic, copy, readonly) JKAlertView *(^setBlankClickBlock)(void(^blankClickBlock)(void)) JKAlertXDeprecated("use makeTapBlankHandler");
+
+/** 设置全屏背景是否透明，默认黑色 0.4 alpha */
+@property (nonatomic, copy, readonly) JKAlertView *(^setClearFullScreenBackgroundColor)(BOOL isClearFullScreenBackgroundColor) JKAlertXDeprecated("use makeFullBackgroundColor");
+/**
+ * 设置全屏背景view 默认无
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setFullScreenBackGroundView)(UIView *(^backGroundView)(void)) JKAlertXDeprecated("use makeFullBackgroundView");
 /**
  * 配置弹出视图的容器view，加圆角等
  */
@@ -52,6 +59,12 @@
  * 请务必保证customSuperView.frame有值！
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomSuperView)(UIView *customSuperView) JKAlertXDeprecated("use makeCustomSuperView");
+
+/**
+ * 设置背景view
+ * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setBackGroundView)(UIView *(^backGroundView)(void)) JKAlertXDeprecated("use makeAlertBackgroundView");
 
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled) JKAlertXDeprecated("use makeTitleMessageUserInteractionEnabled");
@@ -94,4 +107,15 @@
 
 /** 设置messageTextViewDelegate */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id<UITextViewDelegate> delegate) JKAlertXDeprecated("use makeMessageDelegate");
+
+/** 设置title和message的左右间距 默认20 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin) JKAlertXDeprecated("use makeTitleInsets & makeMessageInsets");
+
+/**
+ * 设置title上间距和message下间距 默认20
+ * HUD/collection样式title上下间距 
+ * plain样式下setPlainTitleMessageSeparatorHidden为NO时，该值为title上下间距
+ * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值为title上下间距
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewTopBottomMargin)(CGFloat margin) JKAlertXDeprecated("use makeTitleInsets & makeMessageInsets");
 @end

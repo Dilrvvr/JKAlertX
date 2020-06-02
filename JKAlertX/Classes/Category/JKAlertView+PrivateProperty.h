@@ -18,7 +18,7 @@
 
 
 {
-    CGFloat TBMargin;
+    //CGFloat TBMargin;
     CGFloat textContainerViewCurrentMaxH_;
     BOOL    _enableDeallocLog;
     
@@ -89,12 +89,6 @@
 
 /** observerSuperView */
 @property (nonatomic, weak) UIView *observerSuperView;
-
-/** 全屏的背景view */
-@property (nonatomic, weak) UIView *fullScreenBackGroundView;
-
-/** 全屏背景是否透明，默认黑色 0.4 alpha */
-@property (nonatomic, assign) BOOL isClearFullScreenBackgroundColor;
 
 /** sheetContainerView */
 @property (nonatomic, weak) UIView *sheetContainerView;
@@ -259,9 +253,6 @@
 
 #pragma mark
 #pragma mark - 外界可自定义属性 移至内部 外界全部改为使用链式语法修改 2018-09-28
-
-/** title和message的左右间距 默认20 */
-@property (nonatomic, assign) CGFloat textViewLeftRightMargin;
 
 /** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, strong) JKAlertAction *cancelAction;

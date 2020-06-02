@@ -110,8 +110,25 @@
         //alertView.setPlainWidth(500).setAutoReducePlainWidth(YES);
         
         // title和message之间加分隔线
-        alertView.setPlainTitleMessageSeparatorHidden(NO, 0).
-        setTextViewTopBottomMargin(15).setTitleMessageMargin(0).setMessageMinHeight(100);
+        alertView.setPlainTitleMessageSeparatorHidden(NO, 0).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+            
+            UIEdgeInsets insets = originalInsets;
+            
+            insets.top = 15;
+            insets.bottom = 15;
+            
+            return insets;
+            
+        }).makeMessageInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+            
+            UIEdgeInsets insets = originalInsets;
+            
+            insets.top = 15;
+            insets.bottom = 15;
+            
+            return insets;
+            
+        }).setTitleMessageMargin(0).setMessageMinHeight(100);
         
         // 向上偏移50
         alertView.setPlainCenterOffsetY(-50);
@@ -307,7 +324,7 @@
             
             return [UIView new];
             
-        }).alertView.resetMessage(@"message已更新").makeMessageColor([JKAlertMultiColor colorWithSingleColor:[UIColor redColor]]).relayout(YES);
+        }).alertView.resetMessage(@"message已更新").makeMessageColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).relayout(YES);
         
     }].setAutoDismiss(NO)];
     
@@ -340,7 +357,7 @@
             
             return [UIView new];
             
-        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([JKAlertMultiColor colorWithSingleColor:[UIColor redColor]]).setBottomButtonMargin(0.25).relayout(YES);
+        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).setBottomButtonMargin(0.25).relayout(YES);
         
     }].setAutoDismiss(NO)).setShowPageControl(YES);
     
@@ -406,7 +423,25 @@
 
 - (IBAction)testShare:(UIButton *)sender {
     
-    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].setEnableGestureDismiss(YES, YES, YES).makeTitleAlignment(NSTextAlignmentLeft).setTextViewLeftRightMargin(4).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setOrientationChangeBlock(^(JKAlertView *view, UIInterfaceOrientation orientation) {
+    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].setEnableGestureDismiss(YES, YES, YES).makeTitleAlignment(NSTextAlignmentLeft).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+        
+        UIEdgeInsets insets = originalInsets;
+        
+        insets.left = 4;
+        insets.right = 4;
+        
+        return insets;
+        
+    }).makeMessageInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+        
+        UIEdgeInsets insets = originalInsets;
+        
+        insets.left = 4;
+        insets.right = 4;
+        
+        return insets;
+        
+    }).setOrientationChangeBlock(^(JKAlertView *view, UIInterfaceOrientation orientation) {
         
     }).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         

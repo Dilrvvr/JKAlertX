@@ -61,6 +61,33 @@
 }
 
 /**
+ * 全屏背景颜色
+ * 默认 black 0.4
+ */
+- (JKAlertView * (^)(JKAlertMultiColor *color))makeFullBackgroundColor {
+    
+    return ^(JKAlertMultiColor *color) {
+        
+        self.multiBackgroundColor = color;
+        
+        return self;
+    };
+}
+
+/**
+ * 设置全屏背景view 默认无
+ */
+- (JKAlertView * (^)(UIView *(^backGroundView)(void)))makeFullBackgroundView {
+    
+    return ^(UIView * (^backGroundView)(void)) {
+        
+        self.currentAlertContentView.customBackgroundView = (!backGroundView ? nil : backGroundView());
+        
+        return self;
+    };
+}
+
+/**
  * 设置点击空白处是否消失，plain默认NO，其它YES
  */
 - (JKAlertView * (^)(BOOL shouldDismiss))makeTapBlankDismiss {
@@ -78,7 +105,7 @@
  */
 - (JKAlertView * (^)(void(^handler)(JKAlertView *innerView)))makeTapBlankHandler {
     
-    return ^(void(^handler)(JKAlertView *innerView)) {
+    return ^(void (^handler)(JKAlertView *innerView)) {
         
         self.tapBlankHandler = handler;
         
@@ -107,15 +134,9 @@
     
     return ^(UIView *(^backGroundView)(void)) {
         
-        self.currentAlertContentView.customBackgroundView = !backGroundView ? nil : backGroundView();
-        
-        // TODO: JKTODO delete
-        
-        self.alertBackGroundView = !backGroundView ? nil : backGroundView();
-        
-        if (self.alertStyle == JKAlertStyleCollectionSheet) {
+        if (backGroundView) {
             
-            self.collectionTopContainerView.backgroundColor = (self.alertBackGroundView ? nil : JKAlertGlobalBackgroundColor());
+            self.currentAlertContentView.customBackgroundView = backGroundView();
         }
         
         return self;
@@ -123,7 +144,7 @@
 }
 
 /**
- * 标题和内容是否可以响应事件，
+ * title 和内容是否可以响应事件，
  * 默认YES 如无必要不建议设置为NO
  */
 - (JKAlertView *(^)(BOOL userInteractionEnabled))makeTitleMessageUserInteractionEnabled {
@@ -138,7 +159,7 @@
 }
 
 /**
- * 标题和内容是否可以选择文字
+ * title 和内容是否可以选择文字
  * 默认NO
  */
 - (JKAlertView *(^)(BOOL canselectText))makeTitleMessageShouldSelectText {
@@ -157,7 +178,7 @@
 }
 
 /**
- * 标题字体
+ * title 字体
  * plain默认 bold 17，其它17
  */
 - (JKAlertView *(^)(UIFont *font))makeTitleFont {
@@ -171,7 +192,7 @@
 }
 
 /**
- * 标题字体颜色
+ * title 字体颜色
  * plain默认RGB都为0.1，其它0.35
  */
 - (JKAlertView *(^)(JKAlertMultiColor *textColor))makeTitleColor {
@@ -185,9 +206,9 @@
 }
 
 /**
- * 标题文字水平样式
+ * title 文字水平样式
  * 默认NSTextAlignmentCenter
- **/
+ */
 - (JKAlertView * (^)(NSTextAlignment textAlignment))makeTitleAlignment {
     
     return ^(NSTextAlignment textAlignment) {
@@ -199,8 +220,8 @@
 }
 
 /**
-* 标题textView的代理
-*/
+ * title textView的代理
+ */
 - (JKAlertView *(^)(id <UITextViewDelegate> delegate))makeTitleDelegate {
     
     return ^(id <UITextViewDelegate> delegate) {
@@ -246,7 +267,10 @@
     };
 }
 
-/** 设置messageTextView的文字水平样式 */
+/**
+ * message 文字水平样式
+ * 默认NSTextAlignmentCenter
+ */
 - (JKAlertView * (^)(NSTextAlignment textAlignment))makeMessageAlignment {
     
     return ^(NSTextAlignment textAlignment) {
@@ -260,7 +284,9 @@
     };
 }
 
-/** 设置messageTextViewDelegate */
+/**
+ * message的textView的代理
+ */
 - (JKAlertView * (^)(id <UITextViewDelegate> delegate))makeMessageDelegate {
     
     return ^(id <UITextViewDelegate> delegate) {
@@ -269,6 +295,70 @@
             
             self.currentTextContentView.messageTextView.textView.delegate = delegate;
         }
+        
+        return self;
+    };
+}
+
+/**
+ * title 四周间距
+ * 默认(20, 20, 20, 3.5)
+ * 当无message或message隐藏时，bottom将自动使用messageInsets.bottom来计算
+ */
+- (JKAlertView *(^)(UIEdgeInsets (^)(UIEdgeInsets originalInsets)))makeTitleInsets {
+    
+    return ^(UIEdgeInsets (^handler)(UIEdgeInsets originalInsets)) {
+        
+        if (handler) {
+            
+            self.currentTextContentView.titleInsets = handler(self.currentTextContentView.titleInsets);
+        }
+        
+        return self;
+    };
+}
+
+/**
+ * message 四周间距
+ * 默认(3.5, 20, 20, 20)
+ * 当无title或title隐藏时，top将自动使用titleInsets.top来计算 
+ */
+- (JKAlertView *(^)(UIEdgeInsets (^)(UIEdgeInsets originalInsets)))makeMessageInsets {
+    
+    return ^(UIEdgeInsets (^handler)(UIEdgeInsets originalInsets)) {
+        
+        if (handler) {
+            
+            self.currentTextContentView.messageInsets = handler(self.currentTextContentView.messageInsets);
+        }
+        
+        return self;
+    };
+}
+
+/**
+ * title和message直接的分隔线是否隐藏
+ * 默认YES
+ */
+- (JKAlertView * (^)(BOOL hidden))makeTitleMessageSeparatorLineHidden {
+    
+    return ^(BOOL hidden) {
+        
+        self.currentTextContentView.separatorLineHidden = hidden;
+        
+        return self;
+    };
+}
+
+/**
+ * title和message直接的分隔线四周间距
+ * 默认(0, 0, 0, 0)
+ */
+- (JKAlertView * (^)(UIEdgeInsets insets))makeTitleMessageSeparatorLineInsets {
+    
+    return ^(UIEdgeInsets insets) {
+        
+        self.currentTextContentView.separatorLineInsets = insets;
         
         return self;
     };
@@ -294,10 +384,10 @@
 
 
 - (BOOL)checkHasMessageTextView {
-
+    
     // TODO: JKTODO 有messageTextView的在这里添加
     
     return (JKAlertStylePlain == self.alertStyle ||
-    JKAlertStyleActionSheet == self.alertStyle);
+            JKAlertStyleActionSheet == self.alertStyle);
 }
 @end

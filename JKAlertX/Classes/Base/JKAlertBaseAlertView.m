@@ -19,27 +19,36 @@
 #pragma mark
 #pragma mark - Public Methods
 
-
+- (void)setMultiBackgroundColor:(JKAlertMultiColor *)multiBackgroundColor {
+    _multiBackgroundColor = multiBackgroundColor;
+    
+    [self updateUserInterfaceStyle];
+}
 
 #pragma mark
 #pragma mark - Override
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        [self initialization];
-    }
-    return self;
-}
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super initWithCoder:aDecoder]) {
-        [self initialization];
-    }
-    return self;
-}
 
 #pragma mark
 #pragma mark - Private Methods
+
+- (void)updateLightModetUI {
+    [super updateLightModetUI];
+    
+    self.backgroundView.backgroundColor = self.multiBackgroundColor.lightColor;
+}
+
+- (void)updateDarkModeUI {
+    [super updateDarkModeUI];
+    
+    self.backgroundView.backgroundColor = self.multiBackgroundColor.darkColor;
+}
+
+- (void)restoreMultiBackgroundColor {
+    
+    self.multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.3]];
+}
 
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
     
@@ -103,30 +112,20 @@
 
 /** 初始化自身属性 交给子类重写 super自动调用该方法 */
 - (void)initializeProperty{
+    [super initializeProperty];
     
+    _multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.3]];
 }
 
 /** 构造函数初始化时调用 注意调用super */
 - (void)initialization {
+    [super initialization];
     
-    [self initializeProperty];
-    [self createUI];
-    [self layoutUI];
-    [self initializeUIData];
 }
 
 /** 创建UI 交给子类重写 super自动调用该方法 */
 - (void)createUI {
-    
-    UIView *backgroundView = [[UIView alloc] init];
-    backgroundView.userInteractionEnabled = NO;
-    backgroundView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
-    [self insertSubview:backgroundView atIndex:0];
-    _backgroundView = backgroundView;
-    
-    UIView *contentView = [[UIView alloc] init];
-    [self addSubview:contentView];
-    _contentView = contentView;
+    [super createUI];
     
     UIButton *dismissButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     dismissButton.backgroundColor = nil;
@@ -134,24 +133,18 @@
     _dismissButton = dismissButton;
     
     [dismissButton addTarget:self action:@selector(dismissButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    /*
-    UIView *alertContainerView = [[UIView alloc] init];
-    [self.contentView addSubview:alertContainerView];
-    _alertContainerView = alertContainerView; //*/
 }
 
 /** 布局UI 交给子类重写 super自动调用该方法 */
 - (void)layoutUI {
-    
-    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.backgroundView constraintsView:self];
-    
-    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.contentView constraintsView:self];
+    [super layoutUI];
     
     [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.dismissButton constraintsView:self.contentView];
 }
 
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */
 - (void)initializeUIData {
+    [super initializeUIData];
     
 }
 

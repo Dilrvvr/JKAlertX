@@ -117,12 +117,61 @@
     };
 }
 
+/** 设置全屏背景是否透明，默认黑色 0.4 alpha */
+- (JKAlertView *(^)(BOOL isClearFullScreenBackgroundColor))setClearFullScreenBackgroundColor {
+    
+    return ^(BOOL isClearFullScreenBackgroundColor) {
+        
+        if (isClearFullScreenBackgroundColor) {
+            
+            self.makeFullBackgroundColor([JKAlertMultiColor colorWithNoColor]);
+            
+        } else {
+            
+            [self restoreMultiBackgroundColor];
+        }
+        
+        return self;
+    };
+}
+
+/**
+ * 设置全屏背景view 默认无
+ */
+- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setFullScreenBackGroundView{
+    
+    return [self makeFullBackgroundView];
+}
+
 /**
  * 配置弹出视图的容器view，加圆角等
  */
 - (JKAlertView *(^)(void (^containerViewConfig)(UIView *containerView)))setContainerViewConfig {
     
     return [self makeAlertContentViewConfiguration];
+}
+
+/**
+ * 设置背景view
+ * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
+ */
+- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setBackGroundView{
+    
+    return ^(UIView *(^backGroundView)(void)) {
+        
+        self.makeAlertBackgroundView(backGroundView);
+        
+        // TODO: JKTODO <#注释#>
+        
+        self.alertBackGroundView = !backGroundView ? nil : backGroundView();
+        
+        if (self.alertStyle == JKAlertStyleCollectionSheet) {
+            
+            self.collectionTopContainerView.backgroundColor = (self.alertBackGroundView ? nil : JKAlertGlobalBackgroundColor());
+        }
+        
+        return self;
+    };
 }
 
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
@@ -154,9 +203,7 @@
     
     return ^(UIColor *textColor) {
         
-        self.makeTitleColor([JKAlertMultiColor colorWithColor:textColor]);
-        
-        return self;
+        return self.makeTitleColor([JKAlertMultiColor colorWithDynamicColor:textColor]);
     };
 }
 
@@ -190,9 +237,7 @@
     
     return ^(UIColor *textColor) {
         
-        self.makeMessageColor([JKAlertMultiColor colorWithColor:textColor]);
-        
-        return self;
+        return self.makeMessageColor([JKAlertMultiColor colorWithDynamicColor:textColor]);
     };
 }
 
@@ -206,5 +251,122 @@
 - (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewDelegate {
     
     return [self makeMessageDelegate];
+}
+
+/** 设置title和message的左右间距 默认15 */
+- (JKAlertView *(^)(CGFloat margin))setTextViewLeftRightMargin {
+    
+    return ^(CGFloat margin) {
+        
+        return self.makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+
+            UIEdgeInsets insets = originalInsets;
+            
+            insets.left = margin;
+            insets.right = margin;
+            
+            return insets;
+            
+        }).makeMessageInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+
+            UIEdgeInsets insets = originalInsets;
+            
+            insets.left = margin;
+            insets.right = margin;
+            
+            return insets;
+        });
+    };
+}
+
+/**
+ * 设置title上间距和message下间距 默认20
+ * HUD/collection样式title上下间距
+ * plain样式下setPlainTitleMessageSeparatorHidden为NO时，该值为title上下间距
+ * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值为title上下间距
+ */
+- (JKAlertView *(^)(CGFloat margin))setTextViewTopBottomMargin {
+    
+    return ^(CGFloat margin) {
+        
+        switch (self.alertStyle) {
+            case JKAlertStylePlain:
+            {
+                if (self.customPlainTitleViewOnlyForMessage ||
+                    !self.plainTitleMessageSeparatorHidden) {
+                    
+                    self.makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+                        
+                        UIEdgeInsets insets = originalInsets;
+                        
+                        insets.top = margin;
+                        insets.bottom = margin;
+                        
+                        return insets;
+                    });
+                    
+                } else {
+                    
+                    self.makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+                        
+                        UIEdgeInsets insets = originalInsets;
+                        
+                        insets.top = margin;
+                        
+                        return insets;
+                        
+                    }).makeMessageInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+                        
+                        UIEdgeInsets insets = originalInsets;
+                        
+                        insets.bottom = margin;
+                        
+                        return insets;
+                        
+                    });
+                }
+            }
+                break;
+            case JKAlertStyleHUD:
+            case JKAlertStyleCollectionSheet:
+            {
+                self.makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+                    
+                    UIEdgeInsets insets = originalInsets;
+                    
+                    insets.top = margin;
+                    insets.bottom = margin;
+                    
+                    return insets;
+                });
+            }
+                break;
+                
+            default:
+            {
+                
+                self.makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+                    
+                    UIEdgeInsets insets = originalInsets;
+                    
+                    insets.top = margin;
+                    
+                    return insets;
+                    
+                }).makeMessageInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+                    
+                    UIEdgeInsets insets = originalInsets;
+                    
+                    insets.bottom = margin;
+                    
+                    return insets;
+                    
+                });
+            }
+                break;
+        }
+        
+        return self;
+    };
 }
 @end

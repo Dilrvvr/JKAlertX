@@ -15,7 +15,16 @@
 
 @implementation JKAlertMultiColor
 
-+ (JKAlertMultiColor *)colorWithColor:(UIColor *)color {
+/// 无颜色
++ (JKAlertMultiColor *)colorWithNoColor {
+    
+    return [[JKAlertMultiColor alloc] init];
+}
+
+/// 将动态color转为JKAlertMultiColor
++ (JKAlertMultiColor *)colorWithDynamicColor:(UIColor *)color {
+    
+    if (!color) { return [self colorWithNoColor]; }
 
     UIColor *lightColor = color;
     UIColor *darkColor = color;
@@ -33,11 +42,13 @@
     return [JKAlertMultiColor colorWithLightColor:lightColor darkColor:darkColor];
 }
 
-+ (JKAlertMultiColor *)colorWithSingleColor:(UIColor *)singleColor {
+/// 浅色/深色 颜色保持一致
++ (JKAlertMultiColor *)colorWithSameColor:(UIColor *)singleColor {
     
     return [self colorWithLightColor:singleColor darkColor:singleColor];
 }
 
+/// 创建 浅色/深色 颜色
 + (JKAlertMultiColor *)colorWithLightColor:(UIColor *)lightColor
                                  darkColor:(UIColor *)darkColor {
     
@@ -49,17 +60,23 @@
     return multiColor;
 }
 
-- (instancetype)init {
-    if (self = [super init]) {
-        _lightColor = [UIColor blackColor];
-        _darkColor = [UIColor whiteColor];
-    }
-    return self;
+- (void)setLightColor:(UIColor *)lightColor {
+    _lightColor = lightColor;
+    
+    _dynamicColor = nil;
+}
+
+- (void)setDarkColor:(UIColor *)darkColor {
+    _darkColor = darkColor;
+    
+    _dynamicColor = nil;
 }
 
 - (UIColor *)dynamicColor {
     
     if (_dynamicColor) { return _dynamicColor; }
+    
+    if (!_lightColor && !_darkColor) { return nil; }
     
     if (@available(iOS 13.0, *)) {
         

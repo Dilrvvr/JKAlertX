@@ -333,7 +333,7 @@
             _currentAlertContentView = self.hudContentView;
             _currentTextContentView = self.hudContentView.textContentView;
             
-            self.isClearFullScreenBackgroundColor = YES;
+            self.multiBackgroundColor = [JKAlertMultiColor colorWithNoColor];
         }
             break;
             
@@ -485,6 +485,8 @@
     
     _alertBackGroundView = alertBackGroundView;
     
+    if (!_sheetContainerView) { return; }
+    
     [_sheetContainerView insertSubview:_alertBackGroundView atIndex:0];
     //[_plainView insertSubview:_alertBackGroundView atIndex:0];
     
@@ -496,19 +498,6 @@
     NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : alertBackGroundView}];
     [_sheetContainerView addConstraints:cons2];
     //[_plainView addConstraints:cons2];
-}
-
-- (void)setFullScreenBackGroundView:(UIView *)fullScreenBackGroundView{
-    
-    if (fullScreenBackGroundView == nil) { return; }
-    
-    [_fullScreenBackGroundView removeFromSuperview];
-    
-    _fullScreenBackGroundView = fullScreenBackGroundView;
-    
-    [self.backgroundView insertSubview:_fullScreenBackGroundView atIndex:0];
-    
-    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:fullScreenBackGroundView constraintsView:self.backgroundView];
 }
 
 - (void)setPlainTitleMessageSeparatorHidden:(BOOL)plainTitleMessageSeparatorHidden{
@@ -543,34 +532,6 @@
         self.collectionAction = action;
         
         [self setAlertViewToAction:self.collectionAction];
-        
-        return self;
-    };
-}
-
-/** 设置title和message的左右间距 默认15 */
-- (JKAlertView *(^)(CGFloat margin))setTextViewLeftRightMargin{
-    
-    return ^(CGFloat margin) {
-        
-        self.textViewLeftRightMargin = margin;
-        
-        return self;
-    };
-}
-
-/**
- * 设置title和message上下间距 默认20
- * plain样式title上间距和message下间距
- * collection样式title上下间距
- * plain样式下setPlainTitleMessageSeparatorHidden为NO时，该值为title上下间距
- * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值为title上下间距
- */
-- (JKAlertView *(^)(CGFloat margin))setTextViewTopBottomMargin{
-    
-    return ^(CGFloat margin) {
-        
-        self->TBMargin = margin;
         
         return self;
     };
@@ -1199,49 +1160,6 @@
     return ^(CGFloat margin) {
         
         self->JKAlertTitleMessageMargin = margin;
-        
-        return self;
-    };
-}
-
-/**
- * 设置背景view
- * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
- */
-- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setBackGroundView{
-    
-    return ^(UIView *(^backGroundView)(void)) {
-        
-        self.alertBackGroundView = !backGroundView ? nil : backGroundView();
-        
-        if (self.alertStyle == JKAlertStyleCollectionSheet) {
-            
-            self.collectionTopContainerView.backgroundColor = (self.alertBackGroundView ? nil : JKAlertGlobalBackgroundColor());
-        }
-        
-        return self;
-    };
-}
-
-/** 设置全屏背景是否透明，默认黑色 0.4 alpha */
-- (JKAlertView *(^)(BOOL isClearFullScreenBackgroundColor))setClearFullScreenBackgroundColor{
-    
-    return ^(BOOL isClearFullScreenBackgroundColor) {
-        
-        self.isClearFullScreenBackgroundColor = isClearFullScreenBackgroundColor;
-        
-        return self;
-    };
-}
-
-/**
- * 设置全屏背景view 默认无
- */
-- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setFullScreenBackGroundView{
-    
-    return ^(UIView *(^backGroundView)(void)) {
-        
-        self.fullScreenBackGroundView = !backGroundView ? nil : backGroundView();
         
         return self;
     };
@@ -2107,7 +2025,7 @@
     
     _sheetContainerView.frame = CGRectMake((JKAlertScreenW - containerWidth) * 0.5, JKAlertScreenH, containerWidth, _textContainerView.frame.size.height + _tableView.frame.size.height);
     
-    CGFloat maxWidth = _textContainerView.frame.size.width - self.textViewLeftRightMargin * 2 - (safeAreaInsets.left + safeAreaInsets.right);
+    CGFloat maxWidth = _textContainerView.frame.size.width - 40/*self.textViewLeftRightMargin * 2*/ - (safeAreaInsets.left + safeAreaInsets.right);
     
     if (self.isActionSheetPierced) {
         
@@ -2390,7 +2308,7 @@
         safeAreaInsets = self.customSuperView.safeAreaInsets;
     }
     
-    CGFloat maxWidth = JKAlertScreenW - self.textViewLeftRightMargin * 2 - - (safeAreaInsets.left + safeAreaInsets.right);
+    CGFloat maxWidth = JKAlertScreenW - 40/*self.textViewLeftRightMargin * 2*/ - (safeAreaInsets.left + safeAreaInsets.right);
     
     CGRect rect = [self.titleTextView calculateFrameWithMaxWidth:maxWidth minHeight:JKAlertMinTitleLabelH originY:0 superView:self.textContainerView];
     
@@ -2399,11 +2317,11 @@
         rect.size.height = rect.size.height > JKAlertSheetMaxH - 395 ? JKAlertSheetMaxH - 395 : rect.size.height;
     }
     
-    rect.size.height = self.titleTextView.hidden ? -TBMargin * 2 : rect.size.height;
+    rect.size.height = self.titleTextView.hidden ? 0 : rect.size.height;
     
     self.titleTextView.frame = rect;
     
-    self.textContainerView.frame = CGRectMake(0, GestureIndicatorHeight, JKAlertScreenW, TBMargin + rect.size.height + TBMargin);
+    self.textContainerView.frame = CGRectMake(0, GestureIndicatorHeight, JKAlertScreenW, /*TBMargin*/20 + rect.size.height + /*TBMargin*/20);
     self.titleTextView.center = CGPointMake(self.textContainerView.frame.size.width * 0.5, self.textContainerView.frame.size.height * 0.5);
     
     if (_customSheetTitleView) {
@@ -2762,16 +2680,11 @@
         }
     }
     
-    self.fullScreenBackGroundView.alpha = 0;
+    self.backgroundView.alpha = 0;
     
     [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         
-        if (!self.isClearFullScreenBackgroundColor) {
-            
-            self.backgroundView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.3]);
-        }
-        
-        self.fullScreenBackGroundView.alpha = 1;
+        self.backgroundView.alpha = 1;
         
         [self showAnimationOperation];
         
@@ -2996,6 +2909,8 @@
 
 - (void)dismissButtonClick:(UIButton *)button{
     
+    [JKAlertKeyWindow() endEditing:YES];
+    
     !self.blankClickBlock ? : self.blankClickBlock();
     
     !self.tapBlankHandler ? : self.tapBlankHandler(self);
@@ -3005,8 +2920,6 @@
         self.dismiss();
         
     } else {
-        
-        [self endEditing:YES];
         
         if ((self.enableVerticalGestureDismiss ||
              self.enableHorizontalGestureDismiss) &&
@@ -3088,8 +3001,7 @@
     
     [UIView animateWithDuration:0.25 animations:^{
         
-        self.backgroundView.backgroundColor = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0], [[UIColor whiteColor] colorWithAlphaComponent:0]);
-        self.fullScreenBackGroundView.alpha = 0;
+        self.backgroundView.alpha = 0;
         
         [self dismissAnimationOperation];
         
@@ -4086,7 +3998,6 @@
     _plainTitleMessageSeparatorHidden = YES;
     _collectionTitleSeparatorHidden = YES;
     
-    TBMargin = 20;
     PlainViewWidth = 290;
     OriginalPlainWidth = PlainViewWidth;
     _collectionViewMargin = 10;
@@ -4100,7 +4011,6 @@
     AutoAdjustHomeIndicator = YES;
     
     self.flowlayoutItemWidth = 76;
-    self.textViewLeftRightMargin = 20;
     
     _enableVerticalGestureDismiss = NO;
     _enableHorizontalGestureDismiss = NO;

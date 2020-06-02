@@ -64,6 +64,17 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCustomSuperView)(UIView *customSuperView);
 
 /**
+ * 全屏背景颜色
+ * 默认 black 0.4
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeFullBackgroundColor)(JKAlertMultiColor *color);
+
+/**
+ * 设置全屏背景view 默认无
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeFullBackgroundView)(UIView *(^backGroundView)(void));
+
+/**
  * 点击空白处是否消失，plain/HUD默认NO，其它YES
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTapBlankDismiss)(BOOL shouldDismiss);
@@ -85,29 +96,29 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeAlertBackgroundView)(UIView *(^backgroundView)(void));
 
 #pragma mark
-#pragma mark - 标题/内容相关
+#pragma mark - title /内容相关
 
 /**
- * 标题和内容是否可以响应事件，
+ * title 和内容是否可以响应事件，
  * 默认YES 如无必要不建议设置为NO
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTitleMessageUserInteractionEnabled)(BOOL userInteractionEnabled);
 
 /**
- * 标题和内容是否可以选择文字
+ * title 和内容是否可以选择文字
  * 默认NO
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTitleMessageShouldSelectText)(BOOL shouldSelectText);
 
 /**
- * 标题字体
+ * title 字体
  * plain默认 bold 17
  * 其它 system 17
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTitleFont)(UIFont *font);
 
 /**
- * 标题字体颜色
+ * title 字体颜色
  * plain默认RGB都为0.1
  * HUD 默认 white color
  * 其它0.35
@@ -115,31 +126,31 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTitleColor)(JKAlertMultiColor *textColor);
 
 /**
- * 标题文字水平样式
+ * title 文字水平样式
  * 默认NSTextAlignmentCenter
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTitleAlignment)(NSTextAlignment textAlignment);
 
 /**
- * 标题textView的代理
+ * title textView的代理
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTitleDelegate)(id <UITextViewDelegate> delegate);
 
 /**
- * message字体
+ * message 字体
  * plain默认14，其它13
  * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeMessageFont)(UIFont *font);
 
 /**
- * message字体颜色
+ * message 字体颜色
  * plain默认RGB都为0.55，其它0.3
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeMessageColor)(JKAlertMultiColor *textColor);
 
 /**
- * message文字水平样式
+ * message 文字水平样式
  * 默认NSTextAlignmentCenter
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeMessageAlignment)(NSTextAlignment textAlignment);
@@ -148,4 +159,33 @@
  * message的textView的代理
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeMessageDelegate)(id <UITextViewDelegate> delegate);
+
+
+
+
+/**
+ * title 四周间距
+ * 默认(20, 20, 20, 3.5)
+ * 当无message或message隐藏时，bottom将自动使用messageInsets.bottom来计算
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeTitleInsets)(UIEdgeInsets (^handler)(UIEdgeInsets originalInsets));
+
+/**
+ * message 四周间距
+ * 默认(3.5, 20, 20, 20)
+ * 当无title或title隐藏时，top将自动使用titleInsets.top来计算
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeMessageInsets)(UIEdgeInsets (^handler)(UIEdgeInsets originalInsets));
+
+/**
+ * title和message直接的分隔线是否隐藏
+ * 默认YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeTitleMessageSeparatorLineHidden)(BOOL hidden);
+
+/**
+ * title和message直接的分隔线四周间距
+ * 默认(0, 0, 0, 0)
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeTitleMessageSeparatorLineInsets)(UIEdgeInsets insets);
 @end

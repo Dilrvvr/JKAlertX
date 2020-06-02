@@ -32,7 +32,25 @@
 //        return;
 //    }
     
-    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].makeTitleAlignment(NSTextAlignmentLeft).setTextViewLeftRightMargin(4).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].makeTitleAlignment(NSTextAlignmentLeft).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+        
+        UIEdgeInsets insets = originalInsets;
+        
+        insets.left = 4;
+        insets.right = 4;
+        
+        return insets;
+        
+    }).makeMessageInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+        
+        UIEdgeInsets insets = originalInsets;
+        
+        insets.left = 4;
+        insets.right = 4;
+        
+        return insets;
+        
+    }).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
         [JKShareManager shareUrl:url text:title description:description imageUrl:imageUrl shareType:(JKShareTypeWechatSession)];
         

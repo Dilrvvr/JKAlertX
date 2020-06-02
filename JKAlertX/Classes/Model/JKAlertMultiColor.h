@@ -9,10 +9,16 @@
 
 @interface JKAlertMultiColor : NSObject
 
-+ (JKAlertMultiColor *)colorWithColor:(UIColor *)color;
+/// 无颜色
++ (JKAlertMultiColor *)colorWithNoColor;
 
-+ (JKAlertMultiColor *)colorWithSingleColor:(UIColor *)singleColor;
+/// 将动态color转为JKAlertMultiColor
++ (JKAlertMultiColor *)colorWithDynamicColor:(UIColor *)color;
 
+/// 浅色/深色 颜色保持一致
++ (JKAlertMultiColor *)colorWithSameColor:(UIColor *)singleColor;
+
+/// 创建 浅色/深色 颜色
 + (JKAlertMultiColor *)colorWithLightColor:(UIColor *)lightColor
                                  darkColor:(UIColor *)darkColor;
 

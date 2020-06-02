@@ -54,38 +54,14 @@
 
 
 
-/**
- * 设置全屏背景view 默认无
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setFullScreenBackGroundView)(UIView *(^backGroundView)(void));
-
-/** 设置全屏背景是否透明，默认黑色 0.4 alpha */
-@property (nonatomic, copy, readonly) JKAlertView *(^setClearFullScreenBackgroundColor)(BOOL isClearFullScreenBackgroundColor);
 
 
 
 
 
-/** 设置title和message的左右间距 默认20 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin);
-
-/**
- * 设置title和message上下间距 默认20
- * plain样式title上间距和message下间距
- * collection样式title上下间距
- * plain样式下setPlainTitleMessageSeparatorHidden为NO时，该值为title上下间距
- * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值为title上下间距
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTextViewTopBottomMargin)(CGFloat margin);
 
 /** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCancelAction)(JKAlertAction *action);
-
-/**
- * 设置背景view
- * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setBackGroundView)(UIView *(^backGroundView)(void));
 
 /**
  * 设置是否使JKAlertView.dismissAll(); 对当前JKAlertView无效
