@@ -87,31 +87,6 @@
 #pragma mark plain样式
 
 /**
- * 设置plain样式添加自定义的titleView
- * frame给出高度即可，宽度自适应plain宽度
- * 请将自定义view视为容器view，推荐使用自动布局约束其子控件
- * onlyForMessage : 是否仅放在message位置
- * onlyForMessage如果为YES，有title时，title的上下间距则变为setTextViewTopBottomMargin的值
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomPlainTitleView)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view));
-
-/**
- * 设置plain样式title和message之间的间距 默认7
- * setPlainTitleMessageSeparatorHidden为NO时，该值表示message的上下间距
- * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值无影响
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleMessageMargin)(CGFloat margin);
-
-/**
- * 设置plain样式title和message上下之间的分隔线是否隐藏，默认YES
- * 当设置为NO时:
- 1、setTextViewTopBottomMargin将自动改为title上下间距
- 2、setTitleMessageMargin将自动改为message的上下间距
- * leftRightMargin : 分隔线的左右间距
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainTitleMessageSeparatorHidden)(BOOL separatorHidden, CGFloat leftRightMargin);
-
-/**
  * 设置plain样式message最小高度 默认0
  * 仅在message != nil时有效
  * 该高度不包括message的上下间距
@@ -132,16 +107,6 @@
  * 正数表示向下偏移，负数表示向上偏移
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
-
-/**
- * 设置是否自动适配键盘
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setAutoAdaptKeyboard)(BOOL autoAdaptKeyboard);
-
-/**
- * 设置弹框底部与键盘间距
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainKeyboardMargin)(CGFloat plainKeyboardMargin);
 
 
 #pragma mark

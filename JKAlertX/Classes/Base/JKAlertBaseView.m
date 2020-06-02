@@ -9,7 +9,11 @@
 #import "JKAlertVisualFormatConstraintManager.h"
 
 @interface JKAlertBaseView ()
-
+{
+    __weak UIView *_backgroundView;
+    
+    __weak UIView *_contentView;
+}
 @end
 
 @implementation JKAlertBaseView
@@ -33,6 +37,11 @@
 
 #pragma mark
 #pragma mark - Override
+
+- (void)dealloc {
+    
+    NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -204,6 +213,22 @@
 #pragma mark
 #pragma mark - Private Property
 
+- (UIView *)backgroundView {
+    if (!_backgroundView) {
+        UIView *backgroundView = [[UIView alloc] init];
+        backgroundView.userInteractionEnabled = NO;
+        [self addSubview:backgroundView];
+        _backgroundView = backgroundView;
+    }
+    return _backgroundView;
+}
 
-
+- (UIView *)contentView {
+    if (!_contentView) {
+        UIView *contentView = [[UIView alloc] init];
+        [self addSubview:contentView];
+        _contentView = contentView;
+    }
+    return _contentView;
+}
 @end

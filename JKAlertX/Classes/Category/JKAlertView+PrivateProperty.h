@@ -22,7 +22,7 @@
     CGFloat textContainerViewCurrentMaxH_;
     BOOL    _enableDeallocLog;
     
-    CGFloat JKAlertTitleMessageMargin;
+    //CGFloat JKAlertTitleMessageMargin;
     
     CGFloat JKAlertSheetMaxH;
     
@@ -165,20 +165,14 @@
 /** 监听点击空白处的block */
 @property (nonatomic, copy) void (^blankClickBlock)(void);
 
-/** plain样式title和messagex上下之间的分隔线是否隐藏 默认YES */
-@property (nonatomic, assign) BOOL plainTitleMessageSeparatorHidden;
-
-/** plain样式title和messagex上下之间的分隔线左右间距 默认0 */
-@property (nonatomic, assign) CGFloat plainTitleMessageSeparatorMargin;
-
 /** message最小高度 */
 @property (nonatomic, assign) CGFloat messageMinHeight;
 
 /** plain样式添加自定义的titleView */
-@property (nonatomic, weak) UIView *customPlainTitleView;
+//@property (nonatomic, weak) UIView *customPlainTitleView;
 
 /** plain样式添加自定义的titleView 是否仅放在message位置 */
-@property (nonatomic, assign) BOOL customPlainTitleViewOnlyForMessage;
+//@property (nonatomic, assign) BOOL customPlainTitleViewOnlyForMessage;
 
 /** collection样式添加自定义的titleView的父视图 */
 //@property (nonatomic, weak) UIScrollView *customPlainTitleScrollView;
@@ -405,6 +399,10 @@
 
 /** 镂空时背景色 */
 @property (nonatomic, strong) UIColor *piercedBackgroundColor;
+
+- (void)addKeyboardWillChangeFrameNotification;
+
+- (void)removeKeyboardWillChangeFrameNotification;
 @end
 
 

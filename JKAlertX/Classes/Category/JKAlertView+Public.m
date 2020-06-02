@@ -364,6 +364,54 @@
     };
 }
 
+/**
+ * 自定义整体title和message
+ */
+- (JKAlertView *(^)(UIView *(^)(void)))makeCustomTextContentView {
+    
+    return ^(UIView *(^handler)(void)) {
+        
+        if (handler) {
+            
+            self.currentTextContentView.customContentView = handler();
+        }
+        
+        return self;
+    };
+}
+
+/**
+ * 自定义title
+ */
+- (JKAlertView *(^)(UIView *(^)(void)))makeCustomTitleView {
+    
+    return ^(UIView *(^handler)(void)) {
+        
+        if (handler) {
+            
+            self.currentTextContentView.customTitleView = handler();
+        }
+        
+        return self;
+    };
+}
+
+/**
+ * 自定义message
+ */
+- (JKAlertView *(^)(UIView *(^)(void)))makeCustomMessageView {
+    
+    return ^(UIView *(^handler)(void)) {
+        
+        if (handler) {
+            
+            self.currentTextContentView.customMessageView = handler();
+        }
+        
+        return self;
+    };
+}
+
 
 
 

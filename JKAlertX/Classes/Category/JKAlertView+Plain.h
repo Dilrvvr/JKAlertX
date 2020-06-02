@@ -30,4 +30,15 @@
  * 添加了textField时会自动弹出键盘
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makePlainAutoShowKeyboard)(BOOL autoShowKeyboard);
+
+/**
+ * 是否自动适配键盘
+ * 默认YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makePlainAutoAdaptKeyboard)(BOOL autoAdaptKeyboard);
+
+/**
+ * 弹框底部与键盘间距
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makePlainKeyboardMargin)(CGFloat margin);
 @end

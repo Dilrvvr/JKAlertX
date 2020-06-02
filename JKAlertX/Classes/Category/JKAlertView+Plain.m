@@ -58,19 +58,56 @@
 }
 
 /**
-* 是否自动弹出键盘 默认YES
-* 添加了textField时会自动弹出键盘
-*/
- - (JKAlertView *(^)(BOOL autoShowKeyboard))makePlainAutoShowKeyboard {
-     
-     return ^(BOOL autoShowKeyboard) {
+ * 是否自动弹出键盘 默认YES
+ * 添加了textField时会自动弹出键盘
+ */
+- (JKAlertView *(^)(BOOL autoShowKeyboard))makePlainAutoShowKeyboard {
+    
+    return ^(BOOL autoShowKeyboard) {
+        
+        return [self checkPlainStyleHandler:^{
+            
+            self.plainContentView.autoShowKeyboard = autoShowKeyboard;
+        }];
+    };
+}
 
-         return [self checkPlainStyleHandler:^{
-           
-             self.plainContentView.autoShowKeyboard = autoShowKeyboard;
-         }];
-     };
- }
+/**
+ * 是否自动适配键盘
+ * 默认YES
+ */
+- (JKAlertView *(^)(BOOL autoAdaptKeyboard))makePlainAutoAdaptKeyboard {
+    
+    return ^(BOOL autoAdaptKeyboard) {
+        
+        return [self checkPlainStyleHandler:^{
+            
+            if (autoAdaptKeyboard == self.autoAdaptKeyboard) { return; }
+            
+            if (autoAdaptKeyboard) {
+                
+                [self addKeyboardWillChangeFrameNotification];
+                
+            } else {
+                
+                [self removeKeyboardWillChangeFrameNotification];
+            }
+        }];
+    };
+}
+
+/**
+ * 弹框底部与键盘间距
+ */
+- (JKAlertView *(^)(CGFloat margin))makePlainKeyboardMargin {
+    
+    return ^(CGFloat margin) {
+        
+        self.plainKeyboardMargin = margin;
+        
+        return self;
+    };
+}
 
 
 

@@ -327,6 +327,8 @@
         {
             _currentAlertContentView = self.plainContentView;
             _currentTextContentView = self.plainContentView.textContentView;
+            
+            [self addKeyboardWillChangeFrameNotification];
         }
             break;
             
@@ -363,6 +365,8 @@
             
             _currentAlertContentView = self.plainContentView;
             _currentTextContentView = self.plainContentView.textContentView;
+            
+            [self addKeyboardWillChangeFrameNotification];
         }
             break;
     }
@@ -440,17 +444,6 @@
     }
 }
 
-- (void)setCustomPlainTitleView:(UIView *)customPlainTitleView{
-    _customPlainTitleView = customPlainTitleView;
-    
-    if (!_customPlainTitleView) { return; }
-    
-    _titleTextView.hidden = !_customPlainTitleViewOnlyForMessage;
-    _messageTextView.hidden = YES;
-    
-    [_plainTextContainerScrollView addSubview:_customPlainTitleView];
-}
-
 - (void)setPlainCenterOffsetY:(CGFloat)plainCenterOffsetY{
     
     _plainCenterOffsetY = plainCenterOffsetY;
@@ -489,12 +482,6 @@
     NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : alertBackGroundView}];
     [_sheetContainerView addConstraints:cons2];
     //[_plainView addConstraints:cons2];
-}
-
-- (void)setPlainTitleMessageSeparatorHidden:(BOOL)plainTitleMessageSeparatorHidden{
-    _plainTitleMessageSeparatorHidden = plainTitleMessageSeparatorHidden;
-    
-    _plainTitleMessageSeparatorView.hidden = _plainTitleMessageSeparatorHidden;
 }
 
 - (void)setMessageMinHeight:(CGFloat)messageMinHeight{
@@ -727,32 +714,6 @@
     };
 }
 
-/**
- * 设置是否自动适配键盘
- */
-- (JKAlertView *(^)(BOOL autoAdaptKeyboard))setAutoAdaptKeyboard{
-    
-    return ^(BOOL autoAdaptKeyboard) {
-        
-        self.autoAdaptKeyboard = autoAdaptKeyboard;
-        
-        return self;
-    };
-}
-
-/**
- * 设置弹框底部与键盘间距
- */
-- (JKAlertView *(^)(CGFloat plainKeyboardMargin))setPlainKeyboardMargin{
-    
-    return ^(CGFloat plainKeyboardMargin) {
-        
-        self.plainKeyboardMargin = MAX(plainKeyboardMargin, 0);
-        
-        return self;
-    };
-}
-
 /** 设置是否允许手势退出 仅限sheet样式 */
 - (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator))setEnableGestureDismiss{
     
@@ -762,39 +723,6 @@
         self.enableHorizontalGestureDismiss = enableHorizontalGesture;
         
         self.showGestureIndicator = showGestureIndicator;
-        
-        return self;
-    };
-}
-
-
-/**
- * 设置plain样式title和messagex上下之间的分隔线是否隐藏，默认YES
- * 当设置为NO时:
- 1、setTextViewTopBottomMargini将自动改为title上下间距
- 2、setTitleMessageMargin将自动改为message的上下间距
- * leftRightMargin : 分隔线的左右间距
- */
-- (JKAlertView *(^)(BOOL separatorHidden, CGFloat leftRightMargin))setPlainTitleMessageSeparatorHidden{
-    
-    return ^(BOOL separatorHidden, CGFloat leftRightMargin) {
-        
-        self.plainTitleMessageSeparatorHidden = separatorHidden;
-        
-        self.plainTitleMessageSeparatorMargin = leftRightMargin;
-        
-        // TODO: JKTODO <#注释#>
-        UIEdgeInsets insets = self.plainContentView.textContentView.titleInsets;
-        insets.bottom = insets.top;
-        self.plainContentView.textContentView.titleInsets = insets;
-        
-        insets = self.plainContentView.textContentView.messageInsets;
-        insets.top = insets.bottom;
-        self.plainContentView.textContentView.messageInsets = insets;
-        
-        self.plainContentView.textContentView.separatorLineHidden = separatorHidden;
-        
-        self.plainContentView.textContentView.separatorLineInsets = UIEdgeInsetsMake(0, leftRightMargin, 0, leftRightMargin);
         
         return self;
     };
@@ -1047,51 +975,6 @@
     return ^(UIView *(^customView)(void)) {
         
         self.customSheetTitleView = !customView ? nil : customView();
-        
-        return self;
-    };
-}
-
-/**
- * 设置plain样式添加自定义的titleView
- * frame给出高度即可，宽度自适应plain宽度
- * 请将自定义view视为容器view，推荐使用自动布局约束其子控件
- * onlyForMessage : 是否仅放在message位置
- * onlyForMessage如果为YES，有title时，title的上下间距则变为setTextViewTopBottomMargin的值
- */
-- (JKAlertView *(^)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)))setCustomPlainTitleView{
-    
-    return ^(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)) {
-        
-        self.customPlainTitleViewOnlyForMessage = onlyForMessage;
-        
-        self.customPlainTitleView = !customView ? nil : customView(self);
-        
-        // TODO: JKTODO <#注释#>
-        
-        if (self.customPlainTitleViewOnlyForMessage) {
-            
-            self.plainContentView.textContentView.customMessageView = self.customPlainTitleView;
-            
-        } else {
-            
-            self.plainContentView.textContentView.customContentView = self.customPlainTitleView;
-        }
-        
-        return self;
-    };
-}
-
-/**
- * 设置plain样式title和message之间的间距 默认7
- * setPlainTitleMessageSeparatorHidden为NO时，该值表示message的上下间距
- * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值无影响
- */
-- (JKAlertView *(^)(CGFloat margin))setTitleMessageMargin{
-    
-    return ^(CGFloat margin) {
-        
-        self->JKAlertTitleMessageMargin = margin;
         
         return self;
     };
@@ -2516,12 +2399,6 @@
     
     self.frame = self.superview.bounds;
     
-    if (self.currentTextField != nil ||
-        (self.alertStyle == JKAlertStylePlain && self.autoAdaptKeyboard)) {
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
-    }
-    
     if (self.shouldVibrate) {
         
         JKAlertVibrateDevice();
@@ -3903,6 +3780,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearAllNotification:) name:JKAlertClearAllNotification object:nil];
 }
 
+- (void)addKeyboardWillChangeFrameNotification {
+    
+    // 键盘
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)removeKeyboardWillChangeFrameNotification {
+    
+    // 键盘
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
 #pragma mark
 #pragma mark - Initialization & Build UI
 
@@ -3926,19 +3815,21 @@
     _enableDeallocLog = NO;
     _messageMinHeight = -1;
     _dismissTimeInterval = 1;
-    _plainTitleMessageSeparatorHidden = YES;
+    
     _collectionTitleSeparatorHidden = YES;
     
     PlainViewWidth = 290;
     OriginalPlainWidth = PlainViewWidth;
     _collectionViewMargin = 10;
-    JKAlertTitleMessageMargin = 7;
+    
     CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
     JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
     
     FillHomeIndicator = YES;
     AutoAdjustHomeIndicator = YES;
+    
+    _autoAdaptKeyboard = YES;
     
     self.flowlayoutItemWidth = 76;
     

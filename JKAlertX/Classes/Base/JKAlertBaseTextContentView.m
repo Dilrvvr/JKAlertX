@@ -31,6 +31,9 @@
     
     _customContentView = customContentView;
     
+    self.customTitleView.hidden = (_customContentView != nil);
+    self.customMessageView.hidden = self.customTitleView.hidden;
+    
     if (_customContentView.frame.size.width > 0) {
         
         self.contentWidth = _customContentView.frame.size.width;
@@ -51,6 +54,11 @@
     
     _customTitleView = customTitleView;
     
+    if (self.customContentView) {
+        
+        _customTitleView.hidden = YES;
+    }
+    
     [self.contentView addSubview:_customTitleView];
     
     self.titleTextView.hidden = YES;
@@ -61,6 +69,11 @@
     if (_customMessageView) {
         
         [_customMessageView removeFromSuperview];
+    }
+    
+    if (self.customContentView) {
+        
+        _customMessageView.hidden = YES;
     }
     
     _customMessageView = customMessageView;
@@ -274,10 +287,7 @@
 #pragma mark
 #pragma mark - Override
 
-- (void)dealloc {
-    
-    NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
-}
+
 
 #pragma mark
 #pragma mark - Private Methods

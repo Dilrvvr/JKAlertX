@@ -177,7 +177,7 @@
 
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 - (JKAlertView *(^)(BOOL userInteractionEnabled))setTextViewUserInteractionEnabled {
-
+    
     return [self makeTitleMessageUserInteractionEnabled];
 }
 
@@ -260,7 +260,7 @@
     return ^(CGFloat margin) {
         
         return self.makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
-
+            
             UIEdgeInsets insets = originalInsets;
             
             insets.left = margin;
@@ -269,7 +269,7 @@
             return insets;
             
         }).makeMessageInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
-
+            
             UIEdgeInsets insets = originalInsets;
             
             insets.left = margin;
@@ -293,8 +293,8 @@
         switch (self.alertStyle) {
             case JKAlertStylePlain:
             {
-                if (self.customPlainTitleViewOnlyForMessage ||
-                    !self.plainTitleMessageSeparatorHidden) {
+                if (!self.plainContentView.textContentView.customMessageView.hidden ||
+                    !self.plainContentView.textContentView.separatorLineView.hidden) {
                     
                     self.makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
                         
@@ -387,25 +387,143 @@
 /**
  * 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO
  */
- - (JKAlertView *(^)(BOOL autoReducePlainWidth))setAutoReducePlainWidth {
-     
-     return [self makePlainAutoReduceWidth];
- }
+- (JKAlertView *(^)(BOOL autoReducePlainWidth))setAutoReducePlainWidth {
+    
+    return [self makePlainAutoReduceWidth];
+}
 
- /**
-  * 设置plain样式的圆角
-  * 默认8 不可小于0
-  */
- - (JKAlertView *(^)(CGFloat cornerRadius))setPlainCornerRadius {
-     
-     return [self makePlainCornerRadius];
- }
+/**
+ * 设置plain样式的圆角
+ * 默认8 不可小于0
+ */
+- (JKAlertView *(^)(CGFloat cornerRadius))setPlainCornerRadius {
+    
+    return [self makePlainCornerRadius];
+}
 
- /**
-  * 设置是否自动弹出键盘 默认YES
-  */
-  - (JKAlertView *(^)(BOOL autoShowKeyboard))setAutoShowKeyboard {
-      
-      return [self makePlainAutoShowKeyboard];
-  }
+/**
+ * 设置是否自动弹出键盘 默认YES
+ */
+- (JKAlertView *(^)(BOOL autoShowKeyboard))setAutoShowKeyboard {
+    
+    return [self makePlainAutoShowKeyboard];
+}
+
+/**
+ * 设置是否自动适配键盘
+ */
+- (JKAlertView *(^)(BOOL autoAdaptKeyboard))setAutoAdaptKeyboard {
+    
+    return [self makePlainAutoAdaptKeyboard];
+}
+
+/**
+ * 设置弹框底部与键盘间距
+ */
+- (JKAlertView *(^)(CGFloat plainKeyboardMargin))setPlainKeyboardMargin {
+    
+    return [self makePlainKeyboardMargin];
+}
+
+
+/**
+ * 设置plain样式title和messagex上下之间的分隔线是否隐藏，默认YES
+ * 当设置为NO时:
+ 1、setTextViewTopBottomMargin将自动改为title上下间距
+ 2、setTitleMessageMargin将自动改为message的上下间距
+ * leftRightMargin : 分隔线的左右间距
+ */
+- (JKAlertView *(^)(BOOL separatorHidden, CGFloat leftRightMargin))setPlainTitleMessageSeparatorHidden{
+    
+    return ^(BOOL separatorHidden, CGFloat leftRightMargin) {
+        
+        if (JKAlertStylePlain != self.alertStyle) { return self; }
+        
+        // TODO: JKTODO <#注释#>
+        
+        self.plainContentView.textContentView.separatorLineHidden = separatorHidden;
+        
+        self.plainContentView.textContentView.separatorLineInsets = UIEdgeInsetsMake(0, leftRightMargin, 0, leftRightMargin);
+        
+        return self;
+    };
+}
+
+/**
+ * 设置plain样式title和message之间的间距 默认7
+ * setPlainTitleMessageSeparatorHidden为NO时，该值表示message的上下间距
+ * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值无影响
+ */
+- (JKAlertView *(^)(CGFloat margin))setTitleMessageMargin {
+    
+    return ^(CGFloat margin) {
+        
+        if (JKAlertStylePlain != self.alertStyle) { return self; }
+        
+        if (!self.plainContentView.textContentView.customMessageView.hidden) { return self; }
+        
+        if (!self.plainContentView.textContentView.separatorLineHidden) {
+            
+            self.makeMessageInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+                
+                UIEdgeInsets insets = originalInsets;
+                
+                insets.top = margin * 0.5;
+                
+                return insets;
+            });
+            
+            return self;
+        }
+        
+        self.makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+            
+            UIEdgeInsets insets = originalInsets;
+            
+            insets.bottom = margin * 0.5;
+            
+            return insets;
+            
+        }).makeMessageInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+            
+            UIEdgeInsets insets = originalInsets;
+            
+            insets.top = margin * 0.5;
+            
+            return insets;
+        });
+        
+        return self;
+    };
+}
+
+/**
+ * 设置plain样式添加自定义的titleView
+ * frame给出高度即可，宽度自适应plain宽度
+ * 请将自定义view视为容器view，推荐使用自动布局约束其子控件
+ * onlyForMessage : 是否仅放在message位置
+ * onlyForMessage如果为YES，有title时，title的上下间距则变为setTextViewTopBottomMargin的值
+ */
+- (JKAlertView *(^)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)))setCustomPlainTitleView{
+    
+    return ^(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)) {
+        
+        if (JKAlertStylePlain != self.alertStyle || !customView) { return self; }
+        
+        UIView *titleView = customView(self);
+        
+        // TODO: JKTODO <#注释#>
+        
+        if (onlyForMessage) {
+            
+            self.plainContentView.textContentView.customMessageView = titleView;
+            
+        } else {
+            
+            self.plainContentView.textContentView.customContentView = titleView;
+        }
+        
+        return self;
+    };
+}
 @end

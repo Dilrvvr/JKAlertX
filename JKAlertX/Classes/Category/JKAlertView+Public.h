@@ -188,4 +188,19 @@
  * 默认(0, 0, 0, 0)
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTitleMessageSeparatorLineInsets)(UIEdgeInsets insets);
+
+/**
+ * 自定义整体title和message
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomTextContentView)(UIView * (^handler)(void));
+
+/**
+ * 自定义title
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomTitleView)(UIView * (^handler)(void));
+
+/**
+ * 自定义message
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomMessageView)(UIView * (^handler)(void));
 @end

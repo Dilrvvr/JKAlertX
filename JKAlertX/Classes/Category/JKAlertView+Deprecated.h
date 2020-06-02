@@ -144,4 +144,40 @@
  * 设置是否自动弹出键盘 默认YES
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setAutoShowKeyboard)(BOOL autoShowKeyboard) JKAlertXDeprecated("use makePlainAutoShowKeyboard");
+
+/**
+ * 是否自动适配键盘
+ * 默认YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setAutoAdaptKeyboard)(BOOL autoAdaptKeyboard) JKAlertXDeprecated("use makePlainAutoAdaptKeyboard");
+
+/**
+ * 设置弹框底部与键盘间距
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainKeyboardMargin)(CGFloat plainKeyboardMargin) JKAlertXDeprecated("use makePlainKeyboardMargin");
+
+/**
+ * 设置plain样式title和message上下之间的分隔线是否隐藏，默认YES
+ * 当设置为NO时:
+ 1、setTextViewTopBottomMargin将自动改为title上下间距
+ 2、setTitleMessageMargin将自动改为message的上下间距
+ * leftRightMargin : 分隔线的左右间距
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainTitleMessageSeparatorHidden)(BOOL separatorHidden, CGFloat leftRightMargin) JKAlertXDeprecated("use makeTitleMessageSeparatorLineHidden & makeTitleMessageSeparatorLineInsets");
+
+/**
+ * 设置plain样式title和message之间的间距 默认7
+ * setPlainTitleMessageSeparatorHidden为NO时，该值表示message的上下间距
+ * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值无影响
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleMessageMargin)(CGFloat margin) JKAlertXDeprecated("use makeTitleInsets & makeMessageInsets");
+
+/**
+ * 设置plain样式添加自定义的titleView
+ * frame给出高度即可，宽度自适应plain宽度
+ * 请将自定义view视为容器view，推荐使用自动布局约束其子控件
+ * onlyForMessage : 是否仅放在message位置
+ * onlyForMessage如果为YES，有title时，title的上下间距则变为setTextViewTopBottomMargin的值
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomPlainTitleView)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)) JKAlertXDeprecated("use makeCustomTextContentView & makeCustomMessageView");
 @end

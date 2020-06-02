@@ -128,7 +128,7 @@
         // alertView.setclickBlankDismiss(YES);
         
         // title和message之间加分隔线
-        alertView.makeCustomSuperView(self.testLabel).setPlainTitleMessageSeparatorHidden(NO, 0).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+        alertView.makeCustomSuperView(self.testLabel).makeTitleMessageSeparatorLineHidden(NO).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
             
             UIEdgeInsets insets = originalInsets;
             
@@ -146,7 +146,7 @@
             
             return insets;
             
-        }).setTitleMessageMargin(0).setMessageMinHeight(100);
+        }).setMessageMinHeight(100);
         
         // 配置关闭按钮
         alertView.setPlainCloseButtonConfig(^(UIButton *closeButton) {
@@ -632,10 +632,10 @@
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStylePlain)].makeCustomSuperView(self.testLabel);
     
     // 显示title和message之间的分隔线
-    alertView.setPlainTitleMessageSeparatorHidden(NO, 0);
+    alertView.makeTitleMessageSeparatorLineHidden(NO);
     
     // 设置YES表示仅自定义message
-    alertView.setCustomPlainTitleView(YES, ^UIView *(JKAlertView *view) {
+    alertView.makeCustomMessageView(^UIView *{
         
         return label;
     });

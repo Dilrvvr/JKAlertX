@@ -110,7 +110,7 @@
         //alertView.makePlainWidth(500).makePlainAutoReduceWidth(YES);
         
         // title和message之间加分隔线
-        alertView.setPlainTitleMessageSeparatorHidden(NO, 0).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+        alertView.makeTitleMessageSeparatorLineHidden(NO).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
             
             UIEdgeInsets insets = originalInsets;
             
@@ -128,7 +128,7 @@
             
             return insets;
             
-        }).setTitleMessageMargin(0).setMessageMinHeight(100);
+        }).setMessageMinHeight(100);
         
         // 向上偏移50
         alertView.setPlainCenterOffsetY(-50);
@@ -645,10 +645,10 @@
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStyleAlert)];
     
     // 显示title和message之间的分隔线
-    alertView.setPlainTitleMessageSeparatorHidden(NO, 0);
+    alertView.makeTitleMessageSeparatorLineHidden(NO);
     
     // 设置YES表示仅自定义message
-    alertView.setCustomPlainTitleView(YES, ^UIView *(JKAlertView *view) {
+    alertView.makeCustomMessageView(^UIView *{
         
         return label;
     });
