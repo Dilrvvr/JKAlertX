@@ -186,14 +186,6 @@
 /** 创建UI 交给子类重写 super自动调用该方法 */
 - (void)createUI {
     
-    UIView *backgroundView = [[UIView alloc] init];
-    backgroundView.userInteractionEnabled = NO;
-    [self addSubview:backgroundView];
-    _backgroundView = backgroundView;
-    
-    UIView *contentView = [[UIView alloc] init];
-    [self addSubview:contentView];
-    _contentView = contentView;
 }
 
 /** 布局UI 交给子类重写 super自动调用该方法 */
