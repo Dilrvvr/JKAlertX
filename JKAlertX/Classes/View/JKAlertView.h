@@ -37,7 +37,7 @@
 - (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *view, UITextField *textField))configurationHandler;
 
 /** 显示 */
-@property (nonatomic, copy, readonly) JKAlertView * (^show)(void);
+@property (nonatomic, copy, readonly) JKAlertView *(^show)(void);
 
 /** 显示并监听JKAlertView消失动画完成 */
 @property (nonatomic, copy, readonly) void (^showWithDismissComplete)(void(^dismissComplete)(void));
@@ -85,29 +85,6 @@
 
 #pragma mark
 #pragma mark plain样式
-
-/**
- * 设置plain样式的宽度
- * 默认290
- * 不可小于0，不可大于屏幕宽度
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainWidth)(CGFloat width);
-
-/**
- * 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setAutoReducePlainWidth)(BOOL autoReducePlainWidth);
-
-/**
- * 设置是否自动弹出键盘 默认YES
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setAutoShowKeyboard)(BOOL autoShowKeyboard);
-
-/**
- * 设置plain样式的圆角
- * 默认8 不可小于0
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCornerRadius)(CGFloat cornerRadius);
 
 /**
  * 设置plain样式添加自定义的titleView
@@ -307,13 +284,13 @@
 #pragma mark 类方法
 
 /** 函数式类方法 */
-@property (class, nonatomic, copy, readonly) JKAlertView * (^show)(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView));
+@property (class, nonatomic, copy, readonly) JKAlertView *(^show)(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView));
 
 /** 链式实例化 */
-@property (class, nonatomic, copy, readonly) JKAlertView * (^alertView)(NSString *title, NSString *message, JKAlertStyle style);
+@property (class, nonatomic, copy, readonly) JKAlertView *(^alertView)(NSString *title, NSString *message, JKAlertStyle style);
 
 /** 富文本链式实例化 */
-@property (class, nonatomic, copy, readonly) JKAlertView * (^alertViewAttributed)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style);
+@property (class, nonatomic, copy, readonly) JKAlertView *(^alertViewAttributed)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style);
 
 /** 显示文字HUD */
 @property (class, nonatomic, copy, readonly) void (^showHUDWithTitle)(NSString *title, void(^configuration)(JKAlertView *alertView));
@@ -461,25 +438,25 @@
 #pragma mark 状态监听
 
 /** 监听即将开始显示动画 */
-@property (nonatomic, copy, readonly) JKAlertView * (^setWillShowHandler)(void(^willShowHandler)(JKAlertView *view));
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillShowHandler)(void(^willShowHandler)(JKAlertView *view));
 
 /** 监听显示动画完成 */
-@property (nonatomic, copy, readonly) JKAlertView * (^setDidShowHandler)(void(^didShowHandler)(JKAlertView *view));
+@property (nonatomic, copy, readonly) JKAlertView *(^setDidShowHandler)(void(^didShowHandler)(JKAlertView *view));
 
 /** 监听JKAlertView即将开始消失动画 */
-@property (nonatomic, copy, readonly) JKAlertView * (^setWillDismissHandler)(void(^willDismissHandler)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillDismissHandler)(void(^willDismissHandler)(void));
 
 /** 监听JKAlertView消失动画完成 */
-@property (nonatomic, copy, readonly) JKAlertView * (^setDidDismissHandler)(void(^didDismissHandler)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^setDidDismissHandler)(void(^didDismissHandler)(void));
 
 /** 监听屏幕旋转 */
-@property (nonatomic, copy, readonly) JKAlertView * (^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));
+@property (nonatomic, copy, readonly) JKAlertView *(^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));
 
 /** 设置监听superView尺寸改变时将要自适应的block */
-@property (nonatomic, copy, readonly) JKAlertView * (^setWillAutoAdaptSuperViewBlock)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView));
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillAutoAdaptSuperViewBlock)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView));
 
 /** 设置监听superView尺寸改变时自适应完成的block */
-@property (nonatomic, copy, readonly) JKAlertView * (^setDidAutoAdaptSuperViewBlock)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView));
+@property (nonatomic, copy, readonly) JKAlertView *(^setDidAutoAdaptSuperViewBlock)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView));
 
 /** 设置dealloc时会调用的block */
 @property (nonatomic, copy, readonly) void (^setDeallocBlock)(void(^deallocBlock)(void));
@@ -492,19 +469,19 @@
 #pragma mark 显示之后更新UI
 
 /** 重新设置alertTitle */
-@property (nonatomic, copy, readonly) JKAlertView * (^resetAlertTitle)(NSString *alertTitle);
+@property (nonatomic, copy, readonly) JKAlertView *(^resetAlertTitle)(NSString *alertTitle);
 
 /** 重新设置alertAttributedTitle */
-@property (nonatomic, copy, readonly) JKAlertView * (^resetAlertAttributedTitle)(NSAttributedString *alertAttributedTitle);
+@property (nonatomic, copy, readonly) JKAlertView *(^resetAlertAttributedTitle)(NSAttributedString *alertAttributedTitle);
 
 /** 重新设置message */
-@property (nonatomic, copy, readonly) JKAlertView * (^resetMessage)(NSString *message);
+@property (nonatomic, copy, readonly) JKAlertView *(^resetMessage)(NSString *message);
 
 /** 重新设置attributedMessage */
-@property (nonatomic, copy, readonly) JKAlertView * (^resetAttributedMessage)(NSAttributedString *attributedMessage);
+@property (nonatomic, copy, readonly) JKAlertView *(^resetAttributedMessage)(NSAttributedString *attributedMessage);
 
 /** 重新布局 */
-@property (nonatomic, copy, readonly) JKAlertView * (^relayout)(BOOL animated);
+@property (nonatomic, copy, readonly) JKAlertView *(^relayout)(BOOL animated);
 
 /**
  * 重新布局完成的block
@@ -512,7 +489,7 @@
  * 如果需要在block中再次relayout，请在block中销毁该block
  * 即调用setRelayoutComplete(nil); 否则会造成死循环
  */
-@property (nonatomic, copy, readonly) JKAlertView * (^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view));
+@property (nonatomic, copy, readonly) JKAlertView *(^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view));
 
 
 #pragma mark

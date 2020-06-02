@@ -159,9 +159,6 @@
 /** plainButtonVLineView */
 @property (nonatomic, weak) UIView *plainButtonVLineView;
 
-/** plainCornerRadius */
-@property (nonatomic, assign) CGFloat plainCornerRadius;
-
 /** closeButton */
 @property (nonatomic, weak) UIButton *closeButton;
 
@@ -265,9 +262,6 @@
 
 /** 监听superView尺寸改变时自适应完成的block */
 @property (nonatomic, copy) void (^didAdaptBlock)(JKAlertView *view, UIView *containerView);
-
-/** 是否自动弹出键盘 默认YES */
-@property (nonatomic, assign) BOOL autoShowKeyboard;
 
 /** 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO */
 @property (nonatomic, assign) BOOL autoReducePlainWidth;

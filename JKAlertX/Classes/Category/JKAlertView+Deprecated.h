@@ -11,19 +11,19 @@
 
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText) JKAlertXDeprecated("use setTextViewShouldSelectText");
 
-@property (nonatomic, copy, readonly) JKAlertView * (^setWillShowAnimation)(void(^willShowAnimation)(JKAlertView *view)) JKAlertXDeprecated("use setWillShowHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillShowAnimation)(void(^willShowAnimation)(JKAlertView *view)) JKAlertXDeprecated("use setWillShowHandler");
 
-@property (nonatomic, copy, readonly) JKAlertView * (^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view)) JKAlertXDeprecated("use setDidShowHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view)) JKAlertXDeprecated("use setDidShowHandler");
 
-@property (nonatomic, copy, readonly) JKAlertView * (^setWillDismiss)(void(^willDismiss)(void)) JKAlertXDeprecated("use setWillDismissHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillDismiss)(void(^willDismiss)(void)) JKAlertXDeprecated("use setWillDismissHandler");
 
-@property (nonatomic, copy, readonly) JKAlertView * (^setDismissComplete)(void(^dismissComplete)(void)) JKAlertXDeprecated("use setDidDismissHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissComplete)(void(^dismissComplete)(void)) JKAlertXDeprecated("use setDidDismissHandler");
 
 /** 准备重新布局 */
-@property (nonatomic, copy, readonly) JKAlertView * (^prepareToRelayout)(void) JKAlertXDeprecated("JKAlertViewProtocol已移除，无需调用该方法");
+@property (nonatomic, copy, readonly) JKAlertView *(^prepareToRelayout)(void) JKAlertXDeprecated("JKAlertViewProtocol已移除，无需调用该方法");
 
 /** 重新设置其它属性，调用该方法返回JKAlertView，设置好其它属性后，再调用relayout即可 */
-@property (nonatomic, copy, readonly) JKAlertView * (^resetOther)(void) JKAlertXDeprecated("JKAlertViewProtocol已移除，无需调用该方法");
+@property (nonatomic, copy, readonly) JKAlertView *(^resetOther)(void) JKAlertXDeprecated("JKAlertViewProtocol已移除，无需调用该方法");
 
 
 #pragma mark
@@ -118,4 +118,30 @@
  * plain样式下setCustomPlainTitleView onlyForMessage为YES时，该值为title上下间距
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewTopBottomMargin)(CGFloat margin) JKAlertXDeprecated("use makeTitleInsets & makeMessageInsets");
+
+#pragma mark
+#pragma mark - plain样式
+
+/**
+ * 设置plain样式的宽度
+ * 默认290
+ * 不可小于0，不可大于屏幕宽度
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainWidth)(CGFloat width) JKAlertXDeprecated("use makePlainWidth");
+
+/**
+ * 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setAutoReducePlainWidth)(BOOL autoReducePlainWidth) JKAlertXDeprecated("use makeAutoReducePlainWidth");
+
+/**
+ * 设置plain样式的圆角
+ * 默认8 不可小于0
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCornerRadius)(CGFloat cornerRadius) JKAlertXDeprecated("use makePlainCornerRadius");
+
+/**
+ * 设置是否自动弹出键盘 默认YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setAutoShowKeyboard)(BOOL autoShowKeyboard) JKAlertXDeprecated("use makePlainAutoShowKeyboard");
 @end

@@ -8,6 +8,7 @@
 #import "JKAlertView+Deprecated.h"
 #import "JKAlertView+PrivateProperty.h"
 #import "JKAlertView+Public.h"
+#import "JKAlertView+Plain.h"
 
 @implementation JKAlertView (Deprecated)
 
@@ -22,7 +23,7 @@
     };
 }
 
-- (JKAlertView * (^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation {
+- (JKAlertView *(^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation {
     
     return ^(void(^willShowAnimation)(JKAlertView *view)) {
         
@@ -32,7 +33,7 @@
     };
 }
 
-- (JKAlertView * (^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete {
+- (JKAlertView *(^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete {
     
     return ^(void(^showAnimationComplete)(JKAlertView *view)) {
         
@@ -42,7 +43,7 @@
     };
 }
 
-- (JKAlertView * (^)(void(^willDismiss)(void)))setWillDismiss {
+- (JKAlertView *(^)(void(^willDismiss)(void)))setWillDismiss {
     
     return ^JKAlertView * (void(^willDismiss)(void)) {
         
@@ -52,7 +53,7 @@
     };
 }
 
-- (JKAlertView * (^)(void(^dismissComplete)(void)))setDismissComplete {
+- (JKAlertView *(^)(void(^dismissComplete)(void)))setDismissComplete {
     
     return ^(void(^dismissComplete)(void)) {
         
@@ -63,13 +64,13 @@
 }
 
 /** 准备重新布局 */
-- (JKAlertView * (^)(void))prepareToRelayout {
+- (JKAlertView *(^)(void))prepareToRelayout {
     
     return ^{ return self; };
 }
 
 /** 重新设置其它属性，调用该方法返回JKAlertView，设置好其它属性后，再调用relayout即可 */
-- (JKAlertView * (^)(void))resetOther {
+- (JKAlertView *(^)(void))resetOther {
     
     return ^{
         
@@ -107,7 +108,7 @@
 }
 
 /** 设置监听点击空白处的block */
-- (JKAlertView * (^)(void(^blankClickBlock)(void)))setBlankClickBlock {
+- (JKAlertView *(^)(void(^blankClickBlock)(void)))setBlankClickBlock {
     
     return ^(void(^handler)(void)) {
         
@@ -138,7 +139,7 @@
 /**
  * 设置全屏背景view 默认无
  */
-- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setFullScreenBackGroundView{
+- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setFullScreenBackGroundView {
     
     return [self makeFullBackgroundView];
 }
@@ -369,4 +370,42 @@
         return self;
     };
 }
+
+#pragma mark
+#pragma mark - plain样式
+
+/**
+ * 设置plain样式的宽度
+ * 默认290
+ * 不可小于0，不可大于屏幕宽度
+ */
+- (JKAlertView *(^)(CGFloat width))setPlainWidth {
+    
+    return [self makePlainWidth];
+}
+
+/**
+ * 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO
+ */
+ - (JKAlertView *(^)(BOOL autoReducePlainWidth))setAutoReducePlainWidth {
+     
+     return [self makePlainAutoReduceWidth];
+ }
+
+ /**
+  * 设置plain样式的圆角
+  * 默认8 不可小于0
+  */
+ - (JKAlertView *(^)(CGFloat cornerRadius))setPlainCornerRadius {
+     
+     return [self makePlainCornerRadius];
+ }
+
+ /**
+  * 设置是否自动弹出键盘 默认YES
+  */
+  - (JKAlertView *(^)(BOOL autoShowKeyboard))setAutoShowKeyboard {
+      
+      return [self makePlainAutoShowKeyboard];
+  }
 @end

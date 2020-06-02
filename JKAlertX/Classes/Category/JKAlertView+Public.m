@@ -13,7 +13,7 @@
 /**
  * 可以在这个block内自定义其它属性
  */
-- (JKAlertView * (^)(void(^handler)(JKAlertView *innerView)))makeCustomizationHandler {
+- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView)))makeCustomizationHandler {
     
     return ^(void(^handler)(JKAlertView *innerView)) {
         
@@ -64,7 +64,7 @@
  * 全屏背景颜色
  * 默认 black 0.4
  */
-- (JKAlertView * (^)(JKAlertMultiColor *color))makeFullBackgroundColor {
+- (JKAlertView *(^)(JKAlertMultiColor *color))makeFullBackgroundColor {
     
     return ^(JKAlertMultiColor *color) {
         
@@ -75,11 +75,11 @@
 }
 
 /**
- * 设置全屏背景view 默认无
+ * 全屏背景view 默认无
  */
-- (JKAlertView * (^)(UIView *(^backGroundView)(void)))makeFullBackgroundView {
+- (JKAlertView *(^)(UIView *(^backGroundView)(void)))makeFullBackgroundView {
     
-    return ^(UIView * (^backGroundView)(void)) {
+    return ^(UIView *(^backGroundView)(void)) {
         
         self.currentAlertContentView.customBackgroundView = (!backGroundView ? nil : backGroundView());
         
@@ -90,7 +90,7 @@
 /**
  * 设置点击空白处是否消失，plain默认NO，其它YES
  */
-- (JKAlertView * (^)(BOOL shouldDismiss))makeTapBlankDismiss {
+- (JKAlertView *(^)(BOOL shouldDismiss))makeTapBlankDismiss {
     
     return ^(BOOL shouldDismiss) {
         
@@ -103,7 +103,7 @@
 /**
  * 监听点击空白处的block
  */
-- (JKAlertView * (^)(void(^handler)(JKAlertView *innerView)))makeTapBlankHandler {
+- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView)))makeTapBlankHandler {
     
     return ^(void (^handler)(JKAlertView *innerView)) {
         
@@ -209,7 +209,7 @@
  * title 文字水平样式
  * 默认NSTextAlignmentCenter
  */
-- (JKAlertView * (^)(NSTextAlignment textAlignment))makeTitleAlignment {
+- (JKAlertView *(^)(NSTextAlignment textAlignment))makeTitleAlignment {
     
     return ^(NSTextAlignment textAlignment) {
         
@@ -237,7 +237,7 @@
  * plain默认14，其它13
  * action样式在没有title的时候，自动改为15，设置该值后将始终为该值，不自动修改
  */
-- (JKAlertView * (^)(UIFont *font))makeMessageFont {
+- (JKAlertView *(^)(UIFont *font))makeMessageFont {
     
     return ^(UIFont *font) {
         
@@ -254,7 +254,7 @@
  * message字体颜色
  * plain默认RGB都为0.55，其它0.3
  */
-- (JKAlertView * (^)(JKAlertMultiColor *textColor))makeMessageColor {
+- (JKAlertView *(^)(JKAlertMultiColor *textColor))makeMessageColor {
     
     return ^(JKAlertMultiColor *textColor) {
         
@@ -271,7 +271,7 @@
  * message 文字水平样式
  * 默认NSTextAlignmentCenter
  */
-- (JKAlertView * (^)(NSTextAlignment textAlignment))makeMessageAlignment {
+- (JKAlertView *(^)(NSTextAlignment textAlignment))makeMessageAlignment {
     
     return ^(NSTextAlignment textAlignment) {
         
@@ -287,7 +287,7 @@
 /**
  * message的textView的代理
  */
-- (JKAlertView * (^)(id <UITextViewDelegate> delegate))makeMessageDelegate {
+- (JKAlertView *(^)(id <UITextViewDelegate> delegate))makeMessageDelegate {
     
     return ^(id <UITextViewDelegate> delegate) {
         
@@ -321,7 +321,7 @@
 /**
  * message 四周间距
  * 默认(3.5, 20, 20, 20)
- * 当无title或title隐藏时，top将自动使用titleInsets.top来计算 
+ * 当无title或title隐藏时，top将自动使用titleInsets.top来计算
  */
 - (JKAlertView *(^)(UIEdgeInsets (^)(UIEdgeInsets originalInsets)))makeMessageInsets {
     
@@ -340,7 +340,7 @@
  * title和message直接的分隔线是否隐藏
  * 默认YES
  */
-- (JKAlertView * (^)(BOOL hidden))makeTitleMessageSeparatorLineHidden {
+- (JKAlertView *(^)(BOOL hidden))makeTitleMessageSeparatorLineHidden {
     
     return ^(BOOL hidden) {
         
@@ -354,7 +354,7 @@
  * title和message直接的分隔线四周间距
  * 默认(0, 0, 0, 0)
  */
-- (JKAlertView * (^)(UIEdgeInsets insets))makeTitleMessageSeparatorLineInsets {
+- (JKAlertView *(^)(UIEdgeInsets insets))makeTitleMessageSeparatorLineInsets {
     
     return ^(UIEdgeInsets insets) {
         

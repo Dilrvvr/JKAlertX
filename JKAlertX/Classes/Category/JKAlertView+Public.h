@@ -70,7 +70,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeFullBackgroundColor)(JKAlertMultiColor *color);
 
 /**
- * 设置全屏背景view 默认无
+ * 全屏背景view 默认无
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeFullBackgroundView)(UIView *(^backGroundView)(void));
 

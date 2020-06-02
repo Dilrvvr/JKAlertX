@@ -61,7 +61,7 @@
 }
 
 /** 函数式类方法 */
-+ (JKAlertView * (^)(NSString *title, NSString *message, JKAlertStyle style, void(^)(JKAlertView *alertView)))show {
++ (JKAlertView *(^)(NSString *title, NSString *message, JKAlertStyle style, void(^)(JKAlertView *alertView)))show {
     
     return ^(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView)) {
         
@@ -269,6 +269,8 @@
 
 - (void)calculatePlainUI {
     
+    [self updatePlainWidth];
+    
     // TODO: JKTODO <#注释#>
     self.plainContentView.textContentView.alertTitle = self.alertTitle;
     self.plainContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
@@ -457,17 +459,6 @@
     //_plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _plainCenterOffsetY);
 }
 
-- (void)setPlainCornerRadius:(CGFloat)plainCornerRadius{
-    
-    if (plainCornerRadius < 0) { return; }
-    
-    _plainCornerRadius = plainCornerRadius;
-    
-    // TODO: JKTODO <#注释#>
-    
-    //_plainView.layer.cornerRadius = _plainCornerRadius;
-}
-
 - (void)setHUDHeight:(CGFloat)HUDHeight{
     
     if (_alertStyle != JKAlertStyleHUD) { return; }
@@ -565,65 +556,6 @@
     return ^(CGFloat margin) {
         
         self->CancelMargin = margin < 0 ? 0 : margin;
-        
-        return self;
-    };
-}
-
-/**
- * 设置plain样式的宽度
- * 默认290
- * 不可小于0，不可大于屏幕宽度
- */
-- (JKAlertView *(^)(CGFloat width))setPlainWidth{
-    
-    return ^(CGFloat width) {
-        
-        //self->PlainViewWidth = width < 0 ? 0 : (width > MIN(self->JKAlertScreenW, self->JKAlertScreenH) ? MIN(self->JKAlertScreenW, self->JKAlertScreenH) : width);
-        
-        self->PlainViewWidth = MIN(MAX(0, width), self->JKAlertScreenW);
-        
-        self->OriginalPlainWidth = self->PlainViewWidth;
-        
-        return self;
-    };
-}
-
-/**
- * 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO
- */
- - (JKAlertView *(^)(BOOL autoReducePlainWidth))setAutoReducePlainWidth{
-     
-     return ^(BOOL autoReducePlainWidth) {
-
-         self.autoReducePlainWidth = autoReducePlainWidth;
-         
-         return self;
-     };
- }
-
-/**
- * 设置是否自动弹出键盘 默认YES
- */
- - (JKAlertView *(^)(BOOL autoShowKeyboard))setAutoShowKeyboard{
-     
-     return ^(BOOL autoShowKeyboard) {
-
-         self.autoShowKeyboard = autoShowKeyboard;
-         
-         return self;
-     };
- }
-
-/**
- * 设置plain样式的圆角
- * 默认8 不可小于0
- */
-- (JKAlertView *(^)(CGFloat cornerRadius))setPlainCornerRadius{
-    
-    return ^(CGFloat cornerRadius) {
-        
-        self.plainCornerRadius = cornerRadius;
         
         return self;
     };
@@ -1015,7 +947,7 @@
 }
 
 /** 自定义配置tableView */
-- (JKAlertView * (^)(void(^)(UITableView *tableView)))setTableViewConfiguration{
+- (JKAlertView *(^)(void(^)(UITableView *tableView)))setTableViewConfiguration{
     
     return ^(void(^tableViewConfiguration)(UITableView *tableView)) {
         
@@ -1722,7 +1654,7 @@
 }
 
 /** 监听屏幕旋转 */
-- (JKAlertView * (^)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)))setOrientationChangeBlock{
+- (JKAlertView *(^)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)))setOrientationChangeBlock{
     
     return ^(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) {
         
@@ -1766,7 +1698,7 @@
 }
 
 /** 监听即将开始显示动画 */
-- (JKAlertView * (^)(void(^willShowHandler)(JKAlertView *view)))setWillShowHandler{
+- (JKAlertView *(^)(void(^willShowHandler)(JKAlertView *view)))setWillShowHandler{
     
     return ^(void(^willShowHandler)(JKAlertView *view)) {
         
@@ -1777,7 +1709,7 @@
 }
 
 /** 监听JKAlertView显示动画完成 */
-- (JKAlertView * (^)(void(^didShowHandler)(JKAlertView *view)))setDidShowHandler{
+- (JKAlertView *(^)(void(^didShowHandler)(JKAlertView *view)))setDidShowHandler{
     
     return ^(void(^didShowHandler)(JKAlertView *view)) {
         
@@ -1788,7 +1720,7 @@
 }
 
 /** 监听JKAlertView即将消失 */
-- (JKAlertView * (^)(void(^willDismissHandler)(void)))setWillDismissHandler{
+- (JKAlertView *(^)(void(^willDismissHandler)(void)))setWillDismissHandler{
     
     return ^JKAlertView * (void(^willDismissHandler)(void)) {
         
@@ -1799,7 +1731,7 @@
 }
 
 /** 监听JKAlertView消失动画完成 */
-- (JKAlertView * (^)(void(^didDismissHandler)(void)))setDidDismissHandler{
+- (JKAlertView *(^)(void(^didDismissHandler)(void)))setDidDismissHandler{
     
     return ^(void(^didDismissHandler)(void)) {
         
@@ -2773,7 +2705,7 @@
     
     !self.didShowHandler ? : self.didShowHandler(self);
     
-    if (self.autoShowKeyboard && self.currentTextField) {
+    if (_plainContentView.autoShowKeyboard && self.currentTextField) {
         
         if (!self.currentTextField.hidden) {
             
@@ -3846,7 +3778,7 @@
 #pragma mark - Relayout
 
 /** 重新布局 */
-- (JKAlertView * (^)(BOOL animated))relayout{
+- (JKAlertView *(^)(BOOL animated))relayout{
     
     //lastTableViewOffsetY = _tableView.contentOffset.y;
     
@@ -3881,7 +3813,7 @@
 }
 
 /** 监听重新布局完成 */
-- (JKAlertView * (^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete{
+- (JKAlertView *(^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete{
     
     return ^(void(^relayoutComplete)(JKAlertView *view)) {
         
@@ -3892,7 +3824,7 @@
 }
 
 /** 重新设置alertTitle */
-- (JKAlertView * (^)(NSString *alertTitle))resetAlertTitle{
+- (JKAlertView *(^)(NSString *alertTitle))resetAlertTitle{
     
     return ^(NSString *alertTitle) {
         
@@ -3903,7 +3835,7 @@
 }
 
 /** 重新设置alertAttributedTitle */
-- (JKAlertView * (^)(NSAttributedString *alertAttributedTitle))resetAlertAttributedTitle{
+- (JKAlertView *(^)(NSAttributedString *alertAttributedTitle))resetAlertAttributedTitle{
     
     return ^(NSAttributedString *alertAttributedTitle) {
         
@@ -3914,7 +3846,7 @@
 }
 
 /** 重新设置message */
-- (JKAlertView * (^)(NSString *message))resetMessage{
+- (JKAlertView *(^)(NSString *message))resetMessage{
     
     return ^(NSString *message) {
         
@@ -3925,7 +3857,7 @@
 }
 
 /** 重新设置attributedMessage */
-- (JKAlertView * (^)(NSAttributedString *attributedMessage))resetAttributedMessage{
+- (JKAlertView *(^)(NSAttributedString *attributedMessage))resetAttributedMessage{
     
     return ^(NSAttributedString *attributedMessage) {
         
@@ -3993,7 +3925,6 @@
     _HUDHeight = -1;
     _enableDeallocLog = NO;
     _messageMinHeight = -1;
-    _plainCornerRadius = 8;
     _dismissTimeInterval = 1;
     _plainTitleMessageSeparatorHidden = YES;
     _collectionTitleSeparatorHidden = YES;
@@ -4006,7 +3937,6 @@
     JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
     
-    _autoShowKeyboard = YES;
     FillHomeIndicator = YES;
     AutoAdjustHomeIndicator = YES;
     
