@@ -209,7 +209,7 @@
     if (!_backgroundView) {
         UIView *backgroundView = [[UIView alloc] init];
         backgroundView.userInteractionEnabled = NO;
-        [self addSubview:backgroundView];
+        [self insertSubview:backgroundView atIndex:0];
         _backgroundView = backgroundView;
     }
     return _backgroundView;

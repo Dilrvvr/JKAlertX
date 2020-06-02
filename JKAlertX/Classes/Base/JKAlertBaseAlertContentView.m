@@ -102,17 +102,6 @@
 - (void)createUI {
     [super createUI];
     
-    BOOL isLight = YES;
-    
-    if (@available(iOS 13.0, *)) {
-        
-        isLight = ([self.traitCollection userInterfaceStyle] == UIUserInterfaceStyleLight);
-    }
-    
-    UIVisualEffectView *backgroundEffectView = [[UIVisualEffectView alloc] initWithEffect:nil];
-    backgroundEffectView.clipsToBounds = YES;
-    [self.backgroundView addSubview:backgroundEffectView];
-    _backgroundEffectView = backgroundEffectView;
 }
 
 /** 布局UI */
@@ -167,4 +156,13 @@
     return _actionScrollView;
 }
 
+- (UIVisualEffectView *)backgroundEffectView {
+    if (!_backgroundEffectView) {
+        UIVisualEffectView *backgroundEffectView = [[UIVisualEffectView alloc] initWithEffect:nil];
+        backgroundEffectView.clipsToBounds = YES;
+        [self.backgroundView addSubview:backgroundEffectView];
+        _backgroundEffectView = backgroundEffectView;
+    }
+    return _backgroundEffectView;
+}
 @end
