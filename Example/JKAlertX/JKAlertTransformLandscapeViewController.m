@@ -149,7 +149,7 @@
         }).makeMessageMinHeight(80);
         
         // 配置关闭按钮
-        alertView.setPlainCloseButtonConfig(^(UIButton *closeButton) {
+        alertView.makePlainCloseButtonConfiguration(^(UIButton *closeButton) {
             
             [closeButton setTitle:@"x" forState:(UIControlStateNormal)];
             [closeButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
@@ -165,7 +165,7 @@
             
             if (action.autoDismiss) { return; }
             
-            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").makeMessageMinHeight(60).setPlainCloseButtonConfig(^(UIButton *closeButton) {
+            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").makeMessageMinHeight(60).makePlainCloseButtonConfiguration(^(UIButton *closeButton) {
                 
                 closeButton.hidden = YES;
                 

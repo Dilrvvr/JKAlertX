@@ -66,6 +66,9 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setBackGroundView)(UIView *(^backGroundView)(void)) JKAlertXDeprecated("use makeAlertBackgroundView");
 
+/** 设置是否允许手势退出 默认NO NO 仅限sheet样式 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setEnableGestureDismiss)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator) JKAlertXDeprecated("use makeGestureDismissEnabled & makeGestureIndicatorHidden");
+
 /** 设置title和message是否可以响应事件，默认YES 如无必要不建议设置为NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewUserInteractionEnabled)(BOOL userInteractionEnabled) JKAlertXDeprecated("use makeTitleMessageUserInteractionEnabled");
 
@@ -180,6 +183,9 @@
  * onlyForMessage如果为YES，有title时，title的上下间距则变为setTextViewTopBottomMargin的值
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomPlainTitleView)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)) JKAlertXDeprecated("use makeCustomTextContentView & makeCustomMessageView");
+
+/** 设置plain样式关闭按钮 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCloseButtonConfig)(void(^)(UIButton *closeButton)) JKAlertXDeprecated("use makePlainCloseButtonConfiguration");
 
 /**
  * 设置plain样式message最小高度 默认0

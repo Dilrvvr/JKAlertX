@@ -634,31 +634,6 @@
     };
 }
 
-/** 设置是否允许手势退出 仅限sheet样式 */
-- (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator))setEnableGestureDismiss{
-    
-    return ^(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator) {
-        
-        self.enableVerticalGestureDismiss = enableVerticalGesture;
-        self.enableHorizontalGestureDismiss = enableHorizontalGesture;
-        
-        self.showGestureIndicator = showGestureIndicator;
-        
-        return self;
-    };
-}
-
-/** 设置plain样式关闭按钮 */
-- (JKAlertView *(^)(void (^)(UIButton *button)))setPlainCloseButtonConfig{
-    
-    return ^(void (^closeButtonConfig)(UIButton *button)) {
-        
-        !closeButtonConfig ? : closeButtonConfig(self.closeButton);
-        
-        return self;
-    };
-}
-
 /**
  * 设置collection的itemSize的宽度
  * 最大不可超过屏幕宽度的一半
@@ -4167,10 +4142,7 @@
 
 - (UIButton *)closeButton {
     
-    if (_alertStyle != JKAlertStylePlain) {
-        
-        return nil;
-    }
+    if (_alertStyle != JKAlertStylePlain) { return nil; }
     
     if (!_closeButton) {
         

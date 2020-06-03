@@ -49,17 +49,6 @@
 #pragma mark
 #pragma mark - 公共部分
 
-/** 设置是否允许手势退出 默认NO NO 仅限sheet样式 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setEnableGestureDismiss)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator);
-
-
-
-
-
-
-
-
-
 /** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCancelAction)(JKAlertAction *action);
 
@@ -81,13 +70,6 @@
  * 设置该值后可以使用类方法 JKAlertView.dismissForCategory(dismissCategory); 来手动消失
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setDismissCategory)(NSString *dismissCategory);
-
-
-#pragma mark
-#pragma mark plain样式
-
-/** 设置plain样式关闭按钮 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCloseButtonConfig)(void(^)(UIButton *closeButton));
 
 
 #pragma mark

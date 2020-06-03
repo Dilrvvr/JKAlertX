@@ -170,6 +170,20 @@
     };
 }
 
+/**
+ * plain样式关闭按钮
+ */
+- (JKAlertView *(^)(void (^)(UIButton *closeButton)))makePlainCloseButtonConfiguration {
+    
+    return ^(void (^configuration)(UIButton *closeButton)) {
+        
+        return [self checkPlainStyleHandler:^{
+            
+            !configuration ? : configuration(self.closeButton);
+        }];
+    };
+}
+
 
 
 

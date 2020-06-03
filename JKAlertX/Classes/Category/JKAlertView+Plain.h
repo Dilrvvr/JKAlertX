@@ -55,4 +55,9 @@
  * rememberFinalPosition : 是否记住最终位置 YES将会累加 makePlainCenterOffset
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makePlainMoveCenterOffset)(CGPoint centerOffset, BOOL animated, BOOL rememberFinalPosition);
+
+/**
+ * plain样式关闭按钮
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makePlainCloseButtonConfiguration)(void(^)(UIButton *closeButton));
 @end

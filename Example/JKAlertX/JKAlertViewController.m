@@ -22,7 +22,7 @@
 
 - (IBAction)customCollectionActionView:(id)sender {
     
-    [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].setEnableGestureDismiss(YES, YES, YES).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setCustomView(^(JKAlertAction *action) {
         
@@ -134,7 +134,7 @@
         alertView.makePlainCenterOffset(CGPointMake(0, -50));
         
         // 配置关闭按钮
-        alertView.setPlainCloseButtonConfig(^(UIButton *closeButton) {
+        alertView.makePlainCloseButtonConfiguration(^(UIButton *closeButton) {
             
             [closeButton setTitle:@"x" forState:(UIControlStateNormal)];
             [closeButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
@@ -150,7 +150,7 @@
             
             if (action.autoDismiss) { return; }
             
-            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").makeMessageMinHeight(60).setPlainCloseButtonConfig(^(UIButton *closeButton) {
+            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").makeMessageMinHeight(60).makePlainCloseButtonConfiguration(^(UIButton *closeButton) {
                 
                 closeButton.hidden = YES;
                 
@@ -270,7 +270,7 @@
     
     //    JKAlertView *alertView = [JKAlertView alertViewWithAttributedTitle:nil attributedMessage:[[NSAttributedString alloc] initWithString:@"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好" attributes:@{NSForegroundColorAttributeName : [UIColor redColor], NSFontAttributeName : [UIFont boldSystemFontOfSize:18], NSParagraphStyleAttributeName : para}] style:(JKAlertStyleActionSheet)];
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好" style:(JKAlertStyleActionSheet)].setEnableGestureDismiss(YES, YES, YES);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO);
 //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil style:(JKAlertStyleActionSheet)];
     
     alertView.setShouldVibrate(YES);
@@ -344,7 +344,7 @@
 // use customSuperView
 - (IBAction)collectionSheet:(id)sender {
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setEnableGestureDismiss(YES, YES, YES).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setBottomButtonMargin(10).makeCustomSuperView(self.view);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setBottomButtonMargin(10).makeCustomSuperView(self.view);
     
     //alertView.setCollectionTitleSeperatorHidden(NO);
     
@@ -423,7 +423,7 @@
 
 - (IBAction)testShare:(UIButton *)sender {
     
-    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].setEnableGestureDismiss(YES, YES, YES).makeTitleAlignment(NSTextAlignmentLeft).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeTitleAlignment(NSTextAlignmentLeft).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
         
         UIEdgeInsets insets = originalInsets;
         
@@ -460,7 +460,7 @@
 
 - (IBAction)customActionSheetView:(id)sender {
     
-    [JKAlertView alertViewWithTitle:@"提示" message:@"这是action样式的customView\n想自定义titleView并固定在顶部的话可以使用setCustomActionSheetTitleView\n想自定义titleView并跟随tableView滚动的话可以将title和message赋值nil，并将第一个JKAlertAction设为空action，然后给这个空action赋值customView即可" style:(JKAlertStyleActionSheet)].setEnableGestureDismiss(YES, YES, YES).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"提示" message:@"这是action样式的customView\n想自定义titleView并固定在顶部的话可以使用setCustomActionSheetTitleView\n想自定义titleView并跟随tableView滚动的话可以将title和message赋值nil，并将第一个JKAlertAction设为空action，然后给这个空action赋值customView即可" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setCustomView(^(JKAlertAction *action) {
         
@@ -541,7 +541,7 @@
     NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
     para.alignment = NSTextAlignmentCenter;
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setEnableGestureDismiss(YES, YES, YES);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO);
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 100)];
     label.backgroundColor = [UIColor orangeColor];
@@ -677,7 +677,7 @@
     NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
     para.alignment = NSTextAlignmentCenter;
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setEnableGestureDismiss(YES, YES, YES);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO);
     
     // 第1组
     alertView.setCollectionAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {

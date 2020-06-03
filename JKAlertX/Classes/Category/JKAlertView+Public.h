@@ -223,4 +223,22 @@
  * 优先级 > makeMessageMinHeight
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeSingleTextMinHeight)(CGFloat minHeight);
+
+#pragma mark
+#pragma mark - 手势退出
+
+/**
+ * 是否允许手势退出
+ * 默认NO 仅限以下样式
+ * JKAlertStyleActionSheet
+ * JKAlertStyleCollectionSheet
+ * KAlertStyleNotification(: JKTODO)
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeGestureDismissEnabled)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture);
+
+/**
+ * 是否隐藏手势指示器(在顶部一个横条)
+ * 默认YES，允许垂直手势退出时有效
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeGestureIndicatorHidden)(BOOL gestureIndicatorHidden);
 @end

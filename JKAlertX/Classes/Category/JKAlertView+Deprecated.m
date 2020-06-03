@@ -157,7 +157,7 @@
  * 设置背景view
  * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
  */
-- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setBackGroundView{
+- (JKAlertView *(^)(UIView *(^backGroundView)(void)))setBackGroundView {
     
     return ^(UIView *(^backGroundView)(void)) {
         
@@ -171,6 +171,19 @@
             
             self.collectionTopContainerView.backgroundColor = (self.alertBackGroundView ? nil : JKAlertGlobalBackgroundColor());
         }
+        
+        return self;
+    };
+}
+
+/** 设置是否允许手势退出 仅限sheet样式 */
+- (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator))setEnableGestureDismiss{
+    
+    return ^(BOOL enableVerticalGesture, BOOL enableHorizontalGesture, BOOL showGestureIndicator) {
+        
+        self.makeGestureDismissEnabled(enableVerticalGesture, enableHorizontalGesture);
+        
+        self.makeGestureIndicatorHidden(!showGestureIndicator);
         
         return self;
     };
@@ -553,6 +566,17 @@
                 self.currentTextContentView.customContentView = titleView;
             }
         }
+        
+        return self;
+    };
+}
+
+/** 设置plain样式关闭按钮 */
+- (JKAlertView *(^)(void (^)(UIButton *button)))setPlainCloseButtonConfig {
+    
+    return ^(void (^closeButtonConfig)(UIButton *button)) {
+        
+        !closeButtonConfig ? : closeButtonConfig(self.closeButton);
         
         return self;
     };

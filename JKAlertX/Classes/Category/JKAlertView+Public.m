@@ -445,10 +445,40 @@
     };
 }
 
+#pragma mark
+#pragma mark - 手势退出
 
+/**
+ * 是否允许手势退出
+ * 默认NO 仅限以下样式
+ * JKAlertStyleActionSheet
+ * JKAlertStyleCollectionSheet
+ * KAlertStyleNotification(: JKTODO)
+ */
+- (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture))makeGestureDismissEnabled {
+    
+    return ^(BOOL enableVerticalGesture, BOOL enableHorizontalGesture) {
+        
+        self.enableVerticalGestureDismiss = enableVerticalGesture;
+        self.enableHorizontalGestureDismiss = enableHorizontalGesture;
+        
+        return self;
+    };
+}
 
-
-
+/**
+ * 是否隐藏手势指示器(在顶部一个横条)
+ * 默认YES，允许垂直手势退出时有效
+ */
+- (JKAlertView *(^)(BOOL gestureIndicatorHidden))makeGestureIndicatorHidden {
+    
+    return ^(BOOL gestureIndicatorHidden) {
+        
+        self.showGestureIndicator = !gestureIndicatorHidden;
+        
+        return self;
+    };
+}
 
 
 
