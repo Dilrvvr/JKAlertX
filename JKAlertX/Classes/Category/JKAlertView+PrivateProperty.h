@@ -165,18 +165,6 @@
 /** 监听点击空白处的block */
 @property (nonatomic, copy) void (^blankClickBlock)(void);
 
-/** message最小高度 */
-@property (nonatomic, assign) CGFloat messageMinHeight;
-
-/** plain样式添加自定义的titleView */
-//@property (nonatomic, weak) UIView *customPlainTitleView;
-
-/** plain样式添加自定义的titleView 是否仅放在message位置 */
-//@property (nonatomic, assign) BOOL customPlainTitleViewOnlyForMessage;
-
-/** collection样式添加自定义的titleView的父视图 */
-//@property (nonatomic, weak) UIScrollView *customPlainTitleScrollView;
-
 /** customHUD */
 @property (nonatomic, weak) UIView *customHUD;
 
@@ -265,18 +253,6 @@
  * 正数表示向下偏移，负数表示向上偏移
  */
 @property (nonatomic, assign) CGFloat plainCenterOffsetY;
-
-/**
- * HUD样式dismiss的时间，默认1s
- * 小于等于0表示不自动隐藏
- */
-@property (nonatomic, assign) CGFloat dismissTimeInterval;
-
-/**
- * HUD样式高度，不包含customHUD
- * 小于0将没有效果，默认-1
- */
-@property (nonatomic, assign) CGFloat HUDHeight;
 
 /**
  * collection的itemSize的宽度

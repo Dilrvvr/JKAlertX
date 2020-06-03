@@ -86,13 +86,6 @@
 #pragma mark
 #pragma mark plain样式
 
-/**
- * 设置plain样式message最小高度 默认0
- * 仅在message != nil时有效
- * 该高度不包括message的上下间距
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageMinHeight)(CGFloat minHeight);
-
 /** 设置plain样式关闭按钮 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setPlainCloseButtonConfig)(void(^)(UIButton *closeButton));
 
@@ -107,22 +100,6 @@
  * 正数表示向下偏移，负数表示向上偏移
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
-
-
-#pragma mark
-#pragma mark HUD样式
-
-/**
- * 设置HUD样式dismiss的时间，默认1s
- * 小于等于0表示不自动隐藏
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDismissTimeInterval)(CGFloat dismissTimeInterval);
-
-/**
- * 设置HUD样式高度，不包含customHUD
- * 小于0将没有效果，默认-1
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setHUDHeight)(CGFloat height);
 
 
 #pragma mark

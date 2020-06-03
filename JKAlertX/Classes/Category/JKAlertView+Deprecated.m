@@ -9,6 +9,7 @@
 #import "JKAlertView+PrivateProperty.h"
 #import "JKAlertView+Public.h"
 #import "JKAlertView+Plain.h"
+#import "JKAlertView+HUD.h"
 
 @implementation JKAlertView (Deprecated)
 
@@ -525,5 +526,33 @@
         
         return self;
     };
+}
+
+/**
+ * 设置HUD样式dismiss的时间，默认1s
+ * 小于等于0表示不自动隐藏
+ */
+- (JKAlertView *(^)(NSTimeInterval dismissTimeInterval))setDismissTimeInterval {
+    
+    return [self makeHudDismissTimeInterval];
+}
+
+/**
+ * 设置HUD样式高度，不包含customHUD
+ * 小于0将没有效果，默认-1
+ */
+- (JKAlertView *(^)(CGFloat height))setHUDHeight {
+    
+    return [self makeHudHeight];
+}
+
+/**
+ * 设置plain样式message最小高度 默认0
+ * 仅在message != nil时有效
+ * 该高度不包括message的上下间距
+ */
+- (JKAlertView *(^)(CGFloat minHeight))setMessageMinHeight {
+    
+    return [self makeMessageMinHeight];
 }
 @end

@@ -128,7 +128,7 @@
             
             return insets;
             
-        }).setMessageMinHeight(100);
+        }).makeMessageMinHeight(80);
         
         // 向上偏移50
         alertView.setPlainCenterOffsetY(-50);
@@ -150,7 +150,7 @@
             
             if (action.autoDismiss) { return; }
             
-            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").setMessageMinHeight(80).setPlainCloseButtonConfig(^(UIButton *closeButton) {
+            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").makeMessageMinHeight(60).setPlainCloseButtonConfig(^(UIButton *closeButton) {
                 
                 closeButton.hidden = YES;
                 
@@ -488,7 +488,7 @@
     
     JKAlertView.showHUDWithTitle(@"你好你好你好你好", ^(JKAlertView *alertView) {
         
-        alertView.setHUDHeight(100).setDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
+        alertView.makeHudHeight(100).makeHudDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             
@@ -524,7 +524,7 @@
         
     }, ^(JKAlertView *alertView) {
         
-        alertView.setDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
+        alertView.makeHudDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             

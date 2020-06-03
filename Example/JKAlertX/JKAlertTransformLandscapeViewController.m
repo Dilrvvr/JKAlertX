@@ -146,7 +146,7 @@
             
             return insets;
             
-        }).setMessageMinHeight(100);
+        }).makeMessageMinHeight(80);
         
         // 配置关闭按钮
         alertView.setPlainCloseButtonConfig(^(UIButton *closeButton) {
@@ -161,11 +161,11 @@
             
         }]];
         
-        [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        [alertView addAction:[JKAlertAction actionWithTitle:@"更新" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             
             if (action.autoDismiss) { return; }
             
-            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").setMessageMinHeight(80).setPlainCloseButtonConfig(^(UIButton *closeButton) {
+            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").makeMessageMinHeight(60).setPlainCloseButtonConfig(^(UIButton *closeButton) {
                 
                 closeButton.hidden = YES;
                 
@@ -475,7 +475,7 @@
     
     JKAlertView.showHUDWithTitle(@"你好你好你好你好", ^(JKAlertView *alertView) {
         
-        alertView.makeCustomSuperView(self.testLabel).setHUDHeight(100).setDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
+        alertView.makeCustomSuperView(self.testLabel).makeHudHeight(100).makeHudDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             
@@ -511,7 +511,7 @@
         
     }, ^(JKAlertView *alertView) {
         
-        alertView.makeCustomSuperView(self.testLabel).setDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
+        alertView.makeCustomSuperView(self.testLabel).makeHudDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             

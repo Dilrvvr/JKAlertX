@@ -12,6 +12,7 @@
 #import "JKAlertView.h"
 #import "JKAlertView+Public.h"
 #import "JKAlertView+Plain.h"
+#import "JKAlertView+HUD.h"
 #import "UIView+JKAlertX.h"
 #import "UIControl+JKAlertX.h"
 #import "JKAlertView+Deprecated.h"

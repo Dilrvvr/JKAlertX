@@ -15,6 +15,7 @@
 #import "JKAlertView+PrivateProperty.h"
 #import "JKAlertVisualFormatConstraintManager.h"
 #import "JKAlertView+Public.h"
+#import "JKAlertView+HUD.h"
 
 @interface JKAlertView ()
 
@@ -452,13 +453,6 @@
     //_plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _plainCenterOffsetY);
 }
 
-- (void)setHUDHeight:(CGFloat)HUDHeight{
-    
-    if (_alertStyle != JKAlertStyleHUD) { return; }
-    
-    _HUDHeight = HUDHeight;
-}
-
 - (void)setAlertBackGroundView:(UIView *)alertBackGroundView{
     
     // TODO: JKTODO <#注释#>
@@ -482,10 +476,6 @@
     NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : alertBackGroundView}];
     [_sheetContainerView addConstraints:cons2];
     //[_plainView addConstraints:cons2];
-}
-
-- (void)setMessageMinHeight:(CGFloat)messageMinHeight{
-    _messageMinHeight = messageMinHeight < 0 ? 0 : messageMinHeight;
 }
 
 #pragma mark
@@ -632,21 +622,6 @@
         return self;
     };
 }
-//@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionPageControlConfig)(void(^)(UIPageControl *pageControl))
-
-/**
- * 设置HUD样式dismiss的时间，默认1s
- * 小于等于0表示不自动隐藏
- */
-- (JKAlertView *(^)(CGFloat dismissTimeInterval))setDismissTimeInterval{
-    
-    return ^(CGFloat dismissTimeInterval) {
-        
-        self.dismissTimeInterval = dismissTimeInterval;
-        
-        return self;
-    };
-}
 
 /**
  * 设置HUD样式centerY的偏移
@@ -728,41 +703,12 @@
     };
 }
 
-/**
- * 设置plain样式message最小高度 默认0
- * 仅在message != nil时有效
- * 该高度不包括message的上下间距
- */
-- (JKAlertView *(^)(CGFloat minHeight))setMessageMinHeight{
-    
-    return ^(CGFloat minHeight) {
-        
-        self.messageMinHeight = minHeight;
-        
-        return self;
-    };
-}
-
 /** 设置plain样式关闭按钮 */
 - (JKAlertView *(^)(void (^)(UIButton *button)))setPlainCloseButtonConfig{
     
     return ^(void (^closeButtonConfig)(UIButton *button)) {
         
         !closeButtonConfig ? : closeButtonConfig(self.closeButton);
-        
-        return self;
-    };
-}
-
-/**
- * 设置HUD样式高度，不包含customHUD
- * 小于0将没有效果，默认-1
- */
-- (JKAlertView *(^)(CGFloat height))setHUDHeight{
-    
-    return ^(CGFloat height) {
-        
-        self.HUDHeight = height;
         
         return self;
     };
@@ -3811,9 +3757,8 @@
     
     JKAlertSheetMaxH = (JKAlertScreenH > JKAlertScreenW) ? JKAlertScreenH * 0.85 : JKAlertScreenH * 0.8;
     
-    _HUDHeight = -1;
     _enableDeallocLog = NO;
-    _messageMinHeight = -1;
+    
     _dismissTimeInterval = 1;
     
     _collectionTitleSeparatorHidden = YES;

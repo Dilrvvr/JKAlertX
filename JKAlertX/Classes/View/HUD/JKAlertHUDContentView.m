@@ -57,7 +57,17 @@
 
 - (void)adjustHUDFrame {
     
-    self.frame = self.textContentView.bounds;
+    CGRect rect = self.textContentView.bounds;
+    
+    if (self.hudHeight > 0 &&
+        !self.textContentView.customContentView) {
+        
+        rect.size.height = self.hudHeight;
+        
+        self.textContentView.center = CGPointMake(rect.size.width * 0.5, rect.size.height * 0.5);
+    }
+    
+    self.frame = rect;
 }
 
 #pragma mark

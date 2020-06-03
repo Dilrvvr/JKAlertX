@@ -366,6 +366,7 @@
 
 /**
  * 自定义整体title和message
+ * 赋值后此时title和message及对应的自定义view将会隐藏 仅展示该自定义view
  */
 - (JKAlertView *(^)(UIView *(^)(void)))makeCustomTextContentView {
     
@@ -382,6 +383,7 @@
 
 /**
  * 自定义title
+ * 赋值后 title将隐藏 仅展示自定义view
  */
 - (JKAlertView *(^)(UIView *(^)(void)))makeCustomTitleView {
     
@@ -398,6 +400,7 @@
 
 /**
  * 自定义message
+ * 赋值后 message将隐藏 仅展示自定义view
  */
 - (JKAlertView *(^)(UIView *(^)(void)))makeCustomMessageView {
     
@@ -407,6 +410,36 @@
             
             self.currentTextContentView.customMessageView = handler();
         }
+        
+        return self;
+    };
+}
+
+/**
+ * message最小高度 默认0
+ * 仅限有message且没有自定义makeCustomMessageView和makeCustomTextContentView
+ * 该高度不包括message的上下间距
+ */
+- (JKAlertView *(^)(CGFloat minHeight))makeMessageMinHeight {
+    
+    return ^(CGFloat minHeight) {
+        
+        self.currentTextContentView.messageMinHeight = minHeight;
+        
+        return self;
+    };
+}
+
+/**
+ * 仅有title或message时且没有自定义view时最小高度 默认0
+ * 该高度不包括上下间距
+ * 优先级 > makeMessageMinHeight
+ */
+- (JKAlertView *(^)(CGFloat minHeight))makeSingleTextMinHeight {
+    
+    return ^(CGFloat minHeight) {
+        
+        self.currentTextContentView.singleMinHeight = minHeight;
         
         return self;
     };

@@ -191,16 +191,33 @@
 
 /**
  * 自定义整体title和message
+ * 赋值后此时title和message及对应的自定义view将会隐藏 仅展示该自定义view
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCustomTextContentView)(UIView * (^handler)(void));
 
 /**
  * 自定义title
+ * 赋值后 title将隐藏 仅展示自定义view
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCustomTitleView)(UIView * (^handler)(void));
 
 /**
  * 自定义message
+ * 赋值后 message将隐藏 仅展示自定义view
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCustomMessageView)(UIView * (^handler)(void));
+
+/**
+ * message最小高度 默认0
+ * 仅限有message且没有自定义makeCustomMessageView和makeCustomTextContentView
+ * 该高度不包括message的上下间距
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeMessageMinHeight)(CGFloat minHeight);
+
+/**
+ * 仅有title或message时且没有自定义view时最小高度 默认0
+ * 该高度不包括上下间距
+ * 优先级 > makeMessageMinHeight
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeSingleTextMinHeight)(CGFloat minHeight);
 @end
