@@ -382,7 +382,17 @@
  */
 - (JKAlertView *(^)(CGFloat width))setPlainWidth {
     
-    return [self makePlainWidth];
+    if (JKAlertStylePlain == self.alertStyle) {
+        
+        return [self makePlainWidth];
+    }
+    
+    if (JKAlertStyleHUD == self.alertStyle) {
+        
+        return [self makeHudWidth];
+    }
+    
+    return ^(CGFloat width) { return self; };
 }
 
 /**
@@ -390,7 +400,17 @@
  */
 - (JKAlertView *(^)(BOOL autoReducePlainWidth))setAutoReducePlainWidth {
     
-    return [self makePlainAutoReduceWidth];
+    if (JKAlertStylePlain == self.alertStyle) {
+        
+        return [self makePlainAutoReduceWidth];
+    }
+    
+    if (JKAlertStyleHUD == self.alertStyle) {
+        
+        return [self makeHudAutoReduceWidth];
+    }
+    
+    return ^(BOOL autoReducePlainWidth) { return self; };
 }
 
 /**
@@ -399,7 +419,17 @@
  */
 - (JKAlertView *(^)(CGFloat cornerRadius))setPlainCornerRadius {
     
-    return [self makePlainCornerRadius];
+    if (JKAlertStylePlain == self.alertStyle) {
+        
+        return [self makePlainCornerRadius];
+    }
+    
+    if (JKAlertStyleHUD == self.alertStyle) {
+        
+        return [self makeHudCornerRadius];
+    }
+    
+    return ^(CGFloat cornerRadius) { return self; };
 }
 
 /**
@@ -439,8 +469,6 @@
     return ^(BOOL separatorHidden, CGFloat leftRightMargin) {
         
         if (JKAlertStylePlain != self.alertStyle) { return self; }
-        
-        // TODO: JKTODO <#注释#>
         
         self.plainContentView.textContentView.separatorLineHidden = separatorHidden;
         
@@ -505,45 +533,29 @@
  * onlyForMessage : 是否仅放在message位置
  * onlyForMessage如果为YES，有title时，title的上下间距则变为setTextViewTopBottomMargin的值
  */
-- (JKAlertView *(^)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)))setCustomPlainTitleView{
+- (JKAlertView *(^)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)))setCustomPlainTitleView {
     
     return ^(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)) {
         
-        if (JKAlertStylePlain != self.alertStyle || !customView) { return self; }
+        if (!customView) { return self; }
         
-        UIView *titleView = customView(self);
-        
-        // TODO: JKTODO <#注释#>
-        
-        if (onlyForMessage) {
+        if (JKAlertStylePlain == self.alertStyle ||
+            JKAlertStyleHUD == self.alertStyle) {
             
-            self.plainContentView.textContentView.customMessageView = titleView;
+            UIView *titleView = customView(self);
             
-        } else {
-            
-            self.plainContentView.textContentView.customContentView = titleView;
+            if (onlyForMessage) {
+                
+                self.currentTextContentView.customMessageView = titleView;
+                
+            } else {
+                
+                self.currentTextContentView.customContentView = titleView;
+            }
         }
         
         return self;
     };
-}
-
-/**
- * 设置HUD样式dismiss的时间，默认1s
- * 小于等于0表示不自动隐藏
- */
-- (JKAlertView *(^)(NSTimeInterval dismissTimeInterval))setDismissTimeInterval {
-    
-    return [self makeHudDismissTimeInterval];
-}
-
-/**
- * 设置HUD样式高度，不包含customHUD
- * 小于0将没有效果，默认-1
- */
-- (JKAlertView *(^)(CGFloat height))setHUDHeight {
-    
-    return [self makeHudHeight];
 }
 
 /**
@@ -560,7 +572,7 @@
  * 设置plain/HUD样式centerY的偏移
  * 正数表示向下偏移，负数表示向上偏移
  */
-- (JKAlertView *(^)(CGFloat centerOffsetY))setPlainCenterOffsetY{
+- (JKAlertView *(^)(CGFloat centerOffsetY))setPlainCenterOffsetY {
     
     return ^(CGFloat centerOffsetY) {
         
@@ -578,7 +590,7 @@
  * 展示完成后 移动plain和HUD样式centerY
  * 正数表示向下偏移，负数表示向上偏移
  */
-- (JKAlertView *(^)(CGFloat centerOffsetY, BOOL animated))movePlainCenterOffsetY{
+- (JKAlertView *(^)(CGFloat centerOffsetY, BOOL animated))movePlainCenterOffsetY {
     
     return ^(CGFloat centerOffsetY, BOOL animated) {
         
@@ -600,5 +612,27 @@
         
         return self;
     };
+}
+
+
+#pragma mark
+#pragma mark - HUD样式
+
+/**
+ * 设置HUD样式dismiss的时间，默认1s
+ * 小于等于0表示不自动隐藏
+ */
+- (JKAlertView *(^)(NSTimeInterval dismissTimeInterval))setDismissTimeInterval {
+    
+    return [self makeHudDismissTimeInterval];
+}
+
+/**
+ * 设置HUD样式高度，不包含customHUD
+ * 小于等于0将没有效果，默认0
+ */
+- (JKAlertView *(^)(CGFloat height))setHUDHeight {
+    
+    return [self makeHudHeight];
 }
 @end

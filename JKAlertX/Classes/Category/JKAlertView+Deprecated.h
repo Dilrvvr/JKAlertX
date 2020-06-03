@@ -181,22 +181,6 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomPlainTitleView)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)) JKAlertXDeprecated("use makeCustomTextContentView & makeCustomMessageView");
 
-
-#pragma mark
-#pragma mark HUD样式
-
-/**
- * 设置HUD样式dismiss的时间，默认1s
- * 小于等于0表示不自动隐藏
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDismissTimeInterval)(NSTimeInterval dismissTimeInterval) JKAlertXDeprecated("use makeHudDismissTimeInterval");
-
-/**
- * 设置HUD样式高度，不包含customHUD
- * 小于等于0将没有效果，默认0
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setHUDHeight)(CGFloat height) JKAlertXDeprecated("use makeHudHeight");
-
 /**
  * 设置plain样式message最小高度 默认0
  * 仅在message != nil时有效
@@ -215,4 +199,20 @@
  * 正数表示向下偏移，负数表示向上偏移
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated) JKAlertXDeprecated("use makePlainMoveCenterOffset or makeHudMoveCenterOffset");
+
+
+#pragma mark
+#pragma mark - HUD样式
+
+/**
+ * 设置HUD样式dismiss的时间，默认1s
+ * 小于等于0表示不自动隐藏
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissTimeInterval)(NSTimeInterval dismissTimeInterval) JKAlertXDeprecated("use makeHudDismissTimeInterval");
+
+/**
+ * 设置HUD样式高度，不包含customHUD
+ * 小于等于0将没有效果，默认0
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setHUDHeight)(CGFloat height) JKAlertXDeprecated("use makeHudHeight");
 @end

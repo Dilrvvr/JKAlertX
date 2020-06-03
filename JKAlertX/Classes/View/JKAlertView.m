@@ -502,9 +502,9 @@
 }
 
 /** 设置show的时候是否振动 默认NO */
-- (JKAlertView *(^)(CGFloat shouldVibrate))setShouldVibrate{
+- (JKAlertView *(^)(BOOL shouldVibrate))setShouldVibrate{
     
-    return ^(CGFloat shouldVibrate) {
+    return ^(BOOL shouldVibrate) {
         
         self.shouldVibrate = shouldVibrate;
         
