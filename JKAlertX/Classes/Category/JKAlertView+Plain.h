@@ -41,4 +41,18 @@
  * 弹框底部与键盘间距
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makePlainKeyboardMargin)(CGFloat margin);
+
+/**
+ * plain样式center的偏移
+ * 正数表示向下/右偏移，负数表示向上/左偏移
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makePlainCenterOffset)(CGPoint centerOffset);
+
+/**
+ * plain展示完成后 移动plain和HUD样式center
+ * 仅在执行show之后有效
+ * 正数表示向下/右偏移，负数表示向上/左偏移
+ * rememberFinalPosition : 是否记住最终位置 YES将会累加 makePlainCenterOffset
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makePlainMoveCenterOffset)(CGPoint centerOffset, BOOL animated, BOOL rememberFinalPosition);
 @end

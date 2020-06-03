@@ -89,18 +89,6 @@
 /** 设置plain样式关闭按钮 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setPlainCloseButtonConfig)(void(^)(UIButton *closeButton));
 
-/**
- * 设置plain和HUD样式centerY的偏移
- * 正数表示向下偏移，负数表示向上偏移
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCenterOffsetY)(CGFloat centerOffsetY);
-
-/**
- * 展示完成后 移动plain和HUD样式centerY
- * 正数表示向下偏移，负数表示向上偏移
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated);
-
 
 #pragma mark
 #pragma mark actionSheet样式

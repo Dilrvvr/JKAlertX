@@ -131,7 +131,7 @@
         }).makeMessageMinHeight(80);
         
         // 向上偏移50
-        alertView.setPlainCenterOffsetY(-50);
+        alertView.makePlainCenterOffset(CGPointMake(0, -50));
         
         // 配置关闭按钮
         alertView.setPlainCloseButtonConfig(^(UIButton *closeButton) {
@@ -146,7 +146,7 @@
             
         }]];
         
-        [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefaultBlue) handler:^(JKAlertAction *action) {
+        [alertView addAction:[JKAlertAction actionWithTitle:@"更新" style:(JKAlertActionStyleDefaultBlue) handler:^(JKAlertAction *action) {
             
             if (action.autoDismiss) { return; }
             
@@ -488,7 +488,7 @@
     
     JKAlertView.showHUDWithTitle(@"你好你好你好你好", ^(JKAlertView *alertView) {
         
-        alertView.makeHudHeight(100).makeHudDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
+        alertView.makeHudHeight(60).makeHudWidth(200).makeHudCenterOffset(CGPointMake(0, 100)).makeHudDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             

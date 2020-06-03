@@ -192,9 +192,9 @@
     
     [JKAlertKeyWindow() endEditing:YES];
     
-    if (Showed) { return ^{ return self; }; }
+    if (self.isShowed) { return ^{ return self; }; }
     
-    Showed = YES;
+    self.isShowed = YES;
     
     switch (self.alertStyle) {
         case JKAlertStyleActionSheet:
@@ -286,7 +286,7 @@
     self.plainContentView.maxHeight = JKAlertPlainViewMaxH;
     [self.plainContentView calculateUI];
     
-    self.plainContentView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
+    self.plainContentView.center = CGPointMake(JKAlertScreenW * 0.5 + self.plainCenterOffset.x, JKAlertScreenH * 0.5 + self.plainCenterOffset.y);
 }
 
 - (void)calculateHudUI {
@@ -312,7 +312,7 @@
     self.hudContentView.maxHeight = JKAlertPlainViewMaxH;
     [self.hudContentView calculateUI];
     
-    self.hudContentView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + self.plainCenterOffsetY);
+    self.hudContentView.center = CGPointMake(JKAlertScreenW * 0.5 + self.plainCenterOffset.x, JKAlertScreenH * 0.5 + self.plainCenterOffset.y);
 }
 
 #pragma mark
@@ -324,15 +324,6 @@
     _tapBlankDismiss = NO;
     
     switch (_alertStyle) {
-        case JKAlertStylePlain:
-        {
-            _currentAlertContentView = self.plainContentView;
-            _currentTextContentView = self.plainContentView.textContentView;
-            
-            [self addKeyboardWillChangeFrameNotification];
-        }
-            break;
-            
         case JKAlertStyleHUD:
         {
             _currentAlertContentView = self.hudContentView;
@@ -363,6 +354,8 @@
         default: // 默认为JKAlertStylePlain样式
         {
             _alertStyle = JKAlertStylePlain;
+            
+            _autoAdaptKeyboard = YES;
             
             _currentAlertContentView = self.plainContentView;
             _currentTextContentView = self.plainContentView.textContentView;
@@ -443,14 +436,6 @@
         
         [_scrollView addSubview:_customSheetTitleView];
     }
-}
-
-- (void)setPlainCenterOffsetY:(CGFloat)plainCenterOffsetY{
-    
-    _plainCenterOffsetY = plainCenterOffsetY;
-    
-    // TODO: JKTODO <#注释#>
-    //_plainView.center = CGPointMake(JKAlertScreenW * 0.5, JKAlertScreenH * 0.5 + _plainCenterOffsetY);
 }
 
 - (void)setAlertBackGroundView:(UIView *)alertBackGroundView{
@@ -624,20 +609,6 @@
 }
 
 /**
- * 设置HUD样式centerY的偏移
- * 正数表示向下偏移，负数表示向上偏移
- */
-- (JKAlertView *(^)(CGFloat centerOffsetY))setPlainCenterOffsetY{
-    
-    return ^(CGFloat centerOffsetY) {
-        
-        self.plainCenterOffsetY = centerOffsetY;
-        
-        return self;
-    };
-}
-
-/**
  * 设置plain样式Y值
  */
 - (JKAlertView *(^)(CGFloat Y, BOOL animated))setPlainY{
@@ -657,32 +628,6 @@
         } else {
             
             self.alertContentView.frame = frame;
-        }
-        
-        return self;
-    };
-}
-
-/**
- * 展示完成后 移动plain和HUD样式centerY
- * 正数表示向下偏移，负数表示向上偏移
- */
-- (JKAlertView *(^)(CGFloat centerOffsetY, BOOL animated))movePlainCenterOffsetY{
-    
-    return ^(CGFloat centerOffsetY, BOOL animated) {
-        
-        // TODO: JKTODO <#注释#>
-        
-        if (animated) {
-            
-            [UIView animateWithDuration:0.25 animations:^{
-                
-                //self->_plainView.center = CGPointMake(self->_plainView.center.x, self->JKAlertScreenH * 0.5 + self.plainCenterOffsetY + centerOffsetY);
-            }];
-            
-        } else {
-            
-            //self->_plainView.center = CGPointMake(self->_plainView.center.x, self->JKAlertScreenH * 0.5 + self.plainCenterOffsetY + centerOffsetY);
         }
         
         return self;
@@ -2572,7 +2517,9 @@
 //    return JKAlertScreenW > JKAlertScreenH;
 //}
 
-- (void)keyboardWillChangeFrame:(NSNotification *)noti{
+- (void)keyboardWillChangeFrame:(NSNotification *)noti {
+    
+    if (JKAlertStylePlain != self.alertStyle) { return; }
     
     CGRect keyboardFrame = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     
@@ -3773,8 +3720,6 @@
     
     FillHomeIndicator = YES;
     AutoAdjustHomeIndicator = YES;
-    
-    _autoAdaptKeyboard = YES;
     
     self.flowlayoutItemWidth = 76;
     

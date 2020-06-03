@@ -38,8 +38,6 @@
     
     BOOL FillHomeIndicator;
     
-    BOOL Showed;
-    
     UIView  *_alertBackGroundView;
     
     
@@ -250,9 +248,9 @@
 
 /**
  * plain和HUD样式centerY的偏移
- * 正数表示向下偏移，负数表示向上偏移
+ * 正数表示向下/右偏移，负数表示向上/左偏移
  */
-@property (nonatomic, assign) CGFloat plainCenterOffsetY;
+@property (nonatomic, assign) CGPoint plainCenterOffset;
 
 /**
  * collection的itemSize的宽度

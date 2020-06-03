@@ -203,4 +203,16 @@
  * 该高度不包括message的上下间距
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageMinHeight)(CGFloat minHeight) JKAlertXDeprecated("use makeMessageMinHeight");
+
+/**
+ * 设置plain和HUD样式centerY的偏移
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCenterOffsetY)(CGFloat centerOffsetY) JKAlertXDeprecated("use makePlainCenterOffsetY or makeHudCenterOffsetY");
+
+/**
+ * 展示完成后 移动plain和HUD样式centerY
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^movePlainCenterOffsetY)(CGFloat centerOffsetY, BOOL animated) JKAlertXDeprecated("use makePlainMoveCenterOffset or makeHudMoveCenterOffset");
 @end

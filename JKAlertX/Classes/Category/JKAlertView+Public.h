@@ -15,6 +15,9 @@
     CGFloat JKAlertPlainViewMaxH;
 }
 
+/** 是否已展示 */
+@property (nonatomic, assign) BOOL isShowed;
+
 /**
  * customSuperView
  */

@@ -555,4 +555,50 @@
     
     return [self makeMessageMinHeight];
 }
+
+/**
+ * 设置plain/HUD样式centerY的偏移
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+- (JKAlertView *(^)(CGFloat centerOffsetY))setPlainCenterOffsetY{
+    
+    return ^(CGFloat centerOffsetY) {
+        
+        CGPoint point = self.plainCenterOffset;
+        
+        point.y = centerOffsetY;
+        
+        self.plainCenterOffset = point;
+        
+        return self;
+    };
+}
+
+/**
+ * 展示完成后 移动plain和HUD样式centerY
+ * 正数表示向下偏移，负数表示向上偏移
+ */
+- (JKAlertView *(^)(CGFloat centerOffsetY, BOOL animated))movePlainCenterOffsetY{
+    
+    return ^(CGFloat centerOffsetY, BOOL animated) {
+        
+        CGPoint point = CGPointMake(0, centerOffsetY);
+        
+        if (JKAlertStylePlain == self.alertStyle) {
+            
+            self.makePlainMoveCenterOffset(point, animated, NO);
+            
+            return self;
+        }
+        
+        if (JKAlertStyleHUD == self.alertStyle) {
+            
+            self.makeHudMoveCenterOffset(point, animated, NO);
+            
+            return self;
+        }
+        
+        return self;
+    };
+}
 @end
