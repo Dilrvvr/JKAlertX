@@ -3483,6 +3483,26 @@
     return _hudContentView;
 }
 
+- (JKAlerActionSheetContentView *)actionsheetContentView {
+    if (!_actionsheetContentView) {
+        JKAlerActionSheetContentView *actionsheetContentView = [[JKAlerActionSheetContentView alloc] init];
+        actionsheetContentView.alertView = self;
+        [self addSubview:actionsheetContentView];
+        _actionsheetContentView = actionsheetContentView;
+    }
+    return _actionsheetContentView;
+}
+
+- (JKAlertCollectionSheetContentView *)collectionsheetContentView {
+    if (!_collectionsheetContentView) {
+        JKAlertCollectionSheetContentView *collectionsheetContentView = [[JKAlertCollectionSheetContentView alloc] init];
+        collectionsheetContentView.alertView = self;
+        [self addSubview:collectionsheetContentView];
+        _collectionsheetContentView = collectionsheetContentView;
+    }
+    return _collectionsheetContentView;
+}
+
 - (NSMutableArray *)actions {
     if (!_actions) {
         _actions = [NSMutableArray array];

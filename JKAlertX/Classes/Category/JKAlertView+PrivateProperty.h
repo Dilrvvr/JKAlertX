@@ -12,6 +12,8 @@
 #import "JKAlertBaseTextContentView.h"
 #import "JKAlertPlainContentView.h"
 #import "JKAlertHUDContentView.h"
+#import "JKAlerActionSheetContentView.h"
+#import "JKAlertCollectionSheetContentView.h"
 
 @interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
 
@@ -72,6 +74,12 @@
 
 /** hudContentView */
 @property (nonatomic, weak) JKAlertHUDContentView *hudContentView;
+
+/** actionsheetContentView */
+@property (nonatomic, weak) JKAlerActionSheetContentView *actionsheetContentView;
+
+/** actionsheetContentView */
+@property (nonatomic, weak) JKAlertCollectionSheetContentView *collectionsheetContentView;
 
 /** alertContentView */
 @property (nonatomic, weak, readonly) UIView *alertContentView;

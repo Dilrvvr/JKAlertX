@@ -6,7 +6,10 @@
 //
 
 #import "JKAlertBaseAlertContentView.h"
+#import "JKAlertCollectionSheetTextContentView.h"
 
 @interface JKAlertCollectionSheetContentView : JKAlertBaseAlertContentView
 
+/** textContentView */
+@property (nonatomic, weak, readonly) JKAlertCollectionSheetTextContentView *textContentView;
 @end
