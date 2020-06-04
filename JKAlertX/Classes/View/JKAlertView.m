@@ -450,28 +450,6 @@
     };
 }
 
-/** 设置show的时候是否振动 默认NO */
-- (JKAlertView *(^)(BOOL shouldVibrate))setShouldVibrate{
-    
-    return ^(BOOL shouldVibrate) {
-        
-        self.shouldVibrate = shouldVibrate;
-        
-        return self;
-    };
-}
-
-/** 设置action和colletion样式的底部按钮上下间距 不可小于0 */
-- (JKAlertView *(^)(CGFloat margin))setBottomButtonMargin{
-    
-    return ^(CGFloat margin) {
-        
-        self->CancelMargin = margin < 0 ? 0 : margin;
-        
-        return self;
-    };
-}
-
 /**
  * 设置是否将两个collection合体
  * 设为YES可让两个collection同步滚动
@@ -493,30 +471,6 @@
     return ^(BOOL collectionPagingEnabled) {
         
         self.collectionPagingEnabled = collectionPagingEnabled;
-        
-        return self;
-    };
-}
-
-/** 设置是否自动适配 iPhone X homeIndicator 默认YES */
-- (JKAlertView *(^)(BOOL autoAdjust))setAutoAdjustHomeIndicator{
-    
-    return ^(BOOL autoAdjust) {
-        
-        self->AutoAdjustHomeIndicator = autoAdjust;
-        
-        return self;
-    };
-}
-
-/** 设置是否填充底部 iPhone X homeIndicator 默认YES */
-- (JKAlertView *(^)(BOOL fillHomeIndicator))setFillHomeIndicator{
-    
-    return ^(BOOL fillHomeIndicator) {
-        
-        if (!JKAlertIsDeviceX()) { return self; }
-        
-        self->FillHomeIndicator = fillHomeIndicator;
         
         return self;
     };

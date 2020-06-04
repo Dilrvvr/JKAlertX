@@ -280,4 +280,20 @@
  * 即调用setRelayoutComplete(nil); 否则会造成死循环
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view));
+
+
+#pragma mark
+#pragma mark - 其它适配
+
+/** 设置show的时候是否振动 默认NO */
+@property (nonatomic, copy, readonly) JKAlertView *(^setShouldVibrate)(BOOL shouldVibrate);
+
+/** 设置是否自动适配底部 iPhone X homeIndicator 默认YES */
+@property (nonatomic, copy, readonly) JKAlertView *(^setAutoAdjustHomeIndicator)(BOOL autoAdjust);
+
+/** 设置是否填充底部 iPhone X homeIndicator 默认YES */
+@property (nonatomic, copy, readonly) JKAlertView *(^setFillHomeIndicator)(BOOL fillHomeIndicator);
+
+/** 设置action和colletion样式的底部按钮上下间距 不可小于0 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setBottomButtonMargin)(CGFloat margin);
 @end
