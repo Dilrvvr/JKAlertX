@@ -349,18 +349,6 @@
 #pragma mark
 #pragma mark 状态监听
 
-/** 监听即将开始显示动画 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setWillShowHandler)(void(^willShowHandler)(JKAlertView *view));
-
-/** 监听显示动画完成 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDidShowHandler)(void(^didShowHandler)(JKAlertView *view));
-
-/** 监听JKAlertView即将开始消失动画 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setWillDismissHandler)(void(^willDismissHandler)(void));
-
-/** 监听JKAlertView消失动画完成 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDidDismissHandler)(void(^didDismissHandler)(void));
-
 /** 监听屏幕旋转 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));
 
@@ -369,12 +357,6 @@
 
 /** 设置监听superView尺寸改变时自适应完成的block */
 @property (nonatomic, copy, readonly) JKAlertView *(^setDidAutoAdaptSuperViewBlock)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView));
-
-/** 设置dealloc时会调用的block */
-@property (nonatomic, copy, readonly) void (^setDeallocBlock)(void(^deallocBlock)(void));
-
-/** 设置是否允许dealloc打印，用于检查循环引用 */
-@property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable);
 
 
 #pragma mark
