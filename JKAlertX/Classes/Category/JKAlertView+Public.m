@@ -480,6 +480,135 @@
     };
 }
 
+#pragma mark
+#pragma mark - 状态监听
+
+/** 监听屏幕旋转 */
+- (JKAlertView *(^)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)))setOrientationChangeBlock {
+    
+    return ^(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) {
+        
+        self.orientationChangeBlock = orientationChangeBlock;
+        
+        return self;
+    };
+}
+
+/** 设置监听superView尺寸改变时将要自适应的block */
+- (JKAlertView *(^)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)))setWillAutoAdaptSuperViewBlock {
+    
+    return ^JKAlertView *(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)) {
+        
+        self.willAdaptBlock = willAdaptBlock;
+        
+        return self;
+    };
+}
+
+/** 设置监听superView尺寸改变时自适应完成的block */
+- (JKAlertView *(^)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)))setDidAutoAdaptSuperViewBlock {
+    
+    return ^JKAlertView *(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)) {
+        
+        self.didAdaptBlock = didAdaptBlock;
+        
+        return self;
+    };
+}
+
+#pragma mark
+#pragma mark - 显示之后更新UI
+
+/** 重新设置alertTitle */
+- (JKAlertView *(^)(NSString *alertTitle))resetAlertTitle {
+    
+    return ^(NSString *alertTitle) {
+        
+        self.alertTitle = alertTitle;
+        
+        return self;
+    };
+}
+
+/** 重新设置alertAttributedTitle */
+- (JKAlertView *(^)(NSAttributedString *alertAttributedTitle))resetAlertAttributedTitle {
+    
+    return ^(NSAttributedString *alertAttributedTitle) {
+        
+        self.alertAttributedTitle = alertAttributedTitle;
+        
+        return self;
+    };
+}
+
+/** 重新设置message */
+- (JKAlertView *(^)(NSString *message))resetMessage {
+    
+    return ^(NSString *message) {
+        
+        self.alertMessage = message;
+        
+        return self;
+    };
+}
+
+/** 重新设置attributedMessage */
+- (JKAlertView *(^)(NSAttributedString *attributedMessage))resetAttributedMessage {
+    
+    return ^(NSAttributedString *attributedMessage) {
+        
+        self.attributedMessage = attributedMessage;
+        
+        return self;
+    };
+}
+
+/** 重新布局 */
+- (JKAlertView *(^)(BOOL animated))relayout {
+    
+    //lastTableViewOffsetY = _tableView.contentOffset.y;
+    
+    return ^(BOOL animated) {
+        
+        !self.willAdaptBlock ? : self.willAdaptBlock(self, (self.alertContentView));
+        
+        if (animated) {
+            
+            [UIView animateWithDuration:0.25 animations:^{
+                
+                [self calculateUI];
+                
+            } completion:^(BOOL finished) {
+                
+                !self.relayoutComplete ? : self.relayoutComplete(self);
+                
+                !self.didAdaptBlock ? : self.didAdaptBlock(self, (self.alertContentView));
+            }];
+            
+        } else {
+            
+            [self calculateUI];
+            
+            !self.relayoutComplete ? : self.relayoutComplete(self);
+            
+            !self.didAdaptBlock ? : self.didAdaptBlock(self, (self.alertContentView));
+        }
+        
+        return self;
+    };
+}
+
+/** 监听重新布局完成 */
+- (JKAlertView *(^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete {
+    
+    return ^(void(^relayoutComplete)(JKAlertView *view)) {
+        
+        self.relayoutComplete = relayoutComplete;
+        
+        return self;
+    };
+}
+
 
 
 

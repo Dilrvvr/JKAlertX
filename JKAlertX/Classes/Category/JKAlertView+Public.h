@@ -241,4 +241,43 @@
  * 默认YES，允许垂直手势退出时有效
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeGestureIndicatorHidden)(BOOL gestureIndicatorHidden);
+
+#pragma mark
+#pragma mark - 状态监听
+
+/** 监听屏幕旋转 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation));
+
+/** 设置监听superView尺寸改变时将要自适应的block */
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillAutoAdaptSuperViewBlock)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView));
+
+/** 设置监听superView尺寸改变时自适应完成的block */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDidAutoAdaptSuperViewBlock)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView));
+
+
+#pragma mark
+#pragma mark - 显示之后更新UI
+
+/** 重新设置alertTitle */
+@property (nonatomic, copy, readonly) JKAlertView *(^resetAlertTitle)(NSString *alertTitle);
+
+/** 重新设置alertAttributedTitle */
+@property (nonatomic, copy, readonly) JKAlertView *(^resetAlertAttributedTitle)(NSAttributedString *alertAttributedTitle);
+
+/** 重新设置message */
+@property (nonatomic, copy, readonly) JKAlertView *(^resetMessage)(NSString *message);
+
+/** 重新设置attributedMessage */
+@property (nonatomic, copy, readonly) JKAlertView *(^resetAttributedMessage)(NSAttributedString *attributedMessage);
+
+/** 重新布局 */
+@property (nonatomic, copy, readonly) JKAlertView *(^relayout)(BOOL animated);
+
+/**
+ * 重新布局完成的block
+ * ****************** WARNING!!! ******************
+ * 如果需要在block中再次relayout，请在block中销毁该block
+ * 即调用setRelayoutComplete(nil); 否则会造成死循环
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view));
 @end
