@@ -10,6 +10,7 @@
 #define JKAlertX_h
 
 #import "JKAlertView.h"
+#import "JKAlertView+LifeCycle.h"
 #import "JKAlertView+Public.h"
 #import "JKAlertView+Plain.h"
 #import "JKAlertView+HUD.h"

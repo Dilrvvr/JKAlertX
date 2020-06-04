@@ -9,6 +9,9 @@
 
 @interface JKAlertView (Deprecated)
 
+/** 显示并监听JKAlertView消失动画完成 */
+@property (nonatomic, copy, readonly) void (^showWithDismissComplete)(void(^dismissComplete)(void)) JKAlertXDeprecated("use showWithDidDismissHandler");
+
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText) JKAlertXDeprecated("use setTextViewShouldSelectText");
 
 @property (nonatomic, copy, readonly) JKAlertView *(^setWillShowAnimation)(void(^willShowAnimation)(JKAlertView *view)) JKAlertXDeprecated("use setWillShowHandler");

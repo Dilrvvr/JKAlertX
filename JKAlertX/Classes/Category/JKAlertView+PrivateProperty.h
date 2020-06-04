@@ -377,6 +377,8 @@
 - (void)addKeyboardWillChangeFrameNotification;
 
 - (void)removeKeyboardWillChangeFrameNotification;
+
+- (void)calculateUI;
 @end
 
 

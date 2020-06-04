@@ -13,6 +13,12 @@
 
 @implementation JKAlertView (Deprecated)
 
+/** 显示并监听JKAlertView消失动画完成 */
+- (void(^)(void(^dismissComplete)(void)))showWithDismissComplete{
+    
+    return [self showWithDidDismissHandler];
+}
+
 /** 设置title和message是否可以选择文字，默认NO */
 - (JKAlertView *(^)(BOOL canselectText))setTextViewCanSelectText {
     

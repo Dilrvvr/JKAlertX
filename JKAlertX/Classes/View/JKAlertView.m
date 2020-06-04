@@ -1436,13 +1436,13 @@
 }
 
 /** 显示并监听JKAlertView消失动画完成 */
-- (void(^)(void(^dismissComplete)(void)))showWithDismissComplete{
+- (void(^)(void(^handler)(void)))showWithDidDismissHandler {
     
-    return ^(void(^dismissComplete)(void)) {
+    return ^(void(^handler)(void)) {
         
         [self show];
         
-        self.didDismissHandler = dismissComplete;
+        self.didDismissHandler = handler;
     };
 }
 

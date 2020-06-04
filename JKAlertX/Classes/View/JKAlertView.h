@@ -40,7 +40,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^show)(void);
 
 /** 显示并监听JKAlertView消失动画完成 */
-@property (nonatomic, copy, readonly) void (^showWithDismissComplete)(void(^dismissComplete)(void));
+@property (nonatomic, copy, readonly) void (^showWithDidDismissHandler)(void(^handler)(void));
 
 /** 退出 */
 @property (nonatomic, copy, readonly) void (^dismiss)(void);
