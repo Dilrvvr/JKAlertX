@@ -11,11 +11,18 @@
 #import "JKAlertPiercedTableViewCell.h"
 #import "JKAlertConst.h"
 #import "JKAlertView.h"
+#import "JKAlertActionButton.h"
 
 @interface JKAlerActionSheetContentView () <UITableViewDataSource, UITableViewDelegate>
 
 /** horizontalSeparatorLineView */
 @property (nonatomic, weak) UIView *horizontalSeparatorLineView;
+
+/** tableView */
+@property (nonatomic, weak) UITableView *tableView;
+
+/** cancelButton */
+@property (nonatomic, weak) JKAlertActionButton *cancelButton;
 @end
 
 @implementation JKAlerActionSheetContentView
@@ -25,11 +32,17 @@
 
 - (void)calculateUI {
     
+    self.textContentView.contentWidth = self.contentWidth;
+    
     [self.textContentView calculateUI];
     
     [self layoutTableView];
     
+    [self layoutActionButton];
+    
     [self adjustActionSheetFrame];
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark
@@ -47,16 +60,174 @@
 
 - (void)adjustActionSheetFrame {
     
+    CGRect frame = CGRectZero;
+    
+    frame = self.textContentView.frame;
+    self.textScrollView.frame = frame;
+    
+    CGFloat topHeight = self.textScrollView.frame.size.height;
+    
+    CGFloat bottomHeight = self.tableView.frame.size.height;
+    
+    self.actionScrollView.hidden = YES;
+    
+    if (self.pinCancelButton) {
+        
+        bottomHeight += self.cancelMargin;
+        
+        bottomHeight += self.cancelAction.rowHeight;
+        
+        self.actionScrollView.hidden = NO;
+    }
+    
+    bottomHeight += JKAlertAdjustHomeIndicatorHeight;
+    
+    self.horizontalSeparatorLineView.frame = CGRectMake(0, topHeight, self.contentWidth - JKAlertGlobalSeparatorLineThickness() * 0.5, JKAlertGlobalSeparatorLineThickness());
+    
+    CGFloat totalHeight = topHeight + bottomHeight;
+    
+    CGFloat halfHeight = self.maxHeight * 0.5;
+    
+    if (self.maxHeight <= 0 ||
+        totalHeight <= self.maxHeight) {
+        
+        self.textScrollView.scrollEnabled = NO;
+        self.actionScrollView.scrollEnabled = NO;
+        self.tableView.scrollEnabled = NO;
+        
+    } else if (topHeight > halfHeight &&
+               bottomHeight > halfHeight) {
+        
+        // 二者都超过最大高度的一半
+        
+        self.textScrollView.scrollEnabled = YES;
+        
+    } else if (topHeight > halfHeight) {
+        
+        // 上部分高度更高
+        self.textScrollView.scrollEnabled = YES;
+        
+    } else if (bottomHeight > halfHeight) {
+        
+        // 下部分高度更高
+    }
+    
+    
+    
+}
+
+- (void)checkPiercedTableViewFrame {
+    
+    if (!self.isPierced ||
+        self.actionScrollView.hidden) {
+        
+        self.tableView.scrollEnabled = YES;
+        
+        return;
+    }
+    
+    CGRect frame = CGRectZero;
+    
+    //CGFloat totalHeight = self.tableView.frame.size.height + self.actionScrollView.frame.size.height;
+    
+    CGFloat maxHeight = self.maxHeight * 0.5;
+    
+    CGFloat halfHeight = maxHeight * 0.5;
+    
+    if (self.tableView.frame.size.height > maxHeight &&
+        self.actionScrollView.frame.size.height > maxHeight) {
+        
+        // 二者都超过最大高度的一半
+        
+        self.tableView.scrollEnabled = YES;
+        self.actionScrollView.scrollEnabled = YES;
+        
+        frame = self.tableView.frame;
+        frame.size.height = halfHeight;
+        self.tableView.frame = frame;
+        
+        frame = self.actionScrollView.frame;
+        frame.size.height = halfHeight;
+        self.actionScrollView.frame = frame;
+        
+    } else if (self.tableView.frame.size.height > maxHeight) {
+        
+    } else if (self.actionScrollView.frame.size.height > maxHeight) {
+        
+    }
 }
 
 - (void)layoutTableView {
     
+    CGRect rect = CGRectZero;
+    
+    if (self.actionArray.count <= 0) {
+        
+        self.tableView.hidden = YES;
+        
+        self.tableView.frame = rect;
+        
+        return;
+    }
+    
+    self.tableView.hidden = NO;
+    
+    for (JKAlertAction *action in self.actionArray) {
+        
+        rect.size.height += action.rowHeight;
+    }
+    
+    if (self.pinCancelButton) {
+        
+        self.tableView.frame = rect;
+        
+        return;
+    }
+    
+    if (self.cancelAction) {
+        
+        rect.size.height += self.cancelAction.rowHeight;
+    }
+    
+    rect.size.height += JKAlertAdjustHomeIndicatorHeight;
+    
+    self.tableView.frame = rect;
+}
+
+- (void)layoutActionButton {
+    
+    self.cancelAction.isPierced = self.isPierced;
+    
+    if (!self.isPierced ||
+        !self.cancelAction) {
+        
+        self.actionScrollView.hidden = YES;
+        self.actionScrollView.frame = CGRectZero;
+        
+        return;
+    }
+    
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, self.cancelAction.rowHeight + JKAlertAdjustHomeIndicatorHeight);
+    
+    self.cancelButton.frame = frame;
+    
+    self.actionScrollView.frame = self.cancelButton.frame;
+    
+    if (self.cancelAction.customView) {
+        
+        self.cancelAction.customView.frame = self.cancelButton.bounds;
+    }
+    
+    self.actionScrollView.hidden = (self.actionScrollView.frame.size.height <= 0);
 }
 
 #pragma mark
 #pragma mark - Private Selector
 
-
+- (void)cancelButtonClick:(JKAlertActionButton *)button {
+    
+    // TODO: JKTODO <#注释#>
+}
 
 #pragma mark
 #pragma mark - UITableViewDataSource & UITableViewDelegate
@@ -153,7 +324,7 @@
     [super createUI];
     
     JKAlertActionSheetTextContentView *textContentView = [[JKAlertActionSheetTextContentView alloc] init];
-    [self.contentView addSubview:textContentView];
+    [self.textScrollView addSubview:textContentView];
     _textContentView = textContentView;
     
     UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
@@ -166,6 +337,13 @@
     tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGFLOAT_MIN)];
     tableView.showsHorizontalScrollIndicator = NO;
     [self.contentView addSubview:tableView];
+    _tableView = tableView;
+    
+    JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
+    [self.actionScrollView addSubview:cancelButton];
+    _cancelButton = cancelButton;
+    
+    [cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
     horizontalSeparatorLineView.hidden = YES;

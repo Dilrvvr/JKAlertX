@@ -2266,15 +2266,15 @@
 //    return JKAlertScreenW > JKAlertScreenH;
 //}
 
-- (void)keyboardWillChangeFrame:(NSNotification *)noti {
+- (void)keyboardWillChangeFrame:(NSNotification *)notification {
     
     if (JKAlertStylePlain != self.alertStyle) { return; }
     
-    CGRect keyboardFrame = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     
     CGRect frame = self.alertContentView.frame;
     
-    NSNumber *curve = noti.userInfo[UIKeyboardAnimationCurveUserInfoKey];
+    NSNumber *curve = notification.userInfo[UIKeyboardAnimationCurveUserInfoKey];
     
     NSInteger animationCurve = (curve ? [curve integerValue] : 7);
     

@@ -41,4 +41,13 @@
 
 /** tableViewDelegate */
 @property (nonatomic, weak) id <UITableViewDelegate> tableViewDelegate;
+
+/** isPierced */
+@property (nonatomic, assign) BOOL isPierced;
+
+/** 镂空效果间距 只取左右下 */
+@property (nonatomic, assign) UIEdgeInsets piercedInses;
+
+/** piercedBackgroundColor */
+@property (nonatomic, strong) JKAlertMultiColor *piercedBackgroundColor;
 @end
