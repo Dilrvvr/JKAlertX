@@ -19,6 +19,7 @@
 
 - (void)calculateUI {
     
+    [self updateUserInterfaceStyle];
 }
 
 - (void)setCustomBackgroundView:(UIView *)customBackgroundView {

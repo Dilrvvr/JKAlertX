@@ -148,7 +148,7 @@
     switch (self.alertStyle) {
         case JKAlertStyleActionSheet:
         {
-            [self showAcitonSheet];
+            [self calculateUI];
         }
             break;
             
@@ -264,6 +264,45 @@
     self.hudContentView.center = CGPointMake(JKAlertScreenW * 0.5 + self.plainCenterOffset.x, JKAlertScreenH * 0.5 + self.plainCenterOffset.y);
 }
 
+- (void)calculateActionSheetUI {
+    
+    if (!self.cancelAction) {
+        
+        self.cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
+        self.cancelAction.setTitleFont([UIFont systemFontOfSize:17]);
+        self.cancelAction.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
+    }
+    
+    self.cancelAction.setSeparatorLineHidden(YES);
+    [self.actions.lastObject setSeparatorLineHidden:YES];
+    
+    self.actionsheetContentView.textContentView.alertTitle = self.alertTitle;
+    self.actionsheetContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
+    
+    self.actionsheetContentView.textContentView.alertMessage = self.alertMessage;
+    self.actionsheetContentView.textContentView.attributedMessage = self.attributedMessage;
+    
+    self.actionsheetContentView.actionArray = self.actions;
+    self.actionsheetContentView.cancelAction = self.cancelAction;
+    
+    CGFloat contentWidth = JKAlertScreenW;
+    
+    if (self.actionsheetContentView.isPierced) {
+        
+        contentWidth = JKAlertScreenW - self.actionsheetContentView.piercedInsets.left - self.actionsheetContentView.piercedInsets.right;
+    }
+    
+    // TODO: JKTODO <#注释#>
+    self.actionsheetContentView.contentWidth = contentWidth;
+    self.actionsheetContentView.maxHeight = JKAlertSheetMaxH;
+    [self.actionsheetContentView calculateUI];
+    
+    CGRect frame = self.actionsheetContentView.frame;
+    frame.origin.x = self.actionsheetContentView.piercedInsets.left;
+    frame.origin.y = JKAlertScreenH - frame.size.height;
+    self.actionsheetContentView.frame = frame;
+}
+
 #pragma mark
 #pragma mark - Setter
 
@@ -286,7 +325,8 @@
         {
             _tapBlankDismiss = YES;
             
-            [self tableView];
+            _currentAlertContentView = self.actionsheetContentView;
+            _currentTextContentView = self.actionsheetContentView.textContentView;
         }
             break;
             
@@ -705,6 +745,12 @@
             return self;
         }
         
+        // TODO: JKTODO <#注释#>
+        self.actionsheetContentView.isPierced = isPierced;
+        self.actionsheetContentView.piercedInsets = UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin);
+        self.actionsheetContentView.piercedCornerRadius = cornerRadius;
+        self.actionsheetContentView.piercedBackgroundColor = [JKAlertMultiColor colorWithLightColor:lightBackgroundColor darkColor:darkBackgroundColor];
+        
         self.isActionSheetPierced = isPierced;
         
         self.piercedBackgroundColor = JKAlertAdaptColor(lightBackgroundColor ? lightBackgroundColor : [UIColor whiteColor], darkBackgroundColor ? darkBackgroundColor : [UIColor blackColor]);
@@ -728,6 +774,7 @@
         
         self.piercedBottomMargin = MAX(bottomMargin, 0);
         
+        // TODO: JKTODO <#注释#>
         [self updateInsets];
         
         return self;
@@ -1305,7 +1352,9 @@
             
         case JKAlertStyleActionSheet:
         {
+            [self calculateActionSheetUI];
             
+            return;
         }
             break;
             
@@ -2107,12 +2156,20 @@
                 break;
             case JKAlertStyleActionSheet:
             {
-                
+                CGRect frame = self.actionsheetContentView.frame;
+                frame.origin.y = JKAlertScreenHeight;
+                self.actionsheetContentView.frame = frame;
             }
                 break;
             case JKAlertStyleCollectionSheet:
             {
+
+                _sheetContainerView.frame = CGRectMake(_sheetContainerView.frame.origin.x, JKAlertScreenH, _sheetContainerView.frame.size.width, _sheetContainerView.frame.size.height);
                 
+                if (_enableVerticalGestureDismiss &&
+                    (_sheetContainerView != nil)) {
+                    _sheetContainerView.layer.anchorPoint = CGPointMake(0.5, 1);
+                }
             }
                 break;
                 
@@ -2121,12 +2178,6 @@
         }
         
         
-        _sheetContainerView.frame = CGRectMake(_sheetContainerView.frame.origin.x, JKAlertScreenH, _sheetContainerView.frame.size.width, _sheetContainerView.frame.size.height);
-        
-        if (_enableVerticalGestureDismiss &&
-            (_sheetContainerView != nil)) {
-            _sheetContainerView.layer.anchorPoint = CGPointMake(0.5, 1);
-        }
     }
     
     self.backgroundView.alpha = 0;
@@ -2181,7 +2232,13 @@
             break;
         case JKAlertStyleActionSheet:
         {
+            CGRect frame = self.actionsheetContentView.frame;
+            frame.origin.y = JKAlertScreenH - frame.size.height;
+            self.actionsheetContentView.frame = frame;
             
+            // TODO: JKTODO <#注释#>
+            
+            return;
         }
             break;
         case JKAlertStyleCollectionSheet:
@@ -2478,6 +2535,32 @@
         return;
     }
     
+    switch (self.alertStyle) {
+        case JKAlertStyleHUD:
+        case JKAlertStylePlain:
+        {
+            self.alertContentView.transform = CGAffineTransformMakeScale(0.8, 0.8);
+            self.alertContentView.alpha = 0;
+        }
+            break;
+        case JKAlertStyleActionSheet:
+        {
+            CGRect frame = self.actionsheetContentView.frame;
+            frame.origin.y = JKAlertScreenH;
+            self.actionsheetContentView.frame = frame;
+            
+            return;
+        }
+            break;
+        case JKAlertStyleCollectionSheet:
+        {
+            
+        }
+            
+        default:
+            break;
+    }
+    
     CGRect rect = _sheetContainerView.frame;
     
     if (isSheetDismissHorizontal) {
@@ -2490,28 +2573,6 @@
     }
     
     _sheetContainerView.frame = rect;
-    
-    switch (self.alertStyle) {
-        case JKAlertStyleHUD:
-        case JKAlertStylePlain:
-        {
-            self.alertContentView.transform = CGAffineTransformMakeScale(0.8, 0.8);
-            self.alertContentView.alpha = 0;
-        }
-            break;
-        case JKAlertStyleActionSheet:
-        {
-            
-        }
-            break;
-        case JKAlertStyleCollectionSheet:
-        {
-            
-        }
-            
-        default:
-            break;
-    }
 }
 
 - (void(^)(void))dismissAnimationDidComplete{

@@ -22,10 +22,7 @@
 @property (nonatomic, strong) JKAlertAction *cancelAction;
 
 /** 是否固定取消按钮在底部 */
-@property (nonatomic, assign) BOOL pinCancelButton;
-
-/** action sheet样式是否镂空 */
-@property (nonatomic, assign) BOOL isActionSheetPierced;
+@property (nonatomic, assign) BOOL cancelButtonPinned;
 
 /** customSuperView */
 @property (nonatomic, weak) UIView *customSuperView;
@@ -46,8 +43,14 @@
 @property (nonatomic, assign) BOOL isPierced;
 
 /** 镂空效果间距 只取左右下 */
-@property (nonatomic, assign) UIEdgeInsets piercedInses;
+@property (nonatomic, assign) UIEdgeInsets piercedInsets;
+
+/** 镂空整体圆角 */
+@property (nonatomic, assign) CGFloat piercedCornerRadius;
 
 /** piercedBackgroundColor */
 @property (nonatomic, strong) JKAlertMultiColor *piercedBackgroundColor;
+
+/** textContentBackgroundColor */
+@property (nonatomic, strong) JKAlertMultiColor *textContentBackgroundColor;
 @end

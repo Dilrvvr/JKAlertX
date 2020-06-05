@@ -150,6 +150,12 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 
 #define JKAlertScreenScale [UIScreen mainScreen].scale
 
+#define JKAlertScreenBounds [UIScreen mainScreen].bounds
+
+#define JKAlertScreenWidth [UIScreen mainScreen].bounds.size.width
+
+#define JKAlertScreenHeight [UIScreen mainScreen].bounds.size.height
+
 #define JKAlertAdjustHomeIndicatorHeight (AutoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight() : 0.0)
 
 #define JKAlertRowHeight ((JKAlertScreenW > 321.0) ? 53.0 : 46.0)
@@ -190,6 +196,9 @@ UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor);
 
 /// 全局背景色
 UIColor * JKAlertGlobalBackgroundColor (void);
+
+/// 全局背景色
+JKAlertMultiColor * JKAlertGlobalMultiBackgroundColor (void);
 
 /// 全局分隔线粗细
 CGFloat JKAlertGlobalSeparatorLineThickness (void);

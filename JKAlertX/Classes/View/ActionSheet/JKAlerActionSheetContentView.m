@@ -15,6 +15,9 @@
 
 @interface JKAlerActionSheetContentView () <UITableViewDataSource, UITableViewDelegate>
 
+/** topPiercedBackgroundView */
+@property (nonatomic, weak) UIView *topPiercedBackgroundView;
+
 /** horizontalSeparatorLineView */
 @property (nonatomic, weak) UIView *horizontalSeparatorLineView;
 
@@ -31,6 +34,10 @@
 #pragma mark - Public Methods
 
 - (void)calculateUI {
+    [super calculateUI];
+    
+    self.backgroundEffectView.hidden = self.isPierced;
+    self.topPiercedBackgroundView.hidden = !self.isPierced || self.customBackgroundView != nil;
     
     self.textContentView.contentWidth = self.contentWidth;
     
@@ -41,6 +48,20 @@
     [self layoutActionButton];
     
     [self adjustActionSheetFrame];
+    
+    if (self.isPierced) {
+        
+        self.topPiercedBackgroundView.layer.cornerRadius = self.piercedCornerRadius;
+        self.topPiercedBackgroundView.layer.masksToBounds = YES;
+        
+        self.cancelButton.layer.cornerRadius = self.piercedCornerRadius;
+        self.cancelButton.layer.masksToBounds = YES;
+        
+    } else {
+        
+        self.topPiercedBackgroundView.layer.cornerRadius = 0;
+        self.cancelButton.layer.cornerRadius = 0;
+    }
     
     [self.tableView reloadData];
 }
@@ -65,24 +86,40 @@
     frame = self.textContentView.frame;
     self.textScrollView.frame = frame;
     
+    self.textScrollView.contentSize = CGSizeMake(0, self.textScrollView.frame.size.height);
+    
     CGFloat topHeight = self.textScrollView.frame.size.height;
     
     CGFloat bottomHeight = self.tableView.frame.size.height;
     
     self.actionScrollView.hidden = YES;
     
-    if (self.pinCancelButton) {
+    if (self.cancelButtonPinned &&
+        self.cancelAction.rowHeight >= 0.1) {
         
         bottomHeight += self.cancelMargin;
         
         bottomHeight += self.cancelAction.rowHeight;
         
+        bottomHeight += JKAlertAdjustHomeIndicatorHeight;
+        
+        if (self.isPierced) {
+            
+            bottomHeight += self.piercedInsets.bottom;
+        }
+        
+        self.actionScrollView.contentSize = CGSizeMake(0, self.actionScrollView.frame.size.height);
+        
         self.actionScrollView.hidden = NO;
     }
     
-    bottomHeight += JKAlertAdjustHomeIndicatorHeight;
+    self.horizontalSeparatorLineView.hidden = (topHeight <= 0 || self.actionArray.count <= 0);
     
-    self.horizontalSeparatorLineView.frame = CGRectMake(0, topHeight, self.contentWidth - JKAlertGlobalSeparatorLineThickness() * 0.5, JKAlertGlobalSeparatorLineThickness());
+    self.horizontalSeparatorLineView.frame = CGRectMake(0, topHeight, self.contentWidth, JKAlertGlobalSeparatorLineThickness());
+    
+    frame = self.tableView.frame;
+    frame.origin.y = CGRectGetMaxY(self.textScrollView.frame);
+    self.tableView.frame = frame;
     
     CGFloat totalHeight = topHeight + bottomHeight;
     
@@ -92,8 +129,8 @@
         totalHeight <= self.maxHeight) {
         
         self.textScrollView.scrollEnabled = NO;
-        self.actionScrollView.scrollEnabled = NO;
         self.tableView.scrollEnabled = NO;
+        self.actionScrollView.scrollEnabled = NO;
         
     } else if (topHeight > halfHeight &&
                bottomHeight > halfHeight) {
@@ -102,23 +139,84 @@
         
         self.textScrollView.scrollEnabled = YES;
         
+        if (self.cancelButtonPinned) {
+            
+            [self checkPiercedTableViewFrame];
+            
+        } else {
+            
+            self.tableView.scrollEnabled = YES;
+        }
+        
     } else if (topHeight > halfHeight) {
         
         // 上部分高度更高
         self.textScrollView.scrollEnabled = YES;
+        self.tableView.scrollEnabled = NO;
+        self.actionScrollView.scrollEnabled = NO;
         
     } else if (bottomHeight > halfHeight) {
         
         // 下部分高度更高
+        self.textScrollView.scrollEnabled = NO;
+        
+        if (self.cancelButtonPinned) {
+            
+            [self checkPiercedTableViewFrame];
+            
+        } else {
+            
+            self.tableView.scrollEnabled = YES;
+        }
     }
     
+    if (!self.actionScrollView.hidden) {
+        
+        frame = self.actionScrollView.frame;
+        
+        frame.origin.y = CGRectGetMaxY(self.tableView.frame) + self.cancelMargin;
+        
+        self.actionScrollView.frame = frame;
+    }
     
+    frame = CGRectMake(0, 0, self.contentWidth, self.textScrollView.frame.size.height + self.tableView.frame.size.height);
     
+    if (self.cancelButtonPinned &&
+        self.cancelAction.rowHeight >= 0.1) {
+            
+        frame.size.height += self.cancelButton.frame.size.height;
+        
+        frame.size.height += self.cancelMargin;
+        
+        frame.size.height += JKAlertAdjustHomeIndicatorHeight;
+        
+        if (self.isPierced) {
+            
+            frame.size.height += self.piercedInsets.bottom;
+        }
+    }
+    
+    self.frame = frame;
+    
+    if (self.isPierced) {
+        
+        frame.size.height = CGRectGetMaxY(self.tableView.frame);
+        
+        self.topPiercedBackgroundView.frame = frame;
+        
+        [self.topPiercedBackgroundView addSubview:self.textScrollView];
+        [self.topPiercedBackgroundView addSubview:self.tableView];
+        
+    } else {
+        
+        [self.contentView addSubview:self.textScrollView];
+        [self.contentView addSubview:self.tableView];
+    }
 }
 
 - (void)checkPiercedTableViewFrame {
     
-    if (!self.isPierced ||
+    if (!self.cancelButtonPinned ||
         self.actionScrollView.hidden) {
         
         self.tableView.scrollEnabled = YES;
@@ -134,8 +232,36 @@
     
     CGFloat halfHeight = maxHeight * 0.5;
     
-    if (self.tableView.frame.size.height > maxHeight &&
-        self.actionScrollView.frame.size.height > maxHeight) {
+    CGFloat actionTotalHeight = self.actionScrollView.frame.size.height + self.cancelMargin;
+    
+    CGFloat extraHeight = 0;
+    
+    if (self.isPierced) {
+        
+        extraHeight += self.piercedInsets.bottom;
+        extraHeight += JKAlertAdjustHomeIndicatorHeight;
+        
+    } else {
+        
+        if (AutoAdjustHomeIndicator) {
+            
+            if (self.fillHomeIndicator) {
+                
+                extraHeight += JKAlertAdjustHomeIndicatorHeight;
+                
+            } else {
+                
+            }
+            
+        } else {
+            
+        }
+    }
+    
+    actionTotalHeight += extraHeight;
+    
+    if (self.tableView.frame.size.height > halfHeight &&
+        actionTotalHeight > halfHeight) {
         
         // 二者都超过最大高度的一半
         
@@ -147,19 +273,33 @@
         self.tableView.frame = frame;
         
         frame = self.actionScrollView.frame;
-        frame.size.height = halfHeight;
+        frame.size.height = halfHeight - extraHeight;
         self.actionScrollView.frame = frame;
         
     } else if (self.tableView.frame.size.height > maxHeight) {
         
+        frame = self.tableView.frame;
+        frame.size.height = halfHeight;
+        self.tableView.frame = frame;
+        
+        self.tableView.scrollEnabled = YES;
+        self.actionScrollView.scrollEnabled = NO;
+        
     } else if (self.actionScrollView.frame.size.height > maxHeight) {
         
+        self.tableView.scrollEnabled = NO;
+        
+        self.actionScrollView.scrollEnabled = YES;
+        
+        frame = self.actionScrollView.frame;
+        frame.size.height = halfHeight - extraHeight;
+        self.actionScrollView.frame = frame;
     }
 }
 
 - (void)layoutTableView {
     
-    CGRect rect = CGRectZero;
+    CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
     
     if (self.actionArray.count <= 0) {
         
@@ -177,19 +317,21 @@
         rect.size.height += action.rowHeight;
     }
     
-    if (self.pinCancelButton) {
+    if (self.cancelButtonPinned) {
         
         self.tableView.frame = rect;
         
         return;
     }
     
-    if (self.cancelAction) {
+    if (self.cancelAction.rowHeight > 0.1) {
+        
+        rect.size.height += self.cancelMargin;
         
         rect.size.height += self.cancelAction.rowHeight;
+        
+        rect.size.height += JKAlertAdjustHomeIndicatorHeight;
     }
-    
-    rect.size.height += JKAlertAdjustHomeIndicatorHeight;
     
     self.tableView.frame = rect;
 }
@@ -198,8 +340,10 @@
     
     self.cancelAction.isPierced = self.isPierced;
     
-    if (!self.isPierced ||
-        !self.cancelAction) {
+    self.cancelButton.action = self.cancelAction;
+    
+    if (!self.cancelButtonPinned ||
+        self.cancelAction.rowHeight < 0.1) {
         
         self.actionScrollView.hidden = YES;
         self.actionScrollView.frame = CGRectZero;
@@ -207,7 +351,26 @@
         return;
     }
     
-    CGRect frame = CGRectMake(0, 0, self.contentWidth, self.cancelAction.rowHeight + JKAlertAdjustHomeIndicatorHeight);
+    self.actionScrollView.hidden = NO;
+    
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, self.cancelAction.rowHeight);
+    
+    if (self.isPierced) {
+        
+        
+    } else {
+        
+        if (AutoAdjustHomeIndicator) {
+            
+            if (self.fillHomeIndicator) {
+                
+                frame.size.height += JKAlertAdjustHomeIndicatorHeight;
+            }
+            
+        } else {
+            
+        }
+    }
     
     self.cancelButton.frame = frame;
     
@@ -217,8 +380,26 @@
         
         self.cancelAction.customView.frame = self.cancelButton.bounds;
     }
+}
+
+- (void)updateLightModetUI {
+    [super updateLightModetUI];
     
-    self.actionScrollView.hidden = (self.actionScrollView.frame.size.height <= 0);
+    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+    
+    self.topPiercedBackgroundView.backgroundColor = self.piercedBackgroundColor.lightColor;
+    
+    self.textScrollView.backgroundColor = self.isPierced ? nil : self.textContentBackgroundColor.lightColor;
+}
+
+- (void)updateDarkModeUI {
+    [super updateDarkModeUI];
+    
+    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+    
+    self.topPiercedBackgroundView.backgroundColor = self.piercedBackgroundColor.darkColor;
+    
+    self.textScrollView.backgroundColor = self.isPierced ? nil : self.textContentBackgroundColor.darkColor;
 }
 
 #pragma mark
@@ -226,7 +407,11 @@
 
 - (void)cancelButtonClick:(JKAlertActionButton *)button {
     
-    // TODO: JKTODO <#注释#>
+    JKAlertAction *action = button.action;
+    
+    if (action.autoDismiss && ![action isEmpty]) { [self.alertView dismiss]; }
+    
+    !action.handler ? : action.handler(action);
 }
 
 #pragma mark
@@ -234,16 +419,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return (self.cancelAction.rowHeight > 0 && !self.pinCancelButton) ? 2 : 1;
+    return (self.cancelButtonPinned || self.cancelAction.rowHeight < 0.1) ? 1 : 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0 ? self.actionArray.count : (self.pinCancelButton ? 0 : 1);
+    return section == 0 ? self.actionArray.count : (self.cancelButtonPinned ? 0 : 1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    JKAlertBaseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(self.isActionSheetPierced ? [JKAlertPiercedTableViewCell class] : [JKAlertTableViewCell class])];
+    JKAlertBaseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(self.isPierced ? [JKAlertPiercedTableViewCell class] : [JKAlertTableViewCell class])];
     
     if (cell == nil) {
         
@@ -270,11 +455,36 @@
     
     if (!self.fillHomeIndicator) { return action.rowHeight; }
     
-    return indexPath.section == 0 ? action.rowHeight : action.rowHeight + JKAlertAdjustHomeIndicatorHeight;
+    switch (indexPath.section) {
+        case 0:
+            return action.rowHeight;
+            break;
+        case 1:
+            return action.rowHeight + JKAlertAdjustHomeIndicatorHeight;
+            break;
+            
+        default:
+            break;
+    }
+    
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return (section == 0) ? CGFLOAT_MIN : self.cancelMargin;
+    
+    switch (section) {
+        case 0:
+            return CGFLOAT_MIN;
+            break;
+        case 1:
+            return self.cancelAction.rowHeight > 0.1 ? self.cancelMargin : CGFLOAT_MIN;
+            break;
+            
+        default:
+            break;
+    }
+    
+    return CGFLOAT_MIN;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -311,6 +521,13 @@
 - (void)initializeProperty {
     [super initializeProperty];
     
+    AutoAdjustHomeIndicator = YES;
+    
+    _fillHomeIndicator = YES;
+    
+    _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
+    
+    _textContentBackgroundColor = JKAlertGlobalMultiBackgroundColor();
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -322,6 +539,10 @@
 /** 创建UI */
 - (void)createUI {
     [super createUI];
+    
+    UIView *topPiercedBackgroundView = [[UIView alloc] init];
+    [self.contentView insertSubview:topPiercedBackgroundView atIndex:0];
+    _topPiercedBackgroundView = topPiercedBackgroundView;
     
     JKAlertActionSheetTextContentView *textContentView = [[JKAlertActionSheetTextContentView alloc] init];
     [self.textScrollView addSubview:textContentView];
@@ -401,6 +622,13 @@
     }
     
     return tableView;
+}
+
+- (BOOL)cancelButtonPinned {
+    
+    if (self.isPierced) { return YES; }
+    
+    return _cancelButtonPinned;
 }
 
 @end

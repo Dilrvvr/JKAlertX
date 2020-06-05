@@ -107,6 +107,19 @@ UIColor * JKAlertGlobalBackgroundColor (void) {
     return GlobalBackgroundColor_;
 }
 
+/// 全局背景色
+JKAlertMultiColor * JKAlertGlobalMultiBackgroundColor (void) {
+    
+    static JKAlertMultiColor *GlobalMultiBackgroundColor_ = nil;
+    
+    if (!GlobalMultiBackgroundColor_) {
+        
+        GlobalMultiBackgroundColor_ = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColorAlpha(247.0, 0.7) darkColor:JKAlertSameRGBColorAlpha(8.0, 0.7)];
+    }
+    
+    return GlobalMultiBackgroundColor_;
+}
+
 /// 全局高亮背景色
 UIColor * JKAlertGlobalHighlightedBackgroundColor (void) {
     
@@ -140,7 +153,7 @@ JKAlertMultiColor * JKAlertGlobalSeparatorLineMultiColor (void) {
     
     if (!separatorLineMultiColor_) {
         
-        separatorLineMultiColor_ = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.1] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
+        separatorLineMultiColor_ = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.2] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
     }
     
     return separatorLineMultiColor_;
@@ -154,7 +167,7 @@ UIColor * JKAlertGlobalSeparatorLineColor (void) {
     
     if (!SeparatorLineColor_) {
         
-        SeparatorLineColor_ = JKAlertAdaptColor(JKAlertSameRGBColor(190), JKAlertSameRGBColor(65));//JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);//JKAlertAdaptColor(JKAlertSameRGBColor(217.0), JKAlertSameRGBColor(53.0));
+        SeparatorLineColor_ = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);//JKAlertAdaptColor(JKAlertSameRGBColor(217.0), JKAlertSameRGBColor(53.0));
     }
     
     return SeparatorLineColor_;

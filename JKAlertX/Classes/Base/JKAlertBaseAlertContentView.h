@@ -56,5 +56,5 @@
 /** darkBlurEffect */
 @property (nonatomic, strong) UIBlurEffect *darkBlurEffect;
 
-- (void)calculateUI;
+- (void)calculateUI NS_REQUIRES_SUPER;
 @end

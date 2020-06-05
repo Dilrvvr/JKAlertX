@@ -81,6 +81,9 @@
 /** 富文本提示信息 */
 @property (nonatomic, copy) NSAttributedString *attributedMessage;
 
+/** multiBackgroundColor */
+@property (nonatomic, strong) JKAlertMultiColor *multiBackgroundColor;
+
 
 - (void)calculateUI NS_REQUIRES_SUPER;
 @end

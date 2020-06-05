@@ -150,6 +150,8 @@
 
 - (void)calculateUI {
     
+    [self updateUserInterfaceStyle];
+    
     [self updateTextViewProperty];
     
     CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
@@ -299,6 +301,11 @@
     self.messageTextView.textView.textColor = self.messageTextColor.lightColor;
     
     self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+    
+    if (self.multiBackgroundColor) {
+        
+        self.backgroundView.backgroundColor = self.multiBackgroundColor.lightColor;
+    }
 }
 
 - (void)updateDarkModeUI {
@@ -308,6 +315,11 @@
     self.messageTextView.textView.textColor = self.messageTextColor.darkColor;
     
     self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+    
+    if (self.multiBackgroundColor) {
+        
+        self.backgroundView.backgroundColor = self.multiBackgroundColor.darkColor;
+    }
 }
 
 #pragma mark

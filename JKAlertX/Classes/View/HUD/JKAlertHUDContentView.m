@@ -39,6 +39,7 @@
 }
 
 - (void)calculateUI {
+    [super calculateUI];
     
     self.textContentView.contentWidth = self.contentWidth;
     
