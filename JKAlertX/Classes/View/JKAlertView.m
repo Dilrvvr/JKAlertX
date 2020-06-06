@@ -845,7 +845,7 @@
     
     [self updateWidthHeight];
     
-    [self calculateUI];
+    self.relayout(NO);
     
     [self updateInsets];
 }

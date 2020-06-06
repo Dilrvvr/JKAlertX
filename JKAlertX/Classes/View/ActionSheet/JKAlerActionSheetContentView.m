@@ -46,7 +46,7 @@
     
     [self layoutTableView];
     
-    [self layoutActionButton];
+    [self layoutCancelActionButton];
     
     [self adjustActionSheetFrame];
     
@@ -97,6 +97,7 @@
     
     self.actionScrollView.hidden = YES;
     
+    // 固定取消按钮且取消按钮的高度大于等0.1
     if (self.cancelButtonPinned &&
         self.cancelAction.rowHeight >= 0.1) {
         
@@ -138,9 +139,13 @@
         
         self.textScrollView.scrollEnabled = YES;
         
+        frame = self.textScrollView.frame;
+        frame.size.height = halfHeight;
+        self.textScrollView.frame = frame;
+        
         if (self.cancelButtonPinned) {
             
-            [self checkPiercedTableViewFrameWithMaxHeight:halfHeight];
+            [self checkCancelButtonPinnedBottomFrameWithMaxHeight:halfHeight];
             
         } else {
             
@@ -169,7 +174,7 @@
         
         if (self.cancelButtonPinned) {
             
-            [self checkPiercedTableViewFrameWithMaxHeight:self.maxHeight - self.textScrollView.frame.size.height];
+            [self checkCancelButtonPinnedBottomFrameWithMaxHeight:self.maxHeight - self.textScrollView.frame.size.height];
             
         } else {
             
@@ -180,6 +185,10 @@
             self.tableView.frame = frame;
         }
     }
+    
+    frame = self.tableView.frame;
+    frame.origin.y = CGRectGetMaxY(self.textScrollView.frame);
+    self.tableView.frame = frame;
     
     if (!self.actionScrollView.hidden) {
         
@@ -236,12 +245,13 @@
     }
 }
 
-- (void)checkPiercedTableViewFrameWithMaxHeight:(CGFloat)maxHeight {
+/// 固定底部取消按钮时计算tableView和取消按钮的frame
+- (void)checkCancelButtonPinnedBottomFrameWithMaxHeight:(CGFloat)maxHeight {
     
     CGRect frame = CGRectZero;
     
     if (!self.cancelButtonPinned ||
-        self.actionScrollView.hidden) {
+        self.cancelAction.rowHeight < 0.1) {
             
         frame = self.tableView.frame;
         frame.size.height = maxHeight;
@@ -265,20 +275,16 @@
         extraHeight += self.piercedInsets.bottom;
         //extraHeight += JKAlertAdjustHomeIndicatorHeight;
         
-    } else {
+    }
+    
+    if (self.autoAdjustHomeIndicator) {
         
-        if (self.autoAdjustHomeIndicator) {
+        if (self.fillHomeIndicator) {
             
-            if (self.fillHomeIndicator) {
-                
-                
-            } else {
-                
-                extraHeight += JKAlertAdjustHomeIndicatorHeight;
-            }
             
         } else {
             
+            extraHeight += JKAlertAdjustHomeIndicatorHeight;
         }
     }
     
@@ -300,7 +306,7 @@
         frame.size.height = halfHeight - extraHeight;
         self.actionScrollView.frame = frame;
         
-    } else if (self.tableView.frame.size.height > maxHeight) {
+    } else if (self.tableView.frame.size.height > halfHeight) {
         
         frame = self.tableView.frame;
         frame.size.height = maxHeight - self.actionScrollView.frame.size.height - self.cancelMargin - extraHeight;
@@ -309,14 +315,14 @@
         self.tableView.scrollEnabled = YES;
         self.actionScrollView.scrollEnabled = NO;
         
-    } else if (self.actionScrollView.frame.size.height > maxHeight) {
+    } else if (self.actionScrollView.frame.size.height > halfHeight) {
         
         self.tableView.scrollEnabled = NO;
         
         self.actionScrollView.scrollEnabled = YES;
         
         frame = self.actionScrollView.frame;
-        frame.size.height = maxHeight - self.tableView.frame.size.height - extraHeight;
+        frame.size.height = maxHeight - self.tableView.frame.size.height - extraHeight - self.cancelMargin;
         self.actionScrollView.frame = frame;
     }
 }
@@ -325,6 +331,7 @@
     
     CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
     
+    // 没有action且cancelAction的高度小于0.1
     if (self.actionArray.count <= 0 &&
         self.cancelAction.rowHeight < 0.1) {
         
@@ -335,15 +342,20 @@
         return;
     }
     
+    // 有action或cancelAction的高度大于等于0.1
+    
     self.tableView.hidden = NO;
     
+    // 加上action的高度
     for (JKAlertAction *action in self.actionArray) {
         
         rect.size.height += action.rowHeight;
     }
     
+    // 自动适配X设备底部间距时，加上X设备底部间距
     rect.size.height += JKAlertAdjustHomeIndicatorHeight;
     
+    // 固定取消按钮在底部，则tableView高度计算完毕
     if (self.cancelButtonPinned) {
         
         self.tableView.frame = rect;
@@ -351,7 +363,8 @@
         return;
     }
     
-    if (self.cancelAction.rowHeight > 0.1) {
+    // 不固定取消按钮，如果取消按钮高度大于等于0.1，则加上相应高度
+    if (self.cancelAction.rowHeight >= 0.1) {
         
         rect.size.height += self.cancelMargin;
         
@@ -361,12 +374,13 @@
     self.tableView.frame = rect;
 }
 
-- (void)layoutActionButton {
+- (void)layoutCancelActionButton {
     
     self.cancelAction.isPierced = self.isPierced;
     
     self.cancelButton.action = self.cancelAction;
     
+    // 没有固定取消按钮或取消按钮的高度小于0.1
     if (!self.cancelButtonPinned ||
         self.cancelAction.rowHeight < 0.1) {
         
@@ -376,25 +390,19 @@
         return;
     }
     
+    // 固定取消按钮且取消按钮的高度大于等于0.1
+    
     self.actionScrollView.hidden = NO;
     
     CGRect frame = CGRectMake(0, 0, self.contentWidth, self.cancelAction.rowHeight);
     
-    if (self.isPierced) {
+    // 非镂空效果 且 自动适配X设备底部 且 填充X设备底部
+    if (!self.isPierced &&
+        self.autoAdjustHomeIndicator &&
+        self.fillHomeIndicator) {
         
-        
-    } else {
-        
-        if (self.autoAdjustHomeIndicator) {
-            
-            if (self.fillHomeIndicator) {
-                
-                frame.size.height += JKAlertAdjustHomeIndicatorHeight;
-            }
-            
-        } else {
-            
-        }
+        // 加上底部间距
+        frame.size.height += JKAlertAdjustHomeIndicatorHeight;
     }
     
     self.cancelButton.frame = frame;
@@ -411,15 +419,11 @@
     
     CGFloat bottomInset = 0;
     
+    // 没有固定取消按钮或取消按钮的高度小于0.1
     if (!self.cancelButtonPinned ||
         self.cancelAction.rowHeight < 0.1) {
         
         bottomInset = JKAlertAdjustHomeIndicatorHeight;
-        
-//        if (self.autoAdjustHomeIndicator && self.fillHomeIndicator) {
-//
-//            bottomInset = 0;
-//        }
     }
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottomInset, 0);

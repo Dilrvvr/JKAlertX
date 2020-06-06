@@ -383,6 +383,12 @@
     
     //    alertView.setCancelAction([JKAlertAction actionWithTitle:@"cancel" style:(JKAlertActionStyleDestructive) handler:nil]);
     
+    //alertView.setAutoAdjustHomeIndicator(NO);
+    
+//    alertView.setCancelAction(JKAlertAction.action(nil, JKAlertActionStyleDefault, nil).setCustomView(^UIView *(JKAlertAction *action) {
+//        return [UIView new];
+//    }));
+    
     alertView.enableDeallocLog(YES).show().setDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
@@ -529,27 +535,9 @@
         
     }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }]).setCancelAction(JKAlertAction.action(nil, JKAlertActionStyleDefault, nil).setCustomView(^UIView *(JKAlertAction *action) {
+    }]).setAutoAdjustHomeIndicator(YES).setCancelAction(JKAlertAction.action(nil, JKAlertActionStyleDefault, nil).setCustomView(^UIView *(JKAlertAction *action) {
         return [UIView new];
-    })).enableDeallocLog(YES).setPinCancelButton(YES).show().setDidDismissHandler(^{
+    })).enableDeallocLog(YES).setPinCancelButton(NO).show().setDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
