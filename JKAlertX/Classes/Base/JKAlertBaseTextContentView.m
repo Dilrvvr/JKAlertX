@@ -259,7 +259,7 @@
             originY += self.safeInsets.top;
         }
         
-        width = self.contentWidth - self.messageInsets.left - self.messageInsets.right;
+        width = self.contentWidth - self.messageInsets.left - self.messageInsets.right - self.safeInsets.left - self.safeInsets.right;
         
         minHeight = (noCustom && self.titleTextView.hidden) ? self.singleMinHeight : self.messageMinHeight;
         

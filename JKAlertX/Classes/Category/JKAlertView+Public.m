@@ -628,7 +628,10 @@
     
     return ^(BOOL autoAdjust) {
         
-        self->AutoAdjustHomeIndicator = autoAdjust;
+        self.autoAdjustHomeIndicator = autoAdjust;
+        
+        // TODO: JKTODO <#注释#>
+        self.actionsheetContentView.autoAdjustHomeIndicator = autoAdjust;
         
         return self;
     };
@@ -643,6 +646,9 @@
         
         self->FillHomeIndicator = fillHomeIndicator;
         
+        // TODO: JKTODO <#注释#>
+        self.actionsheetContentView.fillHomeIndicator = fillHomeIndicator;
+        
         return self;
     };
 }
@@ -653,6 +659,10 @@
     return ^(CGFloat margin) {
         
         self->CancelMargin = margin < 0 ? 0 : margin;
+        
+        // TODO: JKTODO <#注释#>
+        
+        self.actionsheetContentView.cancelMargin = margin;
         
         return self;
     };

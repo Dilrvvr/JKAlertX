@@ -37,8 +37,9 @@
     [super calculateUI];
     
     self.backgroundEffectView.hidden = self.isPierced;
-    self.topPiercedBackgroundView.hidden = !self.isPierced || self.customBackgroundView != nil;
+    self.topPiercedBackgroundView.hidden = (!self.isPierced || self.customBackgroundView != nil);
     
+    self.textContentView.safeInsets = self.isPierced ? UIEdgeInsetsZero : self.safeInsets;
     self.textContentView.contentWidth = self.contentWidth;
     
     [self.textContentView calculateUI];
@@ -62,6 +63,8 @@
         self.topPiercedBackgroundView.layer.cornerRadius = 0;
         self.cancelButton.layer.cornerRadius = 0;
     }
+    
+    [self updateTableViewInsets];
     
     [self.tableView reloadData];
 }
@@ -113,10 +116,6 @@
         self.actionScrollView.hidden = NO;
     }
     
-    self.horizontalSeparatorLineView.hidden = (topHeight <= 0 || self.actionArray.count <= 0);
-    
-    self.horizontalSeparatorLineView.frame = CGRectMake(0, topHeight, self.contentWidth, JKAlertGlobalSeparatorLineThickness());
-    
     frame = self.tableView.frame;
     frame.origin.y = CGRectGetMaxY(self.textScrollView.frame);
     self.tableView.frame = frame;
@@ -141,11 +140,15 @@
         
         if (self.cancelButtonPinned) {
             
-            [self checkPiercedTableViewFrame];
+            [self checkPiercedTableViewFrameWithMaxHeight:halfHeight];
             
         } else {
             
             self.tableView.scrollEnabled = YES;
+            
+            frame = self.tableView.frame;
+            frame.size.height = halfHeight;
+            self.tableView.frame = frame;
         }
         
     } else if (topHeight > halfHeight) {
@@ -155,6 +158,10 @@
         self.tableView.scrollEnabled = NO;
         self.actionScrollView.scrollEnabled = NO;
         
+        frame = self.textScrollView.frame;
+        frame.size.height = self.maxHeight - self.tableView.frame.size.height;
+        self.textScrollView.frame = frame;
+        
     } else if (bottomHeight > halfHeight) {
         
         // 下部分高度更高
@@ -162,11 +169,15 @@
         
         if (self.cancelButtonPinned) {
             
-            [self checkPiercedTableViewFrame];
+            [self checkPiercedTableViewFrameWithMaxHeight:self.maxHeight - self.textScrollView.frame.size.height];
             
         } else {
             
             self.tableView.scrollEnabled = YES;
+            
+            frame = self.tableView.frame;
+            frame.size.height = self.maxHeight - self.textScrollView.frame.size.height;
+            self.tableView.frame = frame;
         }
     }
     
@@ -188,15 +199,26 @@
         
         frame.size.height += self.cancelMargin;
         
-        frame.size.height += JKAlertAdjustHomeIndicatorHeight;
-        
         if (self.isPierced) {
             
             frame.size.height += self.piercedInsets.bottom;
+            
+        } else {
+            
+            if (self.fillHomeIndicator) {
+                
+            } else {
+                
+                frame.size.height += JKAlertAdjustHomeIndicatorHeight;
+            }
         }
     }
     
     self.frame = frame;
+    
+    self.horizontalSeparatorLineView.hidden = (topHeight <= 0 || self.actionArray.count <= 0);
+    
+    self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.textScrollView.frame), self.contentWidth, JKAlertGlobalSeparatorLineThickness());
     
     if (self.isPierced) {
         
@@ -214,21 +236,23 @@
     }
 }
 
-- (void)checkPiercedTableViewFrame {
+- (void)checkPiercedTableViewFrameWithMaxHeight:(CGFloat)maxHeight {
+    
+    CGRect frame = CGRectZero;
     
     if (!self.cancelButtonPinned ||
         self.actionScrollView.hidden) {
+            
+        frame = self.tableView.frame;
+        frame.size.height = maxHeight;
+        self.tableView.frame = frame;
         
         self.tableView.scrollEnabled = YES;
         
         return;
     }
     
-    CGRect frame = CGRectZero;
-    
     //CGFloat totalHeight = self.tableView.frame.size.height + self.actionScrollView.frame.size.height;
-    
-    CGFloat maxHeight = self.maxHeight * 0.5;
     
     CGFloat halfHeight = maxHeight * 0.5;
     
@@ -239,18 +263,18 @@
     if (self.isPierced) {
         
         extraHeight += self.piercedInsets.bottom;
-        extraHeight += JKAlertAdjustHomeIndicatorHeight;
+        //extraHeight += JKAlertAdjustHomeIndicatorHeight;
         
     } else {
         
-        if (AutoAdjustHomeIndicator) {
+        if (self.autoAdjustHomeIndicator) {
             
             if (self.fillHomeIndicator) {
                 
-                extraHeight += JKAlertAdjustHomeIndicatorHeight;
                 
             } else {
                 
+                extraHeight += JKAlertAdjustHomeIndicatorHeight;
             }
             
         } else {
@@ -279,7 +303,7 @@
     } else if (self.tableView.frame.size.height > maxHeight) {
         
         frame = self.tableView.frame;
-        frame.size.height = halfHeight;
+        frame.size.height = maxHeight - self.actionScrollView.frame.size.height - self.cancelMargin - extraHeight;
         self.tableView.frame = frame;
         
         self.tableView.scrollEnabled = YES;
@@ -292,7 +316,7 @@
         self.actionScrollView.scrollEnabled = YES;
         
         frame = self.actionScrollView.frame;
-        frame.size.height = halfHeight - extraHeight;
+        frame.size.height = maxHeight - self.tableView.frame.size.height - extraHeight;
         self.actionScrollView.frame = frame;
     }
 }
@@ -301,7 +325,8 @@
     
     CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
     
-    if (self.actionArray.count <= 0) {
+    if (self.actionArray.count <= 0 &&
+        self.cancelAction.rowHeight < 0.1) {
         
         self.tableView.hidden = YES;
         
@@ -317,6 +342,8 @@
         rect.size.height += action.rowHeight;
     }
     
+    rect.size.height += JKAlertAdjustHomeIndicatorHeight;
+    
     if (self.cancelButtonPinned) {
         
         self.tableView.frame = rect;
@@ -329,8 +356,6 @@
         rect.size.height += self.cancelMargin;
         
         rect.size.height += self.cancelAction.rowHeight;
-        
-        rect.size.height += JKAlertAdjustHomeIndicatorHeight;
     }
     
     self.tableView.frame = rect;
@@ -360,7 +385,7 @@
         
     } else {
         
-        if (AutoAdjustHomeIndicator) {
+        if (self.autoAdjustHomeIndicator) {
             
             if (self.fillHomeIndicator) {
                 
@@ -380,6 +405,25 @@
         
         self.cancelAction.customView.frame = self.cancelButton.bounds;
     }
+}
+
+- (void)updateTableViewInsets {
+    
+    CGFloat bottomInset = 0;
+    
+    if (!self.cancelButtonPinned ||
+        self.cancelAction.rowHeight < 0.1) {
+        
+        bottomInset = JKAlertAdjustHomeIndicatorHeight;
+        
+//        if (self.autoAdjustHomeIndicator && self.fillHomeIndicator) {
+//
+//            bottomInset = 0;
+//        }
+    }
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottomInset, 0);
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottomInset, (self.isPierced ? 0 : self.safeInsets.right));
 }
 
 - (void)updateLightModetUI {
@@ -477,7 +521,7 @@
             return CGFLOAT_MIN;
             break;
         case 1:
-            return self.cancelAction.rowHeight > 0.1 ? self.cancelMargin : CGFLOAT_MIN;
+            return self.cancelAction.rowHeight >= 0.1 ? self.cancelMargin : CGFLOAT_MIN;
             break;
             
         default:
@@ -521,7 +565,7 @@
 - (void)initializeProperty {
     [super initializeProperty];
     
-    AutoAdjustHomeIndicator = YES;
+    _autoAdjustHomeIndicator = YES;
     
     _fillHomeIndicator = YES;
     
@@ -568,7 +612,7 @@
     
     UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
     horizontalSeparatorLineView.hidden = YES;
-    [self.contentView addSubview:horizontalSeparatorLineView];
+    [self addSubview:horizontalSeparatorLineView];
     _horizontalSeparatorLineView = horizontalSeparatorLineView;
 }
 

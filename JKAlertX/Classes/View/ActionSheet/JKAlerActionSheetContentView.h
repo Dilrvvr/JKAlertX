@@ -11,9 +11,6 @@
 @class JKAlertAction;
 
 @interface JKAlerActionSheetContentView : JKAlertBaseAlertContentView
-{
-    BOOL AutoAdjustHomeIndicator;
-}
 
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertActionSheetTextContentView *textContentView;
@@ -26,6 +23,9 @@
 
 /** customSuperView */
 @property (nonatomic, weak) UIView *customSuperView;
+
+/** autoAdjustHomeIndicator */
+@property (nonatomic, assign) BOOL autoAdjustHomeIndicator;
 
 /** fillHomeIndicator */
 @property (nonatomic, assign) BOOL fillHomeIndicator;

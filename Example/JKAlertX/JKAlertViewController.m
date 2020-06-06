@@ -295,7 +295,51 @@
     });
     
     // 类似系统样式
-    alertView.setBottomButtonMargin(8).setActionSheetPierced(YES, 10, 15, 24, [UIColor whiteColor], [UIColor blackColor]);
+    alertView.setBottomButtonMargin(8).setAutoAdjustHomeIndicator(NO).setActionSheetPierced(YES, 10, 15, 24, [UIColor whiteColor], [UIColor blackColor]);
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -305,15 +349,24 @@
         
     }].setNormalImage([UIImage imageNamed:@"Share_Facebook"])];
     
+    
+    
+    
     [alertView addAction:[JKAlertAction actionWithTitle:@"更新message" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
         if (action.isAutoDismiss) { return; }
         
-        action.alertView.getActionAtIndexFrom(1, NO, ^(JKAlertAction *action) {
-           
-            action.separatorLineHidden = YES;
+        action.alertView.getActionArrayFrom(NO, ^(NSArray *actionArray) {
             
-        }).getCancelOrCollectionAction(YES, ^(JKAlertAction *action) {
+            JKAlertAction *action = actionArray.count > 2 ? [actionArray objectAtIndex:(actionArray.count - 2)] : nil;
+            
+            if (action) {
+                
+                action.separatorLineHidden = YES;
+            }
+        });
+        
+        action.alertView.getCancelOrCollectionAction(YES, ^(JKAlertAction *action) {
             
             if (!action) { return; }
             
@@ -465,7 +518,8 @@
     }].setCustomView(^(JKAlertAction *action) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200)];
-        label.backgroundColor = [UIColor orangeColor];
+        label.textColor = [UIColor redColor];
+        //label.backgroundColor = [UIColor orangeColor];
         label.textAlignment = NSTextAlignmentCenter;
         label.text = @"我是自定义的view~~";
         
@@ -473,7 +527,29 @@
         
     })).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }]).enableDeallocLog(YES).show().setDidDismissHandler(^{
+    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }]).setCancelAction(JKAlertAction.action(nil, JKAlertActionStyleDefault, nil).setCustomView(^UIView *(JKAlertAction *action) {
+        return [UIView new];
+    })).enableDeallocLog(YES).setPinCancelButton(YES).show().setDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         

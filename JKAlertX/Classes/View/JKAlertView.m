@@ -285,11 +285,22 @@
     self.actionsheetContentView.actionArray = self.actions;
     self.actionsheetContentView.cancelAction = self.cancelAction;
     
+    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInsets = self.customSuperView.safeAreaInsets;
+    }
+    
+    safeAreaInsets.top = 0;
+    
+    self.actionsheetContentView.safeInsets = safeAreaInsets;
+    
     CGFloat contentWidth = JKAlertScreenW;
     
     if (self.actionsheetContentView.isPierced) {
         
-        contentWidth = JKAlertScreenW - self.actionsheetContentView.piercedInsets.left - self.actionsheetContentView.piercedInsets.right;
+        contentWidth -= (self.actionsheetContentView.piercedInsets.left + self.actionsheetContentView.piercedInsets.right + self.actionsheetContentView.safeInsets.left + self.actionsheetContentView.safeInsets.right);
     }
     
     // TODO: JKTODO <#注释#>
@@ -298,7 +309,7 @@
     [self.actionsheetContentView calculateUI];
     
     CGRect frame = self.actionsheetContentView.frame;
-    frame.origin.x = self.actionsheetContentView.piercedInsets.left;
+    frame.origin.x = self.actionsheetContentView.isPierced ? self.actionsheetContentView.safeInsets.left + self.actionsheetContentView.piercedInsets.left : 0;
     frame.origin.y = JKAlertScreenH - frame.size.height;
     self.actionsheetContentView.frame = frame;
 }
@@ -727,6 +738,10 @@
         
         [self updateInsets];
         
+        // TODO: JKTODO <#注释#>
+        
+        self.actionsheetContentView.cancelButtonPinned = pinCancelButton;
+        
         return self;
     };
 }
@@ -854,7 +869,7 @@
             
             bottomInset = JKAlertAdjustHomeIndicatorHeight;
             
-            if (AutoAdjustHomeIndicator && FillHomeIndicator) {
+            if (self.autoAdjustHomeIndicator && FillHomeIndicator) {
                 
                 bottomInset = 0;
             }
@@ -2126,7 +2141,14 @@
         CGRect oldFrame = [[change objectForKey:NSKeyValueChangeOldKey] CGRectValue];
         CGRect currentFrame = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
         
-        if (CGSizeEqualToSize(oldFrame.size, currentFrame.size)) { return; }
+        if (CGSizeEqualToSize(oldFrame.size, currentFrame.size) ||
+            (oldFrame.size.width == currentFrame.size.height &&
+            oldFrame.size.height == currentFrame.size.width)) {
+            
+            // 屏幕旋转由屏幕旋转处理
+            
+            return;
+        }
         
         [self updateWidthHeight];
         
@@ -3436,7 +3458,7 @@
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
     
     FillHomeIndicator = YES;
-    AutoAdjustHomeIndicator = YES;
+    _autoAdjustHomeIndicator = YES;
     
     self.flowlayoutItemWidth = 76;
     

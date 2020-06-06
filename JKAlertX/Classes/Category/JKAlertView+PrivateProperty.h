@@ -36,7 +36,7 @@
     CGFloat OriginalPlainWidth;
     
     /** 是否自动适配 iPhone X homeIndicator */
-    BOOL AutoAdjustHomeIndicator;
+    //BOOL AutoAdjustHomeIndicator;
     
     BOOL FillHomeIndicator;
     
@@ -89,6 +89,9 @@
 
 /** currentAlertContentView */
 @property (nonatomic, weak, readonly) JKAlertBaseTextContentView *currentTextContentView;
+
+/** autoAdjustHomeIndicator */
+@property (nonatomic, assign) BOOL autoAdjustHomeIndicator;
 
 
 

@@ -156,7 +156,7 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 
 #define JKAlertScreenHeight [UIScreen mainScreen].bounds.size.height
 
-#define JKAlertAdjustHomeIndicatorHeight (AutoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight() : 0.0)
+#define JKAlertAdjustHomeIndicatorHeight (self.autoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight() : 0.0)
 
 #define JKAlertRowHeight ((JKAlertScreenW > 321.0) ? 53.0 : 46.0)
 
