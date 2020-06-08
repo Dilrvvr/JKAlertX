@@ -12,24 +12,6 @@
 #pragma mark
 #pragma mark - Public Methods
 
-- (void)setAlertMessage:(NSString *)alertMessage {
-    [super setAlertMessage:nil];
-    
-    if (alertMessage && !self.alertTitle) {
-        
-        [super setAlertTitle:alertMessage];
-    }
-}
-
-- (void)setAttributedMessage:(NSAttributedString *)attributedMessage {
-    [super setAttributedMessage:nil];
-    
-    if (attributedMessage && !self.alertAttributedTitle) {
-        
-        [super setAlertAttributedTitle:attributedMessage];
-    }
-}
-
 - (void)setDefaultDarkStyle:(BOOL)defaultDarkStyle {
     
     if (_defaultDarkStyle == defaultDarkStyle) { return; }
@@ -109,23 +91,6 @@
 #pragma mark
 #pragma mark - Private Property
 
-- (NSString *)alertTitle {
-    
-    if (![super alertTitle]) {
-        
-        return self.alertMessage;
-    }
-    
-    return [super alertTitle];
-}
 
-- (NSAttributedString *)alertAttributedTitle {
-    
-    if (![super alertAttributedTitle]) {
-        
-        return self.attributedMessage;
-    }
-    
-    return [super alertAttributedTitle];
-}
+
 @end

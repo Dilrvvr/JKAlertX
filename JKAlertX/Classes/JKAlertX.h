@@ -10,10 +10,12 @@
 #define JKAlertX_h
 
 #import "JKAlertView.h"
-#import "JKAlertView+LifeCycle.h"
 #import "JKAlertView+Public.h"
+#import "JKAlertView+LifeCycle.h"
 #import "JKAlertView+Plain.h"
 #import "JKAlertView+HUD.h"
+#import "JKAlertView+ActionSheet.h"
+#import "JKAlertView+CollectionSheet.h"
 #import "UIView+JKAlertX.h"
 #import "UIControl+JKAlertX.h"
 #import "JKAlertView+Deprecated.h"

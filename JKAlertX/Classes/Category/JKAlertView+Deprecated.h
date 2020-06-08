@@ -224,4 +224,10 @@
  * 小于等于0将没有效果，默认0
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setHUDHeight)(CGFloat height) JKAlertXDeprecated("use makeHudHeight");
+
+#pragma mark
+#pragma mark - action sheet样式
+
+#pragma mark
+#pragma mark - collection sheet样式
 @end
