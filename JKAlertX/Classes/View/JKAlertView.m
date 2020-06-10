@@ -311,6 +311,47 @@
     self.actionsheetContentView.frame = frame;
 }
 
+- (void)calculateCollectionSheetUI {
+    
+    if (!self.cancelAction) {
+        
+        self.cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
+        self.cancelAction.setTitleFont([UIFont systemFontOfSize:17]);
+        self.cancelAction.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
+    }
+    
+    self.cancelAction.setSeparatorLineHidden(YES);
+    
+    self.collectionsheetContentView.textContentView.alertTitle = self.alertTitle;
+    self.collectionsheetContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
+    
+    self.collectionsheetContentView.actionArray = self.actions;
+    self.collectionsheetContentView.cancelAction = self.cancelAction;
+    
+    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInsets = self.customSuperView.safeAreaInsets;
+    }
+    
+    safeAreaInsets.top = 0;
+    
+    self.collectionsheetContentView.safeInsets = safeAreaInsets;
+    
+    CGFloat contentWidth = JKAlertScreenW;
+    
+    // TODO: JKTODO <#注释#>
+    self.collectionsheetContentView.contentWidth = contentWidth;
+    self.collectionsheetContentView.maxHeight = JKAlertSheetMaxH;
+    [self.collectionsheetContentView calculateUI];
+    
+    CGRect frame = self.collectionsheetContentView.frame;
+    frame.origin.x = 0;
+    frame.origin.y = JKAlertScreenH - frame.size.height;
+    self.collectionsheetContentView.frame = frame;
+}
+
 #pragma mark
 #pragma mark - Setter
 
