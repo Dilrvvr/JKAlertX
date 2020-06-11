@@ -426,8 +426,13 @@
         bottomInset = JKAlertAdjustHomeIndicatorHeight;
     }
     
+    self.textScrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, (self.isPierced ? 0 : self.safeInsets.right));
+    
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottomInset, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottomInset, (self.isPierced ? 0 : self.safeInsets.right));
+    
+    self.actionScrollView.contentInset = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0);
+    self.actionScrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, (self.isPierced ? 0 : self.safeInsets.right));
 }
 
 - (void)updateLightModetUI {

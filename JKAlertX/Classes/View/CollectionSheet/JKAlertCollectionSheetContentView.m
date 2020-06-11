@@ -25,8 +25,11 @@
 /** collectionView2 */
 @property (nonatomic, weak) UICollectionView *collectionView2;
 
-/** horizontalSeparatorLineView */
-@property (nonatomic, weak) UIView *horizontalSeparatorLineView;
+/** titleSeparatorLineView */
+@property (nonatomic, weak) UIView *titleSeparatorLineView;
+
+/** collectionSeparatorLineView */
+@property (nonatomic, weak) UIView *collectionSeparatorLineView;
 
 /** pageControl */
 @property (nonatomic, weak) UIPageControl *pageControl;
@@ -50,6 +53,12 @@
     self.textContentView.contentWidth = self.contentWidth;
     
     [self.textContentView calculateUI];
+    
+    [self layoutCollectionView];
+    
+    [self layoutActionButton];
+    
+    [self adjustCollectionSheetFrame];
 }
 
 #pragma mark
@@ -65,7 +74,296 @@
 #pragma mark
 #pragma mark - Private Methods
 
+- (void)adjustCollectionSheetFrame {
+    
+    CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    CGRect frame = CGRectZero;
+    
+    //CGFloat frameY = 0;
+    
+    CGFloat topInitialHeight = 0;
+    
+    self.titleSeparatorLineView.hidden = self.titleSeparatorLineHidden;
+    
+    if (self.textContentView.hidden) {
+        
+        self.titleSeparatorLineView.hidden = YES;
+        
+    } else {
 
+        frame = self.textContentView.frame;
+        frame.origin.y = rect.size.height;
+        self.textContentView.frame = frame;
+        
+        //frameY += self.textContentView.frame.size.height;
+        
+        rect.size.height += self.textContentView.frame.size.height;
+    }
+    
+    if (!self.titleSeparatorLineView.hidden) {
+        
+        frame = CGRectMake(0, rect.size.height, self.contentWidth, JKAlertGlobalSeparatorLineThickness());
+        self.titleSeparatorLineView.frame = frame;
+    }
+    
+    self.collectionSeparatorLineView.hidden = self.collectionSeparatorLineHidden;
+    
+    if (self.collectionView.hidden ||
+        self.collectionView2.hidden) {
+        
+        self.collectionSeparatorLineView.hidden = YES;
+    }
+    
+    if (!self.collectionView.hidden) {
+
+        frame = self.collectionView.frame;
+        frame.origin.y = rect.size.height;
+        self.collectionView.frame = frame;
+        
+        //frameY += self.collectionView.frame.size.height;
+        
+        rect.size.height += self.collectionView.frame.size.height;
+        
+        if (!self.collectionView2.hidden) {
+            
+            //frameY += MAX(self.collectionViewMargin, 0);
+            
+            rect.size.height += self.collectionView.frame.size.height;
+            
+            if (!self.collectionSeparatorLineHidden) {
+
+                frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame) + MAX(self.collectionViewMargin, 0) * 0.5, self.contentWidth, JKAlertGlobalSeparatorLineThickness());
+                self.collectionSeparatorLineView.frame = frame;
+            }
+        }
+    }
+    
+    if (!self.collectionView2.hidden) {
+
+        frame = self.collectionView2.frame;
+        frame.origin.y = rect.size.height;
+        self.collectionView2.frame = frame;
+        
+        //frameY += self.collectionView2.frame.size.height;
+        
+        rect.size.height += self.collectionView2.frame.size.height;
+    }
+    
+    if (!self.pageControl.hidden) {
+
+        frame = self.pageControl.frame;
+        frame.origin.y = rect.size.height;
+        self.pageControl.frame = frame;
+        
+        //frameY += self.pageControl.frame.size.height;
+        
+        rect.size.height += self.pageControl.frame.size.height;
+    }
+    
+    if (!self.collectionButton.hidden) {
+        
+        if (rect.size.height > topInitialHeight + 0.1) {
+            
+            //frameY += self.cancelMargin;
+            
+            rect.size.height += self.cancelMargin;
+        }
+
+        frame = self.collectionButton.frame;
+        frame.origin.y = rect.size.height;
+        self.collectionButton.frame = frame;
+        
+        //frameY += self.collectionButton.frame.size.height;
+        
+        rect.size.height += self.collectionButton.frame.size.height;
+    }
+    
+    BOOL shouldAdjustContentInset = NO;
+    
+    if (self.cancelButton.hidden) {
+        
+        if (!self.collectionButton.hidden ||
+            rect.size.height > topInitialHeight + 0.1) {
+            
+            if (self.autoAdjustHomeIndicator ||
+                self.isPierced) {
+                
+                rect.size.height += JKAlertAdjustHomeIndicatorHeight;
+                
+                shouldAdjustContentInset = YES;
+            }
+        }
+        
+    } else {
+        
+        if (!self.collectionButton.hidden ||
+            rect.size.height > topInitialHeight + 0.1) {
+            
+            //frameY += self.cancelMargin;
+            
+            rect.size.height += self.cancelMargin;
+        }
+
+        frame = self.cancelButton.frame;
+        frame.origin.y = rect.size.height;
+        self.cancelButton.frame = frame;
+        
+        rect.size.height += self.cancelButton.frame.size.height;
+        
+        if ((self.autoAdjustHomeIndicator &&
+             !self.fillHomeIndicator) ||
+            self.isPierced) {
+                
+            rect.size.height += JKAlertAdjustHomeIndicatorHeight;
+            
+            shouldAdjustContentInset = YES;
+        }
+    }
+    
+    self.textScrollView.contentSize = CGSizeMake(0, rect.size.height);
+    
+    self.textScrollView.contentInset = UIEdgeInsetsMake(0, self.safeInsets.left, (shouldAdjustContentInset ? JKAlertCurrentHomeIndicatorHeight() : 0), 0);
+    self.textScrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, self.isPierced ? 0 : self.safeInsets.right);
+    
+    self.textScrollView.scrollEnabled = NO;
+    
+    if (self.maxHeight > 0 &&
+        rect.size.height > self.maxHeight) {
+        
+        rect.size.height = self.maxHeight;
+        
+        self.textScrollView.scrollEnabled = YES;
+    }
+    
+    self.frame = rect;
+}
+
+- (void)layoutCollectionView {
+    
+    NSInteger count = self.actionArray.count;
+    NSInteger count2 = self.actionArray2.count;
+    
+    if (count <= 0 && count2 <= 0) {
+        
+        self.collectionView.hidden = YES;
+        self.collectionView2.hidden = YES;
+        self.pageControl.hidden = YES;
+        
+        self.collectionView.frame = CGRectZero;
+        self.collectionView2.frame = CGRectZero;
+        self.pageControl.frame = CGRectZero;
+        
+        return;
+    }
+    
+    // TODO: JKTODO <#注释#>
+    CGFloat collectionHeight = 0;
+    
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    self.collectionView.hidden = (count <= 0);
+    self.collectionView2.hidden = (count2 <= 0);
+    
+    if (self.collectionView.hidden) {
+        
+        self.collectionView.frame = CGRectZero;
+        
+    } else {
+        
+        if (!self.collectionView2.hidden) {
+        
+            frame.size.height = collectionHeight + MAX(self.collectionViewMargin, 0);
+        }
+        
+        self.collectionView.frame =frame;
+    }
+    
+    if (self.collectionView2.hidden) {
+        
+        self.collectionView2.frame = CGRectZero;
+        
+    } else {
+        
+        frame.size.height = collectionHeight;
+        
+        self.collectionView.frame = frame;
+    }
+    
+    self.pageControl.hidden = self.pageControlHidden;
+    
+    if (!self.pageControl.hidden) {
+        
+        frame.size.height = self.pageControlHeight;
+        
+        self.pageControl.frame = frame;
+    }
+}
+
+- (void)layoutActionButton {
+    
+    self.cancelAction.isPierced = self.isPierced;
+    
+    self.cancelButton.action = self.cancelAction;
+    
+    if (self.cancelAction.rowHeight < 0.1) {
+        
+        self.cancelButton.hidden = YES;
+        self.cancelButton.frame = CGRectZero;
+    }
+    
+    if (!self.collectionAction ||
+        self.collectionAction.rowHeight < 0.1) {
+        
+        self.collectionButton.hidden = YES;
+        self.collectionButton.frame = CGRectZero;
+    }
+    
+    if (self.cancelButton.hidden &&
+        self.collectionButton.hidden) {
+        
+        return;
+    }
+    
+    // 固定取消按钮且取消按钮的高度大于等于0.1
+    
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    if (!self.cancelButton.hidden) {
+        
+        frame.size.height = self.cancelAction.rowHeight;
+        
+        // 非镂空效果 且 自动适配X设备底部 且 填充X设备底部
+        if (!self.isPierced &&
+            self.autoAdjustHomeIndicator &&
+            self.fillHomeIndicator) {
+            
+            // 加上底部间距
+            frame.size.height += JKAlertAdjustHomeIndicatorHeight;
+        }
+        
+        self.cancelButton.frame = frame;
+        
+        self.actionScrollView.frame = self.cancelButton.frame;
+        
+        if (self.cancelAction.customView) {
+            
+            self.cancelAction.customView.frame = self.cancelButton.bounds;
+        }
+    }
+    
+    if (!self.collectionButton.hidden) {
+        
+        frame.size.height = self.collectionAction.rowHeight;
+        
+        self.collectionButton.frame = frame;
+        
+        if (self.collectionAction.customView) {
+            
+            self.collectionAction.customView.frame = self.collectionButton.bounds;
+        }
+    }
+}
 
 #pragma mark
 #pragma mark - Private Selector
@@ -118,6 +416,7 @@
 - (void)initializeProperty {
     [super initializeProperty];
     
+    _pageControlHeight = 30;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -131,22 +430,27 @@
     [super createUI];
     
     JKAlertCollectionSheetTextContentView *textContentView = [[JKAlertCollectionSheetTextContentView alloc] init];
-    [self.contentView addSubview:textContentView];
+    [self.textScrollView addSubview:textContentView];
     _textContentView = textContentView;
     
-    UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
-    horizontalSeparatorLineView.hidden = YES;
-    [self addSubview:horizontalSeparatorLineView];
-    _horizontalSeparatorLineView = horizontalSeparatorLineView;
+    UIView *titleSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
+    titleSeparatorLineView.hidden = YES;
+    [self.textScrollView addSubview:titleSeparatorLineView];
+    _titleSeparatorLineView = titleSeparatorLineView;
+    
+    UIView *collectionSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
+    collectionSeparatorLineView.hidden = YES;
+    [self.textScrollView addSubview:collectionSeparatorLineView];
+    _collectionSeparatorLineView = collectionSeparatorLineView;
     
     JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-    [self.actionScrollView addSubview:cancelButton];
+    [self.textScrollView addSubview:cancelButton];
     _cancelButton = cancelButton;
     
     [cancelButton addTarget:self action:@selector(actionButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     JKAlertActionButton *collectionButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-    [self.actionScrollView addSubview:collectionButton];
+    [self.textScrollView addSubview:collectionButton];
     _collectionButton = collectionButton;
     
     [collectionButton addTarget:self action:@selector(actionButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];

@@ -175,6 +175,8 @@
         
         self.frame = rect;
         
+        self.hidden = self.frame.size.height <= 0;
+        
         return;
     }
     
@@ -284,6 +286,8 @@
     }
     
     self.frame = rect;
+    
+    self.hidden = self.frame.size.height <= 0;
 }
 
 #pragma mark
