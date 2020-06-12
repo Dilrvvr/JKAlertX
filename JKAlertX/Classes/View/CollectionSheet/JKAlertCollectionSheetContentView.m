@@ -132,11 +132,15 @@
     
     CGFloat collectionMargin = MAX(self.collectionViewMargin, 0);
     
+    CGFloat insetLeft = self.safeInsets.left + self.collectionHorizontalInset.left;
+    CGFloat insetRight = self.safeInsets.right + self.collectionHorizontalInset.right;
+    
     if (!self.collectionView.hidden) {
         
         self.flowlayout.itemSize = self.itemSize;
+        self.flowlayout.minimumLineSpacing = self.minimumLineSpacing;
         
-        UIEdgeInsets sectionInset = UIEdgeInsetsMake(0, self.collectionHorizontalInset.left, 0, self.collectionHorizontalInset.right);
+        UIEdgeInsets sectionInset = UIEdgeInsetsMake(0, insetLeft, 0, insetRight);
         self.flowlayout.sectionInset = sectionInset;
 
         frame = self.collectionView.frame;
@@ -163,8 +167,9 @@
     if (!self.collectionView2.hidden) {
         
         self.flowlayout2.itemSize = self.itemSize;
+        self.flowlayout2.minimumLineSpacing = self.minimumLineSpacing;
         
-        UIEdgeInsets sectionInset = UIEdgeInsetsMake(0, self.collectionHorizontalInset.left, 0, self.collectionHorizontalInset.right);
+        UIEdgeInsets sectionInset = UIEdgeInsetsMake(0, insetLeft, 0, insetRight);
         self.flowlayout2.sectionInset = sectionInset;
 
         frame = self.collectionView2.frame;
@@ -473,6 +478,10 @@
     [super initializeProperty];
     
     _pageControlHeight = 30;
+    
+    _minimumLineSpacing = 10;
+    
+    _collectionHorizontalInset = UIEdgeInsetsMake(0, 10, 0, 10);
     
     _itemSize = CGSizeMake(76, 70);
     

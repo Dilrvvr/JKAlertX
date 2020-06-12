@@ -76,7 +76,7 @@
 /** cell类名 必须是或继承自JKAlertCollectionViewCell */
 @property (nonatomic, copy) NSString *cellClassName;
 
-/** minimumLineSpacing 默认0 */
+/** minimumLineSpacing 默认10 */
 @property (nonatomic, assign) CGFloat minimumLineSpacing;
 
 /**

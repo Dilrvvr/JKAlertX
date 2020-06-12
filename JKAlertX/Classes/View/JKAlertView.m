@@ -211,6 +211,30 @@
     PlainViewWidth = MIN(OriginalPlainWidth, JKAlertScreenW - safeAreaInset * 2);
 }
 
+- (UIEdgeInsets)getSuperViewSafeAreaInsets {
+    
+    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInsets = self.customSuperView.safeAreaInsets;
+        
+        UIWindow *keyWindow = JKAlertKeyWindow();
+        
+        UIEdgeInsets windowSafeAreaInsets = keyWindow.safeAreaInsets;
+        
+        CGFloat safeWidth = keyWindow.frame.size.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right;
+        
+        if (self.customSuperView.frame.size.width > safeWidth) {
+            
+            safeAreaInsets.left = windowSafeAreaInsets.left;
+            safeAreaInsets.right = windowSafeAreaInsets.right;
+        }
+    }
+    
+    return safeAreaInsets;
+}
+
 - (void)calculatePlainUI {
     
     [self updatePlainWidth];
@@ -276,12 +300,7 @@
     self.actionsheetContentView.actionArray = self.actions;
     self.actionsheetContentView.cancelAction = self.cancelAction;
     
-    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        safeAreaInsets = self.customSuperView.safeAreaInsets;
-    }
+    UIEdgeInsets safeAreaInsets = [self getSuperViewSafeAreaInsets];
     
     safeAreaInsets.top = 0;
     
@@ -324,12 +343,7 @@
     self.collectionsheetContentView.cancelAction = self.cancelAction;
     self.collectionsheetContentView.collectionAction = self.collectionAction;
     
-    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        safeAreaInsets = self.customSuperView.safeAreaInsets;
-    }
+    UIEdgeInsets safeAreaInsets = [self getSuperViewSafeAreaInsets];
     
     safeAreaInsets.top = 0;
     
