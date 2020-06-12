@@ -249,22 +249,22 @@
         }
     }
     
-    self.textScrollView.contentSize = CGSizeMake(0, rect.size.height);
+    self.topScrollView.contentSize = CGSizeMake(0, rect.size.height);
     
-    self.textScrollView.contentInset = UIEdgeInsetsMake(0, 0, (shouldAdjustContentInset ? JKAlertCurrentHomeIndicatorHeight() : 0), 0);
-    self.textScrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, self.isPierced ? 0 : self.safeInsets.right);
+    self.topScrollView.contentInset = UIEdgeInsetsMake(0, 0, (shouldAdjustContentInset ? JKAlertCurrentHomeIndicatorHeight() : 0), 0);
+    self.topScrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, self.isPierced ? 0 : self.safeInsets.right);
     
-    self.textScrollView.scrollEnabled = NO;
+    self.topScrollView.scrollEnabled = NO;
     
     if (self.maxHeight > 0 &&
         rect.size.height > self.maxHeight) {
         
         rect.size.height = self.maxHeight;
         
-        self.textScrollView.scrollEnabled = YES;
+        self.topScrollView.scrollEnabled = YES;
     }
     
-    self.textScrollView.frame = rect;
+    self.topScrollView.frame = rect;
     
     self.frame = rect;
 }
@@ -406,7 +406,7 @@
     
     self.topContentView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.lightColor;
     
-    self.textScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : nil;
+    self.topScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : nil;
 }
 
 - (void)updateDarkModeUI {
@@ -418,7 +418,7 @@
     
     self.topContentView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.darkColor;
     
-    self.textScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : nil;
+    self.topScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : nil;
 }
 
 #pragma mark
@@ -505,7 +505,7 @@
     [super createUI];
     
     UIView *topContentView = [[UIView alloc] init];
-    [self.textScrollView addSubview:topContentView];
+    [self.topScrollView addSubview:topContentView];
     _topContentView = topContentView;
     
     JKAlertCollectionSheetTextContentView *textContentView = [[JKAlertCollectionSheetTextContentView alloc] init];
@@ -523,13 +523,13 @@
     _collectionSeparatorLineView = collectionSeparatorLineView;
     
     JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-    [self.textScrollView addSubview:cancelButton];
+    [self.topScrollView addSubview:cancelButton];
     _cancelButton = cancelButton;
     
     [cancelButton addTarget:self action:@selector(actionButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     JKAlertActionButton *collectionButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-    [self.textScrollView addSubview:collectionButton];
+    [self.topScrollView addSubview:collectionButton];
     _collectionButton = collectionButton;
     
     [collectionButton addTarget:self action:@selector(actionButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -568,7 +568,7 @@
         _flowlayout = flowlayout;
         
         UICollectionView *collectionView = [self createCollectionViewWithFlowLayout:flowlayout];
-        [self.textScrollView addSubview:collectionView];
+        [self.topScrollView addSubview:collectionView];
         _collectionView = collectionView;
     }
     return _collectionView;
@@ -582,7 +582,7 @@
         _flowlayout2 = flowlayout;
         
         UICollectionView *collectionView = [self createCollectionViewWithFlowLayout:flowlayout];
-        [self.textScrollView addSubview:collectionView];
+        [self.topScrollView addSubview:collectionView];
         _collectionView2 = collectionView;
     }
     return _collectionView2;
@@ -595,7 +595,7 @@
         pageControl.pageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
         pageControl.currentPageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
         pageControl.userInteractionEnabled = NO;
-        [self.textScrollView addSubview:pageControl];
+        [self.topScrollView addSubview:pageControl];
         _pageControl = pageControl;
     }
     return _pageControl;

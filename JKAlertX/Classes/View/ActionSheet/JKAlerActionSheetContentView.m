@@ -87,11 +87,11 @@
     CGRect frame = CGRectZero;
     
     frame = self.textContentView.frame;
-    self.textScrollView.frame = frame;
+    self.topScrollView.frame = frame;
     
-    self.textScrollView.contentSize = CGSizeMake(0, self.textScrollView.frame.size.height);
+    self.topScrollView.contentSize = CGSizeMake(0, self.topScrollView.frame.size.height);
     
-    CGFloat topHeight = self.textScrollView.frame.size.height;
+    CGFloat topHeight = self.topScrollView.frame.size.height;
     
     CGFloat bottomHeight = self.tableView.frame.size.height;
     
@@ -118,7 +118,7 @@
     }
     
     frame = self.tableView.frame;
-    frame.origin.y = CGRectGetMaxY(self.textScrollView.frame);
+    frame.origin.y = CGRectGetMaxY(self.topScrollView.frame);
     self.tableView.frame = frame;
     
     CGFloat totalHeight = topHeight + bottomHeight;
@@ -128,7 +128,7 @@
     if (self.maxHeight <= 0 ||
         totalHeight <= self.maxHeight) {
         
-        self.textScrollView.scrollEnabled = NO;
+        self.topScrollView.scrollEnabled = NO;
         self.tableView.scrollEnabled = NO;
         self.actionScrollView.scrollEnabled = NO;
         
@@ -137,11 +137,11 @@
         
         // 二者都超过最大高度的一半
         
-        self.textScrollView.scrollEnabled = YES;
+        self.topScrollView.scrollEnabled = YES;
         
-        frame = self.textScrollView.frame;
+        frame = self.topScrollView.frame;
         frame.size.height = halfHeight;
-        self.textScrollView.frame = frame;
+        self.topScrollView.frame = frame;
         
         if (self.cancelButtonPinned) {
             
@@ -159,35 +159,35 @@
     } else if (topHeight > halfHeight) {
         
         // 上部分高度更高
-        self.textScrollView.scrollEnabled = YES;
+        self.topScrollView.scrollEnabled = YES;
         self.tableView.scrollEnabled = NO;
         self.actionScrollView.scrollEnabled = NO;
         
-        frame = self.textScrollView.frame;
+        frame = self.topScrollView.frame;
         frame.size.height = self.maxHeight - self.tableView.frame.size.height;
-        self.textScrollView.frame = frame;
+        self.topScrollView.frame = frame;
         
     } else if (bottomHeight > halfHeight) {
         
         // 下部分高度更高
-        self.textScrollView.scrollEnabled = NO;
+        self.topScrollView.scrollEnabled = NO;
         
         if (self.cancelButtonPinned) {
             
-            [self checkCancelButtonPinnedBottomFrameWithMaxHeight:self.maxHeight - self.textScrollView.frame.size.height];
+            [self checkCancelButtonPinnedBottomFrameWithMaxHeight:self.maxHeight - self.topScrollView.frame.size.height];
             
         } else {
             
             self.tableView.scrollEnabled = YES;
             
             frame = self.tableView.frame;
-            frame.size.height = self.maxHeight - self.textScrollView.frame.size.height;
+            frame.size.height = self.maxHeight - self.topScrollView.frame.size.height;
             self.tableView.frame = frame;
         }
     }
     
     frame = self.tableView.frame;
-    frame.origin.y = CGRectGetMaxY(self.textScrollView.frame);
+    frame.origin.y = CGRectGetMaxY(self.topScrollView.frame);
     self.tableView.frame = frame;
     
     if (!self.actionScrollView.hidden) {
@@ -199,7 +199,7 @@
         self.actionScrollView.frame = frame;
     }
     
-    frame = CGRectMake(0, 0, self.contentWidth, self.textScrollView.frame.size.height + self.tableView.frame.size.height);
+    frame = CGRectMake(0, 0, self.contentWidth, self.topScrollView.frame.size.height + self.tableView.frame.size.height);
     
     if (self.cancelButtonPinned &&
         self.cancelAction.rowHeight >= 0.1) {
@@ -227,7 +227,7 @@
     
     self.horizontalSeparatorLineView.hidden = (topHeight <= 0 || self.actionArray.count <= 0);
     
-    self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.textScrollView.frame), self.contentWidth, JKAlertGlobalSeparatorLineThickness());
+    self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.topScrollView.frame), self.contentWidth, JKAlertGlobalSeparatorLineThickness());
     
     if (self.isPierced) {
         
@@ -235,12 +235,12 @@
         
         self.topPiercedBackgroundView.frame = frame;
         
-        [self.topPiercedBackgroundView addSubview:self.textScrollView];
+        [self.topPiercedBackgroundView addSubview:self.topScrollView];
         [self.topPiercedBackgroundView addSubview:self.tableView];
         
     } else {
         
-        [self.contentView addSubview:self.textScrollView];
+        [self.contentView addSubview:self.topScrollView];
         [self.contentView addSubview:self.tableView];
     }
 }
@@ -426,7 +426,7 @@
         bottomInset = JKAlertAdjustHomeIndicatorHeight;
     }
     
-    self.textScrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, (self.isPierced ? 0 : self.safeInsets.right));
+    self.topScrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, (self.isPierced ? 0 : self.safeInsets.right));
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottomInset, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottomInset, (self.isPierced ? 0 : self.safeInsets.right));
@@ -442,7 +442,7 @@
     
     self.topPiercedBackgroundView.backgroundColor = self.piercedBackgroundColor.lightColor;
     
-    self.textScrollView.backgroundColor = self.isPierced ? nil : self.textContentBackgroundColor.lightColor;
+    self.topScrollView.backgroundColor = self.isPierced ? nil : self.textContentBackgroundColor.lightColor;
 }
 
 - (void)updateDarkModeUI {
@@ -452,7 +452,7 @@
     
     self.topPiercedBackgroundView.backgroundColor = self.piercedBackgroundColor.darkColor;
     
-    self.textScrollView.backgroundColor = self.isPierced ? nil : self.textContentBackgroundColor.darkColor;
+    self.topScrollView.backgroundColor = self.isPierced ? nil : self.textContentBackgroundColor.darkColor;
 }
 
 #pragma mark
@@ -598,7 +598,7 @@
     _topPiercedBackgroundView = topPiercedBackgroundView;
     
     JKAlertActionSheetTextContentView *textContentView = [[JKAlertActionSheetTextContentView alloc] init];
-    [self.textScrollView addSubview:textContentView];
+    [self.topScrollView addSubview:textContentView];
     _textContentView = textContentView;
     
     UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];

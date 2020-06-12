@@ -121,22 +121,22 @@
 #pragma mark
 #pragma mark - Private Property
 
-- (UIScrollView *)textScrollView {
-    if (!_textScrollView) {
-        UIScrollView *textScrollView = [[UIScrollView alloc] init];
-        textScrollView.showsHorizontalScrollIndicator = NO;
-        textScrollView.scrollsToTop = NO;
-        textScrollView.scrollEnabled = NO;
+- (UIScrollView *)topScrollView {
+    if (!_topScrollView) {
+        UIScrollView *topScrollView = [[UIScrollView alloc] init];
+        topScrollView.showsHorizontalScrollIndicator = NO;
+        topScrollView.scrollsToTop = NO;
+        topScrollView.scrollEnabled = NO;
         if (@available(iOS 11.0, *)) {
-            textScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+            topScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         }
         if (@available(iOS 13.0, *)) {
-            textScrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
+            topScrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
         }
-        [self.contentView addSubview:textScrollView];
-        _textScrollView = textScrollView;
+        [self.contentView addSubview:topScrollView];
+        _topScrollView = topScrollView;
     }
-    return _textScrollView;
+    return _topScrollView;
 }
 
 - (UIScrollView *)actionScrollView {
