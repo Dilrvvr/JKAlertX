@@ -134,6 +134,8 @@
     
     if (self.customView) {
         
+        self.contentView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+        
         self.customView.frame = self.contentView.bounds;
     }
 }

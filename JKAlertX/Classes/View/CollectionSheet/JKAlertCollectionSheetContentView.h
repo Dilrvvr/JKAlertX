@@ -70,10 +70,11 @@
 /** collection是否分页 */
 @property (nonatomic, assign) BOOL collectionPagingEnabled;
 
-/** itemSize */
+/** itemSize 默认(76, 70) */
 @property (nonatomic, assign) CGSize itemSize;
 
-
+/** cell类名 必须是或继承自JKAlertCollectionViewCell */
+@property (nonatomic, copy) NSString *cellClassName;
 
 /**
  * collection的itemSize的宽度
@@ -88,16 +89,16 @@
  * collection列数（每行数量）
  * 默认0，自动设置，不得大于自动设置的数量
  */
-@property (nonatomic, assign) NSInteger collectionColumnCount;
+@property (nonatomic, assign) NSInteger columnCount;
 
 /**
  * 设置collection的水平（左右方向）的sectionInset
- * 默认0，为0时自动设置为item间距的一半
+ * 只取左右   默认0，为0时自动设置为item间距的一半 
  */
-@property (nonatomic, assign) CGFloat collectionHorizontalInset;
+@property (nonatomic, assign) UIEdgeInsets collectionHorizontalInset;
 
 /** collection的title下分隔线是否隐藏 */
-@property (nonatomic, assign) BOOL collectionTitleSeparatorHidden;
+//@property (nonatomic, assign) BOOL collectionTitleSeparatorHidden;
 
 /**
  * 设置两个collectionView之间的间距

@@ -146,15 +146,9 @@
     self.isShowed = YES;
     
     switch (self.alertStyle) {
-        case JKAlertStyleActionSheet:
-        {
-            [self calculateUI];
-        }
-            break;
-            
         case JKAlertStyleCollectionSheet:
         {
-            [self showCollectionSheet];
+            [self calculateUI];//[self showCollectionSheet];
         }
             break;
             
@@ -326,7 +320,9 @@
     self.collectionsheetContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
     
     self.collectionsheetContentView.actionArray = self.actions;
+    self.collectionsheetContentView.actionArray2 = self.actions2;
     self.collectionsheetContentView.cancelAction = self.cancelAction;
+    self.collectionsheetContentView.collectionAction = self.collectionAction;
     
     UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
     
@@ -344,6 +340,7 @@
     // TODO: JKTODO <#注释#>
     self.collectionsheetContentView.contentWidth = contentWidth;
     self.collectionsheetContentView.maxHeight = JKAlertSheetMaxH;
+    
     [self.collectionsheetContentView calculateUI];
     
     CGRect frame = self.collectionsheetContentView.frame;
@@ -385,7 +382,10 @@
             
             _tapBlankDismiss = YES;
             
-            [self collectionView];
+            //[self collectionView];
+            
+            _currentAlertContentView = self.collectionsheetContentView;
+            _currentTextContentView = self.collectionsheetContentView.textContentView;
         }
             break;
             
@@ -1275,7 +1275,9 @@
             
         case JKAlertStyleCollectionSheet:
         {
+            [self calculateCollectionSheetUI];
             
+            return;
         }
             break;
             
@@ -1955,12 +1957,12 @@
         
         self.flowlayout2.sectionInset = UIEdgeInsetsMake(self.flowlayout2.sectionInset.top, leftRightInset, 0, leftRightInset);
         self.flowlayout2.minimumLineSpacing = itemMargin;
-        self.flowlayout2.minimumInteritemSpacing = itemMargin;
+        //self.flowlayout2.minimumInteritemSpacing = itemMargin;
     }
     
     self.flowlayout.sectionInset = UIEdgeInsetsMake(self.flowlayout.sectionInset.top, leftRightInset, 0, leftRightInset);
     self.flowlayout.minimumLineSpacing = itemMargin;
-    self.flowlayout.minimumInteritemSpacing = itemMargin;
+    //self.flowlayout.minimumInteritemSpacing = itemMargin;
     
     _pageControl.numberOfPages = ceil(((itemMargin + _flowlayout.itemSize.width) * count - 5) / JKAlertScreenW);
     
@@ -2085,13 +2087,17 @@
                 break;
             case JKAlertStyleCollectionSheet:
             {
-
+                CGRect frame = self.collectionsheetContentView.frame;
+                frame.origin.y = JKAlertScreenHeight;
+                self.collectionsheetContentView.frame = frame;
+                // TODO: JKTODO <#注释#>
+                /*
                 _sheetContainerView.frame = CGRectMake(_sheetContainerView.frame.origin.x, JKAlertScreenH, _sheetContainerView.frame.size.width, _sheetContainerView.frame.size.height);
                 
                 if (_enableVerticalGestureDismiss &&
                     (_sheetContainerView != nil)) {
                     _sheetContainerView.layer.anchorPoint = CGPointMake(0.5, 1);
-                }
+                } //*/
             }
                 break;
                 
@@ -2165,7 +2171,13 @@
             break;
         case JKAlertStyleCollectionSheet:
         {
+            CGRect frame = self.collectionsheetContentView.frame;
+            frame.origin.y = JKAlertScreenH - frame.size.height;
+            self.collectionsheetContentView.frame = frame;
             
+            // TODO: JKTODO <#注释#>
+            
+            return;
         }
             
         default:
@@ -2476,7 +2488,11 @@
             break;
         case JKAlertStyleCollectionSheet:
         {
+            CGRect frame = self.collectionsheetContentView.frame;
+            frame.origin.y = JKAlertScreenH;
+            self.collectionsheetContentView.frame = frame;
             
+            return;
         }
             
         default:

@@ -64,6 +64,13 @@
 #pragma mark
 #pragma mark - Override
 
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        [self initialization];
+    }
+    return self;
+}
+
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
     
@@ -142,6 +149,8 @@
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */
 - (void)initializeUIData {
     
+    // TODO: JKTODO delete
+    self.contentView.backgroundColor = [JKAlertRandomColor colorWithAlphaComponent:0.5];
 }
 
 #pragma mark

@@ -13,6 +13,9 @@
 
 @interface JKAlertCollectionSheetContentView () <UICollectionViewDataSource, UICollectionViewDelegate>
 
+/** topContentView */
+@property (nonatomic, weak) UIView *topContentView;
+
 /** flowlayout */
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowlayout;
 
@@ -59,6 +62,18 @@
     [self layoutActionButton];
     
     [self adjustCollectionSheetFrame];
+    
+    [self.collectionView reloadData];
+    [self.collectionView2 reloadData];
+}
+
+- (void)setCellClassName:(NSString *)cellClassName {
+    
+    if (![NSClassFromString(cellClassName) isKindOfClass:[JKAlertCollectionViewCell class]]) { return; }
+    
+    _cellClassName = cellClassName;
+    
+    [self registerCellClass];
 }
 
 #pragma mark
@@ -115,7 +130,14 @@
         self.collectionSeparatorLineView.hidden = YES;
     }
     
+    CGFloat collectionMargin = MAX(self.collectionViewMargin, 0);
+    
     if (!self.collectionView.hidden) {
+        
+        self.flowlayout.itemSize = self.itemSize;
+        
+        UIEdgeInsets sectionInset = UIEdgeInsetsMake(0, self.collectionHorizontalInset.left, 0, self.collectionHorizontalInset.right);
+        self.flowlayout.sectionInset = sectionInset;
 
         frame = self.collectionView.frame;
         frame.origin.y = rect.size.height;
@@ -127,19 +149,23 @@
         
         if (!self.collectionView2.hidden) {
             
-            //frameY += MAX(self.collectionViewMargin, 0);
-            
-            rect.size.height += self.collectionView.frame.size.height;
-            
             if (!self.collectionSeparatorLineHidden) {
 
-                frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame) + MAX(self.collectionViewMargin, 0) * 0.5, self.contentWidth, JKAlertGlobalSeparatorLineThickness());
+                frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame) + collectionMargin * 0.5, self.contentWidth, JKAlertGlobalSeparatorLineThickness());
                 self.collectionSeparatorLineView.frame = frame;
+                
+                sectionInset.bottom = collectionMargin;
+                self.flowlayout.sectionInset = sectionInset;
             }
         }
     }
     
     if (!self.collectionView2.hidden) {
+        
+        self.flowlayout2.itemSize = self.itemSize;
+        
+        UIEdgeInsets sectionInset = UIEdgeInsetsMake(0, self.collectionHorizontalInset.left, 0, self.collectionHorizontalInset.right);
+        self.flowlayout2.sectionInset = sectionInset;
 
         frame = self.collectionView2.frame;
         frame.origin.y = rect.size.height;
@@ -160,6 +186,8 @@
         
         rect.size.height += self.pageControl.frame.size.height;
     }
+    
+    self.topContentView.frame = rect;
     
     if (!self.collectionButton.hidden) {
         
@@ -223,7 +251,7 @@
     
     self.textScrollView.contentSize = CGSizeMake(0, rect.size.height);
     
-    self.textScrollView.contentInset = UIEdgeInsetsMake(0, self.safeInsets.left, (shouldAdjustContentInset ? JKAlertCurrentHomeIndicatorHeight() : 0), 0);
+    self.textScrollView.contentInset = UIEdgeInsetsMake(0, 0, (shouldAdjustContentInset ? JKAlertCurrentHomeIndicatorHeight() : 0), 0);
     self.textScrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, self.isPierced ? 0 : self.safeInsets.right);
     
     self.textScrollView.scrollEnabled = NO;
@@ -235,6 +263,8 @@
         
         self.textScrollView.scrollEnabled = YES;
     }
+    
+    self.textScrollView.frame = rect;
     
     self.frame = rect;
 }
@@ -258,9 +288,9 @@
     }
     
     // TODO: JKTODO <#注释#>
-    CGFloat collectionHeight = 0;
+    CGFloat collectionHeight = self.itemSize.height;
     
-    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, collectionHeight);
     
     self.collectionView.hidden = (count <= 0);
     self.collectionView2.hidden = (count2 <= 0);
@@ -273,10 +303,10 @@
         
         if (!self.collectionView2.hidden) {
         
-            frame.size.height = collectionHeight + MAX(self.collectionViewMargin, 0);
+            frame.size.height += MAX(self.collectionViewMargin, 0);
         }
         
-        self.collectionView.frame =frame;
+        self.collectionView.frame = frame;
     }
     
     if (self.collectionView2.hidden) {
@@ -287,7 +317,7 @@
         
         frame.size.height = collectionHeight;
         
-        self.collectionView.frame = frame;
+        self.collectionView2.frame = frame;
     }
     
     self.pageControl.hidden = self.pageControlHidden;
@@ -305,6 +335,10 @@
     self.cancelAction.isPierced = self.isPierced;
     
     self.cancelButton.action = self.cancelAction;
+    
+    self.collectionAction.isPierced = self.isPierced;
+    
+    self.collectionButton.action = self.collectionAction;
     
     if (self.cancelAction.rowHeight < 0.1) {
         
@@ -344,8 +378,6 @@
         
         self.cancelButton.frame = frame;
         
-        self.actionScrollView.frame = self.cancelButton.frame;
-        
         if (self.cancelAction.customView) {
             
             self.cancelAction.customView.frame = self.cancelButton.bounds;
@@ -363,6 +395,30 @@
             self.collectionAction.customView.frame = self.collectionButton.bounds;
         }
     }
+}
+
+- (void)updateLightModetUI {
+    [super updateLightModetUI];
+    
+    self.titleSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+    
+    self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+    
+    self.topContentView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.lightColor;
+    
+    self.textScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : nil;
+}
+
+- (void)updateDarkModeUI {
+    [super updateDarkModeUI];
+    
+    self.titleSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+    
+    self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+    
+    self.topContentView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.darkColor;
+    
+    self.textScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : nil;
 }
 
 #pragma mark
@@ -387,7 +443,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    JKAlertCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class]) forIndexPath:indexPath];
+    JKAlertCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:(self.cellClassName) forIndexPath:indexPath];
     
     cell.action = collectionView == self.collectionView ? self.actionArray[indexPath.item] : self.actionArray2[indexPath.item];
     
@@ -417,30 +473,53 @@
     [super initializeProperty];
     
     _pageControlHeight = 30;
+    
+    _itemSize = CGSizeMake(76, 70);
+    
+    _autoAdjustHomeIndicator = YES;
+    
+    _fillHomeIndicator = YES;
+    
+    _pageControlHidden = YES;
+    
+    _titleSeparatorLineHidden = YES;
+    
+    _collectionSeparatorLineHidden = YES;
+    
+    _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
+    
+    _cellClassName = NSStringFromClass([JKAlertCollectionViewCell class]);
+    
+    _textContentBackgroundColor = JKAlertGlobalMultiBackgroundColor();
 }
 
 /** 构造函数初始化时调用 注意调用super */
 - (void)initialization {
     [super initialization];
     
+    [self registerCellClass];
 }
 
 /** 创建UI */
 - (void)createUI {
     [super createUI];
     
+    UIView *topContentView = [[UIView alloc] init];
+    [self.textScrollView addSubview:topContentView];
+    _topContentView = topContentView;
+    
     JKAlertCollectionSheetTextContentView *textContentView = [[JKAlertCollectionSheetTextContentView alloc] init];
-    [self.textScrollView addSubview:textContentView];
+    [self.topContentView addSubview:textContentView];
     _textContentView = textContentView;
     
     UIView *titleSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
     titleSeparatorLineView.hidden = YES;
-    [self.textScrollView addSubview:titleSeparatorLineView];
+    [self.topContentView addSubview:titleSeparatorLineView];
     _titleSeparatorLineView = titleSeparatorLineView;
     
     UIView *collectionSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
     collectionSeparatorLineView.hidden = YES;
-    [self.textScrollView addSubview:collectionSeparatorLineView];
+    [self.topContentView addSubview:collectionSeparatorLineView];
     _collectionSeparatorLineView = collectionSeparatorLineView;
     
     JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
@@ -466,6 +545,16 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
+    // TODO: JKTODO delete
+    
+//    self.collectionView.backgroundColor = [[UIColor orangeColor] colorWithAlphaComponent:0.5];
+//    self.collectionView2.backgroundColor = [[UIColor orangeColor] colorWithAlphaComponent:0.5];
+}
+
+- (void)registerCellClass {
+    
+    [self.collectionView registerClass:NSClassFromString(self.cellClassName) forCellWithReuseIdentifier:self.cellClassName];
+    [self.collectionView2 registerClass:NSClassFromString(self.cellClassName) forCellWithReuseIdentifier:self.cellClassName];
 }
 
 #pragma mark
@@ -523,8 +612,6 @@
     collectionView.delegate = self;
     
     collectionView.scrollsToTop = NO;
-    
-    [collectionView registerClass:[JKAlertCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class])];
     
     if (@available(iOS 11.0, *)) {
         
