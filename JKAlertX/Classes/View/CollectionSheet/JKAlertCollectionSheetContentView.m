@@ -13,9 +13,6 @@
 
 @interface JKAlertCollectionSheetContentView () <UICollectionViewDataSource, UICollectionViewDelegate>
 
-/** topContentView */
-@property (nonatomic, weak) UIView *topContentView;
-
 /** flowlayout */
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowlayout;
 
@@ -269,7 +266,9 @@
         self.topScrollView.scrollEnabled = YES;
     }
     
-    self.topScrollView.frame = rect;
+    self.topContentView.frame = rect;
+    
+    self.topScrollView.frame = self.topContentView.bounds;
     
     self.frame = rect;
 }
@@ -409,9 +408,9 @@
     
     self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
     
-    self.topContentView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.lightColor;
+    self.topContentView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor: nil;
     
-    self.topScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : nil;
+    self.topScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : self.textContentBackgroundColor.lightColor;
 }
 
 - (void)updateDarkModeUI {
@@ -421,9 +420,9 @@
     
     self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
     
-    self.topContentView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.darkColor;
+    self.topContentView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor: nil;
     
-    self.topScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : nil;
+    self.topScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : self.textContentBackgroundColor.darkColor;
 }
 
 #pragma mark
@@ -513,22 +512,18 @@
 - (void)createUI {
     [super createUI];
     
-    UIView *topContentView = [[UIView alloc] init];
-    [self.topScrollView addSubview:topContentView];
-    _topContentView = topContentView;
-    
     JKAlertCollectionSheetTextContentView *textContentView = [[JKAlertCollectionSheetTextContentView alloc] init];
-    [self.topContentView addSubview:textContentView];
+    [self.topScrollView addSubview:textContentView];
     _textContentView = textContentView;
     
     UIView *titleSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
     titleSeparatorLineView.hidden = YES;
-    [self.topContentView addSubview:titleSeparatorLineView];
+    [self.topScrollView addSubview:titleSeparatorLineView];
     _titleSeparatorLineView = titleSeparatorLineView;
     
     UIView *collectionSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
     collectionSeparatorLineView.hidden = YES;
-    [self.topContentView addSubview:collectionSeparatorLineView];
+    [self.topScrollView addSubview:collectionSeparatorLineView];
     _collectionSeparatorLineView = collectionSeparatorLineView;
     
     JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];

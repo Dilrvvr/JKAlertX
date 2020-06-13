@@ -26,8 +26,14 @@
 /** actionArray */
 @property (nonatomic, strong) NSMutableArray *actionArray;
 
+/** topContentView */
+@property (nonatomic, weak) UIView *topContentView;
+
 /** topScrollView */
 @property (nonatomic, weak) UIScrollView *topScrollView;
+
+/** bottomContentView */
+@property (nonatomic, weak) UIView *bottomContentView;
 
 /** actionScrollView */
 @property (nonatomic, weak) UIScrollView *actionScrollView;

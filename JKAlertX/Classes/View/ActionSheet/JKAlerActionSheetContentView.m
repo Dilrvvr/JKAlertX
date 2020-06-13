@@ -15,9 +15,6 @@
 
 @interface JKAlerActionSheetContentView () <UITableViewDataSource, UITableViewDelegate>
 
-/** topPiercedBackgroundView */
-@property (nonatomic, weak) UIView *topPiercedBackgroundView;
-
 /** horizontalSeparatorLineView */
 @property (nonatomic, weak) UIView *horizontalSeparatorLineView;
 
@@ -37,7 +34,6 @@
     [super calculateUI];
     
     self.backgroundEffectView.hidden = self.isPierced;
-    self.topPiercedBackgroundView.hidden = (!self.isPierced || self.customBackgroundView != nil);
     
     self.textContentView.safeInsets = self.isPierced ? UIEdgeInsetsZero : self.safeInsets;
     self.textContentView.contentWidth = self.contentWidth;
@@ -52,15 +48,15 @@
     
     if (self.isPierced) {
         
-        self.topPiercedBackgroundView.layer.cornerRadius = self.piercedCornerRadius;
-        self.topPiercedBackgroundView.layer.masksToBounds = YES;
+        self.topContentView.layer.cornerRadius = self.piercedCornerRadius;
+        self.topContentView.layer.masksToBounds = YES;
         
         self.cancelButton.layer.cornerRadius = self.piercedCornerRadius;
         self.cancelButton.layer.masksToBounds = YES;
         
     } else {
         
-        self.topPiercedBackgroundView.layer.cornerRadius = 0;
+        self.topContentView.layer.cornerRadius = 0;
         self.cancelButton.layer.cornerRadius = 0;
     }
     
@@ -225,6 +221,11 @@
     
     self.frame = frame;
     
+    self.topContentView.frame = self.topScrollView.frame;
+    
+    self.bottomContentView.frame = self.actionScrollView.frame;
+    self.actionScrollView.frame = self.bottomContentView.bounds;
+    
     self.horizontalSeparatorLineView.hidden = (topHeight <= 0 || self.actionArray.count <= 0);
     
     self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.topScrollView.frame), self.contentWidth, JKAlertGlobalSeparatorLineThickness());
@@ -233,14 +234,12 @@
         
         frame.size.height = CGRectGetMaxY(self.tableView.frame);
         
-        self.topPiercedBackgroundView.frame = frame;
+        self.topContentView.frame = frame;
         
-        [self.topPiercedBackgroundView addSubview:self.topScrollView];
-        [self.topPiercedBackgroundView addSubview:self.tableView];
+        [self.topContentView addSubview:self.tableView];
         
     } else {
         
-        [self.contentView addSubview:self.topScrollView];
         [self.contentView addSubview:self.tableView];
     }
 }
@@ -440,9 +439,7 @@
     
     self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
     
-    self.topPiercedBackgroundView.backgroundColor = self.piercedBackgroundColor.lightColor;
-    
-    self.topScrollView.backgroundColor = self.isPierced ? nil : self.textContentBackgroundColor.lightColor;
+    self.topContentView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : self.textContentBackgroundColor.lightColor;
 }
 
 - (void)updateDarkModeUI {
@@ -450,9 +447,7 @@
     
     self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
     
-    self.topPiercedBackgroundView.backgroundColor = self.piercedBackgroundColor.darkColor;
-    
-    self.topScrollView.backgroundColor = self.isPierced ? nil : self.textContentBackgroundColor.darkColor;
+    self.topContentView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : self.textContentBackgroundColor.darkColor;
 }
 
 #pragma mark
@@ -592,10 +587,6 @@
 /** 创建UI */
 - (void)createUI {
     [super createUI];
-    
-    UIView *topPiercedBackgroundView = [[UIView alloc] init];
-    [self.contentView insertSubview:topPiercedBackgroundView atIndex:0];
-    _topPiercedBackgroundView = topPiercedBackgroundView;
     
     JKAlertActionSheetTextContentView *textContentView = [[JKAlertActionSheetTextContentView alloc] init];
     [self.topScrollView addSubview:textContentView];

@@ -253,6 +253,11 @@
         [self.contentView bringSubviewToFront:self.verticalSeparatorLineView];
     }
     
+    self.topContentView.frame = self.topScrollView.frame;
+    
+    self.bottomContentView.frame = self.actionScrollView.frame;
+    self.actionScrollView.frame = self.bottomContentView.bounds;
+    
     self.frame = CGRectMake(0, 0, self.contentWidth, self.topScrollView.frame.size.height + self.actionScrollView.frame.size.height);
 }
 

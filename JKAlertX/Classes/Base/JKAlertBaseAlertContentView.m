@@ -121,6 +121,15 @@
 #pragma mark
 #pragma mark - Private Property
 
+- (UIView *)topContentView {
+    if (!_topContentView) {
+        UIView *topContentView = [[UIView alloc] init];
+        [self.contentView addSubview:topContentView];
+        _topContentView = topContentView;
+    }
+    return _topContentView;
+}
+
 - (UIScrollView *)topScrollView {
     if (!_topScrollView) {
         UIScrollView *topScrollView = [[UIScrollView alloc] init];
@@ -133,10 +142,19 @@
         if (@available(iOS 13.0, *)) {
             topScrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
         }
-        [self.contentView addSubview:topScrollView];
+        [self.topContentView addSubview:topScrollView];
         _topScrollView = topScrollView;
     }
     return _topScrollView;
+}
+
+- (UIView *)bottomContentView {
+    if (!_bottomContentView) {
+        UIView *bottomContentView = [[UIView alloc] init];
+        [self.contentView addSubview:bottomContentView];
+        _bottomContentView = bottomContentView;
+    }
+    return _bottomContentView;
 }
 
 - (UIScrollView *)actionScrollView {
@@ -151,7 +169,7 @@
         if (@available(iOS 13.0, *)) {
             actionScrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
         }
-        [self.contentView addSubview:actionScrollView];
+        [self.bottomContentView addSubview:actionScrollView];
         _actionScrollView = actionScrollView;
     }
     return _actionScrollView;
