@@ -39,6 +39,9 @@
 /** fillHomeIndicator */
 @property (nonatomic, assign) CGFloat cancelMargin;
 
+/** actionButtonPinned */
+@property (nonatomic, assign) BOOL actionButtonPinned;
+
 /** isPierced */
 @property (nonatomic, assign) BOOL isPierced;
 

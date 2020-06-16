@@ -13,6 +13,9 @@
 
 @interface JKAlertCollectionSheetContentView () <UICollectionViewDataSource, UICollectionViewDelegate>
 
+/** topContainerView */
+@property (nonatomic, weak) UIView *topContainerView;
+
 /** flowlayout */
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowlayout;
 
@@ -60,6 +63,8 @@
     
     [self adjustCollectionSheetFrame];
     
+    [self adjustPinActionButtonCollectionSheetFrame];
+    
     [self.collectionView reloadData];
     [self.collectionView2 reloadData];
 }
@@ -86,13 +91,93 @@
 #pragma mark
 #pragma mark - Private Methods
 
+- (void)adjustPinActionButtonCollectionSheetFrame {
+    
+    if (!self.actionButtonPinned) {
+        
+        [self.topContentView.scrollView addSubview:self.bottomContentView];
+        
+        return;
+    }
+    
+    self.topContentView.scrollView.scrollEnabled = NO;
+    self.bottomContentView.scrollView.scrollEnabled = NO;
+    
+    [self.contentView addSubview:self.bottomContentView];
+    
+    CGRect frame = self.topContentView.frame;
+    frame.size.height = self.topContainerView.frame.size.height;
+    self.topContentView.frame = frame;
+    
+    [self.topContentView updateContentSize];
+    
+    frame = self.bottomContentView.frame;
+    frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+    self.bottomContentView.frame = frame;
+    
+    [self.bottomContentView updateContentSize];
+    
+    if (self.frame.size.height <= self.maxHeight) {
+        
+        frame = self.bottomContentView.frame;
+        frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+        self.bottomContentView.frame = frame;
+        
+        self.frame = CGRectMake(0, 0, self.contentWidth, self.topContentView.frame.size.height + self.bottomContentView.frame.size.height);
+        
+        return;
+    }
+    
+    CGFloat halfHeight = self.maxHeight * 0.5;
+    
+    if (self.topContainerView.frame.size.height > halfHeight &&
+        self.bottomContentView.frame.size.height > halfHeight) {
+        
+        // 二者都超过最大高度的一半
+        
+        self.topContentView.scrollView.scrollEnabled = YES;
+        self.bottomContentView.scrollView.scrollEnabled = YES;
+        
+        frame = self.topContentView.frame;
+        frame.size.height = halfHeight;
+        self.topContentView.frame = frame;
+        
+        frame = self.bottomContentView.frame;
+        frame.size.height = halfHeight;
+        self.bottomContentView.frame = frame;
+        
+    } else if (self.topContainerView.frame.size.height > halfHeight) {
+        
+        self.topContentView.scrollView.scrollEnabled = YES;
+        
+        frame = self.topContentView.frame;
+        frame.size.height = self.maxHeight - self.bottomContentView.frame.size.height;
+        self.topContentView.frame = frame;
+        
+    } else if (self.bottomContentView.frame.size.height > halfHeight) {
+        
+        self.bottomContentView.scrollView.scrollEnabled = YES;
+        
+        frame = self.bottomContentView.frame;
+        frame.size.height = self.maxHeight - self.topContentView.frame.size.height;
+        self.bottomContentView.frame = frame;
+    }
+    
+    frame = self.bottomContentView.frame;
+    frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+    self.bottomContentView.frame = frame;
+    
+    self.frame = CGRectMake(0, 0, self.contentWidth, self.topContentView.frame.size.height + self.bottomContentView.frame.size.height);
+}
+
 - (void)adjustCollectionSheetFrame {
+    
+    self.topContentView.scrollView.scrollEnabled = NO;
+    self.bottomContentView.scrollView.scrollEnabled = NO;
     
     CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
     
     CGRect frame = CGRectZero;
-    
-    //CGFloat frameY = 0;
     
     CGFloat topInitialHeight = 0;
     
@@ -107,8 +192,6 @@
         frame = self.textContentView.frame;
         frame.origin.y = rect.size.height;
         self.textContentView.frame = frame;
-        
-        //frameY += self.textContentView.frame.size.height;
         
         rect.size.height += self.textContentView.frame.size.height;
     }
@@ -144,8 +227,6 @@
         frame.origin.y = rect.size.height;
         self.collectionView.frame = frame;
         
-        //frameY += self.collectionView.frame.size.height;
-        
         rect.size.height += self.collectionView.frame.size.height;
         
         if (!self.collectionView2.hidden) {
@@ -173,8 +254,6 @@
         frame.origin.y = rect.size.height;
         self.collectionView2.frame = frame;
         
-        //frameY += self.collectionView2.frame.size.height;
-        
         rect.size.height += self.collectionView2.frame.size.height;
     }
     
@@ -184,29 +263,25 @@
         frame.origin.y = rect.size.height;
         self.pageControl.frame = frame;
         
-        //frameY += self.pageControl.frame.size.height;
-        
         rect.size.height += self.pageControl.frame.size.height;
     }
     
-    self.topContentView.frame = rect;
+    self.topContainerView.frame = rect;
+    
+    CGRect actionRect = CGRectMake(0, 0, self.contentWidth, 0);
     
     if (!self.collectionButton.hidden) {
         
-        if (rect.size.height > topInitialHeight + 0.1) {
+        if (self.topContainerView.frame.size.height > topInitialHeight + 0.1) {
             
-            //frameY += self.cancelMargin;
-            
-            rect.size.height += self.cancelMargin;
+            actionRect.size.height += self.cancelMargin;
         }
 
         frame = self.collectionButton.frame;
-        frame.origin.y = rect.size.height;
+        frame.origin.y = actionRect.size.height;
         self.collectionButton.frame = frame;
         
-        //frameY += self.collectionButton.frame.size.height;
-        
-        rect.size.height += self.collectionButton.frame.size.height;
+        actionRect.size.height += self.collectionButton.frame.size.height;
     }
     
     BOOL shouldAdjustContentInset = NO;
@@ -214,12 +289,12 @@
     if (self.cancelButton.hidden) {
         
         if (!self.collectionButton.hidden ||
-            rect.size.height > topInitialHeight + 0.1) {
+            self.topContainerView.frame.size.height > topInitialHeight + 0.1) {
             
             if (self.autoAdjustHomeIndicator ||
                 self.isPierced) {
                 
-                rect.size.height += JKAlertAdjustHomeIndicatorHeight;
+                actionRect.size.height += JKAlertAdjustHomeIndicatorHeight;
                 
                 shouldAdjustContentInset = YES;
             }
@@ -228,47 +303,50 @@
     } else {
         
         if (!self.collectionButton.hidden ||
-            rect.size.height > topInitialHeight + 0.1) {
+            self.topContainerView.frame.size.height > topInitialHeight + 0.1) {
             
-            //frameY += self.cancelMargin;
-            
-            rect.size.height += self.cancelMargin;
+            actionRect.size.height += self.cancelMargin;
         }
 
         frame = self.cancelButton.frame;
-        frame.origin.y = rect.size.height;
+        frame.origin.y = actionRect.size.height;
         self.cancelButton.frame = frame;
         
-        rect.size.height += self.cancelButton.frame.size.height;
+        actionRect.size.height += self.cancelButton.frame.size.height;
         
         if ((self.autoAdjustHomeIndicator &&
              !self.fillHomeIndicator) ||
             self.isPierced) {
                 
-            rect.size.height += JKAlertAdjustHomeIndicatorHeight;
+            actionRect.size.height += JKAlertAdjustHomeIndicatorHeight;
             
             shouldAdjustContentInset = YES;
         }
     }
     
-    self.topScrollView.contentSize = CGSizeMake(0, rect.size.height);
+    actionRect.origin.y = CGRectGetMaxY(self.topContainerView.frame);
+    self.bottomContentView.frame = actionRect;
     
-    self.topScrollView.contentInset = UIEdgeInsetsMake(0, 0, (shouldAdjustContentInset ? JKAlertCurrentHomeIndicatorHeight() : 0), 0);
-    self.topScrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, self.isPierced ? 0 : self.safeInsets.right);
+    [self.bottomContentView updateContentSize];
     
-    self.topScrollView.scrollEnabled = NO;
+    rect.size.height += actionRect.size.height;
+    
+    [self.topContentView updateContentSize];
+    
+    self.topContentView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, (shouldAdjustContentInset ? JKAlertCurrentHomeIndicatorHeight() : 0), 0);
+    self.topContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, self.isPierced ? 0 : self.safeInsets.right);
+    
+    self.topContentView.scrollView.scrollEnabled = NO;
     
     if (self.maxHeight > 0 &&
         rect.size.height > self.maxHeight) {
         
         rect.size.height = self.maxHeight;
         
-        self.topScrollView.scrollEnabled = YES;
+        self.topContentView.scrollView.scrollEnabled = YES;
     }
     
     self.topContentView.frame = rect;
-    
-    self.topScrollView.frame = self.topContentView.bounds;
     
     self.frame = rect;
 }
@@ -408,9 +486,7 @@
     
     self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
     
-    self.topContentView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor: nil;
-    
-    self.topScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : self.textContentBackgroundColor.lightColor;
+    self.topContainerView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor: self.textContentBackgroundColor.lightColor;
 }
 
 - (void)updateDarkModeUI {
@@ -420,9 +496,7 @@
     
     self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
     
-    self.topContentView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor: nil;
-    
-    self.topScrollView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : self.textContentBackgroundColor.darkColor;
+    self.topContainerView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor: self.textContentBackgroundColor.darkColor;
 }
 
 #pragma mark
@@ -499,6 +573,9 @@
     _cellClassName = NSStringFromClass([JKAlertCollectionViewCell class]);
     
     _textContentBackgroundColor = JKAlertGlobalMultiBackgroundColor();
+    
+    // TODO: JKTODO <#注释#>
+    _actionButtonPinned = YES;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -512,28 +589,34 @@
 - (void)createUI {
     [super createUI];
     
+    UIView *topContainerView = [[UIView alloc] init];
+    [self.topContentView.scrollView insertSubview:topContainerView atIndex:0];
+    _topContainerView = topContainerView;
+    
     JKAlertCollectionSheetTextContentView *textContentView = [[JKAlertCollectionSheetTextContentView alloc] init];
-    [self.topScrollView addSubview:textContentView];
+    [self.topContainerView addSubview:textContentView];
     _textContentView = textContentView;
     
     UIView *titleSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
     titleSeparatorLineView.hidden = YES;
-    [self.topScrollView addSubview:titleSeparatorLineView];
+    [self.topContainerView addSubview:titleSeparatorLineView];
     _titleSeparatorLineView = titleSeparatorLineView;
     
     UIView *collectionSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
     collectionSeparatorLineView.hidden = YES;
-    [self.topScrollView addSubview:collectionSeparatorLineView];
+    [self.topContainerView addSubview:collectionSeparatorLineView];
     _collectionSeparatorLineView = collectionSeparatorLineView;
     
+    [self.topContentView.scrollView addSubview:self.bottomContentView];
+    
     JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-    [self.topScrollView addSubview:cancelButton];
+    [self.bottomContentView.scrollView addSubview:cancelButton];
     _cancelButton = cancelButton;
     
     [cancelButton addTarget:self action:@selector(actionButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     JKAlertActionButton *collectionButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-    [self.topScrollView addSubview:collectionButton];
+    [self.bottomContentView.scrollView addSubview:collectionButton];
     _collectionButton = collectionButton;
     
     [collectionButton addTarget:self action:@selector(actionButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -548,6 +631,8 @@
 /** 初始化UI数据 */
 - (void)initializeUIData {
     [super initializeUIData];
+    
+    self.bottomContentView.scrollView.scrollEnabled = NO;
     
     // TODO: JKTODO delete
     
@@ -572,7 +657,7 @@
         _flowlayout = flowlayout;
         
         UICollectionView *collectionView = [self createCollectionViewWithFlowLayout:flowlayout];
-        [self.topScrollView addSubview:collectionView];
+        [self.topContentView.scrollView addSubview:collectionView];
         _collectionView = collectionView;
     }
     return _collectionView;
@@ -586,7 +671,7 @@
         _flowlayout2 = flowlayout;
         
         UICollectionView *collectionView = [self createCollectionViewWithFlowLayout:flowlayout];
-        [self.topScrollView addSubview:collectionView];
+        [self.topContentView.scrollView addSubview:collectionView];
         _collectionView2 = collectionView;
     }
     return _collectionView2;
@@ -599,7 +684,7 @@
         pageControl.pageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
         pageControl.currentPageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
         pageControl.userInteractionEnabled = NO;
-        [self.topScrollView addSubview:pageControl];
+        [self.topContentView.scrollView addSubview:pageControl];
         _pageControl = pageControl;
     }
     return _pageControl;
@@ -628,6 +713,13 @@
     }
     
     return collectionView;
+}
+
+- (BOOL)actionButtonPinned {
+    
+    if (self.isPierced) { return YES; }
+    
+    return _actionButtonPinned;
 }
 
 @end

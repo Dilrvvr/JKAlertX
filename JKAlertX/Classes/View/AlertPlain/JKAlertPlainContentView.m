@@ -63,7 +63,7 @@
 
 - (void)checkScrollToTextField {
     
-    if (!self.topScrollView.scrollEnabled ||
+    if (!self.topContentView.scrollView.scrollEnabled ||
         !_currentTextField ||
         !_currentTextField.isFirstResponder) {
         
@@ -72,28 +72,28 @@
         return;
     }
     
-    CGFloat offsetY = self.topScrollView.contentOffset.y;
+    CGFloat offsetY = self.topContentView.scrollView.contentOffset.y;
     
-    CGRect rect = [self.textFieldContainerView convertRect:_currentTextField.frame  toView:self.topScrollView];
+    CGRect rect = [self.textFieldContainerView convertRect:_currentTextField.frame  toView:self.topContentView.scrollView];
     
     // textField在可见位置
     if (rect.origin.y >= offsetY &&
-        rect.origin.y + rect.size.height < self.topScrollView.frame.size.height + offsetY) {
+        rect.origin.y + rect.size.height < self.topContentView.frame.size.height + offsetY) {
         
         return;
     }
     
     // textField高度大于scrollView
-    if (self.topScrollView.frame.size.height < rect.size.height) {
+    if (self.topContentView.frame.size.height < rect.size.height) {
         
-        offsetY = rect.origin.y - self.topScrollView.frame.size.height;
+        offsetY = rect.origin.y - self.topContentView.frame.size.height;
         
     } else {
 
-        offsetY = rect.origin.y + rect.size.height - self.topScrollView.frame.size.height;
+        offsetY = rect.origin.y + rect.size.height - self.topContentView.frame.size.height;
     }
     
-    [self.topScrollView setContentOffset:CGPointMake(0, offsetY) animated:YES];
+    [self.topContentView.scrollView setContentOffset:CGPointMake(0, offsetY) animated:YES];
     
 }
 
@@ -117,7 +117,7 @@
         
         frame.size.width = self.contentWidth;
         frame.size.height = CGRectGetMaxY(self.textContentView.frame);
-        self.topScrollView.frame = frame;
+        self.topContentView.frame = frame;
         
         return;
     }
@@ -159,26 +159,26 @@
     
     frame.size.width = self.contentWidth;
     frame.size.height = CGRectGetMaxY(self.textFieldContainerView.frame) + self.textFieldContainerInset.bottom;
-    self.topScrollView.frame = frame;
+    self.topContentView.frame = frame;
 }
 
 - (void)adjustPlainFrame {
     
     CGRect frame = CGRectZero;
     
-    CGFloat totalHeight = self.topScrollView.frame.size.height + self.actionScrollView.frame.size.height;
+    CGFloat totalHeight = self.topContentView.frame.size.height + self.bottomContentView.frame.size.height;
     
-    frame = self.topScrollView.bounds;
+    frame = self.topContentView.bounds;
     
-    self.topScrollView.frame = frame;
+    self.topContentView.frame = frame;
     
-    self.topScrollView.contentSize = CGSizeMake(0, frame.size.height);
+    [self.topContentView updateContentSize];
     
-    frame = self.actionScrollView.bounds;
-    frame.origin.y = CGRectGetMaxY(self.topScrollView.frame);
-    self.actionScrollView.frame = frame;
+    frame = self.bottomContentView.bounds;
+    frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+    self.bottomContentView.frame = frame;
     
-    self.actionScrollView.contentSize = CGSizeMake(0, frame.size.height);
+    [self.bottomContentView updateContentSize];
     
     CGFloat halfHeight = self.maxHeight * 0.5;
     
@@ -186,56 +186,56 @@
     if (self.maxHeight <= 0 ||
         totalHeight <= self.maxHeight) {
         
-        self.topScrollView.scrollEnabled = NO;
-        self.actionScrollView.scrollEnabled = NO;
+        self.topContentView.scrollView.scrollEnabled = NO;
+        self.bottomContentView.scrollView.scrollEnabled = NO;
         
-    } else if (self.topScrollView.frame.size.height > halfHeight &&
-        self.actionScrollView.frame.size.height > halfHeight) {
+    } else if (self.topContentView.frame.size.height > halfHeight &&
+        self.bottomContentView.frame.size.height > halfHeight) {
         
         // 二者都超过最大高度的一半
         
-        self.topScrollView.scrollEnabled = YES;
-        self.actionScrollView.scrollEnabled = YES;
+        self.topContentView.scrollView.scrollEnabled = YES;
+        self.bottomContentView.scrollView.scrollEnabled = YES;
         
         frame.origin.y = 0;
         frame.size.height = halfHeight;
         
-        self.topScrollView.frame = frame;
+        self.topContentView.frame = frame;
         
         frame.origin.y = CGRectGetMaxY(frame);
         
-        self.actionScrollView.frame = frame;
+        self.bottomContentView.frame = frame;
         
-    } else if (self.topScrollView.frame.size.height > halfHeight) {
+    } else if (self.topContentView.frame.size.height > halfHeight) {
         
         // text高度更高
         
-        self.topScrollView.scrollEnabled = YES;
+        self.topContentView.scrollView.scrollEnabled = YES;
         
-        frame.size.height = self.maxHeight - self.actionScrollView.frame.size.height;
+        frame.size.height = self.maxHeight - self.bottomContentView.frame.size.height;
         frame.origin.y = 0;
-        self.topScrollView.frame = frame;
+        self.topContentView.frame = frame;
         
         frame.origin.y = CGRectGetMaxY(frame);
-        frame.size.height = self.actionScrollView.frame.size.height;
-        self.actionScrollView.frame = frame;
+        frame.size.height = self.bottomContentView.frame.size.height;
+        self.bottomContentView.frame = frame;
         
-    } else if (self.actionScrollView.frame.size.height > halfHeight) {
+    } else if (self.bottomContentView.frame.size.height > halfHeight) {
         
         // action高度更高
         
-        self.actionScrollView.scrollEnabled = YES;
+        self.bottomContentView.scrollView.scrollEnabled = YES;
         
-        frame.origin.y = CGRectGetMaxY(self.topScrollView.frame);
-        frame.size.height = self.maxHeight - self.topScrollView.frame.size.height;
-        self.actionScrollView.frame = frame;
+        frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+        frame.size.height = self.maxHeight - self.topContentView.frame.size.height;
+        self.bottomContentView.frame = frame;
     }
     
     if (!self.horizontalSeparatorLineView.hidden) {
         
         frame = self.horizontalSeparatorLineView.frame;
         frame.size.width = self.contentWidth;
-        frame.origin.y = CGRectGetMaxY(self.topScrollView.frame);
+        frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
         self.horizontalSeparatorLineView.frame = frame;
         
         [self.contentView bringSubviewToFront:self.horizontalSeparatorLineView];
@@ -244,21 +244,16 @@
     if (!self.verticalSeparatorLineView.hidden) {
         
         frame = self.verticalSeparatorLineView.frame;
-        frame.size.height = self.actionScrollView.frame.size.height;
+        frame.size.height = self.bottomContentView.frame.size.height;
         frame.origin.x = (self.contentWidth - frame.size.width) * 0.5;
-        frame.origin.y = CGRectGetMaxY(self.topScrollView.frame);
+        frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
         
         self.verticalSeparatorLineView.frame = frame;
         
         [self.contentView bringSubviewToFront:self.verticalSeparatorLineView];
     }
     
-    self.topContentView.frame = self.topScrollView.frame;
-    
-    self.bottomContentView.frame = self.actionScrollView.frame;
-    self.actionScrollView.frame = self.bottomContentView.bounds;
-    
-    self.frame = CGRectMake(0, 0, self.contentWidth, self.topScrollView.frame.size.height + self.actionScrollView.frame.size.height);
+    self.frame = CGRectMake(0, 0, self.contentWidth, self.topContentView.frame.size.height + self.bottomContentView.frame.size.height);
 }
 
 - (void)layoutPlainButtons {
@@ -267,13 +262,13 @@
     
     if (actionsCount <= 0) {
         
-        self.actionScrollView.hidden = YES;
-        self.actionScrollView.frame = CGRectZero;
+        self.bottomContentView.hidden = YES;
+        self.bottomContentView.frame = CGRectZero;
         
         return;
     }
     
-    self.actionScrollView.hidden = NO;
+    self.bottomContentView.hidden = NO;
     
     self.horizontalSeparatorLineView.hidden = YES;
     self.verticalSeparatorLineView.hidden = YES;
@@ -296,7 +291,7 @@
         
         [self layoutTwoActionPlainButtons];
         
-        self.actionScrollView.frame = CGRectMake(0, 0, self.contentWidth, self.actionContainerView.frame.size.height);
+        self.bottomContentView.frame = CGRectMake(0, 0, self.contentWidth, self.actionContainerView.frame.size.height);
         
         return;
     }
@@ -359,7 +354,7 @@
     
     self.actionContainerView.frame = rect;
     
-    self.actionScrollView.frame = self.actionContainerView.bounds;
+    self.bottomContentView.frame = self.actionContainerView.bounds;
 }
 
 - (void)layoutTwoActionPlainButtons {
@@ -533,7 +528,7 @@
     [super createUI];
     
     JKAlertPlainTextContentView *textContentView = [[JKAlertPlainTextContentView alloc] init];
-    [self.topScrollView addSubview:textContentView];
+    [self.topContentView.scrollView addSubview:textContentView];
     _textContentView = textContentView;
     
     UIView *textFieldContainerView = [[UIView alloc] init];
@@ -541,11 +536,11 @@
     //textFieldContainerView.layer.cornerRadius = 8;
     textFieldContainerView.clipsToBounds = YES;
     textFieldContainerView.hidden = YES;
-    [self.topScrollView addSubview:textFieldContainerView];
+    [self.topContentView.scrollView addSubview:textFieldContainerView];
     _textFieldContainerView = textFieldContainerView;
     
     UIView *actionContainerView = [[UIView alloc] init];
-    [self.actionScrollView addSubview:actionContainerView];
+    [self.bottomContentView.scrollView addSubview:actionContainerView];
     _actionContainerView = actionContainerView;
     
     UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];

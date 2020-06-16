@@ -121,58 +121,22 @@
 #pragma mark
 #pragma mark - Private Property
 
-- (UIView *)topContentView {
+- (JKAlertScrollContentView *)topContentView {
     if (!_topContentView) {
-        UIView *topContentView = [[UIView alloc] init];
+        JKAlertScrollContentView *topContentView = [[JKAlertScrollContentView alloc] init];
         [self.contentView addSubview:topContentView];
         _topContentView = topContentView;
     }
     return _topContentView;
 }
 
-- (UIScrollView *)topScrollView {
-    if (!_topScrollView) {
-        UIScrollView *topScrollView = [[UIScrollView alloc] init];
-        topScrollView.showsHorizontalScrollIndicator = NO;
-        topScrollView.scrollsToTop = NO;
-        topScrollView.scrollEnabled = NO;
-        if (@available(iOS 11.0, *)) {
-            topScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        }
-        if (@available(iOS 13.0, *)) {
-            topScrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
-        }
-        [self.topContentView addSubview:topScrollView];
-        _topScrollView = topScrollView;
-    }
-    return _topScrollView;
-}
-
-- (UIView *)bottomContentView {
+- (JKAlertScrollContentView *)bottomContentView {
     if (!_bottomContentView) {
-        UIView *bottomContentView = [[UIView alloc] init];
+        JKAlertScrollContentView *bottomContentView = [[JKAlertScrollContentView alloc] init];
         [self.contentView addSubview:bottomContentView];
         _bottomContentView = bottomContentView;
     }
     return _bottomContentView;
-}
-
-- (UIScrollView *)actionScrollView {
-    if (!_actionScrollView) {
-        UIScrollView *actionScrollView = [[UIScrollView alloc] init];
-        actionScrollView.showsHorizontalScrollIndicator = NO;
-        actionScrollView.scrollsToTop = NO;
-        actionScrollView.scrollEnabled = NO;
-        if (@available(iOS 11.0, *)) {
-            actionScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        }
-        if (@available(iOS 13.0, *)) {
-            actionScrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
-        }
-        [self.bottomContentView addSubview:actionScrollView];
-        _actionScrollView = actionScrollView;
-    }
-    return _actionScrollView;
 }
 
 - (UIVisualEffectView *)backgroundEffectView {

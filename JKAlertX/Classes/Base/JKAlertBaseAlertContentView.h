@@ -6,6 +6,7 @@
 //
 
 #import "JKAlertBaseView.h"
+#import "JKAlertScrollContentView.h"
 
 @class JKAlertView;
 
@@ -27,16 +28,10 @@
 @property (nonatomic, strong) NSMutableArray *actionArray;
 
 /** topContentView */
-@property (nonatomic, weak) UIView *topContentView;
-
-/** topScrollView */
-@property (nonatomic, weak) UIScrollView *topScrollView;
+@property (nonatomic, weak) JKAlertScrollContentView *topContentView;
 
 /** bottomContentView */
-@property (nonatomic, weak) UIView *bottomContentView;
-
-/** actionScrollView */
-@property (nonatomic, weak) UIScrollView *actionScrollView;
+@property (nonatomic, weak) JKAlertScrollContentView *bottomContentView;
 
 /** backgroundEffectView */
 @property (nonatomic, weak) UIVisualEffectView *backgroundEffectView;
