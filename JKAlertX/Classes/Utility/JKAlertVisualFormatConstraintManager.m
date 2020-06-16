@@ -16,11 +16,18 @@
                            constraintsView:(UIView *)constraintsView {
     
     targetView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:horizontalFormat options:0 metrics:nil views:@{viewKeyName : targetView}];
-    [constraintsView addConstraints:horizontalConstraints];
     
-    NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:verticalFormat options:0 metrics:nil views:@{viewKeyName : targetView}];
-    [constraintsView addConstraints:verticalConstraints];
+    if (horizontalFormat) {
+        
+        NSArray *horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:horizontalFormat options:0 metrics:nil views:@{viewKeyName : targetView}];
+        [constraintsView addConstraints:horizontalConstraints];
+    }
+    
+    if (verticalFormat) {
+        
+        NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:verticalFormat options:0 metrics:nil views:@{viewKeyName : targetView}];
+        [constraintsView addConstraints:verticalConstraints];
+    }
 }
 
 + (void)addZeroEdgeConstraintsWithTargetView:(UIView *)targetView

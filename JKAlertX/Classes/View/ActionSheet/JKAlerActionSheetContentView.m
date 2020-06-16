@@ -231,11 +231,15 @@
         
         self.topContentView.frame = frame;
         
-        [self.topContentView addSubview:self.tableView];
+        self.topContentView.scrollViewBottomConstraint.constant = (self.tableView.frame.size.height > 0 ? -self.tableView.frame.size.height : 0);
+        
+        [self.topContentView.contentView addSubview:self.tableView];
         
     } else {
         
         [self.contentView addSubview:self.tableView];
+        
+        self.topContentView.scrollViewBottomConstraint.constant = 0;
     }
 }
 
