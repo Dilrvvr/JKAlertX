@@ -36,7 +36,8 @@
     
     if (action.isPierced) {
         
-        self.backgroundView.backgroundColor = action.piercedBackgroundColor;
+        // TODO: JKTODO <#注释#>
+        self.backgroundView.backgroundColor = action.multiPiercedBackgroundColor.dynamicColor;
         self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
         
     } else {

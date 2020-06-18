@@ -295,7 +295,7 @@
     });
     
     // 类似系统样式
-    alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO).setActionSheetPierced(YES, 10, 15, 24, [UIColor whiteColor], [UIColor blackColor]);
+    alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO).makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), 10, [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -517,7 +517,18 @@
 
 - (IBAction)customActionSheetView:(id)sender {
     
-    [JKAlertView alertViewWithTitle:@"提示" message:@"这是action样式的customView\n想自定义titleView并固定在顶部的话可以使用setCustomActionSheetTitleView\n想自定义titleView并跟随tableView滚动的话可以将title和message赋值nil，并将第一个JKAlertAction设为空action，然后给这个空action赋值customView即可" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"提示" message:@"这是action样式的customView\n想自定义titleView并固定在顶部的话可以使用setCustomActionSheetTitleView\n想自定义titleView并跟随tableView滚动的话可以将title和message赋值nil，并将第一个JKAlertAction设为空action，然后给这个空action赋值customView即可" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeActionSheetCustomTitleView(^UIView *{
+        
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200)];
+        label.textColor = [UIColor redColor];
+        label.backgroundColor = [UIColor orangeColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.text = @"我是自定义的view~~";
+        
+        return label;
+        
+    }).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setCustomView(^(JKAlertAction *action) {
         
@@ -535,7 +546,7 @@
         
     }]).makeHomeIndicatorAdapted(YES).setCancelAction(JKAlertAction.action(nil, JKAlertActionStyleDefault, nil).setCustomView(^UIView *(JKAlertAction *action) {
         return [UIView new];
-    })).makeDeallocLogEnabled(YES).setPinCancelButton(NO).show().makeDidDismissHandler(^{
+    })).makeDeallocLogEnabled(YES).makeActionSheetCancelButtonPinned(NO).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         

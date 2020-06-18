@@ -95,6 +95,9 @@
 /** piercedBackgroundColor */
 @property (nonatomic, strong) UIColor *piercedBackgroundColor;
 
+/** piercedBackgroundColor */ // TODO: JKTODO <#注释#>
+@property (nonatomic, strong) JKAlertMultiColor *multiPiercedBackgroundColor;
+
 /**
  * 设置seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()
  * 仅 actionSheet 与 collectionSheet的底部按钮 有效

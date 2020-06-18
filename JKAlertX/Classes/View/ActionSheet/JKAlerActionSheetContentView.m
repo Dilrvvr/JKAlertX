@@ -18,9 +18,6 @@
 /** horizontalSeparatorLineView */
 @property (nonatomic, weak) UIView *horizontalSeparatorLineView;
 
-/** tableView */
-@property (nonatomic, weak) UITableView *tableView;
-
 /** cancelButton */
 @property (nonatomic, weak) JKAlertActionButton *cancelButton;
 @end
@@ -438,7 +435,7 @@
     
     self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
     
-    self.topContentView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : self.textContentBackgroundColor.lightColor;
+    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : self.titleBackgroundColor.lightColor;
 }
 
 - (void)updateDarkModeUI {
@@ -446,7 +443,7 @@
     
     self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
     
-    self.topContentView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : self.textContentBackgroundColor.darkColor;
+    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : self.titleBackgroundColor.darkColor;
 }
 
 #pragma mark
@@ -574,7 +571,7 @@
     
     _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
     
-    _textContentBackgroundColor = JKAlertGlobalMultiBackgroundColor();
+    _titleBackgroundColor = JKAlertGlobalMultiBackgroundColor();
 }
 
 /** 构造函数初始化时调用 注意调用super */

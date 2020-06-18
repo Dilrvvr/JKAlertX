@@ -278,13 +278,13 @@
 @property (nonatomic, strong) JKAlertPanGestureRecognizer *horizontalDismissPanGesture;
 
 /** tableViewDataSource */
-@property (nonatomic, weak) id tableViewDataSource;
-
-/** tableViewDelegate */
-@property (nonatomic, weak) id tableViewDelegate;
+//@property (nonatomic, weak) id tableViewDataSource;
+//
+///** tableViewDelegate */
+//@property (nonatomic, weak) id tableViewDelegate;
 
 /** 是否固定取消按钮在底部 */
-@property (nonatomic, assign) BOOL pinCancelButton;
+//@property (nonatomic, assign) BOOL pinCancelButton;
 
 /** 是否自动适配键盘 */
 @property (nonatomic, assign) BOOL autoAdaptKeyboard;
@@ -296,19 +296,19 @@
 @property (nonatomic, assign) BOOL vibrateEnabled;
 
 /** action sheet样式是否镂空 */
-@property (nonatomic, assign) BOOL isActionSheetPierced;
-
-/** 镂空左右的间距 默认15 */
-@property (nonatomic, assign) CGFloat piercedHorizontalMargin;
-
-/** 非X设备镂空底部取消按钮距离底部的间距 默认15 */
-@property (nonatomic, assign) CGFloat piercedBottomMargin;
-
-/** 镂空整体圆角 */
-@property (nonatomic, assign) CGFloat piercedCornerRadius;
-
-/** 镂空时背景色 */
-@property (nonatomic, strong) UIColor *piercedBackgroundColor;
+//@property (nonatomic, assign) BOOL isActionSheetPierced;
+//
+///** 镂空左右的间距 默认15 */
+//@property (nonatomic, assign) CGFloat piercedHorizontalMargin;
+//
+///** 非X设备镂空底部取消按钮距离底部的间距 默认15 */
+//@property (nonatomic, assign) CGFloat piercedBottomMargin;
+//
+///** 镂空整体圆角 */
+//@property (nonatomic, assign) CGFloat piercedCornerRadius;
+//
+///** 镂空时背景色 */
+//@property (nonatomic, strong) UIColor *piercedBackgroundColor;
 
 - (void)addKeyboardWillChangeFrameNotification;
 

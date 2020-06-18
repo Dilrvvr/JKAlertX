@@ -15,6 +15,9 @@
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertActionSheetTextContentView *textContentView;
 
+/** tableView */
+@property (nonatomic, weak, readonly) UITableView *tableView;
+
 /** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, strong) JKAlertAction *cancelAction;
 
@@ -51,6 +54,6 @@
 /** piercedBackgroundColor */
 @property (nonatomic, strong) JKAlertMultiColor *piercedBackgroundColor;
 
-/** textContentBackgroundColor */
-@property (nonatomic, strong) JKAlertMultiColor *textContentBackgroundColor;
+/** titleBackgroundColor */
+@property (nonatomic, strong) JKAlertMultiColor *titleBackgroundColor;
 @end

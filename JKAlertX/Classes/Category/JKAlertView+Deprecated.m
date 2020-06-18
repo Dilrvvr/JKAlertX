@@ -11,6 +11,8 @@
 #import "JKAlertView+Public.h"
 #import "JKAlertView+Plain.h"
 #import "JKAlertView+HUD.h"
+#import "JKAlertView+ActionSheet.h"
+#import "JKAlertView+CollectionSheet.h"
 
 @implementation JKAlertView (Deprecated)
 
@@ -752,6 +754,62 @@
 
 #pragma mark
 #pragma mark - action sheet样式
+/**
+ * 设置actionSheet样式添加自定义的titleView
+ * frmae给出高度即可，宽度将自适应
+ * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
+ * isClearContainerBackgroundColor : 是否让其容器视图透明
+ */
+- (JKAlertView *(^)(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)))setCustomActionSheetTitleView {
+    
+    return ^(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)) {
+        
+        return self.makeActionSheetCustomTitleView(customView).makeActionSheetTitleBackgroundColor(isClearContainerBackgroundColor ? nil : JKAlertGlobalMultiBackgroundColor());
+    };
+}
+
+/** 设置sheet样式最大高度 默认屏幕高度 * 0.85 */
+- (JKAlertView *(^)(CGFloat height))setSheetMaxHeight {
+    
+    return [self makeActionSheetMaxHeight];
+}
+
+/** 自定义配置tableView */
+- (JKAlertView *(^)(void(^)(UITableView *tableView)))setTableViewConfiguration{
+    
+    return [self makeActionSheetTableViewConfiguration];
+}
+
+/** 设置UITableViewDataSource */
+- (JKAlertView *(^)(id<UITableViewDataSource> dataSource))setCustomTableViewDataSource{
+    
+    return [self makeActionSheetTableViewDataSource];
+}
+
+/** 设置UITableViewDelegate */
+- (JKAlertView *(^)(id<UITableViewDelegate> delegate))setCustomTableViewDelegate{
+    
+    return [self makeActionSheetTableViewDelegate];
+}
+
+/** 设置actionSheet底部取消按钮是否固定在底部 默认NO */
+- (JKAlertView *(^)(BOOL pinCancelButton))setPinCancelButton{
+    
+    return [self makeActionSheetCancelButtonPinned];
+}
+
+/**
+ * 设置actionSheet是否镂空
+ * 类似UIAlertControllerStyleActionSheet效果
+ * 设置为YES后，setPinCancelButton将强制为YES
+ */
+- (JKAlertView *(^)(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor))setActionSheetPierced{
+    
+    return ^(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) {
+        
+        return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin), cornerRadius, [JKAlertMultiColor colorWithLightColor:lightBackgroundColor darkColor:darkBackgroundColor]);
+    };
+}
 
 #pragma mark
 #pragma mark - collection sheet样式

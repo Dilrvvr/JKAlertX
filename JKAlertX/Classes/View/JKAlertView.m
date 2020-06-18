@@ -435,15 +435,15 @@
     
     action.alertView = self;
     
-    if (self.alertStyle == JKAlertStyleActionSheet) {
+    if (JKAlertStyleActionSheet == self.alertStyle) {
 
-        action.isPierced = self.isActionSheetPierced;
-        action.piercedBackgroundColor = self.piercedBackgroundColor;
+        action.isPierced = self.actionsheetContentView.isPierced;
+        action.multiPiercedBackgroundColor = self.actionsheetContentView.piercedBackgroundColor;
         
-    } else {
+    } else if (JKAlertStyleCollectionSheet == self.alertStyle) {
 
-        action.isPierced = NO;
-        action.piercedBackgroundColor = nil;
+        action.isPierced = self.collectionsheetContentView.isPierced;
+        action.multiPiercedBackgroundColor = self.collectionsheetContentView.piercedBackgroundColor;
     }
 }
 
@@ -2242,8 +2242,6 @@
     
     _enableVerticalGestureDismiss = NO;
     _enableHorizontalGestureDismiss = NO;
-    
-    _piercedHorizontalMargin = 15;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -2448,13 +2446,6 @@
         _closeButton = closeButton;
     }
     return _closeButton;
-}
-
-- (BOOL)pinCancelButton {
-    
-    if (self.isActionSheetPierced) { return YES; }
-    
-    return _pinCancelButton;
 }
 
 #pragma mark
