@@ -154,6 +154,43 @@
 /** 设置action和colletion样式的底部按钮上下间距 不可小于0 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setBottomButtonMargin)(CGFloat margin) JKAlertXDeprecated("use makeBottomButtonMargin");
 
+/** 监听即将开始显示动画 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillShowHandler)(void(^willShowHandler)(JKAlertView *view)) JKAlertXDeprecated("use makeWillShowHandler");
+
+/** 监听显示动画完成 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDidShowHandler)(void(^didShowHandler)(JKAlertView *view)) JKAlertXDeprecated("use makeDidShowHandler");
+
+/** 监听JKAlertView即将开始消失动画 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillDismissHandler)(void(^willDismissHandler)(void)) JKAlertXDeprecated("use makeWillDismissHandler");
+
+/** 监听JKAlertView消失动画完成 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDidDismissHandler)(void(^didDismissHandler)(void)) JKAlertXDeprecated("use makeDidDismissHandler");
+
+/** 设置是否允许dealloc打印，用于检查循环引用 */
+@property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable) JKAlertXDeprecated("use makeDeallocLogEnabled");
+
+/** 设置dealloc时会调用的block */
+@property (nonatomic, copy, readonly) void (^setDeallocBlock)(void(^deallocBlock)(void)) JKAlertXDeprecated("use makeDeallocHandler");
+
+/**
+ * 设置用于通知消失的key
+ * 设置该值后可以使用类方法 JKAlertView.dismissForKey(dismissKey); 来手动消失
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissKey)(NSString *dismissKey) JKAlertXDeprecated("use makeDismissKey");
+
+/**
+ * 设置是否使JKAlertView.dismissAll(); 对当前JKAlertView无效
+ * 请谨慎使用，若设置为YES 调用JKAlertView.dismissAll(); 将对当前JKAlertView无效
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissAllNoneffective)(BOOL isNoneffective) JKAlertXDeprecated("use makeDismissAllNoneffective");
+
+/**
+ * 设置用于通知消失的类别
+ * 可以将多个弹框设置同一类别，方便移除同一类别的弹框
+ * 设置该值后可以使用类方法 JKAlertView.dismissForCategory(dismissCategory); 来手动消失
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissCategory)(NSString *dismissCategory) JKAlertXDeprecated("makeDismissCategory");
+
 #pragma mark
 #pragma mark - plain样式
 

@@ -7,6 +7,7 @@
 
 #import "JKAlertView+Deprecated.h"
 #import "JKAlertView+PrivateProperty.h"
+#import "JKAlertView+LifeCycle.h"
 #import "JKAlertView+Public.h"
 #import "JKAlertView+Plain.h"
 #import "JKAlertView+HUD.h"
@@ -433,6 +434,70 @@
 - (JKAlertView *(^)(CGFloat margin))setBottomButtonMargin {
     
     return [self makeBottomButtonMargin];
+}
+
+/** 监听即将开始显示动画 */
+- (JKAlertView *(^)(void(^willShowHandler)(JKAlertView *view)))setWillShowHandler {
+    
+    return [self makeWillShowHandler];
+}
+
+/** 监听JKAlertView显示动画完成 */
+- (JKAlertView *(^)(void(^didShowHandler)(JKAlertView *view)))setDidShowHandler {
+    
+    return [self makeDidShowHandler];
+}
+
+/** 监听JKAlertView即将消失 */
+- (JKAlertView *(^)(void(^willDismissHandler)(void)))setWillDismissHandler {
+    
+    return [self makeWillDismissHandler];
+}
+
+/** 监听JKAlertView消失动画完成 */
+- (JKAlertView *(^)(void(^didDismissHandler)(void)))setDidDismissHandler {
+    
+    return [self makeDidDismissHandler];
+}
+
+/** 允许dealloc打印，用于检查循环引用 */
+- (JKAlertView *(^)(BOOL enable))enableDeallocLog {
+    
+    return [self makeDeallocLogEnabled];
+}
+
+/** 设置dealloc时会调用的block */
+- (void(^)(void(^deallocBlock)(void)))setDeallocBlock {
+    
+    return [self makeDeallocHandler];
+}
+
+/**
+ * 设置用于通知消失的key
+ * 设置该值后可以使用类方法 JKAlertView.DismissForKey(dismissKey); 来手动消失
+ */
+- (JKAlertView *(^)(NSString *dismissKey))setDismissKey {
+    
+    return [self makeDismissKey];
+}
+
+/**
+ * 设置是否使JKAlertView.dismissAll(); 对当前JKAlertView无效
+ * 请谨慎使用，若设置为YES 调用JKAlertView.dismissAll(); 将对当前JKAlertView无效
+ */
+- (JKAlertView *(^)(BOOL isNoneffective))setDismissAllNoneffective {
+    
+    return [self makeDismissAllNoneffective];
+}
+
+/**
+ * 设置用于通知消失的类别
+ * 可以将多个弹框设置同一类别，方便移除同一类别的弹框
+ * 设置该值后可以使用类方法 JKAlertView.dismissForCategory(dismissCategory); 来手动消失
+ */
+- (JKAlertView *(^)(NSString *dismissCategory))setDismissCategory {
+    
+    return [self makeDismissCategory];
 }
 
 #pragma mark

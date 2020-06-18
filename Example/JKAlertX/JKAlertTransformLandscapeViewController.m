@@ -67,7 +67,7 @@
         
         return label;
         
-    }).setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).enableDeallocLog(YES).show().setDidDismissHandler(^{
+    }).setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -109,7 +109,7 @@
         
     }]];
     
-    alertView.enableDeallocLog(YES).show().setDidDismissHandler(^{
+    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -208,12 +208,12 @@
         });
         
         // 显示动画完毕后，向上偏移150
-        alertView.setDidShowHandler(^(JKAlertView *view) {
+        alertView.makeDidShowHandler(^(JKAlertView *view) {
             
             //        view.movePlainCenterOffsetY(-150, YES);
         });
         
-        alertView.enableDeallocLog(YES).show().setDidDismissHandler(^{
+        alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             
@@ -268,7 +268,7 @@
     //        label.frame = CGRectMake(0, 1 + 30 + 1 + 30 + 1 + 15, 290 - 20 * 2, label.bounds.size.height);
     //    }];
     
-    alertView.enableDeallocLog(YES).show().setDidDismissHandler(^{
+    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -319,7 +319,7 @@
     
     //    alertView.setCancelAction([JKAlertAction actionWithTitle:@"cancel" style:(JKAlertActionStyleDestructive) handler:nil]);
     
-    alertView.enableDeallocLog(YES).show().setDidDismissHandler(^{
+    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -397,7 +397,7 @@
         
     }].setNormalImage([UIImage imageNamed:@"Share_Copylink"])];
     
-    alertView.enableDeallocLog(YES).show().setDidDismissHandler(^{
+    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -432,7 +432,7 @@
         
     }].setNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).enableDeallocLog(YES).show().setDidDismissHandler(^{
+    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -458,7 +458,7 @@
         
     })).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }]).enableDeallocLog(YES).show().setDidDismissHandler(^{
+    }]).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -473,7 +473,7 @@
     
     JKAlertView.showHUDWithTitle(@"你好你好你好你好", ^(JKAlertView *alertView) {
         
-        alertView.makeCustomSuperView(self.testLabel).makeHudHeight(100).makeHudDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
+        alertView.makeCustomSuperView(self.testLabel).makeHudHeight(100).makeHudDismissTimeInterval(2).makeDeallocLogEnabled(YES).makeDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             
@@ -485,7 +485,7 @@
     });
     
     /* or use like following
-     [JKAlertView alertViewWithTitle:@"你好你好你好你好" message:nil style:(JKAlertStyleHUD)].setDismissTimeInterval(2).enableDeallocLog(YES).show().setDidDismissHandler(^{
+     [JKAlertView alertViewWithTitle:@"你好你好你好你好" message:nil style:(JKAlertStyleHUD)].setDismissTimeInterval(2).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
      
      [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
      
@@ -509,7 +509,7 @@
         
     }, ^(JKAlertView *alertView) {
         
-        alertView.makeCustomSuperView(self.testLabel).makeHudDismissTimeInterval(2).enableDeallocLog(YES).setDidDismissHandler(^{
+        alertView.makeCustomSuperView(self.testLabel).makeHudDismissTimeInterval(2).makeDeallocLogEnabled(YES).makeDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             
@@ -608,7 +608,7 @@
         
     }].setNormalImage([UIImage imageNamed:@"Share_Copylink"])];
     
-    alertView.enableDeallocLog(YES).show().setDidDismissHandler(^{
+    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -646,7 +646,7 @@
         
     }]];
     
-    alertView.enableDeallocLog(YES).show().setDidDismissHandler(^{
+    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -749,7 +749,7 @@
         
     }].setNormalImage([UIImage imageNamed:@"Share_Copylink"])];
     
-    alertView.enableDeallocLog(YES).show().setDidDismissHandler(^{
+    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         

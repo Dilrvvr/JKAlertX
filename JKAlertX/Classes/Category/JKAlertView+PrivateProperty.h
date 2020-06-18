@@ -22,7 +22,6 @@
 {
     //CGFloat TBMargin;
     CGFloat textContainerViewCurrentMaxH_;
-    BOOL    _enableDeallocLog;
     
     //CGFloat JKAlertTitleMessageMargin;
     
@@ -84,7 +83,8 @@
 /** currentAlertContentView */
 @property (nonatomic, weak, readonly) JKAlertBaseTextContentView *currentTextContentView;
 
-
+/** deallocLogEnabled */
+@property (nonatomic, assign) BOOL deallocLogEnabled;
 
 
 /** observerSuperView */
@@ -171,7 +171,7 @@
 @property (nonatomic, strong) JKAlertAction *cancelAction;
 
 /** dealloc时会调用的block */
-@property (nonatomic, copy) void (^deallocBlock)(void);
+@property (nonatomic, copy) void (^deallocHandler)(void);
 
 /** 监听superView尺寸改变时将要自适应的block */
 @property (nonatomic, copy) void (^willRelayoutHandler)(JKAlertView *view, UIView *containerView);

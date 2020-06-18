@@ -2225,7 +2225,7 @@
     
     JKAlertSheetMaxH = (JKAlertScreenH > JKAlertScreenW) ? JKAlertScreenH * 0.85 : JKAlertScreenH * 0.8;
     
-    _enableDeallocLog = NO;
+    _deallocLogEnabled = NO;
     
     _dismissTimeInterval = 1;
     
@@ -2466,11 +2466,11 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    if (_enableDeallocLog) {
+    if (self.deallocLogEnabled) {
         
         NSLog(@"%d, %s",__LINE__, __func__);
     }
     
-    !self.deallocBlock ? : self.deallocBlock();
+    !self.deallocHandler ? : self.deallocHandler();
 }
 @end
