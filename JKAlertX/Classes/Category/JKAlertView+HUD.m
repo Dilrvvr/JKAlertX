@@ -163,11 +163,7 @@
 /// 不是HUD样式将不执行handler
 - (JKAlertView *)checkHudStyleHandler:(void(^)(void))handler {
     
-    if (JKAlertStyleHUD != self.alertStyle) { return self; }
-    
-    !handler ? : handler();
-    
-    return self;
+    return [self checkAlertStyle:JKAlertStyleHUD handler:handler];
 }
 @end
 

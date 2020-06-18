@@ -207,10 +207,6 @@
 /// 不是plain样式将不执行handler
 - (JKAlertView *)checkPlainStyleHandler:(void(^)(void))handler {
     
-    if (JKAlertStylePlain != self.alertStyle) { return self; }
-    
-    !handler ? : handler();
-    
-    return self;
+    return [self checkAlertStyle:JKAlertStylePlain handler:handler];
 }
 @end

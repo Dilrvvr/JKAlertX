@@ -755,7 +755,7 @@
 
 - (void)orientationChanged:(NSNotification *)noti{
     
-    !self.orientationChangeBlock ? : self.orientationChangeBlock(self, [UIApplication sharedApplication].statusBarOrientation);
+    !self.orientationDidChangeHandler ? : self.orientationDidChangeHandler(self, [UIApplication sharedApplication].statusBarOrientation);
     
     [self updateWidthHeight];
     

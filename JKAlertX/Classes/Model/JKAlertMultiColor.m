@@ -33,7 +33,7 @@
         
         UITraitCollection *lightCollection = [UITraitCollection traitCollectionWithUserInterfaceStyle:(UIUserInterfaceStyleLight)];
         
-        UITraitCollection *darkCollection = [UITraitCollection traitCollectionWithUserInterfaceStyle:(UIUserInterfaceStyleLight)];
+        UITraitCollection *darkCollection = [UITraitCollection traitCollectionWithUserInterfaceStyle:(UIUserInterfaceStyleDark)];
         
         lightColor = [color resolvedColorWithTraitCollection:lightCollection];
         darkColor = [color resolvedColorWithTraitCollection:darkCollection];

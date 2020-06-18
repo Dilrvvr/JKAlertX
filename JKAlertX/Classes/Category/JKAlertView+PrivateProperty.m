@@ -91,4 +91,15 @@
     
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
 }
+
+/// 检查样式判断是否执行handler
+- (JKAlertView *)checkAlertStyle:(JKAlertStyle)alertStyle
+                         handler:(void(^)(void))handler {
+    
+    if (alertStyle != self.alertStyle) { return self; }
+    
+    !handler ? : handler();
+    
+    return self;
+}
 @end

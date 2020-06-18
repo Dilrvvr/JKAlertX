@@ -228,7 +228,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setPlainY)(CGFloat Y, BOOL animated);
 
 /** 监听屏幕旋转 */
-@property (nonatomic, copy) void (^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation);
+@property (nonatomic, copy) void (^orientationDidChangeHandler)(JKAlertView *view, UIInterfaceOrientation orientation);
 
 /** 自定义展示动画 */
 @property (nonatomic, copy) void (^customShowAnimationBlock)(JKAlertView *view, UIView *animationView);
@@ -249,10 +249,10 @@
 @property (nonatomic, copy) void (^deallocBlock)(void);
 
 /** 监听superView尺寸改变时将要自适应的block */
-@property (nonatomic, copy) void (^willAdaptBlock)(JKAlertView *view, UIView *containerView);
+@property (nonatomic, copy) void (^willRelayoutHandler)(JKAlertView *view, UIView *containerView);
 
 /** 监听superView尺寸改变时自适应完成的block */
-@property (nonatomic, copy) void (^didAdaptBlock)(JKAlertView *view, UIView *containerView);
+@property (nonatomic, copy) void (^didRelayoutHandler)(JKAlertView *view, UIView *containerView);
 
 /** 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO */
 @property (nonatomic, assign) BOOL autoReducePlainWidth;
@@ -401,4 +401,8 @@
 - (void)updateWidthHeight;
 
 - (void)updateMaxHeight;
+
+/// 检查样式判断是否执行handler
+- (JKAlertView *)checkAlertStyle:(JKAlertStyle)alertStyle
+                         handler:(void(^)(void))handler;
 @end

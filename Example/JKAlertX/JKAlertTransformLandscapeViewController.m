@@ -428,8 +428,6 @@
         
         return insets;
         
-    }).setOrientationChangeBlock(^(JKAlertView *view, UIInterfaceOrientation orientation) {
-        
     }).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {

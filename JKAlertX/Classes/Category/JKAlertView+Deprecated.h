@@ -125,6 +125,15 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewTopBottomMargin)(CGFloat margin) JKAlertXDeprecated("use makeTitleInsets & makeMessageInsets");
 
+/** 监听屏幕旋转 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) JKAlertXDeprecated("use makeOrientationDidChangeHandler");
+
+/** 设置监听superView尺寸改变时将要自适应的block */
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillAutoAdaptSuperViewBlock)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)) JKAlertXDeprecated("use makeWillRelayoutHandler");
+
+/** 设置监听superView尺寸改变时自适应完成的block */
+@property (nonatomic, copy, readonly) JKAlertView *(^setDidAutoAdaptSuperViewBlock)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)) JKAlertXDeprecated("use makeDidRelayoutHandler");
+
 #pragma mark
 #pragma mark - plain样式
 

@@ -391,6 +391,39 @@
     };
 }
 
+/** 监听屏幕旋转 */
+- (JKAlertView *(^)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)))setOrientationChangeBlock {
+    
+    return ^(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) {
+        
+        self.orientationDidChangeHandler = orientationChangeBlock;
+        
+        return self;
+    };
+}
+
+/** 设置监听superView尺寸改变时将要自适应的block */
+- (JKAlertView *(^)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)))setWillAutoAdaptSuperViewBlock {
+    
+    return ^JKAlertView *(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)) {
+        
+        self.willRelayoutHandler = willAdaptBlock;
+        
+        return self;
+    };
+}
+
+/** 设置监听superView尺寸改变时自适应完成的block */
+- (JKAlertView *(^)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)))setDidAutoAdaptSuperViewBlock {
+    
+    return ^JKAlertView *(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)) {
+        
+        self.didRelayoutHandler = didAdaptBlock;
+        
+        return self;
+    };
+}
+
 #pragma mark
 #pragma mark - plain样式
 

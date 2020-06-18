@@ -483,34 +483,40 @@
 #pragma mark
 #pragma mark - 状态监听
 
-/** 监听屏幕旋转 */
-- (JKAlertView *(^)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)))setOrientationChangeBlock {
+/**
+ * 监听屏幕旋转
+ */
+- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView, UIInterfaceOrientation orientation)))makeOrientationDidChangeHandler {
     
-    return ^(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) {
+    return ^(void(^handler)(JKAlertView *innerView, UIInterfaceOrientation orientation)) {
         
-        self.orientationChangeBlock = orientationChangeBlock;
+        self.orientationDidChangeHandler = handler;
         
         return self;
     };
 }
 
-/** 设置监听superView尺寸改变时将要自适应的block */
-- (JKAlertView *(^)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)))setWillAutoAdaptSuperViewBlock {
+/**
+ * 监听即将重新布局
+ */
+- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView, UIView *containerView)))makeWillRelayoutHandler {
     
-    return ^JKAlertView *(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)) {
+    return ^JKAlertView *(void(^handler)(JKAlertView *innerView, UIView *containerView)) {
         
-        self.willAdaptBlock = willAdaptBlock;
+        self.willRelayoutHandler = handler;
         
         return self;
     };
 }
 
-/** 设置监听superView尺寸改变时自适应完成的block */
-- (JKAlertView *(^)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)))setDidAutoAdaptSuperViewBlock {
+/**
+ * 监听重新布局完成的block
+ */
+- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView, UIView *containerView)))makeDidRelayoutHandler {
     
-    return ^JKAlertView *(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)) {
+    return ^JKAlertView *(void(^handler)(JKAlertView *innerView, UIView *containerView)) {
         
-        self.didAdaptBlock = didAdaptBlock;
+        self.didRelayoutHandler = handler;
         
         return self;
     };
@@ -570,7 +576,7 @@
     
     return ^(BOOL animated) {
         
-        !self.willAdaptBlock ? : self.willAdaptBlock(self, (self.alertContentView));
+        !self.willRelayoutHandler ? : self.willRelayoutHandler(self, (self.alertContentView));
         
         if (animated) {
             
@@ -582,7 +588,7 @@
                 
                 !self.relayoutComplete ? : self.relayoutComplete(self);
                 
-                !self.didAdaptBlock ? : self.didAdaptBlock(self, (self.alertContentView));
+                !self.didRelayoutHandler ? : self.didRelayoutHandler(self, (self.alertContentView));
             }];
             
         } else {
@@ -591,7 +597,7 @@
             
             !self.relayoutComplete ? : self.relayoutComplete(self);
             
-            !self.didAdaptBlock ? : self.didAdaptBlock(self, (self.alertContentView));
+            !self.didRelayoutHandler ? : self.didRelayoutHandler(self, (self.alertContentView));
         }
         
         return self;
