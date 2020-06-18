@@ -134,6 +134,26 @@
 /** 设置监听superView尺寸改变时自适应完成的block */
 @property (nonatomic, copy, readonly) JKAlertView *(^setDidAutoAdaptSuperViewBlock)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)) JKAlertXDeprecated("use makeDidRelayoutHandler");
 
+/**
+ * 重新布局完成的block
+ * ****************** WARNING!!! ******************
+ * 如果需要在block中再次relayout，请在block中销毁该block
+ * 即调用setRelayoutComplete(nil); 否则会造成死循环
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view)) JKAlertXDeprecated("use makeDidRelayoutHandler");
+
+/** 设置show的时候是否振动 默认NO */
+@property (nonatomic, copy, readonly) JKAlertView *(^setShouldVibrate)(BOOL shouldVibrate) JKAlertXDeprecated("use makeVibrateEnabled");
+
+/** 设置是否自动适配底部 iPhone X homeIndicator 默认YES */
+@property (nonatomic, copy, readonly) JKAlertView *(^setAutoAdjustHomeIndicator)(BOOL autoAdjust) JKAlertXDeprecated("use makeHomeIndicatorAdapted");
+
+/** 设置是否填充底部 iPhone X homeIndicator 默认YES */
+@property (nonatomic, copy, readonly) JKAlertView *(^setFillHomeIndicator)(BOOL fillHomeIndicator) JKAlertXDeprecated("use makeHomeIndicatorFilled");
+
+/** 设置action和colletion样式的底部按钮上下间距 不可小于0 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setBottomButtonMargin)(CGFloat margin) JKAlertXDeprecated("use makeBottomButtonMargin");
+
 #pragma mark
 #pragma mark - plain样式
 

@@ -405,23 +405,48 @@
 /** 设置监听superView尺寸改变时将要自适应的block */
 - (JKAlertView *(^)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)))setWillAutoAdaptSuperViewBlock {
     
-    return ^JKAlertView *(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)) {
-        
-        self.willRelayoutHandler = willAdaptBlock;
-        
-        return self;
-    };
+    return [self makeWillRelayoutHandler];
 }
 
 /** 设置监听superView尺寸改变时自适应完成的block */
 - (JKAlertView *(^)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)))setDidAutoAdaptSuperViewBlock {
     
-    return ^JKAlertView *(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)) {
+    return [self makeDidRelayoutHandler];
+}
+
+/** 监听重新布局完成 */
+- (JKAlertView *(^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete {
+    
+    return ^(void(^relayoutComplete)(JKAlertView *view)) {
         
-        self.didRelayoutHandler = didAdaptBlock;
+        self.relayoutComplete = relayoutComplete;
         
         return self;
     };
+}
+
+/** 设置show的时候是否振动 默认NO */
+- (JKAlertView *(^)(BOOL shouldVibrate))setShouldVibrate {
+    
+    return [self makeVibrateEnabled];
+}
+
+/** 设置是否自动适配 iPhone X homeIndicator 默认YES */
+- (JKAlertView *(^)(BOOL autoAdjust))setAutoAdjustHomeIndicator {
+    
+    return [self makeHomeIndicatorAdapted];
+}
+
+/** 设置是否填充底部 iPhone X homeIndicator 默认YES */
+- (JKAlertView *(^)(BOOL fillHomeIndicator))setFillHomeIndicator {
+    
+    return [self makeHomeIndicatorFilled];
+}
+
+/** 设置action和colletion样式的底部按钮上下间距 不可小于0 */
+- (JKAlertView *(^)(CGFloat margin))setBottomButtonMargin {
+    
+    return [self makeBottomButtonMargin];
 }
 
 #pragma mark
@@ -516,7 +541,7 @@
  2、setTitleMessageMargin将自动改为message的上下间距
  * leftRightMargin : 分隔线的左右间距
  */
-- (JKAlertView *(^)(BOOL separatorHidden, CGFloat leftRightMargin))setPlainTitleMessageSeparatorHidden{
+- (JKAlertView *(^)(BOOL separatorHidden, CGFloat leftRightMargin))setPlainTitleMessageSeparatorHidden {
     
     return ^(BOOL separatorHidden, CGFloat leftRightMargin) {
         

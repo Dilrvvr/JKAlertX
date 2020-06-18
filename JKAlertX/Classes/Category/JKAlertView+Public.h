@@ -252,11 +252,15 @@
 
 /**
  * 监听即将重新布局
+ * 尽量避免在此block中再次执行重新布局
+ * 如有必要执行重新布局，请在重新布局前将此block销毁
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeWillRelayoutHandler)(void(^handler)(JKAlertView *innerView, UIView *containerView));
 
 /**
  * 监听重新布局完成
+ * 尽量避免在此block中再次执行重新布局
+ * 如有必要执行重新布局，请在重新布局前将此block销毁
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeDidRelayoutHandler)(void(^handler)(JKAlertView *innerView, UIView *containerView));
 
@@ -279,27 +283,30 @@
 /** 重新布局 */
 @property (nonatomic, copy, readonly) JKAlertView *(^relayout)(BOOL animated);
 
-/**
- * 重新布局完成的block
- * ****************** WARNING!!! ******************
- * 如果需要在block中再次relayout，请在block中销毁该block
- * 即调用setRelayoutComplete(nil); 否则会造成死循环
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view));
-
 
 #pragma mark
 #pragma mark - 其它适配
 
-/** 设置show的时候是否振动 默认NO */
-@property (nonatomic, copy, readonly) JKAlertView *(^setShouldVibrate)(BOOL shouldVibrate);
+/**
+ * show的时候是否振动 默认NO
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeVibrateEnabled)(BOOL enabled);
 
-/** 设置是否自动适配底部 iPhone X homeIndicator 默认YES */
-@property (nonatomic, copy, readonly) JKAlertView *(^setAutoAdjustHomeIndicator)(BOOL autoAdjust);
+/**
+ * 是否自动适配 iPhone X 底部 homeIndicator
+ * 默认YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeHomeIndicatorAdapted)(BOOL adapted);
 
-/** 设置是否填充底部 iPhone X homeIndicator 默认YES */
-@property (nonatomic, copy, readonly) JKAlertView *(^setFillHomeIndicator)(BOOL fillHomeIndicator);
+/**
+ * 是否填充底部 iPhone X homeIndicator
+ * 默认YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeHomeIndicatorFilled)(BOOL filled);
 
-/** 设置action和colletion样式的底部按钮上下间距 不可小于0 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setBottomButtonMargin)(CGFloat margin);
+/**
+ * action和colletion样式的底部按钮上下间距
+ * 默认4寸屏5 4寸以上7 不可小于0
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeBottomButtonMargin)(CGFloat margin);
 @end

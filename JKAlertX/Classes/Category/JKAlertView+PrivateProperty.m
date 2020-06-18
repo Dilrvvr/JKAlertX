@@ -92,6 +92,39 @@
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
 }
 
+
+
+
+
+
+
+
+
+
+/// 不是plain样式将不执行handler
+- (JKAlertView *)checkPlainStyleHandler:(void(^)(void))handler {
+    
+    return [self checkAlertStyle:JKAlertStylePlain handler:handler];
+}
+
+/// 不是HUD样式将不执行handler
+- (JKAlertView *)checkHudStyleHandler:(void(^)(void))handler {
+    
+    return [self checkAlertStyle:JKAlertStyleHUD handler:handler];
+}
+
+/// 不是collectionSheet样式将不执行handler
+- (JKAlertView *)checkCollectionSheetStyleHandler:(void(^)(void))handler {
+    
+    return [self checkAlertStyle:JKAlertStyleCollectionSheet handler:handler];
+}
+
+/// 不是actionSheet样式将不执行handler
+- (JKAlertView *)checkActionSheetStyleHandler:(void(^)(void))handler {
+    
+    return [self checkAlertStyle:JKAlertStyleActionSheet handler:handler];
+}
+
 /// 检查样式判断是否执行handler
 - (JKAlertView *)checkAlertStyle:(JKAlertStyle)alertStyle
                          handler:(void(^)(void))handler {

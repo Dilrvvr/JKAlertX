@@ -31,14 +31,8 @@
     /** 分隔线宽度或高度 */
     CGFloat JKAlertSeparatorLineWH;
     
-    CGFloat CancelMargin;
     CGFloat PlainViewWidth;
     CGFloat OriginalPlainWidth;
-    
-    /** 是否自动适配 iPhone X homeIndicator */
-    //BOOL AutoAdjustHomeIndicator;
-    
-    BOOL FillHomeIndicator;
     
     UIView  *_alertBackGroundView;
     
@@ -89,9 +83,6 @@
 
 /** currentAlertContentView */
 @property (nonatomic, weak, readonly) JKAlertBaseTextContentView *currentTextContentView;
-
-/** autoAdjustHomeIndicator */
-@property (nonatomic, assign) BOOL autoAdjustHomeIndicator;
 
 
 
@@ -368,7 +359,7 @@
 @property (nonatomic, assign) CGFloat plainKeyboardMargin;
 
 /** show的时候是否振动 默认NO */
-@property (nonatomic, assign) BOOL shouldVibrate;
+@property (nonatomic, assign) BOOL vibrateEnabled;
 
 /** action sheet样式是否镂空 */
 @property (nonatomic, assign) BOOL isActionSheetPierced;
@@ -401,6 +392,18 @@
 - (void)updateWidthHeight;
 
 - (void)updateMaxHeight;
+
+/// 不是plain样式将不执行handler
+- (JKAlertView *)checkPlainStyleHandler:(void(^)(void))handler;
+
+/// 不是HUD样式将不执行handler
+- (JKAlertView *)checkHudStyleHandler:(void(^)(void))handler;
+
+/// 不是collectionSheet样式将不执行handler
+- (JKAlertView *)checkCollectionSheetStyleHandler:(void(^)(void))handler;
+
+/// 不是actionSheet样式将不执行handler
+- (JKAlertView *)checkActionSheetStyleHandler:(void(^)(void))handler;
 
 /// 检查样式判断是否执行handler
 - (JKAlertView *)checkAlertStyle:(JKAlertStyle)alertStyle

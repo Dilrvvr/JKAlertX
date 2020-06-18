@@ -204,9 +204,4 @@
 
 
 
-/// 不是plain样式将不执行handler
-- (JKAlertView *)checkPlainStyleHandler:(void(^)(void))handler {
-    
-    return [self checkAlertStyle:JKAlertStylePlain handler:handler];
-}
 @end

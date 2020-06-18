@@ -159,11 +159,5 @@
 
 
 
-
-/// 不是HUD样式将不执行handler
-- (JKAlertView *)checkHudStyleHandler:(void(^)(void))handler {
-    
-    return [self checkAlertStyle:JKAlertStyleHUD handler:handler];
-}
 @end
 

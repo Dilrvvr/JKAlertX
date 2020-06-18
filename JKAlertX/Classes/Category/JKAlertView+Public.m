@@ -498,6 +498,8 @@
 
 /**
  * 监听即将重新布局
+ * 尽量避免在此block中再次执行重新布局
+ * 如有必要执行重新布局，请在重新布局前将此block销毁
  */
 - (JKAlertView *(^)(void(^handler)(JKAlertView *innerView, UIView *containerView)))makeWillRelayoutHandler {
     
@@ -511,6 +513,8 @@
 
 /**
  * 监听重新布局完成的block
+ * 尽量避免在此block中再次执行重新布局
+ * 如有必要执行重新布局，请在重新布局前将此block销毁 
  */
 - (JKAlertView *(^)(void(^handler)(JKAlertView *innerView, UIView *containerView)))makeDidRelayoutHandler {
     
@@ -572,11 +576,9 @@
 /** 重新布局 */
 - (JKAlertView *(^)(BOOL animated))relayout {
     
-    //lastTableViewOffsetY = _tableView.contentOffset.y;
-    
     return ^(BOOL animated) {
         
-        !self.willRelayoutHandler ? : self.willRelayoutHandler(self, (self.alertContentView));
+        !self.willRelayoutHandler ? : self.willRelayoutHandler(self, self.alertContentView);
         
         if (animated) {
             
@@ -588,7 +590,7 @@
                 
                 !self.relayoutComplete ? : self.relayoutComplete(self);
                 
-                !self.didRelayoutHandler ? : self.didRelayoutHandler(self, (self.alertContentView));
+                !self.didRelayoutHandler ? : self.didRelayoutHandler(self, self.alertContentView);
             }];
             
         } else {
@@ -597,19 +599,8 @@
             
             !self.relayoutComplete ? : self.relayoutComplete(self);
             
-            !self.didRelayoutHandler ? : self.didRelayoutHandler(self, (self.alertContentView));
+            !self.didRelayoutHandler ? : self.didRelayoutHandler(self, self.alertContentView);
         }
-        
-        return self;
-    };
-}
-
-/** 监听重新布局完成 */
-- (JKAlertView *(^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete {
-    
-    return ^(void(^relayoutComplete)(JKAlertView *view)) {
-        
-        self.relayoutComplete = relayoutComplete;
         
         return self;
     };
@@ -618,61 +609,89 @@
 #pragma mark
 #pragma mark - 其它适配
 
-/** 设置show的时候是否振动 默认NO */
-- (JKAlertView *(^)(BOOL shouldVibrate))setShouldVibrate{
+/**
+ * show的时候是否振动 默认NO
+ */
+- (JKAlertView *(^)(BOOL enabled))makeVibrateEnabled {
     
-    return ^(BOOL shouldVibrate) {
+    return ^(BOOL enabled) {
         
-        self.shouldVibrate = shouldVibrate;
+        self.vibrateEnabled = enabled;
         
         return self;
     };
 }
 
-/** 设置是否自动适配 iPhone X homeIndicator 默认YES */
-- (JKAlertView *(^)(BOOL autoAdjust))setAutoAdjustHomeIndicator{
+/**
+ * 是否自动适配 iPhone X 底部 homeIndicator
+ * 默认YES
+ */
+- (JKAlertView *(^)(BOOL adapted))makeHomeIndicatorAdapted {
     
-    return ^(BOOL autoAdjust) {
+    return ^(BOOL adapted) {
         
-        self.autoAdjustHomeIndicator = autoAdjust;
+        [self checkActionSheetStyleHandler:^{
+            
+            self.actionsheetContentView.autoAdjustHomeIndicator = adapted;
+        }];
         
-        // TODO: JKTODO <#注释#>
-        self.actionsheetContentView.autoAdjustHomeIndicator = autoAdjust;
+        [self checkCollectionSheetStyleHandler:^{
+            
+            self.collectionsheetContentView.autoAdjustHomeIndicator = adapted;
+        }];
         
         return self;
     };
 }
 
-/** 设置是否填充底部 iPhone X homeIndicator 默认YES */
-- (JKAlertView *(^)(BOOL fillHomeIndicator))setFillHomeIndicator{
+/**
+ * 是否填充底部 iPhone X homeIndicator
+ * 默认YES
+ */
+- (JKAlertView *(^)(BOOL filled))makeHomeIndicatorFilled {
     
-    return ^(BOOL fillHomeIndicator) {
+    return ^(BOOL filled) {
         
-        if (!JKAlertIsDeviceX()) { return self; }
+        [self checkActionSheetStyleHandler:^{
+            
+            self.actionsheetContentView.fillHomeIndicator = filled;
+        }];
         
-        self->FillHomeIndicator = fillHomeIndicator;
-        
-        // TODO: JKTODO <#注释#>
-        self.actionsheetContentView.fillHomeIndicator = fillHomeIndicator;
+        [self checkCollectionSheetStyleHandler:^{
+            
+            self.collectionsheetContentView.fillHomeIndicator = filled;
+        }];
         
         return self;
     };
 }
 
-/** 设置action和colletion样式的底部按钮上下间距 不可小于0 */
-- (JKAlertView *(^)(CGFloat margin))setBottomButtonMargin{
+/**
+ * action和colletion样式的底部按钮上下间距
+ * 默认4寸屏5 4寸以上7 不可小于0
+ */
+- (JKAlertView *(^)(CGFloat margin))makeBottomButtonMargin {
     
     return ^(CGFloat margin) {
         
-        self->CancelMargin = margin < 0 ? 0 : margin;
+        [self checkActionSheetStyleHandler:^{
+            
+            self.actionsheetContentView.cancelMargin = margin;
+        }];
         
-        // TODO: JKTODO <#注释#>
-        
-        self.actionsheetContentView.cancelMargin = margin;
+        [self checkCollectionSheetStyleHandler:^{
+            
+            self.collectionsheetContentView.cancelMargin = filled;
+        }];
         
         return self;
     };
 }
+
+
+
+
+
 
 
 

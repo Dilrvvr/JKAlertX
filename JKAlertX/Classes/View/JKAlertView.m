@@ -2019,7 +2019,7 @@
     
     self.frame = self.superview.bounds;
     
-    if (self.shouldVibrate) {
+    if (self.vibrateEnabled) {
         
         JKAlertVibrateDevice();
     }

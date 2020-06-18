@@ -163,9 +163,4 @@
 
 
 
-/// 不是actionSheet样式将不执行handler
-- (JKAlertView *)checkActionSheetStyleHandler:(void(^)(void))handler {
-    
-    return [self checkAlertStyle:JKAlertStyleActionSheet handler:handler];
-}
 @end
