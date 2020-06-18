@@ -273,7 +273,7 @@
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO);
 //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil style:(JKAlertStyleActionSheet)];
     
-    alertView.setShouldVibrate(YES);
+    alertView.makeVibrateEnabled(YES);
     // 固定底部取消按钮
     //alertView.setPinCancelButton(YES);
     
@@ -295,7 +295,7 @@
     });
     
     // 类似系统样式
-    alertView.setBottomButtonMargin(8).setAutoAdjustHomeIndicator(NO).setActionSheetPierced(YES, 10, 15, 24, [UIColor whiteColor], [UIColor blackColor]);
+    alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO).setActionSheetPierced(YES, 10, 15, 24, [UIColor whiteColor], [UIColor blackColor]);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -403,7 +403,7 @@
 // use customSuperView
 - (IBAction)collectionSheet:(id)sender {
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setBottomButtonMargin(10).makeCustomSuperView(self.view);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).makeBottomButtonMargin(10).makeCustomSuperView(self.view);
     
     //alertView.setCollectionTitleSeperatorHidden(NO);
     
@@ -416,7 +416,7 @@
             
             return [UIView new];
             
-        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).setBottomButtonMargin(0.25).relayout(YES);
+        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).makeBottomButtonMargin(0.25).relayout(YES);
         
     }].setAutoDismiss(NO)).setShowPageControl(YES);
     
@@ -533,7 +533,7 @@
         
     }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }]).setAutoAdjustHomeIndicator(YES).setCancelAction(JKAlertAction.action(nil, JKAlertActionStyleDefault, nil).setCustomView(^UIView *(JKAlertAction *action) {
+    }]).makeHomeIndicatorAdapted(YES).setCancelAction(JKAlertAction.action(nil, JKAlertActionStyleDefault, nil).setCustomView(^UIView *(JKAlertAction *action) {
         return [UIView new];
     })).enableDeallocLog(YES).setPinCancelButton(NO).show().setDidDismissHandler(^{
         

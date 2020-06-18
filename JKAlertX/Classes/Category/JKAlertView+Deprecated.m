@@ -165,21 +165,7 @@
  */
 - (JKAlertView *(^)(UIView *(^backGroundView)(void)))setBackGroundView {
     
-    return ^(UIView *(^backGroundView)(void)) {
-        
-        self.makeAlertBackgroundView(backGroundView);
-        
-        // TODO: JKTODO <#注释#>
-        
-        self.alertBackGroundView = !backGroundView ? nil : backGroundView();
-        
-        if (self.alertStyle == JKAlertStyleCollectionSheet) {
-            
-            self.collectionTopContainerView.backgroundColor = (self.alertBackGroundView ? nil : JKAlertGlobalBackgroundColor());
-        }
-        
-        return self;
-    };
+    return [self makeAlertBackgroundView];
 }
 
 /** 设置是否允许手势退出 仅限sheet样式 */

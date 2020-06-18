@@ -514,7 +514,7 @@
 /**
  * 监听重新布局完成的block
  * 尽量避免在此block中再次执行重新布局
- * 如有必要执行重新布局，请在重新布局前将此block销毁 
+ * 如有必要执行重新布局，请在重新布局前将此block销毁
  */
 - (JKAlertView *(^)(void(^handler)(JKAlertView *innerView, UIView *containerView)))makeDidRelayoutHandler {
     
@@ -681,7 +681,7 @@
         
         [self checkCollectionSheetStyleHandler:^{
             
-            self.collectionsheetContentView.cancelMargin = filled;
+            self.collectionsheetContentView.cancelMargin = margin;
         }];
         
         return self;

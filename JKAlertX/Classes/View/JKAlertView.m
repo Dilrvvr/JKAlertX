@@ -392,7 +392,8 @@
             
         case JKAlertStyleCollectionSheet:
         {
-            CancelMargin = 10;
+            // TODO: JKTODO <#注释#>
+            //CancelMargin = 10;
             
             _tapBlankDismiss = YES;
             
@@ -472,49 +473,6 @@
     OriginalPlainWidth = PlainViewWidth;
 }
 
-- (void)setCustomSheetTitleView:(UIView *)customSheetTitleView{
-    _customSheetTitleView = customSheetTitleView;
-    
-    if (!_customSheetTitleView) {
-        return;
-    }
-    
-    _titleTextView.hidden = YES;
-    _messageTextView.hidden = YES;
-    [_textContainerView addSubview:_customSheetTitleView];
-    
-    if (_alertStyle == JKAlertStyleActionSheet) {
-        
-        
-        [_scrollView addSubview:_customSheetTitleView];
-    }
-}
-
-- (void)setAlertBackGroundView:(UIView *)alertBackGroundView{
-    
-    // TODO: JKTODO <#注释#>
-    
-    if (alertBackGroundView == nil) { return; }
-    
-    [_alertBackGroundView removeFromSuperview];
-    
-    _alertBackGroundView = alertBackGroundView;
-    
-    if (!_sheetContainerView) { return; }
-    
-    [_sheetContainerView insertSubview:_alertBackGroundView atIndex:0];
-    //[_plainView insertSubview:_alertBackGroundView atIndex:0];
-    
-    alertBackGroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *cons1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : alertBackGroundView}];
-    [_sheetContainerView addConstraints:cons1];
-    //[_plainView addConstraints:cons1];
-    
-    NSArray *cons2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[sheetBackGroundView]-0-|" options:0 metrics:nil views:@{@"sheetBackGroundView" : alertBackGroundView}];
-    [_sheetContainerView addConstraints:cons2];
-    //[_plainView addConstraints:cons2];
-}
-
 #pragma mark
 #pragma mark - 链式Setter
 
@@ -524,91 +482,6 @@
     return ^(JKAlertAction *action) {
         
         self.cancelAction = action;
-        
-        return self;
-    };
-}
-
-/** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
-- (JKAlertView *(^)(JKAlertAction *action))setCollectionAction{
-    
-    return ^(JKAlertAction *action) {
-        
-        self.collectionAction = action;
-        
-        [self setAlertViewToAction:self.collectionAction];
-        
-        return self;
-    };
-}
-
-/** 设置colletion样式的底部按钮左右间距 */
-- (JKAlertView *(^)(CGFloat margin))setCollectionButtonLeftRightMargin{
-    
-    return ^(CGFloat margin) {
-        
-        self.collectionButtonLeftRightMargin = margin;
-        
-        return self;
-    };
-}
-
-/**
- * 设置是否将两个collection合体
- * 设为YES可让两个collection同步滚动
- * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
- */
-- (JKAlertView *(^)(BOOL compoundCollection))setCompoundCollection{
-    
-    return ^(BOOL compoundCollection) {
-        
-        self.compoundCollection = compoundCollection;
-        
-        return self;
-    };
-}
-
-/** 设置collection是否分页 */
-- (JKAlertView *(^)(BOOL collectionPagingEnabled))setCollectionPagingEnabled{
-    
-    return ^(BOOL collectionPagingEnabled) {
-        
-        self.collectionPagingEnabled = collectionPagingEnabled;
-        
-        return self;
-    };
-}
-
-/**
- * 设置是否显示pageControl
- * 如果只有一组collection，则必须设置分页为YES才有效
- * 如果有两组collection，则仅在分页和合体都为YES时才有效
- * 注意自己计算好每页显示的个数相等
- * 可以添加空的action来保证每页显示个数相等
- * JKAlertAction使用类方法初始化时每个参数传nil或者直接自己实例化一个即为空action
- */
-- (JKAlertView *(^)(BOOL showPageControl))setShowPageControl{
-    
-    return ^(BOOL showPageControl) {
-        
-        self.showPageControl = showPageControl;
-        
-        return self;
-    };
-}
-
-/**
- * 设置pageControl
- * 必须setShowPageControl为YES之后才会有值
- */
-- (JKAlertView *(^)(void (^)(UIPageControl *pageControl)))setCollectionPageControlConfig{
-    
-    return ^(void (^pageControlConfig)(UIPageControl *pageControl)) {
-        
-        if (self.showPageControl) {
-            
-            !pageControlConfig ? : pageControlConfig(self.pageControl);
-        }
         
         return self;
     };
@@ -635,91 +508,6 @@
             
             self.alertContentView.frame = frame;
         }
-        
-        return self;
-    };
-}
-
-/**
- * 设置collection的itemSize的宽度
- * 最大不可超过屏幕宽度的一半
- * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
- * 自动计算item之间间距，最小为0，可自己计算该值设置每屏显示个数
- * 默认的高度是宽度-6，暂不支持自定义高度
- */
-- (JKAlertView *(^)(CGFloat width))setFlowlayoutItemWidth{
-    
-    return ^(CGFloat width) {
-        
-        self.flowlayoutItemWidth = width;
-        
-        return self;
-    };
-}
-
-/**
- * 设置collection列数（每行数量）
- * 默认0，自动设置，不得大于自动设置的数量
- */
-- (JKAlertView *(^)(NSInteger columnCount))setCollectionColumnCount{
-    
-    return ^(NSInteger columnCount) {
-        
-        self.collectionColumnCount = columnCount;
-        
-        return self;
-    };
-}
-
-/**
- * 设置collection的水平（左右方向）的sectionInset
- * 默认0，为0时自动设置为item间距的一半
- */
-- (JKAlertView *(^)(CGFloat inset))setCollectionHorizontalInset{
-    
-    return ^(CGFloat inset) {
-        
-        self.collectionHorizontalInset = inset;
-        
-        return self;
-    };
-}
-
-/** 设置collection的title下分隔线是否隐藏 默认YES */
-- (JKAlertView *(^)(BOOL hidden))setCollectionTitleSeperatorHidden{
-    
-    return ^(BOOL hidden) {
-        
-        self.collectionTitleSeparatorHidden = hidden;
-        
-        return self;
-    };
-}
-
-/**
- * 设置两个collectionView之间的间距
- * 有第二个collectionView时有效 默认10, 最小为0
- */
-- (JKAlertView *(^)(CGFloat margin))setCollectionViewMargin{
-    
-    return ^(CGFloat margin) {
-        
-        self.collectionViewMargin = margin < 0 ? 0 : margin;
-        
-        return self;
-    };
-}
-
-/**
- * 设置collection样式添加自定义的titleView
- * frmae给出高度即可，宽度将自适应
- * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
- */
-- (JKAlertView *(^)(UIView *(^customView)(void)))setCustomCollectionTitleView{
-    
-    return ^(UIView *(^customView)(void)) {
-        
-        self.customSheetTitleView = !customView ? nil : customView();
         
         return self;
     };
@@ -760,43 +548,6 @@
     [self updateWidthHeight];
     
     self.relayout(NO);
-    
-    [self updateInsets];
-}
-
-- (void)updateInsets{
-    
-    if (!_tableView && (_alertStyle != JKAlertStyleCollectionSheet)) { return; }
-    
-    CGFloat safeAreaInset = 0;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        safeAreaInset = MAX(self.customSuperView.safeAreaInsets.left, self.customSuperView.safeAreaInsets.right);
-    }
-    
-    if (_tableView) {
-        
-        CGFloat bottomInset = 0;
-        
-        if (!self.pinCancelButton) {
-            
-            bottomInset = JKAlertAdjustHomeIndicatorHeight;
-            
-            if (self.autoAdjustHomeIndicator && FillHomeIndicator) {
-                
-                bottomInset = 0;
-            }
-        }
-        
-        _tableView.contentInset = UIEdgeInsetsMake(0, 0, bottomInset, 0);
-        _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, (self.pinCancelButton ? 0 : JKAlertCurrentHomeIndicatorHeight()), safeAreaInset);
-    }
-    
-    if (_alertStyle == JKAlertStyleCollectionSheet) {
-        
-        _scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight(), safeAreaInset);
-    }
 }
 
 #pragma mark
@@ -859,29 +610,6 @@
     };
 }
 
-/** 添加第二个collectionView的action */
-- (JKAlertView *(^)(JKAlertAction *action))addSecondCollectionAction{
-    
-    return ^(JKAlertAction *action) {
-        
-        [self addSecondCollectionAction:action];
-        
-        return self;
-    };
-}
-
-
-/** collection链式添加第二个collectionView的action */
-- (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex))insertSecondCollectionAction{
-    
-    return ^(JKAlertAction *action, NSUInteger atIndex) {
-        
-        [self insertSecondCollectionAction:action atIndex:atIndex];
-        
-        return self;
-    };
-}
-
 /** 添加action */
 - (void)addAction:(JKAlertAction *)action{
     
@@ -926,26 +654,6 @@
     JKAlertAction *action = [self.actions objectAtIndex:index];
     
     return action;
-}
-
-/** 添加第二个collectionView的action */
-- (void)addSecondCollectionAction:(JKAlertAction *)action{
-    
-    if (!action) { return; }
-    
-    [self setAlertViewToAction:action];
-    
-    [self.actions2 addObject:action];
-}
-
-/** 添加第二个collectionView的action */
-- (void)insertSecondCollectionAction:(JKAlertAction *)action atIndex:(NSUInteger)index{
-    
-    if (!action) { return; }
-    
-    [self setAlertViewToAction:action];
-    
-    [self.actions2 insertObject:action atIndex:index];
 }
 
 
@@ -1202,17 +910,7 @@
     tf.font = [UIFont systemFontOfSize:13];
     tf.backgroundColor = JKAlertGlobalBackgroundColor();
     
-    if (_textFieldContainerView == nil) {
-        
-        UIView *textFieldContainerView = [[UIView alloc] init];
-        textFieldContainerView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.1];//[[UIColor blackColor] colorWithAlphaComponent:0.15];//nil;
-        _textFieldContainerView = textFieldContainerView;
-        [_plainTextContainerScrollView addSubview:_textFieldContainerView];
-    }
-    
     [self.textFieldArr addObject:tf];
-    
-    [_textFieldContainerView addSubview:tf];
     
     if (self.currentTextField == nil) {
         
@@ -1252,19 +950,6 @@
 #pragma mark
 #pragma mark - 计算frame
 
-- (void)solveTraitCollectionDidChange {
-    
-    if (@available(iOS 13.0, *)) {
-        
-        if ([self.alertBackGroundView isKindOfClass:[UIVisualEffectView class]]) {
-            
-            BOOL isLight = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight);
-            
-            [(UIVisualEffectView *)self.alertBackGroundView setEffect:[UIBlurEffect effectWithStyle:isLight ? UIBlurEffectStyleExtraLight : UIBlurEffectStyleDark]];
-        }
-    }
-}
-
 - (void)calculateUI {
     
     self.frame = CGRectMake(0, 0, JKAlertScreenW, JKAlertScreenH);
@@ -1272,109 +957,25 @@
     switch (self.alertStyle) {
         case JKAlertStylePlain:
         {
-            // TODO: JKTODO <#注释#>
             [self calculatePlainUI];
-            
-            return;
         }
             break;
             
         case JKAlertStyleActionSheet:
         {
             [self calculateActionSheetUI];
-            
-            return;
         }
             break;
             
         case JKAlertStyleCollectionSheet:
         {
             [self calculateCollectionSheetUI];
-            
-            return;
         }
             break;
             
         case JKAlertStyleHUD:
         {
-            // TODO: JKTODO <#注释#>
             [self calculateHudUI];
-            
-            return;
-        }
-            break;
-            
-        default:
-            break;
-    }
-    
-    
-    //_titleTextView.textAlignment = self.titleTextViewAlignment;
-    //_messageTextView.textAlignment = self.messageTextViewAlignment;
-    
-    //_titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
-    //_messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
-    
-    //_titleTextView.shouldSelectText = self.textViewShouldSelectText;
-    //_messageTextView.shouldSelectText = self.textViewShouldSelectText;
-    
-    //_titleTextView.textColor = titleTextColor ? titleTextColor : _titleTextView.textColor;
-    //_messageTextView.textColor = messageTextColor ? messageTextColor : _messageTextView.textColor;
-    
-    //_titleTextView.font = titleFont ? titleFont : _titleTextView.font;
-    //_messageTextView.font = messageFont ? messageFont : _messageTextView.font;
-    
-    if (self.alertAttributedTitle) {
-        
-        _titleTextView.attributedText = self.alertAttributedTitle;
-        
-    } else if (self.alertTitle) {
-        
-        _titleTextView.text = self.alertTitle;
-        
-    } else {
-        
-        _titleTextView.hidden = YES;
-    }
-    
-    if (self.attributedMessage) {
-        
-        _messageTextView.attributedText = self.attributedMessage;
-        
-    } else if (self.alertMessage) {
-        
-        _messageTextView.text = self.alertMessage;
-        
-    } else {
-        
-        _messageTextView.hidden = YES;
-    }
-    
-    if (_alertStyle == JKAlertStyleHUD) {
-        
-        _messageTextView.hidden = YES;
-    }
-    
-    switch (self.alertStyle) {
-        case JKAlertStylePlain:
-        {
-        }
-            break;
-            
-        case JKAlertStyleActionSheet:
-        {
-            [self layoutActionSheet];
-        }
-            break;
-            
-        case JKAlertStyleCollectionSheet:
-        {
-            [self layoutCollectionSheet];
-        }
-            break;
-            
-        case JKAlertStyleHUD:
-        {
         }
             break;
             
@@ -1385,629 +986,9 @@
     [self calculateUIFinish];
 }
 
-- (void)calculateUIFinish{
+- (void)calculateUIFinish {
     
     correctContainerY = JKAlertScreenH - _sheetContainerView.frame.size.height;
-    
-    [_tableView reloadData];
-    
-    [_collectionView reloadData];
-    
-    [_collectionView2 reloadData];
-    
-    //[_tableView setContentOffset:CGPointMake(_tableView.contentOffset.x, lastTableViewOffsetY) animated:YES];
-}
-
-#pragma mark
-#pragma mark - 布局actionSheet
-
-- (void)layoutActionSheet{
-    
-    GestureIndicatorHeight = (self.enableVerticalGestureDismiss && self.showGestureIndicator) ? JKAlertTopGestureIndicatorHeight : 0;
-    
-    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        safeAreaInsets = self.customSuperView.safeAreaInsets;
-    }
-    
-    CGFloat containerWidth = JKAlertScreenW;
-    
-    self.alertBackGroundView.hidden = NO;
-    
-    if (self.isActionSheetPierced) {
-        
-        containerWidth -= (self.piercedHorizontalMargin * 2 + safeAreaInsets.left + safeAreaInsets.right);
-        
-        self.alertBackGroundView.hidden = YES;
-    }
-    
-    self.titleTextView.scrollEnabled = NO;
-    self.messageTextView.scrollEnabled = NO;
-    
-    if (self.alertMessage && !self.alertTitle && !self.alertAttributedTitle) {
-        
-        self.messageTextView.font = [UIFont systemFontOfSize:15];
-    }
-    
-    _textContainerView.frame = CGRectMake(0, GestureIndicatorHeight, containerWidth, JKAlertRowHeight);
-    
-    CGFloat tableViewH = 0;
-    
-    for (JKAlertAction *action in self.actions) {
-        
-        tableViewH += action.rowHeight;
-    }
-    
-    if (self.cancelAction.rowHeight > 0) {
-        
-        tableViewH += (self.cancelAction.rowHeight + CancelMargin);
-    }
-    
-    CGFloat realPiercedBottomMargin = 0;
-    
-    if (self.isActionSheetPierced) {
-        
-        realPiercedBottomMargin = MAX((self.piercedBottomMargin - JKAlertAdjustHomeIndicatorHeight), 0);
-        
-        tableViewH += realPiercedBottomMargin;
-    }
-    
-    tableViewH += JKAlertAdjustHomeIndicatorHeight;
-    
-    _tableView.frame = CGRectMake(0, CGRectGetMaxY(_textContainerView.frame), containerWidth, tableViewH);
-    
-    _sheetContainerView.frame = CGRectMake((JKAlertScreenW - containerWidth) * 0.5, JKAlertScreenH, containerWidth, _textContainerView.frame.size.height + _tableView.frame.size.height);
-    
-    CGFloat maxWidth = _textContainerView.frame.size.width - 40/*self.textViewLeftRightMargin * 2*/ - (safeAreaInsets.left + safeAreaInsets.right);
-    
-    if (self.isActionSheetPierced) {
-        
-        maxWidth -= (self.piercedHorizontalMargin * 2);
-    }
-    
-    [self.titleTextView calculateFrameWithMaxWidth:maxWidth minHeight:JKAlertMinTitleLabelH originY:JKAlertSheetTitleMargin superView:_textContainerView];
-    
-    [self.messageTextView calculateFrameWithMaxWidth:maxWidth minHeight:JKAlertMinMessageLabelH originY:CGRectGetMaxY(self.titleTextView.frame) + JKAlertSheetTitleMargin superView:_textContainerView];
-    
-    CGRect rect = _textContainerView.frame;
-    rect.size.height = JKAlertSheetTitleMargin + self.titleTextView.frame.size.height + JKAlertSheetTitleMargin + self.messageTextView.frame.size.height + JKAlertSheetTitleMargin;
-    
-    if (self.titleTextView.hidden && self.messageTextView.hidden) {
-        
-        rect.size.height = 0;
-        
-    } else if (self.titleTextView.hidden && !self.messageTextView.hidden) {
-        
-        rect.size.height = JKAlertSheetTitleMargin + self.messageTextView.frame.size.height + JKAlertSheetTitleMargin;
-        rect.size.height = rect.size.height < JKAlertRowHeight ? JKAlertRowHeight : rect.size.height;
-        
-        self.messageTextView.center = CGPointMake(self.textContainerView.frame.size.width * 0.5, rect.size.height * 0.5);
-        
-    } else if (self.messageTextView.hidden && !self.titleTextView.hidden) {
-        
-        rect.size.height = JKAlertSheetTitleMargin + self.titleTextView.frame.size.height + JKAlertSheetTitleMargin;
-        rect.size.height = rect.size.height < JKAlertRowHeight ? JKAlertRowHeight : rect.size.height;
-        
-        self.titleTextView.center = CGPointMake(self.textContainerView.frame.size.width * 0.5, rect.size.height * 0.5);
-    }
-    
-    if (_customSheetTitleView) {
-        
-        rect.size.height = _customSheetTitleView.frame.size.height;
-        
-        _customSheetTitleView.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
-    }
-    
-    _textContainerBottomLineView.hidden = (rect.size.height == 0 || (!_customSheetTitleView && self.actions.count <= 0));
-    
-    _textContainerView.frame = rect;
-    _scrollView.contentSize = rect.size;
-    
-    [self adjustSheetFrame];
-    
-    CGFloat sheetContainerHeight = _textContainerView.frame.size.height + _tableView.frame.size.height;
-    
-    sheetContainerHeight += GestureIndicatorHeight;
-    
-    _sheetContainerView.frame = CGRectMake((JKAlertScreenW - containerWidth) * 0.5, JKAlertScreenH - sheetContainerHeight, containerWidth, sheetContainerHeight);
-    
-    self.topGestureIndicatorView.backgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : JKAlertGlobalBackgroundColor();
-    
-    self.textContainerView.backgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : (self.isClearTextContainerBackground ? nil : JKAlertGlobalBackgroundColor());
-    
-    self.sheetContentView.backgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : nil;
-    
-    self.topGestureIndicatorView.frame = CGRectMake(0, 0, _sheetContainerView.frame.size.width, GestureIndicatorHeight);
-    
-    self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - JKAlertTopGestureIndicatorLineWidth) * 0.5, (JKAlertTopGestureIndicatorHeight - JKAlertTopGestureIndicatorLineHeight) * 0.5, JKAlertTopGestureIndicatorLineWidth, JKAlertTopGestureIndicatorLineHeight);
-    
-    self.topGestureIndicatorView.hidden = (!self.enableVerticalGestureDismiss || !self.showGestureIndicator);
-    
-    _sheetContentView.frame = CGRectMake(0, 0, _sheetContainerView.frame.size.width, sheetContainerHeight);
-    
-    _scrollView.frame = CGRectMake(0, 0, _textContainerView.bounds.size.width, _textContainerView.bounds.size.height);
-    
-    _tableView.scrollEnabled = _tableView.frame.size.height < tableViewH;
-    
-    _textContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
-    
-    [self updateInsets];
-    
-    if (!self.pinCancelButton || !self.cancelAction) {
-        
-        [_cancelButton removeFromSuperview];
-        
-        return;
-    }
-    
-    if (self.cancelButton.superview != _sheetContainerView) {
-        
-        [_sheetContainerView addSubview:self.cancelButton];
-    }
-    
-    self.cancelAction.piercedBackgroundColor = self.isActionSheetPierced ? self.piercedBackgroundColor : nil;
-    
-    self.cancelButton.action = self.cancelAction;
-    
-    CGFloat cancelHeight = self.cancelAction.rowHeight;
-    
-    CGRect frame = CGRectMake(self.collectionButtonLeftRightMargin, _sheetContentView.frame.size.height - cancelHeight - JKAlertAdjustHomeIndicatorHeight, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2, cancelHeight);
-    
-    if (self.cancelAction.customView) {
-        
-        frame.size.height = self.cancelAction.customView.frame.size.height - (self.cancelButton.titleEdgeInsets.bottom > 0 ? JKAlertAdjustHomeIndicatorHeight : 0);
-    }
-    
-    self.cancelButton.frame = frame;
-    
-    self.cancelAction.customView.frame = self.cancelButton.bounds;
-    
-    if (self.isActionSheetPierced) {
-        
-        frame = self.cancelButton.frame;
-        
-        frame.size.width = _sheetContentView.frame.size.width;
-        
-        frame.origin.y = _sheetContentView.frame.size.height - frame.size.height - JKAlertAdjustHomeIndicatorHeight - realPiercedBottomMargin;
-        
-        self.cancelButton.frame = frame;
-        
-        self.cancelAction.customView.frame = self.cancelButton.bounds;
-        
-        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-        
-    } else if (FillHomeIndicator) {
-        
-        frame = self.cancelButton.frame;
-        frame.size.height += JKAlertAdjustHomeIndicatorHeight;
-        frame.origin.y = _sheetContentView.frame.size.height - frame.size.height;
-        self.cancelButton.frame = frame;
-        
-        self.cancelAction.customView.frame = self.cancelButton.bounds;
-        
-        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0)];
-        
-        //        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
-        
-    } else {
-        
-        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsZero];
-    }
-    
-    frame = self.tableView.frame;
-    
-    frame.size.height -= (_sheetContentView.frame.size.height - self.cancelButton.frame.origin.y + CancelMargin);
-    
-    self.tableView.frame = frame;
-    
-    if (self.isActionSheetPierced) {
-        
-        frame = self.sheetContentView.frame;
-        frame.size.height = CGRectGetMaxY(self.tableView.frame);
-        self.sheetContentView.frame = frame;
-        
-        self.sheetContentView.layer.cornerRadius = self.piercedCornerRadius;
-        self.sheetContentView.layer.masksToBounds = YES;
-        
-        self.cancelButton.layer.cornerRadius = self.piercedCornerRadius;
-        self.cancelButton.layer.masksToBounds = YES;
-        
-        if (JKAlertIsDeviceX() &&
-            JKAlertAdjustHomeIndicatorHeight > 0) {
-            
-            frame = _sheetContainerView.frame;
-            frame.origin.y += CancelMargin;
-            frame.size.height -= CancelMargin;
-            _sheetContainerView.frame = frame;
-        }
-    }
-}
-
-- (void)adjustSheetFrame{
-    
-    /*
-     CGRect frame = self.tableView.frame;
-     
-     frame.origin.y = 0;
-     frame.size.height += self.textContainerView.frame.size.height;
-     
-     _tableView.scrollEnabled = frame.size.height > JKAlertSheetMaxH;
-     
-     frame.size.height = frame.size.height > JKAlertSheetMaxH ? JKAlertSheetMaxH : frame.size.height;
-     
-     _tableView.frame = frame;
-     
-     UIView *tableHeader = _tableView.tableHeaderView;
-     
-     if (!tableHeader) {
-     
-     tableHeader = [[UIView alloc] init];
-     }
-     [tableHeader addSubview:_textContainerView];
-     
-     frame = tableHeader.frame;
-     frame.size.height = _textContainerView.frame.size.height;
-     
-     tableHeader.frame = frame;
-     
-     _tableView.tableHeaderView = tableHeader; //*/
-    
-    CGRect frame = CGRectZero;
-    
-    if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5 && self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
-        
-        frame = self.textContainerView.frame;
-        frame.size.height = JKAlertSheetMaxH * 0.5;
-        self.textContainerView.frame = frame;
-        
-        frame = self.tableView.frame;
-        frame.origin.y = CGRectGetMaxY(self.textContainerView.frame);
-        frame.size.height = JKAlertSheetMaxH * 0.5;
-        self.tableView.frame = frame;
-        
-    } else if (self.textContainerView.frame.size.height > JKAlertSheetMaxH * 0.5) {
-        
-        frame = self.textContainerView.frame;
-        frame.size.height = (frame.size.height + self.tableView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.tableView.frame.size.height : frame.size.height;
-        self.textContainerView.frame = frame;
-        
-    } else if (self.tableView.frame.size.height > JKAlertSheetMaxH * 0.5) {
-        
-        frame = self.tableView.frame;
-        frame.origin.y = CGRectGetMaxY(self.textContainerView.frame);
-        frame.size.height = (frame.size.height + self.textContainerView.frame.size.height) > JKAlertSheetMaxH ? JKAlertSheetMaxH - self.textContainerView.frame.size.height : frame.size.height;
-        self.tableView.frame = frame;
-    }
-    
-    frame = self.tableView.frame;
-    frame.origin.y = CGRectGetMaxY(self.textContainerView.frame);
-    self.tableView.frame = frame;
-}
-
-#pragma mark
-#pragma mark - 布局collectionSheet
-
-- (void)layoutCollectionSheet{
-    
-    GestureIndicatorHeight = (self.enableVerticalGestureDismiss && self.showGestureIndicator) ? JKAlertTopGestureIndicatorHeight : 0;
-    
-    NSInteger count = self.actions.count;
-    NSInteger count2 = self.actions2.count;
-    
-    if (count <= 0 && count2 > 0) {
-        
-        [self.actions addObjectsFromArray:self.actions2];
-        
-        [self.actions2 removeAllObjects];
-        
-        count = count2;
-        count2 = 0;
-        
-        self.compoundCollection = NO;
-    }
-    
-    if (count == 0 && count2 == 0) {
-        
-        self.compoundCollection = NO;
-    }
-    
-    // 合体
-    if (self.compoundCollection && count2 > 0 && count != count2) {
-        
-        if (count > count2) {
-            
-            for (NSInteger i = 0; i < count - count2; i++) {
-                
-                [self addSecondCollectionAction:[JKAlertAction actionWithTitle:nil style:(0) handler:nil]];
-            }
-            
-            count2 = count;
-            
-        } else {
-            
-            for (NSInteger i = 0; i < count2 - count; i++) {
-                
-                [self addAction:[JKAlertAction actionWithTitle:nil style:(0) handler:nil]];
-            }
-            
-            count = count2;
-        }
-    }
-    
-    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        safeAreaInsets = self.customSuperView.safeAreaInsets;
-    }
-    
-    CGFloat maxWidth = JKAlertScreenW - 40/*self.textViewLeftRightMargin * 2*/ - (safeAreaInsets.left + safeAreaInsets.right);
-    
-    CGRect rect = [self.titleTextView calculateFrameWithMaxWidth:maxWidth minHeight:JKAlertMinTitleLabelH originY:0 superView:self.textContainerView];
-    
-    if (JKAlertSheetMaxH - 395 > JKAlertMinTitleLabelH) {
-        
-        rect.size.height = rect.size.height > JKAlertSheetMaxH - 395 ? JKAlertSheetMaxH - 395 : rect.size.height;
-    }
-    
-    rect.size.height = self.titleTextView.hidden ? 0 : rect.size.height;
-    
-    self.titleTextView.frame = rect;
-    
-    self.textContainerView.frame = CGRectMake(0, GestureIndicatorHeight, JKAlertScreenW, /*TBMargin*/20 + rect.size.height + /*TBMargin*/20);
-    self.titleTextView.center = CGPointMake(self.textContainerView.frame.size.width * 0.5, self.textContainerView.frame.size.height * 0.5);
-    
-    if (_customSheetTitleView) {
-        
-        self.textContainerView.frame = CGRectMake(0, GestureIndicatorHeight, JKAlertScreenW, _customSheetTitleView.frame.size.height);
-        _customSheetTitleView.frame = CGRectMake(0, 0, JKAlertScreenW, _customSheetTitleView.frame.size.height);
-    }
-    
-    if (self.collectionTitleSeparatorHidden) {
-        
-        _textContainerBottomLineView.hidden = YES;
-        
-    } else {
-        
-        _textContainerBottomLineView.hidden = (self.textContainerView.frame.size.height == 0 || (!_customSheetTitleView && self.actions.count <= 0 && self.actions2.count <= 0));
-    }
-    
-    CGFloat collectionViewY = CGRectGetMaxY(self.textContainerView.frame) + (_textContainerBottomLineView.hidden ? 0 : 10);
-    
-    CGFloat collectionViewHeight = (self.actions.count <= 0) ? 0 : self.flowlayoutItemWidth - 6 + self.collectionViewMargin;
-    
-    self.collectionView.frame = CGRectMake(0, collectionViewY, JKAlertScreenW, collectionViewHeight);
-    
-    self.flowlayout.itemSize = CGSizeMake(self.flowlayoutItemWidth, self.flowlayoutItemWidth - 6);
-    self.flowlayout.sectionInset = UIEdgeInsetsMake(self.flowlayout.itemSize.height - self.collectionView.frame.size.height, 0, 0, 0);
-    
-    if (count2 > 0) {
-        
-        self.collectionView2.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame), JKAlertScreenW, self.collectionView.frame.size.height - self.collectionViewMargin);
-        
-        self.flowlayout2.itemSize = CGSizeMake(self.flowlayoutItemWidth, self.flowlayoutItemWidth - 6);
-        self.flowlayout2.sectionInset = UIEdgeInsetsMake(self.flowlayout2.itemSize.height - self.collectionView2.frame.size.height, 0, 0, 0);
-    }
-    
-    if (_showPageControl && _collectionPagingEnabled) {
-        
-        if (count2 <= 0) {
-            
-            self.pageControl.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame), self.sheetContainerView.frame.size.width, 27);
-            
-        } else {
-            
-            if (_compoundCollection) {
-                
-                self.pageControl.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView2.frame), self.sheetContainerView.frame.size.width, 27);
-            }
-        }
-    }
-    
-    self.cancelButton.action = self.cancelAction;
-    
-    CGRect frame = CGRectZero;
-    
-    CGFloat Y = 0;
-    
-    if (self.collectionAction) {
-        
-        self.collectionButton.action = self.collectionAction;
-        
-        if (_pageControl) {
-            
-            Y = CGRectGetMaxY(_pageControl.frame);
-            
-        } else if (_collectionView2) {
-            
-            Y = CGRectGetMaxY(_collectionView2.frame) + 10;
-            
-        } else if (_collectionView) {
-            
-            Y = CGRectGetMaxY(_collectionView.frame) + (_collectionView.frame.size.height > 0 ? 10 : 0);
-        }
-        
-        Y += CancelMargin;
-        
-        frame = CGRectMake(self.collectionButtonLeftRightMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2, JKAlertActionButtonH);
-        
-        if (self.collectionAction.customView) {
-            
-            self.collectionButton.backgroundColor = nil;
-            
-            frame.size.height = self.collectionAction.customView.frame.size.height;
-        }
-        
-        self.collectionButton.frame = frame;
-        
-        self.collectionAction.customView.frame = self.collectionButton.bounds;
-    }
-    
-    Y = 0;
-    
-    if (_collectionButton) {
-        
-        Y = CGRectGetMaxY(_collectionButton.frame);
-        
-    } else if (_pageControl) {
-        
-        Y = CGRectGetMaxY(_pageControl.frame);
-        
-    } else if (_collectionView2) {
-        
-        Y = CGRectGetMaxY(_collectionView2.frame) + 10;
-        
-    } else if (_collectionView) {
-        
-        Y = CGRectGetMaxY(_collectionView.frame) + (_collectionView.frame.size.height > 0 ? 10 : 0);
-    }
-    
-    Y += CancelMargin;
-    
-    frame = CGRectMake(self.collectionButtonLeftRightMargin, Y, JKAlertScreenW - self.collectionButtonLeftRightMargin * 2, JKAlertActionButtonH);
-    
-    if (self.cancelAction.customView) {
-        
-        self.cancelButton.backgroundColor = nil;
-        
-        frame.size.height = self.cancelAction.customView.frame.size.height - (self.cancelButton.titleEdgeInsets.bottom > 0 ? JKAlertAdjustHomeIndicatorHeight : 0);
-    }
-    
-    self.cancelButton.frame = frame;
-    
-    self.cancelAction.customView.frame = self.cancelButton.bounds;
-    
-    rect = CGRectMake(0, JKAlertScreenH - (CGRectGetMaxY(self.cancelButton.frame) + JKAlertAdjustHomeIndicatorHeight), JKAlertScreenW, CGRectGetMaxY(self.cancelButton.frame) + JKAlertAdjustHomeIndicatorHeight);
-    
-    CGFloat height = 0;
-    
-    if (_pageControl) {
-        
-        height = CGRectGetMaxY(_pageControl.frame);
-        
-    } else if (_collectionView2) {
-        
-        height = CGRectGetMaxY(_collectionView2.frame) + 10;
-        
-    } else if (_collectionView) {
-        
-        height = CGRectGetMaxY(_collectionView.frame) + (_collectionView.frame.size.height > 0 ? 10 : 0);
-    }
-    
-    self.collectionTopContainerView.frame = CGRectMake(0, 0, JKAlertScreenW, height);
-    
-    self.scrollView.contentSize = rect.size;
-    
-    if (rect.size.height > JKAlertSheetMaxH) {
-        
-        rect.size.height = JKAlertSheetMaxH;
-        rect.origin.y = JKAlertScreenH - JKAlertSheetMaxH;
-    }
-    
-    CGFloat sheetContainerHeight = rect.size.height;
-    
-    //sheetContainerHeight += GestureIndicatorHeight;
-    
-    rect.size.height = sheetContainerHeight;
-    rect.origin.y = JKAlertScreenH - sheetContainerHeight;
-    
-    self.sheetContainerView.frame = rect;
-    
-    self.topGestureIndicatorView.frame = CGRectMake(0, 0, _sheetContainerView.frame.size.width, GestureIndicatorHeight);
-    
-    self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - JKAlertTopGestureIndicatorLineWidth) * 0.5, (JKAlertTopGestureIndicatorHeight - JKAlertTopGestureIndicatorLineHeight) * 0.5, JKAlertTopGestureIndicatorLineWidth, JKAlertTopGestureIndicatorLineHeight);
-    
-    self.topGestureIndicatorView.hidden = (!self.enableVerticalGestureDismiss || !self.showGestureIndicator);
-    
-    _sheetContentView.frame = CGRectMake(0, 0, _sheetContainerView.frame.size.width, sheetContainerHeight);
-    
-    CGFloat totalMargin = 0;
-    
-    CGFloat itemMargin = 0;
-    
-    if (self.collectionColumnCount > 0) {
-        
-        totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * self.collectionColumnCount - self.collectionHorizontalInset * 2);
-        
-        itemMargin = totalMargin / ((self.collectionHorizontalInset == 0) ? self.collectionColumnCount : self.collectionColumnCount - 1);
-    }
-    
-    if (totalMargin < 0 || self.collectionColumnCount <= 0) {
-        
-        totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * count - self.collectionHorizontalInset * 2);
-        
-        itemMargin = totalMargin / ((self.collectionHorizontalInset == 0) ? count : count - 1);
-    }
-    
-    itemMargin = itemMargin < 0 ? 0 : itemMargin;
-    
-    CGFloat leftRightInset = self.collectionHorizontalInset == 0 ? itemMargin * 0.5 : self.collectionHorizontalInset;
-    
-    if (count2 > 0) {
-        
-        CGFloat itemMargin2 = 0;
-        
-        if (self.collectionColumnCount > 0) {
-            
-            totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * self.collectionColumnCount - self.collectionHorizontalInset * 2);
-            
-            itemMargin2 = totalMargin / ((self.collectionHorizontalInset == 0) ? self.collectionColumnCount : self.collectionColumnCount - 1);
-        }
-        
-        if (totalMargin < 0 || self.collectionColumnCount <= 0) {
-            
-            totalMargin = (JKAlertScreenW - self.flowlayout.itemSize.width * count - self.collectionHorizontalInset * 2);
-            
-            itemMargin2 = totalMargin / ((self.collectionHorizontalInset == 0) ? count2 : count2 - 1);
-        }
-        
-        itemMargin2 = itemMargin2 < 0 ? 0 : itemMargin2;
-        
-        itemMargin = MIN(itemMargin, itemMargin2);
-        
-        leftRightInset = self.collectionHorizontalInset == 0 ? itemMargin * 0.5 : self.collectionHorizontalInset;
-        
-        self.flowlayout2.sectionInset = UIEdgeInsetsMake(self.flowlayout2.sectionInset.top, leftRightInset, 0, leftRightInset);
-        self.flowlayout2.minimumLineSpacing = itemMargin;
-        //self.flowlayout2.minimumInteritemSpacing = itemMargin;
-    }
-    
-    self.flowlayout.sectionInset = UIEdgeInsetsMake(self.flowlayout.sectionInset.top, leftRightInset, 0, leftRightInset);
-    self.flowlayout.minimumLineSpacing = itemMargin;
-    //self.flowlayout.minimumInteritemSpacing = itemMargin;
-    
-    _pageControl.numberOfPages = ceil(((itemMargin + _flowlayout.itemSize.width) * count - 5) / JKAlertScreenW);
-    
-    // 处理iPhoneX并且横屏的情况
-    _collectionView.contentInset = (JKAlertIsDeviceX() && JKAlertScreenW > JKAlertScreenH && itemMargin < 44) ? UIEdgeInsetsMake(0, 44, 0, 44) : UIEdgeInsetsZero;
-    _collectionView2.contentInset = _collectionView.contentInset;
-    
-    // 分页
-    _collectionView.pagingEnabled = self.collectionPagingEnabled && _pageControl.numberOfPages > 1;
-    _collectionView2.pagingEnabled = _collectionView.pagingEnabled;
-    
-    if (FillHomeIndicator) {
-        
-        CGRect cancelButtonFrame = self.cancelButton.frame;
-        cancelButtonFrame.size.height += JKAlertAdjustHomeIndicatorHeight;
-        self.cancelButton.frame = cancelButtonFrame;
-        
-        self.cancelAction.customView.frame = self.cancelButton.bounds;
-        
-        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0)];
-        
-        //        NSLog(@"%@", NSStringFromUIEdgeInsets(self.cancelButton.titleEdgeInsets));
-        
-    } else {
-        
-        [self.cancelButton setTitleEdgeInsets:UIEdgeInsetsZero];
-    }
-    
-    _textContainerBottomLineView.frame = CGRectMake(0, self.textContainerView.frame.size.height - JKAlertSeparatorLineWH, self.textContainerView.frame.size.width, JKAlertSeparatorLineWH);
-    
-    [self updateInsets];
 }
 
 #pragma mark
@@ -2549,104 +1530,8 @@
 }
 
 #pragma mark
-#pragma mark - UITableViewDataSource, UITableViewDelegate
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    
-    return (self.alertStyle == JKAlertStyleActionSheet) ? ((self.cancelAction.rowHeight > 0 && !self.pinCancelButton) ? 2 : 1) : 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0 ? self.actions.count : (self.pinCancelButton ? 0 : 1);
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    JKAlertBaseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(self.isActionSheetPierced ? [JKAlertPiercedTableViewCell class] : [JKAlertTableViewCell class])];
-    
-    if (cell == nil) {
-        
-        cell = [[JKAlertTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
-    }
-    
-    cell.alertSuperView = self.customSuperView;
-    
-    if (indexPath.section == 0) {
-        
-        cell.action = self.actions[indexPath.row];
-        
-    } else {
-        
-        cell.action = self.cancelAction;
-    }
-    
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    JKAlertAction *action = indexPath.section == 0 ? self.actions[indexPath.row] : self.cancelAction;
-    
-    if (!FillHomeIndicator) { return action.rowHeight; }
-    
-    return indexPath.section == 0 ? action.rowHeight : action.rowHeight + JKAlertAdjustHomeIndicatorHeight;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return (section == 0) ? CGFLOAT_MIN : CancelMargin;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return nil;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return CGFLOAT_MIN;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    return nil;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
-    JKAlertAction *action = indexPath.section == 0 ? self.actions[indexPath.row] : self.cancelAction;
-    
-    if (action.autoDismiss && ![action isEmpty]) { [self dismiss]; }
-    
-    !action.handler ? : action.handler(action);
-}
-
-#pragma mark
-#pragma mark - UICollectionViewDataSource, UICollectionViewDelegate
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return collectionView == self.collectionView ? self.actions.count : self.actions2.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    JKAlertCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class]) forIndexPath:indexPath];
-    
-    cell.action = collectionView == self.collectionView ? self.actions[indexPath.item] : self.actions2[indexPath.item];
-    
-    return cell;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    
-    JKAlertAction *action = collectionView == self.collectionView ? self.actions[indexPath.item] : self.actions2[indexPath.item];
-    
-    if (action.autoDismiss && ![action isEmpty]) { [self dismiss]; }
-    
-    !action.handler ? : action.handler(action);
-}
-
-#pragma mark
 #pragma mark - UIScrollViewDelegate
-
+#if 0
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
     if (!self.enableVerticalGestureDismiss) { return; }
@@ -3081,10 +1966,11 @@
         
     }];
 }
+#endif
 
 #pragma mark
 #pragma mark - 滑动手势
-
+#if 0
 - (void)verticalPanGestureAction:(UIPanGestureRecognizer *)panGesture{
     
     switch (panGesture.state) {
@@ -3276,35 +2162,7 @@
     
     return YES;
 }
-
-#pragma mark
-#pragma mark - plain样式按钮点击
-
-- (void)plainButtonClick:(UIButton *)button{
-    
-    JKAlertAction *action = self.actions[button.tag - JKAlertPlainButtonBeginTag];
-    
-    if (action.autoDismiss) { [self dismiss]; }
-    
-    !action.handler ? : action.handler(action);
-}
-
-#pragma mark
-#pragma mark - collection样式按钮点击
-
-- (void)collectionButtonClick{
-    
-    if (self.collectionAction.autoDismiss) { [self dismiss]; }
-    
-    !self.collectionAction.handler ? : self.collectionAction.handler(self.collectionAction);
-}
-
-- (void)cancelButtonClick{
-    
-    !self.cancelAction.handler ? : self.cancelAction.handler(self.cancelAction);
-    
-    if (self.cancelAction.autoDismiss) { [self dismiss]; }
-}
+#endif
 
 #pragma mark
 #pragma mark - Override
@@ -3313,12 +2171,6 @@
     [super didMoveToSuperview];
     
     [self solveDidMoveToSuperview];
-}
-
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
-    [super traitCollectionDidChange:previousTraitCollection];
-    
-    [self solveTraitCollectionDidChange];
 }
 
 #pragma mark
@@ -3383,12 +2235,8 @@
     OriginalPlainWidth = PlainViewWidth;
     _collectionViewMargin = 10;
     
-    CancelMargin = ((JKAlertScreenW > 321) ? 7 : 5);
     JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
-    
-    FillHomeIndicator = YES;
-    _autoAdjustHomeIndicator = YES;
     
     self.flowlayoutItemWidth = 76;
     
@@ -3537,92 +2385,14 @@
     return _textFieldArr;
 }
 
-- (UIView *)textContainerView {
-    if (!_textContainerView) {
-        UIView *textContainerView = [[UIView alloc] init];
-        [self addSubview:textContainerView];
-        _textContainerView = textContainerView;
-    }
-    return _textContainerView;
-}
-
-- (UIScrollView *)plainTextContainerScrollView {
-    if (!_plainTextContainerScrollView) {
-        UIScrollView *plainTextContainerScrollView = [[UIScrollView alloc] init];
-        plainTextContainerScrollView.delegate = self;
-        [self addSubview:plainTextContainerScrollView];
-        
-        [self adjustScrollView:plainTextContainerScrollView];
-        
-        _plainTextContainerScrollView = plainTextContainerScrollView;
-        
-        [self.textContainerView insertSubview:_plainTextContainerScrollView atIndex:0];
-        
-        [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:_plainTextContainerScrollView constraintsView:_textContainerView];
-    }
-    return _plainTextContainerScrollView;
-}
-
-- (JKAlertTextView *)titleTextView {
-    if (!_titleTextView) {
-        JKAlertTextView *titleTextView = [[JKAlertTextView alloc] init];
-        titleTextView.textColor = self.alertStyle == JKAlertStylePlain ? JKAlertAdaptColor(JKAlertSameRGBColor(25.5), JKAlertSameRGBColor(229.5)) : JKAlertAdaptColor(JKAlertSameRGBColor(89.25), JKAlertSameRGBColor(165.75));
-        titleTextView.font = self.alertStyle == JKAlertStylePlain ? [UIFont boldSystemFontOfSize:17] : [UIFont systemFontOfSize:17];
-        [self addSubview:titleTextView];
-        
-        _titleTextView = titleTextView;
-    }
-    return _titleTextView;
-}
-
-- (JKAlertTextView *)messageTextView {
-    if (!_messageTextView) {
-        JKAlertTextView *messageTextView = [[JKAlertTextView alloc] init];
-        messageTextView.textColor = self.alertStyle == JKAlertStyleActionSheet ? JKAlertAdaptColor(JKAlertSameRGBColor(140.25), JKAlertSameRGBColor(114.75)) : JKAlertAdaptColor(JKAlertSameRGBColor(76.5), JKAlertSameRGBColor(178.5));
-        messageTextView.font = self.alertStyle == JKAlertStylePlain ? [UIFont systemFontOfSize:14] : [UIFont systemFontOfSize:13];
-        [self addSubview:messageTextView];
-        
-        _messageTextView = messageTextView;
-    }
-    return _messageTextView;
-}
-
-- (UIScrollView *)scrollView {
-    if (!_scrollView) {
-        UIScrollView *scrollView = [[UIScrollView alloc] init];
-        scrollView.delegate = self;
-        [self addSubview:scrollView];
-        
-        [self adjustScrollView:scrollView];
-        
-        _scrollView = scrollView;
-    }
-    return _scrollView;
-}
-
-- (UIView *)alertBackGroundView {
-    if (!_alertBackGroundView) {
-        
-        BOOL isLight = YES;
-        
-        if (@available(iOS 13.0, *)) {
-            
-            isLight = ([self.traitCollection userInterfaceStyle] == UIUserInterfaceStyleLight);
-        }
-        
-        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:isLight ? UIBlurEffectStyleExtraLight : UIBlurEffectStyleDark]];
-        effectView.clipsToBounds = YES;
-        self.alertBackGroundView = effectView;
-    }
-    return _alertBackGroundView;
-}
-
 - (UIView *)sheetContainerView {
     if (!_sheetContainerView) {
         UIView *sheetContainerView = [[UIView alloc] init];
         [self.contentView addSubview:sheetContainerView];
         _sheetContainerView = sheetContainerView;
         
+        // TODO: JKTODO <#注释#>
+        /*
         _verticalDismissPanGesture = [[JKAlertPanGestureRecognizer alloc] initWithTarget:self action:@selector(verticalPanGestureAction:)];
         _verticalDismissPanGesture.direction = JKAlertPanGestureDirectionVertical;
         _verticalDismissPanGesture.delegate = self;
@@ -3632,21 +2402,9 @@
         _horizontalDismissPanGesture.delegate = self;
         
         [sheetContainerView addGestureRecognizer:_verticalDismissPanGesture];
-        [sheetContainerView addGestureRecognizer:_horizontalDismissPanGesture];
-        
-        // 背景
-        [self alertBackGroundView];
+        [sheetContainerView addGestureRecognizer:_horizontalDismissPanGesture]; //*/
     }
     return _sheetContainerView;
-}
-
-- (UIView *)sheetContentView {
-    if (!_sheetContentView) {
-        UIView *sheetContentView = [[UIView alloc] init];
-        [self.sheetContainerView insertSubview:sheetContentView aboveSubview:self.alertBackGroundView];
-        _sheetContentView = sheetContentView;
-    }
-    return _sheetContentView;
 }
 
 - (UIView *)topGestureIndicatorView {
@@ -3655,7 +2413,7 @@
         topGestureIndicatorView.hidden = YES;
         topGestureIndicatorView.userInteractionEnabled = NO;
         //topGestureIndicatorView.backgroundColor = JKAlertGlobalBackgroundColor();
-        [self.sheetContentView addSubview:topGestureIndicatorView];
+        [self addSubview:topGestureIndicatorView];
         _topGestureIndicatorView = topGestureIndicatorView;
         
         UIView *topGestureLineView = [[UIView alloc] init];
@@ -3671,187 +2429,6 @@
         _topGestureLineView = topGestureLineView;
     }
     return _topGestureIndicatorView;
-}
-
-- (UITableView *)tableView {
-    if (!_tableView) {
-        
-        // 分隔线
-        UIView *hline = [UIView new];
-        hline.backgroundColor = JKAlertGlobalSeparatorLineColor();
-        [self.textContainerView addSubview:hline];
-        _textContainerBottomLineView = hline;
-        
-        // title和message的容器view
-        self.textContainerView.backgroundColor = JKAlertGlobalBackgroundColor();
-        [self.sheetContentView addSubview:self.textContainerView];
-        
-        [self.textContainerView insertSubview:self.scrollView atIndex:0];
-        
-        [self.scrollView addSubview:self.titleTextView];
-        
-        [self.scrollView addSubview:self.messageTextView];
-        
-        UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
-        
-        tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
-        tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
-        
-        [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
-        [tableView registerClass:[JKAlertPiercedTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertPiercedTableViewCell class])];
-        
-        tableView.rowHeight = JKAlertRowHeight;
-        
-        tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
-        tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertScreenW, CGFLOAT_MIN)];
-        
-        tableView.showsHorizontalScrollIndicator = NO;
-        
-        [_sheetContentView insertSubview:tableView belowSubview:self.textContainerView];
-        
-        _tableView = tableView;
-    }
-    return _tableView;
-}
-
-- (UIView *)collectionTopContainerView {
-    if (!_collectionTopContainerView) {
-        UIView *collectionTopContainerView = [[UIView alloc] init];
-        collectionTopContainerView.backgroundColor = JKAlertGlobalBackgroundColor();
-        [self.sheetContentView addSubview:collectionTopContainerView];
-        _collectionTopContainerView = collectionTopContainerView;
-    }
-    return _collectionTopContainerView;
-}
-
-- (JKAlertActionButton *)cancelButton {
-    if (!_cancelButton) {
-        
-        JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-        [self.scrollView addSubview:cancelButton];
-        [cancelButton addTarget:self action:@selector(cancelButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
-        
-        _cancelButton = cancelButton;
-    }
-    return _cancelButton;
-}
-
-- (JKAlertActionButton *)collectionButton {
-    if (!_collectionButton) {
-        JKAlertActionButton *collectionButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-        [self.scrollView addSubview:collectionButton];
-        [collectionButton addTarget:self action:@selector(collectionButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
-        _collectionButton = collectionButton;
-    }
-    return _collectionButton;
-}
-
-- (UIPageControl *)pageControl {
-    if (!_pageControl) {
-        UIPageControl *pageControl = [[UIPageControl alloc] init];
-        pageControl.backgroundColor = nil;
-        pageControl.pageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
-        pageControl.currentPageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
-        pageControl.userInteractionEnabled = NO;
-        
-        [self.collectionTopContainerView addSubview:pageControl];
-        
-        _pageControl = pageControl;
-    }
-    return _pageControl;
-}
-
-- (UICollectionView *)collectionView {
-    if (!_collectionView) {
-        
-        [self.sheetContentView insertSubview:self.scrollView atIndex:1];
-        
-        [self updateInsets];
-        
-        [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.scrollView constraintsView:self];
-        
-        [self.scrollView insertSubview:self.collectionTopContainerView atIndex:0];
-        
-        // title和message的容器view
-        self.textContainerView.backgroundColor = nil;
-        [self.collectionTopContainerView addSubview:self.textContainerView];
-        
-        [self.textContainerView addSubview:self.titleTextView];
-        
-        UIView *hline = [UIView new];
-        hline.backgroundColor = JKAlertGlobalSeparatorLineColor();
-        [self.textContainerView addSubview:hline];
-        _textContainerBottomLineView = hline;
-        
-        UICollectionViewFlowLayout *flowlayout = [[UICollectionViewFlowLayout alloc] init];
-        flowlayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        _flowlayout = flowlayout;
-        
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.textContainerView.frame), JKAlertScreenW, 80) collectionViewLayout:flowlayout];
-        collectionView.backgroundColor = nil;
-        collectionView.showsVerticalScrollIndicator = NO;
-        collectionView.showsHorizontalScrollIndicator = NO;
-        
-        collectionView.dataSource = self;
-        collectionView.delegate = self;
-        
-        collectionView.scrollsToTop = NO;
-        
-        [collectionView registerClass:[JKAlertCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class])];
-        
-        if (@available(iOS 11.0, *)) {
-            
-            collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        }
-        
-        if (@available(iOS 13.0, *)) {
-            
-            collectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
-        }
-        
-        [self.collectionTopContainerView insertSubview:collectionView belowSubview:self.textContainerView];
-        
-        [self cancelButton];
-        
-        _collectionView = collectionView;
-    }
-    return _collectionView;
-}
-
-- (UICollectionView *)collectionView2 {
-    if (!_collectionView2) {
-        
-        UICollectionViewFlowLayout *flowlayout = [[UICollectionViewFlowLayout alloc] init];
-        flowlayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        _flowlayout2 = flowlayout;
-        
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_flowlayout2];
-        collectionView.backgroundColor = nil;
-        collectionView.showsVerticalScrollIndicator = NO;
-        collectionView.showsHorizontalScrollIndicator = NO;
-        
-        collectionView.dataSource = self;
-        collectionView.delegate = self;
-        
-        collectionView.scrollsToTop = NO;
-        
-        [collectionView registerClass:[JKAlertCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([JKAlertCollectionViewCell class])];
-        
-        if (@available(iOS 11.0, *)) {
-            
-            collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        }
-        
-        if (@available(iOS 13.0, *)) {
-            
-            collectionView.automaticallyAdjustsScrollIndicatorInsets = NO;
-        }
-        
-        [self.collectionTopContainerView addSubview:collectionView];
-        
-        _collectionView2 = collectionView;
-    }
-    return _collectionView2;
 }
 
 - (UIButton *)closeButton {

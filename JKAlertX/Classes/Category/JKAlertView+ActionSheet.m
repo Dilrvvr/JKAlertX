@@ -22,7 +22,7 @@
     
     return ^(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)) {
         
-        self.customSheetTitleView = !customView ? nil : customView();
+        //self.customSheetTitleView = !customView ? nil : customView();
         
         self.isClearTextContainerBackground = isClearContainerBackgroundColor;
         

@@ -333,7 +333,7 @@
 // use customSuperView
 - (IBAction)collectionSheet:(id)sender {
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setBottomButtonMargin(10);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).makeBottomButtonMargin(10);
     
     // 第1组
     alertView.setCollectionAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
@@ -344,7 +344,7 @@
             
             return [UIView new];
             
-        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).setBottomButtonMargin(0.5).relayout(YES);
+        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).makeBottomButtonMargin(0.5).relayout(YES);
         
     }].setAutoDismiss(NO)).setShowPageControl(YES);
     

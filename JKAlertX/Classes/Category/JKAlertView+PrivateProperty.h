@@ -15,7 +15,7 @@
 #import "JKAlerActionSheetContentView.h"
 #import "JKAlertCollectionSheetContentView.h"
 
-@interface JKAlertView () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
+@interface JKAlertView () <UIGestureRecognizerDelegate>
 
 
 
@@ -93,44 +93,8 @@
 /** sheetContainerView */
 @property (nonatomic, weak) UIView *sheetContainerView;
 
-/** sheetContentView */
-@property (nonatomic, weak) UIView *sheetContentView;
-
-/** collectionTopContainerView */
-@property (nonatomic, weak) UIView *collectionTopContainerView;
-
-/** sheet样式的背景view */
-@property (nonatomic, strong) UIView *alertBackGroundView;
-
-/** tableView */
-@property (nonatomic, weak) UITableView *tableView;
-
-/** flowlayout */
-@property (nonatomic, strong) UICollectionViewFlowLayout *flowlayout;
-
-/** flowlayout2 */
-@property (nonatomic, strong) UICollectionViewFlowLayout *flowlayout2;
-
-/** collectionView */
-@property (nonatomic, weak) UICollectionView *collectionView;
-
-/** collectionView2 */
-@property (nonatomic, weak) UICollectionView *collectionView2;
-
 /** isClearTextContainerBackground */
 @property (nonatomic, assign) BOOL isClearTextContainerBackground;
-
-/** sheet样式添加自定义的titleView */
-@property (nonatomic, weak) UIView *customSheetTitleView;
-
-/** pageControl */
-@property (nonatomic, weak) UIPageControl *pageControl;
-
-/** cancelButton */
-@property (nonatomic, weak) JKAlertActionButton *cancelButton;
-
-/** collectionButton */
-@property (nonatomic, weak) JKAlertActionButton *collectionButton;
 
 /** actions */
 @property (nonatomic, strong) NSMutableArray *actions;
@@ -153,12 +117,6 @@
 /** 富文本提示信息 */
 @property (nonatomic, copy) NSAttributedString *attributedMessage;
 
-/** plainView */
-//@property (nonatomic, weak) UIView *plainView;
-
-/** plainButtonVLineView */
-@property (nonatomic, weak) UIView *plainButtonVLineView;
-
 /** closeButton */
 @property (nonatomic, weak) UIButton *closeButton;
 
@@ -167,27 +125,6 @@
 
 /** customHUD */
 @property (nonatomic, weak) UIView *customHUD;
-
-/** textContainerView */
-@property (nonatomic, weak) UIView *textContainerView;
-
-/** plainTextContainerScrollView */
-@property (nonatomic, weak) UIScrollView *plainTextContainerScrollView;
-
-/** plain样式title和message之间 分隔线 */
-@property (nonatomic, weak) UIView *plainTitleMessageSeparatorView;
-
-/** plain样式文字容器底部 分隔线 */
-@property (nonatomic, weak) UIView *textContainerBottomLineView;
-
-/** titleTextView */
-@property (nonatomic, weak) JKAlertTextView *titleTextView;
-
-/** messageTextView */
-@property (nonatomic, weak) JKAlertTextView *messageTextView;
-
-/** scrollView */
-@property (nonatomic, weak) UIScrollView *scrollView;
 
 /** 即将显示动画的回调 */
 @property (nonatomic, copy) void (^willShowHandler)(JKAlertView *view);
@@ -203,9 +140,6 @@
 
 #pragma mark
 #pragma mark - textField
-
-/** textFieldContainerView */
-@property (nonatomic, weak) UIView *textFieldContainerView;
 
 /** 当前的textField */
 @property (nonatomic, weak) UITextField *currentTextField;
@@ -381,6 +315,8 @@
 - (void)removeKeyboardWillChangeFrameNotification;
 
 - (void)calculateUI;
+
+- (void)setAlertViewToAction:(JKAlertAction *)action;
 @end
 
 
