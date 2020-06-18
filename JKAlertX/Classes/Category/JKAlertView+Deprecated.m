@@ -23,52 +23,27 @@
 /** 设置title和message是否可以选择文字，默认NO */
 - (JKAlertView *(^)(BOOL canselectText))setTextViewCanSelectText {
     
-    return ^(BOOL canSelectText) {
-        
-        self.makeTitleMessageShouldSelectText(canSelectText);
-        
-        return self;
-    };
+    return [self makeTitleMessageShouldSelectText];
 }
 
 - (JKAlertView *(^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation {
     
-    return ^(void(^willShowAnimation)(JKAlertView *view)) {
-        
-        self.willShowHandler = willShowAnimation;
-        
-        return self;
-    };
+    return [self makeWillShowHandler];
 }
 
 - (JKAlertView *(^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete {
     
-    return ^(void(^showAnimationComplete)(JKAlertView *view)) {
-        
-        self.didShowHandler = showAnimationComplete;
-        
-        return self;
-    };
+    return [self makeDidShowHandler];
 }
 
 - (JKAlertView *(^)(void(^willDismiss)(void)))setWillDismiss {
     
-    return ^JKAlertView * (void(^willDismiss)(void)) {
-        
-        self.willDismissHandler = willDismiss;
-        
-        return self;
-    };
+    return [self makeWillDismissHandler];
 }
 
 - (JKAlertView *(^)(void(^dismissComplete)(void)))setDismissComplete {
     
-    return ^(void(^dismissComplete)(void)) {
-        
-        self.didDismissHandler = dismissComplete;
-        
-        return self;
-    };
+    return [self makeDidDismissHandler];
 }
 
 /** 准备重新布局 */
