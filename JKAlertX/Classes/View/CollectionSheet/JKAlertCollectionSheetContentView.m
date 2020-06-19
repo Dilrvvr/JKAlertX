@@ -415,10 +415,12 @@
 - (void)layoutActionButton {
     
     self.cancelAction.isPierced = self.isPierced;
-    
-    self.cancelButton.action = self.cancelAction;
+    self.cancelAction.multiPiercedBackgroundColor = self.piercedBackgroundColor;
     
     self.collectionAction.isPierced = self.isPierced;
+    self.collectionAction.multiPiercedBackgroundColor = self.piercedBackgroundColor;
+    
+    self.cancelButton.action = self.cancelAction;
     
     self.collectionButton.action = self.collectionAction;
     

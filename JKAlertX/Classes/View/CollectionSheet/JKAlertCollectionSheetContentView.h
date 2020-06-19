@@ -15,9 +15,6 @@
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertCollectionSheetTextContentView *textContentView;
 
-/** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
-@property (nonatomic, strong) JKAlertAction *cancelAction;
-
 /** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
 @property (nonatomic, strong) JKAlertAction *collectionAction;
 

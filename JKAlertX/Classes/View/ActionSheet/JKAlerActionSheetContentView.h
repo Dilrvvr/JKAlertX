@@ -21,8 +21,17 @@
 /** tableView */
 @property (nonatomic, weak, readonly) UITableView *tableView;
 
-/** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
-@property (nonatomic, strong) JKAlertAction *cancelAction;
+/** cell类名 必须是或继承自JKAlertTableViewCell */
+@property (nonatomic, copy) NSString *cellClassName;
+
+/** tableViewDataSource */
+@property (nonatomic, weak) id <UITableViewDataSource> tableViewDataSource;
+
+/** tableViewDelegate */
+@property (nonatomic, weak) id <UITableViewDelegate> tableViewDelegate;
+
+/** fillHomeIndicator */
+@property (nonatomic, assign) CGFloat cancelMargin;
 
 /** 是否固定取消按钮在底部 */
 @property (nonatomic, assign) BOOL cancelButtonPinned;
@@ -32,18 +41,6 @@
 
 /** fillHomeIndicator */
 @property (nonatomic, assign) BOOL fillHomeIndicator;
-
-/** fillHomeIndicator */
-@property (nonatomic, assign) CGFloat cancelMargin;
-
-/** tableViewDataSource */
-@property (nonatomic, weak) id <UITableViewDataSource> tableViewDataSource;
-
-/** tableViewDelegate */
-@property (nonatomic, weak) id <UITableViewDelegate> tableViewDelegate;
-
-/** cell类名 必须是或继承自JKAlertTableViewCell */
-@property (nonatomic, copy) NSString *cellClassName;
 
 /** isPierced */
 @property (nonatomic, assign) BOOL isPierced;

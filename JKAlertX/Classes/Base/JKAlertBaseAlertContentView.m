@@ -7,9 +7,12 @@
 
 #import "JKAlertBaseAlertContentView.h"
 #import "JKAlertVisualFormatConstraintManager.h"
+#import "JKAlertAction.h"
 
 @interface JKAlertBaseAlertContentView ()
-
+{
+    JKAlertAction *_cancelAction;
+}
 @end
 
 @implementation JKAlertBaseAlertContentView
@@ -43,6 +46,13 @@
     }
     
     self.backgroundEffectView.hidden = NO;
+}
+
+- (void)setCancelAction:(JKAlertAction *)cancelAction {
+    
+    if (!cancelAction) { return; }
+    
+    _cancelAction = cancelAction;
 }
 
 #pragma mark
@@ -147,5 +157,14 @@
         _backgroundEffectView = backgroundEffectView;
     }
     return _backgroundEffectView;
+}
+
+- (JKAlertAction *)cancelAction {
+    if (!_cancelAction) {
+        _cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
+        _cancelAction.separatorLineHidden = YES;
+        _cancelAction.alertView = self.alertView;
+    }
+    return _cancelAction;
 }
 @end

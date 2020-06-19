@@ -21,7 +21,7 @@ typedef enum : NSUInteger {
     
     /**
      * none
-     * 该样式将不会创建JKAlertView
+     * 该样式将默认为JKAlertStylePlain
      */
     JKAlertStyleNone = 0,
     
@@ -205,6 +205,9 @@ CGFloat JKAlertGlobalSeparatorLineThickness (void);
 
 /// 全局高亮背景色
 UIColor * JKAlertGlobalHighlightedBackgroundColor (void);
+
+/// 全局高亮背景色
+JKAlertMultiColor * JKAlertGlobalMultiHighlightedBackgroundColor (void);
 
 /// 全局分隔线背景色
 JKAlertMultiColor * JKAlertGlobalSeparatorLineMultiColor (void);

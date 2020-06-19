@@ -167,9 +167,6 @@
 #pragma mark
 #pragma mark - 外界可自定义属性 移至内部 外界全部改为使用链式语法修改 2018-09-28
 
-/** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
-@property (nonatomic, strong) JKAlertAction *cancelAction;
-
 /** dealloc时会调用的block */
 @property (nonatomic, copy) void (^deallocHandler)(void);
 

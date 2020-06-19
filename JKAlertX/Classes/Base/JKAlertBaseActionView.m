@@ -10,8 +10,12 @@
 #import "JKAlertAction.h"
 #import "JKAlertConst.h"
 #import "JKAlertVisualFormatConstraintManager.h"
+#import "JKAlertMultiColor.h"
 
 @interface JKAlertBaseActionView ()
+{
+    __weak UIView *_selectedBackgroundView;
+}
 
 /** containerView */
 @property (nonatomic, weak) UIView *containerView;
@@ -36,17 +40,7 @@
     
     self.isFullContentWidth = action.isPierced;
     
-    if (action.isPierced) {
-        
-        // TODO: JKTODO <#注释#>
-        self.backgroundView.backgroundColor = action.multiPiercedBackgroundColor.dynamicColor;
-        self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
-        
-    } else {
-        
-        self.backgroundView.backgroundColor = action.backgroundColor;
-        self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
-    }
+    [self updateUserInterfaceStyle];
     
     [self.customView removeFromSuperview];
     self.customView = nil;
@@ -65,7 +59,6 @@
     self.containerView.hidden = NO;
     
     self.titleLabel.font = action.titleFont;
-    self.titleLabel.textColor = action.titleColor;
     
     if (action.attributedTitle) {
         
@@ -105,20 +98,6 @@
 #pragma mark
 #pragma mark - Override
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        [self initialization];
-    }
-    return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super initWithCoder:aDecoder]) {
-        [self initialization];
-    }
-    return self;
-}
-
 - (void)layoutSubviews {
     [super layoutSubviews];
     
@@ -146,15 +125,42 @@
 #pragma mark
 #pragma mark - Private Methods
 
+- (void)updateLightModetUI {
+    [super updateLightModetUI];
+    
+    if (self.action.isPierced) {
+        
+        self.backgroundView.backgroundColor = self.action.multiPiercedBackgroundColor.lightColor;
+        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.lightColor;
+        
+    } else {
+        
+        self.backgroundView.backgroundColor = self.action.multiBackgroundColor.lightColor;
+        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.lightColor;
+    }
+    
+    self.titleLabel.textColor = self.action.multiTitleColor.lightColor;
+}
 
+- (void)updateDarkModeUI {
+    [super updateDarkModeUI];
+    
+    if (self.action.isPierced) {
+        
+        self.backgroundView.backgroundColor = self.action.multiPiercedBackgroundColor.darkColor;
+        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.darkColor;
+        
+    } else {
+        
+        self.backgroundView.backgroundColor = self.action.multiBackgroundColor.darkColor;
+        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.darkColor;
+    }
+    
+    self.titleLabel.textColor = self.action.multiTitleColor.lightColor;
+}
 
 #pragma mark
 #pragma mark - Private Selector
-
-
-
-#pragma mark
-#pragma mark - UITableViewDataSource & UITableViewDelegate
 
 
 
@@ -168,36 +174,20 @@
 
 /** 初始化自身属性 交给子类重写 super自动调用该方法 */
 - (void)initializeProperty {
+    [super initializeProperty];
     
     self.userInteractionEnabled = NO;
 }
 
 /** 构造函数初始化时调用 注意调用super */
 - (void)initialization {
+    [super initialization];
     
-    [self initializeProperty];
-    [self createUI];
-    [self layoutUI];
-    [self initializeUIData];
 }
 
 /** 创建UI 交给子类重写 super自动调用该方法 */
 - (void)createUI {
-    
-    UIView *backgroundView = [[UIView alloc] init];
-    backgroundView.userInteractionEnabled = NO;
-    [self addSubview:backgroundView];
-    _backgroundView = backgroundView;
-    
-    UIView *selectedBackgroundView = [[UIView alloc] init];
-    selectedBackgroundView.userInteractionEnabled = NO;
-    selectedBackgroundView.hidden = YES;
-    [self addSubview:selectedBackgroundView];
-    _selectedBackgroundView = selectedBackgroundView;
-    
-    UIView *contentView = [[UIView alloc] init];
-    [self addSubview:contentView];
-    _contentView = contentView;
+    [super createUI];
     
     UIView *containerView = [[UIView alloc] init];
     [self.contentView addSubview:containerView];
@@ -218,22 +208,29 @@
 
 /** 布局UI 交给子类重写 super自动调用该方法 */
 - (void)layoutUI {
-    
-    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.backgroundView constraintsView:self];
+    [super layoutUI];
     
     [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.selectedBackgroundView constraintsView:self];
 }
 
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */
 - (void)initializeUIData {
+    [super initializeUIData];
     
 }
 
 #pragma mark
 #pragma mark - Private Property
 
-
-
-
+- (UIView *)selectedBackgroundView {
+    if (!_selectedBackgroundView) {
+        UIView *selectedBackgroundView = [[UIView alloc] init];
+        selectedBackgroundView.userInteractionEnabled = NO;
+        selectedBackgroundView.hidden = YES;
+        [self insertSubview:selectedBackgroundView aboveSubview:self.backgroundView];
+        _selectedBackgroundView = selectedBackgroundView;
+    }
+    return _selectedBackgroundView;
+}
 
 @end

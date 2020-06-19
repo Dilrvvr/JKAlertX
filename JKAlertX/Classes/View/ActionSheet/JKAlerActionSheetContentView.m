@@ -26,6 +26,18 @@
 #pragma mark
 #pragma mark - Public Methods
 
+- (void)setTableViewDataSource:(id<UITableViewDataSource>)tableViewDataSource {
+    _tableViewDataSource = tableViewDataSource ? tableViewDataSource : self;
+    
+    self.tableView.dataSource = _tableViewDataSource;
+}
+
+- (void)setTableViewDelegate:(id<UITableViewDelegate>)tableViewDelegate {
+    _tableViewDelegate = tableViewDelegate ? tableViewDelegate : self;
+    
+    self.tableView.delegate = _tableViewDelegate;
+}
+
 - (void)calculateUI {
     [super calculateUI];
     
@@ -371,6 +383,7 @@
 - (void)layoutCancelActionButton {
     
     self.cancelAction.isPierced = self.isPierced;
+    self.cancelAction.multiPiercedBackgroundColor = self.piercedBackgroundColor;
     
     self.cancelButton.action = self.cancelAction;
     

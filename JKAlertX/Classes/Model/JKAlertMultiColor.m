@@ -60,6 +60,12 @@
     return multiColor;
 }
 
+/// 深色浅色翻转
+- (JKAlertMultiColor *)reversedMultiColor {
+    
+    return [JKAlertMultiColor colorWithLightColor:self.darkColor darkColor:self.lightColor];
+}
+
 - (void)setLightColor:(UIColor *)lightColor {
     _lightColor = lightColor;
     

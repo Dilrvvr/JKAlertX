@@ -144,17 +144,7 @@
     
     self.isShowed = YES;
     
-    switch (self.alertStyle) {
-        case JKAlertStyleCollectionSheet:
-        {
-            [self calculateUI];//[self showCollectionSheet];
-        }
-            break;
-            
-        default:
-            [self calculateUI];
-            break;
-    }
+    [self calculateUI];
     
     !self.alertContentViewConfiguration ? : self.alertContentViewConfiguration(self.alertContentView);
     
@@ -162,35 +152,6 @@
     [self.customSuperView addSubview:self];
     
     return ^{ return self; };
-}
-
-// sheet样式
-- (void)showAcitonSheet{
-    
-    if (!self.cancelAction) {
-        
-        self.cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
-        self.cancelAction.setTitleFont([UIFont systemFontOfSize:17]);
-        self.cancelAction.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
-    }
-    
-    self.cancelAction.setSeparatorLineHidden(YES);
-    [self.actions.lastObject setSeparatorLineHidden:YES];
-    
-    [self calculateUI];
-}
-
-// collectionSheet样式
-- (void)showCollectionSheet{
-    
-    if (!self.cancelAction) {
-        
-        self.cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
-        self.cancelAction.setTitleFont([UIFont systemFontOfSize:17]);
-        self.cancelAction.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
-    }
-    
-    [self calculateUI];
 }
 
 #pragma mark
@@ -280,14 +241,6 @@
 
 - (void)calculateActionSheetUI {
     
-    if (!self.cancelAction) {
-        
-        self.cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
-        self.cancelAction.setTitleFont([UIFont systemFontOfSize:17]);
-        self.cancelAction.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
-    }
-    
-    self.cancelAction.setSeparatorLineHidden(YES);
     [self.actions.lastObject setSeparatorLineHidden:YES];
     
     self.actionsheetContentView.textContentView.alertTitle = self.alertTitle;
@@ -297,7 +250,6 @@
     self.actionsheetContentView.textContentView.attributedMessage = self.attributedMessage;
     
     self.actionsheetContentView.actionArray = self.actions;
-    self.actionsheetContentView.cancelAction = self.cancelAction;
     
     UIEdgeInsets safeAreaInsets = [self getSuperViewSafeAreaInsets];
     
@@ -325,21 +277,11 @@
 
 - (void)calculateCollectionSheetUI {
     
-    if (!self.cancelAction) {
-        
-        self.cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
-        self.cancelAction.setTitleFont([UIFont systemFontOfSize:17]);
-        self.cancelAction.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204)));
-    }
-    
-    self.cancelAction.setSeparatorLineHidden(YES);
-    
     self.collectionsheetContentView.textContentView.alertTitle = self.alertTitle;
     self.collectionsheetContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
     
     self.collectionsheetContentView.actionArray = self.actions;
     self.collectionsheetContentView.actionArray2 = self.actions2;
-    self.collectionsheetContentView.cancelAction = self.cancelAction;
     self.collectionsheetContentView.collectionAction = self.collectionAction;
     
     UIEdgeInsets safeAreaInsets = [self getSuperViewSafeAreaInsets];
@@ -418,18 +360,6 @@
     }
 }
 
-/** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
-- (void)setCancelAction:(JKAlertAction *)cancelAction{
-    
-    if (cancelAction == nil) {
-        return;
-    }
-    
-    _cancelAction = cancelAction;
-    
-    [self setAlertViewToAction:_cancelAction];
-}
-
 - (void)setAlertViewToAction:(JKAlertAction *)action {
     
     action.alertView = self;
@@ -476,11 +406,13 @@
 #pragma mark - 链式Setter
 
 /** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
-- (JKAlertView *(^)(JKAlertAction *action))setCancelAction{
+- (JKAlertView *(^)(JKAlertAction *action))setCancelAction {
     
     return ^(JKAlertAction *action) {
         
-        self.cancelAction = action;
+        self.currentAlertContentView.cancelAction = action;
+        
+        [self setAlertViewToAction:self.currentAlertContentView.cancelAction];
         
         return self;
     };
@@ -851,7 +783,7 @@
 /** 获取cancelAction */
 - (JKAlertAction *)getCancelAction{
     
-    return _cancelAction;
+    return self.currentAlertContentView.cancelAction;
 }
 
 /** 获取collectionAction */
@@ -1520,7 +1452,6 @@
     [self.actions2 removeAllObjects];
     self.actions2 = nil;
     
-    _cancelAction = nil;
     _collectionAction = nil;
     
     [self removeFromSuperview];

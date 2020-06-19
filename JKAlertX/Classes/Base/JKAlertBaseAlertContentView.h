@@ -8,7 +8,7 @@
 #import "JKAlertBaseView.h"
 #import "JKAlertScrollContentView.h"
 
-@class JKAlertView;
+@class JKAlertView, JKAlertAction;
 
 @interface JKAlertBaseAlertContentView : JKAlertBaseView
 
@@ -56,6 +56,9 @@
 
 /** darkBlurEffect */
 @property (nonatomic, strong) UIBlurEffect *darkBlurEffect;
+
+/** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
+@property (nonatomic, strong) JKAlertAction *cancelAction;
 
 - (void)calculateUI NS_REQUIRES_SUPER;
 @end

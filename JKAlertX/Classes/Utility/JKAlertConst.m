@@ -133,6 +133,19 @@ UIColor * JKAlertGlobalHighlightedBackgroundColor (void) {
     return HighlightedBackgroundColor_;
 }
 
+/// 全局高亮背景色
+JKAlertMultiColor * JKAlertGlobalMultiHighlightedBackgroundColor (void) {
+    
+    static JKAlertMultiColor *MultiHighlightedBackgroundColor_ = nil;
+    
+    if (!MultiHighlightedBackgroundColor_) {
+        
+        MultiHighlightedBackgroundColor_ = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColorAlpha(8.0, 0.05) darkColor:JKAlertSameRGBColorAlpha(247.0, 0.05)];
+    }
+    
+    return MultiHighlightedBackgroundColor_;
+}
+
 /// 全局分隔线粗细
 CGFloat JKAlertGlobalSeparatorLineThickness (void) {
     

@@ -22,6 +22,9 @@
 + (JKAlertMultiColor *)colorWithLightColor:(UIColor *)lightColor
                                  darkColor:(UIColor *)darkColor;
 
+/// 深色浅色翻转
+- (JKAlertMultiColor *)reversedMultiColor;
+
 /** lightColor */
 @property (nonatomic, strong, readonly) UIColor *lightColor;
 
