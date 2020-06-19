@@ -34,6 +34,8 @@
     self.iconImageView.image = nil;
     self.iconImageView.highlightedImage = nil;
     
+    self.isFullContentWidth = action.isPierced;
+    
     if (action.isPierced) {
         
         // TODO: JKTODO <#注释#>

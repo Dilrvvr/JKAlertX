@@ -15,6 +15,9 @@
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertActionSheetTextContentView *textContentView;
 
+/** titleBackgroundColor */
+@property (nonatomic, strong) JKAlertMultiColor *titleBackgroundColor;
+
 /** tableView */
 @property (nonatomic, weak, readonly) UITableView *tableView;
 
@@ -23,9 +26,6 @@
 
 /** 是否固定取消按钮在底部 */
 @property (nonatomic, assign) BOOL cancelButtonPinned;
-
-/** customSuperView */
-@property (nonatomic, weak) UIView *customSuperView;
 
 /** autoAdjustHomeIndicator */
 @property (nonatomic, assign) BOOL autoAdjustHomeIndicator;
@@ -42,6 +42,9 @@
 /** tableViewDelegate */
 @property (nonatomic, weak) id <UITableViewDelegate> tableViewDelegate;
 
+/** cell类名 必须是或继承自JKAlertTableViewCell */
+@property (nonatomic, copy) NSString *cellClassName;
+
 /** isPierced */
 @property (nonatomic, assign) BOOL isPierced;
 
@@ -53,7 +56,4 @@
 
 /** piercedBackgroundColor */
 @property (nonatomic, strong) JKAlertMultiColor *piercedBackgroundColor;
-
-/** titleBackgroundColor */
-@property (nonatomic, strong) JKAlertMultiColor *titleBackgroundColor;
 @end

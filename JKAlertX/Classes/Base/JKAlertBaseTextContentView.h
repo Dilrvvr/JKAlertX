@@ -30,8 +30,8 @@
 /** contentWidth */
 @property (nonatomic, assign) CGFloat contentWidth;
 
-/** safeInsets */
-@property (nonatomic, assign) UIEdgeInsets safeInsets;
+/** screenSafeInsets */
+@property (nonatomic, assign) UIEdgeInsets screenSafeInsets;
 
 /** titleInsets 默认(20, 20, 3.5, 20) */
 @property (nonatomic, assign) UIEdgeInsets titleInsets;

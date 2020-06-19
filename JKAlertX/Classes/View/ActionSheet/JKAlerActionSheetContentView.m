@@ -8,7 +8,6 @@
 #import "JKAlerActionSheetContentView.h"
 #import "JKAlertAction.h"
 #import "JKAlertTableViewCell.h"
-#import "JKAlertPiercedTableViewCell.h"
 #import "JKAlertConst.h"
 #import "JKAlertView.h"
 #import "JKAlertActionButton.h"
@@ -32,7 +31,7 @@
     
     self.backgroundEffectView.hidden = self.isPierced;
     
-    self.textContentView.safeInsets = self.isPierced ? UIEdgeInsetsZero : self.safeInsets;
+    self.textContentView.screenSafeInsets = self.isPierced ? UIEdgeInsetsZero : self.screenSafeInsets;
     self.textContentView.contentWidth = self.contentWidth;
     
     [self.textContentView calculateUI];
@@ -421,13 +420,13 @@
         bottomInset = JKAlertAdjustHomeIndicatorHeight;
     }
     
-    self.topContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, (self.isPierced ? 0 : self.safeInsets.right));
+    self.topContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, (self.isPierced ? 0 : self.screenSafeInsets.right));
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottomInset, 0);
-    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottomInset, (self.isPierced ? 0 : self.safeInsets.right));
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottomInset, (self.isPierced ? 0 : self.screenSafeInsets.right));
     
     self.bottomContentView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0);
-    self.bottomContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, (self.isPierced ? 0 : self.safeInsets.right));
+    self.bottomContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, (self.isPierced ? 0 : self.screenSafeInsets.right));
 }
 
 - (void)updateLightModetUI {
@@ -444,6 +443,15 @@
     self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
     
     self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : self.titleBackgroundColor.darkColor;
+}
+
+- (void)setCellClassName:(NSString *)cellClassName {
+    
+    if (![NSClassFromString(cellClassName) isKindOfClass:[JKAlertTableViewCell class]]) { return; }
+    
+    _cellClassName = cellClassName;
+    
+    [self registerCellClass];
 }
 
 #pragma mark
@@ -472,23 +480,27 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    JKAlertBaseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(self.isPierced ? [JKAlertPiercedTableViewCell class] : [JKAlertTableViewCell class])];
+    JKAlertBaseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellClassName];
     
     if (cell == nil) {
         
         cell = [[JKAlertTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
     }
     
-    cell.alertSuperView = self.customSuperView;
+    JKAlertAction *action = nil;
     
     if (indexPath.section == 0) {
         
-        cell.action = self.actionArray[indexPath.row];
+        action = self.actionArray.count > indexPath.row ? self.actionArray[indexPath.row] : nil;
         
     } else {
         
-        cell.action = self.cancelAction;
+        action = self.cancelAction;
     }
+    
+    action.isPierced = self.isPierced;
+    
+    cell.action = action;
     
     return cell;
 }
@@ -565,6 +577,8 @@
 - (void)initializeProperty {
     [super initializeProperty];
     
+    _cellClassName = NSStringFromClass([JKAlertTableViewCell class]);
+    
     _autoAdjustHomeIndicator = YES;
     
     _fillHomeIndicator = YES;
@@ -578,6 +592,7 @@
 - (void)initialization {
     [super initialization];
     
+    [self registerCellClass];
 }
 
 /** 创建UI */
@@ -591,8 +606,6 @@
     UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
     tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
     tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
-    [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
-    [tableView registerClass:[JKAlertPiercedTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertPiercedTableViewCell class])];
     //tableView.rowHeight = JKAlertRowHeight;
     tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGFLOAT_MIN)];
     tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGFLOAT_MIN)];
@@ -622,6 +635,11 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
+}
+
+- (void)registerCellClass {
+    
+    [self.tableView registerClass:NSClassFromString(self.cellClassName) forCellReuseIdentifier:self.cellClassName];
 }
 
 #pragma mark

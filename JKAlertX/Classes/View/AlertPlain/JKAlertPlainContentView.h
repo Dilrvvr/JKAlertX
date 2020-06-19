@@ -13,9 +13,6 @@
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertPlainTextContentView *textContentView;
 
-/** separatorLineWH */
-//@property (nonatomic, assign) CGFloat separatorLineWH;
-
 /** 圆角 默认8 */
 @property (nonatomic, assign) CGFloat cornerRadius;
 
@@ -25,7 +22,7 @@
 /** textFieldContainerInset 默认(0, 20, 20, 20) */
 @property (nonatomic, assign) UIEdgeInsets textFieldContainerInset;
 
-/** textFieldContainerCornerRadius 默认8 */
+/** textFieldContainerCornerRadius 默认8 */  // TODO: JKTODO <#注释#>
 @property (nonatomic, assign) CGFloat textFieldContainerCornerRadius;
 
 /** textFieldHeight 默认30 */

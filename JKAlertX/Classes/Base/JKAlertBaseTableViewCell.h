@@ -21,9 +21,6 @@
 /** action */
 @property (nonatomic, strong) JKAlertAction *action;
 
-/** alertSuperView */
-@property (nonatomic, weak) UIView *alertSuperView;
-
 #pragma mark
 #pragma mark - Private
 

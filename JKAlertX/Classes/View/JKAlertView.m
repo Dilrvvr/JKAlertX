@@ -7,7 +7,6 @@
 //
 
 #import "JKAlertView.h"
-#import "JKAlertPiercedTableViewCell.h"
 #import "JKAlertCollectionViewCell.h"
 #import "JKAlertTableViewCell.h"
 #import "UIView+JKAlertX.h"
@@ -304,13 +303,13 @@
     
     safeAreaInsets.top = 0;
     
-    self.actionsheetContentView.safeInsets = safeAreaInsets;
+    self.actionsheetContentView.screenSafeInsets = safeAreaInsets;
     
     CGFloat contentWidth = JKAlertScreenW;
     
     if (self.actionsheetContentView.isPierced) {
         
-        contentWidth -= (self.actionsheetContentView.piercedInsets.left + self.actionsheetContentView.piercedInsets.right + self.actionsheetContentView.safeInsets.left + self.actionsheetContentView.safeInsets.right);
+        contentWidth -= (self.actionsheetContentView.piercedInsets.left + self.actionsheetContentView.piercedInsets.right + self.actionsheetContentView.screenSafeInsets.left + self.actionsheetContentView.screenSafeInsets.right);
     }
     
     // TODO: JKTODO <#注释#>
@@ -319,7 +318,7 @@
     [self.actionsheetContentView calculateUI];
     
     CGRect frame = self.actionsheetContentView.frame;
-    frame.origin.x = self.actionsheetContentView.isPierced ? self.actionsheetContentView.safeInsets.left + self.actionsheetContentView.piercedInsets.left : 0;
+    frame.origin.x = self.actionsheetContentView.isPierced ? self.actionsheetContentView.screenSafeInsets.left + self.actionsheetContentView.piercedInsets.left : 0;
     frame.origin.y = JKAlertScreenH - frame.size.height;
     self.actionsheetContentView.frame = frame;
 }
@@ -347,7 +346,7 @@
     
     safeAreaInsets.top = 0;
     
-    self.collectionsheetContentView.safeInsets = safeAreaInsets;
+    self.collectionsheetContentView.screenSafeInsets = safeAreaInsets;
     
     CGFloat contentWidth = JKAlertScreenW;
     

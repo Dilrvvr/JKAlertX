@@ -148,9 +148,9 @@
     containerHeight += borderWidth;
     
     frame = CGRectZero;
-    frame.origin.x = self.safeInsets.left + self.textFieldContainerInset.left;
+    frame.origin.x = self.screenSafeInsets.left + self.textFieldContainerInset.left;
     frame.origin.y = CGRectGetMaxY(self.textContentView.frame) + self.textFieldContainerInset.top;
-    frame.size.width = self.contentWidth - self.safeInsets.left - self.textFieldContainerInset.left - self.safeInsets.right - self.textFieldContainerInset.right;
+    frame.size.width = self.contentWidth - self.screenSafeInsets.left - self.textFieldContainerInset.left - self.screenSafeInsets.right - self.textFieldContainerInset.right;
     frame.size.height = containerHeight;
     
     self.textFieldContainerView.frame = frame;

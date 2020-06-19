@@ -52,7 +52,7 @@
 - (void)calculateUI {
     [super calculateUI];
     
-    self.textContentView.safeInsets = self.safeInsets;
+    self.textContentView.screenSafeInsets = self.screenSafeInsets;
     self.textContentView.contentWidth = self.contentWidth;
     
     [self.textContentView calculateUI];
@@ -212,8 +212,8 @@
     
     CGFloat collectionMargin = MAX(self.collectionViewMargin, 0);
     
-    CGFloat insetLeft = self.safeInsets.left + self.collectionHorizontalInset.left;
-    CGFloat insetRight = self.safeInsets.right + self.collectionHorizontalInset.right;
+    CGFloat insetLeft = self.screenSafeInsets.left + self.collectionHorizontalInset.left;
+    CGFloat insetRight = self.screenSafeInsets.right + self.collectionHorizontalInset.right;
     
     if (!self.collectionView.hidden) {
         
@@ -334,7 +334,7 @@
     [self.topContentView updateContentSize];
     
     self.topContentView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, (shouldAdjustContentInset ? JKAlertCurrentHomeIndicatorHeight() : 0), 0);
-    self.topContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, self.isPierced ? 0 : self.safeInsets.right);
+    self.topContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, self.isPierced ? 0 : self.screenSafeInsets.right);
     
     self.topContentView.scrollView.scrollEnabled = NO;
     
