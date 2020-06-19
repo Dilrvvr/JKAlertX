@@ -355,6 +355,12 @@
     };
 }
 
+/** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
+- (JKAlertView *(^)(JKAlertAction *action))setCancelAction {
+    
+    return [self makeCancelAction];
+}
+
 /** 监听屏幕旋转 */
 - (JKAlertView *(^)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)))setOrientationChangeBlock {
     

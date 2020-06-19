@@ -10,25 +10,42 @@
 @interface JKAlertView (CollectionSheet)
 
 /**
- * 设置collection的itemSize的宽度
- * 最大不可超过屏幕宽度的一半
- * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
- * 自动计算item之间间距，最小为0，可自己计算该值设置每屏显示个数
- * 默认的高度是宽度-6，暂不支持自定义高度
+ * collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setFlowlayoutItemWidth)(CGFloat width);
+ @property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetAction)(JKAlertAction *action);
 
-/**
- * 设置collection列数（每行数量）
- * 默认0，自动设置，不得大于自动设置的数量
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionColumnCount)(NSInteger columnCount);
+ /**
+  * collection的itemSize
+  * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
+  * 默认(76, 70)，建议高度是宽度-6
+  */
+ @property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetItemSize)(CGSize itemSize);
 
-/**
- * 设置collection的水平（左右方向）的sectionInset
- * 默认0，为0时自动设置为item间距的一半
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionHorizontalInset)(CGFloat inset);
+ /**
+  * collection列数（每行数量）
+  * 默认0，自动设置，不得大于自动设置的数量
+  */
+ @property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetColumnCount)(NSInteger columnCount);
+
+ /**
+  * collection的水平（左右方向）的sectionInset
+  * 默认(0, 10, 0, 10)，只取左右
+  */
+ @property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetSectionInset)(UIEdgeInsets inset);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /** 设置collection的title下分隔线是否隐藏 默认YES */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionTitleSeperatorHidden)(BOOL hidden);
@@ -68,9 +85,6 @@
 /** 设置colletion样式的底部按钮左右间距 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionButtonLeftRightMargin)(CGFloat margin);
 
-/** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionAction)(JKAlertAction *action);
-
 /**
  * 设置collection样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
@@ -89,4 +103,45 @@
 
 /** collection链式添加第二个collectionView的action */
 @property (nonatomic, copy, readonly) JKAlertView *(^insertSecondCollectionAction)(JKAlertAction *action, NSUInteger atIndex);
+
+
+
+
+
+
+
+
+
+/**
+ * 设置collection的itemSize的宽度
+ * 最大不可超过屏幕宽度的一半
+ * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
+ * 自动计算item之间间距，最小为0，可自己计算该值设置每屏显示个数
+ * 默认的高度是宽度-6，暂不支持自定义高度
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setFlowlayoutItemWidth)(CGFloat width) JKAlertXDeprecated("use makeCollectionSheetItemSize");
+
+/**
+ * 设置collection列数（每行数量）
+ * 默认0，自动设置，不得大于自动设置的数量
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionColumnCount)(NSInteger columnCount) JKAlertXDeprecated("use makeCollectionSheetItemSize");
+
+/**
+ * 设置collection的水平（左右方向）的sectionInset
+ * 默认0，为0时自动设置为item间距的一半
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionHorizontalInset)(CGFloat inset) JKAlertXDeprecated("use makeCollectionSheetSectionInset");
+
+
+
+
+
+
+
+
+
+
+/** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionAction)(JKAlertAction *action) JKAlertXDeprecated("use makeCollectionSheetAction");
 @end

@@ -204,7 +204,7 @@
  * 设置collection的水平（左右方向）的sectionInset
  * 默认0，为0时自动设置为item间距的一半
  */
-@property (nonatomic, assign) CGFloat collectionHorizontalInset;
+//@property (nonatomic, assign) CGFloat collectionHorizontalInset;
 
 /** collection的title下分隔线是否隐藏 */
 @property (nonatomic, assign) BOOL collectionTitleSeparatorHidden;
@@ -237,9 +237,6 @@
 
 /** colletion样式的底部按钮左右间距 */
 @property (nonatomic, assign) CGFloat collectionButtonLeftRightMargin;
-
-/** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
-@property (nonatomic, strong) JKAlertAction *collectionAction;
 
 /**
  * 是否使JKAlertView.dismissAll(); 对当前JKAlertView无效

@@ -212,8 +212,8 @@
     
     CGFloat collectionMargin = MAX(self.collectionViewMargin, 0);
     
-    CGFloat insetLeft = self.screenSafeInsets.left + self.collectionHorizontalInset.left;
-    CGFloat insetRight = self.screenSafeInsets.right + self.collectionHorizontalInset.right;
+    CGFloat insetLeft = self.screenSafeInsets.left + self.sectionInset.left;
+    CGFloat insetRight = self.screenSafeInsets.right + self.sectionInset.right;
     
     if (!self.collectionView.hidden) {
         
@@ -556,7 +556,7 @@
     
     _minimumLineSpacing = 10;
     
-    _collectionHorizontalInset = UIEdgeInsetsMake(0, 10, 0, 10);
+    _sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
     
     _itemSize = CGSizeMake(76, 70);
     

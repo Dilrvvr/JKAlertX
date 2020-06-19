@@ -49,9 +49,6 @@
 #pragma mark
 #pragma mark - 公共部分
 
-/** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCancelAction)(JKAlertAction *action);
-
 
 
 #pragma mark

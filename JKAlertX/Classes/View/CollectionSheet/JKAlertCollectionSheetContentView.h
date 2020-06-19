@@ -21,6 +21,17 @@
 /** actionArray2 */
 @property (nonatomic, strong) NSArray *actionArray2;
 
+
+
+
+
+
+
+
+
+
+
+
 /** title底部分隔线是否隐藏 默认YES */
 @property (nonatomic, assign) BOOL titleSeparatorLineHidden;
 
@@ -86,7 +97,7 @@
  * 自动计算item之间间距，最小为0，可自己计算该值设置每屏显示个数
  * 默认的高度是宽度-6，暂不支持自定义高度
  */
-@property (nonatomic, assign) CGFloat flowlayoutItemWidth;
+//@property (nonatomic, assign) CGFloat flowlayoutItemWidth;
 
 /**
  * collection列数（每行数量）
@@ -98,7 +109,7 @@
  * 设置collection的水平（左右方向）的sectionInset
  * 只取左右   默认0，为0时自动设置为item间距的一半 
  */
-@property (nonatomic, assign) UIEdgeInsets collectionHorizontalInset;
+@property (nonatomic, assign) UIEdgeInsets sectionInset;
 
 /** collection的title下分隔线是否隐藏 */
 //@property (nonatomic, assign) BOOL collectionTitleSeparatorHidden;

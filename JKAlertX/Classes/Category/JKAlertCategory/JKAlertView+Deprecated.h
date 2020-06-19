@@ -125,6 +125,9 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewTopBottomMargin)(CGFloat margin) JKAlertXDeprecated("use makeTitleInsets & makeMessageInsets");
 
+/** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCancelAction)(JKAlertAction *action) JKAlertXDeprecated("use makeCancelAction");
+
 /** 监听屏幕旋转 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) JKAlertXDeprecated("use makeOrientationDidChangeHandler");
 

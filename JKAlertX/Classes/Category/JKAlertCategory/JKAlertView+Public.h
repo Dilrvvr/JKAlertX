@@ -224,6 +224,12 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeSingleTextMinHeight)(CGFloat minHeight);
 
+/**
+ * 默认的取消action，不需要自带的可以自己设置，不可置为nil
+ * plain样式不再需要该属性
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCancelAction)(JKAlertAction *action);
+
 #pragma mark
 #pragma mark - 手势退出
 

@@ -282,7 +282,6 @@
     
     self.collectionsheetContentView.actionArray = self.actions;
     self.collectionsheetContentView.actionArray2 = self.actions2;
-    self.collectionsheetContentView.collectionAction = self.collectionAction;
     
     UIEdgeInsets safeAreaInsets = [self getSuperViewSafeAreaInsets];
     
@@ -404,19 +403,6 @@
 
 #pragma mark
 #pragma mark - 链式Setter
-
-/** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
-- (JKAlertView *(^)(JKAlertAction *action))setCancelAction {
-    
-    return ^(JKAlertAction *action) {
-        
-        self.currentAlertContentView.cancelAction = action;
-        
-        [self setAlertViewToAction:self.currentAlertContentView.cancelAction];
-        
-        return self;
-    };
-}
 
 /**
  * 设置plain样式Y值
@@ -789,7 +775,14 @@
 /** 获取collectionAction */
 - (JKAlertAction *)getCollectionAction{
     
-    return _collectionAction;
+    __block JKAlertAction *action = nil;
+    
+    [self checkCollectionSheetStyleHandler:^{
+        
+        action = self.collectionsheetContentView.collectionAction;
+    }];
+    
+    return action;
 }
 
 /** 获取action数组 */
@@ -1451,8 +1444,6 @@
     
     [self.actions2 removeAllObjects];
     self.actions2 = nil;
-    
-    _collectionAction = nil;
     
     [self removeFromSuperview];
     

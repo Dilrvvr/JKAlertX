@@ -336,7 +336,7 @@
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES).makeBottomButtonMargin(10);
     
     // 第1组
-    alertView.setCollectionAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    alertView.makeCollectionSheetAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
         if (action.autoDismiss) { return; }
         
@@ -538,7 +538,7 @@
         return label;
     });
     
-    alertView.setCollectionAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    alertView.makeCollectionSheetAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }]).setShowPageControl(YES);
     
@@ -665,7 +665,7 @@
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCustomSuperView(self.testLabel).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).setCompoundCollection(YES).setCollectionPagingEnabled(YES);
     
     // 第1组
-    alertView.setCollectionAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    alertView.makeCollectionSheetAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setCustomView(^(JKAlertAction *action) {
         
@@ -687,7 +687,7 @@
         
         return label;
         
-    })).setShowPageControl(YES).setCancelAction([JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    })).setShowPageControl(YES).makeCancelAction([JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setCustomView(^(JKAlertAction *action) {
         
