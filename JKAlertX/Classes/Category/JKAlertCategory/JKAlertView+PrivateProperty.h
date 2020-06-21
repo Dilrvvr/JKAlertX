@@ -192,13 +192,13 @@
  * 自动计算item之间间距，最小为0，可自己计算该值设置每屏显示个数
  * 默认的高度是宽度-6，暂不支持自定义高度
  */
-@property (nonatomic, assign) CGFloat flowlayoutItemWidth;
+//@property (nonatomic, assign) CGFloat flowlayoutItemWidth;
 
 /**
  * collection列数（每行数量）
  * 默认0，自动设置，不得大于自动设置的数量
  */
-@property (nonatomic, assign) NSInteger collectionColumnCount;
+//@property (nonatomic, assign) NSInteger collectionColumnCount;
 
 /**
  * 设置collection的水平（左右方向）的sectionInset
@@ -207,23 +207,23 @@
 //@property (nonatomic, assign) CGFloat collectionHorizontalInset;
 
 /** collection的title下分隔线是否隐藏 */
-@property (nonatomic, assign) BOOL collectionTitleSeparatorHidden;
+//@property (nonatomic, assign) BOOL collectionTitleSeparatorHidden;
 
 /**
  * 设置两个collectionView之间的间距
  * 有第二个collectionView时有效 默认0, 最小为0
  */
-@property (nonatomic, assign) CGFloat collectionViewMargin;
+//@property (nonatomic, assign) CGFloat collectionViewMargin;
 
 /**
  * 是否将两个collection合体
  * 设为YES可让两个collection同步滚动
  * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
  */
-@property (nonatomic, assign) BOOL compoundCollection;
+//@property (nonatomic, assign) BOOL compoundCollection;
 
 /** collection是否分页 */
-@property (nonatomic, assign) BOOL collectionPagingEnabled;
+//@property (nonatomic, assign) BOOL collectionPagingEnabled;
 
 /**
  * collection是否显示pageControl
@@ -233,7 +233,7 @@
  * 可以添加空的action来保证每页显示个数相等
  * JKAlertAction使用类方法初始化时每个参数传nil或者直接自己实例化一个即为空action
  */
-@property (nonatomic, assign) BOOL showPageControl;
+//@property (nonatomic, assign) BOOL showPageControl;
 
 /** colletion样式的底部按钮左右间距 */
 @property (nonatomic, assign) CGFloat collectionButtonLeftRightMargin;

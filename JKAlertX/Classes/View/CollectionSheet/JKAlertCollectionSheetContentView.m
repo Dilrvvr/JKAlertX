@@ -12,6 +12,9 @@
 #import "JKAlertActionButton.h"
 
 @interface JKAlertCollectionSheetContentView () <UICollectionViewDataSource, UICollectionViewDelegate>
+{
+    __weak UIPageControl *_pageControl;
+}
 
 /** topContainerView */
 @property (nonatomic, weak) UIView *topContainerView;
@@ -33,9 +36,6 @@
 
 /** collectionSeparatorLineView */
 @property (nonatomic, weak) UIView *collectionSeparatorLineView;
-
-/** pageControl */
-@property (nonatomic, weak) UIPageControl *pageControl;
 
 /** cancelButton */
 @property (nonatomic, weak) JKAlertActionButton *cancelButton;
@@ -559,6 +559,8 @@
     _sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
     
     _itemSize = CGSizeMake(76, 70);
+    
+    _collectionViewMargin = 10;
     
     _autoAdjustHomeIndicator = YES;
     

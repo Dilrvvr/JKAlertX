@@ -65,6 +65,9 @@
 /** textContentBackgroundColor */
 @property (nonatomic, strong) JKAlertMultiColor *textContentBackgroundColor;
 
+/** pageControl */
+@property (nonatomic, weak, readonly) UIPageControl *pageControl;
+
 /** pageControlHidden */
 @property (nonatomic, assign) BOOL pageControlHidden;
 
@@ -76,7 +79,7 @@
  * 设为YES可让两个collection同步滚动
  * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
  */
-@property (nonatomic, assign) BOOL compoundCollection;
+@property (nonatomic, assign) BOOL combined;
 
 /** collection是否分页 */
 @property (nonatomic, assign) BOOL collectionPagingEnabled;
@@ -128,7 +131,7 @@
  * 可以添加空的action来保证每页显示个数相等
  * JKAlertAction使用类方法初始化时每个参数传nil或者直接自己实例化一个即为空action
  */
-@property (nonatomic, assign) BOOL showPageControl;
+//@property (nonatomic, assign) BOOL showPageControl;
 
 /** colletion样式的底部按钮左右间距 */
 @property (nonatomic, assign) CGFloat collectionButtonLeftRightMargin;

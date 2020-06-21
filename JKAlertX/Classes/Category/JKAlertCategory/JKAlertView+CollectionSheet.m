@@ -73,162 +73,148 @@
      };
  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/** 设置collection的title下分隔线是否隐藏 默认YES */
-- (JKAlertView *(^)(BOOL hidden))setCollectionTitleSeperatorHidden {
-    
-    return ^(BOOL hidden) {
-        
-        self.collectionTitleSeparatorHidden = hidden;
-        
-        return self;
-    };
-}
+ /**
+  * collection的title下分隔线是否隐藏
+  * 默认YES
+  */
+ - (JKAlertView *(^)(BOOL hidden))makeCollectionSheetTitleSeparatorLineHidden {
+     
+     return ^(BOOL hidden) {
+         
+         return [self checkCollectionSheetStyleHandler:^{
+             
+             self.collectionsheetContentView.titleSeparatorLineHidden = hidden;
+         }];
+     };
+ }
 
 /**
- * 设置两个collectionView之间的间距
- * 有第二个collectionView时有效 默认10, 最小为0
+ * 是否将两个collectionView合体
+ * 设为YES可让两个collectionView同步滚动
+ * 设为YES时请保证让两个collection的action数量保持一致
  */
-- (JKAlertView *(^)(CGFloat margin))setCollectionViewMargin {
+- (JKAlertView *(^)(BOOL combined))makeCollectionSheetCombined {
     
-    return ^(CGFloat margin) {
+    return ^(BOOL combined) {
         
-        self.collectionViewMargin = margin < 0 ? 0 : margin;
-        
-        return self;
+        return [self checkCollectionSheetStyleHandler:^{
+            
+            self.collectionsheetContentView.combined = combined;
+        }];
     };
 }
 
 /**
- * 设置是否将两个collection合体
- * 设为YES可让两个collection同步滚动
- * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
+ * collection是否分页
  */
-- (JKAlertView *(^)(BOOL compoundCollection))setCompoundCollection {
+- (JKAlertView *(^)(BOOL pagingEnabled))makeCollectionSheetPagingEnabled {
     
-    return ^(BOOL compoundCollection) {
+    return ^(BOOL pagingEnabled) {
         
-        self.compoundCollection = compoundCollection;
-        
-        return self;
-    };
-}
-
-/** 设置collection是否分页 */
-- (JKAlertView *(^)(BOOL collectionPagingEnabled))setCollectionPagingEnabled {
-    
-    return ^(BOOL collectionPagingEnabled) {
-        
-        self.collectionPagingEnabled = collectionPagingEnabled;
-        
-        return self;
+        return [self checkCollectionSheetStyleHandler:^{
+          
+            self.collectionsheetContentView.collectionPagingEnabled = pagingEnabled;
+        }];
     };
 }
 
 /**
- * 设置是否显示pageControl
+ * collection是否隐藏pageControl
  * 如果只有一组collection，则必须设置分页为YES才有效
  * 如果有两组collection，则仅在分页和合体都为YES时才有效
  * 注意自己计算好每页显示的个数相等
  * 可以添加空的action来保证每页显示个数相等
  * JKAlertAction使用类方法初始化时每个参数传nil或者直接自己实例化一个即为空action
  */
-- (JKAlertView *(^)(BOOL showPageControl))setShowPageControl{
+- (JKAlertView *(^)(BOOL hidden))makeCollectionSheetPageControlHidden {
     
-    return ^(BOOL showPageControl) {
+    return ^(BOOL hidden) {
         
-        self.showPageControl = showPageControl;
-        
-        return self;
+        return [self checkCollectionSheetStyleHandler:^{
+            
+            self.collectionsheetContentView.pageControlHidden = hidden;
+        }];
     };
 }
 
 /**
- * 设置pageControl
- * 必须setShowPageControl为YES之后才会有值
+ * 配置pageControl
  */
-- (JKAlertView *(^)(void (^)(UIPageControl *pageControl)))setCollectionPageControlConfig{
+- (JKAlertView *(^)(void (^)(UIPageControl *pageControl)))makeCollectionSheetPageControlConfiguration {
     
-    return ^(void (^pageControlConfig)(UIPageControl *pageControl)) {
+    return ^(void (^configuration)(UIPageControl *pageControl)) {
         
-        if (self.showPageControl) {
-            
-            // TODO: JKTODO <#注释#>
-            
-            //!pageControlConfig ? : pageControlConfig(self.pageControl);
-        }
-        
-        return self;
-    };
-}
-
-/** 设置colletion样式的底部按钮左右间距 */
-- (JKAlertView *(^)(CGFloat margin))setCollectionButtonLeftRightMargin{
-    
-    return ^(CGFloat margin) {
-        
-        self.collectionButtonLeftRightMargin = margin;
-        
-        return self;
+        return [self checkCollectionSheetStyleHandler:^{
+          
+            !configuration ? : configuration(self.collectionsheetContentView.pageControl);
+        }];
     };
 }
 
 /**
- * 设置collection样式添加自定义的titleView
+ * collection样式添加自定义的titleView
  * frmae给出高度即可，宽度将自适应
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
  */
-- (JKAlertView *(^)(UIView *(^customView)(void)))setCustomCollectionTitleView{
+- (JKAlertView *(^)(UIView *(^customView)(void)))makeCollectionSheetCustomTitleView {
     
     return ^(UIView *(^customView)(void)) {
         
-        // TODO: JKTODO <#注释#>
-        //self.customSheetTitleView = !customView ? nil : customView();
-        
-        return self;
+        return [self checkCollectionSheetStyleHandler:^{
+          
+            self.collectionsheetContentView.textContentView.customContentView = !customView ? nil : customView();
+        }];
     };
 }
 
+/**
+ * 两个collectionView之间的间距
+ * 有第二个collectionView时有效 默认10
+ */
+- (JKAlertView *(^)(CGFloat margin))makeCollectionSheetCollectionViewMargin {
+    
+    return ^(CGFloat margin) {
+        
+        return [self checkCollectionSheetStyleHandler:^{
+            
+            self.collectionsheetContentView.collectionViewMargin = margin;
+        }];
+    };
+}
+
+
+
+
+
+
 /** 添加第二个collectionView的action */
-- (void)addSecondCollectionAction:(JKAlertAction *)action{
+- (void)addSecondCollectionAction:(JKAlertAction *)action {
     
     if (!action) { return; }
     
-    [self setAlertViewToAction:action];
-    
-    [self.actions2 addObject:action];
+    [self checkCollectionSheetStyleHandler:^{
+        
+        [self.actions2 addObject:action];
+        
+        [self setAlertViewToAction:action];
+    }];
 }
 
 /** 添加第二个collectionView的action */
-- (void)insertSecondCollectionAction:(JKAlertAction *)action atIndex:(NSUInteger)index{
+- (void)insertSecondCollectionAction:(JKAlertAction *)action atIndex:(NSUInteger)index {
     
     if (!action) { return; }
     
-    [self setAlertViewToAction:action];
-    
-    [self.actions2 insertObject:action atIndex:index];
+    [self checkCollectionSheetStyleHandler:^{
+        
+        [self.actions2 insertObject:action atIndex:index];
+        
+        [self setAlertViewToAction:action];
+    }];
 }
 
 /** 添加第二个collectionView的action */
-- (JKAlertView *(^)(JKAlertAction *action))addSecondCollectionAction{
+- (JKAlertView *(^)(JKAlertAction *action))addSecondCollectionAction {
     
     return ^(JKAlertAction *action) {
         
@@ -240,7 +226,7 @@
 
 
 /** collection链式添加第二个collectionView的action */
-- (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex))insertSecondCollectionAction{
+- (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex))insertSecondCollectionAction {
     
     return ^(JKAlertAction *action, NSUInteger atIndex) {
         
@@ -249,6 +235,40 @@
         return self;
     };
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/** 设置colletion样式的底部按钮左右间距 */
+- (JKAlertView *(^)(CGFloat margin))setCollectionButtonLeftRightMargin {
+    
+    return ^(CGFloat margin) {
+        
+        self.collectionButtonLeftRightMargin = margin;
+        
+        return self;
+    };
+}
+
+
+
+
+
+
+
 
 
 
@@ -299,6 +319,72 @@
         
         return self.makeCollectionSheetSectionInset(UIEdgeInsetsMake(0, inset, 0, inset));
     };
+}
+
+/**
+ * 设置pageControl
+ * 必须setShowPageControl为YES之后才会有值
+ */
+- (JKAlertView *(^)(void (^)(UIPageControl *pageControl)))setCollectionPageControlConfig{
+    
+    return [self makeCollectionSheetPageControlConfiguration];
+}
+
+/**
+ * 设置collection样式添加自定义的titleView
+ * frmae给出高度即可，宽度将自适应
+ * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
+ */
+- (JKAlertView *(^)(UIView *(^customView)(void)))setCustomCollectionTitleView{
+    
+    return [self makeCollectionSheetCustomTitleView];
+}
+
+/** 设置collection的title下分隔线是否隐藏 默认YES */
+- (JKAlertView *(^)(BOOL hidden))setCollectionTitleSeparatorHidden {
+    
+    return [self makeCollectionSheetTitleSeparatorLineHidden];
+}
+
+/**
+ * 设置是否将两个collection合体
+ * 设为YES可让两个collection同步滚动
+ * 设置YES时会自动让两个collection的action数量保持一致，即向少的一方添加空的action
+ */
+- (JKAlertView *(^)(BOOL compoundCollection))setCompoundCollection {
+    
+    return [self makeCollectionSheetCombined];
+}
+
+/** 设置collection是否分页 */
+- (JKAlertView *(^)(BOOL collectionPagingEnabled))setCollectionPagingEnabled {
+    
+    return [self makeCollectionSheetPagingEnabled];
+}
+
+/**
+ * 设置是否显示pageControl
+ * 如果只有一组collection，则必须设置分页为YES才有效
+ * 如果有两组collection，则仅在分页和合体都为YES时才有效
+ * 注意自己计算好每页显示的个数相等
+ * 可以添加空的action来保证每页显示个数相等
+ * JKAlertAction使用类方法初始化时每个参数传nil或者直接自己实例化一个即为空action
+ */
+- (JKAlertView *(^)(BOOL showPageControl))setShowPageControl {
+    
+    return ^(BOOL showPageControl) {
+        
+        return self.makeCollectionSheetPageControlHidden(!showPageControl);
+    };
+}
+
+/**
+ * 设置两个collectionView之间的间距
+ * 有第二个collectionView时有效 默认10, 最小为0
+ */
+- (JKAlertView *(^)(CGFloat margin))setCollectionViewMargin {
+    
+    return [self makeCollectionSheetCollectionViewMargin];
 }
 
 

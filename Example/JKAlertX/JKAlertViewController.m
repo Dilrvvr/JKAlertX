@@ -405,7 +405,7 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).setCompoundCollection(YES).setCollectionPagingEnabled(YES).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).makeBottomButtonMargin(10).makeCustomSuperView(self.view);
     
-    //alertView.setCollectionTitleSeperatorHidden(NO);
+    //alertView.setCollectionTitleSeparatorHidden(NO);
     
     // 第1组
     alertView.makeCollectionSheetAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {

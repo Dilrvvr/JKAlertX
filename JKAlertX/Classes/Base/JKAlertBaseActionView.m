@@ -156,7 +156,7 @@
         self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.darkColor;
     }
     
-    self.titleLabel.textColor = self.action.multiTitleColor.lightColor;
+    self.titleLabel.textColor = self.action.multiTitleColor.darkColor;
 }
 
 #pragma mark

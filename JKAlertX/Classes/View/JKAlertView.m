@@ -375,18 +375,6 @@
     }
 }
 
-/**
- * 设置collection的itemSize的宽度
- * 最大不可超过屏幕宽度的一半
- * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
- * 自动计算item之间间距，最小为0，可自己计算该值设置每屏显示个数
- * 默认的高度是宽度-6，暂不支持自定义高度
- */
-- (void)setFlowlayoutItemWidth:(CGFloat)flowlayoutItemWidth{
-    
-    _flowlayoutItemWidth = flowlayoutItemWidth > JKAlertScreenW * 0.5 ? JKAlertScreenW * 0.5 : flowlayoutItemWidth;
-}
-
 - (void)setCustomHUD:(UIView *)customHUD {
     
     if (self.alertStyle != JKAlertStyleHUD) { return; }
@@ -2150,16 +2138,11 @@
     
     _dismissTimeInterval = 1;
     
-    _collectionTitleSeparatorHidden = YES;
-    
     PlainViewWidth = 290;
     OriginalPlainWidth = PlainViewWidth;
-    _collectionViewMargin = 10;
     
     JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
-    
-    self.flowlayoutItemWidth = 76;
     
     _enableVerticalGestureDismiss = NO;
     _enableHorizontalGestureDismiss = NO;
