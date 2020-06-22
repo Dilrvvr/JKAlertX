@@ -449,19 +449,19 @@
  * 默认的取消action，不需要自带的可以自己设置，不可置为nil
  * plain样式不再需要该属性
  */
- - (JKAlertView *(^)(JKAlertAction *action))makeCancelAction {
-     
-     return ^(JKAlertAction *action) {
-         
-         if (!action || (JKAlertStylePlain == self.alertStyle)) { return self; }
-         
-         self.currentAlertContentView.cancelAction = action;
-         
-         [self setAlertViewToAction:self.currentAlertContentView.cancelAction];
-         
-         return self;
-     };
- }
+- (JKAlertView *(^)(JKAlertAction *action))makeCancelAction {
+    
+    return ^(JKAlertAction *action) {
+        
+        if (!action || (JKAlertStylePlain == self.alertStyle)) { return self; }
+        
+        self.currentAlertContentView.cancelAction = action;
+        
+        [self setAlertViewToAction:self.currentAlertContentView.cancelAction];
+        
+        return self;
+    };
+}
 
 #pragma mark
 #pragma mark - 手势退出
@@ -705,19 +705,6 @@
         return self;
     };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

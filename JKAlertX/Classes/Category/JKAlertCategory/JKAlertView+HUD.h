@@ -50,9 +50,9 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeHudHeight)(CGFloat height);
 
 /**
-* HUD样式center的偏移
-* 正数表示向下/右偏移，负数表示向上/左偏移
-*/
+ * HUD样式center的偏移
+ * 正数表示向下/右偏移，负数表示向上/左偏移
+ */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeHudCenterOffset)(CGPoint centerOffset);
 
 /**

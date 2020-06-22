@@ -86,18 +86,4 @@
  * ***谨慎使用该方法***
  */
 @property (class, nonatomic, copy, readonly) void (^clearAll)(void);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @end

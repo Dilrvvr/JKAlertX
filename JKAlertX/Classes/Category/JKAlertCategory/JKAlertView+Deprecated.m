@@ -17,7 +17,7 @@
 @implementation JKAlertView (Deprecated)
 
 /** 显示并监听JKAlertView消失动画完成 */
-- (void(^)(void(^dismissComplete)(void)))showWithDismissComplete{
+- (void(^)(void(^dismissComplete)(void)))showWithDismissComplete {
     
     return [self showWithDidDismissHandler];
 }
@@ -781,25 +781,25 @@
 }
 
 /** 自定义配置tableView */
-- (JKAlertView *(^)(void(^)(UITableView *tableView)))setTableViewConfiguration{
+- (JKAlertView *(^)(void(^)(UITableView *tableView)))setTableViewConfiguration {
     
     return [self makeActionSheetTableViewConfiguration];
 }
 
 /** 设置UITableViewDataSource */
-- (JKAlertView *(^)(id<UITableViewDataSource> dataSource))setCustomTableViewDataSource{
+- (JKAlertView *(^)(id<UITableViewDataSource> dataSource))setCustomTableViewDataSource {
     
     return [self makeActionSheetTableViewDataSource];
 }
 
 /** 设置UITableViewDelegate */
-- (JKAlertView *(^)(id<UITableViewDelegate> delegate))setCustomTableViewDelegate{
+- (JKAlertView *(^)(id<UITableViewDelegate> delegate))setCustomTableViewDelegate {
     
     return [self makeActionSheetTableViewDelegate];
 }
 
 /** 设置actionSheet底部取消按钮是否固定在底部 默认NO */
-- (JKAlertView *(^)(BOOL pinCancelButton))setPinCancelButton{
+- (JKAlertView *(^)(BOOL pinCancelButton))setPinCancelButton {
     
     return [self makeActionSheetCancelButtonPinned];
 }
@@ -809,7 +809,7 @@
  * 类似UIAlertControllerStyleActionSheet效果
  * 设置为YES后，setPinCancelButton将强制为YES
  */
-- (JKAlertView *(^)(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor))setActionSheetPierced{
+- (JKAlertView *(^)(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor))setActionSheetPierced {
     
     return ^(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) {
         
