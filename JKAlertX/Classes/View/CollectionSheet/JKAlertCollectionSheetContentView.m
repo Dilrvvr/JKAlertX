@@ -52,6 +52,8 @@
 - (void)calculateUI {
     [super calculateUI];
     
+    self.backgroundEffectView.hidden = self.isPierced;
+    
     self.textContentView.screenSafeInsets = self.screenSafeInsets;
     self.textContentView.contentWidth = self.contentWidth;
     
@@ -64,6 +66,21 @@
     [self adjustCollectionSheetFrame];
     
     [self adjustPinActionButtonCollectionSheetFrame];
+    
+    if (self.isPierced) {
+        
+        self.topContentView.layer.cornerRadius = self.piercedCornerRadius;
+        
+        self.collectionButton.layer.cornerRadius = self.piercedCornerRadius;
+        
+        self.cancelButton.layer.cornerRadius = self.piercedCornerRadius;
+        
+    } else {
+        
+        self.topContentView.layer.cornerRadius = 0;
+        self.collectionButton.layer.cornerRadius = 0;
+        self.cancelButton.layer.cornerRadius = 0;
+    }
     
     [self.collectionView reloadData];
     [self.collectionView2 reloadData];
@@ -117,7 +134,7 @@
     
     [self.bottomContentView updateContentSize];
     
-    if (self.frame.size.height <= self.maxHeight) {
+    if (self.topContainerView.frame.size.height + self.bottomContentView.frame.size.height <= self.maxHeight) {
         
         frame = self.bottomContentView.frame;
         frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
@@ -488,7 +505,9 @@
     
     self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
     
-    self.topContainerView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor: self.textContentBackgroundColor.lightColor;
+    self.topContainerView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.lightColor;
+    
+    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor: nil;
 }
 
 - (void)updateDarkModeUI {
@@ -498,7 +517,9 @@
     
     self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
     
-    self.topContainerView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor: self.textContentBackgroundColor.darkColor;
+    self.topContainerView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.darkColor;
+    
+    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor: nil;
 }
 
 #pragma mark
@@ -637,6 +658,10 @@
     [super initializeUIData];
     
     self.bottomContentView.scrollView.scrollEnabled = NO;
+    
+    self.topContentView.layer.masksToBounds = YES;
+    self.collectionButton.layer.masksToBounds = YES;
+    self.cancelButton.layer.masksToBounds = YES;
     
     // TODO: JKTODO delete
     

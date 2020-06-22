@@ -57,10 +57,8 @@
     if (self.isPierced) {
         
         self.topContentView.layer.cornerRadius = self.piercedCornerRadius;
-        self.topContentView.layer.masksToBounds = YES;
         
         self.cancelButton.layer.cornerRadius = self.piercedCornerRadius;
-        self.cancelButton.layer.masksToBounds = YES;
         
     } else {
         
@@ -648,6 +646,8 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
+    self.topContentView.layer.masksToBounds = YES;
+    self.cancelButton.layer.masksToBounds = YES;
 }
 
 - (void)registerCellClass {

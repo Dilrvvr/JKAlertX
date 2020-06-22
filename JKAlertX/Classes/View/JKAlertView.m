@@ -185,7 +185,7 @@
         
         CGFloat safeWidth = keyWindow.frame.size.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right;
         
-        if (self.customSuperView.frame.size.width > safeWidth) {
+        if (self.customSuperView.frame.size.width > safeWidth - 1) {
             
             safeAreaInsets.left = windowSafeAreaInsets.left;
             safeAreaInsets.right = windowSafeAreaInsets.right;
@@ -291,6 +291,11 @@
     
     CGFloat contentWidth = JKAlertScreenW;
     
+    if (self.collectionsheetContentView.isPierced) {
+        
+        contentWidth -= (self.collectionsheetContentView.piercedInsets.left + self.collectionsheetContentView.piercedInsets.right + self.collectionsheetContentView.screenSafeInsets.left + self.collectionsheetContentView.screenSafeInsets.right);
+    }
+    
     // TODO: JKTODO <#注释#>
     self.collectionsheetContentView.contentWidth = contentWidth;
     self.collectionsheetContentView.maxHeight = JKAlertSheetMaxH;
@@ -298,7 +303,7 @@
     [self.collectionsheetContentView calculateUI];
     
     CGRect frame = self.collectionsheetContentView.frame;
-    frame.origin.x = 0;
+    frame.origin.x = self.collectionsheetContentView.isPierced ? self.collectionsheetContentView.screenSafeInsets.left + self.collectionsheetContentView.piercedInsets.left : 0;
     frame.origin.y = JKAlertScreenH - frame.size.height;
     self.collectionsheetContentView.frame = frame;
 }

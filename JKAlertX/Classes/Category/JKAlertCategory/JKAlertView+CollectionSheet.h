@@ -85,6 +85,21 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetAction)(JKAlertAction *action);
 
+/**
+ * collectionSheet底部按钮是否固定在底部
+ * 默认NO
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetActionButtonPinned)(BOOL actionButtonPinned);
+
+/**
+ * collectionSheet是否镂空
+ * 设置为YES后，makeActionSheetCancelButtonPinned将强制为YES
+ * cornerRadius : 整体圆角
+ * piercedInsets : 整体左、右、下间距
+ * piercedBackgroundColor : 整体背景
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPierced)(BOOL isPierced, UIEdgeInsets piercedInsets, CGFloat cornerRadius, JKAlertMultiColor *piercedBackgroundColor);
+
 
 
 /** collection添加第二个collectionView的action */

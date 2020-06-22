@@ -197,6 +197,54 @@
     };
 }
 
+/**
+ * collectionSheet底部取消按钮是否固定在底部
+ * 默认NO
+ */
+- (JKAlertView *(^)(BOOL actionButtonPinned))makeCollectionSheetActionButtonPinned {
+    
+    return ^(BOOL actionButtonPinned) {
+        
+        return [self checkCollectionSheetStyleHandler:^{
+            
+            self.collectionsheetContentView.actionButtonPinned = actionButtonPinned;
+        }];
+    };
+}
+
+/**
+ * collectionSheet是否镂空
+ * 设置为YES后，makeActionSheetCancelButtonPinned将强制为YES
+ * cornerRadius : 整体圆角
+ * piercedInsets : 整体左、右、下间距
+ * piercedBackgroundColor : 整体背景
+ */
+- (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets, CGFloat cornerRadius, JKAlertMultiColor *piercedBackgroundColor))makeCollectionSheetPierced {
+    
+    return ^(BOOL isPierced, UIEdgeInsets piercedInsets, CGFloat cornerRadius, JKAlertMultiColor *piercedBackgroundColor) {
+        
+        return [self checkCollectionSheetStyleHandler:^{
+            
+            self.collectionsheetContentView.isPierced = isPierced;
+            self.collectionsheetContentView.piercedInsets = piercedInsets;
+            self.collectionsheetContentView.piercedCornerRadius = cornerRadius;
+            self.collectionsheetContentView.piercedBackgroundColor = piercedBackgroundColor;
+            
+            [self.actions enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                
+                obj.isPierced = isPierced;
+                obj.multiPiercedBackgroundColor = piercedBackgroundColor;
+            }];
+            
+            [self.actions2 enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                
+                obj.isPierced = isPierced;
+                obj.multiPiercedBackgroundColor = piercedBackgroundColor;
+            }];
+        }];
+    };
+}
+
 
 
 /** 添加第二个collectionView的action */
