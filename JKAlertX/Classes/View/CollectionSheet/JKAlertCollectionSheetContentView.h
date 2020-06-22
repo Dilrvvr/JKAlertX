@@ -21,7 +21,8 @@
 /** actionArray2 */
 @property (nonatomic, strong) NSArray *actionArray2;
 
-
+/** buttonInsets */
+@property (nonatomic, assign) UIEdgeInsets buttonInsets;
 
 
 
