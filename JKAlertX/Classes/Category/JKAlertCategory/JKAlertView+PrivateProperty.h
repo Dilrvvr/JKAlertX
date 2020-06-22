@@ -20,10 +20,7 @@
 
 
 {
-    //CGFloat TBMargin;
     CGFloat textContainerViewCurrentMaxH_;
-    
-    //CGFloat JKAlertTitleMessageMargin;
     
     CGFloat JKAlertSheetMaxH;
     
@@ -62,6 +59,21 @@
     BOOL isSheetDismissHorizontal;
 }
 
+/** 样式 */
+@property (nonatomic, assign) JKAlertStyle alertStyle;
+
+/** 标题 */
+@property (nonatomic, copy) NSString *alertTitle;
+
+/** 富文本标题 */
+@property (nonatomic, copy) NSAttributedString *alertAttributedTitle;
+
+/** 提示信息 */
+@property (nonatomic, copy) NSString *alertMessage;
+
+/** 富文本提示信息 */
+@property (nonatomic, copy) NSAttributedString *attributedMessage;
+
 /** plainContentView */
 @property (nonatomic, weak) JKAlertPlainContentView *plainContentView;
 
@@ -93,29 +105,11 @@
 /** sheetContainerView */
 @property (nonatomic, weak) UIView *sheetContainerView;
 
-/** isClearTextContainerBackground */
-@property (nonatomic, assign) BOOL isClearTextContainerBackground;
-
 /** actions */
 @property (nonatomic, strong) NSMutableArray *actions;
 
 /** actions2 */
 @property (nonatomic, strong) NSMutableArray *actions2;
-
-/** 样式 */
-@property (nonatomic, assign) JKAlertStyle alertStyle;
-
-/** 标题 */
-@property (nonatomic, copy) NSString *alertTitle;
-
-/** 富文本标题 */
-@property (nonatomic, copy) NSAttributedString *alertAttributedTitle;
-
-/** 提示信息 */
-@property (nonatomic, copy) NSString *alertMessage;
-
-/** 富文本提示信息 */
-@property (nonatomic, copy) NSAttributedString *attributedMessage;
 
 /** closeButton */
 @property (nonatomic, weak) UIButton *closeButton;
@@ -218,15 +212,6 @@
 /** horizontalDismissPanGesture */
 @property (nonatomic, strong) JKAlertPanGestureRecognizer *horizontalDismissPanGesture;
 
-/** tableViewDataSource */
-//@property (nonatomic, weak) id tableViewDataSource;
-//
-///** tableViewDelegate */
-//@property (nonatomic, weak) id tableViewDelegate;
-
-/** 是否固定取消按钮在底部 */
-//@property (nonatomic, assign) BOOL pinCancelButton;
-
 /** 是否自动适配键盘 */
 @property (nonatomic, assign) BOOL autoAdaptKeyboard;
 
@@ -235,21 +220,6 @@
 
 /** show的时候是否振动 默认NO */
 @property (nonatomic, assign) BOOL vibrateEnabled;
-
-/** action sheet样式是否镂空 */
-//@property (nonatomic, assign) BOOL isActionSheetPierced;
-//
-///** 镂空左右的间距 默认15 */
-//@property (nonatomic, assign) CGFloat piercedHorizontalMargin;
-//
-///** 非X设备镂空底部取消按钮距离底部的间距 默认15 */
-//@property (nonatomic, assign) CGFloat piercedBottomMargin;
-//
-///** 镂空整体圆角 */
-//@property (nonatomic, assign) CGFloat piercedCornerRadius;
-//
-///** 镂空时背景色 */
-//@property (nonatomic, strong) UIColor *piercedBackgroundColor;
 
 - (void)addKeyboardWillChangeFrameNotification;
 
