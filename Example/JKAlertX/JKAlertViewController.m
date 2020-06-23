@@ -407,7 +407,16 @@
     
     //alertView.setCollectionTitleSeparatorHidden(NO);
     
-    // 第1组
+    alertView.makeCollectionSheetActionButtonPinned(YES);
+    
+    alertView.makeCancelAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:nil].setCustomView(^UIView *(JKAlertAction *action) {
+        
+        return [UIView new];
+    }));
+    
+    //alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), 10, [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
+    
+    /* 第1组
     alertView.makeCollectionSheetAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
         if (action.autoDismiss) { return; }
@@ -418,7 +427,7 @@
             
         }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).makeBottomButtonMargin(0.25).relayout(YES);
         
-    }].setAutoDismiss(NO)).setShowPageControl(YES);
+    }].setAutoDismiss(NO)).setShowPageControl(YES); //*/
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
