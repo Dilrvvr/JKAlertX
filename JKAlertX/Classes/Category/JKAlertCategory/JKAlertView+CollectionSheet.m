@@ -28,6 +28,21 @@
 }
 
 /**
+ * collection的minimumLineSpacing
+ * 默认10
+ */
+- (JKAlertView *(^)(CGFloat minimumLineSpacing))makeCollectionSheetMinimumLineSpacing {
+    
+    return ^(CGFloat minimumLineSpacing) {
+        
+        return [self checkCollectionSheetStyleHandler:^{
+            
+            self.collectionsheetContentView.minimumLineSpacing = minimumLineSpacing;
+        }];
+    };
+}
+
+/**
  * collection列数（每行数量）
  * 默认0，自动设置，不得大于自动设置的数量
  */

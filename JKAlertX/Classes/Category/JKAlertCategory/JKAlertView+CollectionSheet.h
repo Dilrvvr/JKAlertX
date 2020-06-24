@@ -17,6 +17,12 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetItemSize)(CGSize itemSize);
 
 /**
+ * collection的minimumLineSpacing
+ * 默认10
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetMinimumLineSpacing)(CGFloat minimumLineSpacing);
+
+/**
  * collection列数（每行数量）
  * 默认0，自动设置，不得大于自动设置的数量
  */

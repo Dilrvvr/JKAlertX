@@ -12,6 +12,9 @@
 /** scrollView */
 @property (nonatomic, weak, readonly) UIScrollView *scrollView;
 
+/** scrollViewTopConstraint */
+@property (nonatomic, strong) NSLayoutConstraint *scrollViewTopConstraint;
+
 /** scrollViewBottomConstraint */
 @property (nonatomic, strong) NSLayoutConstraint *scrollViewBottomConstraint;
 @end

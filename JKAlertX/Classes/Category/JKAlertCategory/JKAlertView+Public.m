@@ -127,7 +127,7 @@
 }
 
 /**
- * 设置背景view
+ * 背景view
  * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
  */
 - (JKAlertView *(^)(UIView *(^backGroundView)(void)))makeAlertBackgroundView {
@@ -140,6 +140,26 @@
         }
         
         return self;
+    };
+}
+
+/**
+ * actionSheet和collectionSheet样式自定义cell类名
+ * actionSheet必须是或继承自JKAlertTableViewCell
+ * collectionSheet必须是或继承自JKAlertCollectionViewCell
+ */
+- (JKAlertView *(^)(NSString *cellClassName))makeCustomCellClassName {
+    
+    return ^(NSString *cellClassName) {
+        
+        return [[self checkActionSheetStyleHandler:^{
+            
+            self.actionsheetContentView.cellClassName = cellClassName;
+            
+        }] checkCollectionSheetStyleHandler:^{
+            
+            self.collectionsheetContentView.cellClassName = cellClassName;
+        }];
     };
 }
 
@@ -648,17 +668,14 @@
     
     return ^(BOOL adapted) {
         
-        [self checkActionSheetStyleHandler:^{
+        return [[self checkActionSheetStyleHandler:^{
             
             self.actionsheetContentView.autoAdjustHomeIndicator = adapted;
-        }];
-        
-        [self checkCollectionSheetStyleHandler:^{
+            
+        }] checkCollectionSheetStyleHandler:^{
             
             self.collectionsheetContentView.autoAdjustHomeIndicator = adapted;
         }];
-        
-        return self;
     };
 }
 
@@ -670,17 +687,14 @@
     
     return ^(BOOL filled) {
         
-        [self checkActionSheetStyleHandler:^{
+        return [[self checkActionSheetStyleHandler:^{
             
             self.actionsheetContentView.fillHomeIndicator = filled;
-        }];
-        
-        [self checkCollectionSheetStyleHandler:^{
+            
+        }] checkCollectionSheetStyleHandler:^{
             
             self.collectionsheetContentView.fillHomeIndicator = filled;
         }];
-        
-        return self;
     };
 }
 
@@ -692,17 +706,14 @@
     
     return ^(CGFloat margin) {
         
-        [self checkActionSheetStyleHandler:^{
+        return [[self checkActionSheetStyleHandler:^{
             
             self.actionsheetContentView.cancelMargin = margin;
-        }];
-        
-        [self checkCollectionSheetStyleHandler:^{
+            
+        }] checkCollectionSheetStyleHandler:^{
             
             self.collectionsheetContentView.cancelMargin = margin;
         }];
-        
-        return self;
     };
 }
 

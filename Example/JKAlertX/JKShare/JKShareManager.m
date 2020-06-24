@@ -31,8 +31,10 @@
 //
 //        return;
 //    }
+
+    CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
     
-    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].makeTitleAlignment(NSTextAlignmentLeft).setFlowlayoutItemWidth((MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].makeTitleAlignment(NSTextAlignmentLeft).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
         
         UIEdgeInsets insets = originalInsets;
         

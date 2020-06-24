@@ -90,6 +90,7 @@
     //[self.contentView addConstraint:rightConstraint];
     [self.contentView addConstraint:bottomConstraint]; //*/
     
+    _scrollViewTopConstraint = topConstraint;
     _scrollViewBottomConstraint = bottomConstraint;
 }
 

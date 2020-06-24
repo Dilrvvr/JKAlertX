@@ -93,10 +93,17 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeAlertContentViewConfiguration)(void (^configuration)(UIView *alertContentView));
 
 /**
- * 设置背景view
+ * 背景view
  * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeAlertBackgroundView)(UIView *(^backgroundView)(void));
+
+/**
+ * actionSheet和collectionSheet样式自定义cell类名
+ * actionSheet必须是或继承自JKAlertTableViewCell
+ * collectionSheet必须是或继承自JKAlertCollectionViewCell
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomCellClassName)(NSString *cellClassName);
 
 #pragma mark
 #pragma mark - title /内容相关
