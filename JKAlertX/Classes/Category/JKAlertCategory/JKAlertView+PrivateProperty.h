@@ -99,6 +99,16 @@
 @property (nonatomic, assign) BOOL deallocLogEnabled;
 
 
+
+
+/** verticalDismissPanGesture */
+@property (nonatomic, strong) JKAlertPanGestureRecognizer *verticalDismissPanGesture;
+
+/** horizontalDismissPanGesture */
+@property (nonatomic, strong) JKAlertPanGestureRecognizer *horizontalDismissPanGesture;
+
+
+
 /** observerSuperView */
 @property (nonatomic, weak) UIView *observerSuperView;
 
@@ -205,12 +215,6 @@
 
 /** topGestureLineView */
 @property (nonatomic, weak) UIView *topGestureLineView;
-
-/** verticalDismissPanGesture */
-@property (nonatomic, strong) JKAlertPanGestureRecognizer *verticalDismissPanGesture;
-
-/** horizontalDismissPanGesture */
-@property (nonatomic, strong) JKAlertPanGestureRecognizer *horizontalDismissPanGesture;
 
 /** 是否自动适配键盘 */
 @property (nonatomic, assign) BOOL autoAdaptKeyboard;

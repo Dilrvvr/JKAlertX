@@ -10,8 +10,9 @@
 #import "JKAlertAction.h"
 #import "JKAlertView.h"
 #import "JKAlertActionButton.h"
+#import "JKAlertPanGestureRecognizer.h"
 
-@interface JKAlertCollectionSheetContentView () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface JKAlertCollectionSheetContentView () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
 {
     __weak UIPageControl *_pageControl;
 }
@@ -208,11 +209,33 @@
     
     CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
     
-    CGRect frame = CGRectZero;
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
     
     CGFloat topInitialHeight = 0;
     
     self.titleSeparatorLineView.hidden = self.titleSeparatorLineHidden;
+    
+    self.topGestureIndicatorView.hidden = YES;
+    
+    CGFloat gestureIndicatorHeight = 0;
+    
+    if (self.enableVerticalGestureDismiss &&
+        !self.gestureIndicatorHidden) {
+        
+        gestureIndicatorHeight = JKAlertTopGestureIndicatorHeight;
+        
+        self.topGestureIndicatorView.hidden = NO;
+    }
+    
+    frame.size.height = gestureIndicatorHeight;
+    self.topGestureIndicatorView.frame = frame;
+    
+    if (!self.topGestureIndicatorView.hidden) {
+        
+        self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - JKAlertTopGestureIndicatorLineWidth) * 0.5, (JKAlertTopGestureIndicatorHeight - JKAlertTopGestureIndicatorLineHeight) * 0.5, JKAlertTopGestureIndicatorLineWidth, JKAlertTopGestureIndicatorLineHeight);
+    }
+    
+    rect.size.height += self.topGestureIndicatorView.frame.size.height;
     
     if (self.textContentView.hidden) {
         
@@ -251,7 +274,7 @@
         self.flowlayout.itemSize = self.itemSize;
         self.flowlayout.minimumLineSpacing = self.minimumLineSpacing;
         
-        UIEdgeInsets sectionInset = UIEdgeInsetsMake(0, insetLeft, 0, insetRight);
+        UIEdgeInsets sectionInset = UIEdgeInsetsMake(self.flowlayout.itemSize.height - self.collectionView.frame.size.height, insetLeft, 0, insetRight);
         self.flowlayout.sectionInset = sectionInset;
 
         frame = self.collectionView.frame;
@@ -278,7 +301,7 @@
         self.flowlayout2.itemSize = self.itemSize;
         self.flowlayout2.minimumLineSpacing = self.minimumLineSpacing;
         
-        UIEdgeInsets sectionInset = UIEdgeInsetsMake(0, insetLeft, 0, insetRight);
+        UIEdgeInsets sectionInset = UIEdgeInsetsMake(self.flowlayout2.itemSize.height - self.collectionView2.frame.size.height, insetLeft, 0, insetRight);
         self.flowlayout2.sectionInset = sectionInset;
 
         frame = self.collectionView2.frame;
@@ -554,6 +577,184 @@
 }
 
 #pragma mark
+#pragma mark - 滑动手势
+#if 0
+- (void)verticalPanGestureAction:(UIPanGestureRecognizer *)panGesture{
+    
+    switch (panGesture.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+            beginScrollDirection = JKAlertScrollDirectionNone;
+            endScrollDirection = JKAlertScrollDirectionNone;
+            
+            lastContainerY = self.sheetContainerView.frame.origin.y;
+        }
+            break;
+        case UIGestureRecognizerStateChanged:
+        {
+            // 获取偏移
+            CGPoint point = [panGesture translationInView:self.sheetContainerView];
+            
+            CGRect frame = self.sheetContainerView.frame;
+            
+            if (point.y > 0) {
+                
+                if (!self.tapBlankDismiss) {
+                    
+                    frame.origin.y += (point.y * 0.01);
+                    
+                } else {
+                    
+                    frame.origin.y += point.y;
+                }
+                
+            } else {
+                
+                if (!self.tapBlankDismiss ||
+                    (frame.origin.y <= (correctContainerY))) {
+                    
+                    frame.origin.y += (point.y * 0.01);
+                    
+                } else {
+                    
+                    frame.origin.y += point.y;
+                }
+            }
+            
+            frame.origin.y = MAX(frame.origin.y, correctContainerY - 5);
+            
+            self.sheetContainerView.frame = frame;
+            
+            // 归零
+            [panGesture setTranslation:CGPointZero inView:self.sheetContainerView];
+            
+            [self checkVerticalSlideDirection];
+        }
+            break;
+            
+        default:
+        {
+            if (!self.tapBlankDismiss) {
+                
+                [self relayoutSheetContainerView];
+                
+                return;
+            }
+            
+            CGPoint velocity = [panGesture velocityInView:panGesture.view];
+            CGFloat magnitude = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
+            CGFloat slideMult = magnitude / 200;
+            
+            float slideFactor = 0.1 * slideMult;
+            CGPoint finalPoint = CGPointMake(0, self.sheetContainerView.frame.origin.y + (velocity.y * slideFactor));
+            
+            BOOL isSlideHalf = (finalPoint.y - correctContainerY > self.sheetContainerView.frame.size.height * 0.5);
+            
+            if (isSlideHalf &&
+                self.tapBlankDismiss &&
+                (endScrollDirection == JKAlertScrollDirectionDown)) {
+                
+                [self dismiss];
+                
+            } else {
+                
+                //self.relayout(YES);
+                
+                [self relayoutSheetContainerView];
+            }
+        }
+            break;
+    }
+}
+
+- (void)horizontalPanGestureAction:(UIPanGestureRecognizer *)panGesture{
+    
+    switch (panGesture.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+            beginScrollDirection = JKAlertScrollDirectionNone;
+            endScrollDirection = JKAlertScrollDirectionNone;
+            
+            lastContainerX = self.sheetContainerView.frame.origin.x;
+        }
+            break;
+        case UIGestureRecognizerStateChanged:
+        {
+            // 获取偏移
+            CGPoint point = [panGesture translationInView:self.contentView];
+            
+            CGPoint center = self.sheetContainerView.center;
+            
+            if (point.x > 0) {
+                
+                if (!self.tapBlankDismiss) {
+                    
+                    center.x += (point.x * 0.02);
+                    
+                } else {
+                    
+                    center.x += point.x;
+                }
+                
+            } else {
+                
+                if (!self.tapBlankDismiss ||
+                    (center.x <= (JKAlertScreenW * 0.5))) {
+                    
+                    center.x += (point.x * 0.02);
+                    
+                } else {
+                    
+                    center.x += point.x;
+                }
+            }
+            
+            self.sheetContainerView.center = center;
+            
+            // 归零
+            [panGesture setTranslation:CGPointZero inView:self.contentView];
+            
+            [self checkHorizontalSlideDirection];
+        }
+            break;
+            
+        default:
+        {
+            if (!self.tapBlankDismiss) {
+                
+                [self relayoutSheetContainerView];
+                
+                return;
+            }
+            
+            CGPoint velocity = [panGesture velocityInView:panGesture.view];
+            CGFloat magnitude = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
+            CGFloat slideMult = magnitude / 200;
+            
+            float slideFactor = 0.1 * slideMult;
+            CGPoint finalPoint = CGPointMake(self.sheetContainerView.center.x + (velocity.x * slideFactor), self.sheetContainerView.center.y + (velocity.y * slideFactor));
+            BOOL isSlideHalf = ((finalPoint.x - self.sheetContainerView.frame.size.width * 0.5) - (JKAlertScreenW - self.sheetContainerView.frame.size.width) > self.sheetContainerView.frame.size.width * 0.5);
+            if (isSlideHalf &&
+                self.tapBlankDismiss &&
+                beginScrollDirection == endScrollDirection) {
+                
+                isSheetDismissHorizontal = YES;
+                
+                [self dismiss];
+                
+            } else {
+                
+                //self.relayout(YES);
+                
+                [self relayoutSheetContainerView];
+            }
+        }
+            break;
+    }
+}
+#endif
+
+#pragma mark
 #pragma mark - UICollectionViewDataSource & UICollectionViewDelegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -601,6 +802,24 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
     self.pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / self.contentWidth);
+}
+
+#pragma mark
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    
+    if (gestureRecognizer == self.verticalDismissPanGesture) {
+        
+        return self.enableVerticalGestureDismiss;
+    }
+    
+    if (gestureRecognizer == self.horizontalDismissPanGesture) {
+        
+        return self.enableHorizontalGestureDismiss;
+    }
+    
+    return YES;
 }
 
 #pragma mark

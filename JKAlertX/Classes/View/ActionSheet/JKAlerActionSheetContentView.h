@@ -5,12 +5,15 @@
 //  Created by albert on 2020/6/4.
 //
 
-#import "JKAlertBaseAlertContentView.h"
+#import "JKAlertBaseSheetContentView.h"
 #import "JKAlertActionSheetTextContentView.h"
 
 @class JKAlertAction;
 
-@interface JKAlerActionSheetContentView : JKAlertBaseAlertContentView
+@interface JKAlerActionSheetContentView : JKAlertBaseSheetContentView
+
+/** delegate */
+@property (nonatomic, weak) id <UIScrollViewDelegate> delegate;
 
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertActionSheetTextContentView *textContentView;

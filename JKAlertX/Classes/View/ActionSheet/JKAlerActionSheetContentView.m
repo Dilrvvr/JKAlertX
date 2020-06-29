@@ -89,9 +89,35 @@
 
 - (void)adjustActionSheetFrame {
     
-    CGRect frame = CGRectZero;
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    self.topGestureIndicatorView.hidden = YES;
+    
+    CGFloat gestureIndicatorHeight = 0;
+    
+    if (self.enableVerticalGestureDismiss &&
+        !self.gestureIndicatorHidden) {
+        
+        gestureIndicatorHeight = JKAlertTopGestureIndicatorHeight;
+        
+        self.topGestureIndicatorView.hidden = NO;
+    }
+    
+    frame.size.height = gestureIndicatorHeight;
+    self.topGestureIndicatorView.frame = frame;
+    
+    if (!self.topGestureIndicatorView.hidden) {
+        
+        self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - JKAlertTopGestureIndicatorLineWidth) * 0.5, (JKAlertTopGestureIndicatorHeight - JKAlertTopGestureIndicatorLineHeight) * 0.5, JKAlertTopGestureIndicatorLineWidth, JKAlertTopGestureIndicatorLineHeight);
+    }
     
     frame = self.textContentView.frame;
+    frame.origin.y = CGRectGetMaxY(self.topGestureIndicatorView.frame);
+    self.textContentView.frame = frame;
+    
+    frame.origin.y = 0;
+    frame.size.height += self.topGestureIndicatorView.frame.size.height;
+    
     self.topContentView.frame = frame;
     
     self.topContentView.scrollView.contentSize = CGSizeMake(0, self.topContentView.frame.size.height);

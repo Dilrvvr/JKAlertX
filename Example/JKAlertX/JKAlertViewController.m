@@ -22,9 +22,11 @@
 
 - (IBAction)customCollectionActionView:(id)sender {
     
-    CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
+    CGFloat screenWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     
-    [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    CGFloat itemWidth = screenWidth * 0.25;
+    
+    [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetMinimumLineSpacing((screenWidth - itemWidth * 2) / 2).makeCollectionSheetSectionInset(UIEdgeInsetsMake(0, ((screenWidth - itemWidth * 2) / 4), 0, ((screenWidth - itemWidth * 2) / 4))).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setCustomView(^(JKAlertAction *action) {
         
@@ -527,9 +529,11 @@
 
 - (IBAction)testShare:(UIButton *)sender {
     
-    CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
+    CGFloat screenWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     
-    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeTitleAlignment(NSTextAlignmentLeft).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+    CGFloat itemWidth = screenWidth * 0.25;
+    
+    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeTitleAlignment(NSTextAlignmentLeft).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetMinimumLineSpacing((screenWidth - itemWidth * 2) / 2).makeCollectionSheetSectionInset(UIEdgeInsetsMake(0, ((screenWidth - itemWidth * 2) / 4), 0, ((screenWidth - itemWidth * 2) / 4))).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
         
         UIEdgeInsets insets = originalInsets;
         
@@ -663,7 +667,7 @@
     
     CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeCollectionSheetSectionInset(UIEdgeInsetsZero).makeCollectionSheetMinimumLineSpacing(0.0);
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 100)];
     label.backgroundColor = [UIColor orangeColor];
@@ -801,7 +805,7 @@
     
     CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeCollectionSheetSectionInset(UIEdgeInsetsZero).makeCollectionSheetMinimumLineSpacing(0.0);
     
     // 第1组
     alertView.makeCollectionSheetAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
@@ -887,6 +891,8 @@
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"复制链接" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setNormalImage([UIImage imageNamed:@"Share_Copylink"])];
+    
+    alertView.addSecondCollectionAction([JKAlertAction new]).addSecondCollectionAction([JKAlertAction new]).addSecondCollectionAction([JKAlertAction new]).addSecondCollectionAction([JKAlertAction new]);
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
