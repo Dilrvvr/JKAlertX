@@ -805,24 +805,6 @@
 }
 
 #pragma mark
-#pragma mark - UIGestureRecognizerDelegate
-
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    
-    if (gestureRecognizer == self.verticalDismissPanGesture) {
-        
-        return self.enableVerticalGestureDismiss;
-    }
-    
-    if (gestureRecognizer == self.horizontalDismissPanGesture) {
-        
-        return self.enableHorizontalGestureDismiss;
-    }
-    
-    return YES;
-}
-
-#pragma mark
 #pragma mark - Initialization & Build UI
 
 /** 初始化自身属性 */

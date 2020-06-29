@@ -251,6 +251,8 @@
     
     self.actionsheetContentView.actionArray = self.actions;
     
+    self.actionsheetContentView.tapBlankDismiss = self.tapBlankDismiss;
+    
     UIEdgeInsets safeAreaInsets = [self getSuperViewSafeAreaInsets];
     
     safeAreaInsets.top = 0;
@@ -273,6 +275,8 @@
     frame.origin.x = self.actionsheetContentView.isPierced ? self.actionsheetContentView.screenSafeInsets.left + self.actionsheetContentView.piercedInsets.left : 0;
     frame.origin.y = JKAlertScreenH - frame.size.height;
     self.actionsheetContentView.frame = frame;
+    
+    self.actionsheetContentView.correctFrame = frame;
 }
 
 - (void)calculateCollectionSheetUI {
@@ -282,6 +286,8 @@
     
     self.collectionsheetContentView.actionArray = self.actions;
     self.collectionsheetContentView.actionArray2 = self.actions2;
+    
+    self.collectionsheetContentView.tapBlankDismiss = self.tapBlankDismiss;
     
     UIEdgeInsets safeAreaInsets = [self getSuperViewSafeAreaInsets];
     
@@ -306,6 +312,8 @@
     frame.origin.x = self.collectionsheetContentView.isPierced ? self.collectionsheetContentView.screenSafeInsets.left + self.collectionsheetContentView.piercedInsets.left : 0;
     frame.origin.y = JKAlertScreenH - frame.size.height;
     self.collectionsheetContentView.frame = frame;
+    
+    self.collectionsheetContentView.correctFrame = frame;
 }
 
 #pragma mark

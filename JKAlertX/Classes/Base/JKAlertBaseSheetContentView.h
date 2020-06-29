@@ -31,4 +31,14 @@
 
 /** gestureIndicatorHidden */
 @property (nonatomic, assign) BOOL gestureIndicatorHidden;
+
+/** tapBlankDismiss */
+@property (nonatomic, assign) BOOL tapBlankDismiss;
+
+/** correctFrame */
+@property (nonatomic, assign) CGRect correctFrame;
+
+- (void)verticalPanGestureAction:(UIPanGestureRecognizer *)panGesture;
+
+- (void)horizontalPanGestureAction:(UIPanGestureRecognizer *)panGesture;
 @end

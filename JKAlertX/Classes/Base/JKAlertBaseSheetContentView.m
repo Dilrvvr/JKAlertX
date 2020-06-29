@@ -7,6 +7,30 @@
 
 #import "JKAlertBaseSheetContentView.h"
 #import "JKAlertPanGestureRecognizer.h"
+#import "JKAlertView.h"
+
+@interface JKAlertBaseSheetContentView () <UIGestureRecognizerDelegate>
+{
+    CGFloat correctContainerY;
+    CGFloat lastContainerY;
+    CGFloat currentContainerY;
+    
+    CGFloat lastContainerX;
+    CGFloat currentContainerX;
+    
+    JKAlertScrollDirection beginScrollDirection;
+    JKAlertScrollDirection endScrollDirection;
+    
+    BOOL disableScrollToDismiss;
+    
+    BOOL isBeginDragging;
+    BOOL isDragging;
+    
+    //CGFloat lastTableViewOffsetY;
+    
+    BOOL isSheetDismissHorizontal;
+}
+@end
 
 @implementation JKAlertBaseSheetContentView
 
@@ -28,22 +52,232 @@
 #pragma mark
 #pragma mark - Private Methods
 
+- (void)checkVerticalSlideDirection {
 
+    currentContainerY = self.frame.origin.y;
+    
+    if (currentContainerY < lastContainerY) {
+        
+        if (beginScrollDirection == JKAlertScrollDirectionNone) {
+            
+            beginScrollDirection = JKAlertScrollDirectionUp;
+        }
+        
+        endScrollDirection = JKAlertScrollDirectionUp;
+        
+        //NSLog(@"上滑-------current:%.3f  last:%.3f", currentContainerY, lastContainerY);
+    }
+    
+    if (currentContainerY > lastContainerY) {
+        
+        //NSLog(@"下滑-------current:%.3f  last:%.3f", currentContainerY, lastContainerY);
+        
+        if (beginScrollDirection == JKAlertScrollDirectionNone) {
+            
+            beginScrollDirection = JKAlertScrollDirectionDown;
+        }
+        
+        endScrollDirection = JKAlertScrollDirectionDown;
+    }
+    
+    lastContainerY = currentContainerY;
+}
+
+- (void)checkHorizontalSlideDirection{
+
+    currentContainerX = self.frame.origin.x;
+    
+    if (currentContainerX < lastContainerX) {
+        
+        if (beginScrollDirection == JKAlertScrollDirectionNone) {
+            
+            beginScrollDirection = JKAlertScrollDirectionLeft;
+        }
+        
+        endScrollDirection = JKAlertScrollDirectionLeft;
+        
+        //JKLog("左滑-------")
+    }
+    
+    if (currentContainerX > lastContainerX) {
+        
+        //JKLog("右滑-------")
+        
+        if (beginScrollDirection == JKAlertScrollDirectionNone) {
+            
+            beginScrollDirection = JKAlertScrollDirectionRight;
+        }
+        
+        endScrollDirection = JKAlertScrollDirectionRight;
+    }
+    
+    lastContainerX = currentContainerX;
+}
+
+- (void)checkVerticalSlideShouldDismiss{
+    
+    CGFloat correctSheetContainerY = (correctContainerY);
+    
+    CGFloat currentSheetContainerY = self.frame.origin.y;
+    
+    CGFloat delta = currentSheetContainerY - correctSheetContainerY;
+    
+    if ((delta > self.frame.size.height * 0.5) &&
+        beginScrollDirection == endScrollDirection) {
+        
+        [self.alertView dismiss];
+        
+    } else {
+        
+        //self.relayout(YES);
+        
+        [self relayoutSheetContainerView];
+    }
+}
+
+- (void)checkHorizontalSlideShouldDismiss{
+    
+    CGFloat correctSheetContainerX = self.correctFrame.origin.x;
+    
+    CGFloat currentSheetContainerX = self.frame.origin.x;
+    
+    CGFloat delta = currentSheetContainerX - correctSheetContainerX;
+    
+    if ((delta > self.frame.size.width * 0.5) &&
+        beginScrollDirection == endScrollDirection) {
+        
+        isSheetDismissHorizontal = YES;
+        
+        [self.alertView dismiss];
+        
+    } else {
+        
+        //self.relayout(YES);
+        
+        [self relayoutSheetContainerView];
+    }
+}
+
+- (void)relayoutSheetContainerView {
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.frame = self.correctFrame;
+    }];
+}
 
 #pragma mark
 #pragma mark - Private Selector
 
+- (void)verticalPanGestureAction:(UIPanGestureRecognizer *)panGesture {
+    
+    switch (panGesture.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+            beginScrollDirection = JKAlertScrollDirectionNone;
+            endScrollDirection = JKAlertScrollDirectionNone;
+            
+            lastContainerY = self.frame.origin.y;
+        }
+            break;
+        case UIGestureRecognizerStateChanged:
+        {
+            // 获取偏移
+            CGPoint point = [panGesture translationInView:self];
+            
+            CGRect frame = self.frame;
+            
+            if (point.y > 0) {
+                
+                if (!self.tapBlankDismiss) {
+                    
+                    frame.origin.y += (point.y * 0.01);
+                    
+                } else {
+                    
+                    frame.origin.y += point.y;
+                }
+                
+            } else {
+                
+                if (!self.tapBlankDismiss ||
+                    (frame.origin.y <= (correctContainerY))) {
+                    
+                    frame.origin.y += (point.y * 0.01);
+                    
+                } else {
+                    
+                    frame.origin.y += point.y;
+                }
+            }
+            
+            frame.origin.y = MAX(frame.origin.y, correctContainerY - 5);
+            
+            self.frame = frame;
+            
+            // 归零
+            [panGesture setTranslation:CGPointZero inView:self];
+            
+            [self checkVerticalSlideDirection];
+        }
+            break;
+            
+        default:
+        {
+            if (!self.tapBlankDismiss) {
+                
+                [self relayoutSheetContainerView];
+                
+                return;
+            }
+            
+            CGPoint velocity = [panGesture velocityInView:panGesture.view];
+            CGFloat magnitude = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
+            CGFloat slideMult = magnitude / 200;
+            
+            float slideFactor = 0.1 * slideMult;
+            CGPoint finalPoint = CGPointMake(0, self.frame.origin.y + (velocity.y * slideFactor));
+            
+            BOOL isSlideHalf = (finalPoint.y - correctContainerY > self.frame.size.height * 0.5);
+            
+            if (isSlideHalf &&
+                self.tapBlankDismiss &&
+                (endScrollDirection == JKAlertScrollDirectionDown)) {
+                
+                [self.alertView dismiss];
+                
+            } else {
+                
+                //self.relayout(YES);
+                
+                [self relayoutSheetContainerView];
+            }
+        }
+            break;
+    }
+}
 
+- (void)horizontalPanGestureAction:(UIPanGestureRecognizer *)panGesture {
+    
+}
 
 #pragma mark
-#pragma mark - UITableViewDataSource & UITableViewDelegate
+#pragma mark - UIGestureRecognizerDelegate
 
-
-
-#pragma mark
-#pragma mark - Custom Delegates
-
-
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    
+    if (gestureRecognizer == self.verticalDismissPanGesture) {
+        
+        return self.enableVerticalGestureDismiss;
+    }
+    
+    if (gestureRecognizer == self.horizontalDismissPanGesture) {
+        
+        return self.enableHorizontalGestureDismiss;
+    }
+    
+    return YES;
+}
 
 #pragma mark
 #pragma mark - Initialization & Build UI
@@ -66,6 +300,8 @@
 - (void)initialization {
     [super initialization];
     
+    [self addGestureRecognizer:self.verticalDismissPanGesture];
+    [self addGestureRecognizer:self.horizontalDismissPanGesture];
 }
 
 /** 创建UI */
