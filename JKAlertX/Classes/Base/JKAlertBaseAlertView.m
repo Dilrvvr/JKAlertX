@@ -47,7 +47,7 @@
 
 - (void)restoreMultiBackgroundColor {
     
-    self.multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.3]];
+    self.multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
 }
 
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
@@ -114,7 +114,7 @@
 - (void)initializeProperty{
     [super initializeProperty];
     
-    _multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.3]];
+    _multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
 }
 
 /** 构造函数初始化时调用 注意调用super */
