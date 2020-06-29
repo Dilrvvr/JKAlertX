@@ -55,8 +55,6 @@
     BOOL isDragging;
     
     //CGFloat lastTableViewOffsetY;
-    
-    BOOL isSheetDismissHorizontal;
 }
 
 /** 样式 */
@@ -99,7 +97,8 @@
 @property (nonatomic, assign) BOOL deallocLogEnabled;
 
 
-
+/** isSheetDismissHorizontal */
+@property (nonatomic, assign) BOOL isSheetDismissHorizontal;
 
 /** verticalDismissPanGesture */
 @property (nonatomic, strong) JKAlertPanGestureRecognizer *verticalDismissPanGesture;

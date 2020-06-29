@@ -38,6 +38,9 @@
 /** correctFrame */
 @property (nonatomic, assign) CGRect correctFrame;
 
+/** horizontalDismissHandler */
+@property (nonatomic, copy) void (^horizontalDismissHandler)(void);
+
 - (void)verticalPanGestureAction:(UIPanGestureRecognizer *)panGesture;
 
 - (void)horizontalPanGestureAction:(UIPanGestureRecognizer *)panGesture;

@@ -148,6 +148,8 @@
         
         isSheetDismissHorizontal = YES;
         
+        !self.horizontalDismissHandler ? : self.horizontalDismissHandler();
+        
         [self.alertView dismiss];
         
     } else {
@@ -248,8 +250,6 @@
                 
             } else {
                 
-                //self.relayout(YES);
-                
                 [self relayoutSheetContainerView];
             }
         }
@@ -259,6 +259,88 @@
 
 - (void)horizontalPanGestureAction:(UIPanGestureRecognizer *)panGesture {
     
+    switch (panGesture.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+            beginScrollDirection = JKAlertScrollDirectionNone;
+            endScrollDirection = JKAlertScrollDirectionNone;
+            
+            lastContainerX = self.frame.origin.x;
+        }
+            break;
+        case UIGestureRecognizerStateChanged:
+        {
+            // 获取偏移
+            CGPoint point = [panGesture translationInView:self.contentView];
+            
+            CGPoint center = self.center;
+            
+            if (point.x > 0) {
+                
+                if (!self.tapBlankDismiss) {
+                    
+                    center.x += (point.x * 0.02);
+                    
+                } else {
+                    
+                    center.x += point.x;
+                }
+                
+            } else {
+                
+                if (!self.tapBlankDismiss ||
+                    (center.x <= (self.contentWidth * 0.5))) {
+                    
+                    center.x += (point.x * 0.02);
+                    
+                } else {
+                    
+                    center.x += point.x;
+                }
+            }
+            
+            self.center = center;
+            
+            // 归零
+            [panGesture setTranslation:CGPointZero inView:self.contentView];
+            
+            [self checkHorizontalSlideDirection];
+        }
+            break;
+            
+        default:
+        {
+            if (!self.tapBlankDismiss) {
+                
+                [self relayoutSheetContainerView];
+                
+                return;
+            }
+            
+            CGPoint velocity = [panGesture velocityInView:panGesture.view];
+            CGFloat magnitude = sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y));
+            CGFloat slideMult = magnitude / 200;
+            
+            float slideFactor = 0.1 * slideMult;
+            CGPoint finalPoint = CGPointMake(self.center.x + (velocity.x * slideFactor), self.center.y + (velocity.y * slideFactor));
+            BOOL isSlideHalf = ((finalPoint.x - self.frame.size.width * 0.5) - (self.contentWidth - self.frame.size.width) > self.frame.size.width * 0.5);
+            if (isSlideHalf &&
+                self.tapBlankDismiss &&
+                beginScrollDirection == endScrollDirection) {
+                
+                isSheetDismissHorizontal = YES;
+                
+                !self.horizontalDismissHandler ? : self.horizontalDismissHandler();
+                
+                [self.alertView dismiss];
+                
+            } else {
+                
+                [self relayoutSheetContainerView];
+            }
+        }
+            break;
+    }
 }
 
 #pragma mark

@@ -1355,7 +1355,7 @@
     // 即将消失
     !self.willDismissHandler ? : self.willDismissHandler();
     
-    if (!isSheetDismissHorizontal || (self.alertStyle != JKAlertStyleActionSheet && self.alertStyle != JKAlertStyleCollectionSheet)) {
+    if (!self.isSheetDismissHorizontal || (self.alertStyle != JKAlertStyleActionSheet && self.alertStyle != JKAlertStyleCollectionSheet)) {
         
         // 自定义消失动画
         !self.customDismissAnimationBlock ? : self.customDismissAnimationBlock(self, self.alertContentView);
@@ -1379,7 +1379,7 @@
     
     if (self.customDismissAnimationBlock) {
         
-        if (isSheetDismissHorizontal) {
+        if (self.isSheetDismissHorizontal) {
             
             CGRect rect = _sheetContainerView.frame;
             rect.origin.x = JKAlertScreenW;
@@ -1388,6 +1388,21 @@
         
         return;
     }
+    
+    CGRect rect = self.currentAlertContentView.frame;
+    
+    if (self.isSheetDismissHorizontal) {
+        
+        rect.origin.x = JKAlertScreenW;
+        
+    } else {
+        
+        rect.origin.y = JKAlertScreenH;
+    }
+    
+    self.currentAlertContentView.frame = rect;
+    
+    return;
     
     switch (self.alertStyle) {
         case JKAlertStyleHUD:
@@ -1402,8 +1417,6 @@
             CGRect frame = self.actionsheetContentView.frame;
             frame.origin.y = JKAlertScreenH;
             self.actionsheetContentView.frame = frame;
-            
-            return;
         }
             break;
         case JKAlertStyleCollectionSheet:
@@ -1411,26 +1424,11 @@
             CGRect frame = self.collectionsheetContentView.frame;
             frame.origin.y = JKAlertScreenH;
             self.collectionsheetContentView.frame = frame;
-            
-            return;
         }
             
         default:
             break;
     }
-    
-    CGRect rect = _sheetContainerView.frame;
-    
-    if (isSheetDismissHorizontal) {
-        
-        rect.origin.x = JKAlertScreenW;
-        
-    } else {
-        
-        rect.origin.y = JKAlertScreenH;
-    }
-    
-    _sheetContainerView.frame = rect;
 }
 
 - (void(^)(void))dismissAnimationDidComplete{
@@ -2265,6 +2263,12 @@
         actionsheetContentView.alertView = self;
         [self addSubview:actionsheetContentView];
         _actionsheetContentView = actionsheetContentView;
+        
+        __weak typeof(self) weakSelf = self;
+        [actionsheetContentView setHorizontalDismissHandler:^{
+            
+            weakSelf.isSheetDismissHorizontal = YES;
+        }];
     }
     return _actionsheetContentView;
 }
@@ -2275,6 +2279,12 @@
         collectionsheetContentView.alertView = self;
         [self addSubview:collectionsheetContentView];
         _collectionsheetContentView = collectionsheetContentView;
+        
+        __weak typeof(self) weakSelf = self;
+        [collectionsheetContentView setHorizontalDismissHandler:^{
+            
+            weakSelf.isSheetDismissHorizontal = YES;
+        }];
     }
     return _collectionsheetContentView;
 }
