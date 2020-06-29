@@ -11,6 +11,7 @@
 @interface JKAlertBaseScrollContentView ()
 {
     __weak UIScrollView *_scrollView;
+    __weak UIView *_scrollContentView;
 }
 @end
 
@@ -121,4 +122,12 @@
     return _scrollView;
 }
 
+- (UIView *)scrollContentView {
+    if (!_scrollContentView) {
+        UIView *scrollContentView = [[UIView alloc] init];
+        [self.scrollView addSubview:scrollContentView];
+        _scrollContentView = scrollContentView;
+    }
+    return _scrollContentView;
+}
 @end

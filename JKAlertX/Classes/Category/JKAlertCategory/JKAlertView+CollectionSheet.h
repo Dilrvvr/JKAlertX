@@ -76,6 +76,11 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPageControlHidden)(BOOL hidden);
 
 /**
+ * pageControl高度
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPageControlHeight)(CGFloat height);
+
+/**
  * 配置pageControl
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPageControlConfiguration)(void(^)(UIPageControl *pageControl));

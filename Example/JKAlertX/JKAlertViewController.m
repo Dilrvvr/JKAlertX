@@ -498,6 +498,22 @@
         
     }].setNormalImage([UIImage imageNamed:@"Share_Copylink"])];
     
+    [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_WeChat"])];
+    
+    [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])];
+    
+    [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"微信收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Collection"])];
+    
+    [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"QQ" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setNormalImage([UIImage imageNamed:@"Share_QQ"])];
+    
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];

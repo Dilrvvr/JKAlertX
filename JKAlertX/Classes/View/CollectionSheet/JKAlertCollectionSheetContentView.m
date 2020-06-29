@@ -82,6 +82,9 @@
         self.cancelButton.layer.cornerRadius = 0;
     }
     
+    self.collectionView.pagingEnabled = self.collectionPagingEnabled;
+    self.collectionView2.pagingEnabled = self.collectionPagingEnabled;
+    
     [self.collectionView reloadData];
     [self.collectionView2 reloadData];
 }
@@ -278,7 +281,12 @@
 
         frame = self.pageControl.frame;
         frame.origin.y = rect.size.height;
+        frame.size.width = 0;
         self.pageControl.frame = frame;
+        
+        CGPoint center = self.pageControl.center;
+        center.x = self.contentWidth * 0.5;
+        self.pageControl.center = center;
         
         rect.size.height += self.pageControl.frame.size.height;
     }
@@ -385,6 +393,8 @@
         
         return;
     }
+    
+    self.pageControl.numberOfPages = ceil(((self.minimumLineSpacing + self.itemSize.width) * MAX(count, count2) - 5) / self.contentWidth);
     
     // TODO: JKTODO <#注释#>
     CGFloat collectionHeight = self.itemSize.height;
@@ -561,10 +571,28 @@
     !action.handler ? : action.handler(action);
 }
 
+
 #pragma mark
-#pragma mark - Custom Delegates
+#pragma mark - UIScrollViewDelegate
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (self.combined) {
+        
+        self.collectionView.contentOffset = scrollView.contentOffset;
+        self.collectionView2.contentOffset = scrollView.contentOffset;
+    }
+}
 
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+
+    self.pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / self.contentWidth);
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    
+    self.pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / self.contentWidth);
+}
 
 #pragma mark
 #pragma mark - Initialization & Build UI

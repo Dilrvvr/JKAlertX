@@ -168,6 +168,20 @@
 }
 
 /**
+ * pageControl高度
+ */
+- (JKAlertView *(^)(CGFloat height))makeCollectionSheetPageControlHeight {
+    
+    return ^(CGFloat height) {
+        
+        return [self checkCollectionSheetStyleHandler:^{
+            
+            self.collectionsheetContentView.pageControlHeight = height;
+        }];
+    };
+}
+
+/**
  * 配置pageControl
  */
 - (JKAlertView *(^)(void (^)(UIPageControl *pageControl)))makeCollectionSheetPageControlConfiguration {
