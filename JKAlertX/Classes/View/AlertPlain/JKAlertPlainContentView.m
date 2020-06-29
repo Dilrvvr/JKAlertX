@@ -58,6 +58,9 @@
     
     [self adjustPlainFrame];
     
+    [self.topContentView updateScrollContentViewFrame];
+    [self.bottomContentView updateScrollContentViewFrame];
+    
     [self checkScrollToTextField];
 }
 
@@ -528,7 +531,7 @@
     [super createUI];
     
     JKAlertPlainTextContentView *textContentView = [[JKAlertPlainTextContentView alloc] init];
-    [self.topContentView.scrollView addSubview:textContentView];
+    [self.topContentView.scrollContentView addSubview:textContentView];
     _textContentView = textContentView;
     
     UIView *textFieldContainerView = [[UIView alloc] init];
@@ -536,11 +539,11 @@
     //textFieldContainerView.layer.cornerRadius = 8;
     textFieldContainerView.clipsToBounds = YES;
     textFieldContainerView.hidden = YES;
-    [self.topContentView.scrollView addSubview:textFieldContainerView];
+    [self.topContentView.scrollContentView addSubview:textFieldContainerView];
     _textFieldContainerView = textFieldContainerView;
     
     UIView *actionContainerView = [[UIView alloc] init];
-    [self.bottomContentView.scrollView addSubview:actionContainerView];
+    [self.bottomContentView.scrollContentView addSubview:actionContainerView];
     _actionContainerView = actionContainerView;
     
     UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];

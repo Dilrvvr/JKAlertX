@@ -18,4 +18,9 @@
     
     self.scrollView.scrollEnabled = (self.scrollView.contentSize.height > self.frame.size.height);
 }
+
+- (void)updateScrollContentViewFrame {
+    
+    self.scrollContentView.frame = CGRectMake(0, 0, self.frame.size.width, self.scrollView.contentSize.height);
+}
 @end

@@ -66,6 +66,9 @@
         self.cancelButton.layer.cornerRadius = 0;
     }
     
+    [self.topContentView updateScrollContentViewFrame];
+    [self.bottomContentView updateScrollContentViewFrame];
+    
     [self updateTableViewInsets];
     
     [self.tableView reloadData];
@@ -611,7 +614,7 @@
     [super createUI];
     
     JKAlertActionSheetTextContentView *textContentView = [[JKAlertActionSheetTextContentView alloc] init];
-    [self.topContentView.scrollView addSubview:textContentView];
+    [self.topContentView.scrollContentView addSubview:textContentView];
     _textContentView = textContentView;
     
     UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
@@ -625,7 +628,7 @@
     _tableView = tableView;
     
     JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-    [self.bottomContentView.scrollView addSubview:cancelButton];
+    [self.bottomContentView.scrollContentView addSubview:cancelButton];
     _cancelButton = cancelButton;
     
     [cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];

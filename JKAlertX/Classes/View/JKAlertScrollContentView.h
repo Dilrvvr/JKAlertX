@@ -12,4 +12,6 @@
 - (void)updateContentSize;
 
 - (void)checkScrollEnabled;
+
+- (void)updateScrollContentViewFrame;
 @end

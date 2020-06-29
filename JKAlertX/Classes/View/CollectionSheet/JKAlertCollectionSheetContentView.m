@@ -82,6 +82,9 @@
         self.cancelButton.layer.cornerRadius = 0;
     }
     
+    [self.topContentView updateScrollContentViewFrame];
+    [self.bottomContentView updateScrollContentViewFrame];
+    
     self.collectionView.pagingEnabled = self.collectionPagingEnabled;
     self.collectionView2.pagingEnabled = self.collectionPagingEnabled;
     
@@ -108,6 +111,14 @@
     NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGPoint center = self.pageControl.center;
+    center.x = self.contentWidth * 0.5;
+    self.pageControl.center = center;
+}
+
 #pragma mark
 #pragma mark - Private Methods
 
@@ -115,7 +126,7 @@
     
     if (!self.actionButtonPinned) {
         
-        [self.topContentView.scrollView addSubview:self.bottomContentView];
+        [self.topContentView.scrollContentView addSubview:self.bottomContentView];
         
         return;
     }
@@ -284,10 +295,6 @@
         frame.size.width = 0;
         self.pageControl.frame = frame;
         
-        CGPoint center = self.pageControl.center;
-        center.x = self.contentWidth * 0.5;
-        self.pageControl.center = center;
-        
         rect.size.height += self.pageControl.frame.size.height;
     }
     
@@ -297,7 +304,7 @@
     
     if (!self.collectionButton.hidden) {
         
-        if (self.topContainerView.frame.size.height > topInitialHeight + 0.1) {
+        if (self.topContainerView.frame.size.height >= topInitialHeight + 0.1) {
             
             actionRect.size.height += self.cancelMargin;
         }
@@ -314,7 +321,7 @@
     if (self.cancelButton.hidden) {
         
         if (!self.collectionButton.hidden ||
-            self.topContainerView.frame.size.height > topInitialHeight + 0.1) {
+            self.topContainerView.frame.size.height >= topInitialHeight + 0.1) {
             
             if (self.autoAdjustHomeIndicator ||
                 self.isPierced) {
@@ -355,6 +362,8 @@
     [self.bottomContentView updateContentSize];
     
     rect.size.height += actionRect.size.height;
+    
+    self.topContentView.frame = rect;
     
     [self.topContentView updateContentSize];
     
@@ -628,7 +637,7 @@
     _textContentBackgroundColor = JKAlertGlobalMultiBackgroundColor();
     
     // TODO: JKTODO <#注释#>
-    _actionButtonPinned = YES;
+    _actionButtonPinned = NO;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -642,8 +651,11 @@
 - (void)createUI {
     [super createUI];
     
+    // TODO: JKTODO delete
+    self.topContentView.scrollContentView.backgroundColor = [UIColor redColor];
+    
     UIView *topContainerView = [[UIView alloc] init];
-    [self.topContentView.scrollView insertSubview:topContainerView atIndex:0];
+    [self.topContentView.scrollContentView insertSubview:topContainerView atIndex:0];
     _topContainerView = topContainerView;
     
     JKAlertCollectionSheetTextContentView *textContentView = [[JKAlertCollectionSheetTextContentView alloc] init];
@@ -660,16 +672,16 @@
     [self.topContainerView addSubview:collectionSeparatorLineView];
     _collectionSeparatorLineView = collectionSeparatorLineView;
     
-    [self.topContentView.scrollView addSubview:self.bottomContentView];
+    [self.topContentView.scrollContentView addSubview:self.bottomContentView];
     
     JKAlertActionButton *cancelButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-    [self.bottomContentView.scrollView addSubview:cancelButton];
+    [self.bottomContentView.scrollContentView addSubview:cancelButton];
     _cancelButton = cancelButton;
     
     [cancelButton addTarget:self action:@selector(actionButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     JKAlertActionButton *collectionButton = [JKAlertActionButton buttonWithType:(UIButtonTypeCustom)];
-    [self.bottomContentView.scrollView addSubview:collectionButton];
+    [self.bottomContentView.scrollContentView addSubview:collectionButton];
     _collectionButton = collectionButton;
     
     [collectionButton addTarget:self action:@selector(actionButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -714,7 +726,7 @@
         _flowlayout = flowlayout;
         
         UICollectionView *collectionView = [self createCollectionViewWithFlowLayout:flowlayout];
-        [self.topContentView.scrollView addSubview:collectionView];
+        [self.topContentView.scrollContentView addSubview:collectionView];
         _collectionView = collectionView;
     }
     return _collectionView;
@@ -728,7 +740,7 @@
         _flowlayout2 = flowlayout;
         
         UICollectionView *collectionView = [self createCollectionViewWithFlowLayout:flowlayout];
-        [self.topContentView.scrollView addSubview:collectionView];
+        [self.topContentView.scrollContentView addSubview:collectionView];
         _collectionView2 = collectionView;
     }
     return _collectionView2;
@@ -741,7 +753,7 @@
         pageControl.pageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
         pageControl.currentPageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
         pageControl.userInteractionEnabled = NO;
-        [self.topContentView.scrollView addSubview:pageControl];
+        [self.topContentView.scrollContentView addSubview:pageControl];
         _pageControl = pageControl;
     }
     return _pageControl;
