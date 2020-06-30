@@ -11,6 +11,7 @@
 #import "JKAlertView.h"
 #import "JKAlertActionButton.h"
 #import "JKAlertPanGestureRecognizer.h"
+#import "UIView+JKAlertX.h"
 
 @interface JKAlertCollectionSheetContentView () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
 {
@@ -43,6 +44,9 @@
 
 /** collectionButton */
 @property (nonatomic, weak) JKAlertActionButton *collectionButton;
+
+/** cornerMaskLayer */
+@property (nonatomic, weak) CALayer *cornerMaskLayer;
 @end
 
 @implementation JKAlertCollectionSheetContentView
@@ -52,6 +56,11 @@
 
 - (void)calculateUI {
     [super calculateUI];
+    
+    if (self.layer.mask == self.cornerMaskLayer) {
+        
+        self.layer.mask = nil;
+    }
     
     self.backgroundEffectView.hidden = self.isPierced;
     
@@ -70,11 +79,11 @@
     
     if (self.isPierced) {
         
-        self.topContentView.layer.cornerRadius = self.piercedCornerRadius;
+        self.topContentView.layer.cornerRadius = self.cornerRadius;
         
-        self.collectionButton.layer.cornerRadius = self.piercedCornerRadius;
+        self.collectionButton.layer.cornerRadius = self.cornerRadius;
         
-        self.cancelButton.layer.cornerRadius = self.piercedCornerRadius;
+        self.cancelButton.layer.cornerRadius = self.cornerRadius;
         
     } else {
         
@@ -91,6 +100,12 @@
     
     [self.collectionView reloadData];
     [self.collectionView2 reloadData];
+    
+    if (!self.isPierced &&
+        self.cornerRadius > 0) {
+        
+        self.cornerMaskLayer = [self JKAlertX_clipRoundWithRadius:self.cornerRadius corner:(UIRectCornerTopLeft | UIRectCornerTopRight)];
+    }
 }
 
 - (void)setCellClassName:(NSString *)cellClassName {

@@ -11,6 +11,7 @@
 #import "JKAlertConst.h"
 #import "JKAlertView.h"
 #import "JKAlertActionButton.h"
+#import "UIView+JKAlertX.h"
 
 @interface JKAlerActionSheetContentView () <UITableViewDataSource, UITableViewDelegate>
 
@@ -19,6 +20,9 @@
 
 /** cancelButton */
 @property (nonatomic, weak) JKAlertActionButton *cancelButton;
+
+/** cornerMaskLayer */
+@property (nonatomic, weak) CALayer *cornerMaskLayer;
 @end
 
 @implementation JKAlerActionSheetContentView
@@ -41,6 +45,11 @@
 - (void)calculateUI {
     [super calculateUI];
     
+    if (self.layer.mask == self.cornerMaskLayer) {
+        
+        self.layer.mask = nil;
+    }
+    
     self.backgroundEffectView.hidden = self.isPierced;
     
     self.textContentView.screenSafeInsets = self.isPierced ? UIEdgeInsetsZero : self.screenSafeInsets;
@@ -56,9 +65,9 @@
     
     if (self.isPierced) {
         
-        self.topContentView.layer.cornerRadius = self.piercedCornerRadius;
+        self.topContentView.layer.cornerRadius = self.cornerRadius;
         
-        self.cancelButton.layer.cornerRadius = self.piercedCornerRadius;
+        self.cancelButton.layer.cornerRadius = self.cornerRadius;
         
     } else {
         
@@ -72,6 +81,12 @@
     [self updateTableViewInsets];
     
     [self.tableView reloadData];
+    
+    if (!self.isPierced &&
+        self.cornerRadius > 0) {
+        
+        self.cornerMaskLayer = [self JKAlertX_clipRoundWithRadius:self.cornerRadius corner:(UIRectCornerTopLeft | UIRectCornerTopRight)];
+    }
 }
 
 #pragma mark

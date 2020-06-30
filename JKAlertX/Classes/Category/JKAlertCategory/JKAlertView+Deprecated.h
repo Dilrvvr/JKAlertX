@@ -213,7 +213,7 @@
  * 设置plain样式的圆角
  * 默认8 不可小于0
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCornerRadius)(CGFloat cornerRadius) JKAlertXDeprecated("use makePlainCornerRadius");
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCornerRadius)(CGFloat cornerRadius) JKAlertXDeprecated("use makeCornerRadius");
 
 /**
  * 设置是否自动弹出键盘 默认YES

@@ -44,21 +44,6 @@
 }
 
 /**
- * plain样式的圆角
- * 默认8
- */
-- (JKAlertView *(^)(CGFloat cornerRadius))makeHudCornerRadius {
-    
-    return ^(CGFloat cornerRadius) {
-        
-        return [self checkHudStyleHandler:^{
-            
-            self.plainContentView.cornerRadius = cornerRadius;
-        }];
-    };
-}
-
-/**
  * HUD样式dismiss的时间，默认1s
  * 小于等于0表示不自动隐藏
  */

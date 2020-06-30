@@ -114,6 +114,20 @@
 }
 
 /**
+ * 圆角
+ * 默认 10
+ */
+- (JKAlertView *(^)(CGFloat cornerRadius))makeCornerRadius {
+    
+    return ^(CGFloat cornerRadius) {
+        
+        self.currentAlertContentView.cornerRadius = cornerRadius;
+        
+        return self;
+    };
+}
+
+/**
  * 配置弹出视图的容器view，加圆角等
  */
 - (JKAlertView *(^)(void (^configuration)(UIView *containerView)))makeAlertContentViewConfiguration {

@@ -61,7 +61,7 @@
 @property (nonatomic, assign) UIEdgeInsets piercedInsets;
 
 /** 镂空整体圆角 */
-@property (nonatomic, assign) CGFloat piercedCornerRadius;
+//@property (nonatomic, assign) CGFloat piercedCornerRadius;
 
 /** piercedBackgroundColor */
 @property (nonatomic, strong) JKAlertMultiColor *piercedBackgroundColor;

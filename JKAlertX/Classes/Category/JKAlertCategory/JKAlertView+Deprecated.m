@@ -530,17 +530,7 @@
  */
 - (JKAlertView *(^)(CGFloat cornerRadius))setPlainCornerRadius {
     
-    if (JKAlertStylePlain == self.alertStyle) {
-        
-        return [self makePlainCornerRadius];
-    }
-    
-    if (JKAlertStyleHUD == self.alertStyle) {
-        
-        return [self makeHudCornerRadius];
-    }
-    
-    return ^(CGFloat cornerRadius) { return self; };
+    return [self makeCornerRadius];
 }
 
 /**
@@ -813,7 +803,7 @@
     
     return ^(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) {
         
-        return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin), cornerRadius, [JKAlertMultiColor colorWithLightColor:lightBackgroundColor darkColor:darkBackgroundColor]);
+        return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin), [JKAlertMultiColor colorWithLightColor:lightBackgroundColor darkColor:darkBackgroundColor]).makeCornerRadius(cornerRadius);
     };
 }
 

@@ -98,6 +98,8 @@
 - (void)initializeProperty {
     [super initializeProperty];
     
+    _cornerRadius = 10;
+    
     _darkBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     
     _lightBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];

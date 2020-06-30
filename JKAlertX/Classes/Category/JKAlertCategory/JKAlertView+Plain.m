@@ -44,21 +44,6 @@
 }
 
 /**
- * plain样式的圆角
- * 默认8
- */
-- (JKAlertView *(^)(CGFloat cornerRadius))makePlainCornerRadius {
-    
-    return ^(CGFloat cornerRadius) {
-        
-        return [self checkPlainStyleHandler:^{
-            
-            self.plainContentView.cornerRadius = cornerRadius;
-        }];
-    };
-}
-
-/**
  * 是否自动弹出键盘 默认YES
  * 添加了textField时会自动弹出键盘
  */

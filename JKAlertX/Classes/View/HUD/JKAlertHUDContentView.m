@@ -17,7 +17,7 @@
 #pragma mark - Public Methods
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
-    _cornerRadius = cornerRadius;
+    [super setCornerRadius:cornerRadius];
     
     self.layer.cornerRadius = cornerRadius;
 }
@@ -92,8 +92,6 @@
 /** 初始化自身属性 */
 - (void)initializeProperty {
     [super initializeProperty];
-    
-    _cornerRadius = 8;
     
     _defaultDarkStyle = YES;
     

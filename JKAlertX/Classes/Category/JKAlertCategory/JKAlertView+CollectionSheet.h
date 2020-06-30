@@ -105,11 +105,10 @@
 /**
  * collectionSheet是否镂空
  * 设置为YES后，makeActionSheetCancelButtonPinned将强制为YES
- * cornerRadius : 整体圆角
  * piercedInsets : 整体左、右、下间距
  * piercedBackgroundColor : 整体背景
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPierced)(BOOL isPierced, UIEdgeInsets piercedInsets, CGFloat cornerRadius, JKAlertMultiColor *piercedBackgroundColor);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPierced)(BOOL isPierced, UIEdgeInsets piercedInsets, JKAlertMultiColor *piercedBackgroundColor);
 
 
 

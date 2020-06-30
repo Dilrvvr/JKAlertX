@@ -299,7 +299,7 @@
     });
     
     // 类似系统样式
-    alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO).makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), 10, [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
+    alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO).makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -429,7 +429,7 @@
         
         return insets;
         
-    }).makeCollectionSheetSectionInset(UIEdgeInsetsZero).makeCollectionSheetMinimumLineSpacing(0).makeCollectionSheetSectionInset(UIEdgeInsetsMake(0, 100, 0, 0)).makeCollectionSheetPagingEnabled(NO);
+    }).makeCollectionSheetSectionInset(UIEdgeInsetsZero).makeCollectionSheetMinimumLineSpacing(0);
     /*
     alertView.makeCancelAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:nil].setCustomView(^UIView *(JKAlertAction *action) {
         

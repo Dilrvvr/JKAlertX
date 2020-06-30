@@ -32,12 +32,6 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeHudAutoReduceWidth)(BOOL autoReduceWidth);
 
 /**
- * plain样式的圆角
- * 默认8
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeHudCornerRadius)(CGFloat cornerRadius);
-
-/**
  * HUD样式dismiss的时间，默认1s
  * 小于等于0表示不自动隐藏
  */

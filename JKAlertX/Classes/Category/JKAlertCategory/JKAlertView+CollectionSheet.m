@@ -244,19 +244,18 @@
 /**
  * collectionSheet是否镂空
  * 设置为YES后，makeActionSheetCancelButtonPinned将强制为YES
- * cornerRadius : 整体圆角
  * piercedInsets : 整体左、右、下间距
  * piercedBackgroundColor : 整体背景
  */
-- (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets, CGFloat cornerRadius, JKAlertMultiColor *piercedBackgroundColor))makeCollectionSheetPierced {
+- (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets, JKAlertMultiColor *piercedBackgroundColor))makeCollectionSheetPierced {
     
-    return ^(BOOL isPierced, UIEdgeInsets piercedInsets, CGFloat cornerRadius, JKAlertMultiColor *piercedBackgroundColor) {
+    return ^(BOOL isPierced, UIEdgeInsets piercedInsets, JKAlertMultiColor *piercedBackgroundColor) {
         
         return [self checkCollectionSheetStyleHandler:^{
             
             self.collectionsheetContentView.isPierced = isPierced;
             self.collectionsheetContentView.piercedInsets = piercedInsets;
-            self.collectionsheetContentView.piercedCornerRadius = cornerRadius;
+            //self.collectionsheetContentView.piercedCornerRadius = cornerRadius;
             self.collectionsheetContentView.piercedBackgroundColor = piercedBackgroundColor;
             
             [self.actions enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

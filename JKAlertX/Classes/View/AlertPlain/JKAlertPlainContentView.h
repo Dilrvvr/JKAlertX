@@ -13,9 +13,6 @@
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertPlainTextContentView *textContentView;
 
-/** 圆角 默认8 */
-@property (nonatomic, assign) CGFloat cornerRadius;
-
 /** textFieldArray */
 @property (nonatomic, strong) NSMutableArray *textFieldArray;
 

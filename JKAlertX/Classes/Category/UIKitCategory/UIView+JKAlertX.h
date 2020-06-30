@@ -10,8 +10,17 @@
 
 @interface UIView (JKAlertX)
 
-/** 切圆角 */
-- (void)JKAlertX_clipRoundWithRadius:(CGFloat)radius
+/**
+ * 切圆角
+ * return 切圆角的mask
+ */
+- (CAShapeLayer *)JKAlertX_clipRoundWithRadius:(CGFloat)radius
+                                        corner:(UIRectCorner)corner;
+/**
+ * 切圆角 + 边框
+ * return 切圆角的mask
+ */
+- (CAShapeLayer *)JKAlertX_clipRoundWithRadius:(CGFloat)radius
                               corner:(UIRectCorner)corner
                          borderWidth:(CGFloat)borderWidth
                          borderColor:(UIColor *)borderColor;

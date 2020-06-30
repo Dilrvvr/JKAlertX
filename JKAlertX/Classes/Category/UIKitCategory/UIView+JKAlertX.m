@@ -10,23 +10,41 @@
 
 @implementation UIView (JKAlertX)
 
-/** 切圆角 */
-- (void)JKAlertX_clipRoundWithRadius:(CGFloat)radius
-                              corner:(UIRectCorner)corner
-                         borderWidth:(CGFloat)borderWidth
-                         borderColor:(UIColor *)borderColor {
+/**
+ * 切圆角
+ * return 切圆角的mask
+ */
+- (CAShapeLayer *)JKAlertX_clipRoundWithRadius:(CGFloat)radius
+                                        corner:(UIRectCorner)corner {
+    
+    return [self JKAlertX_clipRoundWithRadius:radius corner:corner borderWidth:0 borderColor:nil];
+}
+/**
+ * 切圆角 + 边框
+ * return 切圆角的mask
+ */
+- (CAShapeLayer *)JKAlertX_clipRoundWithRadius:(CGFloat)radius
+                                        corner:(UIRectCorner)corner
+                                   borderWidth:(CGFloat)borderWidth
+                                   borderColor:(UIColor *)borderColor {
     
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corner cornerRadii:CGSizeMake(radius, radius)];
     
+    CAShapeLayer *shapeLayer = nil;
+    
     if (radius > 0) {
         
-        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+        shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = path.CGPath;
         self.layer.mask = shapeLayer;
         borderWidth *= 2;
     }
     
-    if (borderWidth <= 0 || !borderColor) return;
+    if (borderWidth <= 0 ||
+        !borderColor) {
+        
+        return shapeLayer;
+    }
     
     CAShapeLayer *borderLayer = [CAShapeLayer layer];
     
@@ -43,6 +61,8 @@
     borderLayer.fillColor = nil;
     
     [self.layer addSublayer:borderLayer];
+    
+    return shapeLayer;
 }
 
 /** 无限旋转动画 */

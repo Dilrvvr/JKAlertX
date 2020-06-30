@@ -15,6 +15,9 @@
 /** alertView */
 @property (nonatomic, weak) JKAlertView *alertView;
 
+/** 圆角 默认8 */
+@property (nonatomic, assign) CGFloat cornerRadius;
+
 /** screenSafeInsets */
 @property (nonatomic, assign) UIEdgeInsets screenSafeInsets;
 

@@ -88,6 +88,12 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTapBlankHandler)(void(^handler)(JKAlertView *innerView));
 
 /**
+ * 圆角
+ * 默认 10
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCornerRadius)(CGFloat cornerRadius);
+
+/**
  * 配置弹出视图的容器view，加圆角等
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeAlertContentViewConfiguration)(void (^configuration)(UIView *alertContentView));
