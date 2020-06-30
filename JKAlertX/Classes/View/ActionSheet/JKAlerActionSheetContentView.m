@@ -606,7 +606,143 @@
 }
 
 #pragma mark
-#pragma mark - Custom Delegates
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (!self.enableVerticalGestureDismiss) { return; }
+    
+    if ((scrollView == self.topContentView.scrollView &&
+         self.tableView.isDecelerating) ||
+        (scrollView == self.tableView &&
+         self.topContentView.scrollView.isDecelerating)) {
+        
+        return;
+    }
+    
+    [self solveVerticalScroll:scrollView];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    
+    if (!self.enableVerticalGestureDismiss) { return; }
+    
+    beginScrollDirection = JKAlertScrollDirectionNone;
+    endScrollDirection = JKAlertScrollDirectionNone;
+    
+    lastContainerY = self.frame.origin.y;
+    
+    if (scrollView.contentOffset.y + scrollView.contentInset.top < 0) {
+        
+        disableScrollToDismiss = YES;
+    }
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    
+    [self solveWillEndDraggingVertically:scrollView withVelocity:velocity];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    if (!self.enableVerticalGestureDismiss) { return; }
+    
+    if (self.topContentView.scrollView.isDecelerating ||
+        _tableView.isDecelerating) {
+        return;
+    }
+    
+    disableScrollToDismiss = NO;
+    
+    //[self checkVerticalSlideShouldDismiss];
+}
+
+- (void)solveVerticalScroll:(UIScrollView *)scrollView {
+    
+    if (!self.enableVerticalGestureDismiss ||
+        !self.tapBlankDismiss ||
+        !scrollView.isDragging ||
+        disableScrollToDismiss) { return; }
+    
+    //NSLog(@"contentOffset-->%@", NSStringFromCGPoint(scrollView.contentOffset));
+    
+    if (scrollView.contentOffset.y + scrollView.contentInset.top < 0) {
+        
+        CGRect frame = self.frame;
+        
+        frame.origin.y -= (scrollView.contentOffset.y + scrollView.contentInset.top);
+        
+        frame.origin.y = (frame.origin.y < self.correctFrame.origin.y) ? self.correctFrame.origin.y : frame.origin.y;
+        
+        self.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
+        
+        //NSLog(@"1");
+        
+    } else if (self.frame.origin.y > self.correctFrame.origin.y + 0.1) {
+        
+        CGRect frame = self.frame;
+        
+        frame.origin.y -= (scrollView.contentOffset.y + scrollView.contentInset.top);
+        
+        frame.origin.y = (frame.origin.y < self.correctFrame.origin.y) ? self.correctFrame.origin.y : frame.origin.y;
+        
+        self.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
+        
+        //NSLog(@"2");
+    }
+    
+    if (scrollView.isDragging) {
+        
+        [self checkVerticalSlideDirection];
+    }
+}
+
+- (void)solveWillEndDraggingVertically:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
+    
+    if (!self.enableVerticalGestureDismiss || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
+    
+    if (scrollView.contentOffset.y + scrollView.contentInset.top > 0) {
+        
+        disableScrollToDismiss = YES;
+        
+        return;
+    }
+    
+    if (velocity.y < -1.5 && beginScrollDirection == endScrollDirection) {
+        
+        [self.alertView dismiss];
+        
+    } else {
+        
+        [self checkVerticalSlideShouldDismiss];
+    }
+}
+
+- (void)solveWillEndDraggingHorizontally:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
+    
+    if (!self.enableHorizontalGestureDismiss || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
+    
+    if (scrollView.contentOffset.x + scrollView.contentInset.left > 0) {
+        
+        disableScrollToDismiss = YES;
+        
+        return;
+    }
+    
+    if (velocity.x < -1.5 && beginScrollDirection == endScrollDirection) {
+        
+        isSheetDismissHorizontal = YES;
+        
+        [self.alertView dismiss];
+        
+    } else {
+        
+        [self checkHorizontalSlideShouldDismiss];
+    }
+}
 
 
 

@@ -39,7 +39,6 @@
     
     CGFloat GestureIndicatorHeight;
     
-    CGFloat correctContainerY;
     CGFloat lastContainerY;
     CGFloat currentContainerY;
     

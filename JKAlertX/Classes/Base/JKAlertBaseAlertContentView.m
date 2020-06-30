@@ -134,6 +134,7 @@
 - (JKAlertScrollContentView *)topContentView {
     if (!_topContentView) {
         JKAlertScrollContentView *topContentView = [[JKAlertScrollContentView alloc] init];
+        topContentView.scrollView.delegate = self;
         [self.contentView addSubview:topContentView];
         _topContentView = topContentView;
     }
@@ -143,6 +144,7 @@
 - (JKAlertScrollContentView *)bottomContentView {
     if (!_bottomContentView) {
         JKAlertScrollContentView *bottomContentView = [[JKAlertScrollContentView alloc] init];
+        bottomContentView.scrollView.delegate = self;
         [self.contentView addSubview:bottomContentView];
         _bottomContentView = bottomContentView;
     }

@@ -10,7 +10,25 @@
 @class JKAlertPanGestureRecognizer;
 
 @interface JKAlertBaseSheetContentView : JKAlertBaseAlertContentView
-
+{
+    CGFloat lastContainerY;
+    CGFloat currentContainerY;
+    
+    CGFloat lastContainerX;
+    CGFloat currentContainerX;
+    
+    JKAlertScrollDirection beginScrollDirection;
+    JKAlertScrollDirection endScrollDirection;
+    
+    BOOL disableScrollToDismiss;
+    
+    BOOL isBeginDragging;
+    BOOL isDragging;
+    
+    //CGFloat lastTableViewOffsetY;
+    
+    BOOL isSheetDismissHorizontal;
+}
 /** verticalDismissPanGesture */
 @property (nonatomic, strong) JKAlertPanGestureRecognizer *verticalDismissPanGesture;
 
@@ -44,4 +62,12 @@
 - (void)verticalPanGestureAction:(UIPanGestureRecognizer *)panGesture;
 
 - (void)horizontalPanGestureAction:(UIPanGestureRecognizer *)panGesture;
+
+- (void)checkVerticalSlideDirection;
+
+- (void)checkHorizontalSlideDirection;
+
+- (void)checkVerticalSlideShouldDismiss;
+
+- (void)checkHorizontalSlideShouldDismiss;
 @end

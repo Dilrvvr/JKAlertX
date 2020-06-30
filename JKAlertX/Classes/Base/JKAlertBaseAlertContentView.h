@@ -10,7 +10,7 @@
 
 @class JKAlertView, JKAlertAction;
 
-@interface JKAlertBaseAlertContentView : JKAlertBaseView
+@interface JKAlertBaseAlertContentView : JKAlertBaseView <UIScrollViewDelegate>
 
 /** alertView */
 @property (nonatomic, weak) JKAlertView *alertView;

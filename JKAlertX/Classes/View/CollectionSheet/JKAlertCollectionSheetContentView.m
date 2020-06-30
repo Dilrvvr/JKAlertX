@@ -611,7 +611,7 @@
             } else {
                 
                 if (!self.tapBlankDismiss ||
-                    (frame.origin.y <= (correctContainerY))) {
+                    (frame.origin.y <= (self.correctFrame.origin.y))) {
                     
                     frame.origin.y += (point.y * 0.01);
                     
@@ -621,7 +621,7 @@
                 }
             }
             
-            frame.origin.y = MAX(frame.origin.y, correctContainerY - 5);
+            frame.origin.y = MAX(frame.origin.y, self.correctFrame.origin.y - 5);
             
             self.sheetContainerView.frame = frame;
             
@@ -648,7 +648,7 @@
             float slideFactor = 0.1 * slideMult;
             CGPoint finalPoint = CGPointMake(0, self.sheetContainerView.frame.origin.y + (velocity.y * slideFactor));
             
-            BOOL isSlideHalf = (finalPoint.y - correctContainerY > self.sheetContainerView.frame.size.height * 0.5);
+            BOOL isSlideHalf = (finalPoint.y - self.correctFrame.origin.y > self.sheetContainerView.frame.size.height * 0.5);
             
             if (isSlideHalf &&
                 self.tapBlankDismiss &&
@@ -803,6 +803,324 @@
     
     self.pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / self.contentWidth);
 }
+
+#pragma mark
+#pragma mark - UIScrollViewDelegate
+#if 0
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (!self.enableVerticalGestureDismiss) { return; }
+    
+    switch (self.alertStyle) {
+        case JKAlertStyleActionSheet:
+        {
+            if ((scrollView == self.scrollView &&
+                _tableView.isDecelerating) ||
+                (scrollView == _tableView &&
+                self.scrollView.isDecelerating)) {
+                    return;
+            }
+            
+            [self solveVerticalScroll:scrollView];
+        }
+            break;
+        case JKAlertStyleCollectionSheet:
+        {
+            if (scrollView == self.scrollView) {
+                
+                if (scrollView.isDecelerating) { return; }
+                
+                [self solveVerticalScroll:scrollView];
+                
+            } else {
+                
+                [self solveHorizontalScroll:scrollView];
+                
+                if (self.compoundCollection) {
+                    
+                    _collectionView.contentOffset = scrollView.contentOffset;
+                    
+                    _collectionView2.contentOffset = scrollView.contentOffset;
+                }
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    
+    switch (self.alertStyle) {
+        case JKAlertStyleActionSheet:
+        {
+            if (!self.enableVerticalGestureDismiss) { return; }
+            
+            beginScrollDirection = JKAlertScrollDirectionNone;
+            endScrollDirection = JKAlertScrollDirectionNone;
+            
+            lastContainerY = self.sheetContainerView.frame.origin.y;
+            
+            if (scrollView.contentOffset.y + scrollView.contentInset.top < 0) {
+                
+                disableScrollToDismiss = YES;
+            }
+        }
+            break;
+        case JKAlertStyleCollectionSheet:
+        {
+            if (scrollView == self.scrollView) {
+                
+                if (!self.enableVerticalGestureDismiss) { return; }
+                
+                beginScrollDirection = JKAlertScrollDirectionNone;
+                endScrollDirection = JKAlertScrollDirectionNone;
+                
+                lastContainerY = self.sheetContainerView.frame.origin.y;
+                
+                if (scrollView.contentOffset.y + scrollView.contentInset.top < 0) {
+                    
+                    disableScrollToDismiss = YES;
+                }
+                
+            } else {
+                
+                if (!self.enableHorizontalGestureDismiss) { return; }
+                
+                isBeginDragging = YES;
+                beginScrollDirection = JKAlertScrollDirectionNone;
+                endScrollDirection = JKAlertScrollDirectionNone;
+                
+                lastContainerX = self.sheetContainerView.frame.origin.x;
+                
+                if (scrollView.contentOffset.x + scrollView.contentInset.left < 0) {
+                    
+                    disableScrollToDismiss = YES;
+                }
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
+    
+    switch (self.alertStyle) {
+        case JKAlertStyleActionSheet:
+        {
+            [self solveWillEndDraggingVertically:scrollView withVelocity:velocity];
+        }
+            break;
+        case JKAlertStyleCollectionSheet:
+        {
+            if (scrollView == self.scrollView) {
+                
+                [self solveWillEndDraggingVertically:scrollView withVelocity:velocity];
+                
+            } else {
+                
+                [self solveWillEndDraggingHorizontally:scrollView withVelocity:velocity];
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    
+    if (self.alertStyle == JKAlertStyleCollectionSheet &&
+        [scrollView isKindOfClass:[UICollectionView class]]) {
+        
+        _pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / JKAlertScreenW);
+    }
+}
+///*
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+    switch (self.alertStyle) {
+        case JKAlertStyleActionSheet:
+        {
+            if (!self.enableVerticalGestureDismiss) { return; }
+            
+            if (self.scrollView.isDecelerating ||
+                _tableView.isDecelerating) {
+                return;
+            }
+            
+            disableScrollToDismiss = NO;
+            
+            //[self checkVerticalSlideShouldDismiss];
+        }
+            break;
+        case JKAlertStyleCollectionSheet:
+        {
+            if (scrollView == self.scrollView) {
+                
+                if (!self.enableVerticalGestureDismiss) { return; }
+                
+                disableScrollToDismiss = NO;
+                
+                //[self checkVerticalSlideShouldDismiss];
+                
+            } else {
+                
+                _pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / JKAlertScreenW);
+                
+                if (!self.enableHorizontalGestureDismiss) { return; }
+                
+                if (self.collectionView.isDecelerating ||
+                    self.collectionView2.isDecelerating) {
+                    return;
+                }
+                
+                disableScrollToDismiss = NO;
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)solveVerticalScroll:(UIScrollView *)scrollView{
+    
+    if (!self.enableVerticalGestureDismiss ||
+        !self.clickBlankDismiss ||
+        !scrollView.isDragging ||
+        disableScrollToDismiss) { return; }
+    
+    //NSLog(@"contentOffset-->%@", NSStringFromCGPoint(scrollView.contentOffset));
+    
+    if (scrollView.contentOffset.y + scrollView.contentInset.top < 0) {
+        
+        CGRect frame = self.sheetContainerView.frame;
+        
+        frame.origin.y -= (scrollView.contentOffset.y + scrollView.contentInset.top);
+        
+        frame.origin.y = (frame.origin.y < self.correctFrame.origin.y) ? self.correctFrame.origin.y : frame.origin.y;
+        
+        self.sheetContainerView.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
+        
+        //NSLog(@"1");
+        
+    } else if (self.sheetContainerView.frame.origin.y > self.correctFrame.origin.y + 0.1) {
+        
+        CGRect frame = self.sheetContainerView.frame;
+        
+        frame.origin.y -= (scrollView.contentOffset.y + scrollView.contentInset.top);
+        
+        frame.origin.y = (frame.origin.y < self.correctFrame.origin.y) ? self.correctFrame.origin.y : frame.origin.y;
+        
+        self.sheetContainerView.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
+        
+        //NSLog(@"2");
+    }
+    
+    if (scrollView.isDragging) {
+        
+        [self checkVerticalSlideDirection];
+    }
+}
+
+- (void)solveHorizontalScroll:(UIScrollView *)scrollView{
+    
+    if (!self.enableHorizontalGestureDismiss || !self.clickBlankDismiss) { return; }
+    
+    if ((scrollView == self.collectionView &&
+        self.collectionView2.isDecelerating) ||
+        (scrollView == self.collectionView2 &&
+        self.collectionView.isDecelerating)) {
+            return;
+    }
+    
+    if (!scrollView.isDragging || disableScrollToDismiss) { return; }
+    
+    //NSLog(@"contentOffset-->%@", NSStringFromCGPoint(scrollView.contentOffset));
+    
+    if (scrollView.contentOffset.x + scrollView.contentInset.left < 0) {
+        
+        CGRect frame = self.sheetContainerView.frame;
+        
+        frame.origin.x -= (scrollView.contentOffset.x + scrollView.contentInset.left);
+        
+        self.sheetContainerView.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(-scrollView.contentInset.left, scrollView.contentOffset.y);
+        
+    } else if (self.sheetContainerView.frame.origin.x > JKAlertScreenW - self.sheetContainerView.frame.size.width) {
+        
+        CGRect frame = self.sheetContainerView.frame;
+        
+        frame.origin.x -= (scrollView.contentOffset.x + scrollView.contentInset.left);
+        
+        self.sheetContainerView.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(-scrollView.contentInset.left, scrollView.contentOffset.y);
+    }
+    
+    if (scrollView.isDragging) {
+        
+        [self checkHorizontalSlideDirection];
+    }
+}
+
+- (void)solveWillEndDraggingVertically:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
+    
+    if (!self.enableVerticalGestureDismiss || !self.clickBlankDismiss || disableScrollToDismiss) { return; }
+    
+    if (scrollView.contentOffset.y + scrollView.contentInset.top > 0) {
+        
+        disableScrollToDismiss = YES;
+        
+        return;
+    }
+    
+    if (velocity.y < -1.5 && beginScrollDirection == endScrollDirection) {
+        
+        [self dismiss];
+        
+    } else {
+        
+        [self checkVerticalSlideShouldDismiss];
+    }
+}
+
+- (void)solveWillEndDraggingHorizontally:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
+    
+    if (!self.enableHorizontalGestureDismiss || !self.clickBlankDismiss || disableScrollToDismiss) { return; }
+    
+    if (scrollView.contentOffset.x + scrollView.contentInset.left > 0) {
+        
+        disableScrollToDismiss = YES;
+        
+        return;
+    }
+    
+    if (velocity.x < -1.5 && beginScrollDirection == endScrollDirection) {
+        
+        isSheetDismissHorizontal = YES;
+        
+        [self dismiss];
+        
+    } else {
+        
+        [self checkHorizontalSlideShouldDismiss];
+    }
+}
+#endif
 
 #pragma mark
 #pragma mark - Initialization & Build UI

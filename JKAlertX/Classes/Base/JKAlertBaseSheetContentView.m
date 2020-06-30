@@ -10,26 +10,7 @@
 #import "JKAlertView.h"
 
 @interface JKAlertBaseSheetContentView () <UIGestureRecognizerDelegate>
-{
-    CGFloat correctContainerY;
-    CGFloat lastContainerY;
-    CGFloat currentContainerY;
-    
-    CGFloat lastContainerX;
-    CGFloat currentContainerX;
-    
-    JKAlertScrollDirection beginScrollDirection;
-    JKAlertScrollDirection endScrollDirection;
-    
-    BOOL disableScrollToDismiss;
-    
-    BOOL isBeginDragging;
-    BOOL isDragging;
-    
-    //CGFloat lastTableViewOffsetY;
-    
-    BOOL isSheetDismissHorizontal;
-}
+
 @end
 
 @implementation JKAlertBaseSheetContentView
@@ -83,7 +64,7 @@
     lastContainerY = currentContainerY;
 }
 
-- (void)checkHorizontalSlideDirection{
+- (void)checkHorizontalSlideDirection {
 
     currentContainerX = self.frame.origin.x;
     
@@ -114,9 +95,9 @@
     lastContainerX = currentContainerX;
 }
 
-- (void)checkVerticalSlideShouldDismiss{
+- (void)checkVerticalSlideShouldDismiss {
     
-    CGFloat correctSheetContainerY = (correctContainerY);
+    CGFloat correctSheetContainerY = self.correctFrame.origin.y;
     
     CGFloat currentSheetContainerY = self.frame.origin.y;
     
@@ -135,7 +116,7 @@
     }
 }
 
-- (void)checkHorizontalSlideShouldDismiss{
+- (void)checkHorizontalSlideShouldDismiss {
     
     CGFloat correctSheetContainerX = self.correctFrame.origin.x;
     
@@ -203,7 +184,7 @@
             } else {
                 
                 if (!self.tapBlankDismiss ||
-                    (frame.origin.y <= (correctContainerY))) {
+                    (frame.origin.y <= self.correctFrame.origin.y)) {
                     
                     frame.origin.y += (point.y * 0.01);
                     
@@ -213,7 +194,7 @@
                 }
             }
             
-            frame.origin.y = MAX(frame.origin.y, correctContainerY - 5);
+            frame.origin.y = MAX(frame.origin.y, self.correctFrame.origin.y - 5);
             
             self.frame = frame;
             
@@ -240,7 +221,7 @@
             float slideFactor = 0.1 * slideMult;
             CGPoint finalPoint = CGPointMake(0, self.frame.origin.y + (velocity.y * slideFactor));
             
-            BOOL isSlideHalf = (finalPoint.y - correctContainerY > self.frame.size.height * 0.5);
+            BOOL isSlideHalf = (finalPoint.y - self.correctFrame.origin.y > self.frame.size.height * 0.5);
             
             if (isSlideHalf &&
                 self.tapBlankDismiss &&
