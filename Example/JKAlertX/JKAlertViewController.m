@@ -429,7 +429,7 @@
         
         return insets;
         
-    }).makeCollectionSheetSectionInset(UIEdgeInsetsZero).makeCollectionSheetMinimumLineSpacing(0);
+    }).makeCollectionSheetSectionInset(UIEdgeInsetsZero).makeCollectionSheetMinimumLineSpacing(0).makeCollectionSheetSectionInset(UIEdgeInsetsMake(0, 100, 0, 0)).makeCollectionSheetPagingEnabled(NO);
     /*
     alertView.makeCancelAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:nil].setCustomView(^UIView *(JKAlertAction *action) {
         
