@@ -251,7 +251,7 @@
  * 默认NO 仅限以下样式
  * JKAlertStyleActionSheet
  * JKAlertStyleCollectionSheet
- * KAlertStyleNotification(: JKTODO)
+ * JKAlertStyleNotification(: JKTODO)
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeGestureDismissEnabled)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture);
 

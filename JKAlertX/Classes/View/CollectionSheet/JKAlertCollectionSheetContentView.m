@@ -909,9 +909,6 @@
 - (void)createUI {
     [super createUI];
     
-    // TODO: JKTODO delete
-    self.topContentView.scrollContentView.backgroundColor = [UIColor redColor];
-    
     UIView *topContainerView = [[UIView alloc] init];
     [self.topContentView.scrollContentView insertSubview:topContainerView atIndex:0];
     _topContainerView = topContainerView;

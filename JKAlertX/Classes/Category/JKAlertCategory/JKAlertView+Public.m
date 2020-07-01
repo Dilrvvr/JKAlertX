@@ -505,7 +505,7 @@
  * 默认NO 仅限以下样式
  * JKAlertStyleActionSheet
  * JKAlertStyleCollectionSheet
- * KAlertStyleNotification(: JKTODO)
+ * JKAlertStyleNotification(: JKTODO)
  */
 - (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture))makeGestureDismissEnabled {
     
