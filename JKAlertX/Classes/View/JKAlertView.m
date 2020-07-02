@@ -29,11 +29,10 @@
                            message:(NSString *)message
                              style:(JKAlertStyle)style {
     
-    JKAlertView *alertView = [[JKAlertView alloc] init];
+    JKAlertView *alertView = [self alertViewWithStyle:style];
     
-    alertView.alertStyle = style;
-    alertView.alertTitle = [title copy];
-    alertView.alertMessage = [message copy];
+    alertView.currentTextContentView.alertTitle = [title copy];
+    alertView.currentTextContentView.alertMessage = [message copy];
     
     return alertView;
 }
@@ -51,11 +50,10 @@
                            attributedMessage:(NSAttributedString *)attributedMessage
                                        style:(JKAlertStyle)style {
     
-    JKAlertView *alertView = [[JKAlertView alloc] init];
+    JKAlertView *alertView = [self alertViewWithStyle:style];
     
-    alertView.alertStyle = style;
-    alertView.alertAttributedTitle = [attributedTitle copy];
-    alertView.attributedMessage = [attributedMessage copy];
+    alertView.currentTextContentView.alertAttributedTitle = [attributedTitle copy];
+    alertView.currentTextContentView.attributedMessage = [attributedMessage copy];
     
     return alertView;
 }
@@ -133,6 +131,18 @@
 }
 
 #pragma mark
+#pragma mark - Private Init
+
++ (instancetype)alertViewWithStyle:(JKAlertStyle)style {
+    
+    JKAlertView *alertView = [[JKAlertView alloc] init];
+    
+    alertView.alertStyle = style;
+    
+    return alertView;
+}
+
+#pragma mark
 #pragma mark - 显示
 
 /** 显示 */
@@ -200,11 +210,6 @@
     [self updatePlainWidth];
     
     // TODO: JKTODO <#注释#>
-    self.plainContentView.textContentView.alertTitle = self.alertTitle;
-    self.plainContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
-    
-    self.plainContentView.textContentView.alertMessage = self.alertMessage;
-    self.plainContentView.textContentView.attributedMessage = self.attributedMessage;
     
     self.plainContentView.actionArray = self.actions;
     self.plainContentView.textFieldArray = self.textFieldArr;
@@ -221,11 +226,6 @@
     if (self.customHUD) {
         
         self.hudContentView.textContentView.customContentView = self.customHUD;
-        
-    } else {
-        
-        self.hudContentView.textContentView.alertTitle = self.alertTitle;
-        self.hudContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
     }
     
     [self updatePlainWidth];
@@ -242,12 +242,6 @@
 - (void)calculateActionSheetUI {
     
     [self.actions.lastObject setSeparatorLineHidden:YES];
-    
-    self.actionsheetContentView.textContentView.alertTitle = self.alertTitle;
-    self.actionsheetContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
-    
-    self.actionsheetContentView.textContentView.alertMessage = self.alertMessage;
-    self.actionsheetContentView.textContentView.attributedMessage = self.attributedMessage;
     
     self.actionsheetContentView.actionArray = self.actions;
     
@@ -280,9 +274,6 @@
 }
 
 - (void)calculateCollectionSheetUI {
-    
-    self.collectionsheetContentView.textContentView.alertTitle = self.alertTitle;
-    self.collectionsheetContentView.textContentView.alertAttributedTitle = self.alertAttributedTitle;
     
     self.collectionsheetContentView.actionArray = self.actions;
     self.collectionsheetContentView.actionArray2 = self.actions2;

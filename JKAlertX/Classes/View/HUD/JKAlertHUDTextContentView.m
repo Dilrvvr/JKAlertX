@@ -91,6 +91,13 @@
 #pragma mark
 #pragma mark - Private Property
 
+- (NSString *)alertMessage {
+    
+    return nil;
+}
 
-
+- (NSAttributedString *)attributedMessage {
+    
+    return nil;
+}
 @end

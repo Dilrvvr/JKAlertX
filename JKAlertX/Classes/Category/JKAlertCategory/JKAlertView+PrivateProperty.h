@@ -59,18 +59,6 @@
 /** 样式 */
 @property (nonatomic, assign) JKAlertStyle alertStyle;
 
-/** 标题 */
-@property (nonatomic, copy) NSString *alertTitle;
-
-/** 富文本标题 */
-@property (nonatomic, copy) NSAttributedString *alertAttributedTitle;
-
-/** 提示信息 */
-@property (nonatomic, copy) NSString *alertMessage;
-
-/** 富文本提示信息 */
-@property (nonatomic, copy) NSAttributedString *attributedMessage;
-
 /** plainContentView */
 @property (nonatomic, weak) JKAlertPlainContentView *plainContentView;
 
