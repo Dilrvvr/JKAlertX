@@ -22,7 +22,10 @@
         
         return [self checkActionSheetStyleHandler:^{
             
-            self.actionsheetContentView.textContentView.customContentView = (!customView ? nil : customView());
+            if (customView) {
+                
+                self.actionsheetContentView.textContentView.customContentView = customView();
+            }
         }];
     };
 }

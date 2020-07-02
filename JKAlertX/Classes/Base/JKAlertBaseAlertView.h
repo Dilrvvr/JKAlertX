@@ -19,6 +19,9 @@
 /** multiBackgroundColor */
 @property (nonatomic, strong) JKAlertMultiColor *multiBackgroundColor;
 
+/** fullBackgroundView */
+@property (nonatomic, weak) UIView *fullBackgroundView;
+
 - (void)restoreMultiBackgroundColor;
 
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style;

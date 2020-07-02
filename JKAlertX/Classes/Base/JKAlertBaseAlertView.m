@@ -25,6 +25,23 @@
     [self updateUserInterfaceStyle];
 }
 
+- (void)setFullBackgroundView:(UIView *)fullBackgroundView {
+    
+    if (_fullBackgroundView) {
+        
+        [_fullBackgroundView removeFromSuperview];
+    }
+    
+    _fullBackgroundView = fullBackgroundView;
+    
+    if (_fullBackgroundView) {
+        
+        [self.backgroundView addSubview:_fullBackgroundView];
+        
+        [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:_fullBackgroundView constraintsView:self.backgroundView];
+    }
+}
+
 #pragma mark
 #pragma mark - Override
 

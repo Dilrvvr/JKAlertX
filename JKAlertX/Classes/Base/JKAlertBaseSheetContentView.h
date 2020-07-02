@@ -22,7 +22,6 @@
     
     BOOL disableScrollToDismiss;
     
-    BOOL isBeginDragging;
     BOOL isDragging;
     
     //CGFloat lastTableViewOffsetY;

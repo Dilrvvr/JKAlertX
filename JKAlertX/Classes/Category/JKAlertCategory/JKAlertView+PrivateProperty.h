@@ -20,40 +20,14 @@
 
 
 {
-    CGFloat textContainerViewCurrentMaxH_;
-    
     CGFloat JKAlertSheetMaxH;
-    
-    /** 分隔线宽度或高度 */
-    CGFloat JKAlertSeparatorLineWH;
     
     CGFloat PlainViewWidth;
     CGFloat OriginalPlainWidth;
     
-    UIView  *_alertBackGroundView;
-    
-    
     BOOL ObserverAdded;
     
     BOOL SheetMaxHeightSetted;
-    
-    CGFloat GestureIndicatorHeight;
-    
-    CGFloat lastContainerY;
-    CGFloat currentContainerY;
-    
-    CGFloat lastContainerX;
-    CGFloat currentContainerX;
-    
-    JKAlertScrollDirection beginScrollDirection;
-    JKAlertScrollDirection endScrollDirection;
-    
-    BOOL disableScrollToDismiss;
-    
-    BOOL isBeginDragging;
-    BOOL isDragging;
-    
-    //CGFloat lastTableViewOffsetY;
 }
 
 /** 样式 */

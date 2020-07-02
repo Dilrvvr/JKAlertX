@@ -75,13 +75,17 @@
 }
 
 /**
- * 全屏背景view 默认无
+ * 全屏背景view
+ * 默认nil
  */
-- (JKAlertView *(^)(UIView *(^backGroundView)(void)))makeFullBackgroundView {
+- (JKAlertView *(^)(UIView *(^backgroundView)(void)))makeFullBackgroundView {
     
-    return ^(UIView *(^backGroundView)(void)) {
+    return ^(UIView *(^backgroundView)(void)) {
         
-        self.currentAlertContentView.customBackgroundView = (!backGroundView ? nil : backGroundView());
+        if (backgroundView) {
+
+            self.fullBackgroundView = backgroundView();
+        }
         
         return self;
     };
@@ -144,13 +148,13 @@
  * 背景view
  * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
  */
-- (JKAlertView *(^)(UIView *(^backGroundView)(void)))makeAlertBackgroundView {
+- (JKAlertView *(^)(UIView *(^backgroundView)(void)))makeAlertBackgroundView {
     
-    return ^(UIView *(^backGroundView)(void)) {
+    return ^(UIView *(^backgroundView)(void)) {
         
-        if (backGroundView) {
+        if (backgroundView) {
             
-            self.currentAlertContentView.customBackgroundView = backGroundView();
+            self.currentAlertContentView.customBackgroundView = backgroundView();
         }
         
         return self;

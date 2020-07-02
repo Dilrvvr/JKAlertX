@@ -865,25 +865,20 @@
 }
 
 #pragma mark
-#pragma mark - 动画弹出来
+#pragma mark - KVO
 
-- (void)solveDidMoveToSuperview {
+- (void)checkObserver {
     
-    if (!self.superview) { return; }
-    
-    self.frame = self.superview.bounds;
-    
-    if (self.vibrateEnabled) {
-        
-        JKAlertVibrateDevice();
-    }
-    
-    [self startShowAnimation];
-    
-    if (self.observerSuperView && self.observerSuperView != self.superview) {
+    if (self.observerSuperView &&
+        self.observerSuperView != self.superview) {
         
         [self removeAllOberserver];
     }
+    
+    [self addAllObserver];
+}
+
+- (void)addAllObserver {
     
     if (ObserverAdded) { return; }
     
@@ -894,7 +889,7 @@
     ObserverAdded = YES;
 }
 
-- (void)removeAllOberserver{
+- (void)removeAllOberserver {
     
     if (ObserverAdded) {
         
@@ -904,7 +899,10 @@
     ObserverAdded = NO;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSKeyValueChangeKey,id> *)change
+                       context:(void *)context {
     
     if (object == self.superview && [keyPath isEqualToString:@"frame"]) {
         
@@ -924,6 +922,25 @@
         
         self.relayout(YES);
     }
+}
+
+#pragma mark
+#pragma mark - 动画弹出来
+
+- (void)solveDidMoveToSuperview {
+    
+    if (!self.superview) { return; }
+    
+    self.frame = self.superview.bounds;
+    
+    if (self.vibrateEnabled) {
+        
+        JKAlertVibrateDevice();
+    }
+    
+    [self startShowAnimation];
+    
+    [self checkObserver];
 }
 
 - (void)startShowAnimation{
@@ -1472,9 +1489,6 @@
     
     PlainViewWidth = 290;
     OriginalPlainWidth = PlainViewWidth;
-    
-    JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
-    textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
 }
 
 /** 构造函数初始化时调用 注意调用super */

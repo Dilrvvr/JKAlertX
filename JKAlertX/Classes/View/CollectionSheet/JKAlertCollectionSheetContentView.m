@@ -666,7 +666,6 @@
         
         if (!self.horizontalGestureDismissEnabled) { return; }
         
-        isBeginDragging = YES;
         beginScrollDirection = JKAlertScrollDirectionNone;
         endScrollDirection = JKAlertScrollDirectionNone;
         

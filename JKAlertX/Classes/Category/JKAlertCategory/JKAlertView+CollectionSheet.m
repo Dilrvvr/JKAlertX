@@ -68,7 +68,10 @@
         
         return [self checkCollectionSheetStyleHandler:^{
             
-            self.collectionsheetContentView.textContentView.customContentView = !customView ? nil : customView();
+            if (customView) {
+                
+                self.collectionsheetContentView.textContentView.customContentView = customView();
+            }
         }];
     };
 }
