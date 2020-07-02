@@ -179,9 +179,9 @@
         //alertView.setPlainCenterOffsetY(-100);
         
         // 自定义展示动画
-        alertView.setCustomShowAnimationBlock(^(JKAlertView *view, UIView *animationView) {
+        alertView.makeCustomShowAnimationHandler(^(JKAlertView *innerView, UIView *animationView) {
             
-            view.window.userInteractionEnabled = YES;
+            innerView.window.userInteractionEnabled = YES;
             
             animationView.transform = CGAffineTransformMakeScale(0.3, 0.3);
             
@@ -191,13 +191,13 @@
                 
             } completion:^(BOOL finished) {
                 
-                view.showAnimationDidComplete();
+                innerView.showAnimationDidComplete();
             }];
             
         });
         
         // 自定义消失动画
-        alertView.setCustomDismissAnimationBlock(^(JKAlertView *view, UIView *animationView) {
+        alertView.makeCustomDismissAnimationHandler(^(JKAlertView *innerView, UIView *animationView) {
             
             [UIView animateWithDuration:0.25 animations:^{
                 
@@ -205,7 +205,7 @@
                 
             } completion:^(BOOL finished) {
                 
-                view.dismissAnimationDidComplete();
+                innerView.dismissAnimationDidComplete();
             }];
         });
         

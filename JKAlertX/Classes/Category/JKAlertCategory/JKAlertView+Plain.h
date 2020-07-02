@@ -53,5 +53,5 @@
 /**
  * plain样式关闭按钮
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makePlainCloseButtonConfiguration)(void(^)(UIButton *closeButton));
+@property (nonatomic, copy, readonly) JKAlertView *(^makePlainCloseButtonConfiguration)(void (^)(UIButton *closeButton));
 @end

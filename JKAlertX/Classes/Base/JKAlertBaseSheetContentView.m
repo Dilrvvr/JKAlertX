@@ -331,12 +331,12 @@
     
     if (gestureRecognizer == self.verticalDismissPanGesture) {
         
-        return self.verticalSlideDismissEnabled;
+        return self.verticalGestureDismissEnabled;
     }
     
     if (gestureRecognizer == self.horizontalDismissPanGesture) {
         
-        return self.horizontalSlideDismissEnabled;
+        return self.horizontalGestureDismissEnabled;
     }
     
     return YES;
@@ -355,8 +355,8 @@
     
     
     // TODO: JKTODO <#注释#>
-    _verticalSlideDismissEnabled = YES;
-    _horizontalSlideDismissEnabled = YES;
+    _verticalGestureDismissEnabled = YES;
+    _horizontalGestureDismissEnabled = YES;
     _gestureIndicatorHidden = NO;
     _showScaleAnimated = YES;
 }

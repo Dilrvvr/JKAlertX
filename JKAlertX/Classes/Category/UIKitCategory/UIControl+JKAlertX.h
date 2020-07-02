@@ -10,7 +10,7 @@
 
 @interface UIControl (JKAlertX)
 
-- (void)JKAlertX_addClickOperation:(void(^)(id control))clickOperation;
+- (void)JKAlertX_addClickOperation:(void (^)(id control))clickOperation;
 
-- (void)JKAlertX_addOperation:(void(^)(id control))clickOperation forControlEvents:(UIControlEvents)controlEvents;
+- (void)JKAlertX_addOperation:(void (^)(id control))clickOperation forControlEvents:(UIControlEvents)controlEvents;
 @end

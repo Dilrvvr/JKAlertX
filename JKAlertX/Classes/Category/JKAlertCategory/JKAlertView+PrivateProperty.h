@@ -128,11 +128,6 @@
 /** textField数组 */
 @property (nonatomic, strong) NSMutableArray *textFieldArr;
 
-/**
- * 设置plain样式Y值
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainY)(CGFloat Y, BOOL animated);
-
 /** 监听屏幕旋转 */
 @property (nonatomic, copy) void (^orientationDidChangeHandler)(JKAlertView *view, UIInterfaceOrientation orientation);
 
@@ -178,21 +173,6 @@
 /** 用于通知消失的类别的key */
 @property (nonatomic, copy) NSString *dismissCategory;
 
-/** verticalSlideDismissEnabled */
-@property (nonatomic, assign) BOOL enableVerticalGestureDismiss;
-
-/** horizontalSlideDismissEnabled */
-@property (nonatomic, assign) BOOL enableHorizontalGestureDismiss;
-
-/** showGestureIndicator */
-@property (nonatomic, assign) BOOL showGestureIndicator;
-
-/** topGestureIndicatorView */
-@property (nonatomic, weak) UIView *topGestureIndicatorView;
-
-/** topGestureLineView */
-@property (nonatomic, weak) UIView *topGestureLineView;
-
 /** 是否自动适配键盘 */
 @property (nonatomic, assign) BOOL autoAdaptKeyboard;
 
@@ -209,6 +189,8 @@
 - (void)calculateUI;
 
 - (void)setAlertViewToAction:(JKAlertAction *)action;
+
+- (JKAlertBaseSheetContentView *)checkSheetContentView;
 @end
 
 
@@ -222,18 +204,18 @@
 - (void)updateMaxHeight;
 
 /// 不是plain样式将不执行handler
-- (JKAlertView *)checkPlainStyleHandler:(void(^)(void))handler;
+- (JKAlertView *)checkPlainStyleHandler:(void (^)(void))handler;
 
 /// 不是HUD样式将不执行handler
-- (JKAlertView *)checkHudStyleHandler:(void(^)(void))handler;
+- (JKAlertView *)checkHudStyleHandler:(void (^)(void))handler;
 
 /// 不是collectionSheet样式将不执行handler
-- (JKAlertView *)checkCollectionSheetStyleHandler:(void(^)(void))handler;
+- (JKAlertView *)checkCollectionSheetStyleHandler:(void (^)(void))handler;
 
 /// 不是actionSheet样式将不执行handler
-- (JKAlertView *)checkActionSheetStyleHandler:(void(^)(void))handler;
+- (JKAlertView *)checkActionSheetStyleHandler:(void (^)(void))handler;
 
 /// 检查样式判断是否执行handler
 - (JKAlertView *)checkAlertStyle:(JKAlertStyle)alertStyle
-                         handler:(void(^)(void))handler;
+                         handler:(void (^)(void))handler;
 @end

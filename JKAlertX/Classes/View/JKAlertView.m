@@ -59,7 +59,7 @@
 }
 
 /** 函数式类方法 */
-+ (JKAlertView *(^)(NSString *title, NSString *message, JKAlertStyle style, void(^)(JKAlertView *alertView)))show {
++ (JKAlertView *(^)(NSString *title, NSString *message, JKAlertStyle style, void (^)(JKAlertView *alertView)))show {
     
     return ^(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView)) {
         
@@ -131,7 +131,7 @@
 }
 
 #pragma mark
-#pragma mark - Private Init
+#pragma mark - Private Initialization
 
 + (instancetype)alertViewWithStyle:(JKAlertStyle)style {
     
@@ -140,6 +140,57 @@
     alertView.alertStyle = style;
     
     return alertView;
+}
+
+- (void)setAlertStyle:(JKAlertStyle)alertStyle {
+    _alertStyle = alertStyle;
+    
+    _tapBlankDismiss = NO;
+    
+    switch (_alertStyle) {
+        case JKAlertStyleHUD:
+        {
+            _currentAlertContentView = self.hudContentView;
+            _currentTextContentView = self.hudContentView.textContentView;
+            
+            self.multiBackgroundColor = [JKAlertMultiColor colorWithNoColor];
+        }
+            break;
+            
+        case JKAlertStyleActionSheet:
+        {
+            _tapBlankDismiss = YES;
+            
+            _currentAlertContentView = self.actionsheetContentView;
+            _currentTextContentView = self.actionsheetContentView.textContentView;
+        }
+            break;
+            
+        case JKAlertStyleCollectionSheet:
+        {
+            // TODO: JKTODO <#注释#>
+            //CancelMargin = 10;
+            
+            _tapBlankDismiss = YES;
+            
+            _currentAlertContentView = self.collectionsheetContentView;
+            _currentTextContentView = self.collectionsheetContentView.textContentView;
+        }
+            break;
+            
+        default: // 默认为JKAlertStylePlain样式
+        {
+            _alertStyle = JKAlertStylePlain;
+            
+            _autoAdaptKeyboard = YES;
+            
+            _currentAlertContentView = self.plainContentView;
+            _currentTextContentView = self.plainContentView.textContentView;
+            
+            [self addKeyboardWillChangeFrameNotification];
+        }
+            break;
+    }
 }
 
 #pragma mark
@@ -167,42 +218,38 @@
 #pragma mark
 #pragma mark - 计算布局
 
-- (void)updatePlainWidth {
+- (void)calculateUI {
     
-    if (!self.autoReducePlainWidth) { return; }
+    self.frame = CGRectMake(0, 0, JKAlertScreenW, JKAlertScreenH);
     
-    CGFloat safeAreaInset = 0;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        safeAreaInset = MAX(self.customSuperView.safeAreaInsets.left, self.customSuperView.safeAreaInsets.right);
-    }
-    
-    PlainViewWidth = MIN(OriginalPlainWidth, JKAlertScreenW - safeAreaInset * 2);
-}
-
-- (UIEdgeInsets)getSuperViewSafeAreaInsets {
-    
-    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        safeAreaInsets = self.customSuperView.safeAreaInsets;
-        
-        UIWindow *keyWindow = JKAlertKeyWindow();
-        
-        UIEdgeInsets windowSafeAreaInsets = keyWindow.safeAreaInsets;
-        
-        CGFloat safeWidth = keyWindow.frame.size.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right;
-        
-        if (self.customSuperView.frame.size.width > safeWidth - 1) {
-            
-            safeAreaInsets.left = windowSafeAreaInsets.left;
-            safeAreaInsets.right = windowSafeAreaInsets.right;
+    switch (self.alertStyle) {
+        case JKAlertStylePlain:
+        {
+            [self calculatePlainUI];
         }
+            break;
+            
+        case JKAlertStyleActionSheet:
+        {
+            [self calculateActionSheetUI];
+        }
+            break;
+            
+        case JKAlertStyleCollectionSheet:
+        {
+            [self calculateCollectionSheetUI];
+        }
+            break;
+            
+        case JKAlertStyleHUD:
+        {
+            [self calculateHudUI];
+        }
+            break;
+            
+        default:
+            break;
     }
-    
-    return safeAreaInsets;
 }
 
 - (void)calculatePlainUI {
@@ -247,7 +294,7 @@
     
     self.actionsheetContentView.tapBlankDismiss = self.tapBlankDismiss;
     
-    UIEdgeInsets safeAreaInsets = [self getSuperViewSafeAreaInsets];
+    UIEdgeInsets safeAreaInsets = [self checkSuperViewSafeAreaInsets];
     
     safeAreaInsets.top = 0;
     
@@ -280,7 +327,7 @@
     
     self.collectionsheetContentView.tapBlankDismiss = self.tapBlankDismiss;
     
-    UIEdgeInsets safeAreaInsets = [self getSuperViewSafeAreaInsets];
+    UIEdgeInsets safeAreaInsets = [self checkSuperViewSafeAreaInsets];
     
     safeAreaInsets.top = 0;
     
@@ -307,61 +354,69 @@
     self.collectionsheetContentView.correctFrame = frame;
 }
 
+/// 检查获取superView的安全区域
+- (UIEdgeInsets)checkSuperViewSafeAreaInsets {
+    
+    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInsets = self.customSuperView.safeAreaInsets;
+        
+        UIWindow *keyWindow = JKAlertKeyWindow();
+        
+        UIEdgeInsets windowSafeAreaInsets = keyWindow.safeAreaInsets;
+        
+        CGFloat safeWidth = keyWindow.frame.size.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right;
+        
+        if (self.customSuperView.frame.size.width > safeWidth - 1) {
+            
+            safeAreaInsets.left = windowSafeAreaInsets.left;
+            safeAreaInsets.right = windowSafeAreaInsets.right;
+        }
+    }
+    
+    return safeAreaInsets;
+}
+
+- (void)updatePlainWidth {
+    
+    if (!self.autoReducePlainWidth) { return; }
+    
+    CGFloat safeAreaInset = 0;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInset = MAX(self.customSuperView.safeAreaInsets.left, self.customSuperView.safeAreaInsets.right);
+    }
+    
+    PlainViewWidth = MIN(OriginalPlainWidth, JKAlertScreenW - safeAreaInset * 2);
+}
+
+/**
+ * 更新plain样式Y值
+ */
+- (void)updatePlainFrameY:(CGFloat)frameY animated:(BOOL)animated {
+    
+    CGRect frame = self.alertContentView.frame;
+    
+    frame.origin.y = frameY;
+    
+    if (!animated) {
+        
+        self.alertContentView.frame = frame;
+        
+        return;
+    }
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.alertContentView.frame = frame;
+    }];
+}
+
 #pragma mark
 #pragma mark - Setter
-
-- (void)setAlertStyle:(JKAlertStyle)alertStyle {
-    _alertStyle = alertStyle;
-    
-    _tapBlankDismiss = NO;
-    
-    switch (_alertStyle) {
-        case JKAlertStyleHUD:
-        {
-            _currentAlertContentView = self.hudContentView;
-            _currentTextContentView = self.hudContentView.textContentView;
-            
-            self.multiBackgroundColor = [JKAlertMultiColor colorWithNoColor];
-        }
-            break;
-            
-        case JKAlertStyleActionSheet:
-        {
-            _tapBlankDismiss = YES;
-            
-            _currentAlertContentView = self.actionsheetContentView;
-            _currentTextContentView = self.actionsheetContentView.textContentView;
-        }
-            break;
-            
-        case JKAlertStyleCollectionSheet:
-        {
-            // TODO: JKTODO <#注释#>
-            //CancelMargin = 10;
-            
-            _tapBlankDismiss = YES;
-            
-            //[self collectionView];
-            
-            _currentAlertContentView = self.collectionsheetContentView;
-            _currentTextContentView = self.collectionsheetContentView.textContentView;
-        }
-            break;
-            
-        default: // 默认为JKAlertStylePlain样式
-        {
-            _alertStyle = JKAlertStylePlain;
-            
-            _autoAdaptKeyboard = YES;
-            
-            _currentAlertContentView = self.plainContentView;
-            _currentTextContentView = self.plainContentView.textContentView;
-            
-            [self addKeyboardWillChangeFrameNotification];
-        }
-            break;
-    }
-}
 
 - (void)setAlertViewToAction:(JKAlertAction *)action {
     
@@ -394,63 +449,9 @@
 }
 
 #pragma mark
-#pragma mark - 链式Setter
-
-/**
- * 设置plain样式Y值
- */
-- (JKAlertView *(^)(CGFloat Y, BOOL animated))setPlainY{
-    
-    return ^(CGFloat Y, BOOL animated) {
-        
-        CGRect frame = self.alertContentView.frame;
-        frame.origin.y = Y;
-        
-        if (animated) {
-            
-            [UIView animateWithDuration:0.25 animations:^{
-                
-                self.alertContentView.frame = frame;
-            }];
-            
-        } else {
-            
-            self.alertContentView.frame = frame;
-        }
-        
-        return self;
-    };
-}
-
-/**
- * 设置自定义展示动画，动画完成一定要调用showAnimationDidComplete
- * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
- */
-- (JKAlertView *(^)(void (^)(JKAlertView *view, UIView *animationView)))setCustomShowAnimationBlock{
-    
-    return ^(void (^showAnimationBlock)(JKAlertView *view, UIView *animationView)) {
-        
-        self.customShowAnimationBlock = showAnimationBlock;
-        
-        return self;
-    };
-}
-
-/** 设置自定义消失动画 */
-- (JKAlertView *(^)(void (^)(JKAlertView *view, UIView *animationView)))setCustomDismissAnimationBlock{
-    
-    return ^(void (^dismissAnimationBlock)(JKAlertView *view, UIView *animationView)) {
-        
-        self.customDismissAnimationBlock = dismissAnimationBlock;
-        
-        return self;
-    };
-}
-
-#pragma mark
 #pragma mark - 监听屏幕旋转
 
-- (void)orientationChanged:(NSNotification *)noti{
+- (void)orientationChanged:(NSNotification *)note {
     
     !self.orientationDidChangeHandler ? : self.orientationDidChangeHandler(self, [UIApplication sharedApplication].statusBarOrientation);
     
@@ -463,7 +464,7 @@
 #pragma mark - 添加action
 
 /** 添加action */
-- (JKAlertView *(^)(JKAlertAction *action))addAction{
+- (JKAlertView *(^)(JKAlertAction *action))addAction {
     
     return ^(JKAlertAction *action) {
         
@@ -474,7 +475,7 @@
 }
 
 /** 链式移除action */
-- (JKAlertView *(^)(JKAlertAction *action))removeAction{
+- (JKAlertView *(^)(JKAlertAction *action))removeAction {
     
     return ^(JKAlertAction *action) {
         
@@ -485,7 +486,7 @@
 }
 
 /** 链式添加action */
-- (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex))insertAction{
+- (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex))insertAction {
     
     return ^(JKAlertAction *action, NSUInteger atIndex) {
         
@@ -496,7 +497,7 @@
 }
 
 /** 链式移除action */
-- (JKAlertView *(^)(NSUInteger index))removeActionAtIndex{
+- (JKAlertView *(^)(NSUInteger index))removeActionAtIndex {
     
     return ^(NSUInteger index) {
         
@@ -507,7 +508,7 @@
 }
 
 /** 链式获取action */
-- (JKAlertView *(^)(NSUInteger index, void(^)(JKAlertAction *action)))getActionAtIndex{
+- (JKAlertView *(^)(NSUInteger index, void (^)(JKAlertAction *action)))getActionAtIndex {
     
     return ^(NSUInteger index, void(^getAction)(JKAlertAction *action)) {
         
@@ -520,7 +521,7 @@
 }
 
 /** 添加action */
-- (void)addAction:(JKAlertAction *)action{
+- (void)addAction:(JKAlertAction *)action {
     
     if (!action) { return; }
     
@@ -530,7 +531,7 @@
 }
 
 /** 移除action */
-- (void)removeAction:(JKAlertAction *)action{
+- (void)removeAction:(JKAlertAction *)action {
     
     if (!action || ![self.actions containsObject:action]) { return; }
     
@@ -538,7 +539,7 @@
 }
 
 /** 添加action */
-- (void)insertAction:(JKAlertAction *)action atIndex:(NSUInteger)index{
+- (void)insertAction:(JKAlertAction *)action atIndex:(NSUInteger)index {
     
     if (!action) { return; }
     
@@ -548,7 +549,7 @@
 }
 
 /** 移除action */
-- (void)removeActionAtIndex:(NSUInteger)index{
+- (void)removeActionAtIndex:(NSUInteger)index {
     
     if (index < 0 || index >= self.actions.count) { return; }
     
@@ -556,7 +557,7 @@
 }
 
 /** 获取action */
-- (JKAlertAction *)getActionAtIndex:(NSUInteger)index{
+- (JKAlertAction *)getActionAtIndex:(NSUInteger)index {
     
     if (index < 0 || index >= self.actions.count) { return nil; }
     
@@ -570,7 +571,7 @@
 #pragma mark - action数组操作
 
 /** 添加action */
-- (JKAlertView *(^)(JKAlertAction *action, BOOL isSecondCollection))addActionTo{
+- (JKAlertView *(^)(JKAlertAction *action, BOOL isSecondCollection))addActionTo {
     
     return ^(JKAlertAction *action, BOOL isSecondCollection) {
         
@@ -581,7 +582,7 @@
 }
 
 /** 链式移除action */
-- (JKAlertView *(^)(JKAlertAction *action, BOOL isSecondCollection))removeActionFrom{
+- (JKAlertView *(^)(JKAlertAction *action, BOOL isSecondCollection))removeActionFrom {
     
     return ^(JKAlertAction *action, BOOL isSecondCollection) {
         
@@ -592,7 +593,7 @@
 }
 
 /** 链式添加action */
-- (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex, BOOL isSecondCollection))insertActionTo{
+- (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex, BOOL isSecondCollection))insertActionTo {
     
     return ^(JKAlertAction *action, NSUInteger atIndex, BOOL isSecondCollection) {
         
@@ -603,7 +604,7 @@
 }
 
 /** 链式移除action */
-- (JKAlertView *(^)(NSUInteger index, BOOL isSecondCollection))removeActionAtIndexFrom{
+- (JKAlertView *(^)(NSUInteger index, BOOL isSecondCollection))removeActionAtIndexFrom {
     
     return ^(NSUInteger index, BOOL isSecondCollection) {
         
@@ -614,7 +615,7 @@
 }
 
 /** 链式获取action */
-- (JKAlertView *(^)(NSUInteger index, BOOL isSecondCollection, void(^)(JKAlertAction *action)))getActionAtIndexFrom{
+- (JKAlertView *(^)(NSUInteger index, BOOL isSecondCollection, void (^)(JKAlertAction *action)))getActionAtIndexFrom {
     
     return ^(NSUInteger index, BOOL isSecondCollection, void(^getAction)(JKAlertAction *action)) {
         
@@ -627,7 +628,7 @@
 }
 
 /** 链式获取cancelAction或collectionAction */
-- (JKAlertView *(^)(BOOL isCancelAction, void(^)(JKAlertAction *action)))getCancelOrCollectionAction{
+- (JKAlertView *(^)(BOOL isCancelAction, void (^)(JKAlertAction *action)))getCancelOrCollectionAction {
     
     return ^(BOOL isCancelAction, void(^getAction)(JKAlertAction *action)) {
         
@@ -640,7 +641,7 @@
 }
 
 /** 链式获取action数组 */
-- (JKAlertView *(^)(BOOL isSecondCollection, void(^)(NSArray *actionArray)))getActionArrayFrom{
+- (JKAlertView *(^)(BOOL isSecondCollection, void (^)(NSArray *actionArray)))getActionArrayFrom {
     
     return ^(BOOL isSecondCollection, void(^getActionArray)(NSArray *actionArray)) {
         
@@ -651,7 +652,7 @@
 }
 
 /** 链式清空action数组 */
-- (JKAlertView *(^)(BOOL isSecondCollection))clearActionArrayFrom{
+- (JKAlertView *(^)(BOOL isSecondCollection))clearActionArrayFrom {
     
     return ^(BOOL isSecondCollection) {
         
@@ -662,7 +663,7 @@
 }
 
 /** 添加action */
-- (void)addAction:(JKAlertAction *)action isSecondCollection:(BOOL)isSecondCollection{
+- (void)addAction:(JKAlertAction *)action isSecondCollection:(BOOL)isSecondCollection {
     
     if (!action) { return; }
     
@@ -679,7 +680,7 @@
 }
 
 /** 移除action */
-- (void)removeAction:(JKAlertAction *)action isSecondCollection:(BOOL)isSecondCollection{
+- (void)removeAction:(JKAlertAction *)action isSecondCollection:(BOOL)isSecondCollection {
     
     if (!action) { return; }
     
@@ -700,7 +701,7 @@
 }
 
 /** 添加action */
-- (void)insertAction:(JKAlertAction *)action atIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection{
+- (void)insertAction:(JKAlertAction *)action atIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection {
     
     if (!action) { return; }
     
@@ -717,7 +718,7 @@
 }
 
 /** 移除action */
-- (void)removeActionAtIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection{
+- (void)removeActionAtIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection {
     
     if (index < 0) { return; }
     
@@ -736,7 +737,7 @@
 }
 
 /** 获取action */
-- (JKAlertAction *)getActionAtIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection{
+- (JKAlertAction *)getActionAtIndex:(NSUInteger)index isSecondCollection:(BOOL)isSecondCollection {
     
     if (index < 0) { return nil; }
     
@@ -759,13 +760,13 @@
 }
 
 /** 获取cancelAction */
-- (JKAlertAction *)getCancelAction{
+- (JKAlertAction *)getCancelAction {
     
     return self.currentAlertContentView.cancelAction;
 }
 
 /** 获取collectionAction */
-- (JKAlertAction *)getCollectionAction{
+- (JKAlertAction *)getCollectionAction {
     
     __block JKAlertAction *action = nil;
     
@@ -778,7 +779,7 @@
 }
 
 /** 获取action数组 */
-- (NSArray *)getActionArrayIsSecondCollection:(BOOL)isSecondCollection{
+- (NSArray *)getActionArrayIsSecondCollection:(BOOL)isSecondCollection {
     
     if (isSecondCollection) {
         
@@ -791,7 +792,7 @@
 }
 
 /** 清空action数组 */
-- (void)clearActionArrayIsSecondCollection:(BOOL)isSecondCollection{
+- (void)clearActionArrayIsSecondCollection:(BOOL)isSecondCollection {
     
     if (isSecondCollection) {
         
@@ -814,7 +815,7 @@
  * textField可以直接对其superView进行一些属性修改，如背景色
  * block中的参数view用于调用dismiss()来移除当前弹框
  */
-- (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *view, UITextField *textField))configurationHandler{
+- (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *view, UITextField *textField))configurationHandler {
     
     UITextField *tf = [[UITextField alloc] init];
     UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 1)];
@@ -842,7 +843,7 @@
  * textField可以直接对其superView进行一些属性修改，如背景色
  * block中的参数view用于调用dismiss()来移除当前弹框
  */
-- (JKAlertView *(^)(void (^)(JKAlertView *view, UITextField *textField)))addTextFieldWithConfigurationHandler{
+- (JKAlertView *(^)(void (^)(JKAlertView *view, UITextField *textField)))addTextFieldWithConfigurationHandler {
     
     return ^(void (^configurationHandler)(JKAlertView *view, UITextField *textField)) {
         
@@ -853,7 +854,7 @@
 }
 
 /** 显示并监听JKAlertView消失动画完成 */
-- (void(^)(void(^handler)(void)))showWithDidDismissHandler {
+- (void (^)(void (^handler)(void)))showWithDidDismissHandler {
     
     return ^(void(^handler)(void)) {
         
@@ -861,49 +862,6 @@
         
         self.didDismissHandler = handler;
     };
-}
-
-#pragma mark
-#pragma mark - 计算frame
-
-- (void)calculateUI {
-    
-    self.frame = CGRectMake(0, 0, JKAlertScreenW, JKAlertScreenH);
-    
-    switch (self.alertStyle) {
-        case JKAlertStylePlain:
-        {
-            [self calculatePlainUI];
-        }
-            break;
-            
-        case JKAlertStyleActionSheet:
-        {
-            [self calculateActionSheetUI];
-        }
-            break;
-            
-        case JKAlertStyleCollectionSheet:
-        {
-            [self calculateCollectionSheetUI];
-        }
-            break;
-            
-        case JKAlertStyleHUD:
-        {
-            [self calculateHudUI];
-        }
-            break;
-            
-        default:
-            break;
-    }
-    
-    [self calculateUIFinish];
-}
-
-- (void)calculateUIFinish {
-    
 }
 
 #pragma mark
@@ -1132,7 +1090,7 @@
     return nil;
 }
 
-- (void(^)(void))showAnimationDidComplete {
+- (void (^)(void))showAnimationDidComplete {
     
     self.window.userInteractionEnabled = YES;
     
@@ -1232,7 +1190,7 @@
                 frame.origin.y = 5 + (maxH - frame.size.height) * 0.5;
             }
             
-            self.setPlainY(frame.origin.y, YES);
+            [self updatePlainFrameY:frame.origin.y animated:YES];
             
             return;
         }
@@ -1290,8 +1248,8 @@
     
     if (!sheetContentView) { return; }
     
-    if (!sheetContentView.verticalSlideDismissEnabled &&
-        !sheetContentView.horizontalSlideDismissEnabled) {
+    if (!sheetContentView.verticalGestureDismissEnabled &&
+        !sheetContentView.horizontalGestureDismissEnabled) {
         
         return;
     }
@@ -1345,7 +1303,7 @@
     self.dismiss();
 }
 
-- (void(^)(void))dismiss {
+- (void (^)(void))dismiss {
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -1429,7 +1387,7 @@
     }
 }
 
-- (void(^)(void))dismissAnimationDidComplete{
+- (void (^)(void))dismissAnimationDidComplete{
     
     self.window.userInteractionEnabled = YES;
     
@@ -1517,9 +1475,6 @@
     
     JKAlertSeparatorLineWH = (1 / [UIScreen mainScreen].scale);
     textContainerViewCurrentMaxH_ = (JKAlertScreenH - 100 - JKAlertActionButtonH * 4);
-    
-    _enableVerticalGestureDismiss = NO;
-    _enableHorizontalGestureDismiss = NO;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -1671,30 +1626,6 @@
         _textFieldArr = [NSMutableArray array];
     }
     return _textFieldArr;
-}
-
-- (UIView *)topGestureIndicatorView {
-    if (!_topGestureIndicatorView) {
-        UIView *topGestureIndicatorView = [[UIView alloc] init];
-        topGestureIndicatorView.hidden = YES;
-        topGestureIndicatorView.userInteractionEnabled = NO;
-        //topGestureIndicatorView.backgroundColor = JKAlertGlobalBackgroundColor();
-        [self addSubview:topGestureIndicatorView];
-        _topGestureIndicatorView = topGestureIndicatorView;
-        
-        UIView *topGestureLineView = [[UIView alloc] init];
-        
-        //UIToolbar *topGestureLineView = [[UIToolbar alloc] init];
-        //topGestureLineView.alpha = 0.9;
-        topGestureLineView.userInteractionEnabled = NO;
-        topGestureLineView.layer.cornerRadius = 2;
-        //topGestureLineView.layer.masksToBounds = YES;
-        topGestureLineView.backgroundColor = JKAlertAdaptColor(JKAlertSameRGBColor(208), JKAlertSameRGBColor(47));
-        [topGestureIndicatorView addSubview:topGestureLineView];
-        
-        _topGestureLineView = topGestureLineView;
-    }
-    return _topGestureIndicatorView;
 }
 
 - (UIButton *)closeButton {

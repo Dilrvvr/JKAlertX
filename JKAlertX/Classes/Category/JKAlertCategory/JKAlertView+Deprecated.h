@@ -10,17 +10,17 @@
 @interface JKAlertView (Deprecated)
 
 /** 显示并监听JKAlertView消失动画完成 */
-@property (nonatomic, copy, readonly) void (^showWithDismissComplete)(void(^dismissComplete)(void)) JKAlertXDeprecated("use showWithDidDismissHandler");
+@property (nonatomic, copy, readonly) void (^showWithDismissComplete)(void (^dismissComplete)(void)) JKAlertXDeprecated("use showWithDidDismissHandler");
 
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewCanSelectText)(BOOL canSelectText) JKAlertXDeprecated("use setTextViewShouldSelectText");
 
-@property (nonatomic, copy, readonly) JKAlertView *(^setWillShowAnimation)(void(^willShowAnimation)(JKAlertView *view)) JKAlertXDeprecated("use setWillShowHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillShowAnimation)(void (^willShowAnimation)(JKAlertView *view)) JKAlertXDeprecated("use setWillShowHandler");
 
-@property (nonatomic, copy, readonly) JKAlertView *(^setShowAnimationComplete)(void(^showAnimationComplete)(JKAlertView *view)) JKAlertXDeprecated("use setDidShowHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setShowAnimationComplete)(void (^showAnimationComplete)(JKAlertView *view)) JKAlertXDeprecated("use setDidShowHandler");
 
-@property (nonatomic, copy, readonly) JKAlertView *(^setWillDismiss)(void(^willDismiss)(void)) JKAlertXDeprecated("use setWillDismissHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillDismiss)(void (^willDismiss)(void)) JKAlertXDeprecated("use setWillDismissHandler");
 
-@property (nonatomic, copy, readonly) JKAlertView *(^setDismissComplete)(void(^dismissComplete)(void)) JKAlertXDeprecated("use setDidDismissHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setDismissComplete)(void (^dismissComplete)(void)) JKAlertXDeprecated("use setDidDismissHandler");
 
 /** 准备重新布局 */
 @property (nonatomic, copy, readonly) JKAlertView *(^prepareToRelayout)(void) JKAlertXDeprecated("JKAlertViewProtocol已移除，无需调用该方法");
@@ -33,7 +33,7 @@
 #pragma mark - 公共部分
 
 /** 可以在这个block内自定义其它属性 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomizePropertyHandler)(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)) JKAlertXDeprecated("use makeCustomizationHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomizePropertyHandler)(void (^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)) JKAlertXDeprecated("use makeCustomizationHandler");
 
 /**
  * 设置点击空白处是否消失，plain默认NO，其它YES
@@ -41,7 +41,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setClickBlankDismiss)(BOOL shouldDismiss) JKAlertXDeprecated("use makeTapBlankDismiss");
 
 /** 设置监听点击空白处的block */
-@property (nonatomic, copy, readonly) JKAlertView *(^setBlankClickBlock)(void(^blankClickBlock)(void)) JKAlertXDeprecated("use makeTapBlankHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setBlankClickBlock)(void (^blankClickBlock)(void)) JKAlertXDeprecated("use makeTapBlankHandler");
 
 /** 设置全屏背景是否透明，默认黑色 0.4 alpha */
 @property (nonatomic, copy, readonly) JKAlertView *(^setClearFullScreenBackgroundColor)(BOOL isClearFullScreenBackgroundColor) JKAlertXDeprecated("use makeFullBackgroundColor");
@@ -129,13 +129,13 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setCancelAction)(JKAlertAction *action) JKAlertXDeprecated("use makeCancelAction");
 
 /** 监听屏幕旋转 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setOrientationChangeBlock)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) JKAlertXDeprecated("use makeOrientationDidChangeHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setOrientationChangeBlock)(void (^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) JKAlertXDeprecated("use makeOrientationDidChangeHandler");
 
 /** 设置监听superView尺寸改变时将要自适应的block */
-@property (nonatomic, copy, readonly) JKAlertView *(^setWillAutoAdaptSuperViewBlock)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)) JKAlertXDeprecated("use makeWillRelayoutHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillAutoAdaptSuperViewBlock)(void (^willAdaptBlock)(JKAlertView *view, UIView *containerView)) JKAlertXDeprecated("use makeWillRelayoutHandler");
 
 /** 设置监听superView尺寸改变时自适应完成的block */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDidAutoAdaptSuperViewBlock)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)) JKAlertXDeprecated("use makeDidRelayoutHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setDidAutoAdaptSuperViewBlock)(void (^didAdaptBlock)(JKAlertView *view, UIView *containerView)) JKAlertXDeprecated("use makeDidRelayoutHandler");
 
 /**
  * 重新布局完成的block
@@ -143,7 +143,7 @@
  * 如果需要在block中再次relayout，请在block中销毁该block
  * 即调用setRelayoutComplete(nil); 否则会造成死循环
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setRelayoutComplete)(void(^relayoutComplete)(JKAlertView *view)) JKAlertXDeprecated("use makeDidRelayoutHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setRelayoutComplete)(void (^relayoutComplete)(JKAlertView *view)) JKAlertXDeprecated("use makeDidRelayoutHandler");
 
 /** 设置show的时候是否振动 默认NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setShouldVibrate)(BOOL shouldVibrate) JKAlertXDeprecated("use makeVibrateEnabled");
@@ -158,22 +158,22 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setBottomButtonMargin)(CGFloat margin) JKAlertXDeprecated("use makeBottomButtonMargin");
 
 /** 监听即将开始显示动画 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setWillShowHandler)(void(^willShowHandler)(JKAlertView *view)) JKAlertXDeprecated("use makeWillShowHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillShowHandler)(void (^willShowHandler)(JKAlertView *view)) JKAlertXDeprecated("use makeWillShowHandler");
 
 /** 监听显示动画完成 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDidShowHandler)(void(^didShowHandler)(JKAlertView *view)) JKAlertXDeprecated("use makeDidShowHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setDidShowHandler)(void (^didShowHandler)(JKAlertView *view)) JKAlertXDeprecated("use makeDidShowHandler");
 
 /** 监听JKAlertView即将开始消失动画 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setWillDismissHandler)(void(^willDismissHandler)(void)) JKAlertXDeprecated("use makeWillDismissHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setWillDismissHandler)(void (^willDismissHandler)(void)) JKAlertXDeprecated("use makeWillDismissHandler");
 
 /** 监听JKAlertView消失动画完成 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setDidDismissHandler)(void(^didDismissHandler)(void)) JKAlertXDeprecated("use makeDidDismissHandler");
+@property (nonatomic, copy, readonly) JKAlertView *(^setDidDismissHandler)(void (^didDismissHandler)(void)) JKAlertXDeprecated("use makeDidDismissHandler");
 
 /** 设置是否允许dealloc打印，用于检查循环引用 */
 @property (nonatomic, copy, readonly) JKAlertView *(^enableDeallocLog)(BOOL enable) JKAlertXDeprecated("use makeDeallocLogEnabled");
 
 /** 设置dealloc时会调用的block */
-@property (nonatomic, copy, readonly) void (^setDeallocBlock)(void(^deallocBlock)(void)) JKAlertXDeprecated("use makeDeallocHandler");
+@property (nonatomic, copy, readonly) void (^setDeallocBlock)(void (^deallocBlock)(void)) JKAlertXDeprecated("use makeDeallocHandler");
 
 /**
  * 设置用于通知消失的key
@@ -257,7 +257,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomPlainTitleView)(BOOL onlyForMessage, UIView *(^customView)(JKAlertView *view)) JKAlertXDeprecated("use makeCustomTextContentView & makeCustomMessageView");
 
 /** 设置plain样式关闭按钮 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCloseButtonConfig)(void(^)(UIButton *closeButton)) JKAlertXDeprecated("use makePlainCloseButtonConfiguration");
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCloseButtonConfig)(void (^)(UIButton *closeButton)) JKAlertXDeprecated("use makePlainCloseButtonConfiguration");
 
 /**
  * 设置plain样式message最小高度 默认0
@@ -309,7 +309,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setSheetMaxHeight)(CGFloat height) JKAlertXDeprecated("use makeActionSheetMaxHeight");
 
 /** 自定义配置tableView */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTableViewConfiguration)(void(^)(UITableView *tableView)) JKAlertXDeprecated("use makeActionSheetTableViewConfiguration");
+@property (nonatomic, copy, readonly) JKAlertView *(^setTableViewConfiguration)(void (^)(UITableView *tableView)) JKAlertXDeprecated("use makeActionSheetTableViewConfiguration");
 
 /** 设置UITableViewDataSource */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDataSource)(id<UITableViewDataSource> dataSource) JKAlertXDeprecated("use makeActionSheetTableViewDataSource");
@@ -392,11 +392,23 @@
  * 设置pageControl
  * 必须setShowPageControl为YES之后才会有值
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionPageControlConfig)(void(^)(UIPageControl *pageControl)) JKAlertXDeprecated("use makeCollectionSheetPageControlConfiguration");
+@property (nonatomic, copy, readonly) JKAlertView *(^setCollectionPageControlConfig)(void (^)(UIPageControl *pageControl)) JKAlertXDeprecated("use makeCollectionSheetPageControlConfiguration");
 
 /** 设置colletion样式的底部按钮左右间距 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionButtonLeftRightMargin)(CGFloat margin) JKAlertXDeprecated("use makeCollectionSheetButtonInsets");
 
 /** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCollectionAction)(JKAlertAction *action) JKAlertXDeprecated("use makeCollectionSheetAction");
+
+#pragma mark
+#pragma mark - 自定义动画
+
+/**
+ * 设置自定义展示动画，动画完成一定要调用showAnimationDidComplete
+ * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomShowAnimationBlock)(void (^)(JKAlertView *view, UIView *animationView)) JKAlertXDeprecated("use makeCustomShowAnimationHandler");
+
+/** 设置自定义消失动画，动画完成一定要调用dismissAnimationDidComplete */
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomDismissAnimationBlock)(void (^)(JKAlertView *view, UIView *animationView)) JKAlertXDeprecated("use makeCustomDismissAnimationHandler");
 @end

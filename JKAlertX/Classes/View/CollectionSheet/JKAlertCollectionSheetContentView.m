@@ -234,7 +234,7 @@
     
     CGFloat gestureIndicatorHeight = 0;
     
-    if (self.verticalSlideDismissEnabled &&
+    if (self.verticalGestureDismissEnabled &&
         !self.gestureIndicatorHidden) {
         
         gestureIndicatorHeight = JKAlertTopGestureIndicatorHeight;
@@ -624,7 +624,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    if (!self.verticalSlideDismissEnabled) { return; }
+    if (!self.verticalGestureDismissEnabled) { return; }
     
     if (scrollView == self.topContentView.scrollView ||
         scrollView == self.bottomContentView.scrollView) {
@@ -650,7 +650,7 @@
     if (scrollView == self.topContentView.scrollView ||
         scrollView == self.bottomContentView.scrollView) {
         
-        if (!self.verticalSlideDismissEnabled) { return; }
+        if (!self.verticalGestureDismissEnabled) { return; }
         
         beginScrollDirection = JKAlertScrollDirectionNone;
         endScrollDirection = JKAlertScrollDirectionNone;
@@ -664,7 +664,7 @@
         
     } else {
         
-        if (!self.horizontalSlideDismissEnabled) { return; }
+        if (!self.horizontalGestureDismissEnabled) { return; }
         
         isBeginDragging = YES;
         beginScrollDirection = JKAlertScrollDirectionNone;
@@ -710,7 +710,7 @@
     if (scrollView == self.topContentView.scrollView ||
     scrollView == self.bottomContentView.scrollView) {
         
-        if (!self.verticalSlideDismissEnabled) { return; }
+        if (!self.verticalGestureDismissEnabled) { return; }
         
         disableScrollToDismiss = NO;
         
@@ -718,7 +718,7 @@
         
     } else {
         
-        if (!self.horizontalSlideDismissEnabled) { return; }
+        if (!self.horizontalGestureDismissEnabled) { return; }
         
         if (self.collectionView.isDecelerating ||
             self.collectionView2.isDecelerating) {
@@ -731,7 +731,7 @@
 
 - (void)solveVerticalScroll:(UIScrollView *)scrollView{
     
-    if (!self.verticalSlideDismissEnabled ||
+    if (!self.verticalGestureDismissEnabled ||
         !self.tapBlankDismiss ||
         !scrollView.isDragging ||
         disableScrollToDismiss) { return; }
@@ -775,7 +775,7 @@
 
 - (void)solveHorizontalScroll:(UIScrollView *)scrollView{
     
-    if (!self.horizontalSlideDismissEnabled || !self.tapBlankDismiss) { return; }
+    if (!self.horizontalGestureDismissEnabled || !self.tapBlankDismiss) { return; }
     
     if ((scrollView == self.collectionView &&
         self.collectionView2.isDecelerating) ||
@@ -817,7 +817,7 @@
 
 - (void)solveWillEndDraggingVertically:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.verticalSlideDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
+    if (!self.verticalGestureDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
     
     if (scrollView.contentOffset.y + scrollView.contentInset.top > 0) {
         
@@ -838,7 +838,7 @@
 
 - (void)solveWillEndDraggingHorizontally:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.horizontalSlideDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
+    if (!self.horizontalGestureDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
     
     if (scrollView.contentOffset.x + scrollView.contentInset.left > 0) {
         

@@ -13,7 +13,7 @@
 
 static char JKAlertXGestureActionTag;
 
-+ (instancetype)JKAlertX_gestureWithOperation:(void(^)(id gesture))gestureOperation {
++ (instancetype)JKAlertX_gestureWithOperation:(void (^)(id gesture))gestureOperation {
     
     if (!gestureOperation) { return [self new]; }
     
@@ -31,7 +31,7 @@ static char JKAlertXGestureActionTag;
     !gestureOperation ? : gestureOperation(gesture);
 }
 
-- (void)JKAlertX_addGestureOperation:(void(^)(id gesture))gestureOperation {
+- (void)JKAlertX_addGestureOperation:(void (^)(id gesture))gestureOperation {
     
     if (!gestureOperation) { return; }
     

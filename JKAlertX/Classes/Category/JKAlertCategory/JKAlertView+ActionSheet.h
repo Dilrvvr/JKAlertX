@@ -31,7 +31,7 @@
 /**
  * 自定义配置tableView
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetTableViewConfiguration)(void(^)(UITableView *tableView));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetTableViewConfiguration)(void (^)(UITableView *tableView));
 
 /**
  * UITableView dataSource

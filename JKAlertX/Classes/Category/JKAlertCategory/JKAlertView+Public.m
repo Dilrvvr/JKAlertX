@@ -13,7 +13,7 @@
 /**
  * 可以在这个block内自定义其它属性
  */
-- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView)))makeCustomizationHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView)))makeCustomizationHandler {
     
     return ^(void(^handler)(JKAlertView *innerView)) {
         
@@ -103,7 +103,7 @@
 /**
  * 监听点击空白处的block
  */
-- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView)))makeTapBlankHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView)))makeTapBlankHandler {
     
     return ^(void (^handler)(JKAlertView *innerView)) {
         
@@ -498,6 +498,36 @@
 }
 
 #pragma mark
+#pragma mark - 自定义动画
+
+/**
+ * 自定义展示动画，动画完成一定要调用showAnimationDidComplete
+ * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
+ */
+- (JKAlertView *(^)(void (^)(JKAlertView *innerView, UIView *animationView)))makeCustomShowAnimationHandler {
+    
+    return ^(void (^handler)(JKAlertView *innerView, UIView *animationView)) {
+        
+        self.customShowAnimationBlock = handler;
+        
+        return self;
+    };
+}
+
+/**
+ * 自定义消失动画，动画完成一定要调用dismissAnimationDidComplete
+ */
+- (JKAlertView *(^)(void (^)(JKAlertView *innerView, UIView *animationView)))makeCustomDismissAnimationHandler {
+    
+    return ^(void (^handler)(JKAlertView *innerView, UIView *animationView)) {
+        
+        self.customDismissAnimationBlock = handler;
+        
+        return self;
+    };
+}
+
+#pragma mark
 #pragma mark - 手势退出
 
 /**
@@ -507,12 +537,16 @@
  * JKAlertStyleCollectionSheet
  * JKAlertStyleNotification(: JKTODO)
  */
-- (JKAlertView *(^)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture))makeGestureDismissEnabled {
+- (JKAlertView *(^)(BOOL verticalEnabled, BOOL horizontalEnabled))makeGestureDismissEnabled {
     
-    return ^(BOOL enableVerticalGesture, BOOL enableHorizontalGesture) {
+    return ^(BOOL verticalEnabled, BOOL horizontalEnabled) {
         
-        self.enableVerticalGestureDismiss = enableVerticalGesture;
-        self.enableHorizontalGestureDismiss = enableHorizontalGesture;
+        JKAlertBaseSheetContentView *sheetContentView = [self checkSheetContentView];
+        
+        if (!sheetContentView) { return self; }
+        
+        sheetContentView.verticalGestureDismissEnabled = verticalEnabled;
+        sheetContentView.horizontalGestureDismissEnabled = horizontalEnabled;
         
         return self;
     };
@@ -526,7 +560,13 @@
     
     return ^(BOOL gestureIndicatorHidden) {
         
-        self.showGestureIndicator = !gestureIndicatorHidden;
+        JKAlertBaseSheetContentView *sheetContentView = [self checkSheetContentView];
+        
+        if (!sheetContentView) { return self; }
+        
+        sheetContentView.gestureIndicatorHidden = gestureIndicatorHidden;
+        
+        return self;
         
         return self;
     };
@@ -538,7 +578,7 @@
 /**
  * 监听屏幕旋转
  */
-- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView, UIInterfaceOrientation orientation)))makeOrientationDidChangeHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView, UIInterfaceOrientation orientation)))makeOrientationDidChangeHandler {
     
     return ^(void(^handler)(JKAlertView *innerView, UIInterfaceOrientation orientation)) {
         
@@ -553,7 +593,7 @@
  * 尽量避免在此block中再次执行重新布局
  * 如有必要执行重新布局，请在重新布局前将此block销毁
  */
-- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView, UIView *containerView)))makeWillRelayoutHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView, UIView *containerView)))makeWillRelayoutHandler {
     
     return ^JKAlertView *(void(^handler)(JKAlertView *innerView, UIView *containerView)) {
         
@@ -568,7 +608,7 @@
  * 尽量避免在此block中再次执行重新布局
  * 如有必要执行重新布局，请在重新布局前将此block销毁
  */
-- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView, UIView *containerView)))makeDidRelayoutHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView, UIView *containerView)))makeDidRelayoutHandler {
     
     return ^JKAlertView *(void(^handler)(JKAlertView *innerView, UIView *containerView)) {
         

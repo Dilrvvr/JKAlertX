@@ -18,7 +18,7 @@
 
 + (instancetype)actionWithTitle:(NSString *)title
                           style:(JKAlertActionStyle)style
-                        handler:(void(^)(JKAlertAction *action))handler{
+                        handler:(void (^)(JKAlertAction *action))handler{
     
     return [self actionWithTitle:title attributedTitle:nil style:style handler:handler];
 }
@@ -37,7 +37,7 @@
     };
 }
 
-+ (instancetype)actionWithAttributedTitle:(NSAttributedString *)attributedTitle handler:(void(^)(JKAlertAction *action))handler{
++ (instancetype)actionWithAttributedTitle:(NSAttributedString *)attributedTitle handler:(void (^)(JKAlertAction *action))handler{
     
     return [self actionWithTitle:nil attributedTitle:attributedTitle style:JKAlertActionStyleDefault handler:handler];
 }
@@ -59,7 +59,7 @@
 + (instancetype)actionWithTitle:(NSString *)title
                 attributedTitle:(NSAttributedString *)attributedTitle
                           style:(JKAlertActionStyle)style
-                        handler:(void(^)(JKAlertAction *action))handler {
+                        handler:(void (^)(JKAlertAction *action))handler {
     
     JKAlertAction *action = [[JKAlertAction alloc] init];
     
@@ -118,7 +118,7 @@
 }
 
 /** 在这个block内自定义action的其它属性 */
-- (JKAlertAction *(^)(void(^customizePropertyHandler)(JKAlertAction *customizePropertyAction)))setCustomizePropertyHandler{
+- (JKAlertAction *(^)(void (^customizePropertyHandler)(JKAlertAction *customizePropertyAction)))setCustomizePropertyHandler{
     
     return ^(void(^customizePropertyHandler)(JKAlertAction *customizePropertyAction)) {
         

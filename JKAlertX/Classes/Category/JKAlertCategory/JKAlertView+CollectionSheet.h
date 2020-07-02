@@ -83,7 +83,7 @@
 /**
  * 配置pageControl
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPageControlConfiguration)(void(^)(UIPageControl *pageControl));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPageControlConfiguration)(void (^)(UIPageControl *pageControl));
 
 /**
  * colletion样式的底部按钮间距

@@ -13,12 +13,12 @@
 
 static char JKAlertXControlActionTag;
 
-- (void)JKAlertX_addClickOperation:(void(^)(id control))clickOperation {
+- (void)JKAlertX_addClickOperation:(void (^)(id control))clickOperation {
     
     [self JKAlertX_addOperation:clickOperation forControlEvents:(UIControlEventTouchUpInside)];
 }
 
-- (void)JKAlertX_addOperation:(void(^)(id control))clickOperation forControlEvents:(UIControlEvents)controlEvents{
+- (void)JKAlertX_addOperation:(void (^)(id control))clickOperation forControlEvents:(UIControlEvents)controlEvents{
     
     if (!clickOperation) { return; }
     

@@ -116,7 +116,7 @@
 @property (nonatomic, copy, readonly) JKAlertAction *(^setAutoDismiss)(BOOL autoDismiss);
 
 /** 可以在这个block内自定义其它属性 */
-@property (nonatomic, copy, readonly) JKAlertAction *(^setCustomizePropertyHandler)(void(^customizePropertyHandler)(JKAlertAction *customizePropertyAction));
+@property (nonatomic, copy, readonly) JKAlertAction *(^setCustomizePropertyHandler)(void (^customizePropertyHandler)(JKAlertAction *customizePropertyAction));
 
 /**
  * 自定义的view
@@ -157,7 +157,7 @@
  * style: 样式
  * handler: 点击的操作
  */
-+ (instancetype)actionWithTitle:(NSString *)title style:(JKAlertActionStyle)style handler:(void(^)(JKAlertAction *action))handler;
++ (instancetype)actionWithTitle:(NSString *)title style:(JKAlertActionStyle)style handler:(void (^)(JKAlertAction *action))handler;
 
 /**
  * 链式实例化action
@@ -173,7 +173,7 @@
  * style: 样式
  * handler: 点击的操作
  */
-+ (instancetype)actionWithAttributedTitle:(NSAttributedString *)attributedTitle handler:(void(^)(JKAlertAction *action))handler;
++ (instancetype)actionWithAttributedTitle:(NSAttributedString *)attributedTitle handler:(void (^)(JKAlertAction *action))handler;
 
 /**
  * 链式实例化action

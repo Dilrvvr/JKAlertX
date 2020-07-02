@@ -13,7 +13,7 @@
 /**
  * 监听即将开始显示动画
  */
-- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView)))makeWillShowHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView)))makeWillShowHandler {
     
     return ^(void(^handler)(JKAlertView *innerView)) {
         
@@ -26,7 +26,7 @@
 /**
  * 监听显示动画完成
  */
-- (JKAlertView *(^)(void(^handler)(JKAlertView *innerView)))makeDidShowHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView)))makeDidShowHandler {
     
     return ^(void(^handler)(JKAlertView *innerView)) {
         
@@ -39,7 +39,7 @@
 /**
  * 监听JKAlertView即将开始消失动画
  */
-- (JKAlertView *(^)(void(^handler)(void)))makeWillDismissHandler {
+- (JKAlertView *(^)(void (^handler)(void)))makeWillDismissHandler {
     
     return ^JKAlertView *(void(^handler)(void)) {
         
@@ -52,7 +52,7 @@
 /**
  * 监听JKAlertView消失动画完成
  */
-- (JKAlertView *(^)(void(^handler)(void)))makeDidDismissHandler {
+- (JKAlertView *(^)(void (^handler)(void)))makeDidDismissHandler {
     
     return ^(void(^handler)(void)) {
         
@@ -79,7 +79,7 @@
 /**
  * dealloc时会调用的block
  */
-- (void(^)(void(^handler)(void)))makeDeallocHandler {
+- (void (^)(void (^handler)(void)))makeDeallocHandler {
     
     return ^(void(^handler)(void)) {
         
@@ -105,7 +105,7 @@
  * 移除设置了某一dismissKey的JKAlertView
  * 本质是发送一个通知，让dismissKey为该值的JKAlertView对象执行消失操作
  */
-+ (void(^)(NSString *key))dismissForKey {
++ (void (^)(NSString *key))dismissForKey {
     
     return ^(NSString *key) {
         
@@ -133,7 +133,7 @@
  * 注意如果某个对象setDismissAllNoneffective为YES时，该对象将不会响应通知
  * ***谨慎使用该方法***
  */
-+ (void(^)(void))dismissAll {
++ (void (^)(void))dismissAll {
     
     [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertDismissAllNotification object:nil];
     
@@ -159,7 +159,7 @@
  * 移除设置了同一dismissCategory的多个JKAlertView
  * 本质是发送一个通知，让dismissCategory为该值的JKAlertView对象执行消失操作
  */
-+ (void(^)(NSString *dismissCategory))dismissForCategory {
++ (void (^)(NSString *dismissCategory))dismissForCategory {
     
     return ^(NSString *dismissCategory) {
         
@@ -173,7 +173,7 @@
  * 执行该操作会清空所有的JKAlertView，即使setDismissAllNoneffective为YES亦然，请谨慎操作
  * ***谨慎使用该方法***
  */
-+ (void(^)(void))clearAll {
++ (void (^)(void))clearAll {
     
     return ^{
         

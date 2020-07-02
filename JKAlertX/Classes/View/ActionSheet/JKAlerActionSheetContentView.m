@@ -110,7 +110,7 @@
     
     CGFloat gestureIndicatorHeight = 0;
     
-    if (self.verticalSlideDismissEnabled &&
+    if (self.verticalGestureDismissEnabled &&
         !self.gestureIndicatorHidden) {
         
         gestureIndicatorHeight = JKAlertTopGestureIndicatorHeight;
@@ -625,7 +625,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    if (!self.verticalSlideDismissEnabled) { return; }
+    if (!self.verticalGestureDismissEnabled) { return; }
     
     if ((scrollView == self.topContentView.scrollView &&
          self.tableView.isDecelerating) ||
@@ -640,7 +640,7 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     
-    if (!self.verticalSlideDismissEnabled) { return; }
+    if (!self.verticalGestureDismissEnabled) { return; }
     
     beginScrollDirection = JKAlertScrollDirectionNone;
     endScrollDirection = JKAlertScrollDirectionNone;
@@ -659,7 +659,7 @@
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    if (!self.verticalSlideDismissEnabled) { return; }
+    if (!self.verticalGestureDismissEnabled) { return; }
     
     if (self.topContentView.scrollView.isDecelerating ||
         _tableView.isDecelerating) {
@@ -673,7 +673,7 @@
 
 - (void)solveVerticalScroll:(UIScrollView *)scrollView {
     
-    if (!self.verticalSlideDismissEnabled ||
+    if (!self.verticalGestureDismissEnabled ||
         !self.tapBlankDismiss ||
         !scrollView.isDragging ||
         disableScrollToDismiss) { return; }
@@ -717,7 +717,7 @@
 
 - (void)solveWillEndDraggingVertically:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.verticalSlideDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
+    if (!self.verticalGestureDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
     
     if (scrollView.contentOffset.y + scrollView.contentInset.top > 0) {
         
@@ -738,7 +738,7 @@
 
 - (void)solveWillEndDraggingHorizontally:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
     
-    if (!self.horizontalSlideDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
+    if (!self.horizontalGestureDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
     
     if (scrollView.contentOffset.x + scrollView.contentInset.left > 0) {
         

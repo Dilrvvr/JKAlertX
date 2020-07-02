@@ -12,22 +12,22 @@
 /**
  * 监听即将开始显示动画
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeWillShowHandler)(void(^handler)(JKAlertView *innerView));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeWillShowHandler)(void (^handler)(JKAlertView *innerView));
 
 /**
  * 监听显示动画完成
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeDidShowHandler)(void(^handler)(JKAlertView *innerView));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeDidShowHandler)(void (^handler)(JKAlertView *innerView));
 
 /**
  * 监听JKAlertView即将开始消失动画
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeWillDismissHandler)(void(^handler)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeWillDismissHandler)(void (^handler)(void));
 
 /**
  * 监听JKAlertView消失动画完成
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeDidDismissHandler)(void(^handler)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeDidDismissHandler)(void (^handler)(void));
 
 /**
  * 是否允许dealloc打印，用于检查循环引用
@@ -38,7 +38,7 @@
 /**
  * dealloc时会调用的block
  */
-@property (nonatomic, copy, readonly) void (^makeDeallocHandler)(void(^handler)(void));
+@property (nonatomic, copy, readonly) void (^makeDeallocHandler)(void (^handler)(void));
 
 /**
  * 用于通知消失的key

@@ -47,11 +47,11 @@
 /** topGestureLineView */
 @property (nonatomic, weak) UIView *topGestureLineView;
 
-/** verticalSlideDismissEnabled */
-@property (nonatomic, assign) BOOL verticalSlideDismissEnabled;
+/** verticalGestureDismissEnabled */
+@property (nonatomic, assign) BOOL verticalGestureDismissEnabled;
 
-/** horizontalSlideDismissEnabled */
-@property (nonatomic, assign) BOOL horizontalSlideDismissEnabled;
+/** horizontalGestureDismissEnabled */
+@property (nonatomic, assign) BOOL horizontalGestureDismissEnabled;
 
 /** gestureIndicatorHidden */
 @property (nonatomic, assign) BOOL gestureIndicatorHidden;

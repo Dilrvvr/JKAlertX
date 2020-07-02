@@ -17,7 +17,7 @@
 @implementation JKAlertView (Deprecated)
 
 /** 显示并监听JKAlertView消失动画完成 */
-- (void(^)(void(^dismissComplete)(void)))showWithDismissComplete {
+- (void (^)(void (^dismissComplete)(void)))showWithDismissComplete {
     
     return [self showWithDidDismissHandler];
 }
@@ -28,22 +28,22 @@
     return [self makeTitleMessageShouldSelectText];
 }
 
-- (JKAlertView *(^)(void(^willShowAnimation)(JKAlertView *view)))setWillShowAnimation {
+- (JKAlertView *(^)(void (^willShowAnimation)(JKAlertView *view)))setWillShowAnimation {
     
     return [self makeWillShowHandler];
 }
 
-- (JKAlertView *(^)(void(^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete {
+- (JKAlertView *(^)(void (^showAnimationComplete)(JKAlertView *view)))setShowAnimationComplete {
     
     return [self makeDidShowHandler];
 }
 
-- (JKAlertView *(^)(void(^willDismiss)(void)))setWillDismiss {
+- (JKAlertView *(^)(void (^willDismiss)(void)))setWillDismiss {
     
     return [self makeWillDismissHandler];
 }
 
-- (JKAlertView *(^)(void(^dismissComplete)(void)))setDismissComplete {
+- (JKAlertView *(^)(void (^dismissComplete)(void)))setDismissComplete {
     
     return [self makeDidDismissHandler];
 }
@@ -68,7 +68,7 @@
 #pragma mark - 公共部分
 
 /** 在这个block内自定义其它属性 */
-- (JKAlertView *(^)(void(^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)))setCustomizePropertyHandler {
+- (JKAlertView *(^)(void (^customizePropertyHandler)(JKAlertView *customizePropertyAlertView)))setCustomizePropertyHandler {
     
     return [self makeCustomizationHandler];
 }
@@ -93,7 +93,7 @@
 }
 
 /** 设置监听点击空白处的block */
-- (JKAlertView *(^)(void(^blankClickBlock)(void)))setBlankClickBlock {
+- (JKAlertView *(^)(void (^blankClickBlock)(void)))setBlankClickBlock {
     
     return ^(void(^handler)(void)) {
         
@@ -362,7 +362,7 @@
 }
 
 /** 监听屏幕旋转 */
-- (JKAlertView *(^)(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)))setOrientationChangeBlock {
+- (JKAlertView *(^)(void (^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)))setOrientationChangeBlock {
     
     return ^(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) {
         
@@ -373,19 +373,19 @@
 }
 
 /** 设置监听superView尺寸改变时将要自适应的block */
-- (JKAlertView *(^)(void(^willAdaptBlock)(JKAlertView *view, UIView *containerView)))setWillAutoAdaptSuperViewBlock {
+- (JKAlertView *(^)(void (^willAdaptBlock)(JKAlertView *view, UIView *containerView)))setWillAutoAdaptSuperViewBlock {
     
     return [self makeWillRelayoutHandler];
 }
 
 /** 设置监听superView尺寸改变时自适应完成的block */
-- (JKAlertView *(^)(void(^didAdaptBlock)(JKAlertView *view, UIView *containerView)))setDidAutoAdaptSuperViewBlock {
+- (JKAlertView *(^)(void (^didAdaptBlock)(JKAlertView *view, UIView *containerView)))setDidAutoAdaptSuperViewBlock {
     
     return [self makeDidRelayoutHandler];
 }
 
 /** 监听重新布局完成 */
-- (JKAlertView *(^)(void(^relayoutComplete)(JKAlertView *view)))setRelayoutComplete {
+- (JKAlertView *(^)(void (^relayoutComplete)(JKAlertView *view)))setRelayoutComplete {
     
     return ^(void(^relayoutComplete)(JKAlertView *view)) {
         
@@ -420,25 +420,25 @@
 }
 
 /** 监听即将开始显示动画 */
-- (JKAlertView *(^)(void(^willShowHandler)(JKAlertView *view)))setWillShowHandler {
+- (JKAlertView *(^)(void (^willShowHandler)(JKAlertView *view)))setWillShowHandler {
     
     return [self makeWillShowHandler];
 }
 
 /** 监听JKAlertView显示动画完成 */
-- (JKAlertView *(^)(void(^didShowHandler)(JKAlertView *view)))setDidShowHandler {
+- (JKAlertView *(^)(void (^didShowHandler)(JKAlertView *view)))setDidShowHandler {
     
     return [self makeDidShowHandler];
 }
 
 /** 监听JKAlertView即将消失 */
-- (JKAlertView *(^)(void(^willDismissHandler)(void)))setWillDismissHandler {
+- (JKAlertView *(^)(void (^willDismissHandler)(void)))setWillDismissHandler {
     
     return [self makeWillDismissHandler];
 }
 
 /** 监听JKAlertView消失动画完成 */
-- (JKAlertView *(^)(void(^didDismissHandler)(void)))setDidDismissHandler {
+- (JKAlertView *(^)(void (^didDismissHandler)(void)))setDidDismissHandler {
     
     return [self makeDidDismissHandler];
 }
@@ -450,7 +450,7 @@
 }
 
 /** 设置dealloc时会调用的block */
-- (void(^)(void(^deallocBlock)(void)))setDeallocBlock {
+- (void (^)(void (^deallocBlock)(void)))setDeallocBlock {
     
     return [self makeDeallocHandler];
 }
@@ -771,7 +771,7 @@
 }
 
 /** 自定义配置tableView */
-- (JKAlertView *(^)(void(^)(UITableView *tableView)))setTableViewConfiguration {
+- (JKAlertView *(^)(void (^)(UITableView *tableView)))setTableViewConfiguration {
     
     return [self makeActionSheetTableViewConfiguration];
 }
@@ -925,5 +925,23 @@
 - (JKAlertView *(^)(JKAlertAction *action))setCollectionAction {
     
     return [self makeCollectionSheetAction];
+}
+
+#pragma mark
+#pragma mark - 自定义动画
+
+/**
+ * 设置自定义展示动画，动画完成一定要调用showAnimationDidComplete
+ * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
+ */
+- (JKAlertView *(^)(void (^)(JKAlertView *view, UIView *animationView)))setCustomShowAnimationBlock {
+    
+    return [self makeCustomShowAnimationHandler];
+}
+
+/** 设置自定义消失动画 */
+- (JKAlertView *(^)(void (^)(JKAlertView *view, UIView *animationView)))setCustomDismissAnimationBlock {
+    
+    return [self makeCustomDismissAnimationHandler];
 }
 @end

@@ -10,7 +10,7 @@
 
 @interface UIGestureRecognizer (JKAlertX)
 
-+ (instancetype)JKAlertX_gestureWithOperation:(void(^)(id gesture))gestureOperation;
++ (instancetype)JKAlertX_gestureWithOperation:(void (^)(id gesture))gestureOperation;
 
-- (void)JKAlertX_addGestureOperation:(void(^)(id gesture))gestureOperation;
+- (void)JKAlertX_addGestureOperation:(void (^)(id gesture))gestureOperation;
 @end

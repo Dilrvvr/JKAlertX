@@ -38,11 +38,18 @@
  */
 @property (nonatomic, copy) void (^alertContentViewConfiguration)(UIView *alertContentView);
 
-
-
-
 /** 是否横屏 */
 @property (nonatomic, assign) BOOL isLandScape;
+
+
+#pragma mark
+#pragma mark - 动画完成
+
+/** 自定义展示动画时，用于通知一下动画已经完成 */
+@property (nonatomic, copy, readonly) void (^showAnimationDidComplete)(void);
+
+/** 自定义消失动画时，用于通知一下动画已经完成 */
+@property (nonatomic, copy, readonly) void (^dismissAnimationDidComplete)(void);
 @end
 
 
@@ -55,7 +62,7 @@
 /**
  * 可以在这个block内自定义其它属性
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomizationHandler)(void(^handler)(JKAlertView *innerView));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomizationHandler)(void (^handler)(JKAlertView *innerView));
 
 /**
  * 设置自定义的父控件
@@ -85,7 +92,7 @@
 /**
  * 监听点击空白处的block
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeTapBlankHandler)(void(^handler)(JKAlertView *innerView));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeTapBlankHandler)(void (^handler)(JKAlertView *innerView));
 
 /**
  * 圆角
@@ -244,6 +251,20 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCancelAction)(JKAlertAction *action);
 
 #pragma mark
+#pragma mark - 自定义动画
+
+/**
+ * 自定义展示动画，动画完成一定要调用showAnimationDidComplete
+ * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomShowAnimationHandler)(void (^)(JKAlertView *innerView, UIView *animationView));
+
+/**
+ * 自定义消失动画，动画完成一定要调用dismissAnimationDidComplete
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomDismissAnimationHandler)(void (^)(JKAlertView *innerView, UIView *animationView));
+
+#pragma mark
 #pragma mark - 手势退出
 
 /**
@@ -253,7 +274,7 @@
  * JKAlertStyleCollectionSheet
  * JKAlertStyleNotification(: JKTODO)
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeGestureDismissEnabled)(BOOL enableVerticalGesture, BOOL enableHorizontalGesture);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeGestureDismissEnabled)(BOOL verticalEnabled, BOOL horizontalEnabled);
 
 /**
  * 是否隐藏手势指示器(在顶部一个横条)
@@ -267,21 +288,21 @@
 /**
  * 监听屏幕旋转
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeOrientationDidChangeHandler)(void(^handler)(JKAlertView *innerView, UIInterfaceOrientation orientation));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeOrientationDidChangeHandler)(void (^handler)(JKAlertView *innerView, UIInterfaceOrientation orientation));
 
 /**
  * 监听即将重新布局
  * 尽量避免在此block中再次执行重新布局
  * 如有必要执行重新布局，请在重新布局前将此block销毁
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeWillRelayoutHandler)(void(^handler)(JKAlertView *innerView, UIView *containerView));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeWillRelayoutHandler)(void (^handler)(JKAlertView *innerView, UIView *containerView));
 
 /**
  * 监听重新布局完成
  * 尽量避免在此block中再次执行重新布局
  * 如有必要执行重新布局，请在重新布局前将此block销毁
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeDidRelayoutHandler)(void(^handler)(JKAlertView *innerView, UIView *containerView));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeDidRelayoutHandler)(void (^handler)(JKAlertView *innerView, UIView *containerView));
 
 
 #pragma mark

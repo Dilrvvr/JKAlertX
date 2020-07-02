@@ -64,7 +64,7 @@
 /**
  * 自定义配置tableView
  */
-- (JKAlertView *(^)(void(^)(UITableView *tableView)))makeActionSheetTableViewConfiguration {
+- (JKAlertView *(^)(void (^)(UITableView *tableView)))makeActionSheetTableViewConfiguration {
     
     return ^(void(^tableViewConfiguration)(UITableView *tableView)) {
         

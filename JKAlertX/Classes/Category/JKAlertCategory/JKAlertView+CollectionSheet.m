@@ -312,7 +312,6 @@
     };
 }
 
-
 /** collection链式添加第二个collectionView的action */
 - (JKAlertView *(^)(JKAlertAction *action, NSUInteger atIndex))insertSecondCollectionAction {
     

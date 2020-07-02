@@ -40,7 +40,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^show)(void);
 
 /** 显示并监听JKAlertView消失动画完成 */
-@property (nonatomic, copy, readonly) void (^showWithDidDismissHandler)(void(^handler)(void));
+@property (nonatomic, copy, readonly) void (^showWithDidDismissHandler)(void (^handler)(void));
 
 /** 退出 */
 @property (nonatomic, copy, readonly) void (^dismiss)(void);
@@ -52,11 +52,11 @@
 
 
 #pragma mark
-#pragma mark collectionSheet样式
+#pragma mark - collectionSheet样式
 
 
 #pragma mark
-#pragma mark 类方法
+#pragma mark - 类方法
 
 /** 函数式类方法 */
 @property (class, nonatomic, copy, readonly) JKAlertView *(^show)(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView));
@@ -83,7 +83,7 @@
 
 
 #pragma mark
-#pragma mark 添加action
+#pragma mark - 添加action
 
 /** 添加action */
 - (void)insertAction:(JKAlertAction *)action atIndex:(NSUInteger)index;
@@ -96,7 +96,7 @@
 
 
 #pragma mark
-#pragma mark action数组操作
+#pragma mark - action数组操作
 
 /** 添加action */
 - (void)addAction:(JKAlertAction *)action isSecondCollection:(BOOL)isSecondCollection;
@@ -138,20 +138,20 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^removeActionAtIndexFrom)(NSUInteger index, BOOL isSecondCollection);
 
 /** 链式获取action */
-@property (nonatomic, copy, readonly) JKAlertView *(^getActionAtIndexFrom)(NSUInteger index, BOOL isSecondCollection, void(^)(JKAlertAction *action));
+@property (nonatomic, copy, readonly) JKAlertView *(^getActionAtIndexFrom)(NSUInteger index, BOOL isSecondCollection, void (^)(JKAlertAction *action));
 
 /** 链式获取cancelAction或collectionAction */
-@property (nonatomic, copy, readonly) JKAlertView *(^getCancelOrCollectionAction)(BOOL isCancelAction, void(^)(JKAlertAction *action));
+@property (nonatomic, copy, readonly) JKAlertView *(^getCancelOrCollectionAction)(BOOL isCancelAction, void (^)(JKAlertAction *action));
 
 /** 链式获取action数组 */
-@property (nonatomic, copy, readonly) JKAlertView *(^getActionArrayFrom)(BOOL isSecondCollection, void(^)(NSArray *actionArray));
+@property (nonatomic, copy, readonly) JKAlertView *(^getActionArrayFrom)(BOOL isSecondCollection, void (^)(NSArray *actionArray));
 
 /** 链式清空action数组 */
 @property (nonatomic, copy, readonly) JKAlertView *(^clearActionArrayFrom)(BOOL isSecondCollection);
 
 
 #pragma mark
-#pragma mark 添加textField
+#pragma mark - 添加textField
 
 /**
  * 链式添加textField 默认高度30
@@ -160,23 +160,4 @@
  * block中的参数view用于调用dismiss()来移除当前弹框
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^addTextFieldWithConfigurationHandler)(void (^)(JKAlertView *view, UITextField *textField));
-
-
-#pragma mark
-#pragma mark 自定义动画
-
-/**
- * 设置自定义展示动画，动画完成一定要调用showAnimationDidComplete
- * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomShowAnimationBlock)(void(^)(JKAlertView *view, UIView *animationView));
-
-/** 自定义展示动画时，用于通知一下动画已经完成 */
-@property (nonatomic, copy, readonly) void (^showAnimationDidComplete)(void);
-
-/** 设置自定义消失动画，动画完成一定要调用dismissAnimationDidComplete */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomDismissAnimationBlock)(void(^)(JKAlertView *view, UIView *animationView));
-
-/** 自定义消失动画时，用于通知一下动画已经完成 */
-@property (nonatomic, copy, readonly) void (^dismissAnimationDidComplete)(void);
 @end
