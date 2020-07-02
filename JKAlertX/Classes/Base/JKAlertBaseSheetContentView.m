@@ -331,12 +331,12 @@
     
     if (gestureRecognizer == self.verticalDismissPanGesture) {
         
-        return self.enableVerticalGestureDismiss;
+        return self.verticalSlideDismissEnabled;
     }
     
     if (gestureRecognizer == self.horizontalDismissPanGesture) {
         
-        return self.enableHorizontalGestureDismiss;
+        return self.horizontalSlideDismissEnabled;
     }
     
     return YES;
@@ -351,12 +351,14 @@
     
     _gestureIndicatorHidden = YES;
     
+    _showScaleAnimated = NO;
     
     
     // TODO: JKTODO <#注释#>
-    _enableVerticalGestureDismiss = YES;
-    _enableHorizontalGestureDismiss = YES;
+    _verticalSlideDismissEnabled = YES;
+    _horizontalSlideDismissEnabled = YES;
     _gestureIndicatorHidden = NO;
+    _showScaleAnimated = YES;
 }
 
 /** 构造函数初始化时调用 注意调用super */

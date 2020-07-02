@@ -377,12 +377,12 @@
     action.alertView = self;
     
     if (JKAlertStyleActionSheet == self.alertStyle) {
-
+        
         action.isPierced = self.actionsheetContentView.isPierced;
         action.multiPiercedBackgroundColor = self.actionsheetContentView.piercedBackgroundColor;
         
     } else if (JKAlertStyleCollectionSheet == self.alertStyle) {
-
+        
         action.isPierced = self.collectionsheetContentView.isPierced;
         action.multiPiercedBackgroundColor = self.collectionsheetContentView.piercedBackgroundColor;
     }
@@ -964,7 +964,7 @@
         
         if (CGSizeEqualToSize(oldFrame.size, currentFrame.size) ||
             (oldFrame.size.width == currentFrame.size.height &&
-            oldFrame.size.height == currentFrame.size.width)) {
+             oldFrame.size.height == currentFrame.size.width)) {
             
             // 屏幕旋转由屏幕旋转处理
             
@@ -983,6 +983,8 @@
     
     !self.willShowHandler ? : self.willShowHandler(self);
     
+    JKAlertBaseSheetContentView *sheetContentView = nil;
+    
     if (self.customShowAnimationBlock) {
         
         self.customShowAnimationBlock(self, self.alertContentView);
@@ -999,24 +1001,12 @@
                 break;
             case JKAlertStyleActionSheet:
             {
-                CGRect frame = self.actionsheetContentView.frame;
-                frame.origin.y = JKAlertScreenHeight;
-                self.actionsheetContentView.frame = frame;
+                sheetContentView = self.actionsheetContentView;
             }
                 break;
             case JKAlertStyleCollectionSheet:
             {
-                CGRect frame = self.collectionsheetContentView.frame;
-                frame.origin.y = JKAlertScreenHeight;
-                self.collectionsheetContentView.frame = frame;
-                // TODO: JKTODO <#注释#>
-                /*
-                _sheetContainerView.frame = CGRectMake(_sheetContainerView.frame.origin.x, JKAlertScreenH, _sheetContainerView.frame.size.width, _sheetContainerView.frame.size.height);
-                
-                if (_enableVerticalGestureDismiss &&
-                    (_sheetContainerView != nil)) {
-                    _sheetContainerView.layer.anchorPoint = CGPointMake(0.5, 1);
-                } //*/
+                sheetContentView = self.collectionsheetContentView;
             }
                 break;
                 
@@ -1024,7 +1014,17 @@
                 break;
         }
         
-        
+        if (sheetContentView) {
+            
+            CGRect frame = sheetContentView.frame;
+            frame.origin.y = JKAlertScreenH;
+            sheetContentView.frame = frame;
+            
+            if (sheetContentView.showScaleAnimated) {
+                
+                sheetContentView.layer.anchorPoint = CGPointMake(0.5, 1);
+            }
+        }
     }
     
     self.backgroundView.alpha = 0;
@@ -1039,22 +1039,22 @@
         
         if (self.customShowAnimationBlock) { return; }
         
-        if (self.enableVerticalGestureDismiss &&
-            (self->_sheetContainerView != nil)) {
+        if (sheetContentView &&
+            sheetContentView.showScaleAnimated) {
             
-            self.verticalDismissPanGesture.enabled = NO;
+            sheetContentView.verticalDismissPanGesture.enabled = NO;
             
             self.window.userInteractionEnabled = YES;
             
             [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionAllowUserInteraction  animations:^{
                 [UIView setAnimationCurve:(UIViewAnimationCurveEaseInOut)];
                 
-                self->_sheetContainerView.transform = CGAffineTransformIdentity;
+                sheetContentView.transform = CGAffineTransformIdentity;
                 
             } completion:^(BOOL finished) {
                 
-                self.verticalDismissPanGesture.enabled = YES;
-
+                sheetContentView.verticalDismissPanGesture.enabled = YES;
+                
                 self.showAnimationDidComplete();
             }];
             
@@ -1065,9 +1065,11 @@
     }];
 }
 
-- (void)showAnimationOperation{
+- (void)showAnimationOperation {
     
     if (self.customShowAnimationBlock) { return; }
+    
+    JKAlertBaseSheetContentView *sheetContentView = nil;
     
     switch (self.alertStyle) {
         case JKAlertStyleHUD:
@@ -1079,56 +1081,69 @@
             break;
         case JKAlertStyleActionSheet:
         {
-            CGRect frame = self.actionsheetContentView.frame;
-            frame.origin.y = JKAlertScreenH - frame.size.height;
-            self.actionsheetContentView.frame = frame;
+            sheetContentView = self.actionsheetContentView;
             
-            // TODO: JKTODO <#注释#>
-            
-            return;
         }
             break;
         case JKAlertStyleCollectionSheet:
         {
-            CGRect frame = self.collectionsheetContentView.frame;
-            frame.origin.y = JKAlertScreenH - frame.size.height;
-            self.collectionsheetContentView.frame = frame;
-            
-            // TODO: JKTODO <#注释#>
-            
-            return;
+            sheetContentView = self.collectionsheetContentView;
         }
             
         default:
             break;
     }
     
-    if (_enableVerticalGestureDismiss &&
-        (_sheetContainerView != nil)) {
+    if (!sheetContentView) { return; }
+    
+    CGRect frame = sheetContentView.frame;
+    frame.origin.y = JKAlertScreenH - frame.size.height;
+    sheetContentView.frame = frame;
+    
+    if (sheetContentView.showScaleAnimated) {
         
         [UIView setAnimationCurve:(UIViewAnimationCurveEaseOut)];
         
-        CGRect rect = _sheetContainerView.frame;
-        
-        rect.origin.y = JKAlertScreenH - rect.size.height;
-        _sheetContainerView.frame = rect;
-        
-        _sheetContainerView.transform = CGAffineTransformMakeScale(1, (_sheetContainerView.frame.size.height + JKAlertSheetSpringHeight) / _sheetContainerView.frame.size.height);
-        
-    } else {
-        
-        CGRect rect = _sheetContainerView.frame;
-        rect.origin.y = JKAlertScreenH - _sheetContainerView.frame.size.height;
-        _sheetContainerView.frame = rect;
+        sheetContentView.transform = CGAffineTransformMakeScale(1, (sheetContentView.frame.size.height + JKAlertSheetSpringHeight) / sheetContentView.frame.size.height);
     }
 }
 
-- (void(^)(void))showAnimationDidComplete{
+- (JKAlertBaseSheetContentView *)checkSheetContentView {
+    
+    if ((JKAlertStyleActionSheet != self.alertStyle) &&
+        (JKAlertStyleCollectionSheet != self.alertStyle)) {
+        
+        return nil;
+    }
+    
+    if ([self.currentAlertContentView isKindOfClass:[JKAlertBaseSheetContentView class]]) {
+        
+        return (JKAlertBaseSheetContentView *)self.currentAlertContentView;
+    }
+    
+    switch (self.alertStyle) {
+        case JKAlertStyleActionSheet:
+            
+            return self.actionsheetContentView;
+            
+            break;
+            
+        case JKAlertStyleCollectionSheet:
+            
+            return self.collectionsheetContentView;
+            
+            break;
+            
+        default:
+            break;
+    }
+    
+    return nil;
+}
+
+- (void(^)(void))showAnimationDidComplete {
     
     self.window.userInteractionEnabled = YES;
-    
-    //self->_titleTextView.delegate = self.titleTextViewDelegate;
-    //self->_messageTextView.delegate = self.messageTextViewDelegate;
     
     !self.didShowHandler ? : self.didShowHandler(self);
     
@@ -1157,7 +1172,9 @@
         }
     }
     
-    if (self.dismissTimeInterval > 0 && (self.alertStyle == JKAlertStyleHUD || self.customHUD)) {
+    if (self.dismissTimeInterval > 0 &&
+        (JKAlertStyleHUD == self.alertStyle ||
+         nil != self.customHUD)) {
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.dismissTimeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
@@ -1170,11 +1187,6 @@
 
 #pragma mark
 #pragma mark - 监听键盘
-
-//- (BOOL)isLandScape{
-//
-//    return JKAlertScreenW > JKAlertScreenH;
-//}
 
 - (void)keyboardWillChangeFrame:(NSNotification *)notification {
     
@@ -1268,7 +1280,7 @@
 #pragma mark
 #pragma mark - 退出
 
-- (void)dismissButtonClick:(UIButton *)button{
+- (void)dismissButtonClick:(UIButton *)button {
     
     [JKAlertKeyWindow() endEditing:YES];
     
@@ -1280,28 +1292,32 @@
         
         self.dismiss();
         
-    } else {
-        
-        if ((self.enableVerticalGestureDismiss ||
-             self.enableHorizontalGestureDismiss) &&
-            (self.alertStyle == JKAlertStyleActionSheet ||
-             self.alertStyle == JKAlertStyleCollectionSheet)) {
-            
-            if ([self.sheetContainerView.layer animationForKey:JKAlertDismissFailedShakeAnimationKey]) { return; }
-            
-            // 动画抖一下
-            CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.x"];
-            animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-            animation.repeatCount = 1;
-            animation.values = @[@(-2), @(-4), @(-6), @(3), @0];
-            animation.duration = 0.5;
-            [self.sheetContainerView.layer addAnimation:animation forKey:JKAlertDismissFailedShakeAnimationKey];
-        }
+        return;
     }
+    
+    JKAlertBaseSheetContentView *sheetContentView = [self checkSheetContentView];
+    
+    if (!sheetContentView) { return; }
+    
+    if (!sheetContentView.verticalSlideDismissEnabled &&
+        !sheetContentView.horizontalSlideDismissEnabled) {
+        
+        return;
+    }
+    
+    if ([sheetContentView.layer animationForKey:JKAlertDismissFailedShakeAnimationKey]) { return; }
+    
+    // 动画抖一下
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.x"];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    animation.repeatCount = 1;
+    animation.values = @[@(-2), @(-4), @(-6), @(3), @0];
+    animation.duration = 0.5;
+    [sheetContentView.layer addAnimation:animation forKey:JKAlertDismissFailedShakeAnimationKey];
 }
 
 // 通过通知来dismiss
-- (void)dismissAllNotification:(NSNotification *)noti{
+- (void)dismissAllNotification:(NSNotification *)note {
     
     if (self.isDismissAllNoneffective) { return; }
     
@@ -1309,36 +1325,36 @@
 }
 
 // 通过key通知来dismiss
-- (void)dismissForKeyNotification:(NSNotification *)noti{
+- (void)dismissForKeyNotification:(NSNotification *)note {
     
     if (!self.dismissKey) { return; }
     
-    if ([noti.object isKindOfClass:[NSString class]] &&
-        [noti.object isEqualToString:self.dismissKey]) {
+    if ([note.object isKindOfClass:[NSString class]] &&
+        [note.object isEqualToString:self.dismissKey]) {
         
         self.dismiss();
     }
 }
 
 // 通过category通知来dismiss
-- (void)dismissForCategoryNotification:(NSNotification *)noti{
+- (void)dismissForCategoryNotification:(NSNotification *)note {
     
     if (!self.dismissCategory) { return; }
     
-    if ([noti.object isKindOfClass:[NSString class]] &&
-        [noti.object isEqualToString:self.dismissCategory]) {
+    if ([note.object isKindOfClass:[NSString class]] &&
+        [note.object isEqualToString:self.dismissCategory]) {
         
         self.dismiss();
     }
 }
 
 // 通过通知来dismiss
-- (void)clearAllNotification:(NSNotification *)noti{
+- (void)clearAllNotification:(NSNotification *)note {
     
     self.dismiss();
 }
 
-- (void(^)(void))dismiss{
+- (void(^)(void))dismiss {
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -1347,7 +1363,7 @@
     return ^{};
 }
 
-- (void)startDismissAnimation{
+- (void)startDismissAnimation {
     
     self.window.userInteractionEnabled = NO;
     
@@ -1374,34 +1390,32 @@
     }];
 }
 
-- (void)dismissAnimationOperation{
+- (void)dismissAnimationOperation {
     
     if (self.customDismissAnimationBlock) {
         
         if (self.isSheetDismissHorizontal) {
             
-            CGRect rect = _sheetContainerView.frame;
-            rect.origin.x = JKAlertScreenW;
-            _sheetContainerView.frame = rect;
+            // TODO: JKTODO <#注释#>
+            /*
+             CGRect rect = _sheetContainerView.frame;
+             rect.origin.x = JKAlertScreenW;
+             _seetContainerView.frame = rect; */
         }
         
         return;
     }
     
-    CGRect rect = self.currentAlertContentView.frame;
+    CGRect frame = self.currentAlertContentView.frame;
     
     if (self.isSheetDismissHorizontal) {
         
-        rect.origin.x = JKAlertScreenW;
+        frame.origin.x = JKAlertScreenW;
         
-    } else {
+        self.currentAlertContentView.frame = frame;
         
-        rect.origin.y = JKAlertScreenH;
+        return;
     }
-    
-    self.currentAlertContentView.frame = rect;
-    
-    return;
     
     switch (self.alertStyle) {
         case JKAlertStyleHUD:
@@ -1412,18 +1426,12 @@
         }
             break;
         case JKAlertStyleActionSheet:
-        {
-            CGRect frame = self.actionsheetContentView.frame;
-            frame.origin.y = JKAlertScreenH;
-            self.actionsheetContentView.frame = frame;
-        }
-            break;
         case JKAlertStyleCollectionSheet:
         {
-            CGRect frame = self.collectionsheetContentView.frame;
             frame.origin.y = JKAlertScreenH;
-            self.collectionsheetContentView.frame = frame;
+            self.currentAlertContentView.frame = frame;
         }
+            break;
             
         default:
             break;
@@ -1580,12 +1588,12 @@
             break;
         case JKAlertStyleActionSheet:
         {
-            alertContentView = self.sheetContainerView;
+            alertContentView = self.actionsheetContentView;
         }
             break;
         case JKAlertStyleCollectionSheet:
         {
-            alertContentView = self.sheetContainerView;
+            alertContentView = self.collectionsheetContentView;
         }
             break;
         case JKAlertStyleHUD:
@@ -1672,28 +1680,6 @@
         _textFieldArr = [NSMutableArray array];
     }
     return _textFieldArr;
-}
-
-- (UIView *)sheetContainerView {
-    if (!_sheetContainerView) {
-        UIView *sheetContainerView = [[UIView alloc] init];
-        [self.contentView addSubview:sheetContainerView];
-        _sheetContainerView = sheetContainerView;
-        
-        // TODO: JKTODO <#注释#>
-        /*
-        _verticalDismissPanGesture = [[JKAlertPanGestureRecognizer alloc] initWithTarget:self action:@selector(verticalPanGestureAction:)];
-        _verticalDismissPanGesture.direction = JKAlertPanGestureDirectionVertical;
-        _verticalDismissPanGesture.delegate = self;
-        
-        _horizontalDismissPanGesture = [[JKAlertPanGestureRecognizer alloc] initWithTarget:self action:@selector(horizontalPanGestureAction:)];
-        _horizontalDismissPanGesture.direction = JKAlertPanGestureDirectionToRight;
-        _horizontalDismissPanGesture.delegate = self;
-        
-        [sheetContainerView addGestureRecognizer:_verticalDismissPanGesture];
-        [sheetContainerView addGestureRecognizer:_horizontalDismissPanGesture]; //*/
-    }
-    return _sheetContainerView;
 }
 
 - (UIView *)topGestureIndicatorView {

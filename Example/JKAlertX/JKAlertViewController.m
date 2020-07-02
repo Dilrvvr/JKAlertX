@@ -305,50 +305,6 @@
         
     }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
     
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
-    
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定2" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setNormalImage([UIImage imageNamed:@"Share_Facebook"])];
@@ -568,7 +524,7 @@
 
 - (IBAction)customActionSheetView:(id)sender {
     
-    [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeTapBlankDismiss(NO).makeGestureIndicatorHidden(NO).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setCustomView(^(JKAlertAction *action) {
         

@@ -35,17 +35,23 @@
 /** horizontalDismissPanGesture */
 @property (nonatomic, strong) JKAlertPanGestureRecognizer *horizontalDismissPanGesture;
 
+/**
+ * 展示时是否进行缩放动画 Y轴缩放
+ * 默认NO
+ */
+@property (nonatomic, assign) BOOL showScaleAnimated;
+
 /** topGestureIndicatorView */
 @property (nonatomic, weak) UIView *topGestureIndicatorView;
 
 /** topGestureLineView */
 @property (nonatomic, weak) UIView *topGestureLineView;
 
-/** enableVerticalGestureDismiss */
-@property (nonatomic, assign) BOOL enableVerticalGestureDismiss;
+/** verticalSlideDismissEnabled */
+@property (nonatomic, assign) BOOL verticalSlideDismissEnabled;
 
-/** enableHorizontalGestureDismiss */
-@property (nonatomic, assign) BOOL enableHorizontalGestureDismiss;
+/** horizontalSlideDismissEnabled */
+@property (nonatomic, assign) BOOL horizontalSlideDismissEnabled;
 
 /** gestureIndicatorHidden */
 @property (nonatomic, assign) BOOL gestureIndicatorHidden;

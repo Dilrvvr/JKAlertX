@@ -99,19 +99,10 @@
 /** isSheetDismissHorizontal */
 @property (nonatomic, assign) BOOL isSheetDismissHorizontal;
 
-/** verticalDismissPanGesture */
-@property (nonatomic, strong) JKAlertPanGestureRecognizer *verticalDismissPanGesture;
-
-/** horizontalDismissPanGesture */
-@property (nonatomic, strong) JKAlertPanGestureRecognizer *horizontalDismissPanGesture;
-
 
 
 /** observerSuperView */
 @property (nonatomic, weak) UIView *observerSuperView;
-
-/** sheetContainerView */
-@property (nonatomic, weak) UIView *sheetContainerView;
 
 /** actions */
 @property (nonatomic, strong) NSMutableArray *actions;
@@ -199,10 +190,10 @@
 /** 用于通知消失的类别的key */
 @property (nonatomic, copy) NSString *dismissCategory;
 
-/** enableVerticalGestureDismiss */
+/** verticalSlideDismissEnabled */
 @property (nonatomic, assign) BOOL enableVerticalGestureDismiss;
 
-/** enableHorizontalGestureDismiss */
+/** horizontalSlideDismissEnabled */
 @property (nonatomic, assign) BOOL enableHorizontalGestureDismiss;
 
 /** showGestureIndicator */
