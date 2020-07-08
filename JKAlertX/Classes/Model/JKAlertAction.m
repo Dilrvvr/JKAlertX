@@ -16,6 +16,11 @@
 
 @implementation JKAlertAction
 
+- (void)dealloc {
+    
+    NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
+}
+
 + (instancetype)actionWithTitle:(NSString *)title
                           style:(JKAlertActionStyle)style
                         handler:(void (^)(JKAlertAction *action))handler{

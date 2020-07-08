@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "JKAlertConst.h"
+#import "JKAlertDarkModeProvider.h"
 
 @class JKAlertView;
 
-@interface JKAlertAction : NSObject
+@interface JKAlertAction : NSObject <JKAlertDarkModeProviderProtocol>
+
+@property (nonatomic, strong) JKAlertDarkModeProvider *darkModeProvider;
 
 /** title */
 @property (nonatomic, copy, readonly) NSString *title;

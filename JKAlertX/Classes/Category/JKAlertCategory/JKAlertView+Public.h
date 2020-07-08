@@ -60,6 +60,11 @@
 @interface JKAlertView (Public)
 
 /**
+ * 深色/浅色模式
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeUserInterfaceStyle)(JKAlertUserInterfaceStyle userInterfaceStyle);
+
+/**
  * 可以在这个block内自定义其它属性
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCustomizationHandler)(void (^handler)(JKAlertView *innerView));

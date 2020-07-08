@@ -574,6 +574,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JKAlertX/JKAlertX-Prefix.pch";
 				INFOPLIST_FILE = "JKAlertX/JKAlertX-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jkdev.JKAlertX;
 				PRODUCT_NAME = JKAlertX;
@@ -591,6 +592,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JKAlertX/JKAlertX-Prefix.pch";
 				INFOPLIST_FILE = "JKAlertX/JKAlertX-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jkdev.JKAlertX;
 				PRODUCT_NAME = JKAlertX;

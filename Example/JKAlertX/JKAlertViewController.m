@@ -8,6 +8,8 @@
 
 #import "JKAlertViewController.h"
 #import "JKAlertX.h"
+#import "JKAlertDarkModeProvider.h"
+#import "UIView+JKAlertDarkMode.h"
 
 @interface JKAlertViewController ()
 
@@ -65,9 +67,32 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStyleAlert)];
     
+//    alertView.makeTapBlankHandler(^(JKAlertView *innerView) {
+//
+//        if (@available(iOS 13.0, *)) {
+//
+//            JKAlertKeyWindow().overrideUserInterfaceStyle = (UIUserInterfaceStyleDark == JKAlertKeyWindow().overrideUserInterfaceStyle) ? UIUserInterfaceStyleLight : UIUserInterfaceStyleDark;
+//        }
+//    });
+    
+    alertView.makeUserInterfaceStyle(JKAlertUserInterfaceStyleLight);
+    
     [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefaultBlue) handler:^(JKAlertAction *action) {
         
-    }]];
+    }].setCustomizePropertyHandler(^(JKAlertAction *customizePropertyAction) {
+        
+        __weak typeof(customizePropertyAction) weakAction = customizePropertyAction;
+        
+        [JKAlertDarkModeProvider providerWithObject:customizePropertyAction colorProvider:^(JKAlertDarkModeProvider *provider, UIColor * (^colorProvider)(JKAlertDarkModeProvider *provider, UIColor *lightColor, UIColor *darkColor)) {
+            
+            weakAction.titleColor = colorProvider(provider, [UIColor redColor], [UIColor greenColor]);
+            
+            if (weakAction.alertView.superview) {
+                
+                weakAction.alertView.relayout(NO);
+            }
+        }];
+    })];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefaultBlue) handler:^(JKAlertAction *action) {
         
@@ -78,11 +103,16 @@
         button.frame = CGRectMake(0, 0, 0, 200);
         
         [button setTitle:@"我是自定义的view~~" forState:(UIControlStateNormal)];
-        button.backgroundColor = [UIColor orangeColor];
+        __weak typeof(button) weakButton = button;
+        [JKAlertDarkModeProvider providerWithObject:button colorProvider:^(JKAlertDarkModeProvider *provider, UIColor * (^colorProvider)(JKAlertDarkModeProvider *provider, UIColor *lightColor, UIColor *darkColor)) {
+
+            weakButton.backgroundColor = colorProvider(provider, [UIColor orangeColor], [UIColor purpleColor]);
+        }];
         button.userInteractionEnabled = NO;
+        __weak typeof(action) weakAction = action;
         [button JKAlertX_addClickOperation:^(UIButton *control) {
             
-            action.alertView.dismiss();
+            weakAction.alertView.dismiss();
         }];
         
         return button;
@@ -761,11 +791,12 @@
         label.text = @"我是自定义的view~~";
         label.userInteractionEnabled = YES;
         
-        UITapGestureRecognizer *tap =[UITapGestureRecognizer JKAlertX_gestureWithOperation:^(UITapGestureRecognizer *gesture) {
+        __weak typeof(action) weakAction = action;
+        UITapGestureRecognizer *tap = [UITapGestureRecognizer JKAlertX_gestureWithOperation:^(UITapGestureRecognizer *gesture) {
             
             if (gesture.state == UIGestureRecognizerStateEnded) {
                 
-                action.alertView.dismiss();
+                [weakAction.alertView dismiss];
             }
         }];
         

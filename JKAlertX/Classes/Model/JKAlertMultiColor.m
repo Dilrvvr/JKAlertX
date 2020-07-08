@@ -88,12 +88,12 @@
         
         _dynamicColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
             
-            if ([traitCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+            if (UIUserInterfaceStyleDark == [traitCollection userInterfaceStyle]) {
                 
-                return self.lightColor;
+                return self.darkColor;
             }
 
-            return self.darkColor;
+            return self.lightColor;
         }];
         
     } else {

@@ -84,20 +84,20 @@
     switch (self.userInterfaceStyle) {
         case JKAlertUserInterfaceStyleSystem: // 跟随系统
         {
-            BOOL isLight = YES;
+            BOOL isDark = NO;
             
             if (@available(iOS 13.0, *)) {
                 
-                isLight = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight);
+                isDark = (UIUserInterfaceStyleDark == [UITraitCollection currentTraitCollection].userInterfaceStyle);
             }
             
-            if (isLight) {
+            if (isDark) {
                 
-                [self checkupdateLightModetUI];
+                [self checkUpdateDarkModeUI];
                 
             } else {
                 
-                [self checkUpdateDarkModeUI];
+                [self checkupdateLightModetUI];
             }
         }
             break;

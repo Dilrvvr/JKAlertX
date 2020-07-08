@@ -11,6 +11,35 @@
 @implementation JKAlertView (Public)
 
 /**
+ * 深色/浅色模式
+ */
+- (JKAlertView *(^)(JKAlertUserInterfaceStyle userInterfaceStyle))makeUserInterfaceStyle {
+    
+    return ^(JKAlertUserInterfaceStyle userInterfaceStyle) {
+
+        if (@available(iOS 13.0, *)) {
+            
+            switch (userInterfaceStyle) {
+                case JKAlertUserInterfaceStyleSystem:
+                    self.overrideUserInterfaceStyle = UIUserInterfaceStyleUnspecified;
+                    break;
+                case JKAlertUserInterfaceStyleLight:
+                    self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+                    break;
+                case JKAlertUserInterfaceStyleDark:
+                    self.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+        
+        return self;
+    };
+}
+
+/**
  * 可以在这个block内自定义其它属性
  */
 - (JKAlertView *(^)(void (^handler)(JKAlertView *innerView)))makeCustomizationHandler {
@@ -83,7 +112,7 @@
     return ^(UIView *(^backgroundView)(void)) {
         
         if (backgroundView) {
-
+            
             self.fullBackgroundView = backgroundView();
         }
         

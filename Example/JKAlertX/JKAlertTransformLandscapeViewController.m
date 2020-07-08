@@ -99,9 +99,10 @@
         [button setTitle:@"我是自定义的view~~" forState:(UIControlStateNormal)];
         button.backgroundColor = [UIColor orangeColor];
         
+        __weak typeof(action) weakAction = action;
         [button JKAlertX_addClickOperation:^(UIButton *control) {
             
-            action.alertView.dismiss();
+            weakAction.alertView.dismiss();
         }];
         
         return button;
@@ -685,11 +686,12 @@
         label.text = @"我是自定义的view~~";
         label.userInteractionEnabled = YES;
         
-        UITapGestureRecognizer *tap =[UITapGestureRecognizer JKAlertX_gestureWithOperation:^(UITapGestureRecognizer *gesture) {
+        __weak typeof(action) weakAction = action;
+        UITapGestureRecognizer *tap = [UITapGestureRecognizer JKAlertX_gestureWithOperation:^(UITapGestureRecognizer *gesture) {
             
             if (gesture.state == UIGestureRecognizerStateEnded) {
                 
-                action.alertView.dismiss();
+                [weakAction.alertView dismiss];
             }
         }];
         

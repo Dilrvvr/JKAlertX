@@ -28,6 +28,9 @@ NSString * const JKAlertClearAllNotification = @"JKAlertClearAllNotification";
 /** 更新页面样式的通知 */
 NSString * const JKAlertUpdateUserInterfaceStyleNotification = @"JKAlertUpdateUserInterfaceStyleNotification";
 
+/** 系统深色/浅色样式改变的通知 */
+NSString * const JKAlertTraitCollectionDidChangeNotification = @"JKAlertTraitCollectionDidChangeNotification";
+
 
 #pragma mark
 #pragma mark - 常量
@@ -63,9 +66,9 @@ id JKAlertJudgeDarkMode (id <UITraitEnvironment> environment, id light, id dark)
     
     if (@available(iOS 13.0, *)) {
         
-        BOOL isLight = ([environment.traitCollection userInterfaceStyle] == UIUserInterfaceStyleLight);
+        BOOL isDark = (UIUserInterfaceStyleDark == [environment.traitCollection userInterfaceStyle]);
         
-        return isLight ? light : dark;
+        return isDark ? dark : light;
     }
     
     return light;
@@ -76,17 +79,15 @@ UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor) {
     
     if (@available(iOS 13.0, *)) {
         
-        UIColor *color = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
             
-            if ([traitCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+            if (UIUserInterfaceStyleDark == [traitCollection userInterfaceStyle]) {
                 
-                return lightColor;
+                return darkColor;
             }
 
-            return darkColor;
+            return lightColor;
         }];
-        
-        return color;
         
     } else {
         
