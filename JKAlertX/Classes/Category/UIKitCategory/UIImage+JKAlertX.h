@@ -12,4 +12,6 @@
 + (UIImage *)JKAlertX_createImageWithColor:(UIColor *)color
                                  imageSize:(CGSize)imageSize
                               cornerRadius:(CGFloat)cornerRadius;
+
+//+ (UIImage *)imageWithLightImageProvider:()lightImageProvider darkImageProvider:()darkImageProvider;
 @end

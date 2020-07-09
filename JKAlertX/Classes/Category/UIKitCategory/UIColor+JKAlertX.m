@@ -20,7 +20,7 @@
                 
                 return darkColor;
             }
-
+            
             return lightColor;
         }];
         

@@ -9,6 +9,8 @@
 
 @class JKAlertDarkModeProvider;
 
+typedef void(^JKAlertDarkModeProvideHandler)(JKAlertDarkModeProvider *provider, id providerOwner, id (^checkHandler)(JKAlertDarkModeProvider *provider, id light, id dark));
+
 @protocol JKAlertDarkModeProviderProtocol <NSObject>
 
 @required
@@ -18,11 +20,11 @@
 
 @interface JKAlertDarkModeProvider : NSObject
 
-+ (UIColor *)providerWithLighColor:(UIColor *)lightColor darkColor:(UIColor *)darkColor object:(id)object selector:(SEL)selector;
+/** owner */
+@property (nonatomic, weak, readonly) id <JKAlertDarkModeProviderProtocol> owner;
 
-+ (JKAlertDarkModeProvider *)providerWithObject:(id <JKAlertDarkModeProviderProtocol>)object
-                                  colorProvider:(void (^)(JKAlertDarkModeProvider *provider, UIColor * (^colorProvider)(JKAlertDarkModeProvider *provider, UIColor *lightColor, UIColor *darkColor)))colorProvider;
++ (JKAlertDarkModeProvider *)providerWithOwner:(id <JKAlertDarkModeProviderProtocol>)owner
+                               providerHandler:(JKAlertDarkModeProvideHandler)providerHandler;
 
-+ (JKAlertDarkModeProvider *)providerWithObject:(id <JKAlertDarkModeProviderProtocol>)object
-                                  imageProvider:(void (^)(JKAlertDarkModeProvider *provider, UIImage * (^imageProvider)(JKAlertDarkModeProvider *provider, UIImage *lightImage, UIImage *darkImage)))imageProvider;
+- (void)addExecuteProviderHandler:(JKAlertDarkModeProvideHandler)providerHandler;
 @end

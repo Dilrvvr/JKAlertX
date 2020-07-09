@@ -10,28 +10,20 @@
 
 @interface JKAlertDarkModeProvider ()
 
-/** colorProvider */
-@property (nonatomic, copy) void (^colorProvider)(JKAlertDarkModeProvider *provider, UIColor * (^)(JKAlertDarkModeProvider *provider, UIColor *lightColor, UIColor *darkColor));
+/** handlerArray */
+@property (nonatomic, strong) NSMutableArray *handlerArray;
 
 /** imageProvider */
-@property (nonatomic, copy) void (^imageProvider)(JKAlertDarkModeProvider *provider, UIImage * (^)(JKAlertDarkModeProvider *provider, UIImage *lightImage, UIImage *darkImage));
+//@property (nonatomic, copy) void (^providerHandler)(JKAlertDarkModeProvider *provider, id providerOwner, UIImage * (^)(JKAlertDarkModeProvider *provider, id light, id dark));
 
 /** userInterfaceStyle */
 @property (nonatomic, assign) JKAlertUserInterfaceStyle userInterfaceStyle;
-
-/** object */
-//@property (nonatomic, weak) id <JKAlertDarkModeProviderProtocol> object;
 
 /** currentSystemUserInterfaceStyle */
 @property (nonatomic, assign) NSInteger currentSystemUserInterfaceStyle;
 @end
 
 @implementation JKAlertDarkModeProvider
-
-+ (UIColor *)providerWithLighColor:(UIColor *)lightColor darkColor:(UIColor *)darkColor object:(id)object selector:(SEL)selector {
-    
-    return nil;
-}
 
 - (void)dealloc {
     
@@ -47,25 +39,18 @@
         self.currentSystemUserInterfaceStyle = [UITraitCollection currentTraitCollection].userInterfaceStyle;
     }
     
-    [self executeColorProvider];
-    
-    [self executeImageProvider];
+    [self executeProviderHandler];
 }
 
-- (void)executeColorProvider {
+- (void)executeProviderHandler {
     
-    !self.colorProvider ? : self.colorProvider(self, ^UIColor *(JKAlertDarkModeProvider *provider, UIColor *lightColor, UIColor *darkColor) {
+    [self.handlerArray enumerateObjectsUsingBlock:^(JKAlertDarkModeProvideHandler _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        return [provider checkIsDark] ? darkColor : lightColor;
-    });
-}
+        obj(self, self.owner, ^UIImage *(JKAlertDarkModeProvider *provider, id light, id dark) {
 
-- (void)executeImageProvider {
-    
-    !self.imageProvider ? : self.imageProvider(self, ^UIImage *(JKAlertDarkModeProvider *provider, UIImage *lightImage, UIImage *darkImage) {
-        
-        return [provider checkIsDark] ? darkImage : lightImage;
-    });
+            return [provider checkIsDark] ? dark : light;
+        });
+    }];
 }
 
 - (BOOL)checkIsDark {
@@ -87,41 +72,34 @@
     return isDark;
 }
 
-+ (JKAlertDarkModeProvider *)providerWithObject:(id <JKAlertDarkModeProviderProtocol>)object
-                                   lightHandler:(void (^)(void))lightHandler
-                                    darkHandler:(void (^)(void))darkHandler {
+- (void)addExecuteProviderHandler:(JKAlertDarkModeProvideHandler)providerHandler {
     
-    
-    
-    return nil;
+    if (providerHandler) {
+        
+        [self.handlerArray addObject:providerHandler];
+        
+        providerHandler(self, self.owner, ^id (JKAlertDarkModeProvider *provider, id light, id dark) {
+            
+            return [provider checkIsDark] ? dark : light;
+        });
+    }
 }
 
-+ (JKAlertDarkModeProvider *)providerWithObject:(id <JKAlertDarkModeProviderProtocol>)object
-                                   colorProvider:(void (^)(JKAlertDarkModeProvider *provider, UIColor * (^colorProvider)(JKAlertDarkModeProvider *provider, UIColor *lightColor, UIColor *darkColor)))colorProvider {
++ (JKAlertDarkModeProvider *)providerWithOwner:(id <JKAlertDarkModeProviderProtocol>)owner
+                               providerHandler:(JKAlertDarkModeProvideHandler)providerHandler {
     
     
     JKAlertDarkModeProvider *darkModeProvider = [JKAlertDarkModeProvider new];
-    //darkModeProvider.object = object;
-    object.darkModeProvider = darkModeProvider;
-    darkModeProvider.colorProvider = colorProvider;
-    
-    [darkModeProvider executeColorProvider];
+    [darkModeProvider setOwner:owner];
+    owner.darkModeProvider = darkModeProvider;
+    [darkModeProvider addExecuteProviderHandler:providerHandler];
     
     return darkModeProvider;
 }
 
-+ (JKAlertDarkModeProvider *)providerWithObject:(id <JKAlertDarkModeProviderProtocol>)object
-                                   imageProvider:(void (^)(JKAlertDarkModeProvider *provider, UIImage * (^imageProvider)(JKAlertDarkModeProvider *provider, UIImage *lightImage, UIImage *darkImage)))imageProvider {
+- (void)setOwner:(id<JKAlertDarkModeProviderProtocol>)owner {
     
-    
-    JKAlertDarkModeProvider *darkModeProvider = [JKAlertDarkModeProvider new];
-    //darkModeProvider.object = object;
-    object.darkModeProvider = darkModeProvider;
-    darkModeProvider.imageProvider = imageProvider;
-    
-    [darkModeProvider executeImageProvider];
-    
-    return darkModeProvider;
+    _owner = owner;
 }
 
 - (instancetype)init {
@@ -137,5 +115,12 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(traitCollectionDidChange) name:JKAlertTraitCollectionDidChangeNotification object:nil];
     }
     return self;
+}
+
+- (NSMutableArray *)handlerArray {
+    if (!_handlerArray) {
+        _handlerArray = [NSMutableArray array];
+    }
+    return _handlerArray;
 }
 @end

@@ -67,29 +67,27 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStyleAlert)];
     
-//    alertView.makeTapBlankHandler(^(JKAlertView *innerView) {
-//
-//        if (@available(iOS 13.0, *)) {
-//
-//            JKAlertKeyWindow().overrideUserInterfaceStyle = (UIUserInterfaceStyleDark == JKAlertKeyWindow().overrideUserInterfaceStyle) ? UIUserInterfaceStyleLight : UIUserInterfaceStyleDark;
-//        }
-//    });
+    //    alertView.makeTapBlankHandler(^(JKAlertView *innerView) {
+    //
+    //        if (@available(iOS 13.0, *)) {
+    //
+    //            JKAlertKeyWindow().overrideUserInterfaceStyle = (UIUserInterfaceStyleDark == JKAlertKeyWindow().overrideUserInterfaceStyle) ? UIUserInterfaceStyleLight : UIUserInterfaceStyleDark;
+    //        }
+    //    });
     
-    alertView.makeUserInterfaceStyle(JKAlertUserInterfaceStyleLight);
+    //alertView.makeUserInterfaceStyle(JKAlertUserInterfaceStyleLight);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefaultBlue) handler:^(JKAlertAction *action) {
         
     }].setCustomizePropertyHandler(^(JKAlertAction *customizePropertyAction) {
         
-        __weak typeof(customizePropertyAction) weakAction = customizePropertyAction;
-        
-        [JKAlertDarkModeProvider providerWithObject:customizePropertyAction colorProvider:^(JKAlertDarkModeProvider *provider, UIColor * (^colorProvider)(JKAlertDarkModeProvider *provider, UIColor *lightColor, UIColor *darkColor)) {
+        [JKAlertDarkModeProvider providerWithOwner:customizePropertyAction providerHandler:^(JKAlertDarkModeProvider *provider, JKAlertAction *providerOwner, id (^checkHandler)(JKAlertDarkModeProvider *provider, id light, id dark)) {
             
-            weakAction.titleColor = colorProvider(provider, [UIColor redColor], [UIColor greenColor]);
+            providerOwner.titleColor = checkHandler(provider, [UIColor redColor], [UIColor greenColor]);
             
-            if (weakAction.alertView.superview) {
+            if (providerOwner.alertView.superview) {
                 
-                weakAction.alertView.relayout(NO);
+                providerOwner.alertView.relayout(NO);
             }
         }];
     })];
@@ -103,11 +101,12 @@
         button.frame = CGRectMake(0, 0, 0, 200);
         
         [button setTitle:@"我是自定义的view~~" forState:(UIControlStateNormal)];
-        __weak typeof(button) weakButton = button;
-        [JKAlertDarkModeProvider providerWithObject:button colorProvider:^(JKAlertDarkModeProvider *provider, UIColor * (^colorProvider)(JKAlertDarkModeProvider *provider, UIColor *lightColor, UIColor *darkColor)) {
-
-            weakButton.backgroundColor = colorProvider(provider, [UIColor orangeColor], [UIColor purpleColor]);
+        
+        [JKAlertDarkModeProvider providerWithOwner:button providerHandler:^(JKAlertDarkModeProvider *provider, UIButton *providerOwner, id (^checkHandler)(JKAlertDarkModeProvider *provider, id light, id dark)) {
+            
+            providerOwner.backgroundColor = checkHandler(provider, [UIColor orangeColor], [UIColor purpleColor]);
         }];
+        
         button.userInteractionEnabled = NO;
         __weak typeof(action) weakAction = action;
         [button JKAlertX_addClickOperation:^(UIButton *control) {
@@ -265,24 +264,24 @@
         textField.placeholder = @"密码";
     }];
     
-//    [alertView addTextFieldWithConfigurationHandler:^(JKAlertView *view, UITextField *textField) {
-//
-//        textField.hidden = YES;
-//        textField.frame = CGRectMake(0, 0, 0, 300);
-//
-//        textField.superview.backgroundColor = [UIColor orangeColor];
-//
-//        UILabel *label = [[UILabel alloc] init];
-//        label.layer.backgroundColor = [[UIColor whiteColor] CGColor];
-//        label.textColor = [UIColor redColor];
-//        label.text = @"隐私政策";
-//        [textField.superview addSubview:label];
-//
-//        [label sizeToFit];
-//
-//        // textField之间的间距是1，默认高度30，和其superView的上下左右间距也是1，290是默认的plain样式宽度，20是是默认的的左右间距
-//        label.frame = CGRectMake(0, 1 + 30 + 1 + 30 + 1 + 15, 290 - 20 * 2, label.bounds.size.height);
-//    }];
+    //    [alertView addTextFieldWithConfigurationHandler:^(JKAlertView *view, UITextField *textField) {
+    //
+    //        textField.hidden = YES;
+    //        textField.frame = CGRectMake(0, 0, 0, 300);
+    //
+    //        textField.superview.backgroundColor = [UIColor orangeColor];
+    //
+    //        UILabel *label = [[UILabel alloc] init];
+    //        label.layer.backgroundColor = [[UIColor whiteColor] CGColor];
+    //        label.textColor = [UIColor redColor];
+    //        label.text = @"隐私政策";
+    //        [textField.superview addSubview:label];
+    //
+    //        [label sizeToFit];
+    //
+    //        // textField之间的间距是1，默认高度30，和其superView的上下左右间距也是1，290是默认的plain样式宽度，20是是默认的的左右间距
+    //        label.frame = CGRectMake(0, 1 + 30 + 1 + 30 + 1 + 15, 290 - 20 * 2, label.bounds.size.height);
+    //    }];
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
@@ -299,20 +298,20 @@
     
     //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil Style:(JKAlertStyleActionSheet)];
     
-//    NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
-//    para.alignment = NSTextAlignmentCenter;
+    //    NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
+    //    para.alignment = NSTextAlignmentCenter;
     
     //    JKAlertView *alertView = [JKAlertView alertViewWithAttributedTitle:nil attributedMessage:[[NSAttributedString alloc] initWithString:@"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好" attributes:@{NSForegroundColorAttributeName : [UIColor redColor], NSFontAttributeName : [UIFont boldSystemFontOfSize:18], NSParagraphStyleAttributeName : para}] style:(JKAlertStyleActionSheet)];
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO);
-//    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil style:(JKAlertStyleActionSheet)];
+    //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil style:(JKAlertStyleActionSheet)];
     
     alertView.makeVibrateEnabled(YES);
     // 固定底部取消按钮
     //alertView.setPinCancelButton(YES);
     
     alertView.makeAlertContentViewConfiguration(^(UIView *alertContentView) {
-       
+        
         // 加个圆角
         [alertContentView JKAlertX_clipRoundWithRadius:10 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
     });
@@ -375,9 +374,9 @@
     
     //alertView.setAutoAdjustHomeIndicator(NO);
     
-//    alertView.setCancelAction(JKAlertAction.action(nil, JKAlertActionStyleDefault, nil).setCustomView(^UIView *(JKAlertAction *action) {
-//        return [UIView new];
-//    }));
+    //    alertView.setCancelAction(JKAlertAction.action(nil, JKAlertActionStyleDefault, nil).setCustomView(^UIView *(JKAlertAction *action) {
+    //        return [UIView new];
+    //    }));
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
@@ -417,10 +416,10 @@
         
     }).makeCollectionSheetSectionInset(UIEdgeInsetsZero).makeCollectionSheetMinimumLineSpacing(0);
     /*
-    alertView.makeCancelAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:nil].setCustomView(^UIView *(JKAlertAction *action) {
-        
-        return [UIView new];
-    })); //*/
+     alertView.makeCancelAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:nil].setCustomView(^UIView *(JKAlertAction *action) {
+     
+     return [UIView new];
+     })); //*/
     
     //alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), 10, [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
     
@@ -736,7 +735,7 @@
 - (IBAction)customPlainTitle:(id)sender {
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 200)];
-//    label.backgroundColor = [UIColor orangeColor];
+    //    label.backgroundColor = [UIColor orangeColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"我是自定义的view~~";
     label.attributedText = [[NSAttributedString alloc] initWithString:@"我是自定义的view~~" attributes:@{NSForegroundColorAttributeName : [UIColor redColor]}];
