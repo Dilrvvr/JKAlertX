@@ -1,14 +1,14 @@
 //
-//  UIViewController+JKAlertDarkMode.m
+//  NSObject+JKAlertDarkMode.m
 //  JKAlertX
 //
-//  Created by albert on 2020/7/7.
+//  Created by albert on 2020/7/9.
 //
 
-#import "UIViewController+JKAlertDarkMode.h"
-#import <objc/message.h>
+#import "NSObject+JKAlertDarkMode.h"
+#include <objc/runtime.h>
 
-@implementation UIViewController (JKAlertDarkMode)
+@implementation NSObject (JKAlertDarkMode)
 
 - (void)setDarkModeProvider:(JKAlertDarkModeProvider *)darkModeProvider {
     

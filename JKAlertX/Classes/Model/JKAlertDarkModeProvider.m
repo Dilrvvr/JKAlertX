@@ -48,12 +48,12 @@
         
         obj(self, self.owner, ^UIImage *(JKAlertDarkModeProvider *provider, id light, id dark) {
 
-            return [provider checkIsDark] ? dark : light;
+            return [provider checkIsDarkMode] ? dark : light;
         });
     }];
 }
 
-- (BOOL)checkIsDark {
+- (BOOL)checkIsDarkMode {
     
     BOOL isDark = NO;
     
@@ -80,7 +80,7 @@
         
         providerHandler(self, self.owner, ^id (JKAlertDarkModeProvider *provider, id light, id dark) {
             
-            return [provider checkIsDark] ? dark : light;
+            return [provider checkIsDarkMode] ? dark : light;
         });
     }
 }

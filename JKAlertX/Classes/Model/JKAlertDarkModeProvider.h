@@ -27,4 +27,6 @@ typedef void(^JKAlertDarkModeProvideHandler)(JKAlertDarkModeProvider *provider, 
                                providerHandler:(JKAlertDarkModeProvideHandler)providerHandler;
 
 - (void)addExecuteProviderHandler:(JKAlertDarkModeProvideHandler)providerHandler;
+
+- (BOOL)checkIsDarkMode;
 @end

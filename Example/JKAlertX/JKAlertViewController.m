@@ -8,8 +8,7 @@
 
 #import "JKAlertViewController.h"
 #import "JKAlertX.h"
-#import "JKAlertDarkModeProvider.h"
-#import "UIView+JKAlertDarkMode.h"
+#import "NSObject+JKAlertDarkMode.h"
 
 @interface JKAlertViewController ()
 
