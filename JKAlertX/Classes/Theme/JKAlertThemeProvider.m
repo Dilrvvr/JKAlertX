@@ -6,6 +6,7 @@
 //
 
 #import "JKAlertThemeProvider.h"
+#import "JKAlertThemeManager.h"
 #import "JKAlertConst.h"
 #import "NSObject+JKAlertDarkMode.h"
 
@@ -25,6 +26,11 @@
 @end
 
 @implementation JKAlertThemeProvider
+
++ (void)initialize {
+    
+    [JKAlertThemeManager sharedManager];
+}
 
 #pragma mark
 #pragma mark - Public Method
@@ -77,8 +83,30 @@
 }
 
 /**
-* 判断当前是否深色模式
-*/
+ * 根据key移除handler
+ */
+- (void)removeProvideHandlerForKey:(NSString *)key {
+    
+    if (!key) { return; }
+    
+    if (![self.handlerDictionary objectForKey:key]) { return; }
+    
+    [self.handlerDictionary removeObjectForKey:key];
+}
+
+/**
+ * 移除所有handler
+ */
+- (void)clearAllProvideHandler {
+    
+    [self.handlerDictionary removeAllObjects];
+    
+    [self.handlerArray removeAllObjects];
+}
+
+/**
+ * 判断当前是否深色模式
+ */
 - (BOOL)checkIsDarkMode {
     
     BOOL isDark = NO;
@@ -119,6 +147,11 @@
         
         obj(self, self.owner);
     }];
+    
+    [self.handlerDictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, JKAlertDarkModeProvideHandler  _Nonnull obj, BOOL * _Nonnull stop) {
+        
+        obj(self, self.owner);
+    }];
 }
 
 - (void)setOwner:(id<JKAlertThemeProviderProtocol>)owner {
@@ -144,7 +177,7 @@
             _currentSystemUserInterfaceStyle = [UITraitCollection currentTraitCollection].userInterfaceStyle;
         }
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(traitCollectionDidChange) name:JKAlertTraitCollectionDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(traitCollectionDidChange) name:JKAlertThemeDidChangeNotification object:nil];
     }
     return self;
 }

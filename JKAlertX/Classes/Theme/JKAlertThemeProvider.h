@@ -47,6 +47,16 @@ typedef void(^JKAlertDarkModeProvideHandler)(JKAlertThemeProvider *provider, id 
                         handler:(JKAlertDarkModeProvideHandler)handler;
 
 /**
+ * 根据key移除handler
+ */
+- (void)removeProvideHandlerForKey:(NSString *)key;
+
+/**
+ * 移除所有handler
+ */
+- (void)clearAllProvideHandler;
+
+/**
  * 判断当前是否深色模式
  */
 - (BOOL)checkIsDarkMode;
