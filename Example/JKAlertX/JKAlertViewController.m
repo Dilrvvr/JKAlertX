@@ -80,9 +80,9 @@
         
     }].setCustomizePropertyHandler(^(JKAlertAction *customizePropertyAction) {
         
-        [JKAlertDarkModeProvider providerWithOwner:customizePropertyAction providerHandler:^(JKAlertDarkModeProvider *provider, JKAlertAction *providerOwner, id (^checkHandler)(JKAlertDarkModeProvider *provider, id light, id dark)) {
+        [JKAlertThemeProvider providerWithOwner:customizePropertyAction handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
             
-            providerOwner.titleColor = checkHandler(provider, [UIColor redColor], [UIColor greenColor]);
+            providerOwner.titleColor = JKAlertCheckDarkMode(provider, [UIColor redColor], [UIColor greenColor]);
             
             if (providerOwner.alertView.superview) {
                 
@@ -101,9 +101,9 @@
         
         [button setTitle:@"我是自定义的view~~" forState:(UIControlStateNormal)];
         
-        [JKAlertDarkModeProvider providerWithOwner:button providerHandler:^(JKAlertDarkModeProvider *provider, UIButton *providerOwner, id (^checkHandler)(JKAlertDarkModeProvider *provider, id light, id dark)) {
+        [JKAlertThemeProvider providerWithOwner:button handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIButton *providerOwner) {
             
-            providerOwner.backgroundColor = checkHandler(provider, [UIColor orangeColor], [UIColor purpleColor]);
+            providerOwner.backgroundColor = JKAlertCheckDarkMode(provider, [UIColor orangeColor], [UIColor purpleColor]);
         }];
         
         button.userInteractionEnabled = NO;

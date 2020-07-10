@@ -6,9 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JKAlertDarkModeProvider.h"
+#import "JKAlertThemeProvider.h"
 
-@interface NSObject (JKAlertDarkMode) <JKAlertDarkModeProviderProtocol>
+@interface NSObject (JKAlertDarkMode) <JKAlertThemeProviderProtocol>
 
-@property (nonatomic, strong) JKAlertDarkModeProvider *darkModeProvider;
+@property (nonatomic, strong) JKAlertThemeProvider *themeProvider;
 @end

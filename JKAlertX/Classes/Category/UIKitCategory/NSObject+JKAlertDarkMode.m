@@ -10,12 +10,12 @@
 
 @implementation NSObject (JKAlertDarkMode)
 
-- (void)setDarkModeProvider:(JKAlertDarkModeProvider *)darkModeProvider {
+- (void)setThemeProvider:(JKAlertThemeProvider *)darkModeProvider {
     
-    objc_setAssociatedObject(self, @selector(darkModeProvider), darkModeProvider, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(themeProvider), darkModeProvider, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (JKAlertDarkModeProvider *)darkModeProvider {
+- (JKAlertThemeProvider *)themeProvider {
     
     return objc_getAssociatedObject(self, _cmd);
 }
