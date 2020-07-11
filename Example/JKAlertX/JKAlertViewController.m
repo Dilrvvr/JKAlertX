@@ -81,8 +81,6 @@
         
         [JKAlertThemeProvider providerWithOwner:customizePropertyAction handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
             
-            
-            
             providerOwner.titleColor = JKAlertCheckDarkMode([UIColor redColor], [UIColor greenColor]);
             
             if (providerOwner.alertView.superview) {

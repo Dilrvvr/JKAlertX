@@ -14,7 +14,6 @@
 #define JKAlertCheckDarkMode(light, dark) ([[JKAlertThemeManager sharedManager] checkIsDarkMode] ? (dark) : (light))
 
 
-
 #pragma mark
 #pragma mark - Notification & key
 
@@ -29,8 +28,6 @@ UIKIT_EXTERN NSString * const JKAlertThemeDidChangeNotification;
 
 /// 默认的存储handler的key
 UIKIT_EXTERN NSString * const JKAlertThemeProvideHandlerKey;
-
-
 
 
 #pragma mark

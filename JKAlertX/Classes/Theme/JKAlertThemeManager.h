@@ -10,6 +10,9 @@
 
 @interface JKAlertThemeManager : NSObject
 
+/**
+ * 单例对象
+ */
 + (instancetype)sharedManager;
 
 /**
@@ -46,4 +49,11 @@
  * 默认JKAlertDefaultThemeLight
  */
 @property (nonatomic, copy) NSString *themeName;
+
+
+#pragma mark
+#pragma mark - Private
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 @end

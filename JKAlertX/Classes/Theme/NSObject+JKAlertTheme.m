@@ -13,7 +13,7 @@
 
 - (void)setJkalert_themeProvider:(JKAlertThemeProvider *)darkModeProvider {
     
-    if (![darkModeProvider isKindOfClass:[JKAlertThemeProvider class]]) { return; }
+    if (darkModeProvider && ![darkModeProvider isKindOfClass:[JKAlertThemeProvider class]]) { return; }
     
     objc_setAssociatedObject(self, @selector(jkalert_themeProvider), darkModeProvider, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

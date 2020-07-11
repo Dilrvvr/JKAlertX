@@ -39,16 +39,13 @@
                                  handlerKey:(NSString *)handlerKey
                              provideHandler:(JKAlertThemeProvideHandler)provideHandler {
     
+    if (!owner || ![owner conformsToProtocol:@protocol(JKAlertThemeProviderProtocol)]) { return nil; }
+    
     if (owner.jkalert_themeProvider) {
         
         [owner.jkalert_themeProvider addProvideHandlerForKey:handlerKey handler:provideHandler];
         
         return owner.jkalert_themeProvider;
-    }
-    
-    if (![owner conformsToProtocol:@protocol(JKAlertThemeProviderProtocol)]) {
-        
-        return nil;
     }
     
     JKAlertThemeProvider *themeProvider = [JKAlertThemeProvider new];
@@ -71,12 +68,11 @@
 - (void)addProvideHandlerForKey:(NSString *)key
                         handler:(JKAlertThemeProvideHandler)handler {
     
-    if (handler) {
-        
-        [self.handlerArray addObject:handler];
-        
-        handler(self, self.owner);
-    }
+    if (!handler || !self.owner) { return; }
+    
+    [self.handlerArray addObject:handler];
+    
+    handler(self, self.owner);
 }
 
 /**

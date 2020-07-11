@@ -17,6 +17,9 @@
 #pragma mark
 #pragma mark - Public Method
 
+/**
+ * 单例对象
+ */
 + (instancetype)sharedManager {
     
     static JKAlertThemeManager *sharedManager_ = nil;
@@ -25,7 +28,7 @@
     
     dispatch_once(&onceToken, ^{
         
-        sharedManager_ = [[JKAlertThemeManager alloc] init];
+        sharedManager_ = [[self alloc] init];
     });
     
     return sharedManager_;
