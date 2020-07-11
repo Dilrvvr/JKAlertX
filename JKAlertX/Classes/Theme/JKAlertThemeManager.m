@@ -43,8 +43,15 @@
     
     if (@available(iOS 13.0, *)) {
         
-        isDark = (UIUserInterfaceStyleDark == [UITraitCollection currentTraitCollection].userInterfaceStyle);
+        if (self.autoSwitchDarkMode) {
+            
+            isDark = (UIUserInterfaceStyleDark == [UITraitCollection currentTraitCollection].userInterfaceStyle);
+            
+            return isDark;
+        }
     }
+    
+    isDark = [self.themeName isEqualToString:self.darkThemeName];
     
     return isDark;
 }
