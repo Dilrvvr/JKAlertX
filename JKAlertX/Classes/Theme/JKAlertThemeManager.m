@@ -45,7 +45,7 @@
         
         if (self.autoSwitchDarkMode) {
             
-            isDark = (UIUserInterfaceStyleDark == [UITraitCollection currentTraitCollection].userInterfaceStyle);
+            isDark = (UIUserInterfaceStyleDark == self.userInterfaceStyle);
             
             return isDark;
         }
@@ -173,7 +173,7 @@
             
             self.autoSwitchDarkMode = YES;
             
-            _themeName = (UIUserInterfaceStyleDark == [UITraitCollection currentTraitCollection].userInterfaceStyle) ? self.darkThemeName : self.lightThemeName;
+            _themeName = (UIUserInterfaceStyleDark == _userInterfaceStyle) ? self.darkThemeName : self.lightThemeName;
         }
     }
     return self;
