@@ -28,9 +28,6 @@ NSString * const JKAlertClearAllNotification = @"JKAlertClearAllNotification";
 /** 更新页面样式的通知 */
 NSString * const JKAlertUpdateUserInterfaceStyleNotification = @"JKAlertUpdateUserInterfaceStyleNotification";
 
-/** 系统深色/浅色样式改变的通知 */
-NSString * const JKAlertTraitCollectionDidChangeNotification = @"JKAlertTraitCollectionDidChangeNotification";
-
 
 #pragma mark
 #pragma mark - 常量

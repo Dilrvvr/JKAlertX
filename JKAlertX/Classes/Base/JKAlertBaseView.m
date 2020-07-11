@@ -60,7 +60,14 @@
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
     
-    [self solveUserInterfaceStyleDidChange];
+    if (@available(iOS 13.0, *)) {
+        
+        BOOL appearanceChanged = [self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection];
+        
+        if (!appearanceChanged) { return; }
+        
+        [self solveUserInterfaceStyleDidChange];
+    }
 }
 
 #pragma mark

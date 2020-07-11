@@ -6,19 +6,26 @@
 //
 
 #import <Foundation/Foundation.h>
-
-/// 浅色
-UIKIT_EXTERN NSString * const JKAlertDefaultThemeLight;
-
-/// 深色
-UIKIT_EXTERN NSString * const JKAlertDefaultThemeDark;
-
-/** 系统深色/浅色样式改变的通知 */
-UIKIT_EXTERN NSString * const JKAlertThemeDidChangeNotification;
+#import "JKAlertThemeConst.h"
 
 @interface JKAlertThemeManager : NSObject
 
 + (instancetype)sharedManager;
+
+/**
+ * 判断当前是否深色模式
+ */
+- (BOOL)checkIsDarkMode;
+
+/**
+ * 是否自动切换深色/浅色模式
+ */
+@property (nonatomic, assign) BOOL autoSwitchDarkMode API_AVAILABLE(ios(13.0));
+
+/**
+ * 当前的系统样式
+ */
+@property (nonatomic, assign, readonly) UIUserInterfaceStyle userInterfaceStyle API_AVAILABLE(ios(13.0));
 
 /**
  * 浅色主题名称
@@ -39,9 +46,4 @@ UIKIT_EXTERN NSString * const JKAlertThemeDidChangeNotification;
  * 默认JKAlertDefaultThemeLight
  */
 @property (nonatomic, copy) NSString *themeName;
-
-/**
- * 是否自动切换深色/浅色模式
- */
-@property (nonatomic, assign) BOOL autoSwitchDarkMode;
 @end

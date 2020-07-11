@@ -119,9 +119,6 @@ UIKIT_EXTERN NSString * const JKAlertClearAllNotification;
 /** 更新页面样式的通知 */
 UIKIT_EXTERN NSString * const JKAlertUpdateUserInterfaceStyleNotification;
 
-/** 系统深色/浅色样式改变的通知 */
-UIKIT_EXTERN NSString * const JKAlertTraitCollectionDidChangeNotification;
-
 
 
 #pragma mark

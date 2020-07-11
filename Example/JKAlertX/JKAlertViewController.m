@@ -8,7 +8,6 @@
 
 #import "JKAlertViewController.h"
 #import "JKAlertX.h"
-#import "NSObject+JKAlertDarkMode.h"
 
 @interface JKAlertViewController ()
 
@@ -82,7 +81,9 @@
         
         [JKAlertThemeProvider providerWithOwner:customizePropertyAction handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
             
-            providerOwner.titleColor = JKAlertCheckDarkMode(provider, [UIColor redColor], [UIColor greenColor]);
+            
+            
+            providerOwner.titleColor = JKAlertCheckDarkMode([UIColor redColor], [UIColor greenColor]);
             
             if (providerOwner.alertView.superview) {
                 
@@ -103,7 +104,7 @@
         
         [JKAlertThemeProvider providerWithOwner:button handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIButton *providerOwner) {
             
-            providerOwner.backgroundColor = JKAlertCheckDarkMode(provider, [UIColor orangeColor], [UIColor purpleColor]);
+            providerOwner.backgroundColor = JKAlertCheckDarkMode([UIColor orangeColor], [UIColor purpleColor]);
         }];
         
         button.userInteractionEnabled = NO;

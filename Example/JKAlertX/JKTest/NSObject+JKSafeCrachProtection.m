@@ -12,7 +12,7 @@
 @implementation NSObject (JKSafeCrachProtection)
 
 /// 封装交换实例方法
-void jk_swizzle_instance_method(Class targetClass ,SEL originalSelector, SEL swizzledSelector) {
+void jk_swizzle_instance_method(Class targetClass, SEL originalSelector, SEL swizzledSelector) {
     
     Method originalMethod = class_getInstanceMethod(targetClass, originalSelector);
     
@@ -39,7 +39,7 @@ void jk_swizzle_instance_method(Class targetClass ,SEL originalSelector, SEL swi
 }
 
 /// 封装交换类方法
-void jk_swizzle_class_method(Class targetClass ,SEL originalSelector, SEL swizzledSelector) {
+void jk_swizzle_class_method(Class targetClass, SEL originalSelector, SEL swizzledSelector) {
     
     Method originalMethod = class_getClassMethod(targetClass, originalSelector);
     

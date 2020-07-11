@@ -1431,12 +1431,6 @@
     [self solveDidMoveToSuperview];
 }
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
-    [super traitCollectionDidChange:previousTraitCollection];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertTraitCollectionDidChangeNotification object:nil];
-}
-
 #pragma mark
 #pragma mark - Private Methods
 

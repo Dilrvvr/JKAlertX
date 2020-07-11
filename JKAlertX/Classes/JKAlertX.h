@@ -1,6 +1,6 @@
 //
 //  JKAlertX.h
-//  JKAlert
+//  JKAlertX
 //
 //  Created by albert on 2018/4/8.
 //  Copyright © 2018年 安永博. All rights reserved.
@@ -20,6 +20,7 @@
 #import "UIControl+JKAlertX.h"
 #import "JKAlertView+Deprecated.h"
 #import "UIGestureRecognizer+JKAlertX.h"
+#import "JKAlertTheme.h"
 
 /**
  * 2.0更新规则
