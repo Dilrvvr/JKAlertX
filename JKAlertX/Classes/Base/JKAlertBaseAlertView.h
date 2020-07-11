@@ -16,13 +16,13 @@
 /** 最底层背景按钮 */
 @property (nonatomic, weak, readonly) UIButton *dismissButton;
 
-/** multiBackgroundColor */
-@property (nonatomic, strong) JKAlertMultiColor *multiBackgroundColor;
+/** fullBackgroundColor */ // TODO: JKTODO <#注释#>
+@property (nonatomic, strong) UIColor *fullBackgroundColor;
 
 /** fullBackgroundView */
 @property (nonatomic, weak) UIView *fullBackgroundView;
 
-- (void)restoreMultiBackgroundColor;
+- (void)restoreFullBackgroundColor;
 
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style;
 

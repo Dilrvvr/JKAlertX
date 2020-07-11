@@ -26,7 +26,7 @@ NSString * const JKAlertDismissForCategoryNotification = @"JKAlertDismissForCate
 NSString * const JKAlertClearAllNotification = @"JKAlertClearAllNotification";
 
 /** 更新页面样式的通知 */
-NSString * const JKAlertUpdateUserInterfaceStyleNotification = @"JKAlertUpdateUserInterfaceStyleNotification";
+//NSString * const JKAlertUpdateUserInterfaceStyleNotification = @"JKAlertUpdateUserInterfaceStyleNotification";
 
 
 #pragma mark
@@ -105,19 +105,6 @@ UIColor * JKAlertGlobalBackgroundColor (void) {
     return GlobalBackgroundColor_;
 }
 
-/// 全局背景色
-JKAlertMultiColor * JKAlertGlobalMultiBackgroundColor (void) {
-    
-    static JKAlertMultiColor *GlobalMultiBackgroundColor_ = nil;
-    
-    if (!GlobalMultiBackgroundColor_) {
-        
-        GlobalMultiBackgroundColor_ = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColorAlpha(247.0, 0.7) darkColor:JKAlertSameRGBColorAlpha(8.0, 0.7)];
-    }
-    
-    return GlobalMultiBackgroundColor_;
-}
-
 /// 全局高亮背景色
 UIColor * JKAlertGlobalHighlightedBackgroundColor (void) {
     
@@ -129,19 +116,6 @@ UIColor * JKAlertGlobalHighlightedBackgroundColor (void) {
     }
     
     return HighlightedBackgroundColor_;
-}
-
-/// 全局高亮背景色
-JKAlertMultiColor * JKAlertGlobalMultiHighlightedBackgroundColor (void) {
-    
-    static JKAlertMultiColor *MultiHighlightedBackgroundColor_ = nil;
-    
-    if (!MultiHighlightedBackgroundColor_) {
-        
-        MultiHighlightedBackgroundColor_ = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColorAlpha(8.0, 0.05) darkColor:JKAlertSameRGBColorAlpha(247.0, 0.05)];
-    }
-    
-    return MultiHighlightedBackgroundColor_;
 }
 
 /// 全局分隔线粗细
@@ -156,20 +130,6 @@ CGFloat JKAlertGlobalSeparatorLineThickness (void) {
     
     return separatorLineThickness_;
 }
-
-/// 全局分隔线背景色
-JKAlertMultiColor * JKAlertGlobalSeparatorLineMultiColor (void) {
-    
-    static JKAlertMultiColor *separatorLineMultiColor_ = nil;
-    
-    if (!separatorLineMultiColor_) {
-        
-        separatorLineMultiColor_ = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.2] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
-    }
-    
-    return separatorLineMultiColor_;
-}
-
 
 /// 全局分隔线背景色
 UIColor * JKAlertGlobalSeparatorLineColor (void) {

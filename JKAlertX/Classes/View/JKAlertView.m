@@ -153,7 +153,7 @@
             _currentAlertContentView = self.hudContentView;
             _currentTextContentView = self.hudContentView.textContentView;
             
-            self.multiBackgroundColor = [JKAlertMultiColor colorWithNoColor];
+            self.fullBackgroundColor = nil;
         }
             break;
             
@@ -425,12 +425,12 @@
     if (JKAlertStyleActionSheet == self.alertStyle) {
         
         action.isPierced = self.actionsheetContentView.isPierced;
-        action.multiPiercedBackgroundColor = self.actionsheetContentView.piercedBackgroundColor;
+        action.piercedBackgroundColor = self.actionsheetContentView.piercedBackgroundColor;
         
     } else if (JKAlertStyleCollectionSheet == self.alertStyle) {
         
         action.isPierced = self.collectionsheetContentView.isPierced;
-        action.multiPiercedBackgroundColor = self.collectionsheetContentView.piercedBackgroundColor;
+        action.piercedBackgroundColor = self.collectionsheetContentView.piercedBackgroundColor;
     }
 }
 

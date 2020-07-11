@@ -443,27 +443,28 @@
     self.actionContainerView.frame = rect;
 }
 
-- (void)updateLightModetUI {
-    [super updateLightModetUI];
-    
-    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-    self.verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-    
-    self.textFieldContainerView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-    
-    //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineMultiColor().lightColor CGColor];
-}
-
-- (void)updateDarkModeUI {
-    [super updateDarkModeUI];
-    
-    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-    self.verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-    
-    self.textFieldContainerView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-    
-    //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineMultiColor().darkColor CGColor];
-}
+// TODO: JKTODO <#注释#>
+//- (void)updateLightModetUI {
+//    [super updateLightModetUI];
+//
+//    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+//    self.verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+//
+//    self.textFieldContainerView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+//
+//    //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineMultiColor().lightColor CGColor];
+//}
+//
+//- (void)updateDarkModeUI {
+//    [super updateDarkModeUI];
+//
+//    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+//    self.verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+//
+//    self.textFieldContainerView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+//
+//    //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineMultiColor().darkColor CGColor];
+//}
 
 #pragma mark
 #pragma mark - Private Selector

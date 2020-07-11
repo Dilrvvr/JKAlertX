@@ -11,10 +11,10 @@
 @interface JKAlertBaseView : UIView
 
 /** 默认跟随系统 */
-@property (nonatomic, assign) JKAlertUserInterfaceStyle userInterfaceStyle;
+//@property (nonatomic, assign) JKAlertUserInterfaceStyle userInterfaceStyle;
 
 /** 当前样式 仅记录light/dark */
-@property (nonatomic, assign, readonly) JKAlertUserInterfaceStyle currentUserInterfaceStyle;
+//@property (nonatomic, assign, readonly) JKAlertUserInterfaceStyle currentUserInterfaceStyle;
 
 #pragma mark
 #pragma mark - Private
@@ -39,13 +39,4 @@
 
 /** 初始化数据 交给子类重写 super自动调用该方法 */
 - (void)initializeUIData NS_REQUIRES_SUPER;
-
-/// 变更页面样式
-- (void)updateUserInterfaceStyle;
-
-/// 变更为浅色模式
-- (void)updateLightModetUI NS_REQUIRES_SUPER;
-
-/// 变更为深色模式
-- (void)updateDarkModeUI NS_REQUIRES_SUPER;
 @end

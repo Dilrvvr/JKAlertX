@@ -63,10 +63,10 @@
 
 
 /** titleTextColor */
-@property (nonatomic, strong) JKAlertMultiColor *titleTextColor;
+@property (nonatomic, strong) UIColor *titleTextColor;
 
 /** messageTextColor */
-@property (nonatomic, strong) JKAlertMultiColor *messageTextColor;
+@property (nonatomic, strong) UIColor *messageTextColor;
 
 
 /** 标题 */

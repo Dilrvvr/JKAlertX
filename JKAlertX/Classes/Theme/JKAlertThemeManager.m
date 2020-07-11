@@ -73,16 +73,15 @@
 - (void)setAutoSwitchDarkMode:(BOOL)autoSwitchDarkMode {
     _autoSwitchDarkMode = autoSwitchDarkMode;
     
-    if (_autoSwitchDarkMode) {
+    if (!_autoSwitchDarkMode) { return; }
+    
+    BOOL isDark = (UIUserInterfaceStyleDark == _userInterfaceStyle);
+    
+    NSString *themeName = isDark ? self.darkThemeName : self.lightThemeName;
+    
+    if (![self.themeName isEqualToString:themeName]) {
         
-        BOOL isDark = (UIUserInterfaceStyleDark == _userInterfaceStyle);
-        
-        NSString *themeName = isDark ? self.darkThemeName : self.lightThemeName;
-        
-        if (![self.themeName isEqualToString:themeName]) {
-            
-            self.themeName = themeName;
-        }
+        self.themeName = themeName;
     }
 }
 

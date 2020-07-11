@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JKAlertMultiColor.h"
 
 #pragma mark
 #pragma mark - 协议
@@ -117,7 +116,7 @@ UIKIT_EXTERN NSString * const JKAlertDismissForCategoryNotification;
 UIKIT_EXTERN NSString * const JKAlertClearAllNotification;
 
 /** 更新页面样式的通知 */
-UIKIT_EXTERN NSString * const JKAlertUpdateUserInterfaceStyleNotification;
+//UIKIT_EXTERN NSString * const JKAlertUpdateUserInterfaceStyleNotification;
 
 
 
@@ -197,20 +196,11 @@ UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor);
 /// 全局背景色
 UIColor * JKAlertGlobalBackgroundColor (void);
 
-/// 全局背景色
-JKAlertMultiColor * JKAlertGlobalMultiBackgroundColor (void);
-
 /// 全局分隔线粗细
 CGFloat JKAlertGlobalSeparatorLineThickness (void);
 
 /// 全局高亮背景色
 UIColor * JKAlertGlobalHighlightedBackgroundColor (void);
-
-/// 全局高亮背景色
-JKAlertMultiColor * JKAlertGlobalMultiHighlightedBackgroundColor (void);
-
-/// 全局分隔线背景色
-JKAlertMultiColor * JKAlertGlobalSeparatorLineMultiColor (void);
 
 /// 全局分隔线背景色
 UIColor * JKAlertGlobalSeparatorLineColor (void);

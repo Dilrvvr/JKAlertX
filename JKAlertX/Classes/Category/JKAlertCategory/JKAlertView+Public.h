@@ -82,7 +82,7 @@
  * 全屏背景颜色
  * 默认 black 0.4
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeFullBackgroundColor)(JKAlertMultiColor *color);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeFullBackgroundColor)(UIColor *color);
 
 /**
  * 全屏背景view
@@ -152,7 +152,7 @@
  * HUD 默认 white color
  * 其它0.35
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeTitleColor)(JKAlertMultiColor *textColor);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeTitleColor)(UIColor *textColor);
 
 /**
  * title 文字水平样式
@@ -176,7 +176,7 @@
  * message 字体颜色
  * plain默认RGB都为0.55，其它0.3
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeMessageColor)(JKAlertMultiColor *textColor);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeMessageColor)(UIColor *textColor);
 
 /**
  * message 文字水平样式

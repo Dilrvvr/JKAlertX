@@ -19,7 +19,7 @@
 @property (nonatomic, weak, readonly) JKAlertActionSheetTextContentView *textContentView;
 
 /** titleBackgroundColor */
-@property (nonatomic, strong) JKAlertMultiColor *titleBackgroundColor;
+@property (nonatomic, strong) UIColor *titleBackgroundColor;
 
 /** tableView */
 @property (nonatomic, weak, readonly) UITableView *tableView;
@@ -55,5 +55,5 @@
 //@property (nonatomic, assign) CGFloat piercedCornerRadius;
 
 /** piercedBackgroundColor */
-@property (nonatomic, strong) JKAlertMultiColor *piercedBackgroundColor;
+@property (nonatomic, strong) UIColor *piercedBackgroundColor;
 @end

@@ -33,8 +33,6 @@
     self.darkBlurEffect = self.lightBlurEffect;
     self.lightBlurEffect = tempEffect;
     
-    [self updateUserInterfaceStyle];
-    
     self.textContentView.defaultDarkStyle = _defaultDarkStyle;
 }
 

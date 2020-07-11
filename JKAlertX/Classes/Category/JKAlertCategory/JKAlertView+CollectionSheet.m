@@ -250,9 +250,9 @@
  * piercedInsets : 整体左、右、下间距
  * piercedBackgroundColor : 整体背景
  */
-- (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets, JKAlertMultiColor *piercedBackgroundColor))makeCollectionSheetPierced {
+- (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets, UIColor *piercedBackgroundColor))makeCollectionSheetPierced {
     
-    return ^(BOOL isPierced, UIEdgeInsets piercedInsets, JKAlertMultiColor *piercedBackgroundColor) {
+    return ^(BOOL isPierced, UIEdgeInsets piercedInsets, UIColor *piercedBackgroundColor) {
         
         return [self checkCollectionSheetStyleHandler:^{
             
@@ -264,13 +264,13 @@
             [self.actions enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 
                 obj.isPierced = isPierced;
-                obj.multiPiercedBackgroundColor = piercedBackgroundColor;
+                obj.piercedBackgroundColor = piercedBackgroundColor;
             }];
             
             [self.actions2 enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 
                 obj.isPierced = isPierced;
-                obj.multiPiercedBackgroundColor = piercedBackgroundColor;
+                obj.piercedBackgroundColor = piercedBackgroundColor;
             }];
         }];
     };

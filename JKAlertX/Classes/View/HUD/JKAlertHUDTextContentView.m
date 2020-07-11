@@ -18,9 +18,9 @@
     
     _defaultDarkStyle = defaultDarkStyle;
     
-    self.titleTextColor = [JKAlertMultiColor colorWithLightColor:self.titleTextColor.darkColor darkColor:self.titleTextColor.lightColor];
+    // TODO: JKTODO <#注释#>
     
-    [self updateUserInterfaceStyle];
+    //self.titleTextColor = [JKAlertMultiColor colorWithLightColor:self.titleTextColor.darkColor darkColor:self.titleTextColor.lightColor];
 }
 
 #pragma mark
@@ -61,7 +61,8 @@
     
     _defaultDarkStyle = YES;
     
-    self.titleTextColor = [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
+    // TODO: JKTODO <#注释#>
+    //self.titleTextColor = [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
 }
 
 /** 构造函数初始化时调用 注意调用super */

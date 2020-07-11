@@ -7,7 +7,6 @@
 
 #import "JKAlertPlainTextContentView.h"
 #import "JKAlertTextContainerView.h"
-#import "JKAlertMultiColor.h"
 
 @implementation JKAlertPlainTextContentView
 
@@ -27,17 +26,7 @@
 #pragma mark
 #pragma mark - Private Methods
 
-- (void)updateLightModetUI {
-    [super updateLightModetUI];
-    
-    
-}
 
-- (void)updateDarkModeUI {
-    [super updateDarkModeUI];
-    
-    
-}
 
 #pragma mark
 #pragma mark - Private Selector
@@ -59,8 +48,9 @@
     self.titleTextView.textView.font = [UIFont boldSystemFontOfSize:17];
     self.messageTextView.textView.font = [UIFont systemFontOfSize:14];
     
-    self.titleTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(25.5) darkColor:JKAlertSameRGBColor(229.5)];
-    self.messageTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(140.25) darkColor:JKAlertSameRGBColor(114.75)];
+    // TODO: JKTODO <#注释#>
+//    self.titleTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(25.5) darkColor:JKAlertSameRGBColor(229.5)];
+//    self.messageTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(140.25) darkColor:JKAlertSameRGBColor(114.75)];
 }
 
 /** 构造函数初始化时调用 注意调用super */

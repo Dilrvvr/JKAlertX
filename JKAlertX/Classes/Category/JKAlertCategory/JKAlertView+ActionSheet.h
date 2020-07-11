@@ -20,7 +20,7 @@
  * actionSheet样式title的背景色
  * 默认JKAlertGlobalMultiBackgroundColor()
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetTitleBackgroundColor)(JKAlertMultiColor *color);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetTitleBackgroundColor)(UIColor *color);
 
 /**
  * actionSheet样式最大高度
@@ -56,5 +56,5 @@
  * piercedInsets : 整体左、右、下间距
  * piercedBackgroundColor : 整体背景
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetPierced)(BOOL isPierced, UIEdgeInsets piercedInsets, JKAlertMultiColor *piercedBackgroundColor);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetPierced)(BOOL isPierced, UIEdgeInsets piercedInsets, UIColor *piercedBackgroundColor);
 @end

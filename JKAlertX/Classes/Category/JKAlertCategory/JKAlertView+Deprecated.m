@@ -110,11 +110,12 @@
         
         if (isClearFullScreenBackgroundColor) {
             
-            self.makeFullBackgroundColor([JKAlertMultiColor colorWithNoColor]);
+            self.makeFullBackgroundColor(nil);
             
         } else {
             
-            [self restoreMultiBackgroundColor];
+            // TODO: JKTODO <#注释#>
+            [self restoreFullBackgroundColor];
         }
         
         return self;
@@ -186,10 +187,7 @@
  */
 - (JKAlertView *(^)(UIColor *textColor))setTitleTextColor {
     
-    return ^(UIColor *textColor) {
-        
-        return self.makeTitleColor([JKAlertMultiColor colorWithDynamicColor:textColor]);
-    };
+    return [self makeTitleColor];
 }
 
 /** 设置titleTextViewDelegate */
@@ -220,10 +218,7 @@
  */
 - (JKAlertView *(^)(UIColor *textColor))setMessageTextColor {
     
-    return ^(UIColor *textColor) {
-        
-        return self.makeMessageColor([JKAlertMultiColor colorWithDynamicColor:textColor]);
-    };
+    return [self makeMessageColor];
 }
 
 /** 设置messageTextView的文字水平样式 */
@@ -760,7 +755,18 @@
     
     return ^(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)) {
         
-        return self.makeActionSheetCustomTitleView(customView).makeActionSheetTitleBackgroundColor(isClearContainerBackgroundColor ? nil : JKAlertGlobalMultiBackgroundColor());
+        self.makeActionSheetCustomTitleView(customView);
+        
+        if (isClearContainerBackgroundColor) {
+            
+            self.makeActionSheetTitleBackgroundColor(nil);
+            
+        } else {
+            
+            [self restoreFullBackgroundColor];
+        }
+        
+        return self;
     };
 }
 
@@ -803,7 +809,11 @@
     
     return ^(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) {
         
-        return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin), [JKAlertMultiColor colorWithLightColor:lightBackgroundColor darkColor:darkBackgroundColor]).makeCornerRadius(cornerRadius);
+        // TODO: JKTODO <#注释#>
+        
+        return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin), lightBackgroundColor);
+        
+        //return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin), [JKAlertMultiColor colorWithLightColor:lightBackgroundColor darkColor:darkBackgroundColor]).makeCornerRadius(cornerRadius);
     };
 }
 

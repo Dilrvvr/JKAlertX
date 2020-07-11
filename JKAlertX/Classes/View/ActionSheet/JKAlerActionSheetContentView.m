@@ -425,7 +425,7 @@
 - (void)layoutCancelActionButton {
     
     self.cancelAction.isPierced = self.isPierced;
-    self.cancelAction.multiPiercedBackgroundColor = self.piercedBackgroundColor;
+    self.cancelAction.piercedBackgroundColor = self.piercedBackgroundColor;
     
     self.cancelButton.action = self.cancelAction;
     
@@ -484,21 +484,22 @@
     self.bottomContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, (self.isPierced ? 0 : self.screenSafeInsets.right));
 }
 
-- (void)updateLightModetUI {
-    [super updateLightModetUI];
-    
-    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-    
-    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : self.titleBackgroundColor.lightColor;
-}
-
-- (void)updateDarkModeUI {
-    [super updateDarkModeUI];
-    
-    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-    
-    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : self.titleBackgroundColor.darkColor;
-}
+// TODO: JKTODO <#注释#>
+//- (void)updateLightModetUI {
+//    [super updateLightModetUI];
+//
+//    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+//
+//    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : self.titleBackgroundColor.lightColor;
+//}
+//
+//- (void)updateDarkModeUI {
+//    [super updateDarkModeUI];
+//
+//    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+//
+//    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : self.titleBackgroundColor.darkColor;
+//}
 
 - (void)setCellClassName:(NSString *)cellClassName {
     
@@ -779,7 +780,8 @@
     
     _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
     
-    _titleBackgroundColor = JKAlertGlobalMultiBackgroundColor();
+    // TODO: JKTODO <#注释#>
+    //_titleBackgroundColor = JKAlertGlobalMultiBackgroundColor();
 }
 
 /** 构造函数初始化时调用 注意调用super */

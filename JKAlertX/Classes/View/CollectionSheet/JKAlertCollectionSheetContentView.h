@@ -64,10 +64,10 @@
 //@property (nonatomic, assign) CGFloat piercedCornerRadius;
 
 /** piercedBackgroundColor */
-@property (nonatomic, strong) JKAlertMultiColor *piercedBackgroundColor;
+@property (nonatomic, strong) UIColor *piercedBackgroundColor;
 
 /** textContentBackgroundColor */
-@property (nonatomic, strong) JKAlertMultiColor *textContentBackgroundColor;
+@property (nonatomic, strong) UIColor *textContentBackgroundColor;
 
 /** pageControl */
 @property (nonatomic, weak, readonly) UIPageControl *pageControl;

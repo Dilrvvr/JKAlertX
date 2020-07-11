@@ -489,10 +489,10 @@
 - (void)layoutActionButton {
     
     self.cancelAction.isPierced = self.isPierced;
-    self.cancelAction.multiPiercedBackgroundColor = self.piercedBackgroundColor;
+    self.cancelAction.piercedBackgroundColor = self.piercedBackgroundColor;
     
     self.collectionAction.isPierced = self.isPierced;
-    self.collectionAction.multiPiercedBackgroundColor = self.piercedBackgroundColor;
+    self.collectionAction.piercedBackgroundColor = self.piercedBackgroundColor;
     
     self.cancelButton.action = self.cancelAction;
     
@@ -555,29 +555,30 @@
     }
 }
 
-- (void)updateLightModetUI {
-    [super updateLightModetUI];
-    
-    self.titleSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-    
-    self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-    
-    self.topContainerView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.lightColor;
-    
-    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor: nil;
-}
-
-- (void)updateDarkModeUI {
-    [super updateDarkModeUI];
-    
-    self.titleSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-    
-    self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-    
-    self.topContainerView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.darkColor;
-    
-    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor: nil;
-}
+// TODO: JKTODO <#注释#>
+//- (void)updateLightModetUI {
+//    [super updateLightModetUI];
+//
+//    self.titleSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+//
+//    self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+//
+//    self.topContainerView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.lightColor;
+//
+//    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor: nil;
+//}
+//
+//- (void)updateDarkModeUI {
+//    [super updateDarkModeUI];
+//
+//    self.titleSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+//
+//    self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+//
+//    self.topContainerView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.darkColor;
+//
+//    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor: nil;
+//}
 
 #pragma mark
 #pragma mark - Private Selector
@@ -891,7 +892,8 @@
     
     _cellClassName = NSStringFromClass([JKAlertCollectionViewCell class]);
     
-    _textContentBackgroundColor = JKAlertGlobalMultiBackgroundColor();
+    // TODO: JKTODO <#注释#>
+    //_textContentBackgroundColor = JKAlertGlobalMultiBackgroundColor();
     
     // TODO: JKTODO <#注释#>
     _actionButtonPinned = NO;

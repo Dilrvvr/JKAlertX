@@ -25,24 +25,10 @@
 #pragma mark
 #pragma mark - Private Methods
 
-- (void)updateLightModetUI {
-    [super updateLightModetUI];
-    
-}
 
-- (void)updateDarkModeUI {
-    [super updateDarkModeUI];
-    
-    
-}
 
 #pragma mark
 #pragma mark - Private Selector
-
-
-
-#pragma mark
-#pragma mark - UITableViewDataSource & UITableViewDelegate
 
 
 

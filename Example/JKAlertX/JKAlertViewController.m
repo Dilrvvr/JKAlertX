@@ -325,8 +325,9 @@
         [containerView JKAlertX_clipRoundWithRadius:10 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
     });
     
+    // TODO: JKTODO <#注释#>
     // 类似系统样式
-    alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO).makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
+    //alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO).makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -364,7 +365,7 @@
             
             return [UIView new];
             
-        }).alertView.resetMessage(@"message已更新").makeMessageColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).relayout(YES);
+        }).alertView.resetMessage(@"message已更新").makeMessageColor([UIColor redColor]).relayout(YES);
         
     }].setAutoDismiss(NO)];
     
@@ -430,7 +431,7 @@
             
             return [UIView new];
             
-        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).makeBottomButtonMargin(0.25).relayout(YES);
+        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([UIColor redColor]).makeBottomButtonMargin(0.25).relayout(YES);
         
     }].setAutoDismiss(NO)).makeCollectionSheetPageControlHidden(NO); //*/
     

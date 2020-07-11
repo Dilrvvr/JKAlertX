@@ -10,7 +10,6 @@
 #import "JKAlertAction.h"
 #import "JKAlertConst.h"
 #import "JKAlertVisualFormatConstraintManager.h"
-#import "JKAlertMultiColor.h"
 
 @interface JKAlertBaseActionView ()
 {
@@ -39,8 +38,6 @@
     self.iconImageView.highlightedImage = nil;
     
     self.isFullContentWidth = action.isPierced;
-    
-    [self updateUserInterfaceStyle];
     
     [self.customView removeFromSuperview];
     self.customView = nil;
@@ -125,39 +122,41 @@
 #pragma mark
 #pragma mark - Private Methods
 
-- (void)updateLightModetUI {
-    [super updateLightModetUI];
-    
-    if (self.action.isPierced) {
-        
-        self.backgroundView.backgroundColor = self.action.multiPiercedBackgroundColor.lightColor;
-        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.lightColor;
-        
-    } else {
-        
-        self.backgroundView.backgroundColor = self.action.multiBackgroundColor.lightColor;
-        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.lightColor;
-    }
-    
-    self.titleLabel.textColor = self.action.multiTitleColor.lightColor;
-}
+// TODO: JKTODO <#注释#>
 
-- (void)updateDarkModeUI {
-    [super updateDarkModeUI];
-    
-    if (self.action.isPierced) {
-        
-        self.backgroundView.backgroundColor = self.action.multiPiercedBackgroundColor.darkColor;
-        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.darkColor;
-        
-    } else {
-        
-        self.backgroundView.backgroundColor = self.action.multiBackgroundColor.darkColor;
-        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.darkColor;
-    }
-    
-    self.titleLabel.textColor = self.action.multiTitleColor.darkColor;
-}
+//- (void)updateLightModetUI {
+//    [super updateLightModetUI];
+//
+//    if (self.action.isPierced) {
+//
+//        self.backgroundView.backgroundColor = self.action.multiPiercedBackgroundColor.lightColor;
+//        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.lightColor;
+//
+//    } else {
+//
+//        self.backgroundView.backgroundColor = self.action.multiBackgroundColor.lightColor;
+//        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.lightColor;
+//    }
+//
+//    self.titleLabel.textColor = self.action.multiTitleColor.lightColor;
+//}
+//
+//- (void)updateDarkModeUI {
+//    [super updateDarkModeUI];
+//
+//    if (self.action.isPierced) {
+//
+//        self.backgroundView.backgroundColor = self.action.multiPiercedBackgroundColor.darkColor;
+//        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.darkColor;
+//
+//    } else {
+//
+//        self.backgroundView.backgroundColor = self.action.multiBackgroundColor.darkColor;
+//        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.darkColor;
+//    }
+//
+//    self.titleLabel.textColor = self.action.multiTitleColor.darkColor;
+//}
 
 #pragma mark
 #pragma mark - Private Selector

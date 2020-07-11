@@ -6,7 +6,6 @@
 //
 
 #import "JKAlertBaseTextContentView.h"
-#import "JKAlertMultiColor.h"
 #import "JKAlertConst.h"
 
 @interface JKAlertBaseTextContentView ()
@@ -149,8 +148,6 @@
 }
 
 - (void)calculateUI {
-    
-    [self updateUserInterfaceStyle];
     
     [self updateTextViewProperty];
     
@@ -298,33 +295,35 @@
 #pragma mark
 #pragma mark - Private Methods
 
-- (void)updateLightModetUI {
-    [super updateLightModetUI];
-    
-    self.titleTextView.textView.textColor = self.titleTextColor.lightColor;
-    self.messageTextView.textView.textColor = self.messageTextColor.lightColor;
-    
-    self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-    
-    if (self.multiBackgroundColor) {
-        
-        self.backgroundView.backgroundColor = self.multiBackgroundColor.lightColor;
-    }
-}
+// TODO: JKTODO <#注释#>
 
-- (void)updateDarkModeUI {
-    [super updateDarkModeUI];
-    
-    self.titleTextView.textView.textColor = self.titleTextColor.darkColor;
-    self.messageTextView.textView.textColor = self.messageTextColor.darkColor;
-    
-    self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-    
-    if (self.multiBackgroundColor) {
-        
-        self.backgroundView.backgroundColor = self.multiBackgroundColor.darkColor;
-    }
-}
+//- (void)updateLightModetUI {
+//    [super updateLightModetUI];
+//
+//    self.titleTextView.textView.textColor = self.titleTextColor.lightColor;
+//    self.messageTextView.textView.textColor = self.messageTextColor.lightColor;
+//
+//    self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
+//
+//    if (self.multiBackgroundColor) {
+//
+//        self.backgroundView.backgroundColor = self.multiBackgroundColor.lightColor;
+//    }
+//}
+//
+//- (void)updateDarkModeUI {
+//    [super updateDarkModeUI];
+//
+//    self.titleTextView.textView.textColor = self.titleTextColor.darkColor;
+//    self.messageTextView.textView.textColor = self.messageTextColor.darkColor;
+//
+//    self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
+//
+//    if (self.multiBackgroundColor) {
+//
+//        self.backgroundView.backgroundColor = self.multiBackgroundColor.darkColor;
+//    }
+//}
 
 #pragma mark
 #pragma mark - Private Selector
@@ -353,8 +352,9 @@
     _titleInsets = UIEdgeInsetsMake(20, 20, 3.5, 20);
     _messageInsets = UIEdgeInsetsMake(3.5, 20, 20, 20);
     
-    _titleTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(89.25) darkColor:JKAlertSameRGBColor(165.75)];
-    _messageTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(76.5) darkColor:JKAlertSameRGBColor(178.5)];
+    // TODO: JKTODO <#注释#>
+//    _titleTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(89.25) darkColor:JKAlertSameRGBColor(165.75)];
+//    _messageTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(76.5) darkColor:JKAlertSameRGBColor(178.5)];
     
 //    _titleTextViewAlignment = NSTextAlignmentCenter;
 //    _messageTextViewAlignment = NSTextAlignmentCenter;

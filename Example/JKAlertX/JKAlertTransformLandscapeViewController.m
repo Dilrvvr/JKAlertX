@@ -316,7 +316,8 @@
             
             return [UIView new];
             
-        }).alertView.resetMessage(@"message已更新").makeMessageColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).relayout(YES);
+            // TODO: JKTODO <#注释#>
+        }).alertView.resetMessage(@"message已更新");//.makeMessageColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).relayout(YES);
         
     }].setAutoDismiss(NO)];
     
@@ -349,7 +350,7 @@
             
             return [UIView new];
             
-        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).makeBottomButtonMargin(0.5).relayout(YES);
+        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([UIColor redColor]).makeBottomButtonMargin(0.5).relayout(YES);
         
     }].setAutoDismiss(NO)).makeCollectionSheetPageControlHidden(NO);
     

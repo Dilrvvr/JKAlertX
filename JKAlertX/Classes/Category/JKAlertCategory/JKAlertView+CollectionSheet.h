@@ -108,7 +108,7 @@
  * piercedInsets : 整体左、右、下间距
  * piercedBackgroundColor : 整体背景
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPierced)(BOOL isPierced, UIEdgeInsets piercedInsets, JKAlertMultiColor *piercedBackgroundColor);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPierced)(BOOL isPierced, UIEdgeInsets piercedInsets, UIColor *piercedBackgroundColor);
 
 
 

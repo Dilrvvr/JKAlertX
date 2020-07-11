@@ -76,15 +76,12 @@
     switch (action.alertActionStyle) {
         case JKAlertActionStyleCancel:
             action.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102)));
-            action.multiTitleColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(153) darkColor:JKAlertSameRGBColor(102)];
             break;
         case JKAlertActionStyleDestructive:
             action.setTitleColor(JKAlertSystemRedColor);
-            action.multiTitleColor = [JKAlertMultiColor colorWithSameColor:JKAlertSystemRedColor];
             break;
         case JKAlertActionStyleDefaultBlue:
             action.setTitleColor(JKAlertSystemBlueColor);
-            action.multiTitleColor = [JKAlertMultiColor colorWithSameColor:JKAlertSystemBlueColor];
             break;
         default:
             break;
@@ -114,12 +111,6 @@
     
     _titleFont = [UIFont systemFontOfSize:17];
     _titleColor = JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204));
-    
-    
-    _multiBackgroundColor = JKAlertGlobalMultiBackgroundColor();
-    _seletedMultiBackgroundColor = JKAlertGlobalMultiHighlightedBackgroundColor();
-    
-    _multiTitleColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(51) darkColor:JKAlertSameRGBColor(204)];
 }
 
 /** 在这个block内自定义action的其它属性 */

@@ -22,7 +22,6 @@
 
 - (void)calculateUI {
     
-    [self updateUserInterfaceStyle];
 }
 
 - (void)setCustomBackgroundView:(UIView *)customBackgroundView {
@@ -63,23 +62,24 @@
 #pragma mark
 #pragma mark - Private Methods
 
-- (void)updateLightModetUI {
-    [super updateLightModetUI];
-    
-    if (!self.backgroundEffectView.hidden) {
-        
-        [self.backgroundEffectView setEffect:self.lightBlurEffect];
-    }
-}
-
-- (void)updateDarkModeUI {
-    [super updateDarkModeUI];
-    
-    if (!self.backgroundEffectView.hidden) {
-        
-        [self.backgroundEffectView setEffect:self.darkBlurEffect];
-    }
-}
+// TODO: JKTODO <#注释#>
+//- (void)updateLightModetUI {
+//    [super updateLightModetUI];
+//
+//    if (!self.backgroundEffectView.hidden) {
+//
+//        [self.backgroundEffectView setEffect:self.lightBlurEffect];
+//    }
+//}
+//
+//- (void)updateDarkModeUI {
+//    [super updateDarkModeUI];
+//
+//    if (!self.backgroundEffectView.hidden) {
+//
+//        [self.backgroundEffectView setEffect:self.darkBlurEffect];
+//    }
+//}
 
 #pragma mark
 #pragma mark - Private Selector

@@ -63,9 +63,6 @@
 /** titleColor 默认 RGB 51 */
 @property (nonatomic, strong) UIColor *titleColor;
 
-/** titleColor 默认 RGB 51 */
-@property (nonatomic, strong) JKAlertMultiColor *multiTitleColor;
-
 /** 设置titleColor 默认 RGB 51 */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setTitleColor)(UIColor *color);
 
@@ -80,7 +77,6 @@
  * 仅 actionSheet 与 collectionSheet的底部按钮 有效
  * */
 @property (nonatomic, strong) UIColor *backgroundColor;
-@property (nonatomic, strong) JKAlertMultiColor *multiBackgroundColor;
 
 /**
  * 设置backgroundColor 默认JKAlertGlobalBackgroundColor()
@@ -93,16 +89,12 @@
  * 仅 actionSheet 与 collectionSheet的底部按钮 有效
  * */
 @property (nonatomic, strong) UIColor *seletedBackgroundColor;
-@property (nonatomic, strong) JKAlertMultiColor *seletedMultiBackgroundColor;
 
 /** isPierced */
 @property (nonatomic, assign) BOOL isPierced;
 
 /** piercedBackgroundColor */
 @property (nonatomic, strong) UIColor *piercedBackgroundColor;
-
-/** piercedBackgroundColor */ // TODO: JKTODO <#注释#>
-@property (nonatomic, strong) JKAlertMultiColor *multiPiercedBackgroundColor;
 
 /**
  * 设置seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()

@@ -8,7 +8,6 @@
 
 #import "JKAlertBaseAlertView.h"
 #import "JKAlertAction.h"
-#import "JKAlertMultiColor.h"
 
 @interface JKAlertView : JKAlertBaseAlertView
 

@@ -93,11 +93,11 @@
  * 全屏背景颜色
  * 默认 black 0.4
  */
-- (JKAlertView *(^)(JKAlertMultiColor *color))makeFullBackgroundColor {
+- (JKAlertView *(^)(UIColor *color))makeFullBackgroundColor {
     
-    return ^(JKAlertMultiColor *color) {
+    return ^(UIColor *color) {
         
-        self.multiBackgroundColor = color;
+        self.fullBackgroundColor = color;
         
         return self;
     };
@@ -262,9 +262,9 @@
  * title 字体颜色
  * plain默认RGB都为0.1，其它0.35
  */
-- (JKAlertView *(^)(JKAlertMultiColor *textColor))makeTitleColor {
+- (JKAlertView *(^)(UIColor *textColor))makeTitleColor {
     
-    return ^(JKAlertMultiColor *textColor) {
+    return ^(UIColor *textColor) {
         
         self.currentTextContentView.titleTextColor = textColor;
         
@@ -321,9 +321,9 @@
  * message字体颜色
  * plain默认RGB都为0.55，其它0.3
  */
-- (JKAlertView *(^)(JKAlertMultiColor *textColor))makeMessageColor {
+- (JKAlertView *(^)(UIColor *textColor))makeMessageColor {
     
-    return ^(JKAlertMultiColor *textColor) {
+    return ^(UIColor *textColor) {
         
         if ([self checkHasMessageTextView]) {
             

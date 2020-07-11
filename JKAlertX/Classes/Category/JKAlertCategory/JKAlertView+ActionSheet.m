@@ -34,9 +34,9 @@
  * actionSheet样式title的背景色
  * 默认JKAlertGlobalMultiBackgroundColor()
  */
-- (JKAlertView *(^)(JKAlertMultiColor *color))makeActionSheetTitleBackgroundColor {
+- (JKAlertView *(^)(UIColor *color))makeActionSheetTitleBackgroundColor {
     
-    return ^(JKAlertMultiColor *color) {
+    return ^(UIColor *color) {
         
         return [self checkActionSheetStyleHandler:^{
             
@@ -128,9 +128,9 @@
  * piercedInsets : 整体左、右、下间距
  * piercedBackgroundColor : 整体背景
  */
-- (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets, JKAlertMultiColor *piercedBackgroundColor))makeActionSheetPierced {
+- (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets, UIColor *piercedBackgroundColor))makeActionSheetPierced {
     
-    return ^(BOOL isPierced, UIEdgeInsets piercedInsets, JKAlertMultiColor *piercedBackgroundColor) {
+    return ^(BOOL isPierced, UIEdgeInsets piercedInsets, UIColor *piercedBackgroundColor) {
         
         return [self checkActionSheetStyleHandler:^{
             
@@ -142,7 +142,7 @@
             [self.actions enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 
                 obj.isPierced = isPierced;
-                obj.multiPiercedBackgroundColor = piercedBackgroundColor;
+                obj.piercedBackgroundColor = piercedBackgroundColor;
             }];
         }];
     };

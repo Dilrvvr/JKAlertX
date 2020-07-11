@@ -19,12 +19,6 @@
 #pragma mark
 #pragma mark - Public Methods
 
-- (void)setMultiBackgroundColor:(JKAlertMultiColor *)multiBackgroundColor {
-    _multiBackgroundColor = multiBackgroundColor;
-    
-    [self updateUserInterfaceStyle];
-}
-
 - (void)setFullBackgroundView:(UIView *)fullBackgroundView {
     
     if (_fullBackgroundView) {
@@ -50,21 +44,10 @@
 #pragma mark
 #pragma mark - Private Methods
 
-- (void)updateLightModetUI {
-    [super updateLightModetUI];
+- (void)restoreFullBackgroundColor {
     
-    self.backgroundView.backgroundColor = self.multiBackgroundColor.lightColor;
-}
-
-- (void)updateDarkModeUI {
-    [super updateDarkModeUI];
-    
-    self.backgroundView.backgroundColor = self.multiBackgroundColor.darkColor;
-}
-
-- (void)restoreMultiBackgroundColor {
-    
-    self.multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
+    // TODO: JKTODO <#注释#>
+    //self.multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
 }
 
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
@@ -131,7 +114,8 @@
 - (void)initializeProperty{
     [super initializeProperty];
     
-    _multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
+    // TODO: JKTODO <#注释#>
+    //_multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
 }
 
 /** 构造函数初始化时调用 注意调用super */
