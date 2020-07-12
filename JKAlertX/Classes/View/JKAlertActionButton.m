@@ -24,6 +24,19 @@
 - (void)setAction:(JKAlertAction *)action {
     _action = action;
     
+    __weak typeof(self) weakSelf = self;
+    [action setRefreshAppearanceHandler:^(JKAlertAction *refreshAction) {
+        
+        if (refreshAction != weakSelf.action) { return; }
+        
+        [weakSelf refreshWithAction:refreshAction];
+    }];
+    
+    [self refreshWithAction:action];
+}
+
+- (void)refreshWithAction:(JKAlertAction *)action {
+    
     self.actionView.action = action;
     
     // TODO: JKTODO <#注释#>

@@ -28,12 +28,11 @@
     
     _defaultDarkStyle = defaultDarkStyle;
     
-    UIBlurEffect *tempEffect = self.darkBlurEffect;
+    [self updateBlurEffect];
     
-    self.darkBlurEffect = self.lightBlurEffect;
-    self.lightBlurEffect = tempEffect;
+    [self.backgroundEffectView setEffect:JKAlertCheckDarkMode(self.lightModeBlurEffect, self.darkModeBlurEffect)];
     
-    self.textContentView.defaultDarkStyle = _defaultDarkStyle;
+    self.textContentView.defaultDarkStyle = defaultDarkStyle;
 }
 
 - (void)calculateUI {
@@ -69,6 +68,13 @@
     self.frame = rect;
 }
 
+- (void)updateBlurEffect {
+    
+    self.darkModeBlurEffect = self.defaultDarkStyle ? [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight] : [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    
+    self.lightModeBlurEffect = self.defaultDarkStyle ? [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark] : [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+}
+
 #pragma mark
 #pragma mark - Private Selector
 
@@ -93,15 +99,13 @@
     
     _defaultDarkStyle = YES;
     
-    self.darkBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
-    
-    self.lightBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    [self updateBlurEffect];
 }
 
 /** 构造函数初始化时调用 注意调用super */
 - (void)initialization {
     [super initialization];
-    
+
 }
 
 /** 创建UI */

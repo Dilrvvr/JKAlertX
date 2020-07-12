@@ -32,7 +32,7 @@
  *
  * owner : JKAlertThemeProvider实例的拥有者
  *         若owner已有JKAlertThemeProvider实例，将不会创建新的实例而是将provideHandler添加至该实例
- * handlerKey : provideHandler的缓存可以，使用key可支持handler覆盖
+ * handlerKey : provideHandler的缓存可以，使用key可支持handler替换
  * provideHandler : 切换皮肤后调用的block，赋值后将会立即执行一次
  */
 + (JKAlertThemeProvider *)providerWithOwner:(id <JKAlertThemeProviderProtocol>)owner
@@ -62,7 +62,7 @@
 /**
  * 添加一个处理主题变更的handler
  *
- * key : handler的缓存key，使用key可支持handler覆盖
+ * key : handler的缓存key，使用key可支持handler替换
  * handler : 切换皮肤后调用的block，赋值后将会立即执行一次
  */
 - (void)addProvideHandlerForKey:(NSString *)key
@@ -70,9 +70,56 @@
     
     if (!handler || !self.owner) { return; }
     
-    [self.handlerArray addObject:handler];
+    JKAlertThemeProvideHandler previousHandler = nil;
+    
+    if ([key isKindOfClass:[NSString class]] &&
+        key.length > 0) {
+        
+        previousHandler = [self.handlerDictionary objectForKey:key];
+        
+        [self.handlerDictionary setObject:handler forKey:key];
+    }
+    
+    if (previousHandler &&
+        [self.handlerArray containsObject:previousHandler]) {
+        
+        NSInteger index = [self.handlerArray indexOfObject:previousHandler];
+        
+        [self.handlerArray replaceObjectAtIndex:index withObject:handler];
+        
+    } else {
+        
+        [self.handlerArray addObject:handler];
+    }
     
     handler(self, self.owner);
+}
+
+/**
+ * 执行所有的handler
+ */
+- (void)executeProviderAllHandler {
+    
+    [self.handlerArray enumerateObjectsUsingBlock:^(JKAlertThemeProvideHandler _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        obj(self, self.owner);
+    }];
+}
+
+/**
+ * 根据key执行某一handler
+ */
+- (void)executeProviderForKey:(NSString *)key {
+    
+    if (![key isKindOfClass:[NSString class]] ||
+        key.length <= 0) {
+        
+        return;
+    }
+    
+    JKAlertThemeProvideHandler handler = [self.handlerDictionary objectForKey:key];
+    
+    !handler ? : handler(self, self.owner);
 }
 
 /**
@@ -82,7 +129,14 @@
     
     if (!key) { return; }
     
-    if (![self.handlerDictionary objectForKey:key]) { return; }
+    JKAlertThemeProvideHandler handler = [self.handlerDictionary objectForKey:key];
+    
+    if (!handler) { return; }
+    
+    if ([self.handlerArray containsObject:handler]) {
+        
+        [self.handlerArray removeObject:handler];
+    }
     
     [self.handlerDictionary removeObjectForKey:key];
 }
@@ -102,20 +156,7 @@
 
 - (void)themeDidChangeNotification:(NSNotification *)note {
     
-    [self executeProviderHandler];
-}
-
-- (void)executeProviderHandler {
-    
-    [self.handlerArray enumerateObjectsUsingBlock:^(JKAlertThemeProvideHandler _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        obj(self, self.owner);
-    }];
-    
-    [self.handlerDictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, JKAlertThemeProvideHandler  _Nonnull obj, BOOL * _Nonnull stop) {
-        
-        obj(self, self.owner);
-    }];
+    [self executeProviderAllHandler];
 }
 
 - (void)setOwner:(id<JKAlertThemeProviderProtocol>)owner {

@@ -82,12 +82,19 @@
     self.messageTextView.hidden = YES;
 }
 
-- (void)updateTextViewProperty {
+- (void)setTitleTextColor:(UIColor *)titleTextColor {
+    _titleTextColor = titleTextColor;
     
-    //self.titleTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
-    //self.titleTextView.textView.shouldSelectText = self.textViewShouldSelectText;
-    //self.titleTextView.textView.textAlignment = self.titleTextViewAlignment;
-    //self.titleTextView.textView.font = self.titleFont;
+    self.titleTextView.textView.textColor = _titleTextColor;
+}
+
+- (void)setMessageTextColor:(UIColor *)messageTextColor {
+    _messageTextColor = messageTextColor;
+    
+    self.messageTextView.textView.textColor = messageTextColor;
+}
+
+- (void)updateTextViewProperty {
     
     self.titleTextView.textView.text = nil;
     self.titleTextView.textView.attributedText = nil;
@@ -113,11 +120,6 @@
         
         self.titleTextView.hidden = YES;
     }
-    
-    //self.messageTextView.userInteractionEnabled = self.textViewUserInteractionEnabled;
-    //self.messageTextView.textView.shouldSelectText = self.textViewShouldSelectText;
-    //self.messageTextView.textView.textAlignment = self.messageTextViewAlignment;
-    //self.messageTextView.textView.font = self.messageFont;
     
     self.messageTextView.textView.text = nil;
     self.messageTextView.textView.attributedText = nil;
@@ -295,43 +297,10 @@
 #pragma mark
 #pragma mark - Private Methods
 
-// TODO: JKTODO <#注释#>
 
-//- (void)updateLightModetUI {
-//    [super updateLightModetUI];
-//
-//    self.titleTextView.textView.textColor = self.titleTextColor.lightColor;
-//    self.messageTextView.textView.textColor = self.messageTextColor.lightColor;
-//
-//    self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-//
-//    if (self.multiBackgroundColor) {
-//
-//        self.backgroundView.backgroundColor = self.multiBackgroundColor.lightColor;
-//    }
-//}
-//
-//- (void)updateDarkModeUI {
-//    [super updateDarkModeUI];
-//
-//    self.titleTextView.textView.textColor = self.titleTextColor.darkColor;
-//    self.messageTextView.textView.textColor = self.messageTextColor.darkColor;
-//
-//    self.separatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-//
-//    if (self.multiBackgroundColor) {
-//
-//        self.backgroundView.backgroundColor = self.multiBackgroundColor.darkColor;
-//    }
-//}
 
 #pragma mark
 #pragma mark - Private Selector
-
-
-
-#pragma mark
-#pragma mark - UITableViewDataSource & UITableViewDelegate
 
 
 
@@ -352,14 +321,8 @@
     _titleInsets = UIEdgeInsetsMake(20, 20, 3.5, 20);
     _messageInsets = UIEdgeInsetsMake(3.5, 20, 20, 20);
     
-    // TODO: JKTODO <#注释#>
-//    _titleTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(89.25) darkColor:JKAlertSameRGBColor(165.75)];
-//    _messageTextColor = [JKAlertMultiColor colorWithLightColor:JKAlertSameRGBColor(76.5) darkColor:JKAlertSameRGBColor(178.5)];
-    
-//    _titleTextViewAlignment = NSTextAlignmentCenter;
-//    _messageTextViewAlignment = NSTextAlignmentCenter;
-    
-    //_textViewUserInteractionEnabled = YES;
+    _titleTextColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(89.25), JKAlertSameRGBColor(165.75));
+    _messageTextColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(76.5), JKAlertSameRGBColor(178.5));
     
     _singleMinHeight = 30;
 }
@@ -386,6 +349,8 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
+    self.titleTextView.textView.textColor = self.titleTextColor;
+    self.messageTextView.textView.textColor = self.messageTextColor;
 }
 
 #pragma mark

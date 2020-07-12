@@ -42,6 +42,28 @@
     self.tableView.delegate = _tableViewDelegate;
 }
 
+- (void)setIsPierced:(BOOL)isPierced {
+    _isPierced = isPierced;
+    
+    [self updateTopContentBackgroundColor];
+    
+    [self updatePiercedBackgroundColor];
+}
+
+- (void)setPiercedBackgroundColor:(UIColor *)piercedBackgroundColor {
+    _piercedBackgroundColor = piercedBackgroundColor;
+    
+    [self updateTopContentBackgroundColor];
+    
+    [self updatePiercedBackgroundColor];
+}
+
+- (void)setTitleBackgroundColor:(UIColor *)titleBackgroundColor {
+    _titleBackgroundColor = titleBackgroundColor;
+    
+    [self updateTopContentBackgroundColor];
+}
+
 - (void)calculateUI {
     [super calculateUI];
     
@@ -484,23 +506,6 @@
     self.bottomContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, (self.isPierced ? 0 : self.screenSafeInsets.right));
 }
 
-// TODO: JKTODO <#注释#>
-//- (void)updateLightModetUI {
-//    [super updateLightModetUI];
-//
-//    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-//
-//    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor : self.titleBackgroundColor.lightColor;
-//}
-//
-//- (void)updateDarkModeUI {
-//    [super updateDarkModeUI];
-//
-//    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-//
-//    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor : self.titleBackgroundColor.darkColor;
-//}
-
 - (void)setCellClassName:(NSString *)cellClassName {
     
     if (![NSClassFromString(cellClassName) isKindOfClass:[JKAlertTableViewCell class]]) { return; }
@@ -763,8 +768,6 @@
     }
 }
 
-
-
 #pragma mark
 #pragma mark - Initialization & Build UI
 
@@ -780,8 +783,7 @@
     
     _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
     
-    // TODO: JKTODO <#注释#>
-    //_titleBackgroundColor = JKAlertGlobalMultiBackgroundColor();
+    _titleBackgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -833,6 +835,24 @@
     
     self.topContentView.layer.masksToBounds = YES;
     self.cancelButton.layer.masksToBounds = YES;
+    
+    [self updateTopContentBackgroundColor];
+    
+    [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlerActionSheetContentView *providerOwner) {
+
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+    }];
+}
+
+- (void)updateTopContentBackgroundColor {
+    
+    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor : self.titleBackgroundColor;
+}
+
+- (void)updatePiercedBackgroundColor {
+    
+    self.cancelAction.isPierced = self.isPierced;
+    self.cancelAction.piercedBackgroundColor = self.piercedBackgroundColor;
 }
 
 - (void)registerCellClass {

@@ -825,7 +825,12 @@
     tf.rightView = rightView;
     tf.rightViewMode = UITextFieldViewModeAlways;
     tf.font = [UIFont systemFontOfSize:13];
-    tf.backgroundColor = JKAlertGlobalBackgroundColor();
+    
+    // TODO: JKTODO <#注释#>
+    [JKAlertThemeProvider providerWithOwner:tf handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UITextField *providerOwner) {
+
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
+    }];
     
     [self.textFieldArr addObject:tf];
     
@@ -1672,7 +1677,7 @@
     
     if (self.deallocLogEnabled) {
         
-        NSLog(@"%d, %s",__LINE__, __func__);
+        NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
     }
     
     !self.deallocHandler ? : self.deallocHandler();

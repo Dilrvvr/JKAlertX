@@ -19,8 +19,7 @@
     _defaultDarkStyle = defaultDarkStyle;
     
     // TODO: JKTODO <#注释#>
-    
-    //self.titleTextColor = [JKAlertMultiColor colorWithLightColor:self.titleTextColor.darkColor darkColor:self.titleTextColor.lightColor];
+    [self updateTitleTextColor];
 }
 
 #pragma mark
@@ -60,9 +59,6 @@
     self.titleTextView.textView.font = [UIFont systemFontOfSize:17];
     
     _defaultDarkStyle = YES;
-    
-    // TODO: JKTODO <#注释#>
-    //self.titleTextColor = [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]];
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -87,6 +83,12 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
+    [self updateTitleTextColor];
+}
+
+- (void)updateTitleTextColor {
+    
+    self.titleTextColor = JKAlertCheckDarkMode(self.defaultDarkStyle ? [UIColor whiteColor] : [UIColor blackColor], self.defaultDarkStyle ? [UIColor blackColor] : [UIColor whiteColor]);
 }
 
 #pragma mark

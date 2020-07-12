@@ -443,29 +443,6 @@
     self.actionContainerView.frame = rect;
 }
 
-// TODO: JKTODO <#注释#>
-//- (void)updateLightModetUI {
-//    [super updateLightModetUI];
-//
-//    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-//    self.verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-//
-//    self.textFieldContainerView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-//
-//    //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineMultiColor().lightColor CGColor];
-//}
-//
-//- (void)updateDarkModeUI {
-//    [super updateDarkModeUI];
-//
-//    self.horizontalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-//    self.verticalSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-//
-//    self.textFieldContainerView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-//
-//    //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineMultiColor().darkColor CGColor];
-//}
-
 #pragma mark
 #pragma mark - Private Selector
 
@@ -568,6 +545,24 @@
     
     self.clipsToBounds = YES;
     self.layer.cornerRadius = self.cornerRadius;
+    
+    [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+        
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+    }];
+    
+    [JKAlertThemeProvider providerWithOwner:self.verticalSeparatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+        
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+    }];
+    
+    [JKAlertThemeProvider providerWithOwner:self handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainContentView *providerOwner) {
+        
+        // TODO: JKTODO <#注释#>
+        providerOwner.textFieldContainerView.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+        
+        //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineMultiColor().lightColor CGColor];
+    }];
 }
 
 #pragma mark

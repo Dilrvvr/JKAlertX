@@ -23,7 +23,7 @@ typedef void(^JKAlertThemeProvideHandler)(JKAlertThemeProvider *provider, id pro
  *
  * owner : JKAlertThemeProvider实例的拥有者
  *         若owner已有JKAlertThemeProvider实例，将不会创建新的实例而是将provideHandler添加至该实例
- * handlerKey : provideHandler的缓存可以，使用key可支持handler覆盖
+ * handlerKey : provideHandler的缓存可以，使用key可支持handler替换
  * provideHandler : 切换皮肤后调用的block，赋值后将会立即执行一次
  */
 + (JKAlertThemeProvider *)providerWithOwner:(id <JKAlertThemeProviderProtocol>)owner
@@ -33,11 +33,21 @@ typedef void(^JKAlertThemeProvideHandler)(JKAlertThemeProvider *provider, id pro
 /**
  * 添加一个处理主题变更的handler
  *
- * key : handler的缓存key，使用key可支持handler覆盖
+ * key : handler的缓存key，使用key可支持handler替换
  * handler : 切换皮肤后调用的block，赋值后将会立即执行一次
  */
 - (void)addProvideHandlerForKey:(NSString *)key
                         handler:(JKAlertThemeProvideHandler)handler;
+
+/**
+ * 执行所有的handler
+ */
+- (void)executeProviderAllHandler;
+
+/**
+ * 根据key执行某一handler
+ */
+- (void)executeProviderForKey:(NSString *)key;
 
 /**
  * 根据key移除handler

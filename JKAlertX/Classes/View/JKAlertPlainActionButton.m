@@ -23,20 +23,42 @@
         UIView *topSeparatorLineView = [[UIView alloc] init];
         topSeparatorLineView.userInteractionEnabled = NO;
         topSeparatorLineView.hidden = YES;
-        // TODO: JKTODO <#注释#>
-        topSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
         [self addSubview:topSeparatorLineView];
         _topSeparatorLineView = topSeparatorLineView;
+        
+        // TODO: JKTODO <#注释#>
+        [JKAlertThemeProvider providerWithOwner:topSeparatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+            
+            providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+        }];
         
         CGFloat lineHeight = JKAlertGlobalSeparatorLineThickness();
         
         [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:|-0-[view(%.2f)]", lineHeight] viewKeyName:@"view" targetView:self.topSeparatorLineView constraintsView:self];
+        
+        [JKAlertThemeProvider providerWithOwner:self handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainActionButton *providerOwner) {
+           
+            providerOwner.backgroundColor = providerOwner.highlighted ? JKAlertCheckDarkMode(JKAlertGlobalHighlightedLightBackgroundColor(), JKAlertGlobalHighlightedDarkBackgroundColor()) : nil;
+        }];
     }
     return self;
 }
 
 - (void)setAction:(JKAlertAction *)action {
     _action = action;
+    
+    __weak typeof(self) weakSelf = self;
+    [action setRefreshAppearanceHandler:^(JKAlertAction *refreshAction) {
+        
+        if (refreshAction != weakSelf.action) { return; }
+        
+        [weakSelf refreshWithAction:refreshAction];
+    }];
+    
+    [self refreshWithAction:action];
+}
+
+- (void)refreshWithAction:(JKAlertAction *)action {
     
     self.topSeparatorLineView.hidden = action.separatorLineHidden;
     
@@ -84,7 +106,7 @@
 - (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
     
-    self.backgroundColor = highlighted ? JKAlertGlobalHighlightedBackgroundColor() : nil;
+    self.backgroundColor = highlighted ? JKAlertCheckDarkMode(JKAlertGlobalHighlightedLightBackgroundColor(), JKAlertGlobalHighlightedDarkBackgroundColor()) : nil;
     
     if (self.action.customView) {
         

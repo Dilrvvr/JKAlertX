@@ -175,4 +175,7 @@
  * handler: 点击的操作
  */
 @property (class, nonatomic, readonly) JKAlertAction *(^actionAttributed)(NSAttributedString *attributedTitle, void(^handler)(JKAlertAction *action));
+
+/** refreshAppearanceHandler */
+@property (nonatomic, copy) void (^refreshAppearanceHandler)(JKAlertAction *refreshAction);
 @end

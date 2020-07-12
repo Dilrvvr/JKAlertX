@@ -8,8 +8,6 @@
 #import "JKAlertBaseView.h"
 #import "JKAlertTextContainerView.h"
 
-@class JKAlertMultiColor;
-
 // TODO: JKTODO 需外界赋值的属性拎出来
 
 @interface JKAlertBaseTextContentView : JKAlertBaseView
@@ -82,7 +80,7 @@
 @property (nonatomic, copy) NSAttributedString *attributedMessage;
 
 /** multiBackgroundColor */
-@property (nonatomic, strong) JKAlertMultiColor *multiBackgroundColor;
+//@property (nonatomic, strong) UIColor *multiBackgroundColor;
 
 
 - (void)calculateUI NS_REQUIRES_SUPER;

@@ -75,7 +75,7 @@
     
     switch (action.alertActionStyle) {
         case JKAlertActionStyleCancel:
-            action.setTitleColor(JKAlertAdaptColor(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102)));
+            action.setTitleColor(JKAlertCheckDarkMode(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102)));
             break;
         case JKAlertActionStyleDestructive:
             action.setTitleColor(JKAlertSystemRedColor);
@@ -106,11 +106,11 @@
     
     _imageContentMode = UIViewContentModeScaleAspectFill;
     
-    _backgroundColor = JKAlertGlobalBackgroundColor();
-    _seletedBackgroundColor = JKAlertGlobalHighlightedBackgroundColor();
+    _backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
+    _seletedBackgroundColor = JKAlertCheckDarkMode(JKAlertGlobalHighlightedLightBackgroundColor(), JKAlertGlobalHighlightedDarkBackgroundColor());
     
     _titleFont = [UIFont systemFontOfSize:17];
-    _titleColor = JKAlertAdaptColor(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204));
+    _titleColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204));
 }
 
 /** 在这个block内自定义action的其它属性 */

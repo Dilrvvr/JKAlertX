@@ -24,6 +24,19 @@
 - (void)setAction:(JKAlertAction *)action {
     _action = action;
     
+    __weak typeof(self) weakSelf = self;
+    [action setRefreshAppearanceHandler:^(JKAlertAction *refreshAction) {
+        
+        if (refreshAction != weakSelf.action) { return; }
+        
+        [weakSelf refreshWithAction:refreshAction];
+    }];
+    
+    [self refreshWithAction:action];
+}
+
+- (void)refreshWithAction:(JKAlertAction *)action {
+    
     self.actionView.action = action;
     
     self.bottomLineView.hidden = action.separatorLineHidden;
@@ -57,7 +70,7 @@
 
 - (void)updateBottomLineColor {
     
-    self.bottomLineView.backgroundColor = JKAlertGlobalSeparatorLineColor();
+    self.bottomLineView.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
 }
 
 #pragma mark
@@ -114,7 +127,10 @@
     [self addSubview:bottomLineView];
     _bottomLineView = bottomLineView;
     
-    [self updateBottomLineColor];
+    [JKAlertThemeProvider providerWithOwner:self.bottomLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+    }];
 }
 
 /** 布局UI 交给子类重写 super自动调用该方法 */

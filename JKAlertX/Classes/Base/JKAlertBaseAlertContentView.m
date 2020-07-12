@@ -62,24 +62,7 @@
 #pragma mark
 #pragma mark - Private Methods
 
-// TODO: JKTODO <#注释#>
-//- (void)updateLightModetUI {
-//    [super updateLightModetUI];
-//
-//    if (!self.backgroundEffectView.hidden) {
-//
-//        [self.backgroundEffectView setEffect:self.lightBlurEffect];
-//    }
-//}
-//
-//- (void)updateDarkModeUI {
-//    [super updateDarkModeUI];
-//
-//    if (!self.backgroundEffectView.hidden) {
-//
-//        [self.backgroundEffectView setEffect:self.darkBlurEffect];
-//    }
-//}
+
 
 #pragma mark
 #pragma mark - Private Selector
@@ -100,9 +83,9 @@
     
     _cornerRadius = 10;
     
-    _darkBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    _darkModeBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     
-    _lightBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+    _lightModeBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -127,7 +110,8 @@
 /** 初始化UI数据 */
 - (void)initializeUIData {
     [super initializeUIData];
-    
+
+    [self.backgroundEffectView setEffect:JKAlertCheckDarkMode(self.lightModeBlurEffect, self.darkModeBlurEffect)];
 }
 
 #pragma mark

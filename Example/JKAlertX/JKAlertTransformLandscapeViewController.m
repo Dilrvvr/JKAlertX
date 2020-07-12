@@ -316,8 +316,7 @@
             
             return [UIView new];
             
-            // TODO: JKTODO <#注释#>
-        }).alertView.resetMessage(@"message已更新");//.makeMessageColor([JKAlertMultiColor colorWithSameColor:[UIColor redColor]]).relayout(YES);
+        }).alertView.resetMessage(@"message已更新").makeMessageColor([UIColor redColor]).relayout(YES);
         
     }].setAutoDismiss(NO)];
     

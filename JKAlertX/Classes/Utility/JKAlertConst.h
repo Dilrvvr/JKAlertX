@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+// TODO: JKTODO <#注释#>
+#import "JKAlertTheme.h"
 
 #pragma mark
 #pragma mark - 协议
@@ -188,22 +190,40 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 #pragma mark - 函数
 
 /// 判断黑暗模式获取其中一个对象
-id JKAlertJudgeDarkMode (id <UITraitEnvironment> environment, id light, id dark);
+//id JKAlertJudgeDarkMode (id <UITraitEnvironment> environment, id light, id dark);
 
 /// 颜色适配
-UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor);
+//UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor);
 
 /// 全局背景色
-UIColor * JKAlertGlobalBackgroundColor (void);
+//UIColor * JKAlertGlobalBackgroundColor (void);
+
+/// 全局背景色 浅色模式
+UIColor * JKAlertGlobalLightBackgroundColor (void);
+
+/// 全局背景色 深色模式
+UIColor * JKAlertGlobalDarkBackgroundColor (void);
 
 /// 全局分隔线粗细
 CGFloat JKAlertGlobalSeparatorLineThickness (void);
 
 /// 全局高亮背景色
-UIColor * JKAlertGlobalHighlightedBackgroundColor (void);
+//UIColor * JKAlertGlobalHighlightedBackgroundColor (void);
+
+/// 全局高亮背景色 浅色模式
+UIColor * JKAlertGlobalHighlightedLightBackgroundColor (void);
+
+/// 全局高亮背景色 深色模式
+UIColor * JKAlertGlobalHighlightedDarkBackgroundColor (void);
 
 /// 全局分隔线背景色
-UIColor * JKAlertGlobalSeparatorLineColor (void);
+//UIColor * JKAlertGlobalSeparatorLineColor (void);
+
+/// 全局分隔线背景色 浅色模式
+UIColor * JKAlertGlobalSeparatorLineLightColor (void);
+
+/// 全局分隔线背景色 深色模式
+UIColor * JKAlertGlobalSeparatorLineDarkColor (void);
 
 /// 是否X设备
 BOOL JKAlertIsDeviceX (void);

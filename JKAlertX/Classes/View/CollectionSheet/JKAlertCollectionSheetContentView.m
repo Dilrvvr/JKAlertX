@@ -117,6 +117,24 @@
     [self registerCellClass];
 }
 
+- (void)setIsPierced:(BOOL)isPierced {
+    _isPierced = isPierced;
+    
+    [self updatePiercedColor];
+}
+
+- (void)setTextContentBackgroundColor:(UIColor *)textContentBackgroundColor {
+    _textContentBackgroundColor = textContentBackgroundColor;
+    
+    [self updateTopBackGroundColor];
+}
+
+- (void)setPiercedBackgroundColor:(UIColor *)piercedBackgroundColor {
+    _piercedBackgroundColor = piercedBackgroundColor;
+    
+    [self updatePiercedColor];
+}
+
 #pragma mark
 #pragma mark - Override
 
@@ -555,31 +573,6 @@
     }
 }
 
-// TODO: JKTODO <#注释#>
-//- (void)updateLightModetUI {
-//    [super updateLightModetUI];
-//
-//    self.titleSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-//
-//    self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().lightColor;
-//
-//    self.topContainerView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.lightColor;
-//
-//    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.lightColor: nil;
-//}
-//
-//- (void)updateDarkModeUI {
-//    [super updateDarkModeUI];
-//
-//    self.titleSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-//
-//    self.collectionSeparatorLineView.backgroundColor = JKAlertGlobalSeparatorLineMultiColor().darkColor;
-//
-//    self.topContainerView.backgroundColor = self.isPierced ? nil: self.textContentBackgroundColor.darkColor;
-//
-//    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor.darkColor: nil;
-//}
-
 #pragma mark
 #pragma mark - Private Selector
 
@@ -892,8 +885,7 @@
     
     _cellClassName = NSStringFromClass([JKAlertCollectionViewCell class]);
     
-    // TODO: JKTODO <#注释#>
-    //_textContentBackgroundColor = JKAlertGlobalMultiBackgroundColor();
+    _textContentBackgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
     
     // TODO: JKTODO <#注释#>
     _actionButtonPinned = NO;
@@ -959,10 +951,35 @@
     self.collectionButton.layer.masksToBounds = YES;
     self.cancelButton.layer.masksToBounds = YES;
     
-    // TODO: JKTODO delete
+    [JKAlertThemeProvider providerWithOwner:self.titleSeparatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
+        
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+    }];
     
-//    self.collectionView.backgroundColor = [[UIColor orangeColor] colorWithAlphaComponent:0.5];
-//    self.collectionView2.backgroundColor = [[UIColor orangeColor] colorWithAlphaComponent:0.5];
+    [JKAlertThemeProvider providerWithOwner:self.collectionSeparatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
+        
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+    }];
+    
+    [self updateTopBackGroundColor];
+}
+
+- (void)updateTopBackGroundColor {
+    
+    self.topContainerView.backgroundColor = self.isPierced ? nil : self.textContentBackgroundColor;
+    
+    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor : nil;
+}
+
+- (void)updatePiercedColor {
+    
+    [self updateTopBackGroundColor];
+    
+    self.cancelAction.isPierced = self.isPierced;
+    self.cancelAction.piercedBackgroundColor = self.piercedBackgroundColor;
+    
+    self.collectionAction.isPierced = self.isPierced;
+    self.collectionAction.piercedBackgroundColor = self.piercedBackgroundColor;
 }
 
 - (void)registerCellClass {
@@ -1006,8 +1023,8 @@
     if (!_pageControl) {
         UIPageControl *pageControl = [[UIPageControl alloc] init];
         pageControl.backgroundColor = nil;
-        pageControl.pageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
-        pageControl.currentPageIndicatorTintColor = JKAlertAdaptColor(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
+        pageControl.pageIndicatorTintColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+        pageControl.currentPageIndicatorTintColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
         pageControl.userInteractionEnabled = NO;
         [self.topContentView.scrollContentView addSubview:pageControl];
         _pageControl = pageControl;

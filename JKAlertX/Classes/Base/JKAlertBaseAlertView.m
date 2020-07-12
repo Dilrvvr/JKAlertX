@@ -36,6 +36,12 @@
     }
 }
 
+- (void)setFullBackgroundColor:(UIColor *)fullBackgroundColor {
+    _fullBackgroundColor = fullBackgroundColor;
+    
+    self.backgroundView.backgroundColor = fullBackgroundColor;
+}
+
 #pragma mark
 #pragma mark - Override
 
@@ -46,8 +52,7 @@
 
 - (void)restoreFullBackgroundColor {
     
-    // TODO: JKTODO <#注释#>
-    //self.multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
+    self.fullBackgroundColor = JKAlertCheckDarkMode([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
 }
 
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
@@ -114,8 +119,7 @@
 - (void)initializeProperty{
     [super initializeProperty];
     
-    // TODO: JKTODO <#注释#>
-    //_multiBackgroundColor = [JKAlertMultiColor colorWithLightColor:[[UIColor blackColor] colorWithAlphaComponent:0.4] darkColor:[[UIColor whiteColor] colorWithAlphaComponent:0.2]];
+    _fullBackgroundColor = JKAlertCheckDarkMode([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -147,6 +151,7 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
+    self.backgroundView.backgroundColor = self.fullBackgroundColor;
 }
 
 #pragma mark

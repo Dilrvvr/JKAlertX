@@ -402,8 +402,12 @@
         
         topGestureLineView.userInteractionEnabled = NO;
         topGestureLineView.layer.cornerRadius = 2;
-        topGestureLineView.backgroundColor = JKAlertAdaptColor(JKAlertSameRGBColor(208), JKAlertSameRGBColor(47));
         [topGestureIndicatorView addSubview:topGestureLineView];
+        
+        [JKAlertThemeProvider providerWithOwner:topGestureLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+            
+            providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(208), JKAlertSameRGBColor(47));
+        }];
         
         _topGestureLineView = topGestureLineView;
     }

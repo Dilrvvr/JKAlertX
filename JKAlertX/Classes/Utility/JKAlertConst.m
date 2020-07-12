@@ -57,65 +57,89 @@ CGFloat    const JKAlertTopGestureIndicatorLineHeight = 4.0;
 #pragma mark - 函数
 
 /// 判断黑暗模式获取其中一个对象
-id JKAlertJudgeDarkMode (id <UITraitEnvironment> environment, id light, id dark) {
-    
-    if (!environment.traitCollection) { return light; }
-    
-    if (@available(iOS 13.0, *)) {
-        
-        BOOL isDark = (UIUserInterfaceStyleDark == [environment.traitCollection userInterfaceStyle]);
-        
-        return isDark ? dark : light;
-    }
-    
-    return light;
-}
+//id JKAlertJudgeDarkMode (id <UITraitEnvironment> environment, id light, id dark) {
+//    
+//    if (!environment.traitCollection) { return light; }
+//    
+//    if (@available(iOS 13.0, *)) {
+//        
+//        BOOL isDark = (UIUserInterfaceStyleDark == [environment.traitCollection userInterfaceStyle]);
+//        
+//        return isDark ? dark : light;
+//    }
+//    
+//    return light;
+//}
 
 /// 颜色适配
-UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor) {
-    
-    if (@available(iOS 13.0, *)) {
-        
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            
-            if (UIUserInterfaceStyleDark == [traitCollection userInterfaceStyle]) {
-                
-                return darkColor;
-            }
-
-            return lightColor;
-        }];
-        
-    } else {
-        
-        return lightColor;
-    }
-}
+//UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor) {
+//
+//    if (@available(iOS 13.0, *)) {
+//
+//        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//
+//            if (UIUserInterfaceStyleDark == [traitCollection userInterfaceStyle]) {
+//
+//                return darkColor;
+//            }
+//
+//            return lightColor;
+//        }];
+//
+//    } else {
+//
+//        return lightColor;
+//    }
+//}
 
 /// 全局背景色
-UIColor * JKAlertGlobalBackgroundColor (void) {
+//UIColor * JKAlertGlobalBackgroundColor (void) {
+//    
+//    static UIColor *GlobalBackgroundColor_ = nil;
+//    
+//    if (!GlobalBackgroundColor_) {
+//        
+//        GlobalBackgroundColor_ = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(247.0, 0.7), JKAlertSameRGBColorAlpha(8.0, 0.7));
+//    }
+//    
+//    return GlobalBackgroundColor_;
+//}
+
+/// 全局背景色 浅色模式
+UIColor * JKAlertGlobalLightBackgroundColor (void) {
     
-    static UIColor *GlobalBackgroundColor_ = nil;
+    return JKAlertSameRGBColorAlpha(247.0, 0.7);
+}
+
+/// 全局背景色 深色模式
+UIColor * JKAlertGlobalDarkBackgroundColor (void) {
     
-    if (!GlobalBackgroundColor_) {
-        
-        GlobalBackgroundColor_ = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(247.0, 0.7), JKAlertSameRGBColorAlpha(8.0, 0.7));
-    }
-    
-    return GlobalBackgroundColor_;
+    return JKAlertSameRGBColorAlpha(8.0, 0.7);
 }
 
 /// 全局高亮背景色
-UIColor * JKAlertGlobalHighlightedBackgroundColor (void) {
+//UIColor * JKAlertGlobalHighlightedBackgroundColor (void) {
+//
+//    static UIColor *HighlightedBackgroundColor_ = nil;
+//
+//    if (!HighlightedBackgroundColor_) {
+//
+//        HighlightedBackgroundColor_ = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(8.0, 0.05), JKAlertSameRGBColorAlpha(247.0, 0.05));
+//    }
+//
+//    return HighlightedBackgroundColor_;
+//}
+
+/// 全局高亮背景色 浅色模式
+UIColor * JKAlertGlobalHighlightedLightBackgroundColor (void) {
     
-    static UIColor *HighlightedBackgroundColor_ = nil;
+    return JKAlertSameRGBColorAlpha(8.0, 0.05);
+}
+
+/// 全局高亮背景色 深色模式
+UIColor * JKAlertGlobalHighlightedDarkBackgroundColor (void) {
     
-    if (!HighlightedBackgroundColor_) {
-        
-        HighlightedBackgroundColor_ = JKAlertAdaptColor(JKAlertSameRGBColorAlpha(8.0, 0.05), JKAlertSameRGBColorAlpha(247.0, 0.05));
-    }
-    
-    return HighlightedBackgroundColor_;
+    return JKAlertSameRGBColorAlpha(247.0, 0.05);
 }
 
 /// 全局分隔线粗细
@@ -132,16 +156,28 @@ CGFloat JKAlertGlobalSeparatorLineThickness (void) {
 }
 
 /// 全局分隔线背景色
-UIColor * JKAlertGlobalSeparatorLineColor (void) {
+//UIColor * JKAlertGlobalSeparatorLineColor (void) {
+//
+//    static UIColor *SeparatorLineColor_ = nil;
+//
+//    if (!SeparatorLineColor_) {
+//
+//        SeparatorLineColor_ = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);//JKAlertAdaptColor(JKAlertSameRGBColor(217.0), JKAlertSameRGBColor(53.0));
+//    }
+//
+//    return SeparatorLineColor_;
+//}
+
+/// 全局分隔线背景色 浅色模式
+UIColor * JKAlertGlobalSeparatorLineLightColor (void) {
     
-    static UIColor *SeparatorLineColor_ = nil;
+    return [[UIColor blackColor] colorWithAlphaComponent:0.2];
+}
+
+/// 全局分隔线背景色 深色模式
+UIColor * JKAlertGlobalSeparatorLineDarkColor (void) {
     
-    if (!SeparatorLineColor_) {
-        
-        SeparatorLineColor_ = JKAlertAdaptColor([[UIColor blackColor] colorWithAlphaComponent:0.2], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);//JKAlertAdaptColor(JKAlertSameRGBColor(217.0), JKAlertSameRGBColor(53.0));
-    }
-    
-    return SeparatorLineColor_;
+    return [[UIColor whiteColor] colorWithAlphaComponent:0.2];
 }
 
 /// 是否X设备

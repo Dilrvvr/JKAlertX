@@ -42,6 +42,8 @@
     [self.customView removeFromSuperview];
     self.customView = nil;
     
+    [self updateAppearanceWithAction:action];
+    
     if (action.customView) {
         
         self.containerView.hidden = YES;
@@ -122,41 +124,23 @@
 #pragma mark
 #pragma mark - Private Methods
 
-// TODO: JKTODO <#注释#>
-
-//- (void)updateLightModetUI {
-//    [super updateLightModetUI];
-//
-//    if (self.action.isPierced) {
-//
-//        self.backgroundView.backgroundColor = self.action.multiPiercedBackgroundColor.lightColor;
-//        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.lightColor;
-//
-//    } else {
-//
-//        self.backgroundView.backgroundColor = self.action.multiBackgroundColor.lightColor;
-//        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.lightColor;
-//    }
-//
-//    self.titleLabel.textColor = self.action.multiTitleColor.lightColor;
-//}
-//
-//- (void)updateDarkModeUI {
-//    [super updateDarkModeUI];
-//
-//    if (self.action.isPierced) {
-//
-//        self.backgroundView.backgroundColor = self.action.multiPiercedBackgroundColor.darkColor;
-//        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.darkColor;
-//
-//    } else {
-//
-//        self.backgroundView.backgroundColor = self.action.multiBackgroundColor.darkColor;
-//        self.selectedBackgroundView.backgroundColor = self.action.seletedMultiBackgroundColor.darkColor;
-//    }
-//
-//    self.titleLabel.textColor = self.action.multiTitleColor.darkColor;
-//}
+- (void)updateAppearanceWithAction:(JKAlertAction *)action {
+    
+    if (!action) { return; }
+    
+    if (self.action.isPierced) {
+        
+        self.backgroundView.backgroundColor = action.piercedBackgroundColor;
+        self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
+        
+    } else {
+        
+        self.backgroundView.backgroundColor = action.backgroundColor;
+        self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
+    }
+    
+    self.titleLabel.textColor = action.titleColor;
+}
 
 #pragma mark
 #pragma mark - Private Selector

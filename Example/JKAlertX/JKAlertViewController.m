@@ -119,6 +119,14 @@
         
     }]];
     
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefaultBlue) handler:^(JKAlertAction *action) {
+        
+    }]];
+    
+    [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefaultBlue) handler:^(JKAlertAction *action) {
+        
+    }]];
+    
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
@@ -325,9 +333,18 @@
         [containerView JKAlertX_clipRoundWithRadius:10 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
     });
     
-    // TODO: JKTODO <#注释#>
-    // 类似系统样式
-    //alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO).makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
+    alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO);
+    
+    alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
+    
+//    [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
+//
+//        // TODO: JKTODO 111
+//
+//        // 类似系统样式
+//        providerOwner.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
+//    }];
+    
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
