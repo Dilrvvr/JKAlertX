@@ -546,17 +546,17 @@
     self.clipsToBounds = YES;
     self.layer.cornerRadius = self.cornerRadius;
     
-    [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+    [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
     }];
     
-    [JKAlertThemeProvider providerWithOwner:self.verticalSeparatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+    [JKAlertThemeProvider providerWithOwner:self.verticalSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
     }];
     
-    [JKAlertThemeProvider providerWithOwner:self handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainContentView *providerOwner) {
+    [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainContentView *providerOwner) {
         
         // TODO: JKTODO <#注释#>
         providerOwner.textFieldContainerView.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());

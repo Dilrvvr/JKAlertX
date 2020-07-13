@@ -404,7 +404,7 @@
         topGestureLineView.layer.cornerRadius = 2;
         [topGestureIndicatorView addSubview:topGestureLineView];
         
-        [JKAlertThemeProvider providerWithOwner:topGestureLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+        [JKAlertThemeProvider providerWithOwner:topGestureLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
             
             providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(208), JKAlertSameRGBColor(47));
         }];

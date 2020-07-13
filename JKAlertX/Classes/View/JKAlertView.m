@@ -827,7 +827,7 @@
     tf.font = [UIFont systemFontOfSize:13];
     
     // TODO: JKTODO <#注释#>
-    [JKAlertThemeProvider providerWithOwner:tf handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UITextField *providerOwner) {
+    [JKAlertThemeProvider providerWithOwner:tf handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UITextField *providerOwner) {
 
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
     }];

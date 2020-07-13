@@ -951,12 +951,12 @@
     self.collectionButton.layer.masksToBounds = YES;
     self.cancelButton.layer.masksToBounds = YES;
     
-    [JKAlertThemeProvider providerWithOwner:self.titleSeparatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
+    [JKAlertThemeProvider providerWithOwner:self.titleSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
     }];
     
-    [JKAlertThemeProvider providerWithOwner:self.collectionSeparatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
+    [JKAlertThemeProvider providerWithOwner:self.collectionSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
     }];

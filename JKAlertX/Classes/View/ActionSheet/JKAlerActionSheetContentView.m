@@ -838,7 +838,7 @@
     
     [self updateTopContentBackgroundColor];
     
-    [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlerActionSheetContentView *providerOwner) {
+    [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlerActionSheetContentView *providerOwner) {
 
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
     }];

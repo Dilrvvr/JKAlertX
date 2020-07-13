@@ -56,22 +56,17 @@
     
     [self.actionView setHighlighted:highlighted];
     
-    [self updateBottomLineColor];
+    [self.bottomLineView.jkalert_themeProvider executeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     
-    [self updateBottomLineColor];
+    [self.bottomLineView.jkalert_themeProvider executeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
 }
 
 #pragma mark
 #pragma mark - Private Methods
-
-- (void)updateBottomLineColor {
-    
-    self.bottomLineView.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
-}
 
 #pragma mark
 #pragma mark - Private Selector
@@ -126,11 +121,6 @@
     UIView *bottomLineView = [[UIView alloc] init];
     [self addSubview:bottomLineView];
     _bottomLineView = bottomLineView;
-    
-    [JKAlertThemeProvider providerWithOwner:self.bottomLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
-
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
-    }];
 }
 
 /** 布局UI 交给子类重写 super自动调用该方法 */
@@ -150,7 +140,10 @@
     self.backgroundColor = nil;
     self.contentView.backgroundColor = nil;
     
-    [self updateBottomLineColor];
+    [JKAlertThemeProvider providerWithOwner:self.bottomLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+    }];
 }
 
 #pragma mark
