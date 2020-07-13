@@ -107,9 +107,25 @@
 }
 
 /**
+ * 根据key获取某一handler
+ */
+- (JKAlertThemeProvideHandler)provideHandlerForKey:(NSString *)key {
+    
+    if (![key isKindOfClass:[NSString class]] ||
+        key.length <= 0) {
+        
+        return nil;
+    }
+    
+    JKAlertThemeProvideHandler handler = [self.handlerDictionary objectForKey:key];
+    
+    return handler;
+}
+
+/**
  * 根据key执行某一handler
  */
-- (void)executeProviderForKey:(NSString *)key {
+- (void)executeProvideHandlerForKey:(NSString *)key {
     
     if (![key isKindOfClass:[NSString class]] ||
         key.length <= 0) {

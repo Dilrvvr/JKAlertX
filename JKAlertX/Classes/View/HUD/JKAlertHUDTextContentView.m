@@ -88,7 +88,13 @@
 
 - (void)updateTitleTextColor {
     
-    self.titleTextColor = JKAlertCheckDarkMode(self.defaultDarkStyle ? [UIColor whiteColor] : [UIColor blackColor], self.defaultDarkStyle ? [UIColor blackColor] : [UIColor whiteColor]);
+    if ([self.titleTextView.textView.jkalert_themeProvider provideHandlerForKey:NSStringFromSelector(@selector(textColor))]) {
+        
+        [JKAlertThemeProvider providerWithOwner:self.titleTextView.textView handlerKey:NSStringFromSelector(@selector(textColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertTextView *providerOwner) {
+            
+            providerOwner.textColor = JKAlertCheckDarkMode(self.defaultDarkStyle ? [UIColor whiteColor] : [UIColor blackColor], self.defaultDarkStyle ? [UIColor blackColor] : [UIColor whiteColor]);
+        }];
+    }
 }
 
 #pragma mark

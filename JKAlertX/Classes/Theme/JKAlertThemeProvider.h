@@ -45,9 +45,14 @@ typedef void(^JKAlertThemeProvideHandler)(JKAlertThemeProvider *provider, id pro
 - (void)executeProviderAllHandler;
 
 /**
+ * 根据key获取某一handler
+ */
+- (JKAlertThemeProvideHandler)provideHandlerForKey:(NSString *)key;
+
+/**
  * 根据key执行某一handler
  */
-- (void)executeProviderForKey:(NSString *)key;
+- (void)executeProvideHandlerForKey:(NSString *)key;
 
 /**
  * 根据key移除handler

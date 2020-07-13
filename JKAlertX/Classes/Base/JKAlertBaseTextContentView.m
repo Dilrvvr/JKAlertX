@@ -82,18 +82,6 @@
     self.messageTextView.hidden = YES;
 }
 
-- (void)setTitleTextColor:(UIColor *)titleTextColor {
-    _titleTextColor = titleTextColor;
-    
-    self.titleTextView.textView.textColor = _titleTextColor;
-}
-
-- (void)setMessageTextColor:(UIColor *)messageTextColor {
-    _messageTextColor = messageTextColor;
-    
-    self.messageTextView.textView.textColor = messageTextColor;
-}
-
 - (void)updateTextViewProperty {
     
     self.titleTextView.textView.text = nil;
@@ -321,9 +309,6 @@
     _titleInsets = UIEdgeInsetsMake(20, 20, 3.5, 20);
     _messageInsets = UIEdgeInsetsMake(3.5, 20, 20, 20);
     
-    _titleTextColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(89.25), JKAlertSameRGBColor(165.75));
-    _messageTextColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(76.5), JKAlertSameRGBColor(178.5));
-    
     _singleMinHeight = 30;
 }
 
@@ -349,8 +334,15 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
-    self.titleTextView.textView.textColor = self.titleTextColor;
-    self.messageTextView.textView.textColor = self.messageTextColor;
+    [JKAlertThemeProvider providerWithOwner:self.titleTextView.textView handlerKey:NSStringFromSelector(@selector(textColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertTextView *providerOwner) {
+        
+        providerOwner.textColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(89.25), JKAlertSameRGBColor(165.75));
+    }];
+    
+    [JKAlertThemeProvider providerWithOwner:self.messageTextView.textView handlerKey:NSStringFromSelector(@selector(textColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertTextView *providerOwner) {
+        
+        providerOwner.textColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(76.5), JKAlertSameRGBColor(178.5));
+    }];
 }
 
 #pragma mark

@@ -44,9 +44,7 @@
 /** 初始化自身属性 */
 - (void)initializeProperty {
     [super initializeProperty];
-
-    self.titleTextColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(25.5), JKAlertSameRGBColor(229.5));
-    self.messageTextColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(140.25), JKAlertSameRGBColor(114.75));
+    
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -73,6 +71,16 @@
     
     self.titleTextView.textView.font = [UIFont boldSystemFontOfSize:17];
     self.messageTextView.textView.font = [UIFont systemFontOfSize:14];
+    
+    [JKAlertThemeProvider providerWithOwner:self.titleTextView.textView handlerKey:NSStringFromSelector(@selector(textColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertTextView *providerOwner) {
+        
+        providerOwner.textColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(25.5), JKAlertSameRGBColor(229.5));
+    }];
+    
+    [JKAlertThemeProvider providerWithOwner:self.messageTextView.textView handlerKey:NSStringFromSelector(@selector(textColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertTextView *providerOwner) {
+        
+        providerOwner.textColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(140.25), JKAlertSameRGBColor(114.75));
+    }];
 }
 
 #pragma mark
