@@ -966,6 +966,8 @@
 
 - (void)updateTopBackGroundColor {
     
+    // TODO: JKTODO <#注释#>
+    
     self.topContainerView.backgroundColor = self.isPierced ? nil : self.textContentBackgroundColor;
     
     self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor : nil;
