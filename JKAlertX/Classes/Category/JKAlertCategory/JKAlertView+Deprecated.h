@@ -303,7 +303,7 @@
  * 请将该自定义view视为容器view，推荐使用自动布局在其上约束子控件
  * isClearContainerBackgroundColor : 是否让其容器视图透明
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)) JKAlertXDeprecated("use makeActionSheetCustomTitleView & makeActionSheetTitleBackgroundColor");
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomActionSheetTitleView)(BOOL isClearContainerBackgroundColor, UIView *(^customView)(void)) JKAlertXDeprecated("use makeActionSheetCustomTitleView & makeActionSheetTopBackgroundColor");
 
 /** 设置sheet样式最大高度 默认屏幕高度 * 0.85 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setSheetMaxHeight)(CGFloat height) JKAlertXDeprecated("use makeActionSheetMaxHeight");

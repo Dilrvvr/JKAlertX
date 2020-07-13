@@ -45,23 +45,13 @@
 - (void)setIsPierced:(BOOL)isPierced {
     _isPierced = isPierced;
     
-    [self updateTopContentBackgroundColor];
-    
     [self updatePiercedBackgroundColor];
 }
 
 - (void)setPiercedBackgroundColor:(UIColor *)piercedBackgroundColor {
     _piercedBackgroundColor = piercedBackgroundColor;
     
-    [self updateTopContentBackgroundColor];
-    
     [self updatePiercedBackgroundColor];
-}
-
-- (void)setTitleBackgroundColor:(UIColor *)titleBackgroundColor {
-    _titleBackgroundColor = titleBackgroundColor;
-    
-    [self updateTopContentBackgroundColor];
 }
 
 - (void)calculateUI {
@@ -782,8 +772,6 @@
     _fillHomeIndicator = YES;
     
     _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
-    
-    _titleBackgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -836,17 +824,20 @@
     self.topContentView.layer.masksToBounds = YES;
     self.cancelButton.layer.masksToBounds = YES;
     
-    [self updateTopContentBackgroundColor];
-    
     [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlerActionSheetContentView *providerOwner) {
 
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
     }];
+    
+    [self restoreTopBackgroundColor];
 }
 
-- (void)updateTopContentBackgroundColor {
+- (void)restoreTopBackgroundColor {
     
-    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor : self.titleBackgroundColor;
+    [JKAlertThemeProvider providerWithOwner:self.topContentView.backgroundView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+        
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
+    }];
 }
 
 - (void)updatePiercedBackgroundColor {

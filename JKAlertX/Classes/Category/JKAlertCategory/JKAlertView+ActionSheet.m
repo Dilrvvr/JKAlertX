@@ -34,13 +34,15 @@
  * actionSheet样式title的背景色
  * 默认JKAlertGlobalMultiBackgroundColor()
  */
-- (JKAlertView *(^)(UIColor *color))makeActionSheetTitleBackgroundColor {
+- (JKAlertView *(^)(UIColor *color))makeActionSheetTopBackgroundColor {
     
     return ^(UIColor *color) {
         
         return [self checkActionSheetStyleHandler:^{
             
-            self.actionsheetContentView.titleBackgroundColor = color;
+            [self.actionsheetContentView.backgroundView.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
+            
+            self.actionsheetContentView.topContentView.backgroundView.backgroundColor = color;
         }];
     };
 }

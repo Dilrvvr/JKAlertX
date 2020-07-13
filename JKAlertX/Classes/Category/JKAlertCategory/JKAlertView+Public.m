@@ -268,9 +268,9 @@
     
     return ^(UIColor *textColor) {
         
-        self.currentTextContentView.titleTextView.textView.textColor = textColor;
-        
         [self.currentTextContentView.titleTextView.textView.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(textColor))];
+        
+        self.currentTextContentView.titleTextView.textView.textColor = textColor;
         
         return self;
     };
@@ -331,9 +331,9 @@
         
         if ([self checkHasMessageTextView]) {
             
-            self.currentTextContentView.messageTextView.textView.textColor = textColor;
-            
             [self.currentTextContentView.messageTextView.textView.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(textColor))];
+            
+            self.currentTextContentView.messageTextView.textView.textColor = textColor;
         }
         
         return self;

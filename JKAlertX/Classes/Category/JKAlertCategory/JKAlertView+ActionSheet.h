@@ -20,7 +20,7 @@
  * actionSheet样式title的背景色
  * 默认JKAlertGlobalMultiBackgroundColor()
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetTitleBackgroundColor)(UIColor *color);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetTopBackgroundColor)(UIColor *color);
 
 /**
  * actionSheet样式最大高度

@@ -81,12 +81,9 @@
         
         [JKAlertThemeProvider providerWithOwner:customizePropertyAction handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
             
-            providerOwner.titleColor = JKAlertCheckDarkMode([UIColor redColor], [UIColor greenColor]);
+            providerOwner.setTitleColor(JKAlertCheckDarkMode([UIColor redColor], [UIColor greenColor]));
             
-            if (providerOwner.alertView.superview) {
-                
-                providerOwner.alertView.relayout(NO);
-            }
+            !providerOwner.refreshAppearanceHandler ? : providerOwner.refreshAppearanceHandler(providerOwner);
         }];
     })];
     

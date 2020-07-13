@@ -12,6 +12,9 @@
 {
     CGFloat _rowHeight;
 }
+
+/** 样式 */
+@property (nonatomic, assign, readonly) JKAlertActionStyle alertActionStyle;
 @end
 
 @implementation JKAlertAction
@@ -75,19 +78,46 @@
     
     switch (action.alertActionStyle) {
         case JKAlertActionStyleCancel:
-            action.setTitleColor(JKAlertCheckDarkMode(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102)));
+            [JKAlertThemeProvider providerWithOwner:action handlerKey:NSStringFromSelector(@selector(titleColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
+                
+                providerOwner.titleColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102));
+            }];
             break;
         case JKAlertActionStyleDestructive:
-            action.setTitleColor(JKAlertSystemRedColor);
+            action.titleColor = JKAlertSystemRedColor;
             break;
         case JKAlertActionStyleDefaultBlue:
-            action.setTitleColor(JKAlertSystemBlueColor);
+            action.titleColor = JKAlertSystemBlueColor;
             break;
         default:
+            [JKAlertThemeProvider providerWithOwner:action handlerKey:NSStringFromSelector(@selector(titleColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
+                
+                providerOwner.titleColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204));
+            }];
             break;
     }
     
+    [JKAlertThemeProvider providerWithOwner:action handlerKey:NSStringFromSelector(@selector(refreshAppearanceHandler)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
+        
+        !providerOwner.refreshAppearanceHandler ? : providerOwner.refreshAppearanceHandler(providerOwner);
+    }];
+    
     return action;
+}
+
+- (void)setTitleColor:(UIColor *)titleColor {
+    _titleColor = titleColor;
+    
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
+    _backgroundColor = backgroundColor;
+    
+}
+
+- (void)setSeletedBackgroundColor:(UIColor *)seletedBackgroundColor {
+    _seletedBackgroundColor = seletedBackgroundColor;
+    
 }
 
 - (instancetype)init{
@@ -106,11 +136,17 @@
     
     _imageContentMode = UIViewContentModeScaleAspectFill;
     
-    _backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
-    _seletedBackgroundColor = JKAlertCheckDarkMode(JKAlertGlobalHighlightedLightBackgroundColor(), JKAlertGlobalHighlightedDarkBackgroundColor());
-    
     _titleFont = [UIFont systemFontOfSize:17];
-    _titleColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204));
+    
+    [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
+
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
+    }];
+    
+    [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(seletedBackgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
+        
+        providerOwner.seletedBackgroundColor = JKAlertCheckDarkMode(JKAlertGlobalHighlightedLightBackgroundColor(), JKAlertGlobalHighlightedDarkBackgroundColor());
+    }];
 }
 
 /** 在这个block内自定义action的其它属性 */
@@ -150,6 +186,8 @@
     
     return ^(UIColor *color) {
         
+        [self.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(titleColor))];
+        
         self.titleColor = color;
         
         return self;
@@ -174,6 +212,8 @@
     
     return ^(UIColor *backgroundColor) {
         
+        [self.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
+        
         self.backgroundColor = backgroundColor;
         
         return self;
@@ -187,6 +227,8 @@
 - (JKAlertAction *(^)(UIColor *seletedBackgroundColor))setSeletedBackgroundColor{
     
     return ^(UIColor *seletedBackgroundColor) {
+        
+        [self.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(seletedBackgroundColor))];
         
         self.seletedBackgroundColor = seletedBackgroundColor;
         

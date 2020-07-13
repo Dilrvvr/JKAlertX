@@ -51,9 +51,6 @@
  */
 @property (nonatomic, assign, readonly) BOOL isEmpty;
 
-/** 样式 */
-@property (nonatomic, assign, readonly) JKAlertActionStyle alertActionStyle;
-
 /** actionSheet样式cell高度 */
 @property (nonatomic, assign, readonly) CGFloat rowHeight;
 
@@ -61,7 +58,7 @@
 @property (nonatomic, assign) BOOL separatorLineHidden;
 
 /** titleColor 默认 RGB 51 */
-@property (nonatomic, strong) UIColor *titleColor;
+@property (nonatomic, strong, readonly) UIColor *titleColor;
 
 /** 设置titleColor 默认 RGB 51 */
 @property (nonatomic, copy, readonly) JKAlertAction *(^setTitleColor)(UIColor *color);
@@ -76,7 +73,7 @@
  * backgroundColor 默认JKAlertGlobalBackgroundColor()
  * 仅 actionSheet 与 collectionSheet的底部按钮 有效
  * */
-@property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong, readonly) UIColor *backgroundColor;
 
 /**
  * 设置backgroundColor 默认JKAlertGlobalBackgroundColor()
@@ -88,7 +85,7 @@
  * seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()
  * 仅 actionSheet 与 collectionSheet的底部按钮 有效
  * */
-@property (nonatomic, strong) UIColor *seletedBackgroundColor;
+@property (nonatomic, strong, readonly) UIColor *seletedBackgroundColor;
 
 /** isPierced */
 @property (nonatomic, assign) BOOL isPierced;

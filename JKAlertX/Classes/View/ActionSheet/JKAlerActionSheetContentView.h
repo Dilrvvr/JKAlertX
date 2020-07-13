@@ -18,9 +18,6 @@
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertActionSheetTextContentView *textContentView;
 
-/** titleBackgroundColor */
-@property (nonatomic, strong) UIColor *titleBackgroundColor;
-
 /** tableView */
 @property (nonatomic, weak, readonly) UITableView *tableView;
 
@@ -56,4 +53,6 @@
 
 /** piercedBackgroundColor */
 @property (nonatomic, strong) UIColor *piercedBackgroundColor;
+
+- (void)restoreTopBackgroundColor;
 @end

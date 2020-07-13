@@ -759,11 +759,17 @@
         
         if (isClearContainerBackgroundColor) {
             
-            self.makeActionSheetTitleBackgroundColor(nil);
+            self.makeActionSheetTopBackgroundColor(nil);
             
         } else {
             
-            [self restoreFullBackgroundColor];
+            // TODO: JKTODO <#注释#>
+            //[self restoreFullBackgroundColor];
+            
+            [self checkActionSheetStyleHandler:^{
+               
+                [self.actionsheetContentView restoreTopBackgroundColor];
+            }];
         }
         
         return self;
