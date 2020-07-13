@@ -18,8 +18,7 @@
     
     _defaultDarkStyle = defaultDarkStyle;
     
-    // TODO: JKTODO <#注释#>
-    [self updateTitleTextColor];
+    [self.titleTextView.textView.jkalert_themeProvider executeProvideHandlerForKey:NSStringFromSelector(@selector(textColor))];
 }
 
 #pragma mark

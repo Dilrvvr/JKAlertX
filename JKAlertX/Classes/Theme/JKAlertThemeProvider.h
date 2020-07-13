@@ -42,7 +42,7 @@ typedef void(^JKAlertThemeProvideHandler)(JKAlertThemeProvider *provider, id pro
 /**
  * 执行所有的handler
  */
-- (void)executeProviderAllHandler;
+- (void)executeAllProvideHandler;
 
 /**
  * 根据key获取某一handler

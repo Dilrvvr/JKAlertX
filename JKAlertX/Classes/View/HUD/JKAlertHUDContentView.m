@@ -28,9 +28,7 @@
     
     _defaultDarkStyle = defaultDarkStyle;
     
-    [self updateBlurEffect];
-    
-    [self.backgroundEffectView setEffect:JKAlertCheckDarkMode(self.lightModeBlurEffect, self.darkModeBlurEffect)];
+    [self.backgroundEffectView.jkalert_themeProvider executeProvideHandlerForKey:NSStringFromSelector(@selector(effect))];
     
     self.textContentView.defaultDarkStyle = defaultDarkStyle;
 }
@@ -68,13 +66,6 @@
     self.frame = rect;
 }
 
-- (void)updateBlurEffect {
-    
-    self.darkModeBlurEffect = self.defaultDarkStyle ? [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight] : [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    
-    self.lightModeBlurEffect = self.defaultDarkStyle ? [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark] : [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
-}
-
 #pragma mark
 #pragma mark - Private Selector
 
@@ -98,8 +89,6 @@
     [super initializeProperty];
     
     _defaultDarkStyle = YES;
-    
-    [self updateBlurEffect];
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -129,6 +118,12 @@
     
     self.clipsToBounds = YES;
     self.layer.cornerRadius = self.cornerRadius;
+    
+    __weak typeof(self) weakSelf = self;
+    [JKAlertThemeProvider providerWithOwner:self.backgroundEffectView handlerKey:NSStringFromSelector(@selector(effect)) provideHandler:^(JKAlertThemeProvider *provider, UIVisualEffectView *providerOwner) {
+
+        [providerOwner setEffect:JKAlertCheckDarkMode([UIBlurEffect effectWithStyle:(weakSelf.defaultDarkStyle ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight)], [UIBlurEffect effectWithStyle:(weakSelf.defaultDarkStyle ? UIBlurEffectStyleExtraLight : UIBlurEffectStyleDark)])];
+    }];
 }
 
 #pragma mark

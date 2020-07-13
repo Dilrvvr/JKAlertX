@@ -82,10 +82,6 @@
     [super initializeProperty];
     
     _cornerRadius = 10;
-    
-    _darkModeBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    
-    _lightModeBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -110,8 +106,11 @@
 /** 初始化UI数据 */
 - (void)initializeUIData {
     [super initializeUIData];
+    
+    [JKAlertThemeProvider providerWithOwner:self.backgroundEffectView handlerKey:NSStringFromSelector(@selector(effect)) provideHandler:^(JKAlertThemeProvider *provider, UIVisualEffectView *providerOwner) {
 
-    [self.backgroundEffectView setEffect:JKAlertCheckDarkMode(self.lightModeBlurEffect, self.darkModeBlurEffect)];
+        [providerOwner setEffect:JKAlertCheckDarkMode([UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight], [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark])];
+    }];
 }
 
 #pragma mark

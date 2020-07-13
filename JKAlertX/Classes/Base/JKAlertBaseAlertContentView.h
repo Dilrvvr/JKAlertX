@@ -54,12 +54,6 @@
 /** 富文本提示信息 */
 @property (nonatomic, copy) NSAttributedString *attributedMessage;
 
-/** lightModeBlurEffect */
-@property (nonatomic, strong) UIBlurEffect *lightModeBlurEffect;
-
-/** darkModeBlurEffect */
-@property (nonatomic, strong) UIBlurEffect *darkModeBlurEffect;
-
 /** 默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, strong) JKAlertAction *cancelAction;
 

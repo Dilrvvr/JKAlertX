@@ -98,7 +98,7 @@
 /**
  * 执行所有的handler
  */
-- (void)executeProviderAllHandler {
+- (void)executeAllProvideHandler {
     
     [self.handlerArray enumerateObjectsUsingBlock:^(JKAlertThemeProvideHandler _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
@@ -172,7 +172,7 @@
 
 - (void)themeDidChangeNotification:(NSNotification *)note {
     
-    [self executeProviderAllHandler];
+    [self executeAllProvideHandler];
 }
 
 - (void)setOwner:(id<JKAlertThemeProviderProtocol>)owner {
