@@ -16,9 +16,6 @@
 /** 最底层背景按钮 */
 @property (nonatomic, weak, readonly) UIButton *dismissButton;
 
-/** fullBackgroundColor */ // TODO: JKTODO <#注释#>
-@property (nonatomic, strong) UIColor *fullBackgroundColor;
-
 /** fullBackgroundView */
 @property (nonatomic, weak) UIView *fullBackgroundView;
 

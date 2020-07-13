@@ -153,7 +153,7 @@
             _currentAlertContentView = self.hudContentView;
             _currentTextContentView = self.hudContentView.textContentView;
             
-            self.fullBackgroundColor = nil;
+            self.makeFullBackgroundColor(nil);
         }
             break;
             

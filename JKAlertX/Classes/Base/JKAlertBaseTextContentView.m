@@ -383,6 +383,11 @@
         separatorLineView.hidden = YES;
         [self.contentView addSubview:separatorLineView];
         _separatorLineView = separatorLineView;
+        
+        [JKAlertThemeProvider providerWithOwner:separatorLineView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+            
+            providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+        }];
     }
     return _separatorLineView;
 }

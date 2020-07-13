@@ -36,12 +36,6 @@
     }
 }
 
-- (void)setFullBackgroundColor:(UIColor *)fullBackgroundColor {
-    _fullBackgroundColor = fullBackgroundColor;
-    
-    self.backgroundView.backgroundColor = fullBackgroundColor;
-}
-
 #pragma mark
 #pragma mark - Override
 
@@ -52,7 +46,10 @@
 
 - (void)restoreFullBackgroundColor {
     
-    self.fullBackgroundColor = JKAlertCheckDarkMode([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+    [JKAlertThemeProvider providerWithOwner:self.backgroundView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+        
+        providerOwner.backgroundColor = JKAlertCheckDarkMode([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
+    }];
 }
 
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
@@ -119,7 +116,6 @@
 - (void)initializeProperty{
     [super initializeProperty];
     
-    _fullBackgroundColor = JKAlertCheckDarkMode([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -151,13 +147,11 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
-    self.backgroundView.backgroundColor = self.fullBackgroundColor;
+    [self restoreFullBackgroundColor];
 }
 
 #pragma mark
 #pragma mark - Private Property
-
-
 
 
 

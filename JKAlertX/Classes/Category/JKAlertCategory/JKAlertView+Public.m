@@ -97,7 +97,9 @@
     
     return ^(UIColor *color) {
         
-        self.fullBackgroundColor = color;
+        [self.backgroundView.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
+        
+        self.backgroundView.backgroundColor = color;
         
         return self;
     };
