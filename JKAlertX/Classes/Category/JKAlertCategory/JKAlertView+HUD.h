@@ -22,12 +22,18 @@
 @interface JKAlertView (HUD)
 
 /**
- * plain样式宽度
+ * HUD样式是否默认深色样式
+ * 默认YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeHudDefaultDarkStyle)(BOOL defaultDarkStyle);
+
+/**
+ * HUD样式宽度
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeHudWidth)(CGFloat width);
 
 /**
- * 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO
+ * 是否自动缩小HUD样式的宽度以适应屏幕宽度 默认NO
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeHudAutoReduceWidth)(BOOL autoReduceWidth);
 
@@ -53,7 +59,7 @@
  * 展示完成后 移动HUD样式center
  * 仅在执行show之后有效
  * 正数表示向下/右偏移，负数表示向上/左偏移
- * rememberFinalPosition : 是否记住最终位置 YES将会累加 makePlainCenterOffset
+ * rememberFinalPosition : 是否记住最终位置 YES将会累加 makeHudCenterOffset
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeHudMoveCenterOffset)(CGPoint centerOffset, BOOL animated, BOOL rememberFinalPosition);
 @end

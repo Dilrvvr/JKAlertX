@@ -185,8 +185,6 @@
 
 - (void)dealloc {
     
-    // TODO: JKTODO delete
-    
     NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
 }
 

@@ -114,7 +114,6 @@
             
         } else {
             
-            // TODO: JKTODO <#注释#>
             [self restoreFullBackgroundColor];
         }
         
@@ -763,9 +762,6 @@
             
         } else {
             
-            // TODO: JKTODO <#注释#>
-            //[self restoreFullBackgroundColor];
-            
             [self checkActionSheetStyleHandler:^{
                
                 [self.actionsheetContentView restoreTopBackgroundColor];
@@ -815,7 +811,7 @@
     
     return ^(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) {
         
-        // TODO: JKTODO <#注释#>
+        // TODO: - JKTODO <#注释#>
         
         return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin)).makeActionSheetTopBackgroundColor(lightBackgroundColor);
         

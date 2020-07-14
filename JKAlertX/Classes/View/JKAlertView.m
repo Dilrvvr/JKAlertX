@@ -168,8 +168,7 @@
             
         case JKAlertStyleCollectionSheet:
         {
-            // TODO: JKTODO <#注释#>
-            //CancelMargin = 10;
+            self.collectionsheetContentView.cancelMargin = 10;
             
             _tapBlankDismiss = YES;
             
@@ -256,7 +255,7 @@
     
     [self updatePlainWidth];
     
-    // TODO: JKTODO <#注释#>
+    // TODO: - JKTODO <#注释#>
     
     self.plainContentView.actionArray = self.actions;
     self.plainContentView.textFieldArray = self.textFieldArr;
@@ -278,7 +277,7 @@
     [self updatePlainWidth];
     
     
-    // TODO: JKTODO <#注释#>
+    // TODO: - JKTODO <#注释#>
     self.hudContentView.contentWidth = PlainViewWidth;
     self.hudContentView.maxHeight = JKAlertPlainViewMaxH;
     [self.hudContentView calculateUI];
@@ -307,7 +306,7 @@
         contentWidth -= (self.actionsheetContentView.piercedInsets.left + self.actionsheetContentView.piercedInsets.right + self.actionsheetContentView.screenSafeInsets.left + self.actionsheetContentView.screenSafeInsets.right);
     }
     
-    // TODO: JKTODO <#注释#>
+    // TODO: - JKTODO <#注释#>
     self.actionsheetContentView.contentWidth = contentWidth;
     self.actionsheetContentView.maxHeight = JKAlertSheetMaxH;
     [self.actionsheetContentView calculateUI];
@@ -340,7 +339,7 @@
         contentWidth -= (self.collectionsheetContentView.piercedInsets.left + self.collectionsheetContentView.piercedInsets.right + self.collectionsheetContentView.screenSafeInsets.left + self.collectionsheetContentView.screenSafeInsets.right);
     }
     
-    // TODO: JKTODO <#注释#>
+    // TODO: - JKTODO <#注释#>
     self.collectionsheetContentView.contentWidth = contentWidth;
     self.collectionsheetContentView.maxHeight = JKAlertSheetMaxH;
     
@@ -440,7 +439,7 @@
     
     _customHUD = customHUD;
     
-    // TODO: JKTODO <#注释#>
+    // TODO: - JKTODO <#注释#>
     if (self.customHUD.frame.size.width <= 0) { return; }
     
     PlainViewWidth = self.customHUD.frame.size.width;
@@ -826,7 +825,7 @@
     tf.rightViewMode = UITextFieldViewModeAlways;
     tf.font = [UIFont systemFontOfSize:13];
     
-    // TODO: JKTODO <#注释#>
+    // TODO: - JKTODO <#注释#>
     [JKAlertThemeProvider providerWithOwner:tf handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UITextField *providerOwner) {
 
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
@@ -1367,7 +1366,7 @@
         
         if (self.isSheetDismissHorizontal) {
             
-            // TODO: JKTODO <#注释#>
+            // TODO: - JKTODO <#注释#>
             /*
              CGRect rect = _sheetContainerView.frame;
              rect.origin.x = JKAlertScreenW;
@@ -1542,8 +1541,6 @@
     }
     
     UIView *alertContentView = nil;
-    
-    // TODO: JKTODO <#注释#>
     
     switch (self.alertStyle) {
         case JKAlertStylePlain:

@@ -126,8 +126,6 @@
 
 - (void)dealloc {
     
-    // TODO: JKTODO delete
-    
     NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
 }
 
@@ -447,7 +445,7 @@
     
     self.pageControl.numberOfPages = ceil(((self.minimumLineSpacing + self.itemSize.width) * MAX(count, count2) - 5) / self.contentWidth);
     
-    // TODO: JKTODO <#注释#>
+    // TODO: - JKTODO <#注释#>
     CGFloat collectionHeight = self.itemSize.height;
     
     CGRect frame = CGRectMake(0, 0, self.contentWidth, collectionHeight);
@@ -871,9 +869,6 @@
     _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
     
     _cellClassName = NSStringFromClass([JKAlertCollectionViewCell class]);
-    
-    // TODO: JKTODO <#注释#>
-    _actionButtonPinned = NO;
 }
 
 /** 构造函数初始化时调用 注意调用super */

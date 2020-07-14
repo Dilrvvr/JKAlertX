@@ -128,7 +128,6 @@
     
     if (!action) { return; }
     
-    // TODO: - JKTODO <#注释#>
     self.backgroundView.backgroundColor = action.backgroundColor;
     self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
     

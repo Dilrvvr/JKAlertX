@@ -8,7 +8,7 @@
 #import "JKAlertBaseView.h"
 #import "JKAlertTextContainerView.h"
 
-// TODO: JKTODO 需外界赋值的属性拎出来
+// TODO: - JKTODO 需外界赋值的属性拎出来
 
 @interface JKAlertBaseTextContentView : JKAlertBaseView
 

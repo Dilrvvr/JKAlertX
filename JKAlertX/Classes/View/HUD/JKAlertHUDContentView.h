@@ -13,7 +13,7 @@
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertHUDTextContentView *textContentView;
 
-/** 默认深色样式 */ // TODO: JKTODO make
+/** 默认深色样式 */
 @property (nonatomic, assign) BOOL defaultDarkStyle;
 
 /**

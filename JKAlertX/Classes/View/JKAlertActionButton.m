@@ -39,7 +39,7 @@
     
     self.actionView.action = action;
     
-    // TODO: JKTODO <#注释#>
+    // TODO: - JKTODO <#注释#>
     self.backgroundColor = (action.isPierced ? action.backgroundColor : nil);
 }
 

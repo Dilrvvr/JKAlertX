@@ -574,7 +574,7 @@
  * 默认NO 仅限以下样式
  * JKAlertStyleActionSheet
  * JKAlertStyleCollectionSheet
- * JKAlertStyleNotification(: JKTODO)
+ * JKAlertStyleNotification(: - JKTODO)
  */
 - (JKAlertView *(^)(BOOL verticalEnabled, BOOL horizontalEnabled))makeGestureDismissEnabled {
     
@@ -818,7 +818,7 @@
 
 - (BOOL)checkHasMessageTextView {
     
-    // TODO: JKTODO 有messageTextView的在这里添加
+    // TODO: - JKTODO 有messageTextView的在这里添加
     
     return (JKAlertStylePlain == self.alertStyle ||
             JKAlertStyleActionSheet == self.alertStyle);

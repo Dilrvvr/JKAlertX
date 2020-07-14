@@ -25,8 +25,6 @@
 
 - (void)dealloc {
     
-    // TODO: JKTODO delete
-    
     NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
 }
 
@@ -354,7 +352,7 @@
     _showScaleAnimated = NO;
     
     
-    // TODO: JKTODO <#注释#>
+    // TODO: - JKTODO <#注释#>
     _verticalGestureDismissEnabled = YES;
     _horizontalGestureDismissEnabled = YES;
     _gestureIndicatorHidden = NO;

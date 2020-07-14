@@ -11,13 +11,29 @@
 
 @implementation JKAlertView (HUD)
 
+/**
+ * HUD样式是否默认深色样式
+ * 默认YES
+ */
+
+- (JKAlertView *(^)(BOOL defaultDarkStyle))makeHudDefaultDarkStyle {
+    
+    return ^(BOOL defaultDarkStyle) {
+        
+        return [self checkHudStyleHandler:^{
+            
+            self.hudContentView.defaultDarkStyle = defaultDarkStyle;
+        }];
+    };
+}
+
 - (JKAlertView *(^)(CGFloat width))makeHudWidth {
     
     return ^(CGFloat width) {
         
         return [self checkHudStyleHandler:^{
             
-            // TODO: JKTODO <#注释#>
+            // TODO: - JKTODO <#注释#>
             
             self->PlainViewWidth = width;
             self->OriginalPlainWidth = width;
@@ -28,7 +44,7 @@
 }
 
 /**
- * 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO
+ * 是否自动缩小HUD样式的宽度以适应屏幕宽度 默认NO
  */
 - (JKAlertView *(^)(BOOL autoReduceWidth))makeHudAutoReduceWidth {
     
@@ -36,7 +52,7 @@
         
         return [self checkHudStyleHandler:^{
             
-            // TODO: JKTODO <#注释#>
+            // TODO: - JKTODO <#注释#>
             
             self.autoReducePlainWidth = autoReduceWidth;
         }];
@@ -92,7 +108,7 @@
  * 展示完成后 移动HUD样式center
  * 仅在执行show之后有效
  * 正数表示向下/右偏移，负数表示向上/左偏移
- * rememberFinalPosition : 是否记住最终位置 YES将会累加 makePlainCenterOffset
+ * rememberFinalPosition : 是否记住最终位置 YES将会累加 makeHudCenterOffset
  */
 - (JKAlertView *(^)(CGPoint centerOffset, BOOL animated, BOOL rememberFinalPosition))makeHudMoveCenterOffset {
     

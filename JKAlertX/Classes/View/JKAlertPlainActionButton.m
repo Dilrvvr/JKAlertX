@@ -26,7 +26,6 @@
         [self addSubview:topSeparatorLineView];
         _topSeparatorLineView = topSeparatorLineView;
         
-        // TODO: JKTODO <#注释#>
         [JKAlertThemeProvider providerWithOwner:topSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
             
             providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());

@@ -17,7 +17,7 @@
         
         return [self checkPlainStyleHandler:^{
             
-            // TODO: JKTODO <#注释#>
+            // TODO: - JKTODO <#注释#>
             
             self->PlainViewWidth = width;
             self->OriginalPlainWidth = width;
@@ -36,7 +36,7 @@
         
         return [self checkPlainStyleHandler:^{
             
-            // TODO: JKTODO <#注释#>
+            // TODO: - JKTODO <#注释#>
             
             self.autoReducePlainWidth = autoReduceWidth;
         }];
