@@ -817,7 +817,7 @@
         
         // TODO: JKTODO <#注释#>
         
-        return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin), lightBackgroundColor);
+        return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin)).makeActionSheetTopBackgroundColor(lightBackgroundColor);
         
         //return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin), [JKAlertMultiColor colorWithLightColor:lightBackgroundColor darkColor:darkBackgroundColor]).makeCornerRadius(cornerRadius);
     };

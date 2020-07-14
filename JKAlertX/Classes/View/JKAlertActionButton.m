@@ -40,7 +40,7 @@
     self.actionView.action = action;
     
     // TODO: JKTODO <#注释#>
-    self.backgroundColor = (action.isPierced ? action.piercedBackgroundColor : nil);
+    self.backgroundColor = (action.isPierced ? action.backgroundColor : nil);
 }
 
 - (void)setHighlighted:(BOOL)highlighted {

@@ -15,6 +15,9 @@
 /** delegate */
 @property (nonatomic, weak) id <UIScrollViewDelegate> delegate;
 
+/** topContainerView */
+@property (nonatomic, weak, readonly) UIView *topContainerView;
+
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertCollectionSheetTextContentView *textContentView;
 
@@ -59,15 +62,6 @@
 
 /** 镂空效果间距 只取左右下 */
 @property (nonatomic, assign) UIEdgeInsets piercedInsets;
-
-/** 镂空整体圆角 */
-//@property (nonatomic, assign) CGFloat piercedCornerRadius;
-
-/** piercedBackgroundColor */
-@property (nonatomic, strong) UIColor *piercedBackgroundColor;
-
-/** textContentBackgroundColor */
-@property (nonatomic, strong) UIColor *textContentBackgroundColor;
 
 /** pageControl */
 @property (nonatomic, weak, readonly) UIPageControl *pageControl;

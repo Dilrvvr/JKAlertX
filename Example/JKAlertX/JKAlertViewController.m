@@ -332,24 +332,25 @@
     
     alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO);
     
-    alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
+    alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 15));
     
-//    [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
-//
-//        // TODO: JKTODO 111
-//
-//        // 类似系统样式
-//        providerOwner.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
-//    }];
+    [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
+        
+        providerOwner.makeActionSheetTopBackgroundColor(JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
+        
+        providerOwner.getCancelAction.setBackgroundColor(JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
+        
+        !providerOwner.getCancelAction.refreshAppearanceHandler ? : providerOwner.getCancelAction.refreshAppearanceHandler(providerOwner.getCancelAction);
+    }];
     
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"]).setBackgroundColor(nil)];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定2" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Facebook"])];
+    }].setNormalImage([UIImage imageNamed:@"Share_Facebook"]).setBackgroundColor(nil)];
     
     
     
@@ -381,7 +382,7 @@
             
         }).alertView.resetMessage(@"message已更新").makeMessageColor([UIColor redColor]).relayout(YES);
         
-    }].setAutoDismiss(NO)];
+    }].setBackgroundColor(nil).setAutoDismiss(NO)];
     
     //    alertView.setCancelAction([JKAlertAction actionWithTitle:@"cancel" style:(JKAlertActionStyleDestructive) handler:nil]);
     
@@ -405,11 +406,13 @@
 // use customSuperView
 - (IBAction)collectionSheet:(id)sender {
     
-    CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
+    CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) - 30) * 0.25;
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeBottomButtonMargin(10).makeCustomSuperView(self.view);
     
     //alertView.setCollectionTitleSeparatorHidden(NO);
+    
+    alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 15));
     
     alertView.makeCollectionSheetActionButtonPinned(YES).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
         
@@ -434,7 +437,7 @@
      return [UIView new];
      })); //*/
     
-    //alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 10), 10, [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
+    //alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 15), 10, [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
     
     ///* 第1组
     alertView.makeCollectionSheetAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
@@ -448,6 +451,22 @@
         }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([UIColor redColor]).makeBottomButtonMargin(0.25).relayout(YES);
         
     }].setAutoDismiss(NO)).makeCollectionSheetPageControlHidden(NO); //*/
+    
+    [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
+        
+        providerOwner.makeCollectionSheetTopBackgroundColor(JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
+        
+        providerOwner.getCancelAction.setBackgroundColor(JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
+        
+        !providerOwner.getCancelAction.refreshAppearanceHandler ? : providerOwner.getCancelAction.refreshAppearanceHandler(providerOwner.getCancelAction);
+        
+        if (providerOwner.getCollectionAction) {
+            
+            providerOwner.getCollectionAction.setBackgroundColor(JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
+            
+            !providerOwner.getCollectionAction.refreshAppearanceHandler ? : providerOwner.getCollectionAction.refreshAppearanceHandler(providerOwner.getCollectionAction);
+        }
+    }];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         

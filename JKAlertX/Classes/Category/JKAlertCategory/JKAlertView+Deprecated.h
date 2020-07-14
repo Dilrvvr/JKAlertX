@@ -326,7 +326,7 @@
  * 设置为YES后，setPinCancelButton将强制为YES
  * bottomMargin : 非X设备底部取消按钮距离底部的间距 默认为((JKAlertScreenW > 321) ? 7 : 5)
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setActionSheetPierced)(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) JKAlertXDeprecated("use makeActionSheetPierced");
+@property (nonatomic, copy, readonly) JKAlertView *(^setActionSheetPierced)(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) JKAlertXDeprecated("use makeActionSheetPierced & makeActionSheetTopBackgroundColor");
 
 #pragma mark
 #pragma mark - collection sheet样式

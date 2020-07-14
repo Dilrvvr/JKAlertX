@@ -45,13 +45,7 @@
 - (void)setIsPierced:(BOOL)isPierced {
     _isPierced = isPierced;
     
-    [self updatePiercedBackgroundColor];
-}
-
-- (void)setPiercedBackgroundColor:(UIColor *)piercedBackgroundColor {
-    _piercedBackgroundColor = piercedBackgroundColor;
-    
-    [self updatePiercedBackgroundColor];
+    [self updateIsPierced];
 }
 
 - (void)calculateUI {
@@ -437,7 +431,6 @@
 - (void)layoutCancelActionButton {
     
     self.cancelAction.isPierced = self.isPierced;
-    self.cancelAction.piercedBackgroundColor = self.piercedBackgroundColor;
     
     self.cancelButton.action = self.cancelAction;
     
@@ -840,10 +833,9 @@
     }];
 }
 
-- (void)updatePiercedBackgroundColor {
+- (void)updateIsPierced {
     
     self.cancelAction.isPierced = self.isPierced;
-    self.cancelAction.piercedBackgroundColor = self.piercedBackgroundColor;
 }
 
 - (void)registerCellClass {

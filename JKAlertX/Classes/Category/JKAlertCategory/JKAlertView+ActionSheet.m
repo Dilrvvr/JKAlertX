@@ -128,23 +128,20 @@
  * 类似UIAlertControllerStyleActionSheet效果
  * 设置为YES后，makeActionSheetCancelButtonPinned将强制为YES
  * piercedInsets : 整体左、右、下间距
- * piercedBackgroundColor : 整体背景
  */
-- (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets, UIColor *piercedBackgroundColor))makeActionSheetPierced {
+- (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets))makeActionSheetPierced {
     
-    return ^(BOOL isPierced, UIEdgeInsets piercedInsets, UIColor *piercedBackgroundColor) {
+    return ^(BOOL isPierced, UIEdgeInsets piercedInsets) {
         
         return [self checkActionSheetStyleHandler:^{
             
             self.actionsheetContentView.isPierced = isPierced;
             self.actionsheetContentView.piercedInsets = piercedInsets;
-            //self.actionsheetContentView.piercedCornerRadius = cornerRadius;
-            self.actionsheetContentView.piercedBackgroundColor = piercedBackgroundColor;
             
             [self.actions enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 
+                // TODO: - JKTODO <#注释#>
                 obj.isPierced = isPierced;
-                obj.piercedBackgroundColor = piercedBackgroundColor;
             }];
         }];
     };

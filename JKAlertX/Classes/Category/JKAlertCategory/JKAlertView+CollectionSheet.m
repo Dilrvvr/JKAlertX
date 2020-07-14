@@ -12,6 +12,23 @@
 @implementation JKAlertView (CollectionSheet)
 
 /**
+ * actionSheet样式title的背景色
+ * 默认JKAlertGlobalMultiBackgroundColor()
+ */
+- (JKAlertView *(^)(UIColor *color))makeCollectionSheetTopBackgroundColor {
+    
+    return ^(UIColor *color) {
+        
+        return [self checkCollectionSheetStyleHandler:^{
+            
+            [self.collectionsheetContentView.topContainerView.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
+            
+            self.collectionsheetContentView.topContainerView.backgroundColor = color;
+        }];
+    };
+}
+
+/**
  * collection的itemSize
  * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
  * 默认(76, 70)，建议高度是宽度-6
@@ -248,29 +265,26 @@
  * collectionSheet是否镂空
  * 设置为YES后，makeActionSheetCancelButtonPinned将强制为YES
  * piercedInsets : 整体左、右、下间距
- * piercedBackgroundColor : 整体背景
  */
-- (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets, UIColor *piercedBackgroundColor))makeCollectionSheetPierced {
+- (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets))makeCollectionSheetPierced {
     
-    return ^(BOOL isPierced, UIEdgeInsets piercedInsets, UIColor *piercedBackgroundColor) {
+    return ^(BOOL isPierced, UIEdgeInsets piercedInsets) {
         
         return [self checkCollectionSheetStyleHandler:^{
             
             self.collectionsheetContentView.isPierced = isPierced;
             self.collectionsheetContentView.piercedInsets = piercedInsets;
-            //self.collectionsheetContentView.piercedCornerRadius = cornerRadius;
-            self.collectionsheetContentView.piercedBackgroundColor = piercedBackgroundColor;
+            
+            // TODO: - JKTODO <#注释#>
             
             [self.actions enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 
                 obj.isPierced = isPierced;
-                obj.piercedBackgroundColor = piercedBackgroundColor;
             }];
             
             [self.actions2 enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 
                 obj.isPierced = isPierced;
-                obj.piercedBackgroundColor = piercedBackgroundColor;
             }];
         }];
     };

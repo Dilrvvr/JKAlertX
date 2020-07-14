@@ -10,6 +10,12 @@
 @interface JKAlertView (CollectionSheet)
 
 /**
+ * collection样式title的背景色
+ * 默认JKAlertGlobalMultiBackgroundColor()
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetTopBackgroundColor)(UIColor *color);
+
+/**
  * collection的itemSize
  * 注意图片的宽高是设置的宽度-30，即图片在cell中是左右各15的间距
  * 默认(76, 70)，建议高度是宽度-6
@@ -106,9 +112,8 @@
  * collectionSheet是否镂空
  * 设置为YES后，makeActionSheetCancelButtonPinned将强制为YES
  * piercedInsets : 整体左、右、下间距
- * piercedBackgroundColor : 整体背景
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPierced)(BOOL isPierced, UIEdgeInsets piercedInsets, UIColor *piercedBackgroundColor);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPierced)(BOOL isPierced, UIEdgeInsets piercedInsets);
 
 
 

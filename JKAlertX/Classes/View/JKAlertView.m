@@ -424,13 +424,13 @@
     
     if (JKAlertStyleActionSheet == self.alertStyle) {
         
+        // TODO: - JKTODO <#注释#>
         action.isPierced = self.actionsheetContentView.isPierced;
-        action.piercedBackgroundColor = self.actionsheetContentView.piercedBackgroundColor;
         
     } else if (JKAlertStyleCollectionSheet == self.alertStyle) {
         
+        // TODO: - JKTODO <#注释#>
         action.isPierced = self.collectionsheetContentView.isPierced;
-        action.piercedBackgroundColor = self.collectionsheetContentView.piercedBackgroundColor;
     }
 }
 

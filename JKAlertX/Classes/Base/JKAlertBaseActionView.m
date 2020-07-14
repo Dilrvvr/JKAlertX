@@ -128,16 +128,9 @@
     
     if (!action) { return; }
     
-    if (self.action.isPierced) {
-        
-        self.backgroundView.backgroundColor = action.piercedBackgroundColor;
-        self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
-        
-    } else {
-        
-        self.backgroundView.backgroundColor = action.backgroundColor;
-        self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
-    }
+    // TODO: - JKTODO <#注释#>
+    self.backgroundView.backgroundColor = action.backgroundColor;
+    self.selectedBackgroundView.backgroundColor = action.seletedBackgroundColor;
     
     self.titleLabel.textColor = action.titleColor;
 }

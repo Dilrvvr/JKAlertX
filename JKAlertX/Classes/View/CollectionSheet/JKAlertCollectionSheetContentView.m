@@ -18,9 +18,6 @@
     __weak UIPageControl *_pageControl;
 }
 
-/** topContainerView */
-@property (nonatomic, weak) UIView *topContainerView;
-
 /** flowlayout */
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowlayout;
 
@@ -120,19 +117,8 @@
 - (void)setIsPierced:(BOOL)isPierced {
     _isPierced = isPierced;
     
-    [self updatePiercedColor];
-}
-
-- (void)setTextContentBackgroundColor:(UIColor *)textContentBackgroundColor {
-    _textContentBackgroundColor = textContentBackgroundColor;
-    
-    [self updateTopBackGroundColor];
-}
-
-- (void)setPiercedBackgroundColor:(UIColor *)piercedBackgroundColor {
-    _piercedBackgroundColor = piercedBackgroundColor;
-    
-    [self updatePiercedColor];
+    self.cancelAction.isPierced = isPierced;
+    self.collectionAction.isPierced = isPierced;
 }
 
 #pragma mark
@@ -507,10 +493,8 @@
 - (void)layoutActionButton {
     
     self.cancelAction.isPierced = self.isPierced;
-    self.cancelAction.piercedBackgroundColor = self.piercedBackgroundColor;
     
     self.collectionAction.isPierced = self.isPierced;
-    self.collectionAction.piercedBackgroundColor = self.piercedBackgroundColor;
     
     self.cancelButton.action = self.cancelAction;
     
@@ -791,11 +775,13 @@
         
         scrollView.contentOffset = CGPointMake(-scrollView.contentInset.left, scrollView.contentOffset.y);
         
-    } else if (self.frame.origin.x > self.contentWidth - self.frame.size.width) {
+    } else if (self.frame.origin.x > self.correctFrame.origin.x + 0.1) {
         
         CGRect frame = self.frame;
         
         frame.origin.x -= (scrollView.contentOffset.x + scrollView.contentInset.left);
+        
+        frame.origin.x = (frame.origin.x < self.correctFrame.origin.x) ? self.correctFrame.origin.x : frame.origin.x;
         
         self.frame = frame;
         
@@ -812,7 +798,8 @@
     
     if (!self.verticalGestureDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
     
-    if (scrollView.contentOffset.y + scrollView.contentInset.top > 0) {
+    if (scrollView.contentOffset.y + scrollView.contentInset.top > 0 ||
+        scrollView.contentOffset.x + scrollView.contentInset.left > 0) {
         
         disableScrollToDismiss = YES;
         
@@ -884,8 +871,6 @@
     _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
     
     _cellClassName = NSStringFromClass([JKAlertCollectionViewCell class]);
-    
-    _textContentBackgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
     
     // TODO: JKTODO <#注释#>
     _actionButtonPinned = NO;
@@ -961,27 +946,10 @@
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
     }];
     
-    [self updateTopBackGroundColor];
-}
-
-- (void)updateTopBackGroundColor {
-    
-    // TODO: JKTODO <#注释#>
-    
-    self.topContainerView.backgroundColor = self.isPierced ? nil : self.textContentBackgroundColor;
-    
-    self.topContentView.backgroundView.backgroundColor = self.isPierced ? self.piercedBackgroundColor : nil;
-}
-
-- (void)updatePiercedColor {
-    
-    [self updateTopBackGroundColor];
-    
-    self.cancelAction.isPierced = self.isPierced;
-    self.cancelAction.piercedBackgroundColor = self.piercedBackgroundColor;
-    
-    self.collectionAction.isPierced = self.isPierced;
-    self.collectionAction.piercedBackgroundColor = self.piercedBackgroundColor;
+    [JKAlertThemeProvider providerWithOwner:self.topContainerView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+        
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
+    }];
 }
 
 - (void)registerCellClass {
@@ -1025,6 +993,7 @@
     if (!_pageControl) {
         UIPageControl *pageControl = [[UIPageControl alloc] init];
         pageControl.backgroundColor = nil;
+        // TODO: - JKTODO <#注释#>
         pageControl.pageIndicatorTintColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
         pageControl.currentPageIndicatorTintColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
         pageControl.userInteractionEnabled = NO;

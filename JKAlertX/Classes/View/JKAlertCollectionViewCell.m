@@ -163,7 +163,7 @@
 - (void)initializeUIData {
     
     // TODO: JKTODO delete
-    self.contentView.backgroundColor = [JKAlertRandomColor colorWithAlphaComponent:0.5];
+    //self.contentView.backgroundColor = [JKAlertRandomColor colorWithAlphaComponent:0.5];
 }
 
 #pragma mark
