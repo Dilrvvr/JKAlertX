@@ -211,7 +211,70 @@
     // customSuperView没有则默认keyWindow
     [self.customSuperView addSubview:self];
     
+    // TODO: - JKTODO delete
+    
+    UIButton *refreshButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
+    refreshButton.backgroundColor = [UIColor blackColor];
+    if (@available(iOS 13.0, *)) {
+        [refreshButton setTitle:[self themeStyleStringWithStyle:[JKAlertThemeManager sharedManager].themeStyle] forState:(UIControlStateNormal)];
+    }
+    [refreshButton setTitleColor:[UIColor brownColor] forState:(UIControlStateNormal)];
+    [self addSubview:refreshButton];
+    
+    NSString *verticalFormat = [NSString stringWithFormat:@"V:|-%.0f-[view(50)]", JKAlertIsDeviceX() ? 50.0 : 25.0];
+    
+    [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:verticalFormat viewKeyName:@"view" targetView:refreshButton constraintsView:self];
+    
+    [refreshButton addTarget:self action:@selector(refreshButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    
     return ^{ return self; };
+}
+
+- (NSString *)themeStyleStringWithStyle:(JKAlertThemeStyle)themeStyle {
+    // TODO: - JKTODO delete
+    
+    switch (themeStyle) {
+        case JKAlertThemeStyleSystem:
+            return @"JKAlertThemeStyleSystem";
+            break;
+        case JKAlertThemeStyleLight:
+            return @"JKAlertThemeStyleLight";
+            break;
+        case JKAlertThemeStyleDark:
+            return @"JKAlertThemeStyleDark";
+            break;
+            
+        default:
+            return @"JKAlertThemeStyleSystem";
+            break;
+    }
+    
+    return @"JKAlertThemeStyleSystem";
+}
+
+- (void)refreshButtonClick:(UIButton *)button {
+    
+    // TODO: - JKTODO delete
+    
+    switch ([JKAlertThemeManager sharedManager].themeStyle) {
+        case JKAlertThemeStyleSystem:
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleLight);
+            break;
+        case JKAlertThemeStyleLight:
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleDark);
+            break;
+        case JKAlertThemeStyleDark:
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
+            break;
+
+        default:
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
+            break;
+    }
+    
+    if (@available(iOS 13.0, *)) {
+        [button setTitle:[self themeStyleStringWithStyle:[JKAlertThemeManager sharedManager].themeStyle] forState:(UIControlStateNormal)];
+    }
 }
 
 #pragma mark
