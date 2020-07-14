@@ -10,12 +10,6 @@
 
 @interface JKAlertBaseView : UIView
 
-/** 默认跟随系统 */
-//@property (nonatomic, assign) JKAlertUserInterfaceStyle userInterfaceStyle;
-
-/** 当前样式 仅记录light/dark */
-//@property (nonatomic, assign, readonly) JKAlertUserInterfaceStyle currentUserInterfaceStyle;
-
 #pragma mark
 #pragma mark - Private
 

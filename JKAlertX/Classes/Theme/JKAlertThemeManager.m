@@ -56,6 +56,34 @@
     return isDark;
 }
 
+- (void)setThemeStyle:(JKAlertThemeStyle)themeStyle {
+    _themeStyle = themeStyle;
+    
+    switch (themeStyle) {
+        case JKAlertThemeStyleSystem:
+            if (@available(iOS 13.0, *)) {
+                self.autoSwitchDarkMode = YES;
+            }
+            self.themeName = JKAlertCheckDarkMode(JKAlertDefaultThemeLight, JKAlertDefaultThemeDark);
+            break;
+        case JKAlertThemeStyleLight:
+            if (@available(iOS 13.0, *)) {
+                self.autoSwitchDarkMode = NO;
+            }
+            self.themeName = JKAlertDefaultThemeLight;
+            break;
+        case JKAlertThemeStyleDark:
+            if (@available(iOS 13.0, *)) {
+                self.autoSwitchDarkMode = NO;
+            }
+            self.themeName = JKAlertDefaultThemeDark;
+            break;
+            
+        default:
+            break;
+    }
+}
+
 - (void)setThemeName:(NSString *)themeName {
     
     if (!themeName ||
@@ -90,7 +118,36 @@
 
 - (void)postThemeDidChangeNotification {
     
+    UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
+    
+    UIView *snapShotImageView = [keyWindow snapshotViewAfterScreenUpdates:NO];
+    
+    [keyWindow addSubview:snapShotImageView];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertThemeDidChangeNotification object:self];
+    
+    if (@available(iOS 10.0, *)) {
+        
+        [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:0.25 delay:0 options:0 animations:^{
+            
+            snapShotImageView.alpha = 0;
+            
+        } completion:^(UIViewAnimatingPosition finalPosition) {
+            
+            [snapShotImageView removeFromSuperview];
+        }];
+        
+    } else {
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            
+            snapShotImageView.alpha = 0;
+            
+        } completion:^(BOOL finished) {
+            
+            [snapShotImageView removeFromSuperview];
+        }];
+    }
 }
 
 - (void)jkalert_traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {

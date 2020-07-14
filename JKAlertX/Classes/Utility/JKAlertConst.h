@@ -87,21 +87,6 @@ typedef NS_ENUM(NSUInteger, JKAlertScrollDirection) {
     JKAlertScrollDirectionRight,
 };
 
-typedef NS_ENUM(NSUInteger, JKAlertUserInterfaceStyle) {
-    
-    /** 无样式 将默认为浅色 */
-    JKAlertUserInterfaceStyleNone = 0,
-    
-    /** 跟随系统 */
-    JKAlertUserInterfaceStyleSystem = 1,
-    
-    /** 浅色 */
-    JKAlertUserInterfaceStyleLight,
-    
-    /** 深色 */
-    JKAlertUserInterfaceStyleDark,
-};
-
 #pragma mark
 #pragma mark - 通知
 
@@ -116,9 +101,6 @@ UIKIT_EXTERN NSString * const JKAlertDismissForCategoryNotification;
 
 /** 清空全部弹框的通知 */
 UIKIT_EXTERN NSString * const JKAlertClearAllNotification;
-
-/** 更新页面样式的通知 */
-//UIKIT_EXTERN NSString * const JKAlertUpdateUserInterfaceStyleNotification;
 
 
 
@@ -189,15 +171,6 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 #pragma mark
 #pragma mark - 函数
 
-/// 判断黑暗模式获取其中一个对象
-//id JKAlertJudgeDarkMode (id <UITraitEnvironment> environment, id light, id dark);
-
-/// 颜色适配
-//UIColor * JKAlertAdaptColor (UIColor *lightColor, UIColor *darkColor);
-
-/// 全局背景色
-//UIColor * JKAlertGlobalBackgroundColor (void);
-
 /// 全局背景色 浅色模式
 UIColor * JKAlertGlobalLightBackgroundColor (void);
 
@@ -215,9 +188,6 @@ UIColor * JKAlertGlobalHighlightedLightBackgroundColor (void);
 
 /// 全局高亮背景色 深色模式
 UIColor * JKAlertGlobalHighlightedDarkBackgroundColor (void);
-
-/// 全局分隔线背景色
-//UIColor * JKAlertGlobalSeparatorLineColor (void);
 
 /// 全局分隔线背景色 浅色模式
 UIColor * JKAlertGlobalSeparatorLineLightColor (void);

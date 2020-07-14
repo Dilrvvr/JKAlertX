@@ -20,6 +20,9 @@
  */
 - (BOOL)checkIsDarkMode;
 
+/** themeStyle */
+@property (nonatomic, assign) JKAlertThemeStyle themeStyle;
+
 /**
  * 是否自动切换深色/浅色模式
  */

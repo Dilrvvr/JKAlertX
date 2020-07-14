@@ -7,33 +7,18 @@
 
 #import "JKAlertView+Public.h"
 #import "JKAlertView+PrivateProperty.h"
+#import "JKAlertThemeManager.h"
 
 @implementation JKAlertView (Public)
 
 /**
  * 深色/浅色模式
  */
-- (JKAlertView *(^)(JKAlertUserInterfaceStyle userInterfaceStyle))makeUserInterfaceStyle {
++ (JKAlertView *(^)(JKAlertThemeStyle themeStyle))makeThemeStyle {
     
-    return ^(JKAlertUserInterfaceStyle userInterfaceStyle) {
-
-        if (@available(iOS 13.0, *)) {
-            
-            switch (userInterfaceStyle) {
-                case JKAlertUserInterfaceStyleSystem:
-                    self.overrideUserInterfaceStyle = UIUserInterfaceStyleUnspecified;
-                    break;
-                case JKAlertUserInterfaceStyleLight:
-                    self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-                    break;
-                case JKAlertUserInterfaceStyleDark:
-                    self.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
-                    break;
-                    
-                default:
-                    break;
-            }
-        }
+    return ^(JKAlertThemeStyle themeStyle) {
+        
+        [JKAlertThemeManager sharedManager].themeStyle = themeStyle;
         
         return self;
     };

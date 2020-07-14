@@ -8,6 +8,21 @@
 #import <Foundation/Foundation.h>
 
 #pragma mark
+#pragma mark - Enum
+
+typedef NS_ENUM(NSUInteger, JKAlertThemeStyle) {
+    
+    /** 跟随系统 */
+    JKAlertThemeStyleSystem = 0,
+    
+    /** 浅色 */
+    JKAlertThemeStyleLight,
+    
+    /** 深色 */
+    JKAlertThemeStyleDark,
+};
+
+#pragma mark
 #pragma mark - 宏定义
 
 /// 判断深色模式返回对应的数据

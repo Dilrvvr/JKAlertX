@@ -65,16 +65,6 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStyleAlert)];
     
-    //    alertView.makeTapBlankHandler(^(JKAlertView *innerView) {
-    //
-    //        if (@available(iOS 13.0, *)) {
-    //
-    //            JKAlertKeyWindow().overrideUserInterfaceStyle = (UIUserInterfaceStyleDark == JKAlertKeyWindow().overrideUserInterfaceStyle) ? UIUserInterfaceStyleLight : UIUserInterfaceStyleDark;
-    //        }
-    //    });
-    
-    //alertView.makeUserInterfaceStyle(JKAlertUserInterfaceStyleLight);
-    
     [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefaultBlue) handler:^(JKAlertAction *action) {
         
     }].setCustomizePropertyHandler(^(JKAlertAction *customizePropertyAction) {
@@ -299,36 +289,12 @@
 
 - (IBAction)actionSheet:(id)sender {
     
-    //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil Style:(JKAlertStyleActionSheet)];
-    
-    //    NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
-    //    para.alignment = NSTextAlignmentCenter;
-    
-    //    JKAlertView *alertView = [JKAlertView alertViewWithAttributedTitle:nil attributedMessage:[[NSAttributedString alloc] initWithString:@"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好" attributes:@{NSForegroundColorAttributeName : [UIColor redColor], NSFontAttributeName : [UIFont boldSystemFontOfSize:18], NSParagraphStyleAttributeName : para}] style:(JKAlertStyleActionSheet)];
-    
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO);
     //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil style:(JKAlertStyleActionSheet)];
     
     alertView.makeVibrateEnabled(YES);
     // 固定底部取消按钮
     //alertView.setPinCancelButton(YES);
-    
-    alertView.makeAlertContentViewConfiguration(^(UIView *alertContentView) {
-        
-        // 加个圆角
-        [alertContentView JKAlertX_clipRoundWithRadius:10 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
-    });
-    
-    alertView.makeWillRelayoutHandler(^(JKAlertView *innerView, UIView *containerView) {
-        
-        containerView.layer.mask = nil;
-    });
-    
-    alertView.makeDidRelayoutHandler(^(JKAlertView *innerView, UIView *containerView) {
-        
-        // 加个圆角
-        [containerView JKAlertX_clipRoundWithRadius:10 corner:(UIRectCornerTopLeft | UIRectCornerTopRight) borderWidth:0 borderColor:nil];
-    });
     
     alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO);
     
@@ -342,7 +308,6 @@
         
         !providerOwner.getCancelAction.refreshAppearanceHandler ? : providerOwner.getCancelAction.refreshAppearanceHandler(providerOwner.getCancelAction);
     }];
-    
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
@@ -913,6 +878,55 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (NSString *)themeStyleStringWithStyle:(JKAlertThemeStyle)themeStyle {
+    // TODO: - JKTODO delete
+    
+    switch (themeStyle) {
+        case JKAlertThemeStyleSystem:
+            return @"JKAlertThemeStyleSystem";
+            break;
+        case JKAlertThemeStyleLight:
+            return @"JKAlertThemeStyleLight";
+            break;
+        case JKAlertThemeStyleDark:
+            return @"JKAlertThemeStyleDark";
+            break;
+            
+        default:
+            return @"JKAlertThemeStyleSystem";
+            break;
+    }
+    
+    return @"JKAlertThemeStyleSystem";
+}
+
+- (void)refreshButtonClick:(UIButton *)button {
+    
+    // TODO: - JKTODO delete
+    
+//    switch ([JKAlertThemeManager sharedManager].themeStyle) {
+//        case JKAlertThemeStyleSystem:
+//            JKAlertView.makeThemeStyle(JKAlertThemeStyleLight);
+//            break;
+//        case JKAlertThemeStyleLight:
+//            JKAlertView.makeThemeStyle(JKAlertThemeStyleDark);
+//            break;
+//        case JKAlertThemeStyleDark:
+//            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
+//            break;
+//
+//        default:
+//            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
+//            break;
+//    }
+//
+//    NSString *title = [weakSelf themeStyleStringWithStyle:[JKAlertThemeManager sharedManager].themeStyle];
+//
+//    JKAlertView.showHUDWithTitle(title, ^(JKAlertView *alertView) {
+//
+//    });
 }
 
 - (void)dealloc{
