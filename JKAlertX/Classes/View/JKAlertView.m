@@ -213,17 +213,18 @@
     
     // TODO: - JKTODO delete
     
-    UIButton *refreshButton = [UIButton buttonWithType:(UIButtonTypeSystem)];
-    refreshButton.backgroundColor = [UIColor blackColor];
+    UIButton *refreshButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    refreshButton.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
+    //refreshButton.backgroundColor = [UIColor blackColor];
     if (@available(iOS 13.0, *)) {
         [refreshButton setTitle:[self themeStyleStringWithStyle:[JKAlertThemeManager sharedManager].themeStyle] forState:(UIControlStateNormal)];
     }
-    [refreshButton setTitleColor:[UIColor brownColor] forState:(UIControlStateNormal)];
+    [refreshButton setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
     [self addSubview:refreshButton];
     
-    NSString *verticalFormat = [NSString stringWithFormat:@"V:|-%.0f-[view(50)]", JKAlertIsDeviceX() ? 50.0 : 25.0];
+    NSString *verticalFormat = [NSString stringWithFormat:@"V:|-0-[view(%.0f)]", JKAlertIsDeviceX() ? 90.0 : 65.0];
     
-    [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:verticalFormat viewKeyName:@"view" targetView:refreshButton constraintsView:self];
+    [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-80-[view]-80-|" verticalFormat:verticalFormat viewKeyName:@"view" targetView:refreshButton constraintsView:self];
     
     [refreshButton addTarget:self action:@selector(refreshButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     

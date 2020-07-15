@@ -296,9 +296,9 @@
     // 固定底部取消按钮
     //alertView.setPinCancelButton(YES);
     
-    alertView.makeBottomButtonMargin(8).makeHomeIndicatorAdapted(NO);
+    alertView.makeBottomButtonMargin(8);//.makeHomeIndicatorAdapted(NO);
     
-    alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 15));
+    alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 0, 15));
     
     [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
         
@@ -550,7 +550,7 @@
 
 - (IBAction)customActionSheetView:(id)sender {
     
-    [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好" style:(JKAlertStyleActionSheet)].makeHomeIndicatorFilled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].setCustomView(^(JKAlertAction *action) {
         
@@ -566,7 +566,7 @@
         
     }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }]).makeHomeIndicatorAdapted(YES).makeDeallocLogEnabled(YES).makeActionSheetCancelButtonPinned(NO).show().makeDidDismissHandler(^{
+    }]).makeDeallocLogEnabled(YES).makeActionSheetCancelButtonPinned(NO).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         

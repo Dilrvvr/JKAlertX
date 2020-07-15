@@ -95,6 +95,8 @@
     self.collectionView.pagingEnabled = self.collectionPagingEnabled;
     self.collectionView2.pagingEnabled = self.collectionPagingEnabled;
     
+    [self updateContentInsets];
+    
     [self.collectionView reloadData];
     [self.collectionView2 reloadData];
     
@@ -356,7 +358,7 @@
         actionRect.size.height += self.collectionButton.frame.size.height;
     }
     
-    BOOL shouldAdjustContentInset = NO;
+    //BOOL shouldAdjustContentInset = NO;
     
     if (self.cancelButton.hidden) {
         
@@ -368,7 +370,7 @@
                 
                 actionRect.size.height += JKAlertAdjustHomeIndicatorHeight;
                 
-                shouldAdjustContentInset = YES;
+                //shouldAdjustContentInset = YES;
             }
         }
         
@@ -392,7 +394,7 @@
                 
             actionRect.size.height += JKAlertAdjustHomeIndicatorHeight;
             
-            shouldAdjustContentInset = YES;
+            //shouldAdjustContentInset = YES;
         }
     }
     
@@ -407,9 +409,6 @@
     
     [self.topContentView updateContentSize];
     
-    self.topContentView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, (shouldAdjustContentInset ? JKAlertCurrentHomeIndicatorHeight() : 0), 0);
-    self.topContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, self.isPierced ? 0 : self.screenSafeInsets.right);
-    
     self.topContentView.scrollView.scrollEnabled = NO;
     
     if (self.maxHeight > 0 &&
@@ -423,6 +422,59 @@
     self.topContentView.frame = rect;
     
     self.frame = rect;
+}
+
+- (void)updateContentInsets {
+    
+    UIEdgeInsets contentInset = UIEdgeInsetsZero;
+    
+    UIEdgeInsets scrollIndicatorInsets = UIEdgeInsetsZero;
+    scrollIndicatorInsets.right = self.isPierced ? 0 : self.screenSafeInsets.right;
+    
+    self.topContentView.scrollView.contentInset = contentInset;
+    self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+    
+    self.bottomContentView.scrollView.contentInset = contentInset;
+    self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+    
+    if (!self.autoAdjustHomeIndicator || self.isPierced) { return; }
+    
+    contentInset.bottom = JKAlertCurrentHomeIndicatorHeight();
+    scrollIndicatorInsets.bottom = contentInset.bottom;
+    
+    if (self.actionButtonPinned) {
+        
+        if (self.cancelAction.rowHeight >= 0.1 ||
+            self.collectionAction.rowHeight >= 0.1) {
+                
+                if (self.fillHomeIndicator) {
+                    
+                    self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+                    
+                    return;
+                }
+                
+                self.bottomContentView.scrollView.contentInset = contentInset;
+                self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+            
+            return;
+        }
+        
+        self.topContentView.scrollView.contentInset = contentInset;
+        self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+        
+        return;
+    }
+    
+    if (self.fillHomeIndicator) {
+        
+        self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+        
+        return;
+    }
+    
+    self.topContentView.scrollView.contentInset = contentInset;
+    self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
 }
 
 - (void)layoutCollectionView {

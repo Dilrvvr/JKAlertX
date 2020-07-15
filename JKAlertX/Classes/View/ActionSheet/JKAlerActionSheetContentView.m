@@ -262,6 +262,8 @@
             
             frame.size.height += self.piercedInsets.bottom;
             
+            frame.size.height += JKAlertAdjustHomeIndicatorHeight;
+            
         } else {
             
             if (self.fillHomeIndicator) {
@@ -325,8 +327,8 @@
     if (self.isPierced) {
         
         extraHeight += self.piercedInsets.bottom;
-        //extraHeight += JKAlertAdjustHomeIndicatorHeight;
         
+        extraHeight += JKAlertAdjustHomeIndicatorHeight;
     }
     
     if (self.autoAdjustHomeIndicator) {
@@ -404,9 +406,6 @@
         rect.size.height += action.rowHeight;
     }
     
-    // 自动适配X设备底部间距时，加上X设备底部间距
-    rect.size.height += JKAlertAdjustHomeIndicatorHeight;
-    
     // 固定取消按钮在底部，则tableView高度计算完毕
     if (self.cancelButtonPinned) {
         
@@ -422,6 +421,9 @@
         
         rect.size.height += self.cancelAction.rowHeight;
     }
+    
+    // 自动适配X设备底部间距时，加上X设备底部间距
+    rect.size.height += JKAlertAdjustHomeIndicatorHeight;
     
     self.tableView.frame = rect;
 }
@@ -469,22 +471,72 @@
 
 - (void)updateTableViewInsets {
     
-    CGFloat bottomInset = 0;
+    UIEdgeInsets contentInset = UIEdgeInsetsZero;
     
-    // 没有固定取消按钮或取消按钮的高度小于0.1
-    if (!self.cancelButtonPinned ||
-        self.cancelAction.rowHeight < 0.1) {
+    UIEdgeInsets scrollIndicatorInsets = UIEdgeInsetsZero;
+    scrollIndicatorInsets.right = self.isPierced ? 0 : self.screenSafeInsets.right;
+    
+    self.topContentView.scrollView.contentInset = contentInset;
+    self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+    
+    self.tableView.contentInset = contentInset;
+    self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
+    
+    self.bottomContentView.scrollView.contentInset = contentInset;
+    self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+    
+    if (!self.autoAdjustHomeIndicator || self.isPierced) { return; }
+    
+    contentInset.bottom = JKAlertCurrentHomeIndicatorHeight();
+    scrollIndicatorInsets.bottom = contentInset.bottom;
+    
+    if (self.cancelButtonPinned) {
         
-        bottomInset = JKAlertAdjustHomeIndicatorHeight;
+        if (self.cancelAction.rowHeight >= 0.1) {
+            
+            if (self.fillHomeIndicator) {
+                
+                self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+                
+                return;
+            }
+            
+            self.bottomContentView.scrollView.contentInset = contentInset;
+            
+            return;
+        }
+        
+        if (self.tableView.hidden) {
+            
+            self.topContentView.scrollView.contentInset = contentInset;
+            self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+            
+        } else {
+            
+            self.tableView.contentInset = contentInset;
+            self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
+        }
+        
+        return;
     }
     
-    self.topContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, (self.isPierced ? 0 : self.screenSafeInsets.right));
-    
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, bottomInset, 0);
-    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottomInset, (self.isPierced ? 0 : self.screenSafeInsets.right));
-    
-    self.bottomContentView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, 0);
-    self.bottomContentView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertAdjustHomeIndicatorHeight, (self.isPierced ? 0 : self.screenSafeInsets.right));
+    if (self.tableView.hidden) {
+        
+        self.topContentView.scrollView.contentInset = contentInset;
+        self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+        
+    } else {
+        
+        if (self.fillHomeIndicator) {
+            
+            self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
+            
+            return;
+        }
+        
+        self.tableView.contentInset = contentInset;
+        self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
+    }
 }
 
 - (void)setCellClassName:(NSString *)cellClassName {
