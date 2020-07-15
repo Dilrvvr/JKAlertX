@@ -112,13 +112,13 @@
  * actionSheet底部取消按钮是否固定在底部
  * 默认NO
  */
-- (JKAlertView *(^)(BOOL cancelButtonPinned))makeActionSheetCancelButtonPinned {
+- (JKAlertView *(^)(BOOL pinned))makeActionSheetBottomButtonPinned {
     
-    return ^(BOOL cancelButtonPinned) {
+    return ^(BOOL pinned) {
         
         return [self checkActionSheetStyleHandler:^{
             
-            self.actionsheetContentView.cancelButtonPinned = cancelButtonPinned;
+            self.actionsheetContentView.bottomButtonPinned = pinned;
         }];
     };
 }
@@ -126,7 +126,7 @@
 /**
  * actionSheet是否镂空
  * 类似UIAlertControllerStyleActionSheet效果
- * 设置为YES后，makeActionSheetCancelButtonPinned将强制为YES
+ * 设置为YES后，makeActionSheetBottomButtonPinned将强制为YES
  * piercedInsets : 整体左、右、下间距
  */
 - (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets))makeActionSheetPierced {

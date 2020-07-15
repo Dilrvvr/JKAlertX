@@ -45,18 +45,6 @@
 /** 两个collectionView直接的分隔线是否隐藏 默认YES */
 @property (nonatomic, assign) BOOL collectionSeparatorLineHidden;
 
-/** fillHomeIndicator */
-@property (nonatomic, assign) CGFloat cancelMargin;
-
-/** actionButtonPinned */
-@property (nonatomic, assign) BOOL actionButtonPinned;
-
-/** isPierced */
-@property (nonatomic, assign) BOOL isPierced;
-
-/** 镂空效果间距 只取左右下 */
-@property (nonatomic, assign) UIEdgeInsets piercedInsets;
-
 /** pageControl */
 @property (nonatomic, weak, readonly) UIPageControl *pageControl;
 

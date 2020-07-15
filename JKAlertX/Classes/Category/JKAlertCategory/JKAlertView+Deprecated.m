@@ -799,7 +799,7 @@
 /** 设置actionSheet底部取消按钮是否固定在底部 默认NO */
 - (JKAlertView *(^)(BOOL pinCancelButton))setPinCancelButton {
     
-    return [self makeActionSheetCancelButtonPinned];
+    return [self makeActionSheetBottomButtonPinned];
 }
 
 /**

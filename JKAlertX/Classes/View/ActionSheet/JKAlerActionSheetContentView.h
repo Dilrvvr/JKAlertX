@@ -30,17 +30,5 @@
 /** tableViewDelegate */
 @property (nonatomic, weak) id <UITableViewDelegate> tableViewDelegate;
 
-/** fillHomeIndicator */
-@property (nonatomic, assign) CGFloat cancelMargin;
-
-/** 是否固定取消按钮在底部 */
-@property (nonatomic, assign) BOOL cancelButtonPinned;
-
-/** isPierced */
-@property (nonatomic, assign) BOOL isPierced;
-
-/** 镂空效果间距 只取左右下 */
-@property (nonatomic, assign) UIEdgeInsets piercedInsets;
-
 - (void)restoreTopBackgroundColor;
 @end

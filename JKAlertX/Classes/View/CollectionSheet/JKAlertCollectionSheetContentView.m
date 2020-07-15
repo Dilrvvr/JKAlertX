@@ -117,7 +117,7 @@
 }
 
 - (void)setIsPierced:(BOOL)isPierced {
-    _isPierced = isPierced;
+    [super setIsPierced:isPierced];
     
     self.cancelAction.isPierced = isPierced;
     self.collectionAction.isPierced = isPierced;
@@ -144,7 +144,7 @@
 
 - (void)adjustPinActionButtonCollectionSheetFrame {
     
-    if (!self.actionButtonPinned) {
+    if (!self.bottomButtonPinned) {
         
         [self.topContentView.scrollContentView addSubview:self.bottomContentView];
         
@@ -442,7 +442,7 @@
     contentInset.bottom = JKAlertCurrentHomeIndicatorHeight();
     scrollIndicatorInsets.bottom = contentInset.bottom;
     
-    if (self.actionButtonPinned) {
+    if (self.bottomButtonPinned) {
         
         if (self.cancelAction.rowHeight >= 0.1 ||
             self.collectionAction.rowHeight >= 0.1) {
@@ -914,7 +914,7 @@
     
     _collectionSeparatorLineHidden = YES;
     
-    _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
+    self.cancelMargin = 10;
     
     _cellClassName = NSStringFromClass([JKAlertCollectionViewCell class]);
 }
@@ -1069,13 +1069,6 @@
     }
     
     return collectionView;
-}
-
-- (BOOL)actionButtonPinned {
-    
-    if (self.isPierced) { return YES; }
-    
-    return _actionButtonPinned;
 }
 
 @end

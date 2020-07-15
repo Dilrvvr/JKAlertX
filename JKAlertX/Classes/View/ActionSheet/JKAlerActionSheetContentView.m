@@ -43,7 +43,7 @@
 }
 
 - (void)setIsPierced:(BOOL)isPierced {
-    _isPierced = isPierced;
+    [super setIsPierced:isPierced];
     
     [self updateIsPierced];
 }
@@ -61,11 +61,11 @@
     self.textContentView.screenSafeInsets = self.isPierced ? UIEdgeInsetsZero : self.screenSafeInsets;
     self.textContentView.contentWidth = self.contentWidth;
     
-    [self.textContentView calculateUI];
+    [self layoutCancelActionButton];
     
     [self layoutTableView];
     
-    [self layoutCancelActionButton];
+    [self.textContentView calculateUI];
     
     [self adjustActionSheetFrame];
     
@@ -148,7 +148,7 @@
     self.bottomContentView.hidden = YES;
     
     // 固定取消按钮且取消按钮的高度大于等0.1
-    if (self.cancelButtonPinned &&
+    if (self.bottomButtonPinned &&
         self.cancelAction.rowHeight >= 0.1) {
         
         bottomHeight += self.cancelMargin;
@@ -193,9 +193,9 @@
         frame.size.height = halfHeight;
         self.topContentView.frame = frame;
         
-        if (self.cancelButtonPinned) {
+        if (self.bottomButtonPinned) {
             
-            [self checkCancelButtonPinnedBottomFrameWithMaxHeight:halfHeight];
+            [self checkBottomButtonPinnedBottomFrameWithMaxHeight:halfHeight];
             
         } else {
             
@@ -222,9 +222,9 @@
         // 下部分高度更高
         self.topContentView.scrollView.scrollEnabled = NO;
         
-        if (self.cancelButtonPinned) {
+        if (self.bottomButtonPinned) {
             
-            [self checkCancelButtonPinnedBottomFrameWithMaxHeight:self.maxHeight - self.topContentView.frame.size.height];
+            [self checkBottomButtonPinnedBottomFrameWithMaxHeight:self.maxHeight - self.topContentView.frame.size.height];
             
         } else {
             
@@ -244,14 +244,14 @@
         
         frame = self.bottomContentView.frame;
         
-        frame.origin.y = CGRectGetMaxY(self.tableView.frame) + self.cancelMargin;
+        frame.origin.y = CGRectGetMaxY(self.tableView.frame);
         
         self.bottomContentView.frame = frame;
     }
     
     frame = CGRectMake(0, 0, self.contentWidth, self.topContentView.frame.size.height + self.tableView.frame.size.height);
     
-    if (self.cancelButtonPinned &&
+    if (self.bottomButtonPinned &&
         self.cancelAction.rowHeight >= 0.1) {
             
         frame.size.height += self.cancelButton.frame.size.height;
@@ -300,11 +300,11 @@
 }
 
 /// 固定底部取消按钮时计算tableView和取消按钮的frame
-- (void)checkCancelButtonPinnedBottomFrameWithMaxHeight:(CGFloat)maxHeight {
+- (void)checkBottomButtonPinnedBottomFrameWithMaxHeight:(CGFloat)maxHeight {
     
     CGRect frame = CGRectZero;
     
-    if (!self.cancelButtonPinned ||
+    if (!self.bottomButtonPinned ||
         self.cancelAction.rowHeight < 0.1) {
             
         frame = self.tableView.frame;
@@ -320,7 +320,7 @@
     
     CGFloat halfHeight = maxHeight * 0.5;
     
-    CGFloat actionTotalHeight = self.bottomContentView.frame.size.height + self.cancelMargin;
+    CGFloat actionTotalHeight = self.bottomContentView.frame.size.height;
     
     CGFloat extraHeight = 0;
     
@@ -407,7 +407,7 @@
     }
     
     // 固定取消按钮在底部，则tableView高度计算完毕
-    if (self.cancelButtonPinned) {
+    if (self.bottomButtonPinned) {
         
         self.tableView.frame = rect;
         
@@ -435,7 +435,7 @@
     self.cancelButton.action = self.cancelAction;
     
     // 没有固定取消按钮或取消按钮的高度小于0.1
-    if (!self.cancelButtonPinned ||
+    if (!self.bottomButtonPinned ||
         self.cancelAction.rowHeight < 0.1) {
         
         self.bottomContentView.hidden = YES;
@@ -460,6 +460,10 @@
     }
     
     self.cancelButton.frame = frame;
+    
+    frame.size.height += self.cancelMargin;
+    
+    self.bottomContentView.scrollViewTopConstraint.constant = self.cancelMargin;
     
     self.bottomContentView.frame = self.cancelButton.frame;
     
@@ -490,7 +494,7 @@
     contentInset.bottom = JKAlertCurrentHomeIndicatorHeight();
     scrollIndicatorInsets.bottom = contentInset.bottom;
     
-    if (self.cancelButtonPinned) {
+    if (self.bottomButtonPinned) {
         
         if (self.cancelAction.rowHeight >= 0.1) {
             
@@ -565,11 +569,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return (self.cancelButtonPinned || self.cancelAction.rowHeight < 0.1) ? 1 : 2;
+    return (self.bottomButtonPinned || self.cancelAction.rowHeight < 0.1) ? 1 : 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0 ? self.actionArray.count : (self.cancelButtonPinned ? 0 : 1);
+    return section == 0 ? self.actionArray.count : (self.bottomButtonPinned ? 0 : 1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -810,7 +814,7 @@
     
     _cellClassName = NSStringFromClass([JKAlertTableViewCell class]);
     
-    _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
+    self.cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -924,13 +928,6 @@
     }
     
     return tableView;
-}
-
-- (BOOL)cancelButtonPinned {
-    
-    if (self.isPierced) { return YES; }
-    
-    return _cancelButtonPinned;
 }
 
 @end

@@ -250,20 +250,20 @@
  * collectionSheet底部取消按钮是否固定在底部
  * 默认NO
  */
-- (JKAlertView *(^)(BOOL actionButtonPinned))makeCollectionSheetActionButtonPinned {
+- (JKAlertView *(^)(BOOL pinned))makeCollectionSheetBottomButtonPinned {
     
-    return ^(BOOL actionButtonPinned) {
+    return ^(BOOL pinned) {
         
         return [self checkCollectionSheetStyleHandler:^{
             
-            self.collectionsheetContentView.actionButtonPinned = actionButtonPinned;
+            self.collectionsheetContentView.bottomButtonPinned = pinned;
         }];
     };
 }
 
 /**
  * collectionSheet是否镂空
- * 设置为YES后，makeActionSheetCancelButtonPinned将强制为YES
+ * 设置为YES后，makeActionSheetBottomButtonPinned将强制为YES
  * piercedInsets : 整体左、右、下间距
  */
 - (JKAlertView *(^)(BOOL isPierced, UIEdgeInsets piercedInsets))makeCollectionSheetPierced {

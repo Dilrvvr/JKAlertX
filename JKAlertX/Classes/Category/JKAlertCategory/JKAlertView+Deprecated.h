@@ -318,7 +318,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDelegate)(id<UITableViewDelegate> delegate) JKAlertXDeprecated("use makeActionSheetTableViewDelegate");
 
 /** 设置actionSheet底部取消按钮是否固定在底部 默认NO */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPinCancelButton)(BOOL pinCancelButton) JKAlertXDeprecated("use makeActionSheetCancelButtonPinned");
+@property (nonatomic, copy, readonly) JKAlertView *(^setPinCancelButton)(BOOL pinCancelButton) JKAlertXDeprecated("use makeActionSheetBottomButtonPinned");
 
 /**
  * 设置actionSheet是否镂空

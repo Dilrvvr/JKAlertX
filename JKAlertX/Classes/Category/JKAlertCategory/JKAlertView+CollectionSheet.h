@@ -106,11 +106,11 @@
  * collectionSheet底部按钮是否固定在底部
  * 默认NO
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetActionButtonPinned)(BOOL actionButtonPinned);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetBottomButtonPinned)(BOOL pinned);
 
 /**
  * collectionSheet是否镂空
- * 设置为YES后，makeActionSheetCancelButtonPinned将强制为YES
+ * 设置为YES后，makeActionSheetBottomButtonPinned将强制为YES
  * piercedInsets : 整体左、右、下间距
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetPierced)(BOOL isPierced, UIEdgeInsets piercedInsets);

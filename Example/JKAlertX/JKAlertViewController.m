@@ -379,7 +379,7 @@
     
     alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 15));
     
-    alertView.makeCollectionSheetActionButtonPinned(YES).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+    alertView.makeCollectionSheetBottomButtonPinned(YES).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
         
         UIEdgeInsets insets = originalInsets;
         
@@ -566,7 +566,7 @@
         
     }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }]).makeDeallocLogEnabled(YES).makeActionSheetCancelButtonPinned(NO).show().makeDidDismissHandler(^{
+    }]).makeDeallocLogEnabled(YES).makeActionSheetBottomButtonPinned(NO).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         

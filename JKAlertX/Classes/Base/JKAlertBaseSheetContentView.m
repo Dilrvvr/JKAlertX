@@ -435,4 +435,11 @@
     return _horizontalDismissPanGesture;
 }
 
+- (BOOL)bottomButtonPinned {
+    
+    if (self.isPierced) { return YES; }
+    
+    return _bottomButtonPinned;
+}
+
 @end

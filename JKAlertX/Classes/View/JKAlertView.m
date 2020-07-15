@@ -170,8 +170,6 @@
             
         case JKAlertStyleCollectionSheet:
         {
-            self.collectionsheetContentView.cancelMargin = 10;
-            
             _tapBlankDismiss = YES;
             
             _currentAlertContentView = self.collectionsheetContentView;
@@ -246,7 +244,7 @@
 
 - (void)debugWithAlertView:(JKAlertView *)alertView {
     
-    JKAlertView *view = [JKAlertView alertViewWithTitle:@"Debug" message:nil style:(JKAlertStyleActionSheet)].makeActionSheetCancelButtonPinned(YES);
+    JKAlertView *view = [JKAlertView alertViewWithTitle:@"Debug" message:nil style:(JKAlertStyleActionSheet)].makeActionSheetBottomButtonPinned(YES);
     
     JKAlertBaseSheetContentView *sheet = [alertView checkSheetContentView];
     
@@ -260,6 +258,13 @@
     [view addAction:[JKAlertAction actionWithTitle:[NSString stringWithFormat:@"Fill Home Indicator: %@", sheet.fillHomeIndicator ? @"YES" : @"NO"] style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
         sheet.fillHomeIndicator = !sheet.fillHomeIndicator;
+        
+        alertView.relayout(YES);
+    }]];
+    
+    [view addAction:[JKAlertAction actionWithTitle:[NSString stringWithFormat:@"Pinned: %@", sheet.bottomButtonPinned ? @"YES" : @"NO"] style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+        sheet.bottomButtonPinned = !sheet.bottomButtonPinned;
         
         alertView.relayout(YES);
     }]];

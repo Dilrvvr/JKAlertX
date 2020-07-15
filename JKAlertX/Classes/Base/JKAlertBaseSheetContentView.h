@@ -40,6 +40,18 @@
 /** fillHomeIndicator */
 @property (nonatomic, assign) BOOL fillHomeIndicator;
 
+/** bottomButtonPinned */
+@property (nonatomic, assign) BOOL bottomButtonPinned;
+
+/** isPierced */
+@property (nonatomic, assign) BOOL isPierced;
+
+/** 镂空效果间距 只取左右下 */
+@property (nonatomic, assign) UIEdgeInsets piercedInsets;
+
+/** cancelMargin */
+@property (nonatomic, assign) CGFloat cancelMargin;
+
 /**
  * 展示时是否进行缩放动画 Y轴缩放
  * 默认NO
