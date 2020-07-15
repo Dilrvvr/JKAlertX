@@ -34,6 +34,12 @@
 /** horizontalDismissPanGesture */
 @property (nonatomic, strong) JKAlertPanGestureRecognizer *horizontalDismissPanGesture;
 
+/** autoAdjustHomeIndicator */
+@property (nonatomic, assign) BOOL autoAdjustHomeIndicator;
+
+/** fillHomeIndicator */
+@property (nonatomic, assign) BOOL fillHomeIndicator;
+
 /**
  * 展示时是否进行缩放动画 Y轴缩放
  * 默认NO

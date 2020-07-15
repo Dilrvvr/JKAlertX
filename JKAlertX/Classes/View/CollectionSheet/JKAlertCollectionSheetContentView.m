@@ -908,10 +908,6 @@
     
     _collectionViewMargin = 10;
     
-    _autoAdjustHomeIndicator = YES;
-    
-    _fillHomeIndicator = YES;
-    
     _pageControlHidden = YES;
     
     _titleSeparatorLineHidden = YES;

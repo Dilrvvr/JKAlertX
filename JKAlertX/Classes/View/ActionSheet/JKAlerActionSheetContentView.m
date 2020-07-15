@@ -810,10 +810,6 @@
     
     _cellClassName = NSStringFromClass([JKAlertTableViewCell class]);
     
-    _autoAdjustHomeIndicator = YES;
-    
-    _fillHomeIndicator = YES;
-    
     _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
 }
 

@@ -351,6 +351,10 @@
     
     _showScaleAnimated = NO;
     
+    _autoAdjustHomeIndicator = YES;
+    
+    _fillHomeIndicator = YES;
+    
     
     // TODO: - JKTODO <#注释#>
     _verticalGestureDismissEnabled = YES;

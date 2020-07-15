@@ -45,12 +45,6 @@
 /** 两个collectionView直接的分隔线是否隐藏 默认YES */
 @property (nonatomic, assign) BOOL collectionSeparatorLineHidden;
 
-/** autoAdjustHomeIndicator */
-@property (nonatomic, assign) BOOL autoAdjustHomeIndicator;
-
-/** fillHomeIndicator */
-@property (nonatomic, assign) BOOL fillHomeIndicator;
-
 /** fillHomeIndicator */
 @property (nonatomic, assign) CGFloat cancelMargin;
 

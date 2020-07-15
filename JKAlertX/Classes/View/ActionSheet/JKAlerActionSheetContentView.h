@@ -36,12 +36,6 @@
 /** 是否固定取消按钮在底部 */
 @property (nonatomic, assign) BOOL cancelButtonPinned;
 
-/** autoAdjustHomeIndicator */
-@property (nonatomic, assign) BOOL autoAdjustHomeIndicator;
-
-/** fillHomeIndicator */
-@property (nonatomic, assign) BOOL fillHomeIndicator;
-
 /** isPierced */
 @property (nonatomic, assign) BOOL isPierced;
 

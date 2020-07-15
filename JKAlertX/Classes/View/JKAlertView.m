@@ -15,6 +15,8 @@
 #import "JKAlertVisualFormatConstraintManager.h"
 #import "JKAlertView+Public.h"
 #import "JKAlertView+HUD.h"
+// TODO: - JKTODO delete
+#import "JKAlertView+ActionSheet.h"
 
 @interface JKAlertView ()
 
@@ -202,6 +204,15 @@
     
     if (self.isShowed) { return ^{ return self; }; }
     
+    // TODO: - JKTODO delete
+    if (JKAlertStyleActionSheet == self.alertStyle ||
+        JKAlertStyleCollectionSheet == self.alertStyle) {
+        __weak typeof(self) weakSelf = self;
+        [self addAction:[JKAlertAction actionWithTitle:@"Debug" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+            [weakSelf debugWithAlertView:action.alertView];
+        }].setAutoDismiss(NO)];
+    }
+    
     self.isShowed = YES;
     
     [self calculateUI];
@@ -211,8 +222,10 @@
     // customSuperView没有则默认keyWindow
     [self.customSuperView addSubview:self];
     
-    // TODO: - JKTODO delete
     
+    
+    
+    // TODO: - JKTODO delete
     UIButton *refreshButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     refreshButton.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
     //refreshButton.backgroundColor = [UIColor blackColor];
@@ -221,14 +234,237 @@
     }
     [refreshButton setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
     [self addSubview:refreshButton];
-    
     NSString *verticalFormat = [NSString stringWithFormat:@"V:|-0-[view(%.0f)]", JKAlertIsDeviceX() ? 90.0 : 65.0];
-    
     [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-80-[view]-80-|" verticalFormat:verticalFormat viewKeyName:@"view" targetView:refreshButton constraintsView:self];
-    
     [refreshButton addTarget:self action:@selector(refreshButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
+    
+    
+    
     return ^{ return self; };
+}
+
+- (void)debugWithAlertView:(JKAlertView *)alertView {
+    
+    JKAlertView *view = [JKAlertView alertViewWithTitle:@"Debug" message:nil style:(JKAlertStyleActionSheet)].makeActionSheetCancelButtonPinned(YES);
+    
+    JKAlertBaseSheetContentView *sheet = [alertView checkSheetContentView];
+    
+    [view addAction:[JKAlertAction actionWithTitle:[NSString stringWithFormat:@"Adapt Home Indicator: %@", sheet.autoAdjustHomeIndicator ? @"YES" : @"NO"] style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+        sheet.autoAdjustHomeIndicator = !sheet.autoAdjustHomeIndicator;
+        
+        alertView.relayout(YES);
+    }]];
+    
+    [view addAction:[JKAlertAction actionWithTitle:[NSString stringWithFormat:@"Fill Home Indicator: %@", sheet.fillHomeIndicator ? @"YES" : @"NO"] style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+        sheet.fillHomeIndicator = !sheet.fillHomeIndicator;
+        
+        alertView.relayout(YES);
+    }]];
+    
+    [view addAction:[JKAlertAction actionWithTitle:@"--------------------------------" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setAutoDismiss(NO).setTitleColor([UIColor redColor])];
+    
+    
+    
+    [view addAction:[JKAlertAction actionWithTitle:@"Long Title" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+        alertView.resetAlertTitle(@"Long Title");
+        alertView.makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+           
+            UIEdgeInsets insets = originalInsets;
+            insets.top = 1000;
+            return insets;
+        });
+        
+        alertView.relayout(YES);
+    }]];
+    
+    [view addAction:[JKAlertAction actionWithTitle:@"Normal Title" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+        alertView.resetAlertTitle(@"Normal Title");
+        alertView.makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+           
+            UIEdgeInsets insets = originalInsets;
+            insets.top = 20;
+            return insets;
+        });
+        
+        alertView.relayout(YES);
+    }]];
+    
+    [view addAction:[JKAlertAction actionWithTitle:@"Clear Title" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+        alertView.resetAlertTitle(nil);
+        alertView.resetMessage(nil);
+        
+        alertView.relayout(YES);
+    }]];
+    
+    
+    
+    
+    [view addAction:[JKAlertAction actionWithTitle:@"--------------------------------" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setAutoDismiss(NO).setTitleColor([UIColor redColor])];
+    
+    
+    
+    if (JKAlertStyleCollectionSheet == alertView.alertStyle) {
+
+        [view addAction:[JKAlertAction actionWithTitle:@"Long Collection" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+            
+            if (alertView.getCollectionAction) {
+                
+                alertView.getCollectionAction.setCustomView(^UIView *(JKAlertAction *action) {
+                    
+                    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1000)];
+                    v.backgroundColor = [UIColor orangeColor];
+                    return v;
+                });
+            }
+            
+            alertView.relayout(YES);
+        }]];
+        
+        [view addAction:[JKAlertAction actionWithTitle:@"Normal Collection" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+            
+            if (alertView.getCollectionAction) {
+                
+                alertView.getCollectionAction.setCustomView(^UIView *(JKAlertAction *action) {
+                    
+                    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 60)];
+                    v.backgroundColor = [UIColor orangeColor];
+                    return v;
+                });
+            }
+            
+            alertView.relayout(YES);
+        }]];
+        
+        [view addAction:[JKAlertAction actionWithTitle:@"Clear Collection" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+            
+            if (alertView.getCollectionAction) {
+                
+                alertView.getCollectionAction.setCustomView(^UIView *(JKAlertAction *action) {
+                    
+                    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+                    v.backgroundColor = [UIColor orangeColor];
+                    return v;
+                });
+            }
+            
+            alertView.relayout(YES);
+        }]];
+        
+    } else {
+
+        [view addAction:[JKAlertAction actionWithTitle:@"Long Table" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+            
+            JKAlertAction *last = alertView.actions.lastObject;
+            [alertView.actions removeAllObjects];
+            
+            for (NSInteger i = 0; i < 30; i++) {
+                
+                [alertView addAction:[JKAlertAction actionWithTitle:@(i + 1).stringValue style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+                    
+                }]];
+            }
+            [alertView addAction:last];
+            
+            alertView.relayout(YES);
+        }]];
+        
+        [view addAction:[JKAlertAction actionWithTitle:@"Normal Table" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+            
+            JKAlertAction *last = alertView.actions.lastObject;
+            [alertView.actions removeAllObjects];
+            
+            for (NSInteger i = 0; i < 3; i++) {
+                
+                [alertView addAction:[JKAlertAction actionWithTitle:@(i + 1).stringValue style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+                    
+                }]];
+            }
+            
+            [alertView addAction:last];
+            
+            alertView.relayout(YES);
+        }]];
+        
+        [view addAction:[JKAlertAction actionWithTitle:@"Clear Table" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+            
+            [alertView.actions removeAllObjects];
+            
+            alertView.relayout(YES);
+        }]];
+    }
+    
+    
+    
+    
+    [view addAction:[JKAlertAction actionWithTitle:@"--------------------------------" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setAutoDismiss(NO).setTitleColor([UIColor redColor])];
+    
+    
+    
+    
+    [view addAction:[JKAlertAction actionWithTitle:@"Long Cancel" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+        if (alertView.getCancelAction) {
+            
+            alertView.getCancelAction.setCustomView(^UIView *(JKAlertAction *action) {
+                
+                UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1000)];
+                v.backgroundColor = [UIColor orangeColor];
+                return v;
+            });
+        }
+        
+        alertView.relayout(YES);
+    }]];
+    
+    [view addAction:[JKAlertAction actionWithTitle:@"Normal Cancel" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+        if (alertView.getCancelAction) {
+            
+            alertView.getCancelAction.setCustomView(^UIView *(JKAlertAction *action) {
+                
+                UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 60)];
+                v.backgroundColor = [UIColor orangeColor];
+                return v;
+            });
+        }
+        
+        alertView.relayout(YES);
+    }]];
+    
+    [view addAction:[JKAlertAction actionWithTitle:@"Clear Cancel" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+        if (alertView.getCancelAction) {
+            
+            alertView.getCancelAction.setCustomView(^UIView *(JKAlertAction *action) {
+                
+                UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+                v.backgroundColor = [UIColor orangeColor];
+                return v;
+            });
+        }
+        
+        alertView.relayout(YES);
+    }]];
+    
+    
+    
+    [view addAction:[JKAlertAction actionWithTitle:@"--------------------------------" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+    }].setAutoDismiss(NO).setTitleColor([UIColor redColor])];
+    
+    [view show];
 }
 
 - (NSString *)themeStyleStringWithStyle:(JKAlertThemeStyle)themeStyle {
