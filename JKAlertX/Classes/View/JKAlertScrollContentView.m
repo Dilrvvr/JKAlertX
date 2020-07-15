@@ -11,7 +11,7 @@
 
 - (void)updateContentSize {
     
-    self.scrollView.contentSize = CGSizeMake(0, self.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(0, self.frame.size.height - self.scrollViewTopConstraint.constant - self.scrollViewBottomConstraint.constant);
 }
 
 - (void)checkScrollEnabled {

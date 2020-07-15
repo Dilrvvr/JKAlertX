@@ -69,6 +69,8 @@
     
     [self adjustActionSheetFrame];
     
+    [self checkBottomInset];
+    
     if (self.isPierced) {
         
         self.topContentView.layer.cornerRadius = self.cornerRadius;
@@ -106,6 +108,23 @@
 #pragma mark
 #pragma mark - Private Methods
 
+- (void)checkBottomInset {
+    
+    if (!JKAlertIsDeviceX()  ||
+        self.isPierced ||
+        !self.autoAdjustHomeIndicator) {
+        
+        return;
+    }
+    
+    if (self.bottomButtonPinned) {
+        
+        
+        
+        return;
+    }
+}
+
 - (void)adjustActionSheetFrame {
     
     CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
@@ -139,8 +158,6 @@
     
     self.topContentView.frame = frame;
     
-    self.topContentView.scrollView.contentSize = CGSizeMake(0, self.topContentView.frame.size.height);
-    
     CGFloat topHeight = self.topContentView.frame.size.height;
     
     CGFloat bottomHeight = self.tableView.frame.size.height;
@@ -161,8 +178,6 @@
             
             bottomHeight += self.piercedInsets.bottom;
         }
-        
-        self.bottomContentView.scrollView.contentSize = CGSizeMake(0, self.bottomContentView.frame.size.height);
         
         self.bottomContentView.hidden = NO;
     }
@@ -254,25 +269,23 @@
     if (self.bottomButtonPinned &&
         self.cancelAction.rowHeight >= 0.1) {
             
-        frame.size.height += self.cancelButton.frame.size.height;
+        frame.size.height += self.bottomContentView.frame.size.height;
         
-        frame.size.height += self.cancelMargin;
-        
-        if (self.isPierced) {
-            
-            frame.size.height += self.piercedInsets.bottom;
-            
-            frame.size.height += JKAlertAdjustHomeIndicatorHeight;
-            
-        } else {
-            
-            if (self.fillHomeIndicator) {
-                
-            } else {
-                
-                frame.size.height += JKAlertAdjustHomeIndicatorHeight;
-            }
-        }
+//        if (self.isPierced) {
+//
+//            frame.size.height += self.piercedInsets.bottom;
+//
+//            frame.size.height += JKAlertAdjustHomeIndicatorHeight;
+//
+//        } else {
+//
+//            if (self.fillHomeIndicator) {
+//
+//            } else {
+//
+//                frame.size.height += JKAlertAdjustHomeIndicatorHeight;
+//            }
+//        }
     }
     
     self.frame = frame;
@@ -297,6 +310,10 @@
         
         self.topContentView.scrollViewBottomConstraint.constant = 0;
     }
+    
+    [self.topContentView updateContentSize];
+    
+    [self.bottomContentView updateContentSize];
 }
 
 /// 固定底部取消按钮时计算tableView和取消按钮的frame
@@ -357,7 +374,7 @@
         self.tableView.frame = frame;
         
         frame = self.bottomContentView.frame;
-        frame.size.height = halfHeight - extraHeight;
+        frame.size.height = halfHeight;
         self.bottomContentView.frame = frame;
         
     } else if (self.tableView.frame.size.height > halfHeight) {
@@ -465,7 +482,7 @@
     
     self.bottomContentView.scrollViewTopConstraint.constant = self.cancelMargin;
     
-    self.bottomContentView.frame = self.cancelButton.frame;
+    self.bottomContentView.frame = frame;
     
     if (self.cancelAction.customView) {
         

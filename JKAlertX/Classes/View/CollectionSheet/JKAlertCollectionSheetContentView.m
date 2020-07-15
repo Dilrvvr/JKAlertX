@@ -64,11 +64,11 @@
     self.textContentView.screenSafeInsets = self.screenSafeInsets;
     self.textContentView.contentWidth = self.contentWidth;
     
-    [self.textContentView calculateUI];
+    [self layoutActionButton];
     
     [self layoutCollectionView];
     
-    [self layoutActionButton];
+    [self.textContentView calculateUI];
     
     [self adjustCollectionSheetFrame];
     
@@ -345,15 +345,15 @@
     CGRect actionRect = CGRectMake(0, 0, self.contentWidth, 0);
     
     if (!self.collectionButton.hidden) {
+
+        frame = self.collectionButton.frame;
+        frame.origin.y = 0;
+        self.collectionButton.frame = frame;
         
         if (self.topContainerView.frame.size.height >= topInitialHeight + 0.1) {
             
             actionRect.size.height += self.cancelMargin;
         }
-
-        frame = self.collectionButton.frame;
-        frame.origin.y = actionRect.size.height;
-        self.collectionButton.frame = frame;
         
         actionRect.size.height += self.collectionButton.frame.size.height;
     }
@@ -375,16 +375,16 @@
         }
         
     } else {
+
+        frame = self.cancelButton.frame;
+        frame.origin.y = self.collectionButton.hidden ? 0 : CGRectGetMaxY(self.collectionButton.frame) + self.cancelMargin;
+        self.cancelButton.frame = frame;
         
         if (!self.collectionButton.hidden ||
             self.topContainerView.frame.size.height > topInitialHeight + 0.1) {
             
             actionRect.size.height += self.cancelMargin;
         }
-
-        frame = self.cancelButton.frame;
-        frame.origin.y = actionRect.size.height;
-        self.cancelButton.frame = frame;
         
         actionRect.size.height += self.cancelButton.frame.size.height;
         
@@ -400,6 +400,7 @@
     
     actionRect.origin.y = CGRectGetMaxY(self.topContainerView.frame);
     self.bottomContentView.frame = actionRect;
+    self.bottomContentView.scrollViewTopConstraint.constant = self.cancelMargin;
     
     [self.bottomContentView updateContentSize];
     
