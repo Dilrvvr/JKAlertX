@@ -92,10 +92,10 @@
         self.cancelButton.layer.cornerRadius = 0;
     }
     
-    [self.topContentView updateScrollContentViewFrame];
-    [self.bottomContentView updateScrollContentViewFrame];
+    //[self.topContentView updateScrollContentViewFrame];
+    //[self.bottomContentView updateScrollContentViewFrame];
     
-    [self updateTableViewInsets];
+    //[self updateTableViewInsets];
     
     [self.tableView reloadData];
     
@@ -267,6 +267,7 @@
     }
     
     [self.topContentView updateContentSize];
+    [self.topContentView updateScrollContentViewFrame];
     [self.topContentView updateScrollContentViewFrame];
     
     CGFloat topHeight = self.topContentView.frame.size.height;
