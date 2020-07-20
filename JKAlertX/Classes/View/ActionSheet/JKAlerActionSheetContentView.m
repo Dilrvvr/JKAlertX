@@ -61,15 +61,24 @@
     self.textContentView.screenSafeInsets = self.isPierced ? UIEdgeInsetsZero : self.screenSafeInsets;
     self.textContentView.contentWidth = self.contentWidth;
     
-    [self layoutCancelActionButton];
-    
-    [self layoutTableView];
-    
-    [self.textContentView calculateUI];
-    
-    [self adjustActionSheetFrame];
-    
-    [self checkBottomInset];
+//    [self layoutCancelActionButton];
+//
+//    [self layoutTableView];
+//
+//    [self.textContentView calculateUI];
+//
+//    [self adjustActionSheetFrame];
+//
+//    [self checkBottomInset];
+
+    if (self.bottomButtonPinned) {
+        
+        [self calculatePinnedUI];
+        
+    } else {
+        
+        [self calculateNormalUI];
+    }
     
     if (self.isPierced) {
         
@@ -123,6 +132,275 @@
         
         return;
     }
+}
+
+- (void)calculateTextContentView {
+    
+    [self.textContentView calculateUI];
+}
+
+- (void)calculateTopGestureIndicatorUI {
+    
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    if (self.gestureIndicatorHidden ||
+        !self.verticalGestureDismissEnabled) {
+        
+        self.topGestureIndicatorView.hidden = YES;
+        self.topGestureIndicatorView.frame = frame;
+        
+        return;
+    }
+    
+    self.topGestureIndicatorView.hidden = NO;
+    
+    frame.size.height = JKAlertTopGestureIndicatorHeight;
+    self.topGestureIndicatorView.frame = frame;
+    
+    if (!self.topGestureIndicatorView.hidden) {
+        
+        self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - JKAlertTopGestureIndicatorLineWidth) * 0.5, (JKAlertTopGestureIndicatorHeight - JKAlertTopGestureIndicatorLineHeight) * 0.5, JKAlertTopGestureIndicatorLineWidth, JKAlertTopGestureIndicatorLineHeight);
+    }
+}
+
+- (void)calculateNormalTotalFrame {
+    
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    frame.size.height += self.topContentView.frame.size.height;
+    frame.size.height += self.tableView.frame.size.height;
+    
+    self.frame = frame;
+}
+
+#pragma mark
+#pragma mark - 计算普通样式
+
+- (void)calculateNormalUI {
+    
+    [self calculateNormalTableView];
+    
+    [self calculateTextContentView];
+    
+    [self calculateTopGestureIndicatorUI];
+    
+    [self adjustNormalActionSheetFrame];
+    
+    [self calculateNormalTotalFrame];
+}
+
+- (void)resetScrollViewUI {
+    
+    UIEdgeInsets contentInset = UIEdgeInsetsZero;
+    
+    UIEdgeInsets scrollIndicatorInsets = UIEdgeInsetsZero;
+    scrollIndicatorInsets.right = self.isPierced ? 0 : self.screenSafeInsets.right;
+    
+    self.topContentView.scrollView.scrollEnabled = NO;
+    self.tableView.scrollEnabled = NO;
+    self.bottomContentView.scrollView.scrollEnabled = NO;
+    
+    self.topContentView.scrollView.contentInset = contentInset;
+    self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+    
+    self.tableView.contentInset = contentInset;
+    self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
+    
+    self.bottomContentView.scrollView.contentInset = contentInset;
+    self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+}
+
+- (void)adjustNormalActionSheetFrame {
+    
+    [self.contentView addSubview:self.tableView];
+    self.topContentView.scrollViewBottomConstraint.constant = 0;
+    
+    [self resetScrollViewUI];
+    
+    UIEdgeInsets contentInset = UIEdgeInsetsZero;
+    contentInset.bottom = JKAlertAdjustHomeIndicatorHeight;
+    
+    UIEdgeInsets scrollIndicatorInsets = UIEdgeInsetsZero;
+    scrollIndicatorInsets.right = self.isPierced ? 0 : self.screenSafeInsets.right;
+    scrollIndicatorInsets.bottom = JKAlertAdjustHomeIndicatorHeight;
+    
+    self.bottomContentView.hidden = YES;
+    
+    CGRect frame = self.topGestureIndicatorView.frame;
+    frame.origin.y = 0;
+    self.topGestureIndicatorView.frame = frame;
+    
+    frame = self.textContentView.frame;
+    frame.origin.y = CGRectGetMaxY(self.topGestureIndicatorView.frame);
+    self.textContentView.frame = frame;
+    
+    frame = CGRectMake(0, 0, self.contentWidth, 0);
+    frame.size.height += self.topGestureIndicatorView.frame.size.height;
+    frame.size.height += self.textContentView.frame.size.height;
+    self.topContentView.frame = frame;
+    
+    if (self.tableView.hidden) {
+        
+        frame = self.topContentView.frame;
+        frame.size.height += JKAlertAdjustHomeIndicatorHeight;
+        self.topContentView.frame = frame;
+        
+        [self.topContentView updateContentSize];
+        [self.topContentView updateScrollContentViewFrame];
+        
+        if (self.maxHeight <= 0) { return; }
+        
+        if (self.topContentView.frame.size.height > self.maxHeight) {
+            
+            frame = self.topContentView.frame;
+            frame.origin.y = 0;
+            frame.size.height = self.maxHeight;
+            self.topContentView.frame = frame;
+
+            self.topContentView.scrollView.scrollEnabled = YES;
+            
+            self.topContentView.scrollView.contentInset = contentInset;
+            self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+        }
+        
+        return;
+    }
+    
+    [self.topContentView updateContentSize];
+    [self.topContentView updateScrollContentViewFrame];
+    
+    CGFloat topHeight = self.topContentView.frame.size.height;
+    
+    CGFloat bottomHeight = self.tableView.frame.size.height;
+    
+    CGFloat totalHeight = topHeight + bottomHeight;
+    
+    CGFloat halfHeight = self.maxHeight * 0.5;
+    
+    if (self.maxHeight <= 0 ||
+        totalHeight <= self.maxHeight) {
+        
+        frame = self.tableView.frame;
+        frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+        self.tableView.frame = frame;
+        
+    } else if (topHeight > halfHeight &&
+               bottomHeight > halfHeight) {
+        
+        // 二者都超过最大高度的一半
+        
+        frame = self.topContentView.frame;
+        frame.size.height = halfHeight;
+        self.topContentView.frame = frame;
+        
+        frame = self.tableView.frame;
+        frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+        frame.size.height = halfHeight;
+        self.tableView.frame = frame;
+        
+        self.topContentView.scrollView.scrollEnabled = YES;
+        self.tableView.scrollEnabled = YES;
+        
+        self.tableView.contentInset = contentInset;
+        self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
+        
+    } else if (topHeight > halfHeight) {
+        
+        // 上部分高度更高
+        
+        frame = self.topContentView.frame;
+        frame.size.height = self.maxHeight - self.tableView.frame.size.height;
+        self.topContentView.frame = frame;
+        
+        frame = self.tableView.frame;
+        frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+        self.tableView.frame = frame;
+        
+        self.topContentView.scrollView.scrollEnabled = YES;
+        
+    } else if (bottomHeight > halfHeight) {
+        
+        // 下部分高度更高
+        self.topContentView.scrollView.scrollEnabled = NO;
+        
+        frame = self.topContentView.frame;
+        self.topContentView.frame = frame;
+        
+        frame = self.tableView.frame;
+        frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+        frame.size.height = self.maxHeight - self.topContentView.frame.size.height;
+        self.tableView.frame = frame;
+        
+        self.tableView.scrollEnabled = YES;
+        
+        self.tableView.contentInset = contentInset;
+        self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
+    }
+    
+    frame = self.tableView.frame;
+    frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+    self.tableView.frame = frame;
+    
+    if (!self.bottomContentView.hidden) {
+        
+        frame = self.bottomContentView.frame;
+        
+        frame.origin.y = CGRectGetMaxY(self.tableView.frame);
+        
+        self.bottomContentView.frame = frame;
+    }
+    
+    frame = CGRectMake(0, 0, self.contentWidth, self.topContentView.frame.size.height + self.tableView.frame.size.height);
+    
+    self.horizontalSeparatorLineView.hidden = (topHeight <= 0 || self.actionArray.count <= 0);
+    
+    self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.topContentView.frame), self.contentWidth, JKAlertGlobalSeparatorLineThickness());
+}
+
+- (void)calculateNormalTableView {
+    
+    CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    // 没有action且cancelAction的高度小于0.1
+    if (self.actionArray.count <= 0 &&
+        self.cancelAction.rowHeight < 0.1) {
+        
+        self.tableView.hidden = YES;
+        
+        self.tableView.frame = rect;
+        
+        return;
+    }
+    
+    // 有action或cancelAction的高度大于等于0.1
+    
+    self.tableView.hidden = NO;
+    
+    // 加上action的高度
+    for (JKAlertAction *action in self.actionArray) {
+        
+        rect.size.height += action.rowHeight;
+    }
+    
+    // 如果取消按钮高度大于等于0.1，则加上相应高度
+    if (self.cancelAction.rowHeight >= 0.1) {
+        
+        rect.size.height += self.cancelMargin;
+        
+        rect.size.height += self.cancelAction.rowHeight;
+    }
+    
+    // 自动适配X设备底部间距时，加上X设备底部间距
+    rect.size.height += JKAlertAdjustHomeIndicatorHeight;
+    
+    self.tableView.frame = rect;
+}
+
+#pragma mark
+#pragma mark - 计算镂空样式
+
+- (void)calculatePinnedUI {
+    
 }
 
 - (void)adjustActionSheetFrame {
@@ -425,6 +703,10 @@
     
     // 固定取消按钮在底部，则tableView高度计算完毕
     if (self.bottomButtonPinned) {
+        
+        if (self.isPierced) {
+            
+        }
         
         self.tableView.frame = rect;
         
