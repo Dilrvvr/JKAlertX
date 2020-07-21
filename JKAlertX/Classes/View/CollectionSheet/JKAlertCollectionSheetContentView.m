@@ -51,6 +51,24 @@
 #pragma mark
 #pragma mark - Public Methods
 
+- (void)setCellClassName:(NSString *)cellClassName {
+    
+    if (![NSClassFromString(cellClassName) isKindOfClass:[JKAlertCollectionViewCell class]]) { return; }
+    
+    _cellClassName = cellClassName;
+    
+    [self registerCellClass];
+}
+
+- (void)setIsPierced:(BOOL)isPierced {
+    [super setIsPierced:isPierced];
+    
+    self.cancelAction.isPierced = isPierced;
+    self.collectionAction.isPierced = isPierced;
+    
+    self.backgroundEffectView.hidden = self.isPierced;
+}
+
 - (void)calculateUI {
     [super calculateUI];
     
@@ -58,21 +76,27 @@
         
         self.layer.mask = nil;
     }
-    
-    self.backgroundEffectView.hidden = self.isPierced;
-    
-    self.textContentView.screenSafeInsets = self.screenSafeInsets;
-    self.textContentView.contentWidth = self.contentWidth;
-    
-    [self layoutActionButton];
-    
-    [self layoutCollectionView];
-    
-    [self.textContentView calculateUI];
-    
-    [self adjustCollectionSheetFrame];
-    
-    [self adjustPinActionButtonCollectionSheetFrame];
+
+    if (self.bottomButtonPinned) {
+
+        // TODO: - JKTODO <#注释#>
+        //[self calculatePinnedUI];
+        
+        
+        [self calculateTextContentView];
+        
+        [self layoutActionButton];
+        
+        [self layoutCollectionView];
+        
+        [self adjustCollectionSheetFrame];
+        
+        [self adjustPinActionButtonCollectionSheetFrame];
+
+    } else {
+
+        [self calculateNormalUI];
+    }
     
     if (self.isPierced) {
         
@@ -107,22 +131,6 @@
     }
 }
 
-- (void)setCellClassName:(NSString *)cellClassName {
-    
-    if (![NSClassFromString(cellClassName) isKindOfClass:[JKAlertCollectionViewCell class]]) { return; }
-    
-    _cellClassName = cellClassName;
-    
-    [self registerCellClass];
-}
-
-- (void)setIsPierced:(BOOL)isPierced {
-    [super setIsPierced:isPierced];
-    
-    self.cancelAction.isPierced = isPierced;
-    self.collectionAction.isPierced = isPierced;
-}
-
 #pragma mark
 #pragma mark - Override
 
@@ -141,6 +149,357 @@
 
 #pragma mark
 #pragma mark - Private Methods
+
+- (void)resetScrollViewUI {
+    
+    UIEdgeInsets contentInset = UIEdgeInsetsZero;
+    
+    UIEdgeInsets scrollIndicatorInsets = UIEdgeInsetsZero;
+    scrollIndicatorInsets.right = self.isPierced ? 0 : self.screenSafeInsets.right;
+    
+    self.topContentView.scrollView.scrollEnabled = NO;
+    self.bottomContentView.scrollView.scrollEnabled = NO;
+    
+    self.topContentView.scrollView.contentInset = contentInset;
+    self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+    
+    self.bottomContentView.scrollView.contentInset = contentInset;
+    self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+}
+
+- (void)calculateTopGestureIndicatorUI {
+    
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    if (self.gestureIndicatorHidden ||
+        !self.verticalGestureDismissEnabled) {
+        
+        self.topGestureIndicatorView.hidden = YES;
+        self.topGestureIndicatorView.frame = frame;
+        
+        return;
+    }
+    
+    self.topGestureIndicatorView.hidden = NO;
+    
+    frame.size.height = JKAlertTopGestureIndicatorHeight;
+    self.topGestureIndicatorView.frame = frame;
+    
+    if (!self.topGestureIndicatorView.hidden) {
+        
+        self.topGestureLineView.frame = CGRectMake((self.topGestureIndicatorView.frame.size.width - JKAlertTopGestureIndicatorLineWidth) * 0.5, (JKAlertTopGestureIndicatorHeight - JKAlertTopGestureIndicatorLineHeight) * 0.5, JKAlertTopGestureIndicatorLineWidth, JKAlertTopGestureIndicatorLineHeight);
+    }
+}
+
+- (void)calculateTextContentView {
+    
+    self.textContentView.screenSafeInsets = self.isPierced ? UIEdgeInsetsZero : self.screenSafeInsets;
+    self.textContentView.contentWidth = self.contentWidth;
+    
+    [self.textContentView calculateUI];
+}
+
+- (void)calculateActionButtonUI {
+    
+    self.cancelAction.isPierced = self.isPierced;
+    self.cancelButton.action = self.cancelAction;
+    
+    self.collectionAction.isPierced = self.isPierced;
+    self.collectionButton.action = self.collectionAction;
+
+    self.bottomContentView.scrollViewTopConstraint.constant = 0;
+    self.bottomContentView.scrollViewBottomConstraint.constant = -JKAlertAdjustHomeIndicatorHeight;
+    
+    if (self.cancelAction.rowHeight < 0.1) {
+        
+        self.cancelButton.hidden = YES;
+        self.cancelButton.frame = CGRectZero;
+    }
+    
+    if (!self.collectionAction ||
+        self.collectionAction.rowHeight < 0.1) {
+        
+        self.collectionButton.hidden = YES;
+        self.collectionButton.frame = CGRectZero;
+    }
+    
+    if (self.cancelButton.hidden &&
+        self.collectionButton.hidden) {
+        
+        self.bottomContentView.hidden = YES;
+        
+        return;
+    }
+    
+    self.bottomContentView.hidden = NO;
+    
+    // 固定取消按钮且取消按钮的高度大于等于0.1
+    
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    rect.size.height += JKAlertAdjustHomeIndicatorHeight;
+    
+    if (!self.cancelButton.hidden) {
+        
+        self.bottomContentView.scrollViewTopConstraint.constant = self.cancelMargin;
+        
+        frame.size.height = self.cancelAction.rowHeight;
+        
+        // 非镂空效果 且 自动适配X设备底部 且 填充X设备底部
+        if (!self.isPierced &&
+            self.autoAdjustHomeIndicator &&
+            self.fillHomeIndicator) {
+            
+            // 加上底部间距
+            frame.size.height += JKAlertAdjustHomeIndicatorHeight;
+            
+            rect.size.height -= JKAlertAdjustHomeIndicatorHeight;
+            
+            self.bottomContentView.scrollViewBottomConstraint.constant = 0;
+        }
+        
+        self.cancelButton.frame = frame;
+        
+        if (self.cancelAction.customView) {
+            
+            self.cancelAction.customView.frame = self.cancelButton.bounds;
+        }
+        
+        rect.size.height += self.cancelMargin;
+        rect.size.height += self.cancelButton.frame.size.height;
+    }
+    
+    if (!self.collectionButton.hidden) {
+        
+        self.bottomContentView.scrollViewTopConstraint.constant = self.cancelMargin;
+        
+        frame.size.height = self.collectionAction.rowHeight;
+        
+        self.collectionButton.frame = frame;
+        
+        if (self.collectionAction.customView) {
+            
+            self.collectionAction.customView.frame = self.collectionButton.bounds;
+        }
+        
+        rect.size.height += self.cancelMargin;
+        rect.size.height += self.cancelButton.frame.size.height;
+    }
+    
+    self.bottomContentView.frame = rect;
+    
+    [self.bottomContentView updateContentSize];
+    [self.bottomContentView updateScrollContentViewFrame];
+}
+
+- (void)calculateCollectionViewUI {
+    
+    NSInteger count = self.actionArray.count;
+    NSInteger count2 = self.actionArray2.count;
+    
+    if (count <= 0 && count2 <= 0) {
+        
+        self.collectionView.hidden = YES;
+        self.collectionView2.hidden = YES;
+        self.pageControl.hidden = YES;
+        
+        self.collectionView.frame = CGRectZero;
+        self.collectionView2.frame = CGRectZero;
+        self.pageControl.frame = CGRectZero;
+        
+        return;
+    }
+    
+    self.pageControl.numberOfPages = ceil(((self.minimumLineSpacing + self.itemSize.width) * MAX(count, count2) - 5) / self.contentWidth);
+    
+    // TODO: - JKTODO <#注释#>
+    CGFloat collectionHeight = self.itemSize.height;
+    
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, collectionHeight);
+    
+    self.collectionView.hidden = (count <= 0);
+    self.collectionView2.hidden = (count2 <= 0);
+    
+    if (self.collectionView.hidden) {
+        
+        self.collectionView.frame = CGRectZero;
+        
+    } else {
+        
+        if (!self.collectionView2.hidden) {
+        
+            frame.size.height += MAX(self.collectionViewMargin, 0);
+        }
+        
+        self.collectionView.frame = frame;
+    }
+    
+    if (self.collectionView2.hidden) {
+        
+        self.collectionView2.frame = CGRectZero;
+        
+    } else {
+        
+        frame.size.height = collectionHeight;
+        
+        self.collectionView2.frame = frame;
+    }
+    
+    self.pageControl.hidden = self.pageControlHidden;
+    
+    if (!self.pageControl.hidden) {
+        
+        frame.size.height = self.pageControlHeight;
+        
+        self.pageControl.frame = frame;
+    }
+}
+
+- (void)calculateTopContainerViewUI {
+    
+    CGRect frame = self.topGestureIndicatorView.frame;
+    frame.origin.y = 0;
+    self.topGestureIndicatorView.frame = frame;
+    
+    frame = self.textContentView.frame;
+    frame.origin.y = CGRectGetMaxY(self.topGestureIndicatorView.frame);
+    self.textContentView.frame = frame;
+    
+    frame = self.titleSeparatorLineView.frame;
+    frame.origin.y = CGRectGetMaxY(self.topGestureIndicatorView.frame);
+    self.titleSeparatorLineView.frame = frame;
+    
+    self.titleSeparatorLineView.hidden = self.titleSeparatorLineHidden || self.textContentView.hidden;
+    
+    frame = self.collectionView.frame;
+    frame.origin.y = CGRectGetMaxY(self.textContentView.frame);
+    self.collectionView.frame = frame;
+    
+    frame = self.collectionSeparatorLineView.frame;
+    frame.origin.y = CGRectGetMaxY(self.collectionView.frame) - self.collectionViewMargin * 0.5;
+    self.collectionSeparatorLineView.frame = frame;
+    
+    self.collectionSeparatorLineView.hidden = (self.collectionSeparatorLineHidden || self.collectionView.hidden || self.collectionView2.hidden);
+    
+    frame = self.collectionView2.frame;
+    frame.origin.y = CGRectGetMaxY(self.collectionView.frame);
+    self.collectionView2.frame = frame;
+    
+    frame = self.pageControl.frame;
+    frame.origin.y = CGRectGetMaxY(self.collectionView2.frame);
+    self.pageControl.frame = frame;
+    
+    frame = CGRectMake(0, 0, self.contentWidth, 0);
+    frame.size.height += self.topGestureIndicatorView.frame.size.height;
+    frame.size.height += self.textContentView.frame.size.height;
+    frame.size.height += self.collectionView.frame.size.height;
+    frame.size.height += self.collectionView2.frame.size.height;
+    frame.size.height += self.pageControl.frame.size.height;
+    self.topContainerView.frame = frame;
+}
+
+#pragma mark
+#pragma mark - 计算普通样式
+
+- (void)calculateNormalUI {
+    
+    [self calculateActionButtonUI];
+    
+    [self calculateCollectionViewUI];
+    
+    [self calculateTextContentView];
+    
+    [self calculateTopGestureIndicatorUI];
+    
+    [self calculateTopContainerViewUI];
+    
+    [self adjustNormalCollectionSheetFrame];
+    
+    [self calculateNormalTotalFrame];
+}
+
+- (void)calculateNormalTotalFrame {
+    
+    self.frame = self.topContentView.frame;
+}
+
+- (void)adjustNormalCollectionSheetFrame {
+    
+    [self.topContentView.scrollContentView addSubview:self.bottomContentView];
+    
+    [self resetScrollViewUI];
+    
+    UIEdgeInsets contentInset = UIEdgeInsetsZero;
+    contentInset.bottom = JKAlertAdjustHomeIndicatorHeight;
+    
+    UIEdgeInsets scrollIndicatorInsets = UIEdgeInsetsZero;
+    scrollIndicatorInsets.right = self.isPierced ? 0 : self.screenSafeInsets.right;
+    scrollIndicatorInsets.bottom = JKAlertAdjustHomeIndicatorHeight;
+    
+    
+    
+    CGRect frame = self.topContainerView.frame;
+    frame.origin.y = 0;
+    self.topContainerView.frame = frame;
+    
+    frame = self.bottomContentView.frame;
+    frame.origin.y = CGRectGetMaxY(self.topContainerView.frame);
+    self.bottomContentView.frame = frame;
+    
+    frame = CGRectMake(0, 0, self.contentWidth, 0);
+    frame.size.height += self.topContainerView.frame.size.height;
+    frame.size.height += self.bottomContentView.frame.size.height;
+    self.topContentView.frame = frame;
+    
+    [self.topContentView updateContentSize];
+    [self.topContentView updateScrollContentViewFrame];
+    
+    if (self.maxHeight <= 0 || self.topContentView.frame.size.height < self.maxHeight) { return; }
+    
+
+    frame = self.topContentView.frame;
+    frame.size.height = self.maxHeight;
+    self.topContentView.frame = frame;
+    
+    self.topContentView.scrollView.scrollEnabled = YES;
+    
+    if (self.autoAdjustHomeIndicator &&
+        (!self.fillHomeIndicator ||
+         self.cancelButton.hidden)) {
+        
+        self.topContentView.scrollView.contentInset = contentInset;
+        self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+    }
+}
+
+#pragma mark
+#pragma mark - 计算固定底部按钮样式
+
+- (void)calculatePinnedUI {
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark
+#pragma mark - <#标记#>
 
 - (void)adjustPinActionButtonCollectionSheetFrame {
     

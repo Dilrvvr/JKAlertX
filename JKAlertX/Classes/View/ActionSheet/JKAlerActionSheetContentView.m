@@ -64,11 +64,6 @@
         
         self.layer.mask = nil;
     }
-    
-    self.backgroundEffectView.hidden = self.isPierced;
-    
-    self.textContentView.screenSafeInsets = self.isPierced ? UIEdgeInsetsZero : self.screenSafeInsets;
-    self.textContentView.contentWidth = self.contentWidth;
 
     if (self.bottomButtonPinned) {
         
@@ -112,6 +107,9 @@
 #pragma mark - Private Methods
 
 - (void)calculateTextContentView {
+    
+    self.textContentView.screenSafeInsets = self.isPierced ? UIEdgeInsetsZero : self.screenSafeInsets;
+    self.textContentView.contentWidth = self.contentWidth;
     
     [self.textContentView calculateUI];
 }
@@ -281,7 +279,8 @@
         self.tableView.scrollEnabled = YES;
         
         if (self.autoAdjustHomeIndicator &&
-            !self.fillHomeIndicator) {
+            (!self.fillHomeIndicator ||
+             self.cancelAction.rowHeight < 0.1)) {
             
             self.tableView.contentInset = contentInset;
             self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
@@ -317,7 +316,8 @@
         self.tableView.scrollEnabled = YES;
         
         if (self.autoAdjustHomeIndicator &&
-            !self.fillHomeIndicator) {
+            (!self.fillHomeIndicator ||
+             self.cancelAction.rowHeight < 0.1)) {
             
             self.tableView.contentInset = contentInset;
             self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
@@ -1186,6 +1186,8 @@
 - (void)updateIsPierced {
     
     self.cancelAction.isPierced = self.isPierced;
+    
+    self.backgroundEffectView.hidden = self.isPierced;
 }
 
 - (void)registerCellClass {
