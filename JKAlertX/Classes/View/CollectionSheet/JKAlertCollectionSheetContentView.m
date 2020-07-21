@@ -82,7 +82,6 @@
         // TODO: - JKTODO <#注释#>
         //[self calculatePinnedUI];
         
-        
         [self calculateTextContentView];
         
         [self layoutActionButton];
@@ -241,6 +240,23 @@
     
     rect.size.height += JKAlertAdjustHomeIndicatorHeight;
     
+    if (!self.collectionButton.hidden) {
+        
+        self.bottomContentView.scrollViewTopConstraint.constant = self.cancelMargin;
+        
+        frame.size.height = self.collectionAction.rowHeight;
+        
+        self.collectionButton.frame = frame;
+        
+        if (self.collectionAction.customView) {
+            
+            self.collectionAction.customView.frame = self.collectionButton.bounds;
+        }
+        
+        rect.size.height += self.cancelMargin;
+        rect.size.height += self.collectionButton.frame.size.height;
+    }
+    
     if (!self.cancelButton.hidden) {
         
         self.bottomContentView.scrollViewTopConstraint.constant = self.cancelMargin;
@@ -260,28 +276,13 @@
             self.bottomContentView.scrollViewBottomConstraint.constant = 0;
         }
         
+        frame.origin.y = CGRectGetMaxY(self.collectionButton.frame) + self.cancelMargin;
+        
         self.cancelButton.frame = frame;
         
         if (self.cancelAction.customView) {
             
             self.cancelAction.customView.frame = self.cancelButton.bounds;
-        }
-        
-        rect.size.height += self.cancelMargin;
-        rect.size.height += self.cancelButton.frame.size.height;
-    }
-    
-    if (!self.collectionButton.hidden) {
-        
-        self.bottomContentView.scrollViewTopConstraint.constant = self.cancelMargin;
-        
-        frame.size.height = self.collectionAction.rowHeight;
-        
-        self.collectionButton.frame = frame;
-        
-        if (self.collectionAction.customView) {
-            
-            self.collectionAction.customView.frame = self.collectionButton.bounds;
         }
         
         rect.size.height += self.cancelMargin;
@@ -377,8 +378,10 @@
     frame.origin.y = CGRectGetMaxY(self.textContentView.frame);
     self.collectionView.frame = frame;
     
+    CGFloat collectionMargin = MAX(self.collectionViewMargin, 0);
+    
     frame = self.collectionSeparatorLineView.frame;
-    frame.origin.y = CGRectGetMaxY(self.collectionView.frame) - self.collectionViewMargin * 0.5;
+    frame.origin.y = CGRectGetMaxY(self.collectionView.frame) - collectionMargin * 0.5;
     self.collectionSeparatorLineView.frame = frame;
     
     self.collectionSeparatorLineView.hidden = (self.collectionSeparatorLineHidden || self.collectionView.hidden || self.collectionView2.hidden);
@@ -386,6 +389,30 @@
     frame = self.collectionView2.frame;
     frame.origin.y = CGRectGetMaxY(self.collectionView.frame);
     self.collectionView2.frame = frame;
+    
+    CGFloat insetLeft = self.screenSafeInsets.left + self.sectionInset.left;
+    CGFloat insetRight = self.screenSafeInsets.right + self.sectionInset.right;
+
+    
+    self.flowlayout.itemSize = self.itemSize;
+    self.flowlayout.minimumLineSpacing = self.minimumLineSpacing;
+    
+    UIEdgeInsets sectionInset = UIEdgeInsetsMake(self.flowlayout.itemSize.height - self.collectionView.frame.size.height, insetLeft, 0, insetRight);
+    self.flowlayout.sectionInset = sectionInset;
+    
+    self.flowlayout2.itemSize = self.itemSize;
+    self.flowlayout2.minimumLineSpacing = self.minimumLineSpacing;
+    
+    sectionInset = UIEdgeInsetsMake(self.flowlayout2.itemSize.height - self.collectionView2.frame.size.height, insetLeft, 0, insetRight);
+    self.flowlayout2.sectionInset = sectionInset;
+    
+    
+    if (!self.collectionView.hidden &&
+        !self.collectionView2.hidden) {
+        
+        sectionInset.bottom = collectionMargin;
+        self.flowlayout.sectionInset = sectionInset;
+    }
     
     frame = self.pageControl.frame;
     frame.origin.y = CGRectGetMaxY(self.collectionView2.frame);
