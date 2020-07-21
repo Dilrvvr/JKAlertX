@@ -80,17 +80,17 @@
     if (self.bottomButtonPinned) {
 
         // TODO: - JKTODO <#注释#>
-        //[self calculatePinnedUI];
+        [self calculatePinnedUI];
         
-        [self calculateTextContentView];
-        
-        [self layoutActionButton];
-        
-        [self layoutCollectionView];
-        
-        [self adjustCollectionSheetFrame];
-        
-        [self adjustPinActionButtonCollectionSheetFrame];
+//        [self calculateTextContentView];
+//
+//        [self layoutActionButton];
+//
+//        [self layoutCollectionView];
+//
+//        [self adjustCollectionSheetFrame];
+//
+//        [self adjustPinActionButtonCollectionSheetFrame];
 
     } else {
 
@@ -226,6 +226,7 @@
         self.collectionButton.hidden) {
         
         self.bottomContentView.hidden = YES;
+        self.bottomContentView.frame = CGRectZero;
         
         return;
     }
@@ -276,7 +277,7 @@
             self.bottomContentView.scrollViewBottomConstraint.constant = 0;
         }
         
-        frame.origin.y = CGRectGetMaxY(self.collectionButton.frame) + self.cancelMargin;
+        frame.origin.y = self.collectionButton.hidden ? 0 : CGRectGetMaxY(self.collectionButton.frame) + self.cancelMargin;
         
         self.cancelButton.frame = frame;
         
@@ -465,8 +466,6 @@
     scrollIndicatorInsets.right = self.isPierced ? 0 : self.screenSafeInsets.right;
     scrollIndicatorInsets.bottom = JKAlertAdjustHomeIndicatorHeight;
     
-    
-    
     CGRect frame = self.topContainerView.frame;
     frame.origin.y = 0;
     self.topContainerView.frame = frame;
@@ -506,9 +505,121 @@
 
 - (void)calculatePinnedUI {
     
+    [self calculateActionButtonUI];
+    
+    [self calculateCollectionViewUI];
+    
+    [self calculateTextContentView];
+    
+    [self calculateTopGestureIndicatorUI];
+    
+    [self calculateTopContainerViewUI];
+    
+    [self adjustPinnedCollectionSheetFrame];
+    
+    [self calculatePinnedTotalFrame];
 }
 
+- (void)calculatePinnedTotalFrame {
+    
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    frame.size.height += self.topContainerView.frame.size.height;
+    
+    frame.size.height += self.bottomContentView.frame.size.height;
+    
+    self.frame = frame;
+}
 
+- (void)adjustPinnedCollectionSheetFrame {
+    
+    [self.contentView addSubview:self.bottomContentView];
+    
+    [self resetScrollViewUI];
+    
+    UIEdgeInsets contentInset = UIEdgeInsetsZero;
+    contentInset.bottom = JKAlertAdjustHomeIndicatorHeight;
+    
+    UIEdgeInsets scrollIndicatorInsets = UIEdgeInsetsZero;
+    scrollIndicatorInsets.right = self.isPierced ? 0 : self.screenSafeInsets.right;
+    scrollIndicatorInsets.bottom = JKAlertAdjustHomeIndicatorHeight;
+    
+    CGRect frame = self.topContainerView.frame;
+    frame.origin.y = 0;
+    self.topContainerView.frame = frame;
+    
+    frame = CGRectMake(0, 0, self.contentWidth, 0);
+    frame.size.height += self.topContainerView.frame.size.height;
+    self.topContentView.frame = frame;
+    
+    [self.topContentView updateContentSize];
+    [self.topContentView updateScrollContentViewFrame];
+    
+    frame = self.bottomContentView.frame;
+    frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+    self.bottomContentView.frame = frame;
+    
+    CGFloat topHeight = self.topContentView.frame.size.height;
+    
+    CGFloat bottomHeight = self.bottomContentView.frame.size.height;
+    
+    CGFloat totalHeight = topHeight + bottomHeight;
+    
+    if (self.maxHeight <= 0 || totalHeight < self.maxHeight) { return; }
+    
+    CGFloat halfHeight = self.maxHeight * 0.5;
+    
+    if (topHeight > halfHeight &&
+        bottomHeight > halfHeight) {
+            
+        frame = self.topContentView.frame;
+        frame.size.height = halfHeight;
+        self.topContentView.frame = frame;
+            
+        frame = self.bottomContentView.frame;
+        frame.size.height = halfHeight;
+        self.bottomContentView.frame = frame;
+        
+        self.topContentView.scrollView.scrollEnabled = YES;
+        self.bottomContentView.scrollView.scrollEnabled = YES;
+        
+        if (!self.isPierced &&
+            self.autoAdjustHomeIndicator &&
+            !self.fillHomeIndicator) {
+            
+            self.bottomContentView.scrollView.contentInset = contentInset;
+            self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+        }
+        
+    } else if (topHeight > halfHeight) {
+            
+        frame = self.topContentView.frame;
+        frame.size.height = self.maxHeight - self.bottomContentView.frame.size.height;
+        self.topContentView.frame = frame;
+            
+        frame = self.bottomContentView.frame;
+        frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+        self.bottomContentView.frame = frame;
+        
+        self.topContentView.scrollView.scrollEnabled = YES;;
+        
+    } else if (bottomHeight > halfHeight) {
+            
+        frame = self.bottomContentView.frame;
+        frame.size.height = self.maxHeight - self.topContentView.frame.size.height;
+        self.bottomContentView.frame = frame;
+        
+        self.bottomContentView.scrollView.scrollEnabled = YES;
+        
+        if (!self.isPierced &&
+            self.autoAdjustHomeIndicator &&
+            !self.fillHomeIndicator) {
+            
+            self.bottomContentView.scrollView.contentInset = contentInset;
+            self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+        }
+    }
+}
 
 
 
