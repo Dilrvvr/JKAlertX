@@ -71,16 +71,6 @@
     
     self.titleTextView.textView.font = [UIFont boldSystemFontOfSize:17];
     self.messageTextView.textView.font = [UIFont systemFontOfSize:14];
-    
-    [JKAlertThemeProvider providerWithOwner:self.titleTextView.textView handlerKey:NSStringFromSelector(@selector(textColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertTextView *providerOwner) {
-        
-        providerOwner.textColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(25.5), JKAlertSameRGBColor(229.5));
-    }];
-    
-    [JKAlertThemeProvider providerWithOwner:self.messageTextView.textView handlerKey:NSStringFromSelector(@selector(textColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertTextView *providerOwner) {
-        
-        providerOwner.textColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(140.25), JKAlertSameRGBColor(114.75));
-    }];
 }
 
 #pragma mark

@@ -9,6 +9,7 @@
 #import "JKAlertConst.h"
 #import "JKAlertX.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "JKAlertThemeManager.h"
 
 #pragma mark
 #pragma mark - 通知
@@ -52,6 +53,14 @@ CGFloat    const JKAlertTopGestureIndicatorLineHeight = 4.0;
 
 #pragma mark
 #pragma mark - 函数
+
+/**
+ * 判断当前是否深色模式
+ */
+BOOL JKAlertCheckIsDarkMode (void) {
+    
+    return [[JKAlertThemeManager sharedManager] checkIsDarkMode];
+}
 
 /// 全局背景色 浅色模式
 UIColor * JKAlertGlobalLightBackgroundColor (void) {

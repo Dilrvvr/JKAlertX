@@ -7,6 +7,7 @@
 
 #import "JKAlertThemeManager.h"
 #include <objc/runtime.h>
+#import "JKAlertThemeConst.h"
 
 @interface JKAlertThemeManager ()
 
@@ -64,7 +65,7 @@
             if (@available(iOS 13.0, *)) {
                 self.autoSwitchDarkMode = YES;
             }
-            self.themeName = JKAlertCheckDarkMode(JKAlertDefaultThemeLight, JKAlertDefaultThemeDark);
+            self.themeName = JKAlertThemeCheckDarkMode(JKAlertDefaultThemeLight, JKAlertDefaultThemeDark);
             break;
         case JKAlertThemeStyleLight:
             if (@available(iOS 13.0, *)) {

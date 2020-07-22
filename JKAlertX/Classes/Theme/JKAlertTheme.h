@@ -9,7 +9,7 @@
 #ifndef JKAlertTheme_h
 #define JKAlertTheme_h
 
-#import "JKAlertThemeManager.h"
+//#import "JKAlertThemeManager.h"
 #import "JKAlertThemeProvider.h"
 #import "NSObject+JKAlertTheme.h"
 #import "JKAlertThemeConst.h"

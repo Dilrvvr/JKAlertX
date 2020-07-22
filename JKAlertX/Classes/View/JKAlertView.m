@@ -17,6 +17,7 @@
 #import "JKAlertView+HUD.h"
 // TODO: - JKTODO delete
 #import "JKAlertView+ActionSheet.h"
+#import "JKAlertThemeManager.h"
 
 @interface JKAlertView ()
 
@@ -501,17 +502,17 @@
     
     switch ([JKAlertThemeManager sharedManager].themeStyle) {
         case JKAlertThemeStyleSystem:
-            JKAlertView.makeThemeStyle(JKAlertThemeStyleLight);
+            self.makeThemeStyle(JKAlertThemeStyleLight);
             break;
         case JKAlertThemeStyleLight:
-            JKAlertView.makeThemeStyle(JKAlertThemeStyleDark);
+            self.makeThemeStyle(JKAlertThemeStyleDark);
             break;
         case JKAlertThemeStyleDark:
-            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
+            self.makeThemeStyle(JKAlertThemeStyleSystem);
             break;
 
         default:
-            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
+            self.makeThemeStyle(JKAlertThemeStyleSystem);
             break;
     }
     
@@ -1780,6 +1781,11 @@
 /** 初始化自身属性 */
 - (void)initializeProperty {
     [super initializeProperty];
+    
+    if (@available(iOS 13.0, *)) {
+        
+        self.overrideUserInterfaceStyle = (UIUserInterfaceStyle)[JKAlertThemeManager sharedManager].themeStyle;
+    }
     
     /** 屏幕宽度 */
     JKAlertScreenW = self.customSuperView.bounds.size.width;

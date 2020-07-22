@@ -336,12 +336,12 @@
     
     [JKAlertThemeProvider providerWithOwner:self.titleTextView.textView handlerKey:NSStringFromSelector(@selector(textColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertTextView *providerOwner) {
         
-        providerOwner.textColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(89.25), JKAlertSameRGBColor(165.75));
+        providerOwner.textColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(25.5), JKAlertSameRGBColor(229.5));
     }];
     
     [JKAlertThemeProvider providerWithOwner:self.messageTextView.textView handlerKey:NSStringFromSelector(@selector(textColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertTextView *providerOwner) {
         
-        providerOwner.textColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(76.5), JKAlertSameRGBColor(178.5));
+        providerOwner.textColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(53), JKAlertSameRGBColor(202));
     }];
 }
 

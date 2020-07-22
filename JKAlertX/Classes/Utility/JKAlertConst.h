@@ -131,6 +131,9 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 #pragma mark
 #pragma mark - 宏定义
 
+/// 判断深色模式返回对应的数据
+#define JKAlertCheckDarkMode(light, dark) (JKAlertCheckIsDarkMode() ? (dark) : (light))
+
 #define JKAlertScreenScale [UIScreen mainScreen].scale
 
 #define JKAlertScreenBounds [UIScreen mainScreen].bounds
@@ -170,6 +173,11 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 
 #pragma mark
 #pragma mark - 函数
+
+/**
+ * 判断当前是否深色模式
+ */
+BOOL JKAlertCheckIsDarkMode (void);
 
 /// 全局背景色 浅色模式
 UIColor * JKAlertGlobalLightBackgroundColor (void);

@@ -62,7 +62,7 @@
 /**
  * 深色/浅色模式
  */
-@property (class, nonatomic, copy, readonly) JKAlertView *(^makeThemeStyle)(JKAlertThemeStyle themeStyle);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeThemeStyle)(JKAlertThemeStyle themeStyle);
 
 /**
  * 可以在这个block内自定义其它属性
