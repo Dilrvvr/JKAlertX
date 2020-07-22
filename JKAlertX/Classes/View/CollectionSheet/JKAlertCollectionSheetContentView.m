@@ -472,6 +472,9 @@
     frame = CGRectMake(0, 0, self.contentWidth, 0);
     frame.size.height += self.topContainerView.frame.size.height;
     frame.size.height += self.bottomContentView.frame.size.height;
+    if (self.bottomContentView.hidden) {
+        frame.size.height += JKAlertAdjustHomeIndicatorHeight;
+    }
     self.topContentView.frame = frame;
     
     [self.topContentView updateContentSize];
@@ -479,22 +482,14 @@
     
     if (self.maxHeight <= 0 || self.topContentView.frame.size.height < self.maxHeight) { return; }
     
-    
     frame = self.topContentView.frame;
     frame.size.height = self.maxHeight;
     self.topContentView.frame = frame;
     
     self.topContentView.scrollView.scrollEnabled = YES;
     
-    if (self.autoAdjustHomeIndicator) {
-        
-        self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
-        
-        if (self.cancelButton.hidden) {
-            
-            self.topContentView.scrollView.contentInset = contentInset;
-        }
-    }
+    self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+    //self.topContentView.scrollView.contentInset = contentInset;
 }
 
 #pragma mark

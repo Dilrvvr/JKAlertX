@@ -236,7 +236,7 @@
             
             self.topContentView.scrollView.scrollEnabled = YES;
             
-            self.topContentView.scrollView.contentInset = contentInset;
+            //self.topContentView.scrollView.contentInset = contentInset;
             self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
         }
         
