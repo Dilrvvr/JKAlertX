@@ -37,7 +37,7 @@
         [weakSelf refreshWithAction:refreshAction];
     }];
     
-    [self refreshWithAction:action];
+    [self refreshWithAction:_action];
 }
 
 - (void)refreshWithAction:(JKAlertAction *)action {
@@ -45,33 +45,36 @@
     _titleLabel.hidden = NO;
     _iconImageView.hidden = _titleLabel.hidden;
     
-    [self.customView removeFromSuperview];
-    self.customView = nil;
+    if (self.customView &&
+        self.customView.superview == self.contentView) {
+        
+        [self.customView removeFromSuperview];
+        self.customView = nil;
+    }
     
     if (action.customView) {
         
         _titleLabel.hidden = YES;
         _iconImageView.hidden = _titleLabel.hidden;
         
-        self.customView = action.customView;
-        
         [self.contentView addSubview:action.customView];
+        self.customView = action.customView;
         
         return;
     }
     
-    self.titleLabel.font = _action.titleFont;
+    self.titleLabel.font = action.titleFont;
     
-    self.titleLabel.textColor = _action.titleColor;
-    self.titleLabel.highlightedTextColor = [_action.titleColor colorWithAlphaComponent:0.5];
+    self.titleLabel.textColor = action.titleColor;
+    self.titleLabel.highlightedTextColor = [action.titleColor colorWithAlphaComponent:0.5];
     
     self.titleLabel.attributedText = action.attributedTitle;
     
     self.titleLabel.text = action.title;
     
     self.iconImageView.contentMode = action.imageContentMode;
-    self.iconImageView.image = _action.normalImage;
-    self.iconImageView.highlightedImage = _action.hightlightedImage;
+    self.iconImageView.image = action.normalImage;
+    self.iconImageView.highlightedImage = action.hightlightedImage;
 }
 
 #pragma mark

@@ -39,8 +39,12 @@
     
     self.isFullContentWidth = action.isPierced;
     
-    [self.customView removeFromSuperview];
-    self.customView = nil;
+    if (self.customView &&
+        self.customView.superview == self.contentView) {
+        
+        [self.customView removeFromSuperview];
+        self.customView = nil;
+    }
     
     [self updateAppearanceWithAction:action];
     

@@ -79,18 +79,7 @@
     
     if (self.bottomButtonPinned) {
         
-        // TODO: - JKTODO <#注释#>
         [self calculatePinnedUI];
-        
-        //        [self calculateTextContentView];
-        //
-        //        [self layoutActionButton];
-        //
-        //        [self layoutCollectionView];
-        //
-        //        [self adjustCollectionSheetFrame];
-        //
-        //        [self adjustPinActionButtonCollectionSheetFrame];
         
     } else {
         
@@ -214,6 +203,7 @@
         self.collectionButton.frame = CGRectZero;
     }
     
+    /*
     if (self.cancelButton.hidden &&
         self.collectionButton.hidden) {
         
@@ -221,7 +211,7 @@
         self.bottomContentView.frame = CGRectZero;
         
         return;
-    }
+    } //*/
     
     self.bottomContentView.hidden = NO;
     

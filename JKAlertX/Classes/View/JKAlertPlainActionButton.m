@@ -61,14 +61,17 @@
     
     self.topSeparatorLineView.hidden = action.separatorLineHidden;
     
-    [_customView removeFromSuperview];
-    _customView = nil;
+    if (self.customView &&
+        self.customView.superview == self) {
+        
+        [self.customView removeFromSuperview];
+        self.customView = nil;
+    }
     
     if (action.customView) {
         
         [self insertSubview:action.customView belowSubview:self.topSeparatorLineView];
-        
-        _customView = action.customView;
+        self.customView = action.customView;
         
         // 有customViewm，清空文字
         [self setTitle:nil forState:(UIControlStateNormal)];
