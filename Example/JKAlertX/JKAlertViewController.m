@@ -50,42 +50,6 @@
         
         return label;
         
-    }).setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setCustomView(^(JKAlertAction *action) {
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
-        label.numberOfLines = 0;
-        label.backgroundColor = [UIColor orangeColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.text = @"我也是自定义的view~~3";
-        
-        return label;
-        
-    }).setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setCustomView(^(JKAlertAction *action) {
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
-        label.numberOfLines = 0;
-        label.backgroundColor = [UIColor orangeColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.text = @"我也是自定义的view~~4";
-        
-        return label;
-        
-    }).setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-        
-    }].setCustomView(^(JKAlertAction *action) {
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
-        label.numberOfLines = 0;
-        label.backgroundColor = [UIColor orangeColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.text = @"我也是自定义的view~~5";
-        
-        return label;
-        
     }).setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
