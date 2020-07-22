@@ -64,7 +64,7 @@
         
         self.layer.mask = nil;
     }
-
+    
     if (self.bottomButtonPinned) {
         
         [self calculatePinnedUI];
@@ -233,7 +233,7 @@
             frame.origin.y = 0;
             frame.size.height = self.maxHeight;
             self.topContentView.frame = frame;
-
+            
             self.topContentView.scrollView.scrollEnabled = YES;
             
             self.topContentView.scrollView.contentInset = contentInset;
@@ -278,12 +278,12 @@
         self.topContentView.scrollView.scrollEnabled = YES;
         self.tableView.scrollEnabled = YES;
         
-        if (self.autoAdjustHomeIndicator &&
-            (!self.fillHomeIndicator ||
-             self.cancelAction.rowHeight < 0.1)) {
+        self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
+        
+        if (self.cancelAction.rowHeight < 0.1 ||
+            !self.fillHomeIndicator) {
             
             self.tableView.contentInset = contentInset;
-            self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
         }
         
     } else if (topHeight > halfHeight) {
@@ -315,12 +315,12 @@
         
         self.tableView.scrollEnabled = YES;
         
-        if (self.autoAdjustHomeIndicator &&
-            (!self.fillHomeIndicator ||
-             self.cancelAction.rowHeight < 0.1)) {
+        self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
+        
+        if (self.cancelAction.rowHeight < 0.1 ||
+            !self.fillHomeIndicator) {
             
             self.tableView.contentInset = contentInset;
-            self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
         }
     }
     
@@ -423,11 +423,11 @@
 - (void)adjustPinnedActionSheetFrame {
     
     if (self.isPierced) {
-
+        
         [self.topContentView addSubview:self.tableView];
         
     } else {
-
+        
         [self.contentView addSubview:self.tableView];
     }
     
@@ -457,7 +457,7 @@
     
     if (self.tableView.hidden &&
         self.bottomContentView.hidden) {
-            
+        
         self.horizontalSeparatorLineView.hidden = YES;
         
         frame = self.topContentView.frame;
@@ -475,7 +475,7 @@
             frame.origin.y = 0;
             frame.size.height = self.maxHeight;
             self.topContentView.frame = frame;
-
+            
             self.topContentView.scrollView.scrollEnabled = YES;
             
             self.topContentView.scrollView.contentInset = contentInset;
@@ -571,6 +571,10 @@
         
         // 下部分高度更高
         
+        frame = self.tableView.frame;
+        frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+        self.tableView.frame = frame;
+        
         [self checkBottomButtonPinnedBottomFrameWithMaxHeight:self.maxHeight - topHeight];
     }
     
@@ -593,19 +597,17 @@
     
     if (self.bottomContentView.hidden &&
         !self.tableView.hidden) {
-            
+        
         frame = self.tableView.frame;
         frame.size.height = maxHeight;
         self.tableView.frame = frame;
         
         self.tableView.scrollEnabled = YES;
         
-        if (!self.isPierced &&
-            self.autoAdjustHomeIndicator &&
-            !self.fillHomeIndicator) {
+        if (!self.isPierced) {
             
-            self.tableView.contentInset = contentInset;
             self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
+            self.tableView.contentInset = contentInset;
         }
         
         return;
@@ -620,12 +622,11 @@
         
         self.bottomContentView.scrollView.scrollEnabled = YES;
         
-        if (!self.isPierced &&
-            self.autoAdjustHomeIndicator &&
-            !self.fillHomeIndicator) {
+        if (!self.isPierced) {
             
-            self.bottomContentView.scrollView.contentInset = contentInset;
             self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+            
+            //self.bottomContentView.scrollView.contentInset = contentInset;
         }
         
         return;
@@ -666,12 +667,8 @@
             frame.size.height = halfHeight;
             self.bottomContentView.frame = frame;
             
-            if (self.autoAdjustHomeIndicator &&
-                !self.fillHomeIndicator) {
-                
-                self.bottomContentView.scrollView.contentInset = contentInset;
-                self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
-            }
+            //self.bottomContentView.scrollView.contentInset = contentInset;
+            self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
         }
         
         self.tableView.scrollEnabled = YES;
@@ -729,12 +726,8 @@
             frame.size.height = maxHeight - tableHeight;
             self.bottomContentView.frame = frame;
             
-            if (self.autoAdjustHomeIndicator &&
-                !self.fillHomeIndicator) {
-                
-                self.bottomContentView.scrollView.contentInset = contentInset;
-                self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
-            }
+            //self.bottomContentView.scrollView.contentInset = contentInset;
+            self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
         }
         
         self.bottomContentView.scrollView.scrollEnabled = YES;
@@ -777,7 +770,8 @@
 - (void)calculatePinnedCancelButtonUI {
     
     self.bottomContentView.scrollViewTopConstraint.constant = 0;
-    self.bottomContentView.scrollViewBottomConstraint.constant = 0;
+    
+    self.bottomContentView.scrollViewBottomConstraint.constant = self.isPierced ? -JKAlertAdjustHomeIndicatorHeight : 0;
     
     self.cancelAction.isPierced = self.isPierced;
     
@@ -838,8 +832,6 @@
     rect.size.height += self.cancelButton.frame.size.height;
     
     self.bottomContentView.scrollViewTopConstraint.constant = self.cancelMargin;
-    
-    self.bottomContentView.scrollViewBottomConstraint.constant = self.isPierced ? -JKAlertAdjustHomeIndicatorHeight : 0;
     
     self.bottomContentView.frame = rect;
     
@@ -1168,7 +1160,7 @@
     self.cancelButton.layer.masksToBounds = YES;
     
     [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlerActionSheetContentView *providerOwner) {
-
+        
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
     }];
     

@@ -76,24 +76,24 @@
         
         self.layer.mask = nil;
     }
-
+    
     if (self.bottomButtonPinned) {
-
+        
         // TODO: - JKTODO <#注释#>
         [self calculatePinnedUI];
         
-//        [self calculateTextContentView];
-//
-//        [self layoutActionButton];
-//
-//        [self layoutCollectionView];
-//
-//        [self adjustCollectionSheetFrame];
-//
-//        [self adjustPinActionButtonCollectionSheetFrame];
-
+        //        [self calculateTextContentView];
+        //
+        //        [self layoutActionButton];
+        //
+        //        [self layoutCollectionView];
+        //
+        //        [self adjustCollectionSheetFrame];
+        //
+        //        [self adjustPinActionButtonCollectionSheetFrame];
+        
     } else {
-
+        
         [self calculateNormalUI];
     }
     
@@ -111,14 +111,6 @@
         self.collectionButton.layer.cornerRadius = 0;
         self.cancelButton.layer.cornerRadius = 0;
     }
-    
-    [self.topContentView updateScrollContentViewFrame];
-    [self.bottomContentView updateScrollContentViewFrame];
-    
-    self.collectionView.pagingEnabled = self.collectionPagingEnabled;
-    self.collectionView2.pagingEnabled = self.collectionPagingEnabled;
-    
-    [self updateContentInsets];
     
     [self.collectionView reloadData];
     [self.collectionView2 reloadData];
@@ -205,9 +197,9 @@
     
     self.collectionAction.isPierced = self.isPierced;
     self.collectionButton.action = self.collectionAction;
-
+    
     self.bottomContentView.scrollViewTopConstraint.constant = 0;
-    self.bottomContentView.scrollViewBottomConstraint.constant = -JKAlertAdjustHomeIndicatorHeight;
+    self.bottomContentView.scrollViewBottomConstraint.constant = self.isPierced ? -JKAlertAdjustHomeIndicatorHeight : 0;
     
     if (self.cancelAction.rowHeight < 0.1) {
         
@@ -274,7 +266,7 @@
             
             rect.size.height -= JKAlertAdjustHomeIndicatorHeight;
             
-            self.bottomContentView.scrollViewBottomConstraint.constant = 0;
+            //self.bottomContentView.scrollViewBottomConstraint.constant = 0;
         }
         
         frame.origin.y = self.collectionButton.hidden ? 0 : CGRectGetMaxY(self.collectionButton.frame) + self.cancelMargin;
@@ -314,6 +306,9 @@
         return;
     }
     
+    self.collectionView.pagingEnabled = self.collectionPagingEnabled;
+    self.collectionView2.pagingEnabled = self.collectionPagingEnabled;
+    
     self.pageControl.numberOfPages = ceil(((self.minimumLineSpacing + self.itemSize.width) * MAX(count, count2) - 5) / self.contentWidth);
     
     // TODO: - JKTODO <#注释#>
@@ -331,7 +326,7 @@
     } else {
         
         if (!self.collectionView2.hidden) {
-        
+            
             frame.size.height += MAX(self.collectionViewMargin, 0);
         }
         
@@ -393,7 +388,7 @@
     
     CGFloat insetLeft = self.screenSafeInsets.left + self.sectionInset.left;
     CGFloat insetRight = self.screenSafeInsets.right + self.sectionInset.right;
-
+    
     
     self.flowlayout.itemSize = self.itemSize;
     self.flowlayout.minimumLineSpacing = self.minimumLineSpacing;
@@ -484,19 +479,21 @@
     
     if (self.maxHeight <= 0 || self.topContentView.frame.size.height < self.maxHeight) { return; }
     
-
+    
     frame = self.topContentView.frame;
     frame.size.height = self.maxHeight;
     self.topContentView.frame = frame;
     
     self.topContentView.scrollView.scrollEnabled = YES;
     
-    if (self.autoAdjustHomeIndicator &&
-        (!self.fillHomeIndicator ||
-         self.cancelButton.hidden)) {
+    if (self.autoAdjustHomeIndicator) {
         
-        self.topContentView.scrollView.contentInset = contentInset;
         self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+        
+        if (self.cancelButton.hidden) {
+            
+            self.topContentView.scrollView.contentInset = contentInset;
+        }
     }
 }
 
@@ -524,7 +521,7 @@
     
     CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
     
-    frame.size.height += self.topContainerView.frame.size.height;
+    frame.size.height += self.topContentView.frame.size.height;
     
     frame.size.height += self.bottomContentView.frame.size.height;
     
@@ -537,8 +534,8 @@
     
     [self resetScrollViewUI];
     
-    UIEdgeInsets contentInset = UIEdgeInsetsZero;
-    contentInset.bottom = JKAlertAdjustHomeIndicatorHeight;
+    //UIEdgeInsets contentInset = UIEdgeInsetsZero;
+    //contentInset.bottom = JKAlertAdjustHomeIndicatorHeight;
     
     UIEdgeInsets scrollIndicatorInsets = UIEdgeInsetsZero;
     scrollIndicatorInsets.right = self.isPierced ? 0 : self.screenSafeInsets.right;
@@ -571,11 +568,11 @@
     
     if (topHeight > halfHeight &&
         bottomHeight > halfHeight) {
-            
+        
         frame = self.topContentView.frame;
         frame.size.height = halfHeight;
         self.topContentView.frame = frame;
-            
+        
         frame = self.bottomContentView.frame;
         frame.size.height = halfHeight;
         self.bottomContentView.frame = frame;
@@ -584,19 +581,22 @@
         self.bottomContentView.scrollView.scrollEnabled = YES;
         
         if (!self.isPierced &&
-            self.autoAdjustHomeIndicator &&
-            !self.fillHomeIndicator) {
+            self.autoAdjustHomeIndicator) {
             
-            self.bottomContentView.scrollView.contentInset = contentInset;
             self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+            
+            //if (!self.fillHomeIndicator) {
+            
+            //self.bottomContentView.scrollView.contentInset = contentInset;
+            //}
         }
         
     } else if (topHeight > halfHeight) {
-            
+        
         frame = self.topContentView.frame;
         frame.size.height = self.maxHeight - self.bottomContentView.frame.size.height;
         self.topContentView.frame = frame;
-            
+        
         frame = self.bottomContentView.frame;
         frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
         self.bottomContentView.frame = frame;
@@ -604,7 +604,7 @@
         self.topContentView.scrollView.scrollEnabled = YES;;
         
     } else if (bottomHeight > halfHeight) {
-            
+        
         frame = self.bottomContentView.frame;
         frame.size.height = self.maxHeight - self.topContentView.frame.size.height;
         self.bottomContentView.frame = frame;
@@ -612,29 +612,17 @@
         self.bottomContentView.scrollView.scrollEnabled = YES;
         
         if (!self.isPierced &&
-            self.autoAdjustHomeIndicator &&
-            !self.fillHomeIndicator) {
+            self.autoAdjustHomeIndicator) {
             
-            self.bottomContentView.scrollView.contentInset = contentInset;
             self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
+            
+            //if (!self.fillHomeIndicator) {
+            
+            //self.bottomContentView.scrollView.contentInset = contentInset;
+            //}
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #pragma mark
 #pragma mark - <#标记#>
@@ -758,7 +746,7 @@
         self.titleSeparatorLineView.hidden = YES;
         
     } else {
-
+        
         frame = self.textContentView.frame;
         frame.origin.y = rect.size.height;
         self.textContentView.frame = frame;
@@ -792,7 +780,7 @@
         
         UIEdgeInsets sectionInset = UIEdgeInsetsMake(self.flowlayout.itemSize.height - self.collectionView.frame.size.height, insetLeft, 0, insetRight);
         self.flowlayout.sectionInset = sectionInset;
-
+        
         frame = self.collectionView.frame;
         frame.origin.y = rect.size.height;
         self.collectionView.frame = frame;
@@ -802,7 +790,7 @@
         if (!self.collectionView2.hidden) {
             
             if (!self.collectionSeparatorLineHidden) {
-
+                
                 frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame) + collectionMargin * 0.5, self.contentWidth, JKAlertGlobalSeparatorLineThickness());
                 self.collectionSeparatorLineView.frame = frame;
                 
@@ -819,7 +807,7 @@
         
         UIEdgeInsets sectionInset = UIEdgeInsetsMake(self.flowlayout2.itemSize.height - self.collectionView2.frame.size.height, insetLeft, 0, insetRight);
         self.flowlayout2.sectionInset = sectionInset;
-
+        
         frame = self.collectionView2.frame;
         frame.origin.y = rect.size.height;
         self.collectionView2.frame = frame;
@@ -828,7 +816,7 @@
     }
     
     if (!self.pageControl.hidden) {
-
+        
         frame = self.pageControl.frame;
         frame.origin.y = rect.size.height;
         frame.size.width = 0;
@@ -842,7 +830,7 @@
     CGRect actionRect = CGRectMake(0, 0, self.contentWidth, 0);
     
     if (!self.collectionButton.hidden) {
-
+        
         frame = self.collectionButton.frame;
         frame.origin.y = 0;
         self.collectionButton.frame = frame;
@@ -872,7 +860,7 @@
         }
         
     } else {
-
+        
         frame = self.cancelButton.frame;
         frame.origin.y = self.collectionButton.hidden ? 0 : CGRectGetMaxY(self.collectionButton.frame) + self.cancelMargin;
         self.cancelButton.frame = frame;
@@ -888,7 +876,7 @@
         if ((self.autoAdjustHomeIndicator &&
              !self.fillHomeIndicator) ||
             self.isPierced) {
-                
+            
             actionRect.size.height += JKAlertAdjustHomeIndicatorHeight;
             
             //shouldAdjustContentInset = YES;
@@ -920,59 +908,6 @@
     self.topContentView.frame = rect;
     
     self.frame = rect;
-}
-
-- (void)updateContentInsets {
-    
-    UIEdgeInsets contentInset = UIEdgeInsetsZero;
-    
-    UIEdgeInsets scrollIndicatorInsets = UIEdgeInsetsZero;
-    scrollIndicatorInsets.right = self.isPierced ? 0 : self.screenSafeInsets.right;
-    
-    self.topContentView.scrollView.contentInset = contentInset;
-    self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
-    
-    self.bottomContentView.scrollView.contentInset = contentInset;
-    self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
-    
-    if (!self.autoAdjustHomeIndicator || self.isPierced) { return; }
-    
-    contentInset.bottom = JKAlertCurrentHomeIndicatorHeight();
-    scrollIndicatorInsets.bottom = contentInset.bottom;
-    
-    if (self.bottomButtonPinned) {
-        
-        if (self.cancelAction.rowHeight >= 0.1 ||
-            self.collectionAction.rowHeight >= 0.1) {
-                
-                if (self.fillHomeIndicator) {
-                    
-                    self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
-                    
-                    return;
-                }
-                
-                self.bottomContentView.scrollView.contentInset = contentInset;
-                self.bottomContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
-            
-            return;
-        }
-        
-        self.topContentView.scrollView.contentInset = contentInset;
-        self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
-        
-        return;
-    }
-    
-    if (self.fillHomeIndicator) {
-        
-        self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
-        
-        return;
-    }
-    
-    self.topContentView.scrollView.contentInset = contentInset;
-    self.topContentView.scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
 }
 
 - (void)layoutCollectionView {
@@ -1010,7 +945,7 @@
     } else {
         
         if (!self.collectionView2.hidden) {
-        
+            
             frame.size.height += MAX(self.collectionViewMargin, 0);
         }
         
@@ -1207,7 +1142,7 @@
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
     if (scrollView == self.topContentView.scrollView ||
-    scrollView == self.bottomContentView.scrollView) {
+        scrollView == self.bottomContentView.scrollView) {
         
         [self solveWillEndDraggingVertically:scrollView withVelocity:velocity];
         
@@ -1233,7 +1168,7 @@
     }
     
     if (scrollView == self.topContentView.scrollView ||
-    scrollView == self.bottomContentView.scrollView) {
+        scrollView == self.bottomContentView.scrollView) {
         
         if (!self.verticalGestureDismissEnabled) { return; }
         
@@ -1303,10 +1238,10 @@
     if (!self.horizontalGestureDismissEnabled || !self.tapBlankDismiss) { return; }
     
     if ((scrollView == self.collectionView &&
-        self.collectionView2.isDecelerating) ||
+         self.collectionView2.isDecelerating) ||
         (scrollView == self.collectionView2 &&
-        self.collectionView.isDecelerating)) {
-            return;
+         self.collectionView.isDecelerating)) {
+        return;
     }
     
     if (!scrollView.isDragging || disableScrollToDismiss) { return; }

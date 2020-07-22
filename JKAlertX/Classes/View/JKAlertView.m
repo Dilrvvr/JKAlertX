@@ -231,6 +231,7 @@
         [refreshButton setTitle:[self themeStyleStringWithStyle:[JKAlertThemeManager sharedManager].themeStyle] forState:(UIControlStateNormal)];
     }
     [refreshButton setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
+    refreshButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [self addSubview:refreshButton];
     NSString *verticalFormat = [NSString stringWithFormat:@"V:|-0-[view(%.0f)]", JKAlertIsDeviceX() ? 90.0 : 65.0];
     [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-80-[view]-80-|" verticalFormat:verticalFormat viewKeyName:@"view" targetView:refreshButton constraintsView:self];
