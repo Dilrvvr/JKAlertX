@@ -61,15 +61,15 @@
             if ((rotation > 1.57 && rotation < 1.58) ||
                 (rotation > -1.58 && rotation < -1.57)) {
                 
-                self->JKAlertScreenW = self.customSuperView.frame.size.height;//MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                self->JKAlertScreenH = self.customSuperView.frame.size.width;//MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                self.superWidth =  self.customSuperView.frame.size.height;//MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                self.superHeight =  self.customSuperView.frame.size.width;//MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
                 
                 [self updateMaxHeight];
                 
             } else  {
                 
-                //self->JKAlertScreenW = MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                //self->JKAlertScreenH = MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                //self.superWidth =  MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                //self.superHeight =  MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
                 
                 [self updateWidthHeight];
             }

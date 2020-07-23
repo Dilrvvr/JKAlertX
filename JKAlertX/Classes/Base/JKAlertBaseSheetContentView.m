@@ -358,6 +358,8 @@
     _autoAdjustHomeIndicator = YES;
     
     _fillHomeIndicator = YES;
+    
+    _cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
 }
 
 /** 构造函数初始化时调用 注意调用super */

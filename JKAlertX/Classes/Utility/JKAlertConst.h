@@ -110,14 +110,6 @@ UIKIT_EXTERN NSString * const JKAlertClearAllNotification;
 /** 可以手势滑动退出时 点击空白处不dismiss的抖动动画key */
 UIKIT_EXTERN NSString * const JKAlertDismissFailedShakeAnimationKey;
 
-UIKIT_EXTERN CGFloat    const JKAlertMinTitleLabelH;// = (22.0);
-UIKIT_EXTERN CGFloat    const JKAlertMinMessageLabelH;// = (17.0);
-UIKIT_EXTERN CGFloat    const JKAlertScrollViewMaxH;// = 176.0; // (JKAlertActionButtonH * 4.0)
-
-UIKIT_EXTERN NSInteger  const JKAlertPlainButtonBeginTag;// = 100;
-
-UIKIT_EXTERN CGFloat    const JKAlertSheetTitleMargin;// = 6.0;
-
 UIKIT_EXTERN CGFloat    const JKAlertSheetSpringHeight;// = 15.0;
 
 UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorHeight;// = 20.0;
@@ -134,6 +126,12 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 /// 判断深色模式返回对应的数据
 #define JKAlertCheckDarkMode(light, dark) (JKAlertCheckIsDarkMode() ? (dark) : (light))
 
+#define JKAlertAdjustHomeIndicatorHeight (self.autoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight() : 0.0)
+
+#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
+
+
+
 #define JKAlertScreenScale [UIScreen mainScreen].scale
 
 #define JKAlertScreenBounds [UIScreen mainScreen].bounds
@@ -141,14 +139,6 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 #define JKAlertScreenWidth [UIScreen mainScreen].bounds.size.width
 
 #define JKAlertScreenHeight [UIScreen mainScreen].bounds.size.height
-
-#define JKAlertAdjustHomeIndicatorHeight (self.autoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight() : 0.0)
-
-#define JKAlertRowHeight ((JKAlertScreenW > 321.0) ? 53.0 : 46.0)
-
-#define JKAlertTextContainerViewMaxH (JKAlertPlainViewMaxH - JKAlertScrollViewMaxH)
-
-#define JKAlertActionButtonH (([UIScreen mainScreen].bounds.size.width > 321) ? 53 : 46)
 
 // 快速设置颜色
 #define JKAlertColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
@@ -164,10 +154,6 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 #define JKAlertSystemBlueColor [UIColor colorWithRed:0.0 green:122.0/255.0 blue:255.0/255.0 alpha:1.0]
 
 #define JKAlertSystemRedColor [UIColor colorWithRed:255.0/255.0 green:59.0/255.0 blue:48.0/255.0 alpha:1.0]
-
-#define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
-
-//#define JKAlertXDeprecatedCustomizer NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, "请使用customizer")
 
 
 

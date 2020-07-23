@@ -17,19 +17,6 @@
 
 @interface JKAlertView () <UIGestureRecognizerDelegate>
 
-
-
-{
-    CGFloat JKAlertSheetMaxH;
-    
-    CGFloat PlainViewWidth;
-    CGFloat OriginalPlainWidth;
-    
-    BOOL ObserverAdded;
-    
-    BOOL SheetMaxHeightSetted;
-}
-
 /** 样式 */
 @property (nonatomic, assign) JKAlertStyle alertStyle;
 
@@ -54,12 +41,39 @@
 /** currentAlertContentView */
 @property (nonatomic, weak, readonly) JKAlertBaseTextContentView *currentTextContentView;
 
+/** superWidth */
+@property (nonatomic, assign) CGFloat superWidth;
+
+/** superHeight */
+@property (nonatomic, assign) CGFloat superHeight;
+
 /** deallocLogEnabled */
 @property (nonatomic, assign) BOOL deallocLogEnabled;
 
+/** observerAdded */
+@property (nonatomic, assign) BOOL observerAdded;
 
-/** isSheetDismissHorizontal */
-@property (nonatomic, assign) BOOL isSheetDismissHorizontal;
+/** plainWidth */
+@property (nonatomic, assign) CGFloat plainWidth;
+
+/** originalPlainWidth */
+@property (nonatomic, assign) CGFloat originalPlainWidth;
+
+/**
+ * 是否自动缩小plain样式的宽度以适应屏幕宽度
+ * 默认NO
+ */
+@property (nonatomic, assign) BOOL autoReducePlainWidth;
+
+/** maxPlainHeight */
+@property (nonatomic, assign) CGFloat maxPlainHeight;
+
+/** maxSheetHeight */
+@property (nonatomic, assign) CGFloat maxSheetHeight;
+
+/** maxSheetHeightSetted */
+@property (nonatomic, assign) BOOL maxSheetHeightSetted;
+
 
 
 
@@ -125,9 +139,6 @@
 
 /** 监听superView尺寸改变时自适应完成的block */
 @property (nonatomic, copy) void (^didRelayoutHandler)(JKAlertView *view, UIView *containerView);
-
-/** 是否自动缩小plain样式的宽度以适应屏幕宽度 默认NO */
-@property (nonatomic, assign) BOOL autoReducePlainWidth;
 
 /**
  * plain和HUD样式centerY的偏移

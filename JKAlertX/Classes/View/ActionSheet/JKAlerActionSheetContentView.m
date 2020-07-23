@@ -1109,8 +1109,6 @@
     [super initializeProperty];
     
     _cellClassName = NSStringFromClass([JKAlertTableViewCell class]);
-    
-    self.cancelMargin = ((JKAlertScreenWidth > 321) ? 7 : 5);
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -1131,7 +1129,6 @@
     UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
     tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
     tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
-    //tableView.rowHeight = JKAlertRowHeight;
     tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGFLOAT_MIN)];
     tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGFLOAT_MIN)];
     tableView.showsHorizontalScrollIndicator = NO;

@@ -581,7 +581,7 @@
     
     JKAlertView.showHUDWithTitle(@"你好你好你好你好", ^(JKAlertView *alertView) {
         
-        alertView.makeHudHeight(60).makeHudWidth(200).makeHudCenterOffset(CGPointMake(0, 100)).makeHudDismissTimeInterval(5).makeDeallocLogEnabled(YES).makeDidDismissHandler(^{
+        alertView.makeHudAllowUserInteractionEnabled(YES).makeHudHeight(60).makeHudWidth(200).makeHudCenterOffset(CGPointMake(0, 100)).makeHudDismissTimeInterval(5).makeDeallocLogEnabled(YES).makeDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             
@@ -617,7 +617,7 @@
         
     }, ^(JKAlertView *alertView) {
         
-        alertView.makeHudDismissTimeInterval(2).makeDeallocLogEnabled(YES).makeDidDismissHandler(^{
+        alertView.makeHudAllowUserInteractionEnabled(YES).makeHudDismissTimeInterval(2).makeDeallocLogEnabled(YES).makeDidDismissHandler(^{
             
             [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
             

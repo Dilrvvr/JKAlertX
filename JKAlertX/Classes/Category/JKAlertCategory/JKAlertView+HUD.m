@@ -50,12 +50,8 @@
         
         return [self checkHudStyleHandler:^{
             
-            // TODO: - JKTODO <#注释#>
-            
-            self->PlainViewWidth = width;
-            self->OriginalPlainWidth = width;
-            
-            //self.plainContentView.contentWidth = width;
+            self.plainWidth = width;
+            self.originalPlainWidth = width;
         }];
     };
 }
@@ -68,8 +64,6 @@
     return ^(BOOL autoReduceWidth) {
         
         return [self checkHudStyleHandler:^{
-            
-            // TODO: - JKTODO <#注释#>
             
             self.autoReducePlainWidth = autoReduceWidth;
         }];

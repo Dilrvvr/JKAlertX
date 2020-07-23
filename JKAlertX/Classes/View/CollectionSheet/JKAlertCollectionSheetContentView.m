@@ -1334,9 +1334,9 @@
     
     _collectionSeparatorLineHidden = YES;
     
-    self.cancelMargin = 10;
-    
     _cellClassName = NSStringFromClass([JKAlertCollectionViewCell class]);
+    
+    self.cancelMargin = 10;
 }
 
 /** 构造函数初始化时调用 注意调用super */

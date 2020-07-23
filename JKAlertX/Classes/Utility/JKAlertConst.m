@@ -33,15 +33,7 @@ NSString * const JKAlertClearAllNotification = @"JKAlertClearAllNotification";
 /** 可以手势滑动退出时 点击空白处不dismiss的抖动动画key */
 NSString * const JKAlertDismissFailedShakeAnimationKey = @"JKAlertDismissFailedShakeAnimationKey";
 
-CGFloat    const JKAlertMinTitleLabelH = (22.0);
-CGFloat    const JKAlertMinMessageLabelH = (17.0);
-CGFloat    const JKAlertScrollViewMaxH = 176.0; // (JKAlertActionButtonH * 4.0)
-
-NSInteger  const JKAlertPlainButtonBeginTag = 100;
-
 CGFloat    const JKAlertSheetSpringHeight = 15.0;
-
-CGFloat    const JKAlertSheetTitleMargin = 6.0;
 
 CGFloat    const JKAlertTopGestureIndicatorHeight = 20.0;
 

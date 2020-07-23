@@ -57,11 +57,9 @@
         
         return [self checkActionSheetStyleHandler:^{
             
-            // TODO: - JKTODO <#注释#>
+            self.maxSheetHeight = maxHeight;
             
-            self->JKAlertSheetMaxH = maxHeight;
-            
-            self->SheetMaxHeightSetted = YES;
+            self.maxSheetHeightSetted = YES;
         }];
     };
 }

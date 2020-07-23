@@ -8,12 +8,6 @@
 #import "JKAlertView.h"
 
 @interface JKAlertView ()
-{
-    CGFloat JKAlertScreenW;
-    CGFloat JKAlertScreenH;
-    
-    CGFloat JKAlertPlainViewMaxH;
-}
 
 /** 是否已展示 */
 @property (nonatomic, assign) BOOL isShowed;

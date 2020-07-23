@@ -21,6 +21,8 @@
 
 @interface JKAlertView () <JKAlertBaseAlertContentViewDelegate>
 
+/** isSheetDismissHorizontal */
+@property (nonatomic, assign) BOOL isSheetDismissHorizontal;
 @end
 
 @implementation JKAlertView
@@ -526,7 +528,7 @@
 
 - (void)calculateUI {
     
-    self.frame = CGRectMake(0, 0, JKAlertScreenW, JKAlertScreenH);
+    self.frame = CGRectMake(0, 0, self.superWidth, self.superHeight);
     
     switch (self.alertStyle) {
         case JKAlertStylePlain:
@@ -567,11 +569,11 @@
     self.plainContentView.actionArray = self.actions;
     self.plainContentView.textFieldArray = self.textFieldArr;
     
-    self.plainContentView.contentWidth = PlainViewWidth;
-    self.plainContentView.maxHeight = JKAlertPlainViewMaxH;
+    self.plainContentView.contentWidth = self.plainWidth;
+    self.plainContentView.maxHeight = self.maxPlainHeight;
     [self.plainContentView calculateUI];
     
-    self.plainContentView.center = CGPointMake(JKAlertScreenW * 0.5 + self.plainCenterOffset.x, JKAlertScreenH * 0.5 + self.plainCenterOffset.y);
+    self.plainContentView.center = CGPointMake(self.superWidth * 0.5 + self.plainCenterOffset.x, self.superHeight * 0.5 + self.plainCenterOffset.y);
 }
 
 - (void)calculateHudUI {
@@ -585,11 +587,11 @@
     
     
     // TODO: - JKTODO <#注释#>
-    self.hudContentView.contentWidth = PlainViewWidth;
-    self.hudContentView.maxHeight = JKAlertPlainViewMaxH;
+    self.hudContentView.contentWidth = self.plainWidth;
+    self.hudContentView.maxHeight = self.maxPlainHeight;
     [self.hudContentView calculateUI];
     
-    self.hudContentView.center = CGPointMake(JKAlertScreenW * 0.5 + self.plainCenterOffset.x, JKAlertScreenH * 0.5 + self.plainCenterOffset.y);
+    self.hudContentView.center = CGPointMake(self.superWidth * 0.5 + self.plainCenterOffset.x, self.superHeight * 0.5 + self.plainCenterOffset.y);
 }
 
 - (void)calculateActionSheetUI {
@@ -606,7 +608,7 @@
     
     self.actionsheetContentView.screenSafeInsets = safeAreaInsets;
     
-    CGFloat contentWidth = JKAlertScreenW;
+    CGFloat contentWidth = self.superWidth;
     
     if (self.actionsheetContentView.isPierced) {
         
@@ -615,12 +617,12 @@
     
     // TODO: - JKTODO <#注释#>
     self.actionsheetContentView.contentWidth = contentWidth;
-    self.actionsheetContentView.maxHeight = JKAlertSheetMaxH;
+    self.actionsheetContentView.maxHeight = self.maxSheetHeight;
     [self.actionsheetContentView calculateUI];
     
     CGRect frame = self.actionsheetContentView.frame;
     frame.origin.x = self.actionsheetContentView.isPierced ? self.actionsheetContentView.screenSafeInsets.left + self.actionsheetContentView.piercedInsets.left : 0;
-    frame.origin.y = JKAlertScreenH - frame.size.height;
+    frame.origin.y = self.superHeight - frame.size.height;
     self.actionsheetContentView.frame = frame;
     
     self.actionsheetContentView.correctFrame = frame;
@@ -639,7 +641,7 @@
     
     self.collectionsheetContentView.screenSafeInsets = safeAreaInsets;
     
-    CGFloat contentWidth = JKAlertScreenW;
+    CGFloat contentWidth = self.superWidth;
     
     if (self.collectionsheetContentView.isPierced) {
         
@@ -648,13 +650,13 @@
     
     // TODO: - JKTODO <#注释#>
     self.collectionsheetContentView.contentWidth = contentWidth;
-    self.collectionsheetContentView.maxHeight = JKAlertSheetMaxH;
+    self.collectionsheetContentView.maxHeight = self.maxSheetHeight;
     
     [self.collectionsheetContentView calculateUI];
     
     CGRect frame = self.collectionsheetContentView.frame;
     frame.origin.x = self.collectionsheetContentView.isPierced ? self.collectionsheetContentView.screenSafeInsets.left + self.collectionsheetContentView.piercedInsets.left : 0;
-    frame.origin.y = JKAlertScreenH - frame.size.height;
+    frame.origin.y = self.superHeight - frame.size.height;
     self.collectionsheetContentView.frame = frame;
     
     self.collectionsheetContentView.correctFrame = frame;
@@ -696,7 +698,7 @@
         safeAreaInset = MAX(self.customSuperView.safeAreaInsets.left, self.customSuperView.safeAreaInsets.right);
     }
     
-    PlainViewWidth = MIN(OriginalPlainWidth, JKAlertScreenW - safeAreaInset * 2);
+    self.plainWidth = MIN(self.originalPlainWidth, self.superWidth - safeAreaInset * 2);
 }
 
 /**
@@ -749,9 +751,9 @@
     // TODO: - JKTODO <#注释#>
     if (self.customHUD.frame.size.width <= 0) { return; }
     
-    PlainViewWidth = self.customHUD.frame.size.width;
+    self.plainWidth = self.customHUD.frame.size.width;
     
-    OriginalPlainWidth = PlainViewWidth;
+    self.originalPlainWidth = self.plainWidth;
 }
 
 #pragma mark
@@ -1191,23 +1193,23 @@
 
 - (void)addAllObserver {
     
-    if (ObserverAdded) { return; }
+    if (self.observerAdded) { return; }
     
     self.observerSuperView = self.superview;
     
     [self.superview addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:nil];
     
-    ObserverAdded = YES;
+    self.observerAdded = YES;
 }
 
 - (void)removeAllOberserver {
     
-    if (ObserverAdded) {
+    if (self.observerAdded) {
         
         [self.observerSuperView removeObserver:self forKeyPath:@"frame"];
     }
     
-    ObserverAdded = NO;
+    self.observerAdded = NO;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -1294,7 +1296,7 @@
         if (sheetContentView) {
             
             CGRect frame = sheetContentView.frame;
-            frame.origin.y = JKAlertScreenH;
+            frame.origin.y = self.superHeight;
             sheetContentView.frame = frame;
             
             if (sheetContentView.showScaleAnimated) {
@@ -1374,7 +1376,7 @@
     if (!sheetContentView) { return; }
     
     CGRect frame = sheetContentView.frame;
-    frame.origin.y = JKAlertScreenH - frame.size.height;
+    frame.origin.y = self.superHeight - frame.size.height;
     sheetContentView.frame = frame;
     
     if (sheetContentView.showScaleAnimated) {
@@ -1477,9 +1479,9 @@
     
     NSInteger animationCurve = (curve ? [curve integerValue] : 7);
     
-    if (keyboardFrame.origin.y >= JKAlertScreenH) { // 退出键盘
+    if (keyboardFrame.origin.y >= self.superHeight) { // 退出键盘
         
-        JKAlertPlainViewMaxH = JKAlertScreenH - 100;
+        self.maxPlainHeight = self.superHeight - 100;
         
         [self calculateUI];
         
@@ -1491,13 +1493,13 @@
         
     } else { // 弹出键盘
         
-        CGFloat maxH = JKAlertScreenH - (JKAlertIsDeviceX() ? 44 : 20) - keyboardFrame.size.height - 40;
+        CGFloat maxH = self.superHeight - (JKAlertIsDeviceX() ? 44 : 20) - keyboardFrame.size.height - 40;
         
         BOOL lockKeyboardMargin = (self.plainKeyboardMargin > 0);
         
         if ([self isLandScape]) {
             
-            maxH = JKAlertScreenH - 5 - keyboardFrame.size.height - 5;
+            maxH = self.superHeight - 5 - keyboardFrame.size.height - 5;
             
         } else if (lockKeyboardMargin) {
             
@@ -1523,7 +1525,7 @@
             return;
         }
         
-        JKAlertPlainViewMaxH = maxH;
+        self.maxPlainHeight = maxH;
         
         [self calculateUI];
         
@@ -1676,7 +1678,7 @@
             // TODO: - JKTODO <#注释#>
             /*
              CGRect rect = _sheetContainerView.frame;
-             rect.origin.x = JKAlertScreenW;
+             rect.origin.x = self.superWidth;
              _seetContainerView.frame = rect; */
         }
         
@@ -1687,7 +1689,7 @@
     
     if (self.isSheetDismissHorizontal) {
         
-        frame.origin.x = JKAlertScreenW;
+        frame.origin.x = self.superWidth;
         
         self.currentAlertContentView.frame = frame;
         
@@ -1705,7 +1707,7 @@
         case JKAlertStyleActionSheet:
         case JKAlertStyleCollectionSheet:
         {
-            frame.origin.y = JKAlertScreenH;
+            frame.origin.y = self.superHeight;
             self.currentAlertContentView.frame = frame;
         }
             break;
@@ -1811,24 +1813,23 @@
         self.overrideUserInterfaceStyle = (UIUserInterfaceStyle)[JKAlertThemeManager sharedManager].themeStyle;
     }
     
-    /** 屏幕宽度 */
-    JKAlertScreenW = self.customSuperView.bounds.size.width;
+    _superWidth =  self.customSuperView.bounds.size.width;
     
-    /** 屏幕高度 */
-    JKAlertScreenH = self.customSuperView.bounds.size.height;
+    _superHeight =  self.customSuperView.bounds.size.height;
     
     _isLandScape = [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight;
     
-    JKAlertPlainViewMaxH = (JKAlertScreenH - 100);
+    _maxPlainHeight = (self.superHeight - 100);
     
-    JKAlertSheetMaxH = (JKAlertScreenH > JKAlertScreenW) ? JKAlertScreenH * 0.85 : JKAlertScreenH * 0.8;
+    _maxSheetHeight = (self.superHeight > self.superWidth) ? self.superHeight * 0.85 : self.superHeight * 0.8;
     
     _deallocLogEnabled = NO;
     
     _dismissTimeInterval = 1;
     
-    PlainViewWidth = 290;
-    OriginalPlainWidth = PlainViewWidth;
+    _plainWidth = 290;
+    
+    _originalPlainWidth = _plainWidth;
 }
 
 /** 构造函数初始化时调用 注意调用super */
@@ -1985,7 +1986,7 @@
         UIButton *closeButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [closeButton setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
         closeButton.titleLabel.font = [UIFont systemFontOfSize:13];
-        closeButton.frame = CGRectMake(PlainViewWidth - 30, 5, 25, 25);
+        closeButton.frame = CGRectMake(self.plainWidth - 30, 5, 25, 25);
         [self.alertContentView addSubview:closeButton];
         
         [closeButton addTarget:self action:@selector(dismiss) forControlEvents:(UIControlEventTouchUpInside)];
