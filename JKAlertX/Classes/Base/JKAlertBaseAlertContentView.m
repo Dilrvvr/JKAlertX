@@ -151,6 +151,13 @@
     return _backgroundEffectView;
 }
 
+- (NSMutableArray *)actionArray {
+    if (!_actionArray) {
+        _actionArray = [NSMutableArray array];
+    }
+    return _actionArray;
+}
+
 - (JKAlertAction *)cancelAction {
     if (!_cancelAction) {
         _cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];

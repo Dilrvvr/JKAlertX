@@ -21,8 +21,8 @@
 /** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
 @property (nonatomic, strong) JKAlertAction *collectionAction;
 
-/** actionArray2 */
-@property (nonatomic, strong) NSArray *actionArray2;
+/** secondActionArray */
+@property (nonatomic, strong) NSMutableArray *secondActionArray;
 
 /** buttonInsets */
 @property (nonatomic, assign) UIEdgeInsets buttonInsets;

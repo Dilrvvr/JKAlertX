@@ -278,12 +278,12 @@
             
             // TODO: - JKTODO <#注释#>
             
-            [self.actions enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [self.collectionsheetContentView.actionArray enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 
                 obj.isPierced = isPierced;
             }];
             
-            [self.actions2 enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [self.collectionsheetContentView.secondActionArray enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 
                 obj.isPierced = isPierced;
             }];
@@ -300,7 +300,7 @@
     
     [self checkCollectionSheetStyleHandler:^{
         
-        [self.actions2 addObject:action];
+        [self.collectionsheetContentView.secondActionArray addObject:action];
         
         [self setAlertViewToAction:action];
     }];
@@ -313,7 +313,7 @@
     
     [self checkCollectionSheetStyleHandler:^{
         
-        [self.actions2 insertObject:action atIndex:index];
+        [self.collectionsheetContentView.secondActionArray insertObject:action atIndex:index];
         
         [self setAlertViewToAction:action];
     }];

@@ -80,12 +80,6 @@
 /** observerSuperView */
 @property (nonatomic, weak) UIView *observerSuperView;
 
-/** actions */
-@property (nonatomic, strong) NSMutableArray *actions;
-
-/** actions2 */
-@property (nonatomic, strong) NSMutableArray *actions2;
-
 /** closeButton */
 @property (nonatomic, weak) UIButton *closeButton;
 

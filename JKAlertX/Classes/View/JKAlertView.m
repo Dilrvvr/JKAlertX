@@ -376,8 +376,8 @@
 
         [view addAction:[JKAlertAction actionWithTitle:@"Long Table" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             
-            JKAlertAction *last = alertView.actions.lastObject;
-            [alertView.actions removeAllObjects];
+            JKAlertAction *last = alertView.currentAlertContentView.actionArray.lastObject;
+            [alertView.currentAlertContentView.actionArray removeAllObjects];
             
             for (NSInteger i = 0; i < 30; i++) {
                 
@@ -392,8 +392,8 @@
         
         [view addAction:[JKAlertAction actionWithTitle:@"Normal Table" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             
-            JKAlertAction *last = alertView.actions.lastObject;
-            [alertView.actions removeAllObjects];
+            JKAlertAction *last = alertView.currentAlertContentView.actionArray.lastObject;
+            [alertView.currentAlertContentView.actionArray removeAllObjects];
             
             for (NSInteger i = 0; i < 3; i++) {
                 
@@ -409,7 +409,7 @@
         
         [view addAction:[JKAlertAction actionWithTitle:@"Clear Table" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             
-            [alertView.actions removeAllObjects];
+            [alertView.currentAlertContentView.actionArray removeAllObjects];
             
             alertView.relayout(YES);
         }]];
@@ -567,9 +567,6 @@
     
     [self updatePlainWidth];
     
-    // TODO: - JKTODO <#注释#>
-    
-    self.plainContentView.actionArray = self.actions;
     self.plainContentView.textFieldArray = self.textFieldArr;
     
     self.plainContentView.contentWidth = self.plainWidth;
@@ -599,9 +596,7 @@
 
 - (void)calculateActionSheetUI {
     
-    [self.actions.lastObject setSeparatorLineHidden:YES];
-    
-    self.actionsheetContentView.actionArray = self.actions;
+    [self.actionsheetContentView.actionArray.lastObject setSeparatorLineHidden:YES];
     
     self.actionsheetContentView.tapBlankDismiss = self.tapBlankDismiss;
     
@@ -633,9 +628,6 @@
 
 - (void)calculateCollectionSheetUI {
     
-    self.collectionsheetContentView.actionArray = self.actions;
-    self.collectionsheetContentView.actionArray2 = self.actions2;
-    
     self.collectionsheetContentView.tapBlankDismiss = self.tapBlankDismiss;
     
     UIEdgeInsets safeAreaInsets = [self checkSuperViewSafeAreaInsets];
@@ -651,7 +643,6 @@
         contentWidth -= (self.collectionsheetContentView.piercedInsets.left + self.collectionsheetContentView.piercedInsets.right + self.collectionsheetContentView.screenSafeInsets.left + self.collectionsheetContentView.screenSafeInsets.right);
     }
     
-    // TODO: - JKTODO <#注释#>
     self.collectionsheetContentView.contentWidth = contentWidth;
     self.collectionsheetContentView.maxHeight = self.maxSheetHeight;
     
@@ -838,15 +829,15 @@
     
     [self setAlertViewToAction:action];
     
-    [self.actions addObject:action];
+    [self.currentAlertContentView.actionArray addObject:action];
 }
 
 /** 移除action */
 - (void)removeAction:(JKAlertAction *)action {
     
-    if (!action || ![self.actions containsObject:action]) { return; }
+    if (!action || ![self.currentAlertContentView.actionArray containsObject:action]) { return; }
     
-    [self.actions removeObject:action];
+    [self.currentAlertContentView.actionArray removeObject:action];
 }
 
 /** 添加action */
@@ -856,23 +847,23 @@
     
     [self setAlertViewToAction:action];
     
-    [self.actions insertObject:action atIndex:index];
+    [self.currentAlertContentView.actionArray insertObject:action atIndex:index];
 }
 
 /** 移除action */
 - (void)removeActionAtIndex:(NSUInteger)index {
     
-    if (index < 0 || index >= self.actions.count) { return; }
+    if (index < 0 || index >= self.currentAlertContentView.actionArray.count) { return; }
     
-    [self.actions removeObjectAtIndex:index];
+    [self.currentAlertContentView.actionArray removeObjectAtIndex:index];
 }
 
 /** 获取action */
 - (JKAlertAction *)getActionAtIndex:(NSUInteger)index {
     
-    if (index < 0 || index >= self.actions.count) { return nil; }
+    if (index < 0 || index >= self.currentAlertContentView.actionArray.count) { return nil; }
     
-    JKAlertAction *action = [self.actions objectAtIndex:index];
+    JKAlertAction *action = [self.currentAlertContentView.actionArray objectAtIndex:index];
     
     return action;
 }
@@ -982,11 +973,14 @@
     
     if (isSecondCollection) {
         
-        [self.actions2 addObject:action];
+        [self checkCollectionSheetStyleHandler:^{
+            
+            [self.collectionsheetContentView.secondActionArray addObject:action];
+        }];
         
     } else {
         
-        [self.actions addObject:action];
+        [self.currentAlertContentView.actionArray addObject:action];
     }
 }
 
@@ -997,16 +991,19 @@
     
     if (isSecondCollection) {
         
-        if ([self.actions2 containsObject:action]) {
+        [self checkCollectionSheetStyleHandler:^{
             
-            [self.actions2 removeObject:action];
-        }
+            if ([self.collectionsheetContentView.secondActionArray containsObject:action]) {
+                
+                [self.collectionsheetContentView.secondActionArray removeObject:action];
+            }
+        }];
         
     } else {
         
-        if ([self.actions containsObject:action]) {
+        if ([self.currentAlertContentView.actionArray containsObject:action]) {
             
-            [self.actions removeObject:action];
+            [self.currentAlertContentView.actionArray removeObject:action];
         }
     }
 }
@@ -1020,11 +1017,14 @@
     
     if (isSecondCollection) {
         
-        [self.actions2 insertObject:action atIndex:index];
+        [self checkCollectionSheetStyleHandler:^{
+            
+            [self.collectionsheetContentView.secondActionArray insertObject:action atIndex:index];
+        }];
         
     } else {
         
-        [self.actions insertObject:action atIndex:index];
+        [self.currentAlertContentView.actionArray insertObject:action atIndex:index];
     }
 }
 
@@ -1035,15 +1035,18 @@
     
     if (isSecondCollection) {
         
-        if (index >= self.actions2.count) { return; }
-        
-        [self.actions2 removeObjectAtIndex:index];
+        [self checkCollectionSheetStyleHandler:^{
+            
+            if (index >= self.collectionsheetContentView.secondActionArray.count) { return; }
+            
+            [self.collectionsheetContentView.secondActionArray removeObjectAtIndex:index];
+        }];
         
     } else {
         
-        if (index >= self.actions.count) { return; }
+        if (index >= self.currentAlertContentView.actionArray.count) { return; }
         
-        [self.actions removeObjectAtIndex:index];
+        [self.currentAlertContentView.actionArray removeObjectAtIndex:index];
     }
 }
 
@@ -1056,15 +1059,20 @@
     
     if (isSecondCollection) {
         
-        if (index >= self.actions2.count) { return nil; }
+        if (JKAlertStyleCollectionSheet != self.alertStyle) {
+            
+            return nil;
+        }
         
-        action = [self.actions2 objectAtIndex:index];
+        if (index >= self.collectionsheetContentView.secondActionArray.count) { return nil; }
+        
+        action = [self.collectionsheetContentView.secondActionArray objectAtIndex:index];
         
     } else {
         
-        if (index >= self.actions.count) { return nil; }
+        if (index >= self.currentAlertContentView.actionArray.count) { return nil; }
         
-        action = [self.actions objectAtIndex:index];
+        action = [self.currentAlertContentView.actionArray objectAtIndex:index];
     }
     
     return action;
@@ -1094,11 +1102,11 @@
     
     if (isSecondCollection) {
         
-        return [self.actions2 copy];
+        return (JKAlertStyleCollectionSheet == self.alertStyle) ? [self.collectionsheetContentView.secondActionArray copy] : nil;
         
     } else {
         
-        return [self.actions copy];
+        return [self.currentAlertContentView.actionArray copy];
     }
 }
 
@@ -1107,11 +1115,14 @@
     
     if (isSecondCollection) {
         
-        [_actions2 removeAllObjects];
+        [self checkCollectionSheetStyleHandler:^{
+            
+            [self.collectionsheetContentView.secondActionArray removeAllObjects];
+        }];
         
     } else {
         
-        [_actions removeAllObjects];
+        [self.currentAlertContentView.actionArray removeAllObjects];
     }
 }
 
@@ -1727,11 +1738,14 @@
     // 消失完成
     !self.didDismissHandler ? : self.didDismissHandler();
     
-    [self.actions removeAllObjects];
-    self.actions = nil;
+    [self.currentAlertContentView.actionArray removeAllObjects];
+    self.currentAlertContentView.actionArray = nil;
     
-    [self.actions2 removeAllObjects];
-    self.actions2 = nil;
+    if (JKAlertStyleCollectionSheet == self.alertStyle) {
+        
+        [self.collectionsheetContentView.secondActionArray removeAllObjects];
+        self.collectionsheetContentView.secondActionArray = nil;
+    }
     
     [self removeFromSuperview];
     
@@ -1949,20 +1963,6 @@
         _collectionsheetContentView = collectionsheetContentView;
     }
     return _collectionsheetContentView;
-}
-
-- (NSMutableArray *)actions {
-    if (!_actions) {
-        _actions = [NSMutableArray array];
-    }
-    return _actions;
-}
-
-- (NSMutableArray *)actions2 {
-    if (!_actions2) {
-        _actions2 = [NSMutableArray array];
-    }
-    return _actions2;
 }
 
 - (NSMutableArray *)textFieldArr {

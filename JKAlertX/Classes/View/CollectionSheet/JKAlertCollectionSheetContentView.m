@@ -282,7 +282,7 @@
 - (void)calculateCollectionViewUI {
     
     NSInteger count = self.actionArray.count;
-    NSInteger count2 = self.actionArray2.count;
+    NSInteger count2 = self.secondActionArray.count;
     
     if (count <= 0 && count2 <= 0) {
         
@@ -899,7 +899,7 @@
 - (void)layoutCollectionView {
     
     NSInteger count = self.actionArray.count;
-    NSInteger count2 = self.actionArray2.count;
+    NSInteger count2 = self.secondActionArray.count;
     
     if (count <= 0 && count2 <= 0) {
         
@@ -1042,14 +1042,14 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return collectionView == self.collectionView ? self.actionArray.count : self.actionArray2.count;
+    return collectionView == self.collectionView ? self.actionArray.count : self.secondActionArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     JKAlertCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:(self.cellClassName) forIndexPath:indexPath];
     
-    cell.action = collectionView == self.collectionView ? self.actionArray[indexPath.item] : self.actionArray2[indexPath.item];
+    cell.action = collectionView == self.collectionView ? self.actionArray[indexPath.item] : self.secondActionArray[indexPath.item];
     
     return cell;
 }
@@ -1057,7 +1057,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
-    JKAlertAction *action = collectionView == self.collectionView ? self.actionArray[indexPath.item] : self.actionArray2[indexPath.item];
+    JKAlertAction *action = collectionView == self.collectionView ? self.actionArray[indexPath.item] : self.secondActionArray[indexPath.item];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentView:executeHandlerOfAction:)]) {
 
@@ -1424,6 +1424,13 @@
 
 #pragma mark
 #pragma mark - Private Property
+
+- (NSMutableArray *)secondActionArray {
+    if (!_secondActionArray) {
+        _secondActionArray = [NSMutableArray array];
+    }
+    return _secondActionArray;
+}
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
