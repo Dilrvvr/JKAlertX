@@ -19,7 +19,7 @@
 #import "JKAlertView+ActionSheet.h"
 #import "JKAlertThemeManager.h"
 
-@interface JKAlertView ()
+@interface JKAlertView () <JKAlertBaseAlertContentViewDelegate>
 
 @end
 
@@ -209,7 +209,7 @@
         __weak typeof(self) weakSelf = self;
         [self addAction:[JKAlertAction actionWithTitle:@"Debug" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             [weakSelf debugWithAlertView:action.alertView];
-        }].setAutoDismiss(NO)];
+        }].makeAutoDismiss(NO)];
     }
     
     self.isShowed = YES;
@@ -273,7 +273,7 @@
     
     [view addAction:[JKAlertAction actionWithTitle:@"--------------------------------" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setAutoDismiss(NO).setTitleColor([UIColor redColor])];
+    }].makeAutoDismiss(NO).makeTitleColor([UIColor redColor])];
     
     
     
@@ -316,7 +316,7 @@
     
     [view addAction:[JKAlertAction actionWithTitle:@"--------------------------------" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setAutoDismiss(NO).setTitleColor([UIColor redColor])];
+    }].makeAutoDismiss(NO).makeTitleColor([UIColor redColor])];
     
     
     
@@ -326,7 +326,7 @@
             
             if (alertView.getCollectionAction) {
                 
-                alertView.getCollectionAction.setCustomView(^UIView *(JKAlertAction *action) {
+                alertView.getCollectionAction.makeCustomView(^UIView *(JKAlertAction *action) {
                     
                     UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1000)];
                     v.backgroundColor = [UIColor orangeColor];
@@ -341,7 +341,7 @@
             
             if (alertView.getCollectionAction) {
                 
-                alertView.getCollectionAction.setCustomView(^UIView *(JKAlertAction *action) {
+                alertView.getCollectionAction.makeCustomView(^UIView *(JKAlertAction *action) {
                     
                     UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 60)];
                     v.backgroundColor = [UIColor orangeColor];
@@ -356,7 +356,7 @@
             
             if (alertView.getCollectionAction) {
                 
-                alertView.getCollectionAction.setCustomView(^UIView *(JKAlertAction *action) {
+                alertView.getCollectionAction.makeCustomView(^UIView *(JKAlertAction *action) {
                     
                     UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
                     v.backgroundColor = [UIColor orangeColor];
@@ -415,7 +415,7 @@
     
     [view addAction:[JKAlertAction actionWithTitle:@"--------------------------------" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setAutoDismiss(NO).setTitleColor([UIColor redColor])];
+    }].makeAutoDismiss(NO).makeTitleColor([UIColor redColor])];
     
     
     
@@ -424,7 +424,7 @@
         
         if (alertView.getCancelAction) {
             
-            alertView.getCancelAction.setCustomView(^UIView *(JKAlertAction *action) {
+            alertView.getCancelAction.makeCustomView(^UIView *(JKAlertAction *action) {
                 
                 UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1000)];
                 v.backgroundColor = [UIColor orangeColor];
@@ -439,7 +439,7 @@
         
         if (alertView.getCancelAction) {
             
-            alertView.getCancelAction.setCustomView(^UIView *(JKAlertAction *action) {
+            alertView.getCancelAction.makeCustomView(^UIView *(JKAlertAction *action) {
                 
                 UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 60)];
                 v.backgroundColor = [UIColor orangeColor];
@@ -454,7 +454,7 @@
         
         if (alertView.getCancelAction) {
             
-            alertView.getCancelAction.setCustomView(^UIView *(JKAlertAction *action) {
+            alertView.getCancelAction.makeCustomView(^UIView *(JKAlertAction *action) {
                 
                 UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
                 v.backgroundColor = [UIColor orangeColor];
@@ -469,7 +469,7 @@
     
     [view addAction:[JKAlertAction actionWithTitle:@"--------------------------------" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setAutoDismiss(NO).setTitleColor([UIColor redColor])];
+    }].makeAutoDismiss(NO).makeTitleColor([UIColor redColor])];
     
     [view show];
 }
@@ -1734,6 +1734,30 @@
 }
 
 #pragma mark
+#pragma mark - JKAlertBaseAlertContentViewDelegate
+
+/// 执行action的handler操作
+- (void)alertContentView:(JKAlertBaseAlertContentView *)alertContentView executeHandlerOfAction:(JKAlertAction *)action {
+    
+    if (action.autoDismiss && ![action isEmpty]) {
+        
+        self.isSheetDismissHorizontal = NO;
+        
+        [self dismiss];
+    }
+    
+    !action.handler ? : action.handler(action);
+}
+
+/// 执行dismiss操作
+- (void)alertContentViewExecuteDismiss:(JKAlertBaseAlertContentView *)alertContentView isHorizontal:(BOOL)isHorizontal {
+
+    self.isSheetDismissHorizontal = isHorizontal;
+    
+    [self dismiss];
+}
+
+#pragma mark
 #pragma mark - Override
 
 - (void)didMoveToSuperview {
@@ -1886,7 +1910,9 @@
 - (JKAlertPlainContentView *)plainContentView {
     if (!_plainContentView) {
         JKAlertPlainContentView *plainContentView = [[JKAlertPlainContentView alloc] init];
-        plainContentView.alertView = self;
+        plainContentView.delegate = self;
+        // TODO: - JKTODO <#注释#>
+        //plainContentView.alertView = self;
         [self addSubview:plainContentView];
         _plainContentView = plainContentView;
     }
@@ -1896,7 +1922,9 @@
 - (JKAlertHUDContentView *)hudContentView {
     if (!_hudContentView) {
         JKAlertHUDContentView *hudContentView = [[JKAlertHUDContentView alloc] init];
-        hudContentView.alertView = self;
+        hudContentView.delegate = self;
+        // TODO: - JKTODO <#注释#>
+        //hudContentView.alertView = self;
         [self addSubview:hudContentView];
         _hudContentView = hudContentView;
     }
@@ -1906,15 +1934,11 @@
 - (JKAlerActionSheetContentView *)actionsheetContentView {
     if (!_actionsheetContentView) {
         JKAlerActionSheetContentView *actionsheetContentView = [[JKAlerActionSheetContentView alloc] init];
-        actionsheetContentView.alertView = self;
+        actionsheetContentView.delegate = self;
+        // TODO: - JKTODO <#注释#>
+        //actionsheetContentView.alertView = self;
         [self addSubview:actionsheetContentView];
         _actionsheetContentView = actionsheetContentView;
-        
-        __weak typeof(self) weakSelf = self;
-        [actionsheetContentView setHorizontalDismissHandler:^{
-            
-            weakSelf.isSheetDismissHorizontal = YES;
-        }];
     }
     return _actionsheetContentView;
 }
@@ -1922,15 +1946,11 @@
 - (JKAlertCollectionSheetContentView *)collectionsheetContentView {
     if (!_collectionsheetContentView) {
         JKAlertCollectionSheetContentView *collectionsheetContentView = [[JKAlertCollectionSheetContentView alloc] init];
-        collectionsheetContentView.alertView = self;
+        collectionsheetContentView.delegate = self;
+        // TODO: - JKTODO <#注释#>
+        //collectionsheetContentView.alertView = self;
         [self addSubview:collectionsheetContentView];
         _collectionsheetContentView = collectionsheetContentView;
-        
-        __weak typeof(self) weakSelf = self;
-        [collectionsheetContentView setHorizontalDismissHandler:^{
-            
-            weakSelf.isSheetDismissHorizontal = YES;
-        }];
     }
     return _collectionsheetContentView;
 }

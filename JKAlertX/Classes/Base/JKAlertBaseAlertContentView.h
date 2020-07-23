@@ -8,12 +8,30 @@
 #import "JKAlertBaseView.h"
 #import "JKAlertScrollContentView.h"
 
-@class JKAlertView, JKAlertAction;
+@class JKAlertBaseAlertContentView, JKAlertAction;
+
+
+
+@protocol JKAlertBaseAlertContentViewDelegate <NSObject>
+
+@required
+
+/// 执行action的handler操作
+- (void)alertContentView:(JKAlertBaseAlertContentView *)alertContentView executeHandlerOfAction:(JKAlertAction *)action;
+
+/// 执行dismiss操作
+- (void)alertContentViewExecuteDismiss:(JKAlertBaseAlertContentView *)alertContentView isHorizontal:(BOOL)isHorizontal;
+@end
+
+
 
 @interface JKAlertBaseAlertContentView : JKAlertBaseView <UIScrollViewDelegate>
 
+/** delegate */
+@property (nonatomic, weak) id <JKAlertBaseAlertContentViewDelegate> delegate;
+
 /** alertView */
-@property (nonatomic, weak) JKAlertView *alertView;
+//@property (nonatomic, weak) JKAlertView *alertView;
 
 /** 圆角 默认8 */
 @property (nonatomic, assign) CGFloat cornerRadius;

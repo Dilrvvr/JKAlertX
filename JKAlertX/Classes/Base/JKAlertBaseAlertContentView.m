@@ -150,7 +150,9 @@
     if (!_cancelAction) {
         _cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
         _cancelAction.separatorLineHidden = YES;
-        _cancelAction.alertView = self.alertView;
+        
+        // TODO: - JKTODO <#注释#>
+        //_cancelAction.alertView = self.alertView;
     }
     return _cancelAction;
 }

@@ -56,11 +56,11 @@
         
         [JKShareManager shareUrl:url text:title description:description imageUrl:imageUrl shareType:(JKShareTypeWechatSession)];
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
         [JKShareManager shareUrl:url text:title description:description imageUrl:imageUrl shareType:(JKShareTypeWechatTimeline)];
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         
     });

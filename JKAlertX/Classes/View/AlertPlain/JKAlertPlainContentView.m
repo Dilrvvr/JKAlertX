@@ -448,14 +448,10 @@
 
 - (void)plainButtonClick:(JKAlertPlainActionButton *)button {
     
-    JKAlertAction *action = button.action;
-    
-    if (action.autoDismiss) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentView:executeHandlerOfAction:)]) {
         
-        [self.alertView dismiss];
+        [self.delegate alertContentView:self executeHandlerOfAction:button.action];
     }
-    
-    !action.handler ? : action.handler(action);
 }
 
 #pragma mark

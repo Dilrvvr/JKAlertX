@@ -104,7 +104,10 @@
     if ((delta > self.frame.size.height * 0.5) &&
         beginScrollDirection == endScrollDirection) {
         
-        [self.alertView dismiss];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+            
+            [self.delegate alertContentViewExecuteDismiss:self isHorizontal:NO];
+        }
         
     } else {
         
@@ -125,11 +128,10 @@
     if ((delta > self.frame.size.width * 0.5) &&
         beginScrollDirection == endScrollDirection) {
         
-        isSheetDismissHorizontal = YES;
-        
-        !self.horizontalDismissHandler ? : self.horizontalDismissHandler();
-        
-        [self.alertView dismiss];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+            
+            [self.delegate alertContentViewExecuteDismiss:self isHorizontal:YES];
+        }
         
     } else {
         
@@ -224,8 +226,11 @@
             if (isSlideHalf &&
                 self.tapBlankDismiss &&
                 (endScrollDirection == JKAlertScrollDirectionDown)) {
-                
-                [self.alertView dismiss];
+                    
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+                        
+                        [self.delegate alertContentViewExecuteDismiss:self isHorizontal:NO];
+                    }
                 
             } else {
                 
@@ -306,12 +311,11 @@
             if (isSlideHalf &&
                 self.tapBlankDismiss &&
                 beginScrollDirection == endScrollDirection) {
-                
-                isSheetDismissHorizontal = YES;
-                
-                !self.horizontalDismissHandler ? : self.horizontalDismissHandler();
-                
-                [self.alertView dismiss];
+                    
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+                        
+                        [self.delegate alertContentViewExecuteDismiss:self isHorizontal:YES];
+                    }
                 
             } else {
                 

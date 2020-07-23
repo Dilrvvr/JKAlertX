@@ -25,9 +25,11 @@
     BOOL isDragging;
     
     //CGFloat lastTableViewOffsetY;
-    
-    BOOL isSheetDismissHorizontal;
 }
+
+/** scrollViewDelegate */
+//@property (nonatomic, weak) id <UIScrollViewDelegate> scrollViewDelegate;
+
 /** verticalDismissPanGesture */
 @property (nonatomic, strong) JKAlertPanGestureRecognizer *verticalDismissPanGesture;
 

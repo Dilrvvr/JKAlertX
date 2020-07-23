@@ -47,7 +47,7 @@
     
     [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].makeCustomSuperView(self.testLabel).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action) {
+    }].makeCustomView(^(JKAlertAction *action) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
         label.numberOfLines = 0;
@@ -57,9 +57,9 @@
         
         return label;
         
-    }).setNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    }).makeNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action) {
+    }].makeCustomView(^(JKAlertAction *action) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 200)];
         label.numberOfLines = 0;
@@ -69,7 +69,7 @@
         
         return label;
         
-    }).setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
+    }).makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -90,7 +90,7 @@
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action) {
+    }].makeCustomView(^(JKAlertAction *action) {
         
         UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
         
@@ -168,13 +168,13 @@
             
             if (action.autoDismiss) { return; }
             
-            action.setAutoDismiss(YES).resetTitle(@"知道了").setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").makeMessageMinHeight(60).makePlainCloseButtonConfiguration(^(UIButton *closeButton) {
+            action.makeAutoDismiss(YES).remakeTitle(@"知道了").makeTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").makeMessageMinHeight(60).makePlainCloseButtonConfiguration(^(UIButton *closeButton) {
                 
                 closeButton.hidden = YES;
                 
             }).relayout(YES);
             
-        }].setAutoDismiss(NO)];
+        }].makeAutoDismiss(NO)];
         
         // 向上偏移100
         //alertView.setPlainCenterOffsetY(-100);
@@ -296,23 +296,23 @@
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Twitter"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Twitter"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定2" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Facebook"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Facebook"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"更新message" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
         if (action.isAutoDismiss) { return; }
         
-        action.setAutoDismiss(YES).setCustomView(^UIView *(JKAlertAction *action) {
+        action.makeAutoDismiss(YES).makeCustomView(^UIView *(JKAlertAction *action) {
             
             return [UIView new];
             
         }).alertView.resetMessage(@"message已更新").makeMessageColor([UIColor redColor]).relayout(YES);
         
-    }].setAutoDismiss(NO)];
+    }].makeAutoDismiss(NO)];
     
     //    alertView.setCancelAction([JKAlertAction actionWithTitle:@"cancel" style:(JKAlertActionStyleDestructive) handler:nil]);
     
@@ -339,62 +339,62 @@
         
         if (action.autoDismiss) { return; }
         
-        action.setAutoDismiss(YES).setCustomView(^UIView *(JKAlertAction *action) {
+        action.makeAutoDismiss(YES).makeCustomView(^UIView *(JKAlertAction *action) {
             
             return [UIView new];
             
-        }).setTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([UIColor redColor]).makeBottomButtonMargin(0.5).relayout(YES);
+        }).makeTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([UIColor redColor]).makeBottomButtonMargin(0.5).relayout(YES);
         
-    }].setAutoDismiss(NO)).makeCollectionSheetPageControlHidden(NO);
+    }].makeAutoDismiss(NO)).makeCollectionSheetPageControlHidden(NO);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微信收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Collection"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Collection"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"QQ" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_QQ"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_QQ"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微博" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Sina"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Sina"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"信息" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Message"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Message"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"Email" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Email"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Email"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"复制链接" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Copylink"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Copylink"])];
     
     // 第2组
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"微博" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Sina"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Sina"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"信息" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Message"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Message"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"Email" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Email"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Email"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"复制链接" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Copylink"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Copylink"])];
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
@@ -431,9 +431,9 @@
         
     }).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
         [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
         
@@ -448,7 +448,7 @@
     
     [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好" style:(JKAlertStyleActionSheet)].makeCustomSuperView(self.testLabel).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action) {
+    }].makeCustomView(^(JKAlertAction *action) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200)];
         label.backgroundColor = [UIColor orangeColor];
@@ -548,68 +548,68 @@
     // 第1组
     [alertView addAction:[JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微信收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Collection"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Collection"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"QQ" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_QQ"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_QQ"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微博" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Sina"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Sina"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"信息" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Message"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Message"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"Email" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Email"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Email"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"复制链接" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Copylink"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Copylink"])];
     
     // 第2组
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"微信收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Collection"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Collection"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"QQ" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_QQ"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_QQ"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"微博" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Sina"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Sina"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"信息" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Message"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Message"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"Email" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Email"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Email"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"复制链接" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Copylink"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Copylink"])];
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
@@ -672,7 +672,7 @@
     // 第1组
     alertView.makeCollectionSheetAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action) {
+    }].makeCustomView(^(JKAlertAction *action) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
         label.backgroundColor = [UIColor orangeColor];
@@ -695,7 +695,7 @@
         
     })).makeCollectionSheetPageControlHidden(NO).makeCancelAction([JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setCustomView(^(JKAlertAction *action) {
+    }].makeCustomView(^(JKAlertAction *action) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
         label.backgroundColor = [UIColor orangeColor];
@@ -708,52 +708,52 @@
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微信收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_WeChat_Collection"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Collection"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"QQ" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_QQ"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_QQ"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微博" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Sina"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Sina"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"信息" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Message"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Message"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"Email" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Email"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Email"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"复制链接" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Copylink"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Copylink"])];
     
     // 第2组
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"微博" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Sina"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Sina"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"信息" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Message"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Message"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"Email" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Email"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Email"])];
     
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"复制链接" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].setNormalImage([UIImage imageNamed:@"Share_Copylink"])];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Copylink"])];
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         

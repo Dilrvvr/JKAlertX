@@ -849,11 +849,10 @@
 
 - (void)cancelButtonClick:(JKAlertActionButton *)button {
     
-    JKAlertAction *action = button.action;
-    
-    if (action.autoDismiss && ![action isEmpty]) { [self.alertView dismiss]; }
-    
-    !action.handler ? : action.handler(action);
+    if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentView:executeHandlerOfAction:)]) {
+
+        [self.delegate alertContentView:self executeHandlerOfAction:button.action];
+    }
 }
 
 #pragma mark
@@ -950,9 +949,10 @@
     
     JKAlertAction *action = indexPath.section == 0 ? self.actionArray[indexPath.row] : self.cancelAction;
     
-    if (action.autoDismiss && ![action isEmpty]) { [self.alertView dismiss]; }
-    
-    !action.handler ? : action.handler(action);
+    if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentView:executeHandlerOfAction:)]) {
+
+        [self.delegate alertContentView:self executeHandlerOfAction:action];
+    }
 }
 
 #pragma mark
@@ -1066,7 +1066,10 @@
     
     if (velocity.y < -1.5 && beginScrollDirection == endScrollDirection) {
         
-        [self.alertView dismiss];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+            
+            [self.delegate alertContentViewExecuteDismiss:self isHorizontal:NO];
+        }
         
     } else {
         
@@ -1087,9 +1090,10 @@
     
     if (velocity.x < -1.5 && beginScrollDirection == endScrollDirection) {
         
-        isSheetDismissHorizontal = YES;
-        
-        [self.alertView dismiss];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+            
+            [self.delegate alertContentViewExecuteDismiss:self isHorizontal:YES];
+        }
         
     } else {
         

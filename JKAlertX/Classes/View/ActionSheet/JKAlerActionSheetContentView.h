@@ -12,9 +12,6 @@
 
 @interface JKAlerActionSheetContentView : JKAlertBaseSheetContentView
 
-/** delegate */
-@property (nonatomic, weak) id <UIScrollViewDelegate> delegate;
-
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertActionSheetTextContentView *textContentView;
 

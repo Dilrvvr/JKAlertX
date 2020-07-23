@@ -12,9 +12,6 @@
 
 @interface JKAlertCollectionSheetContentView : JKAlertBaseSheetContentView
 
-/** delegate */
-@property (nonatomic, weak) id <UIScrollViewDelegate> delegate;
-
 /** topContainerView */
 @property (nonatomic, weak, readonly) UIView *topContainerView;
 
