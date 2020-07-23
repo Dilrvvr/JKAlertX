@@ -107,7 +107,7 @@
 #pragma mark
 #pragma mark - Private Methods
 
-- (void)calculateTextContentView {
+- (void)calculateTextContentViewUI {
     
     self.textContentView.screenSafeInsets = self.isPierced ? UIEdgeInsetsZero : self.screenSafeInsets;
     self.textContentView.contentWidth = self.contentWidth;
@@ -165,9 +165,9 @@
 
 - (void)calculateNormalUI {
     
-    [self calculateNormalTableView];
+    [self calculateNormalTableViewUI];
     
-    [self calculateTextContentView];
+    [self calculateTextContentViewUI];
     
     [self calculateTopGestureIndicatorUI];
     
@@ -345,7 +345,7 @@
     self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.topContentView.frame), self.contentWidth, JKAlertGlobalSeparatorLineThickness());
 }
 
-- (void)calculateNormalTableView {
+- (void)calculateNormalTableViewUI {
     
     CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
     
@@ -393,7 +393,7 @@
     
     [self calculatePinnedTableViewUI];
     
-    [self calculateTextContentView];
+    [self calculateTextContentViewUI];
     
     [self calculateTopGestureIndicatorUI];
     

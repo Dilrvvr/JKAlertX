@@ -1663,7 +1663,17 @@
     // 即将消失
     !self.willDismissHandler ? : self.willDismissHandler();
     
-    if (!self.isSheetDismissHorizontal || (self.alertStyle != JKAlertStyleActionSheet && self.alertStyle != JKAlertStyleCollectionSheet)) {
+    // TODO: - JKTODO <#注释#>
+    /*
+    if (!self.isSheetDismissHorizontal ||
+        (self.alertStyle != JKAlertStyleActionSheet &&
+         self.alertStyle != JKAlertStyleCollectionSheet)) {
+        
+        // 自定义消失动画
+        !self.customDismissAnimationBlock ? : self.customDismissAnimationBlock(self, self.alertContentView);
+    } //*/
+    
+    if (!self.isSheetDismissHorizontal) {
         
         // 自定义消失动画
         !self.customDismissAnimationBlock ? : self.customDismissAnimationBlock(self, self.alertContentView);
@@ -1677,7 +1687,7 @@
         
     } completion:^(BOOL finished) {
         
-        if (self.customDismissAnimationBlock) { return; }
+        if (self.customDismissAnimationBlock && !self.isSheetDismissHorizontal) { return; }
         
         self.dismissAnimationDidComplete();
     }];
@@ -1685,16 +1695,8 @@
 
 - (void)dismissAnimationOperation {
     
-    if (self.customDismissAnimationBlock) {
-        
-        if (self.isSheetDismissHorizontal) {
-            
-            // TODO: - JKTODO <#注释#>
-            /*
-             CGRect rect = _sheetContainerView.frame;
-             rect.origin.x = self.superWidth;
-             _seetContainerView.frame = rect; */
-        }
+    if (self.customDismissAnimationBlock &&
+        !self.isSheetDismissHorizontal) {
         
         return;
     }
@@ -1731,7 +1733,7 @@
     }
 }
 
-- (void (^)(void))dismissAnimationDidComplete{
+- (void (^)(void))dismissAnimationDidComplete {
     
     self.window.userInteractionEnabled = YES;
     
