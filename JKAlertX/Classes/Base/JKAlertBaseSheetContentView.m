@@ -358,13 +358,6 @@
     _autoAdjustHomeIndicator = YES;
     
     _fillHomeIndicator = YES;
-    
-    
-    // TODO: - JKTODO <#注释#>
-    _verticalGestureDismissEnabled = YES;
-    _horizontalGestureDismissEnabled = YES;
-    _gestureIndicatorHidden = NO;
-    _showScaleAnimated = YES;
 }
 
 /** 构造函数初始化时调用 注意调用super */

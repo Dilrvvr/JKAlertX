@@ -288,6 +288,12 @@
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeGestureIndicatorHidden)(BOOL gestureIndicatorHidden);
 
+/**
+ * 展示时是否进行缩放动画
+ * 默认NO 限sheet样式
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeShowScaleAnimated)(BOOL scaleAnimated);
+
 #pragma mark
 #pragma mark - 状态监听
 

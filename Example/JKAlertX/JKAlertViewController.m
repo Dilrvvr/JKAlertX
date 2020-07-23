@@ -26,7 +26,7 @@
     
     CGFloat itemWidth = screenWidth * 0.25;
     
-    [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetMinimumLineSpacing((screenWidth - itemWidth * 2) / 2).makeCollectionSheetSectionInset(UIEdgeInsetsMake(0, ((screenWidth - itemWidth * 2) / 4), 0, ((screenWidth - itemWidth * 2) / 4))).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetMinimumLineSpacing((screenWidth - itemWidth * 2) / 2).makeCollectionSheetSectionInset(UIEdgeInsetsMake(0, ((screenWidth - itemWidth * 2) / 4), 0, ((screenWidth - itemWidth * 2) / 4))).addAction([JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].makeCustomView(^(JKAlertAction *action) {
         
@@ -289,7 +289,7 @@
 
 - (IBAction)actionSheet:(id)sender {
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好" style:(JKAlertStyleActionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES);
     //    JKAlertView *alertView = [JKAlertView alertViewWithTitle:nil message:nil style:(JKAlertStyleActionSheet)];
     
     alertView.makeVibrateEnabled(YES);
@@ -373,7 +373,7 @@
     
     CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) - 30) * 0.25;
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeBottomButtonMargin(10).makeCustomSuperView(self.view);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeBottomButtonMargin(10).makeCustomSuperView(self.view);
     
     //alertView.setCollectionTitleSeparatorHidden(NO);
     
@@ -515,7 +515,7 @@
     
     CGFloat itemWidth = screenWidth * 0.25;
     
-    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeTitleAlignment(NSTextAlignmentLeft).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetMinimumLineSpacing((screenWidth - itemWidth * 2) / 2).makeCollectionSheetSectionInset(UIEdgeInsetsMake(0, ((screenWidth - itemWidth * 2) / 4), 0, ((screenWidth - itemWidth * 2) / 4))).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
+    [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES).makeTitleAlignment(NSTextAlignmentLeft).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetMinimumLineSpacing((screenWidth - itemWidth * 2) / 2).makeCollectionSheetSectionInset(UIEdgeInsetsMake(0, ((screenWidth - itemWidth * 2) / 4), 0, ((screenWidth - itemWidth * 2) / 4))).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
         
         UIEdgeInsets insets = originalInsets;
         
@@ -550,7 +550,7 @@
 
 - (IBAction)customActionSheetView:(id)sender {
     
-    [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好" style:(JKAlertStyleActionSheet)].makeHomeIndicatorFilled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+    [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好" style:(JKAlertStyleActionSheet)].makeHomeIndicatorFilled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES).addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].makeCustomView(^(JKAlertAction *action) {
         
@@ -636,7 +636,7 @@
     
     CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeCollectionSheetSectionInset(UIEdgeInsetsZero).makeCollectionSheetMinimumLineSpacing(0.0);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES).makeCollectionSheetSectionInset(UIEdgeInsetsZero).makeCollectionSheetMinimumLineSpacing(0.0);
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 100)];
     label.backgroundColor = [UIColor orangeColor];
@@ -774,7 +774,7 @@
     
     CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeCollectionSheetSectionInset(UIEdgeInsetsZero).makeCollectionSheetMinimumLineSpacing(0.0);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES).makeCollectionSheetSectionInset(UIEdgeInsetsZero).makeCollectionSheetMinimumLineSpacing(0.0);
     
     // 第1组
     alertView.makeCollectionSheetAction([JKAlertAction actionWithTitle:@"收藏" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
@@ -878,55 +878,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (NSString *)themeStyleStringWithStyle:(JKAlertThemeStyle)themeStyle {
-    // TODO: - JKTODO delete
-    
-    switch (themeStyle) {
-        case JKAlertThemeStyleSystem:
-            return @"JKAlertThemeStyleSystem";
-            break;
-        case JKAlertThemeStyleLight:
-            return @"JKAlertThemeStyleLight";
-            break;
-        case JKAlertThemeStyleDark:
-            return @"JKAlertThemeStyleDark";
-            break;
-            
-        default:
-            return @"JKAlertThemeStyleSystem";
-            break;
-    }
-    
-    return @"JKAlertThemeStyleSystem";
-}
-
-- (void)refreshButtonClick:(UIButton *)button {
-    
-    // TODO: - JKTODO delete
-    
-//    switch ([JKAlertThemeManager sharedManager].themeStyle) {
-//        case JKAlertThemeStyleSystem:
-//            JKAlertView.makeThemeStyle(JKAlertThemeStyleLight);
-//            break;
-//        case JKAlertThemeStyleLight:
-//            JKAlertView.makeThemeStyle(JKAlertThemeStyleDark);
-//            break;
-//        case JKAlertThemeStyleDark:
-//            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
-//            break;
-//
-//        default:
-//            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
-//            break;
-//    }
-//
-//    NSString *title = [weakSelf themeStyleStringWithStyle:[JKAlertThemeManager sharedManager].themeStyle];
-//
-//    JKAlertView.showHUDWithTitle(title, ^(JKAlertView *alertView) {
-//
-//    });
 }
 
 - (void)dealloc{

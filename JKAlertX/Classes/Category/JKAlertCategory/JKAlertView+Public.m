@@ -601,6 +601,24 @@
     };
 }
 
+/**
+ * 展示时是否进行缩放动画
+ * 默认NO 限sheet样式
+ */
+- (JKAlertView *(^)(BOOL scaleAnimated))makeShowScaleAnimated {
+    
+    return ^(BOOL scaleAnimated) {
+        
+        JKAlertBaseSheetContentView *sheetContentView = [self checkSheetContentView];
+        
+        if (!sheetContentView) { return self; }
+        
+        sheetContentView.showScaleAnimated = scaleAnimated;
+        
+        return self;
+    };
+}
+
 #pragma mark
 #pragma mark - 状态监听
 
