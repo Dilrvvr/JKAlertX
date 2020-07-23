@@ -13,6 +13,7 @@
 #import "JKAlertView+HUD.h"
 #import "JKAlertView+ActionSheet.h"
 #import "JKAlertView+CollectionSheet.h"
+#import "JKAlertTheme.h"
 
 @implementation JKAlertView (Deprecated)
 
@@ -811,11 +812,14 @@
     
     return ^(BOOL isPierced, CGFloat cornerRadius, CGFloat horizontalMargin, CGFloat bottomMargin, UIColor *lightBackgroundColor, UIColor *darkBackgroundColor) {
         
-        // TODO: - JKTODO <#注释#>
+        self.makeCornerRadius(cornerRadius).makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin));
         
-        return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin)).makeActionSheetTopBackgroundColor(lightBackgroundColor);
+        [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(makeActionSheetTopBackgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
+            
+            providerOwner.makeActionSheetTopBackgroundColor(JKAlertCheckDarkMode(lightBackgroundColor, darkBackgroundColor));
+        }];
         
-        //return self.makeActionSheetPierced(isPierced, UIEdgeInsetsMake(0, horizontalMargin, bottomMargin, horizontalMargin), [JKAlertMultiColor colorWithLightColor:lightBackgroundColor darkColor:darkBackgroundColor]).makeCornerRadius(cornerRadius);
+        return self;
     };
 }
 

@@ -8,6 +8,7 @@
 #import "JKAlertView+CollectionSheet.h"
 #import "JKAlertView+Public.h"
 #import "JKAlertView+PrivateProperty.h"
+#import "JKAlertTheme.h"
 
 @implementation JKAlertView (CollectionSheet)
 

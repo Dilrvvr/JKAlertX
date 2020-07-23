@@ -8,6 +8,7 @@
 #import "JKAlertBaseAlertContentView.h"
 #import "JKAlertVisualFormatConstraintManager.h"
 #import "JKAlertAction.h"
+#import "JKAlertTheme.h"
 
 @interface JKAlertBaseAlertContentView ()
 {

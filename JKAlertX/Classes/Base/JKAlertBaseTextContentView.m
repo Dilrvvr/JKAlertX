@@ -7,6 +7,7 @@
 
 #import "JKAlertBaseTextContentView.h"
 #import "JKAlertConst.h"
+#import "JKAlertTheme.h"
 
 @interface JKAlertBaseTextContentView ()
 {

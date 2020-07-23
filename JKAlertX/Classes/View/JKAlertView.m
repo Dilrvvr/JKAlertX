@@ -15,6 +15,7 @@
 #import "JKAlertVisualFormatConstraintManager.h"
 #import "JKAlertView+Public.h"
 #import "JKAlertView+HUD.h"
+#import "JKAlertTheme.h"
 // TODO: - JKTODO delete
 #import "JKAlertView+ActionSheet.h"
 #import "JKAlertThemeManager.h"
@@ -249,6 +250,8 @@
 - (void)debugWithAlertView:(JKAlertView *)alertView {
     
     JKAlertView *view = [JKAlertView alertViewWithTitle:@"Debug" message:nil style:(JKAlertStyleActionSheet)].makeActionSheetBottomButtonPinned(YES);
+    
+    view.makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES);
     
     JKAlertBaseSheetContentView *sheet = [alertView checkSheetContentView];
     
@@ -1912,8 +1915,6 @@
     if (!_plainContentView) {
         JKAlertPlainContentView *plainContentView = [[JKAlertPlainContentView alloc] init];
         plainContentView.delegate = self;
-        // TODO: - JKTODO <#注释#>
-        //plainContentView.alertView = self;
         [self addSubview:plainContentView];
         _plainContentView = plainContentView;
     }
@@ -1924,8 +1925,6 @@
     if (!_hudContentView) {
         JKAlertHUDContentView *hudContentView = [[JKAlertHUDContentView alloc] init];
         hudContentView.delegate = self;
-        // TODO: - JKTODO <#注释#>
-        //hudContentView.alertView = self;
         [self addSubview:hudContentView];
         _hudContentView = hudContentView;
     }
@@ -1936,8 +1935,6 @@
     if (!_actionsheetContentView) {
         JKAlerActionSheetContentView *actionsheetContentView = [[JKAlerActionSheetContentView alloc] init];
         actionsheetContentView.delegate = self;
-        // TODO: - JKTODO <#注释#>
-        //actionsheetContentView.alertView = self;
         [self addSubview:actionsheetContentView];
         _actionsheetContentView = actionsheetContentView;
     }
@@ -1948,8 +1945,6 @@
     if (!_collectionsheetContentView) {
         JKAlertCollectionSheetContentView *collectionsheetContentView = [[JKAlertCollectionSheetContentView alloc] init];
         collectionsheetContentView.delegate = self;
-        // TODO: - JKTODO <#注释#>
-        //collectionsheetContentView.alertView = self;
         [self addSubview:collectionsheetContentView];
         _collectionsheetContentView = collectionsheetContentView;
     }

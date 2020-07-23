@@ -8,6 +8,7 @@
 #import "JKAlertBaseSheetContentView.h"
 #import "JKAlertPanGestureRecognizer.h"
 #import "JKAlertView.h"
+#import "JKAlertTheme.h"
 
 @interface JKAlertBaseSheetContentView () <UIGestureRecognizerDelegate>
 

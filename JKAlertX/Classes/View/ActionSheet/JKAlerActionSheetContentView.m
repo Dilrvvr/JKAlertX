@@ -12,6 +12,7 @@
 #import "JKAlertView.h"
 #import "JKAlertActionButton.h"
 #import "UIView+JKAlertX.h"
+#import "JKAlertTheme.h"
 
 @interface JKAlerActionSheetContentView () <UITableViewDataSource, UITableViewDelegate>
 

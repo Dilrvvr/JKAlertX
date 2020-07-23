@@ -7,6 +7,7 @@
 //
 
 #import "JKAlertAction.h"
+#import "JKAlertTheme.h"
 
 @interface JKAlertAction ()
 {

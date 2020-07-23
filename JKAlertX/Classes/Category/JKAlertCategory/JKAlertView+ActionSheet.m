@@ -8,6 +8,7 @@
 #import "JKAlertView+ActionSheet.h"
 #import "JKAlertView+Public.h"
 #import "JKAlertView+PrivateProperty.h"
+#import "JKAlertTheme.h"
 
 @implementation JKAlertView (ActionSheet)
 

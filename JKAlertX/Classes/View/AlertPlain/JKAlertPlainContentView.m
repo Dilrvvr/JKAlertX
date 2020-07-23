@@ -9,9 +9,7 @@
 #import "JKAlertPlainActionButton.h"
 #import "JKAlertAction.h"
 #import "JKAlertConst.h"
-
-// TODO: - JKTODO delete
-#import "JKAlertView.h"
+#import "JKAlertTheme.h"
 
 @interface JKAlertPlainContentView ()
 

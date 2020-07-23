@@ -12,6 +12,7 @@
 #import "JKAlertActionButton.h"
 #import "JKAlertPanGestureRecognizer.h"
 #import "UIView+JKAlertX.h"
+#import "JKAlertTheme.h"
 
 @interface JKAlertCollectionSheetContentView () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
 {

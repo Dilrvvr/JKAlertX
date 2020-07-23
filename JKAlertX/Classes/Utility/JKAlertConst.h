@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-// TODO: - JKTODO <#注释#>
-#import "JKAlertTheme.h"
 
 #pragma mark
 #pragma mark - 协议

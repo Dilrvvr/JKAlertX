@@ -25,8 +25,7 @@ typedef NS_ENUM(NSUInteger, JKAlertThemeStyle) {
 #pragma mark
 #pragma mark - 宏定义
 
-/// 判断深色模式返回对应的数据
-#define JKAlertThemeCheckDarkMode(light, dark) ([[JKAlertThemeManager sharedManager] checkIsDarkMode] ? (dark) : (light))
+
 
 
 #pragma mark

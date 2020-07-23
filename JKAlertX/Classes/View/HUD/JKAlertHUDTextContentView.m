@@ -6,6 +6,7 @@
 //
 
 #import "JKAlertHUDTextContentView.h"
+#import "JKAlertTheme.h"
 
 @implementation JKAlertHUDTextContentView
 

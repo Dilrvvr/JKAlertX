@@ -32,8 +32,6 @@
         
         return [self checkPlainStyleHandler:^{
             
-            // TODO: - JKTODO <#注释#>
-            
             self.autoReducePlainWidth = autoReduceWidth;
         }];
     };

@@ -8,6 +8,7 @@
 #import "JKAlertView+Public.h"
 #import "JKAlertView+PrivateProperty.h"
 #import "JKAlertThemeManager.h"
+#import "JKAlertTheme.h"
 
 @implementation JKAlertView (Public)
 
