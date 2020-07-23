@@ -12,10 +12,24 @@
 @implementation JKAlertView (HUD)
 
 /**
+ * HUD样式是否允许用户交互
+ * 默认NO
+ */
+- (JKAlertView *(^)(BOOL allowUserInteractionEnabled))makeHudAllowUserInteractionEnabled {
+    
+    return ^(BOOL allowUserInteractionEnabled) {
+        
+        return [self checkHudStyleHandler:^{
+            
+            self.userInteractionEnabled = !allowUserInteractionEnabled;
+        }];
+    };
+}
+
+/**
  * HUD样式是否默认深色样式
  * 默认YES
  */
-
 - (JKAlertView *(^)(BOOL defaultDarkStyle))makeHudDefaultDarkStyle {
     
     return ^(BOOL defaultDarkStyle) {
@@ -27,6 +41,9 @@
     };
 }
 
+/**
+ * HUD样式宽度
+ */
 - (JKAlertView *(^)(CGFloat width))makeHudWidth {
     
     return ^(CGFloat width) {

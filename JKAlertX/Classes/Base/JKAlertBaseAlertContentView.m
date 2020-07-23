@@ -22,6 +22,10 @@
 
 - (void)calculateUI {
     
+    if (_cancelAction && !_cancelAction.alertView) {
+        
+        _cancelAction.alertView = (JKAlertView *)self.delegate;
+    }
 }
 
 - (void)setCustomBackgroundView:(UIView *)customBackgroundView {
@@ -151,8 +155,7 @@
         _cancelAction = [JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {}];
         _cancelAction.separatorLineHidden = YES;
         
-        // TODO: - JKTODO <#注释#>
-        //_cancelAction.alertView = self.alertView;
+        _cancelAction.alertView = (JKAlertView *)self.delegate;
     }
     return _cancelAction;
 }

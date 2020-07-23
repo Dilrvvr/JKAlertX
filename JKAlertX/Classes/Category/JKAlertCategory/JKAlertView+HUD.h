@@ -22,10 +22,10 @@
 @interface JKAlertView (HUD)
 
 /**
- * HUD样式是否默认深色样式
- * 默认YES
+ * HUD样式是否允许用户交互
+ * 默认NO
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeHudDefaultDarkStyle)(BOOL defaultDarkStyle);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeHudAllowUserInteractionEnabled)(BOOL allowUserInteractionEnabled);
 
 /**
  * HUD样式宽度
