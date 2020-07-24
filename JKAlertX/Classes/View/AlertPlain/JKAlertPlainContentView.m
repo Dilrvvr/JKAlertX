@@ -554,7 +554,6 @@
     
     [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainContentView *providerOwner) {
         
-        // TODO: - JKTODO <#注释#>
         providerOwner.textFieldContainerView.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
         
         //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineMultiColor().lightColor CGColor];

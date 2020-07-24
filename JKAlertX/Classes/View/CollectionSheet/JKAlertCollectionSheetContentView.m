@@ -1047,12 +1047,19 @@
     if (!_pageControl) {
         UIPageControl *pageControl = [[UIPageControl alloc] init];
         pageControl.backgroundColor = nil;
-        // TODO: - JKTODO <#注释#>
-        pageControl.pageIndicatorTintColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
-        pageControl.currentPageIndicatorTintColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
         pageControl.userInteractionEnabled = NO;
         [self.topContentView.scrollContentView addSubview:pageControl];
         _pageControl = pageControl;
+        
+        [JKAlertThemeProvider providerWithOwner:pageControl handlerKey:NSStringFromSelector(@selector(pageIndicatorTintColor)) provideHandler:^(JKAlertThemeProvider *provider, UIPageControl *providerOwner) {
+            
+            providerOwner.pageIndicatorTintColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(217), JKAlertSameRGBColor(38));
+        }];
+        
+        [JKAlertThemeProvider providerWithOwner:pageControl handlerKey:NSStringFromSelector(@selector(currentPageIndicatorTintColor)) provideHandler:^(JKAlertThemeProvider *provider, UIPageControl *providerOwner) {
+            
+            providerOwner.currentPageIndicatorTintColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(102), JKAlertSameRGBColor(153));
+        }];
     }
     return _pageControl;
 }
