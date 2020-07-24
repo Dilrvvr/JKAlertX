@@ -1143,6 +1143,7 @@
     [cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
+    horizontalSeparatorLineView.userInteractionEnabled = NO;
     horizontalSeparatorLineView.hidden = YES;
     [self addSubview:horizontalSeparatorLineView];
     _horizontalSeparatorLineView = horizontalSeparatorLineView;

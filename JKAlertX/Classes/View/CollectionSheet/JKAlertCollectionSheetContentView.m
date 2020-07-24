@@ -943,11 +943,13 @@
     _textContentView = textContentView;
     
     UIView *titleSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
+    titleSeparatorLineView.userInteractionEnabled = NO;
     titleSeparatorLineView.hidden = YES;
     [self.topContainerView addSubview:titleSeparatorLineView];
     _titleSeparatorLineView = titleSeparatorLineView;
     
     UIView *collectionSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
+    collectionSeparatorLineView.userInteractionEnabled = NO;
     collectionSeparatorLineView.hidden = YES;
     [self.topContainerView addSubview:collectionSeparatorLineView];
     _collectionSeparatorLineView = collectionSeparatorLineView;

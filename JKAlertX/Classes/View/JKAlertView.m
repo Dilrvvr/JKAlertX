@@ -231,9 +231,7 @@
     UIButton *refreshButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     refreshButton.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
     //refreshButton.backgroundColor = [UIColor blackColor];
-    if (@available(iOS 13.0, *)) {
-        [refreshButton setTitle:[self themeStyleStringWithStyle:[JKAlertThemeManager sharedManager].themeStyle] forState:(UIControlStateNormal)];
-    }
+    [refreshButton setTitle:[self themeStyleStringWithStyle:[JKAlertThemeManager sharedManager].themeStyle] forState:(UIControlStateNormal)];
     [refreshButton setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
     refreshButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [self addSubview:refreshButton];
@@ -521,9 +519,7 @@
             break;
     }
     
-    if (@available(iOS 13.0, *)) {
-        [button setTitle:[self themeStyleStringWithStyle:[JKAlertThemeManager sharedManager].themeStyle] forState:(UIControlStateNormal)];
-    }
+    [button setTitle:[self themeStyleStringWithStyle:[JKAlertThemeManager sharedManager].themeStyle] forState:(UIControlStateNormal)];
 }
 
 #pragma mark
@@ -585,8 +581,6 @@
     
     [self updatePlainWidth];
     
-    
-    // TODO: - JKTODO <#注释#>
     self.hudContentView.contentWidth = self.plainWidth;
     self.hudContentView.maxHeight = self.maxPlainHeight;
     [self.hudContentView calculateUI];

@@ -517,11 +517,13 @@
     _actionContainerView = actionContainerView;
     
     UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
+    horizontalSeparatorLineView.userInteractionEnabled = NO;
     horizontalSeparatorLineView.hidden = YES;
     [self.contentView addSubview:horizontalSeparatorLineView];
     _horizontalSeparatorLineView = horizontalSeparatorLineView;
     
     UIView *verticalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertGlobalSeparatorLineThickness(), 0)];
+    verticalSeparatorLineView.userInteractionEnabled = NO;
     verticalSeparatorLineView.hidden = YES;
     [self.contentView addSubview:verticalSeparatorLineView];
     _verticalSeparatorLineView = verticalSeparatorLineView;

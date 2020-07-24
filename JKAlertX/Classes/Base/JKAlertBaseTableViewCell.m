@@ -120,6 +120,7 @@
     _actionView = actionView;
     
     UIView *bottomLineView = [[UIView alloc] init];
+    bottomLineView.userInteractionEnabled = NO;
     [self addSubview:bottomLineView];
     _bottomLineView = bottomLineView;
 }
