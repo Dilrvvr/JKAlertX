@@ -177,7 +177,7 @@
 @property (nonatomic, strong, readonly) UIColor *titleColor;
 
 /**
- * seletedBackgroundColor 默认JKAlertGlobalHighlightedBackgroundColor()
+ * seletedBackgroundColor
  * 仅 actionSheet 与 collectionSheet的底部按钮 有效
  * */
 @property (nonatomic, strong, readonly) UIColor *seletedBackgroundColor;
@@ -218,9 +218,6 @@
 
 /** 是否隐藏分隔线 */
 @property (nonatomic, assign) BOOL separatorLineHidden;
-
-/** isPierced */
-@property (nonatomic, assign) BOOL isPierced;
 
 /** 执行操作后是否自动消失 */
 @property (nonatomic, assign, getter=isAutoDismiss) BOOL autoDismiss;

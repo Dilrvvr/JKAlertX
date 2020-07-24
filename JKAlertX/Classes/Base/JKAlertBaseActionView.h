@@ -21,9 +21,6 @@
 /** titleLabel */
 @property (nonatomic, weak, readonly) UILabel *titleLabel;
 
-/** isFullContentWidth */
-@property (nonatomic, assign) BOOL isFullContentWidth;
-
 /** seleted */
 @property (nonatomic, assign) BOOL seleted;
 

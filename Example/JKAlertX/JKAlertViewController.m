@@ -298,7 +298,7 @@
     
     alertView.makeBottomButtonMargin(8);//.makeHomeIndicatorAdapted(NO);
     
-    alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 0, 15));
+    alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertIsDeviceX() ? 0 : 24), 15));
     
     [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
         
@@ -377,7 +377,7 @@
     
     //alertView.setCollectionTitleSeparatorHidden(NO);
     
-    alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 15));
+    alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertIsDeviceX() ? 0 : 24), 15));
     
     alertView.makeCollectionSheetBottomButtonPinned(YES).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
         
@@ -402,7 +402,7 @@
      return [UIView new];
      })); //*/
     
-    //alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, 24, 15), 10, [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
+    //alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertIsDeviceX() ? 0 : 24), 15), 10, [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
     
     ///* 第1组
     alertView.makeCollectionSheetAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {

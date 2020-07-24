@@ -234,9 +234,16 @@
     [refreshButton setTitle:[self themeStyleStringWithStyle:[JKAlertThemeManager sharedManager].themeStyle] forState:(UIControlStateNormal)];
     [refreshButton setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
     refreshButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    [refreshButton sizeToFit];
     [self addSubview:refreshButton];
-    NSString *verticalFormat = [NSString stringWithFormat:@"V:|-0-[view(%.0f)]", JKAlertIsDeviceX() ? 90.0 : 65.0];
-    [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-80-[view]-80-|" verticalFormat:verticalFormat viewKeyName:@"view" targetView:refreshButton constraintsView:self];
+    
+    refreshButton.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *cons1 = [NSLayoutConstraint constraintWithItem:refreshButton attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self attribute:(NSLayoutAttributeTop) multiplier:1 constant:(JKAlertIsDeviceX() ? 44 : 20)];
+    NSLayoutConstraint *cons2 = [NSLayoutConstraint constraintWithItem:refreshButton attribute:(NSLayoutAttributeCenterX) relatedBy:(NSLayoutRelationEqual) toItem:self attribute:(NSLayoutAttributeCenterX) multiplier:1 constant:0];
+    NSLayoutConstraint *cons3 = [NSLayoutConstraint constraintWithItem:refreshButton attribute:(NSLayoutAttributeWidth) relatedBy:(NSLayoutRelationEqual) toItem:nil attribute:(NSLayoutAttributeNotAnAttribute) multiplier:1 constant:refreshButton.frame.size.width + 20];
+    NSLayoutConstraint *cons4 = [NSLayoutConstraint constraintWithItem:refreshButton attribute:(NSLayoutAttributeHeight) relatedBy:(NSLayoutRelationEqual) toItem:nil attribute:(NSLayoutAttributeNotAnAttribute) multiplier:1 constant:refreshButton.frame.size.height + 10];
+    [self addConstraints:@[cons1, cons2, cons3, cons4]];
+    
     [refreshButton addTarget:self action:@selector(refreshButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     
@@ -270,6 +277,14 @@
     [view addAction:[JKAlertAction actionWithTitle:[NSString stringWithFormat:@"Pinned: %@", sheet.bottomButtonPinned ? @"YES" : @"NO"] style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
         sheet.bottomButtonPinned = !sheet.bottomButtonPinned;
+        
+        alertView.relayout(YES);
+    }]];
+    
+    [view addAction:[JKAlertAction actionWithTitle:[NSString stringWithFormat:@"Pierced: %@", sheet.isPierced ? @"YES" : @"NO"] style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
+        sheet.isPierced = !sheet.isPierced;
+        sheet.piercedInsets = UIEdgeInsetsMake(0, 15, (JKAlertIsDeviceX() ? 0 : 24), 15);
         
         alertView.relayout(YES);
     }]];
@@ -607,7 +622,6 @@
         contentWidth -= (self.actionsheetContentView.piercedInsets.left + self.actionsheetContentView.piercedInsets.right + self.actionsheetContentView.screenSafeInsets.left + self.actionsheetContentView.screenSafeInsets.right);
     }
     
-    // TODO: - JKTODO <#注释#>
     self.actionsheetContentView.contentWidth = contentWidth;
     self.actionsheetContentView.maxHeight = self.maxSheetHeight;
     [self.actionsheetContentView calculateUI];
@@ -717,17 +731,6 @@
 - (void)setAlertViewToAction:(JKAlertAction *)action {
     
     action.alertView = self;
-    
-    if (JKAlertStyleActionSheet == self.alertStyle) {
-        
-        // TODO: - JKTODO <#注释#>
-        action.isPierced = self.actionsheetContentView.isPierced;
-        
-    } else if (JKAlertStyleCollectionSheet == self.alertStyle) {
-        
-        // TODO: - JKTODO <#注释#>
-        action.isPierced = self.collectionsheetContentView.isPierced;
-    }
 }
 
 - (void)setCustomHUD:(UIView *)customHUD {
@@ -736,7 +739,6 @@
     
     _customHUD = customHUD;
     
-    // TODO: - JKTODO <#注释#>
     if (self.customHUD.frame.size.width <= 0) { return; }
     
     self.plainWidth = self.customHUD.frame.size.width;
@@ -1134,15 +1136,17 @@
 - (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *view, UITextField *textField))configurationHandler {
     
     UITextField *tf = [[UITextField alloc] init];
+    
+    tf.font = [UIFont systemFontOfSize:13];
+    
     UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 1)];
     tf.leftView = leftView;
     tf.leftViewMode = UITextFieldViewModeAlways;
+    
     UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 4, 1)];
     tf.rightView = rightView;
     tf.rightViewMode = UITextFieldViewModeAlways;
-    tf.font = [UIFont systemFontOfSize:13];
     
-    // TODO: - JKTODO <#注释#>
     [JKAlertThemeProvider providerWithOwner:tf handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UITextField *providerOwner) {
 
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
@@ -1656,16 +1660,6 @@
     
     // 即将消失
     !self.willDismissHandler ? : self.willDismissHandler();
-    
-    // TODO: - JKTODO <#注释#>
-    /*
-    if (!self.isSheetDismissHorizontal ||
-        (self.alertStyle != JKAlertStyleActionSheet &&
-         self.alertStyle != JKAlertStyleCollectionSheet)) {
-        
-        // 自定义消失动画
-        !self.customDismissAnimationBlock ? : self.customDismissAnimationBlock(self, self.alertContentView);
-    } //*/
     
     if (!self.isSheetDismissHorizontal) {
         

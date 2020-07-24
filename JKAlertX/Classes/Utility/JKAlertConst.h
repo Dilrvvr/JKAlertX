@@ -172,9 +172,6 @@ UIColor * JKAlertGlobalDarkBackgroundColor (void);
 /// 全局分隔线粗细
 CGFloat JKAlertGlobalSeparatorLineThickness (void);
 
-/// 全局高亮背景色
-//UIColor * JKAlertGlobalHighlightedBackgroundColor (void);
-
 /// 全局高亮背景色 浅色模式
 UIColor * JKAlertGlobalHighlightedLightBackgroundColor (void);
 

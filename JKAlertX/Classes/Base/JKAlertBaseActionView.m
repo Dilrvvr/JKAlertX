@@ -37,8 +37,6 @@
     self.iconImageView.image = nil;
     self.iconImageView.highlightedImage = nil;
     
-    self.isFullContentWidth = action.isPierced;
-    
     if (self.customView &&
         self.customView.superview == self.contentView) {
         
@@ -104,7 +102,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    if (self.isFullContentWidth) {
+    if (self.frame.size.width < JKAlertKeyWindow().frame.size.width - 1.0) {
         
         self.contentView.frame = CGRectMake(0, 0, self.frame.size.width, self.action.rowHeight);
         

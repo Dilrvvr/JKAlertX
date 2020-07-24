@@ -14,4 +14,7 @@
 
 /** action */
 @property (nonatomic, strong) JKAlertAction *action;
+
+/** isPierced */
+@property (nonatomic, assign) BOOL isPierced;
 @end

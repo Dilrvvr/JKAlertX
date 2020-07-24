@@ -136,12 +136,6 @@
             
             self.actionsheetContentView.isPierced = isPierced;
             self.actionsheetContentView.piercedInsets = piercedInsets;
-            
-            [self.actionsheetContentView.actionArray enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                
-                // TODO: - JKTODO <#注释#>
-                obj.isPierced = isPierced;
-            }];
         }];
     };
 }

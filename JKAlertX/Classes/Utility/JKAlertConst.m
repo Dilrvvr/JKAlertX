@@ -94,13 +94,13 @@ CGFloat JKAlertGlobalSeparatorLineThickness (void) {
 /// 全局分隔线背景色 浅色模式
 UIColor * JKAlertGlobalSeparatorLineLightColor (void) {
     
-    return [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    return [[UIColor blackColor] colorWithAlphaComponent:0.25];
 }
 
 /// 全局分隔线背景色 深色模式
 UIColor * JKAlertGlobalSeparatorLineDarkColor (void) {
     
-    return [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+    return [[UIColor whiteColor] colorWithAlphaComponent:0.25];
 }
 
 /// 是否X设备

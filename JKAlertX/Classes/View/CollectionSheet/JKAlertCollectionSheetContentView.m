@@ -64,8 +64,8 @@
 - (void)setIsPierced:(BOOL)isPierced {
     [super setIsPierced:isPierced];
     
-    self.cancelAction.isPierced = isPierced;
-    self.collectionAction.isPierced = isPierced;
+    self.cancelButton.isPierced = self.isPierced;
+    self.collectionButton.isPierced = self.isPierced;
     
     self.backgroundEffectView.hidden = self.isPierced;
 }
@@ -182,14 +182,11 @@
 
 - (void)calculateActionButtonUI {
     
-    self.cancelAction.isPierced = self.isPierced;
     self.cancelButton.action = self.cancelAction;
-    
-    self.collectionAction.isPierced = self.isPierced;
     self.collectionButton.action = self.collectionAction;
     
     self.bottomContentView.scrollViewTopConstraint.constant = 0;
-    self.bottomContentView.scrollViewBottomConstraint.constant = self.isPierced ? -JKAlertAdjustHomeIndicatorHeight : 0;
+    self.bottomContentView.scrollViewBottomConstraint.constant = self.isPierced ? -JKAlertAdjustHomeIndicatorHeight - self.piercedInsets.bottom : 0;
     
     if (self.cancelAction.rowHeight < 0.1) {
         
@@ -221,7 +218,8 @@
     CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
     
     CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
-    
+
+    rect.size.height += self.piercedInsets.bottom;
     rect.size.height += JKAlertAdjustHomeIndicatorHeight;
     
     if (!self.collectionButton.hidden) {

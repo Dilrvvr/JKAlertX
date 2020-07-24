@@ -275,18 +275,6 @@
             
             self.collectionsheetContentView.isPierced = isPierced;
             self.collectionsheetContentView.piercedInsets = piercedInsets;
-            
-            // TODO: - JKTODO <#注释#>
-            
-            [self.collectionsheetContentView.actionArray enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                
-                obj.isPierced = isPierced;
-            }];
-            
-            [self.collectionsheetContentView.secondActionArray enumerateObjectsUsingBlock:^(JKAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                
-                obj.isPierced = isPierced;
-            }];
         }];
     };
 }

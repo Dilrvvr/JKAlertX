@@ -772,13 +772,13 @@
     
     self.bottomContentView.scrollViewTopConstraint.constant = 0;
     
-    self.bottomContentView.scrollViewBottomConstraint.constant = self.isPierced ? -JKAlertAdjustHomeIndicatorHeight : 0;
-    
-    self.cancelAction.isPierced = self.isPierced;
+    self.bottomContentView.scrollViewBottomConstraint.constant = self.isPierced ? -JKAlertAdjustHomeIndicatorHeight - self.piercedInsets.bottom : 0;
     
     self.cancelButton.action = self.cancelAction;
     
     CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
+    
+    rect.size.height += self.piercedInsets.bottom;
     
     // 取消按钮的高度小于0.1
     if (self.cancelAction.rowHeight < 0.1) {
@@ -815,7 +815,7 @@
     
     CGRect frame = CGRectMake(0, 0, self.contentWidth, self.cancelAction.rowHeight);
     
-    rect.size.height = self.cancelMargin + JKAlertAdjustHomeIndicatorHeight;
+    rect.size.height += self.cancelMargin + JKAlertAdjustHomeIndicatorHeight;
     
     // 非镂空效果 且 自动适配X设备底部 且 填充X设备底部
     if (!self.isPierced &&
@@ -887,8 +887,6 @@
         
         action = self.cancelAction;
     }
-    
-    action.isPierced = self.isPierced;
     
     cell.action = action;
     
@@ -1180,7 +1178,7 @@
 
 - (void)updateIsPierced {
     
-    self.cancelAction.isPierced = self.isPierced;
+    self.cancelButton.isPierced = self.isPierced;
     
     self.backgroundEffectView.hidden = self.isPierced;
 }
