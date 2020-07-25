@@ -375,8 +375,6 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeBottomButtonMargin(10).makeCustomSuperView(self.view);
     
-    //alertView.setCollectionTitleSeparatorHidden(NO);
-    
     alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertIsDeviceX() ? 0 : 24), 15));
     
     alertView.makeCollectionSheetBottomButtonPinned(YES).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
@@ -401,8 +399,6 @@
      
      return [UIView new];
      })); //*/
-    
-    //alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertIsDeviceX() ? 0 : 24), 15), 10, [JKAlertMultiColor colorWithLightColor:[UIColor whiteColor] darkColor:[UIColor blackColor]]);
     
     ///* 第1组
     alertView.makeCollectionSheetAction([JKAlertAction actionWithTitle:@"更新title并取消底部间距" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {

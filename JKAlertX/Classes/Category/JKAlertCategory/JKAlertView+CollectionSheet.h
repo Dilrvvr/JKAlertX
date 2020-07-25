@@ -11,7 +11,6 @@
 
 /**
  * collection样式title的背景色
- * 默认JKAlertGlobalMultiBackgroundColor()
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetTopBackgroundColor)(UIColor *color);
 

@@ -14,7 +14,6 @@
 
 /**
  * actionSheet样式title的背景色
- * 默认JKAlertGlobalMultiBackgroundColor()
  */
 - (JKAlertView *(^)(UIColor *color))makeCollectionSheetTopBackgroundColor {
     

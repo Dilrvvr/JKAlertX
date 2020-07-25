@@ -556,7 +556,7 @@
         
         providerOwner.textFieldContainerView.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
         
-        //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineMultiColor().lightColor CGColor];
+        //self.textFieldContainerView.layer.borderColor = [JKAlertGlobalSeparatorLineLightColor() CGColor];
     }];
 }
 

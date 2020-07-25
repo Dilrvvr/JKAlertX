@@ -8,8 +8,6 @@
 #import "JKAlertBaseView.h"
 #import "JKAlertTextContainerView.h"
 
-// TODO: - JKTODO 需外界赋值的属性拎出来
-
 @interface JKAlertBaseTextContentView : JKAlertBaseView
 
 /** titleTextView */
@@ -23,7 +21,6 @@
 
 /** title和message之间的分隔线是否隐藏 默认YES */
 @property (nonatomic, assign) BOOL separatorLineHidden;
-
 
 /** contentWidth */
 @property (nonatomic, assign) CGFloat contentWidth;
@@ -60,13 +57,6 @@
 @property (nonatomic, weak) UIView *customMessageView;
 
 
-/** titleTextColor */
-//@property (nonatomic, strong) UIColor *titleTextColor;
-
-/** messageTextColor */
-//@property (nonatomic, strong) UIColor *messageTextColor;
-
-
 /** 标题 */
 @property (nonatomic, copy) NSString *alertTitle;
 
@@ -78,9 +68,6 @@
 
 /** 富文本提示信息 */
 @property (nonatomic, copy) NSAttributedString *attributedMessage;
-
-/** multiBackgroundColor */
-//@property (nonatomic, strong) UIColor *multiBackgroundColor;
 
 
 - (void)calculateUI NS_REQUIRES_SUPER;
