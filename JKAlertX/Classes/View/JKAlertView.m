@@ -2012,8 +2012,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     if (self.deallocLogEnabled) {
-        // TODO: - JKTODO <#注释#>
-        //NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
+        
+        NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
     }
     
     !self.deallocHandler ? : self.deallocHandler();

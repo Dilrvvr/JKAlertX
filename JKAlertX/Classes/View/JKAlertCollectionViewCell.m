@@ -115,6 +115,13 @@
 
 - (void)updateHighlighted:(BOOL)highlighted {
     
+    if (self.customView) {
+        
+        self.customView.alpha = highlighted ? 0.5 : 1.0;
+        
+        return;
+    }
+    
     if (self.action.hightlightedImage) {
         
         _iconImageView.alpha = 1;
