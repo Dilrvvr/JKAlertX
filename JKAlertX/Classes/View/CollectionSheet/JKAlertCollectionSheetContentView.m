@@ -115,11 +115,6 @@
 #pragma mark
 #pragma mark - Override
 
-- (void)dealloc {
-    
-    NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
-}
-
 - (void)layoutSubviews {
     [super layoutSubviews];
     

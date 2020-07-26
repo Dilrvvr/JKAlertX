@@ -17,10 +17,7 @@
 #pragma mark
 #pragma mark - Override
 
-- (void)dealloc {
-    
-    NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
-}
+
 
 #pragma mark
 #pragma mark - Private Methods

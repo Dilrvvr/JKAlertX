@@ -165,7 +165,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
         
         if (!timer) {
             
-            NSLog(@"timer已销毁");
+            //NSLog(@"timer已销毁");
             
             return;
         }
@@ -176,7 +176,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
                 
                 if (!timer) {
                     
-                    NSLog(@"timer已销毁");
+                    //NSLog(@"timer已销毁");
                     
                     return;
                 }
@@ -194,7 +194,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
             
         } else {
             
-            NSLog(@"timer-->target已销毁");
+            //NSLog(@"timer-->target已销毁");
             
             if (!timer) { return; }
             
