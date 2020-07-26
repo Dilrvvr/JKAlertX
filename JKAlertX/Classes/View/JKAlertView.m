@@ -528,17 +528,17 @@
     
     switch ([JKAlertThemeManager sharedManager].themeStyle) {
         case JKAlertThemeStyleSystem:
-            self.makeThemeStyle(JKAlertThemeStyleLight);
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleLight);
             break;
         case JKAlertThemeStyleLight:
-            self.makeThemeStyle(JKAlertThemeStyleDark);
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleDark);
             break;
         case JKAlertThemeStyleDark:
-            self.makeThemeStyle(JKAlertThemeStyleSystem);
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
             break;
 
         default:
-            self.makeThemeStyle(JKAlertThemeStyleSystem);
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
             break;
     }
     
@@ -1788,6 +1788,11 @@
 
 - (void)addNotifications {
     
+    if (@available(iOS 13.0, *)) {
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(themeStyleDidChangeNotification:) name:JKAlertThemeStyleDidChangeNotification object:nil];
+    }
+    
     // 屏幕旋转的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
@@ -1814,6 +1819,14 @@
     
     // 键盘
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)themeStyleDidChangeNotification:(NSNotification *)note {
+    
+    if (@available(iOS 13.0, *)) {
+        
+        self.overrideUserInterfaceStyle = (UIUserInterfaceStyle)[note.object integerValue];
+    }
 }
 
 #pragma mark

@@ -58,19 +58,19 @@
 #pragma mark - 类方法
 
 /** 函数式类方法 */
-@property (class, nonatomic, copy, readonly) JKAlertView *(^show)(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView));
+@property (class, nonatomic, readonly) JKAlertView *(^show)(NSString *title, NSString *message, JKAlertStyle style, void(^configuration)(JKAlertView *alertView));
 
 /** 链式实例化 */
-@property (class, nonatomic, copy, readonly) JKAlertView *(^alertView)(NSString *title, NSString *message, JKAlertStyle style);
+@property (class, nonatomic, readonly) JKAlertView *(^alertView)(NSString *title, NSString *message, JKAlertStyle style);
 
 /** 富文本链式实例化 */
-@property (class, nonatomic, copy, readonly) JKAlertView *(^alertViewAttributed)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style);
+@property (class, nonatomic, readonly) JKAlertView *(^alertViewAttributed)(NSAttributedString *attributedTitle, NSAttributedString *attributedMessage, JKAlertStyle style);
 
 /** 显示文字HUD */
-@property (class, nonatomic, copy, readonly) void (^showHUDWithTitle)(NSString *title, void(^configuration)(JKAlertView *alertView));
+@property (class, nonatomic, readonly) void (^showHUDWithTitle)(NSString *title, void(^configuration)(JKAlertView *alertView));
 
 /** 显示富文本HUD */
-@property (class, nonatomic, copy, readonly) void (^showHUDWithAttributedTitle)(NSAttributedString *attributedTitle, void(^configuration)(JKAlertView *alertView));
+@property (class, nonatomic, readonly) void (^showHUDWithAttributedTitle)(NSAttributedString *attributedTitle, void(^configuration)(JKAlertView *alertView));
 
 /**
  * 显示自定义HUD
@@ -78,7 +78,7 @@
  * customHUD尺寸将完全由自定义控制，默认显示在屏幕中间
  * 注意自己计算好自定义HUD的size，以避免横竖屏出现问题
  */
-@property (class, nonatomic, copy, readonly) void (^showCustomHUD)(UIView *(^customHUD)(void), void(^configuration)(JKAlertView *alertView));
+@property (class, nonatomic, readonly) void (^showCustomHUD)(UIView *(^customHUD)(void), void(^configuration)(JKAlertView *alertView));
 
 
 #pragma mark

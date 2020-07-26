@@ -16,6 +16,9 @@ NSString * const JKAlertDefaultThemeDark = @"JKAlertDefaultThemeDark";
 /** 系统深色/浅色样式改变的通知 */
 NSString * const JKAlertThemeDidChangeNotification = @"JKAlertThemeDidChangeNotification";
 
+/** ThemeStyle改变的通知 */
+NSString * const JKAlertThemeStyleDidChangeNotification = @"JKAlertThemeStyleDidChangeNotification";
+
 /// 默认的存储handler的key
 NSString * const JKAlertThemeProvideHandlerKey = @"JKAlertThemeProvideHandlerKey";
 

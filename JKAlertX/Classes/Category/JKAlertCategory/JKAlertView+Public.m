@@ -15,14 +15,9 @@
 /**
  * 深色/浅色模式
  */
-- (JKAlertView *(^)(JKAlertThemeStyle themeStyle))makeThemeStyle {
++ (JKAlertView *(^)(JKAlertThemeStyle themeStyle))makeThemeStyle {
     
     return ^(JKAlertThemeStyle themeStyle) {
-        
-        if (@available(iOS 13.0, *)) {
-            
-            self.overrideUserInterfaceStyle = (UIUserInterfaceStyle)themeStyle;
-        }
         
         [JKAlertThemeManager sharedManager].themeStyle = themeStyle;
         
