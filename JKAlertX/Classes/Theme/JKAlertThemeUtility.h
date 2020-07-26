@@ -1,5 +1,5 @@
 //
-//  JKAlertThemeUtil.h
+//  JKAlertThemeUtility.h
 //  JKAlertX
 //
 //  Created by albert on 2020/7/11.
@@ -60,7 +60,7 @@ UIKIT_EXTERN NSString * const JKAlertThemeProvideHandlerKey;
 #pragma mark
 #pragma mark - 工具方法
 
-@interface JKAlertThemeUtil : NSObject
+@interface JKAlertThemeUtility : NSObject
 
 /** keyWindow */
 @property (class, nonatomic, readonly) UIWindow *keyWindow;

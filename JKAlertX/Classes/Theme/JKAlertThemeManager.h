@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JKAlertThemeUtil.h"
+#import "JKAlertThemeUtility.h"
 
 @interface JKAlertThemeManager : NSObject
 

@@ -1,11 +1,11 @@
 //
-//  JKAlertThemeUtil.m
+//  JKAlertThemeUtility.m
 //  JKAlertX
 //
 //  Created by albert on 2020/7/11.
 //
 
-#import "JKAlertThemeUtil.h"
+#import "JKAlertThemeUtility.h"
 
 /// 浅色主题名称
 NSString * const JKAlertDefaultThemeLight = @"JKAlertDefaultThemeLight";
@@ -23,7 +23,7 @@ NSString * const JKAlertThemeProvideHandlerKey = @"JKAlertThemeProvideHandlerKey
 #pragma mark
 #pragma mark - 工具方法
 
-@implementation JKAlertThemeUtil
+@implementation JKAlertThemeUtility
 
 /// 获取keyWindow
 + (UIWindow *)keyWindow {

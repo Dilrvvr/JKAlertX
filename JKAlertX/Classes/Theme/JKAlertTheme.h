@@ -12,6 +12,6 @@
 //#import "JKAlertThemeManager.h"
 #import "JKAlertThemeProvider.h"
 #import "NSObject+JKAlertTheme.h"
-#import "JKAlertThemeUtil.h"
+#import "JKAlertThemeUtility.h"
 
 #endif /* JKAlertTheme_h */

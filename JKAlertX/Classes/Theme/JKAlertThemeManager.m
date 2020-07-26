@@ -7,7 +7,7 @@
 
 #import "JKAlertThemeManager.h"
 #include <objc/runtime.h>
-#import "JKAlertThemeUtil.h"
+#import "JKAlertThemeUtility.h"
 
 @interface JKAlertThemeManager ()
 
@@ -119,7 +119,7 @@
 
 - (void)postThemeDidChangeNotification {
     
-    UIWindow *keyWindow = JKAlertThemeUtil.keyWindow;
+    UIWindow *keyWindow = JKAlertThemeUtility.keyWindow;
     
     UIView *snapShotImageView = [keyWindow snapshotViewAfterScreenUpdates:NO];
     
