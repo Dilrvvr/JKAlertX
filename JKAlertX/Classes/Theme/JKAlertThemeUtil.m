@@ -1,11 +1,11 @@
 //
-//  JKAlertThemeConst.m
+//  JKAlertThemeUtil.m
 //  JKAlertX
 //
 //  Created by albert on 2020/7/11.
 //
 
-#import "JKAlertThemeConst.h"
+#import "JKAlertThemeUtil.h"
 
 /// 浅色主题名称
 NSString * const JKAlertDefaultThemeLight = @"JKAlertDefaultThemeLight";
@@ -20,11 +20,13 @@ NSString * const JKAlertThemeDidChangeNotification = @"JKAlertThemeDidChangeNoti
 NSString * const JKAlertThemeProvideHandlerKey = @"JKAlertThemeProvideHandlerKey";
 
 
+#pragma mark
+#pragma mark - 工具方法
 
-
+@implementation JKAlertThemeUtil
 
 /// 获取keyWindow
-UIWindow * JKAlertThemeKeyWindow (void) {
++ (UIWindow *)getKeyWindow {
     
     UIWindow *keyWindow = nil;
     
@@ -48,3 +50,5 @@ UIWindow * JKAlertThemeKeyWindow (void) {
     
     return keyWindow;
 }
+
+@end

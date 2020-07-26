@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JKAlertThemeConst.h"
+#import "JKAlertThemeUtil.h"
 
 @class JKAlertThemeProvider;
 

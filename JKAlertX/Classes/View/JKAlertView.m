@@ -203,6 +203,8 @@
 /** 显示 */
 - (JKAlertView *(^)(void))show {
     
+    if (!self.customSuperView) { return ^{ return self; }; }
+    
     [JKAlertKeyWindow() endEditing:YES];
     
     if (self.isShowed) { return ^{ return self; }; }
