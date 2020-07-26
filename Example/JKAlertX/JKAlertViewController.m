@@ -300,22 +300,22 @@
     
     alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertIsDeviceX() ? 0 : 24), 15));
     
-    [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
-        
-        providerOwner.makeActionSheetTopBackgroundColor(JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
-        
-        providerOwner.getCancelAction.makeBackgroundColor(JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
-        
-        !providerOwner.getCancelAction.refreshAppearanceHandler ? : providerOwner.getCancelAction.refreshAppearanceHandler(providerOwner.getCancelAction);
-    }];
+//    [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
+//
+//        providerOwner.makeActionSheetTopBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
+//
+//        providerOwner.getCancelAction.makeBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
+//
+//        !providerOwner.getCancelAction.refreshAppearanceHandler ? : providerOwner.getCancelAction.refreshAppearanceHandler(providerOwner.getCancelAction);
+//    }];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].makeNormalImage([UIImage imageNamed:@"Share_Twitter"]).makeBackgroundColor(nil)];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Twitter"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定2" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].makeNormalImage([UIImage imageNamed:@"Share_Facebook"]).makeBackgroundColor(nil)];
+    }].makeNormalImage([UIImage imageNamed:@"Share_Facebook"])];
     
     
     
@@ -347,7 +347,7 @@
             
         }).alertView.resetMessage(@"message已更新").makeMessageColor([UIColor redColor]).relayout(YES);
         
-    }].makeBackgroundColor(nil).makeAutoDismiss(NO)];
+    }].makeAutoDismiss(NO)];
     
     //    alertView.setCancelAction([JKAlertAction actionWithTitle:@"cancel" style:(JKAlertActionStyleDestructive) handler:nil]);
     
@@ -413,21 +413,21 @@
         
     }].makeAutoDismiss(NO)).makeCollectionSheetPageControlHidden(NO); //*/
     
-    [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
-        
-        providerOwner.makeCollectionSheetTopBackgroundColor(JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
-        
-        providerOwner.getCancelAction.makeBackgroundColor(JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
-        
-        !providerOwner.getCancelAction.refreshAppearanceHandler ? : providerOwner.getCancelAction.refreshAppearanceHandler(providerOwner.getCancelAction);
-        
-        if (providerOwner.getCollectionAction) {
-            
-            providerOwner.getCollectionAction.makeBackgroundColor(JKAlertCheckDarkMode([UIColor whiteColor], [UIColor blackColor]));
-            
-            !providerOwner.getCollectionAction.refreshAppearanceHandler ? : providerOwner.getCollectionAction.refreshAppearanceHandler(providerOwner.getCollectionAction);
-        }
-    }];
+//    [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
+//
+//        providerOwner.makeCollectionSheetTopBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
+//
+//        providerOwner.getCancelAction.makeBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
+//
+//        !providerOwner.getCancelAction.refreshAppearanceHandler ? : providerOwner.getCancelAction.refreshAppearanceHandler(providerOwner.getCancelAction);
+//
+//        if (providerOwner.getCollectionAction) {
+//
+//            providerOwner.getCollectionAction.makeBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
+//
+//            !providerOwner.getCollectionAction.refreshAppearanceHandler ? : providerOwner.getCollectionAction.refreshAppearanceHandler(providerOwner.getCollectionAction);
+//        }
+//    }];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         

@@ -119,7 +119,7 @@
 
 - (void)postThemeDidChangeNotification {
     
-    UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
+    UIWindow *keyWindow = JKAlertThemeKeyWindow();
     
     UIView *snapShotImageView = [keyWindow snapshotViewAfterScreenUpdates:NO];
     

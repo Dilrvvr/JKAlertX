@@ -827,8 +827,6 @@
 
 - (BOOL)checkHasMessageTextView {
     
-    // TODO: - JKTODO 有messageTextView的在这里添加
-    
     return (JKAlertStylePlain == self.alertStyle ||
             JKAlertStyleActionSheet == self.alertStyle);
 }

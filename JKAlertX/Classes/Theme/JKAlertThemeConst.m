@@ -18,3 +18,33 @@ NSString * const JKAlertThemeDidChangeNotification = @"JKAlertThemeDidChangeNoti
 
 /// 默认的存储handler的key
 NSString * const JKAlertThemeProvideHandlerKey = @"JKAlertThemeProvideHandlerKey";
+
+
+
+
+
+/// 获取keyWindow
+UIWindow * JKAlertThemeKeyWindow (void) {
+    
+    UIWindow *keyWindow = nil;
+    
+    if ([[UIApplication sharedApplication].delegate respondsToSelector:@selector(window)]) {
+        
+        keyWindow = [[UIApplication sharedApplication].delegate window];
+        
+    } else {
+        
+        NSArray *windows = [UIApplication sharedApplication].windows;
+        
+        for (UIWindow *window in windows) {
+            
+            if (window.hidden) { continue; }
+            
+            keyWindow = window;
+            
+            break;
+        }
+    }
+    
+    return keyWindow;
+}

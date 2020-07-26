@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *textFiledButton;
 @property (weak, nonatomic) IBOutlet UIButton *styleButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearMessageButton;
+@property (weak, nonatomic) IBOutlet UIButton *addActionButton;
 
 /** titleString */
 @property (nonatomic, copy) NSString *titleString;
@@ -33,6 +34,9 @@
 
 /** textFieldCount */
 @property (nonatomic, assign) NSInteger textFieldCount;
+
+/** actionCount */
+@property (nonatomic, assign) NSInteger actionCount;
 @end
 
 @implementation ViewController
@@ -70,6 +74,15 @@
     [self.textFiledButton setTitle:text forState:UIControlStateNormal];
 }
 
+- (void)setActionCount:(NSInteger)actionCount {
+    _actionCount = actionCount;
+    
+    NSString *text = [NSString stringWithFormat:@"%zd action", _actionCount];
+    
+    self.addActionButton.titleLabel.text = text;
+    [self.addActionButton setTitle:text forState:UIControlStateNormal];
+}
+
 - (IBAction)titleButtonClick:(UIButton *)sender {
     
     self.titleString = [(self.titleString ? self.titleString : @"") stringByAppendingString:sender.currentTitle];
@@ -103,6 +116,16 @@
     self.jkAlertStyle = sender.selected ? JKAlertStyleActionSheet : JKAlertStyleAlert;
 }
 
+- (IBAction)addAction:(id)sender {
+    
+    self.actionCount++;
+}
+
+- (IBAction)clearAction:(id)sender {
+    
+    self.actionCount = 0;
+}
+
 - (IBAction)clearMessageButtonClick:(id)sender {
     
     self.messageString = nil;
@@ -112,7 +135,8 @@
     
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:self.titleString message:self.messageString preferredStyle:(self.alertControllerStyle)];
     
-    if (self.textFieldCount > 0) {
+    if (self.textFieldCount > 0 &&
+        UIAlertControllerStyleAlert == self.alertControllerStyle) {
         
         for (NSInteger i = 0; i < self.textFieldCount; i++) {
             
@@ -123,11 +147,17 @@
         }
     }
     
-    [alertVC addAction:[UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction * _Nonnull action) {
+    if (self.actionCount > 0) {
         
-    }]];
+        for (NSInteger i = 0; i < self.actionCount; i++) {
+            
+            [alertVC addAction:[UIAlertAction actionWithTitle:[@"action" stringByAppendingString:@(i + 1).stringValue] style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+                
+            }]];
+        }
+    }
     
-    [alertVC addAction:[UIAlertAction actionWithTitle:@"确认" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+    [alertVC addAction:[UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction * _Nonnull action) {
         
     }]];
     
@@ -138,7 +168,7 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:self.titleString message:self.messageString style:self.jkAlertStyle];
     
-    alertView.makeTapBlankDismiss(self.textFieldCount <= 0);
+    alertView.makeTapBlankDismiss(self.textFieldCount <= 0 || JKAlertStyleActionSheet == self.jkAlertStyle);
     
     if (self.textFieldCount > 0) {
         
@@ -151,13 +181,15 @@
         }
     }
     
-    [alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleCancel) handler:^(JKAlertAction *action) {
+    if (self.actionCount > 0) {
         
-    }]];
-    
-    [alertView addAction:[JKAlertAction actionWithTitle:@"确认" style:(JKAlertActionStyleDefaultBlue) handler:^(JKAlertAction *action) {
-        
-    }]];
+        for (NSInteger i = 0; i < self.actionCount; i++) {
+            
+            [alertView addAction:[JKAlertAction actionWithTitle:[@"action" stringByAppendingString:@(i + 1).stringValue] style:(JKAlertActionStyleDefaultBlack) handler:^(JKAlertAction *action) {
+                
+            }]];
+        }
+    }
     
     [alertView show];
 }

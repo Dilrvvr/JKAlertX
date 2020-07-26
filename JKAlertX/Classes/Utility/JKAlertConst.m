@@ -57,13 +57,13 @@ BOOL JKAlertCheckIsDarkMode (void) {
 /// 全局背景色 浅色模式
 UIColor * JKAlertGlobalLightBackgroundColor (void) {
     
-    return JKAlertSameRGBColorAlpha(247.0, 0.7);
+    return JKAlertSameRGBColorAlpha(247.0, 1.0);
 }
 
 /// 全局背景色 深色模式
 UIColor * JKAlertGlobalDarkBackgroundColor (void) {
     
-    return JKAlertSameRGBColorAlpha(8.0, 0.7);
+    return JKAlertSameRGBColorAlpha(8.0, 1.0);
 }
 
 /// 全局高亮背景色 浅色模式
@@ -115,7 +115,7 @@ BOOL JKAlertIsDeviceX (void) {
             
             if (!JKAlertIsDeviceiPad()) {
                 
-                JKAlertIsDeviceX_ = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom > 0.0;
+                JKAlertIsDeviceX_ = JKAlertKeyWindow().safeAreaInsets.bottom > 0.0;
             }
         }
     });
@@ -188,7 +188,16 @@ UIWindow * JKAlertKeyWindow (void) {
         
     } else {
         
-        keyWindow = [UIApplication sharedApplication].windows.firstObject;
+        NSArray *windows = [UIApplication sharedApplication].windows;
+        
+        for (UIWindow *window in windows) {
+            
+            if (window.hidden) { continue; }
+            
+            keyWindow = window;
+            
+            break;
+        }
     }
     
     return keyWindow;

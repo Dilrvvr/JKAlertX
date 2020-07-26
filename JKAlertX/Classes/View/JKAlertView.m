@@ -18,6 +18,7 @@
 #import "JKAlertTheme.h"
 // TODO: - JKTODO delete
 #import "JKAlertView+ActionSheet.h"
+#import "JKAlertView+CollectionSheet.h"
 #import "JKAlertThemeManager.h"
 
 @interface JKAlertView () <JKAlertBaseAlertContentViewDelegate>
@@ -285,6 +286,11 @@
         
         sheet.isPierced = !sheet.isPierced;
         sheet.piercedInsets = UIEdgeInsetsMake(0, 15, (JKAlertIsDeviceX() ? 0 : 24), 15);
+        
+        [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
+            
+            providerOwner.makeActionSheetTopBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor())).makeCollectionSheetTopBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
+        }];
         
         alertView.relayout(YES);
     }]];

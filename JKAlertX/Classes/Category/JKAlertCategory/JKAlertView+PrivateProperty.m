@@ -7,12 +7,13 @@
 
 #import "JKAlertView+PrivateProperty.h"
 #import "JKAlertView+Public.h"
+#import "JKAlertConst.h"
 
 @implementation JKAlertView (PrivateProperty)
 
 - (void)updateWidthHeight {
     
-    UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
+    UIWindow *keyWindow = JKAlertKeyWindow();
     
     UIView *superView = self.superview ? self.superview : keyWindow;
     
