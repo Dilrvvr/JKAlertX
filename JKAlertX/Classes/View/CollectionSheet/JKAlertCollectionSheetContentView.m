@@ -630,7 +630,18 @@
     
     JKAlertCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:(self.cellClassName) forIndexPath:indexPath];
     
-    cell.action = collectionView == self.collectionView ? self.actionArray[indexPath.item] : self.secondActionArray[indexPath.item];
+    JKAlertAction *action = nil;
+    
+    if (collectionView == self.collectionView) {
+        
+        action = self.actionArray.count > indexPath.item ? self.actionArray[indexPath.item] : nil;
+        
+    } else {
+        
+        action = self.secondActionArray.count > indexPath.item ? self.secondActionArray[indexPath.item] : nil;
+    }
+    
+    cell.action = action;
     
     return cell;
 }
@@ -638,7 +649,16 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
-    JKAlertAction *action = collectionView == self.collectionView ? self.actionArray[indexPath.item] : self.secondActionArray[indexPath.item];
+    JKAlertAction *action = nil;
+    
+    if (collectionView == self.collectionView) {
+        
+        action = self.actionArray.count > indexPath.item ? self.actionArray[indexPath.item] : nil;
+        
+    } else {
+        
+        action = self.secondActionArray.count > indexPath.item ? self.secondActionArray[indexPath.item] : nil;
+    }
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentView:executeHandlerOfAction:)]) {
 

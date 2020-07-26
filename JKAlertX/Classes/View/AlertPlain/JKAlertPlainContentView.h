@@ -19,7 +19,7 @@
 /** textFieldContainerInset 默认(0, 20, 20, 20) */
 @property (nonatomic, assign) UIEdgeInsets textFieldContainerInset;
 
-/** textFieldContainerCornerRadius 默认8 */  // TODO: - JKTODO <#注释#>
+/** textFieldContainerCornerRadius 默认8 */  // TODO: - JKTODO textFieldContainerCornerRadius
 @property (nonatomic, assign) CGFloat textFieldContainerCornerRadius;
 
 /** textFieldHeight 默认30 */
