@@ -50,7 +50,7 @@
  * 移除设置了某一dismissKey的JKAlertView
  * 本质是发送一个通知，让dismissKey为该值的JKAlertView对象执行消失操作
  */
-@property (class, nonatomic, copy, readonly) void (^dismissForKey)(NSString *key);
+@property (class, nonatomic, readonly) void (^dismissForKey)(NSString *key);
 
 /**
  * 是否使JKAlertView.dismissAll(); 对当前JKAlertView无效
@@ -64,7 +64,7 @@
  * 注意如果某个对象setDismissAllNoneffective为YES时，该对象将不会响应通知
  * ***谨慎使用该方法***
  */
-@property (class, nonatomic, copy, readonly) void (^dismissAll)(void);
+@property (class, nonatomic, readonly) void (^dismissAll)(void);
 
 /**
  * 用于通知消失的类别
@@ -77,7 +77,7 @@
  * 移除设置了同一dismissCategory的多个JKAlertView
  * 本质是发送一个通知，让dismissCategory为该值的JKAlertView对象执行消失操作
  */
-@property (class, nonatomic, copy, readonly) void (^dismissForCategory)(NSString *dismissCategory);
+@property (class, nonatomic, readonly) void (^dismissForCategory)(NSString *dismissCategory);
 
 /**
  * 清空当前所有的JKAlertView
@@ -85,5 +85,5 @@
  * 执行该操作会清空所有的JKAlertView，即使setDismissAllNoneffective为YES亦然，请谨慎操作
  * ***谨慎使用该方法***
  */
-@property (class, nonatomic, copy, readonly) void (^clearAll)(void);
+@property (class, nonatomic, readonly) void (^clearAll)(void);
 @end

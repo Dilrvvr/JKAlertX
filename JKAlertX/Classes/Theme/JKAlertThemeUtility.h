@@ -40,6 +40,9 @@ UIKIT_EXTERN NSString * const JKAlertDefaultThemeDark;
 /** 系统深色/浅色样式改变的通知 */
 UIKIT_EXTERN NSString * const JKAlertThemeDidChangeNotification;
 
+/** ThemeStyle改变的通知 */
+UIKIT_EXTERN NSString * const JKAlertThemeStyleDidChangeNotification;
+
 /// 默认的存储handler的key
 UIKIT_EXTERN NSString * const JKAlertThemeProvideHandlerKey;
 

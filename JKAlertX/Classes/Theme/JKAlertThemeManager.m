@@ -60,6 +60,8 @@
 - (void)setThemeStyle:(JKAlertThemeStyle)themeStyle {
     _themeStyle = themeStyle;
     
+    [self postThemeStyleDidChangeNotification];
+    
     switch (themeStyle) {
         case JKAlertThemeStyleSystem:
             if (@available(iOS 13.0, *)) {
@@ -117,6 +119,14 @@
 #pragma mark
 #pragma mark - Private Method
 
+- (void)postThemeStyleDidChangeNotification {
+    
+    if (@available(iOS 13.0, *)) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertThemeStyleDidChangeNotification object:@(self.themeStyle)];
+    }
+}
+
 - (void)postThemeDidChangeNotification {
     
     UIWindow *keyWindow = JKAlertThemeUtility.keyWindow;
@@ -125,7 +135,7 @@
     
     [keyWindow addSubview:snapShotImageView];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertThemeDidChangeNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertThemeDidChangeNotification object:self.themeName];
     
     if (@available(iOS 10.0, *)) {
         
