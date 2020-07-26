@@ -14,7 +14,10 @@
 @property (nonatomic, weak, readonly) JKAlertPlainTextContentView *textContentView;
 
 /** textFieldArray */
-@property (nonatomic, strong) NSMutableArray *textFieldArray;
+@property (nonatomic, strong, readonly) NSMutableArray *textFieldArray;
+
+/** textFieldContainerView */
+@property (nonatomic, weak, readonly) UIView *textFieldContainerView;
 
 /** textFieldContainerInset 默认(0, 20, 20, 20) */
 @property (nonatomic, assign) UIEdgeInsets textFieldContainerInset;

@@ -12,6 +12,9 @@
 #import "JKAlertTheme.h"
 
 @interface JKAlertPlainContentView ()
+{
+    NSMutableArray *_textFieldArray;
+}
 
 /** actionContainerView */
 @property (nonatomic, weak) UIView *actionContainerView;
@@ -24,9 +27,6 @@
 
 /** actionButtonArray */
 @property (nonatomic, strong) NSMutableArray *actionButtonArray;
-
-/** textFieldContainerView */
-@property (nonatomic, weak) UIView *textFieldContainerView;
 
 /** currentTextField */
 @property (nonatomic, weak) UITextField *currentTextField;
@@ -571,4 +571,10 @@
     return _actionButtonArray;
 }
 
+- (NSMutableArray *)textFieldArray {
+    if (!_textFieldArray) {
+        _textFieldArray = [NSMutableArray array];
+    }
+    return _textFieldArray;
+}
 @end

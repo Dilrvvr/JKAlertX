@@ -144,7 +144,7 @@
     
     CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
     
-    CGRect frame = CGRectZero;
+    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
     
     CGFloat originY = 0;
     CGFloat width = 0;
@@ -157,6 +157,7 @@
         
         self.separatorLineView.hidden = YES;
         
+        rect.size.width = self.contentWidth;
         rect.size.height = self.customContentView.frame.size.height;
         
         self.customContentView.frame = rect;
@@ -225,8 +226,9 @@
         
         originY = CGRectGetMaxY(rect);
         
+        frame.origin.x = 0;
         frame.origin.y = originY;
-        
+        frame.size.width = self.contentWidth;
         frame.size.height = self.customMessageView.frame.size.height;
         
         self.customMessageView.frame = frame;

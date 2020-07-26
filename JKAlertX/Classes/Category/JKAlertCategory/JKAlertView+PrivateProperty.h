@@ -107,9 +107,6 @@
 /** 当前的textField */
 @property (nonatomic, weak) UITextField *currentTextField;
 
-/** textField数组 */
-@property (nonatomic, strong) NSMutableArray *textFieldArr;
-
 /** 监听屏幕旋转 */
 @property (nonatomic, copy) void (^orientationDidChangeHandler)(JKAlertView *view, UIInterfaceOrientation orientation);
 

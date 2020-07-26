@@ -259,8 +259,6 @@
     
     [self updatePlainWidth];
     
-    self.plainContentView.textFieldArray = self.textFieldArr;
-    
     self.plainContentView.contentWidth = self.plainWidth;
     self.plainContentView.maxHeight = self.maxPlainHeight;
     [self.plainContentView calculateUI];
@@ -816,6 +814,8 @@
  */
 - (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *view, UITextField *textField))configurationHandler {
     
+    if (JKAlertStylePlain != self.alertStyle) { return; }
+    
     UITextField *tf = [[UITextField alloc] init];
     
     tf.font = [UIFont systemFontOfSize:13];
@@ -833,7 +833,9 @@
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertLightBackgroundColor(), JKAlertDarkBackgroundColor());
     }];
     
-    [self.textFieldArr addObject:tf];
+    [self.plainContentView.textFieldContainerView addSubview:tf];
+    
+    [self.plainContentView.textFieldArray addObject:tf];
     
     if (self.currentTextField == nil) {
         
@@ -1130,17 +1132,20 @@
             
         } else {
             
-            for (UITextField *tf in _textFieldArr) {
-                
-                if (tf.hidden) { continue; }
-                
-                if (!tf.isFirstResponder) {
+            [self checkPlainStyleHandler:^{
+
+                for (UITextField *tf in self.plainContentView.textFieldArray) {
                     
-                    [tf becomeFirstResponder];
+                    if (tf.hidden) { continue; }
+                    
+                    if (!tf.isFirstResponder) {
+                        
+                        [tf becomeFirstResponder];
+                    }
+                    
+                    break;
                 }
-                
-                break;
-            }
+            }];
         }
     }
     
@@ -1647,13 +1652,6 @@
         _collectionsheetContentView = collectionsheetContentView;
     }
     return _collectionsheetContentView;
-}
-
-- (NSMutableArray *)textFieldArr {
-    if (!_textFieldArr) {
-        _textFieldArr = [NSMutableArray array];
-    }
-    return _textFieldArr;
 }
 
 - (UIButton *)closeButton {
