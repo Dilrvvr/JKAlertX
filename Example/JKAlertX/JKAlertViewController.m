@@ -298,7 +298,7 @@
     
     alertView.makeBottomButtonMargin(8);//.makeHomeIndicatorAdapted(NO);
     
-    alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertIsDeviceX() ? 0 : 24), 15));
+    alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertUtility.isDeviceX ? 0 : 24), 15));
     
 //    [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
 //
@@ -375,7 +375,7 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeBottomButtonMargin(10).makeCustomSuperView(self.view);
     
-    alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertIsDeviceX() ? 0 : 24), 15));
+    alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertUtility.isDeviceX ? 0 : 24), 15));
     
     alertView.makeCollectionSheetBottomButtonPinned(YES).makeTitleInsets(^UIEdgeInsets(UIEdgeInsets originalInsets) {
         

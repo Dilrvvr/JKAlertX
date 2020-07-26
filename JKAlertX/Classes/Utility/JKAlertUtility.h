@@ -122,9 +122,9 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 #pragma mark - 宏定义
 
 /// 判断深色模式返回对应的数据
-#define JKAlertCheckDarkMode(light, dark) (JKAlertCheckIsDarkMode() ? (dark) : (light))
+#define JKAlertCheckDarkMode(light, dark) (JKAlertUtility.isDarkMode ? (dark) : (light))
 
-#define JKAlertAdjustHomeIndicatorHeight (self.autoAdjustHomeIndicator ? JKAlertCurrentHomeIndicatorHeight() : 0.0)
+#define JKAlertAdjustHomeIndicatorHeight (self.autoAdjustHomeIndicator ? JKAlertUtility.currentHomeIndicatorHeight : 0.0)
 
 #define JKAlertXDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
 
@@ -158,11 +158,6 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 #pragma mark
 #pragma mark - 函数
 
-/**
- * 判断当前是否深色模式
- */
-BOOL JKAlertCheckIsDarkMode (void);
-
 /// 全局背景色 浅色模式
 UIColor * JKAlertGlobalLightBackgroundColor (void);
 
@@ -183,27 +178,6 @@ UIColor * JKAlertGlobalSeparatorLineLightColor (void);
 
 /// 全局分隔线背景色 深色模式
 UIColor * JKAlertGlobalSeparatorLineDarkColor (void);
-
-/// 是否X设备
-BOOL JKAlertIsDeviceX (void);
-
-/// 是否iPad
-BOOL JKAlertIsDeviceiPad (void);
-
-/// 当前是否横屏
-BOOL JKAlertIsLandscape (void);
-
-/// 当前HomeIndicator高度
-CGFloat JKAlertCurrentHomeIndicatorHeight (void);
-
-/// 让手机振动一下
-void JKAlertVibrateDevice (void);
-
-/// 获取keyWindow
-UIWindow * JKAlertKeyWindow (void);
-
-/// 获取keyWindow的safeAreaInsets
-UIEdgeInsets JKAlertSafeAreaInset (void);
 
 
 
@@ -233,27 +207,12 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimer(id target, double delay, double ti
  @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
  @param delay 延时执行时间
  @param timeInterval 执行间隔时间
- @param repeat 是否重复执行 
+ @param repeat 是否重复执行
  @param handler 重复执行事件
  */
 JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void)));
 
 
-
-#pragma mark
-#pragma mark - DEBUG
-
-/// 仅DEBUG下执行
-void JKTodo_Debug_Execute(void(^executeBlock)(void));
-
-/// 在DEBUG/Develop下执行
-void JKTodo_Debug_Develop_Execute(void(^executeBlock)(void));
-
-/// 弹框展示debug信息
-void JKTodo_Debug_Alert(NSString *title, NSString *message, NSTimeInterval showDelay);
-
-/// 弹框展示debug信息
-void JKTodo_Debug_Develop_Alert(NSString *title, NSString *message, NSTimeInterval showDelay);
 
 
 #pragma mark
@@ -261,6 +220,45 @@ void JKTodo_Debug_Develop_Alert(NSString *title, NSString *message, NSTimeInterv
 
 @interface JKAlertUtility : NSObject
 
+/**
+ * 判断当前是否深色模式
+ */
+@property (class, nonatomic, readonly) BOOL isDarkMode;
+
+/// 是否X设备
+@property (class, nonatomic, readonly) BOOL isDeviceX;
+
+/// 是否iPad
+@property (class, nonatomic, readonly) BOOL isDeviceiPad;
+
+/// 当前是否横屏
+@property (class, nonatomic, readonly) BOOL isLandscape;
+
+/// 当前HomeIndicator高度
+@property (class, nonatomic, readonly) CGFloat currentHomeIndicatorHeight;
+
 /** keyWindow */
 @property (class, nonatomic, readonly) UIWindow *keyWindow;
+
+/// 获取keyWindow的safeAreaInsets
+@property (class, nonatomic, readonly) UIEdgeInsets safeAreaInset;
+
+/// 让手机振动一下
++ (void)vibrateDevice;
+
+/// 仅DEBUG下执行
++ (void)debugExecute:(void (^)(void))executeBlock;
+
+/// 在DEBUG/Develop下执行
++ (void)debugDevelopExecute:(void (^)(void))executeBlock;
+
+/// 弹框展示debug信息
++ (void)showDebugAlertWithTitle:(NSString *)title
+                        message:(NSString *)message
+                          delay:(NSTimeInterval)delay;
+
+/// 弹框展示debug信息
++ (void)showDebugDevelopAlertWithTitle:(NSString *)title
+                               message:(NSString *)message
+                                 delay:(NSTimeInterval)delay;
 @end

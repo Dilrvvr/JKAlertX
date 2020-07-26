@@ -13,7 +13,7 @@
 
 - (void)updateWidthHeight {
     
-    UIWindow *keyWindow = JKAlertKeyWindow();
+    UIWindow *keyWindow = JKAlertUtility.keyWindow;
     
     UIView *superView = self.superview ? self.superview : keyWindow;
     

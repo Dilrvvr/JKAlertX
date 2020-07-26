@@ -46,14 +46,6 @@ CGFloat    const JKAlertTopGestureIndicatorLineHeight = 4.0;
 #pragma mark
 #pragma mark - 函数
 
-/**
- * 判断当前是否深色模式
- */
-BOOL JKAlertCheckIsDarkMode (void) {
-    
-    return [[JKAlertThemeManager sharedManager] checkIsDarkMode];
-}
-
 /// 全局背景色 浅色模式
 UIColor * JKAlertGlobalLightBackgroundColor (void) {
     
@@ -103,119 +95,6 @@ UIColor * JKAlertGlobalSeparatorLineDarkColor (void) {
     return [[UIColor whiteColor] colorWithAlphaComponent:0.25];
 }
 
-/// 是否X设备
-BOOL JKAlertIsDeviceX (void) {
-    
-    static BOOL JKAlertIsDeviceX_ = NO;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        
-        if (@available(iOS 11.0, *)) {
-            
-            if (!JKAlertIsDeviceiPad()) {
-                
-                JKAlertIsDeviceX_ = JKAlertKeyWindow().safeAreaInsets.bottom > 0.0;
-            }
-        }
-    });
-    
-    return JKAlertIsDeviceX_;
-}
-
-/// 是否iPad
-BOOL JKAlertIsDeviceiPad (void) {
-    
-    static BOOL JKAlertIsDeviceiPad_ = NO;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        
-        if (@available(iOS 11.0, *)) {
-            
-            JKAlertIsDeviceiPad_ = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
-        }
-    });
-    
-    return JKAlertIsDeviceiPad_;
-}
-
-/// 当前是否横屏
-BOOL JKAlertIsLandscape (void) {
-    
-    return [UIScreen mainScreen].bounds.size.width > [UIScreen mainScreen].bounds.size.height;
-}
-
-/// 当前HomeIndicator高度
-CGFloat JKAlertCurrentHomeIndicatorHeight (void) {
-    
-    return JKAlertIsDeviceX() ? (JKAlertIsLandscape() ? 21.0 : 34.0) : 0.0;
-}
-
-/// 让手机振动一下
-void JKAlertVibrateDevice (void) {
-    
-    // iPad没有震动
-    if (JKAlertIsDeviceiPad()) { return; }
-    
-    // 普通短震，3D Touch 中 Peek 震动反馈
-    //AudioServicesPlaySystemSound(1519);
-    
-    // 普通短震，3D Touch 中 Pop 震动反馈
-    //AudioServicesPlaySystemSound(1520);
-    
-    // 连续三次短震
-    //AudioServicesPlaySystemSound(1521);
-    
-    //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    
-    if (@available(iOS 10.0, *)) {
-        
-        UIImpactFeedbackGenerator *feedbackGenertor = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
-        
-        [feedbackGenertor impactOccurred];
-    }
-}
-
-/// 获取keyWindow
-UIWindow * JKAlertKeyWindow (void) {
-    
-    UIWindow *keyWindow = nil;
-    
-    if ([[UIApplication sharedApplication].delegate respondsToSelector:@selector(window)]) {
-        
-        keyWindow = [[UIApplication sharedApplication].delegate window];
-        
-    } else {
-        
-        NSArray *windows = [UIApplication sharedApplication].windows;
-        
-        for (UIWindow *window in windows) {
-            
-            if (window.hidden) { continue; }
-            
-            keyWindow = window;
-            
-            break;
-        }
-    }
-    
-    return keyWindow;
-}
-
-/// 获取keyWindow的safeAreaInsets
-UIEdgeInsets JKAlertSafeAreaInset (void) {
-    
-    UIEdgeInsets safeAreaInset = UIEdgeInsetsZero;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        safeAreaInset = JKAlertKeyWindow().safeAreaInsets;
-    }
-    
-    return safeAreaInset;
-}
-
 
 #pragma mark
 #pragma mark - 封装定时器
@@ -227,7 +106,7 @@ UIEdgeInsets JKAlertSafeAreaInset (void) {
  @param target 定时器判断对象，若该对象销毁，定时器将自动销毁
  @param delay 延时执行时间
  @param timeInterval 执行间隔时间
- @param repeat 是否重复执行 
+ @param repeat 是否重复执行
  @param handler 重复执行事件
  */
 JKAlertXStopTimerBlock JKAlertX_dispatchTimer(id target, double delay, double timeInterval, BOOL repeat, void (^handler)(dispatch_source_t timer, void(^stopTimerBlock)(void))) {
@@ -293,18 +172,18 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
                 !handler ? : handler(timer, stopTimerBlock);
                 
                 if (repeat) { return; }
-                    
+                
                 if (!timer) { return; }
-                        
+                
                 dispatch_source_cancel(timer);
                 
                 timer = nil;
             });
             
         } else {
-
+            
             NSLog(@"timer-->target已销毁");
-                
+            
             if (!timer) { return; }
             
             dispatch_source_cancel(timer);
@@ -320,68 +199,66 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 }
 
 #pragma mark
-#pragma mark - DEBUG
-
-/// 仅DEBUG下执行
-void JKTodo_Debug_Execute(void(^executeBlock)(void)) {
-#if defined(DEBUG)
-    !executeBlock ? : executeBlock();
-#endif
-}
-
-/// 在DEBUG/Develop下执行
-void JKTodo_Debug_Develop_Execute(void(^executeBlock)(void)) {
-#if defined(DEBUG) || defined(CONFIGURATION_Develop)
-    !executeBlock ? : executeBlock();
-#endif
-}
-
-void JKTodo_Alert(NSString *title, NSString *message, NSTimeInterval showDelay);
-
-/// 弹框展示debug信息
-void JKTodo_Debug_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) {
-#if defined(DEBUG) || defined(CONFIGURATION_Develop)
-    JKTodo_Alert(title, message, showDelay);
-#endif
-}
-
-/// 弹框展示debug信息
-void JKTodo_Debug_Develop_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) {
-#if defined(DEBUG) || defined(CONFIGURATION_Develop)
-    JKTodo_Alert(title, message, showDelay);
-#endif
-}
-
-void JKTodo_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) {
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        JKAlertView *alertView = [JKAlertView alertViewWithTitle:[@"JKDebug-" stringByAppendingString:(title ? title : @"")] message:[@"--- 此弹框仅用于调试 ---\n" stringByAppendingString:(message ? message : @"")] style:(JKAlertStyleAlert)];
-        
-        alertView.makeMessageAlignment(NSTextAlignmentLeft).makeTitleMessageShouldSelectText(YES);
-        
-        [alertView addAction:[JKAlertAction actionWithTitle:@"OK" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
-            
-        }]];
-        
-        if (showDelay <= 0) {
-            
-            [alertView show];
-            
-            return;
-        }
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(showDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [alertView show];
-        });
-    });
-}
-
-#pragma mark
 #pragma mark - 工具方法
 
 @implementation JKAlertUtility
+
+/**
+ * 判断当前是否深色模式
+ */
++ (BOOL)isDarkMode {
+    
+    return [[JKAlertThemeManager sharedManager] checkIsDarkMode];
+}
+
+/// 是否X设备
++ (BOOL)isDeviceX {
+    
+    static BOOL JKAlertIsDeviceX_ = NO;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        
+        if (@available(iOS 11.0, *)) {
+            
+            if (!JKAlertUtility.isDeviceiPad) {
+                
+                JKAlertIsDeviceX_ = JKAlertUtility.keyWindow.safeAreaInsets.bottom > 0.0;
+            }
+        }
+    });
+    
+    return JKAlertIsDeviceX_;
+}
+
+/// 是否iPad
++ (BOOL)isDeviceiPad {
+    
+    static BOOL JKAlertIsDeviceiPad_ = NO;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        
+        if (@available(iOS 11.0, *)) {
+            
+            JKAlertIsDeviceiPad_ = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+        }
+    });
+    
+    return JKAlertIsDeviceiPad_;
+}
+
+/// 当前是否横屏
++ (BOOL)isLandscape {
+    
+    return [UIScreen mainScreen].bounds.size.width > [UIScreen mainScreen].bounds.size.height;
+}
+
+/// 当前HomeIndicator高度
++ (CGFloat)currentHomeIndicatorHeight {
+    
+    return JKAlertUtility.isDeviceX ? (JKAlertUtility.isLandscape ? 21.0 : 34.0) : 0.0;
+}
 
 + (UIWindow *)keyWindow {
     
@@ -408,4 +285,101 @@ void JKTodo_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) 
     return keyWindow;
 }
 
+/// 获取keyWindow的safeAreaInsets
++ (UIEdgeInsets)safeAreaInset {
+    
+    UIEdgeInsets safeAreaInset = UIEdgeInsetsZero;
+    
+    if (@available(iOS 11.0, *)) {
+        
+        safeAreaInset = JKAlertUtility.keyWindow.safeAreaInsets;
+    }
+    
+    return safeAreaInset;
+}
+
+/// 让手机振动一下
++ (void)vibrateDevice {
+    
+    // iPad没有震动
+    if (JKAlertUtility.isDeviceiPad) { return; }
+    
+    // 普通短震，3D Touch 中 Peek 震动反馈
+    //AudioServicesPlaySystemSound(1519);
+    
+    // 普通短震，3D Touch 中 Pop 震动反馈
+    //AudioServicesPlaySystemSound(1520);
+    
+    // 连续三次短震
+    //AudioServicesPlaySystemSound(1521);
+    
+    //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    
+    if (@available(iOS 10.0, *)) {
+        
+        UIImpactFeedbackGenerator *feedbackGenertor = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
+        
+        [feedbackGenertor impactOccurred];
+    }
+}
+
+/// 仅DEBUG下执行
++ (void)debugExecute:(void (^)(void))executeBlock {
+#if defined(DEBUG)
+    !executeBlock ? : executeBlock();
+#endif
+}
+
+/// 在DEBUG/Develop下执行
++ (void)debugDevelopExecute:(void (^)(void))executeBlock {
+#if defined(DEBUG) || defined(CONFIGURATION_Develop)
+    !executeBlock ? : executeBlock();
+#endif
+}
+
+/// 弹框展示debug信息
++ (void)showDebugAlertWithTitle:(NSString *)title
+                        message:(NSString *)message
+                          delay:(NSTimeInterval)delay {
+#if defined(DEBUG)
+    [self _showAlertWithTitle:title message:message delay:delay];
+#endif
+}
+
+/// 弹框展示debug信息
++ (void)showDebugDevelopAlertWithTitle:(NSString *)title
+                               message:(NSString *)message
+                                 delay:(NSTimeInterval)delay {
+#if defined(DEBUG) || defined(CONFIGURATION_Develop)
+    [self _showAlertWithTitle:title message:message delay:delay];
+#endif
+}
+
++ (void)_showAlertWithTitle:(NSString *)title
+                    message:(NSString *)message
+                      delay:(NSTimeInterval)delay {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        JKAlertView *alertView = [JKAlertView alertViewWithTitle:[@"JKDebug-" stringByAppendingString:(title ? title : @"")] message:[@"--- 此弹框仅用于调试 ---\n" stringByAppendingString:(message ? message : @"")] style:(JKAlertStyleAlert)];
+        
+        alertView.makeMessageAlignment(NSTextAlignmentLeft).makeTitleMessageShouldSelectText(YES);
+        
+        [alertView addAction:[JKAlertAction actionWithTitle:@"OK" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+            
+        }]];
+        
+        if (delay <= 0) {
+            
+            [alertView show];
+            
+            return;
+        }
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [alertView show];
+        });
+    });
+}
 @end

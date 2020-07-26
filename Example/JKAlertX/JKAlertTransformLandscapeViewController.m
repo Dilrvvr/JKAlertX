@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    CGRect rect = JKAlertKeyWindow().bounds;
+    CGRect rect = JKAlertUtility.keyWindow.bounds;
     
     UILabel *testLabel = [[UILabel alloc] initWithFrame:rect];
     testLabel.textAlignment = NSTextAlignmentCenter;

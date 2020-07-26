@@ -205,7 +205,7 @@
     
     if (!self.customSuperView) { return ^{ return self; }; }
     
-    [JKAlertKeyWindow() endEditing:YES];
+    [JKAlertUtility.keyWindow endEditing:YES];
     
     if (self.isShowed) { return ^{ return self; }; }
     
@@ -241,7 +241,7 @@
     [self addSubview:refreshButton];
     
     refreshButton.translatesAutoresizingMaskIntoConstraints = NO;
-    NSLayoutConstraint *cons1 = [NSLayoutConstraint constraintWithItem:refreshButton attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self attribute:(NSLayoutAttributeTop) multiplier:1 constant:(JKAlertIsDeviceX() ? 44 : 20)];
+    NSLayoutConstraint *cons1 = [NSLayoutConstraint constraintWithItem:refreshButton attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self attribute:(NSLayoutAttributeTop) multiplier:1 constant:(JKAlertUtility.isDeviceX ? 44 : 20)];
     NSLayoutConstraint *cons2 = [NSLayoutConstraint constraintWithItem:refreshButton attribute:(NSLayoutAttributeCenterX) relatedBy:(NSLayoutRelationEqual) toItem:self attribute:(NSLayoutAttributeCenterX) multiplier:1 constant:0];
     NSLayoutConstraint *cons3 = [NSLayoutConstraint constraintWithItem:refreshButton attribute:(NSLayoutAttributeWidth) relatedBy:(NSLayoutRelationEqual) toItem:nil attribute:(NSLayoutAttributeNotAnAttribute) multiplier:1 constant:refreshButton.frame.size.width + 20];
     NSLayoutConstraint *cons4 = [NSLayoutConstraint constraintWithItem:refreshButton attribute:(NSLayoutAttributeHeight) relatedBy:(NSLayoutRelationEqual) toItem:nil attribute:(NSLayoutAttributeNotAnAttribute) multiplier:1 constant:refreshButton.frame.size.height + 10];
@@ -287,7 +287,7 @@
     [view addAction:[JKAlertAction actionWithTitle:[NSString stringWithFormat:@"Pierced: %@", sheet.isPierced ? @"YES" : @"NO"] style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
         sheet.isPierced = !sheet.isPierced;
-        sheet.piercedInsets = UIEdgeInsetsMake(0, 15, (JKAlertIsDeviceX() ? 0 : 24), 15);
+        sheet.piercedInsets = UIEdgeInsetsMake(0, 15, (JKAlertUtility.isDeviceX ? 0 : 24), 15);
         
         [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
             
@@ -681,7 +681,7 @@
         
         safeAreaInsets = self.customSuperView.safeAreaInsets;
         
-        UIWindow *keyWindow = JKAlertKeyWindow();
+        UIWindow *keyWindow = JKAlertUtility.keyWindow;
         
         UIEdgeInsets windowSafeAreaInsets = keyWindow.safeAreaInsets;
         
@@ -1268,7 +1268,7 @@
     
     if (self.vibrateEnabled) {
         
-        JKAlertVibrateDevice();
+        [JKAlertUtility vibrateDevice];
     }
     
     [self startShowAnimation];
@@ -1513,7 +1513,7 @@
         
     } else { // 弹出键盘
         
-        CGFloat maxH = self.superHeight - (JKAlertIsDeviceX() ? 44 : 20) - keyboardFrame.size.height - 40;
+        CGFloat maxH = self.superHeight - (JKAlertUtility.isDeviceX ? 44 : 20) - keyboardFrame.size.height - 40;
         
         BOOL lockKeyboardMargin = (self.plainKeyboardMargin > 0);
         
@@ -1528,7 +1528,7 @@
         
         if (frame.size.height <= maxH) {
             
-            frame.origin.y = (JKAlertIsDeviceX() ? 44 : 20) + (maxH - frame.size.height) * 0.5;
+            frame.origin.y = (JKAlertUtility.isDeviceX ? 44 : 20) + (maxH - frame.size.height) * 0.5;
             
             if (lockKeyboardMargin) {
                 
@@ -1559,11 +1559,11 @@
             
             frame.origin.y = keyboardFrame.origin.y - self.plainKeyboardMargin - frame.size.height;
             
-            frame.origin.y = MAX(frame.origin.y, (JKAlertIsDeviceX() ? 44 : 20));
+            frame.origin.y = MAX(frame.origin.y, (JKAlertUtility.isDeviceX ? 44 : 20));
             
         } else {
             
-            frame.origin.y = (JKAlertIsDeviceX() ? 44 : 20);
+            frame.origin.y = (JKAlertUtility.isDeviceX ? 44 : 20);
         }
         
         self.alertContentView.frame = frame;
@@ -1581,7 +1581,7 @@
 
 - (void)dismissButtonClick:(UIButton *)button {
     
-    [JKAlertKeyWindow() endEditing:YES];
+    [JKAlertUtility.keyWindow endEditing:YES];
     
     !self.blankClickBlock ? : self.blankClickBlock();
     
@@ -1879,7 +1879,7 @@
     
     if (!_customSuperView) {
         
-        _customSuperView = JKAlertKeyWindow();
+        _customSuperView = JKAlertUtility.keyWindow;
     }
     
     return _customSuperView;

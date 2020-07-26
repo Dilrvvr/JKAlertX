@@ -102,13 +102,13 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    if (self.frame.size.width < JKAlertKeyWindow().frame.size.width - 1.0) {
+    if (self.frame.size.width < JKAlertUtility.keyWindow.frame.size.width - 1.0) {
         
         self.contentView.frame = CGRectMake(0, 0, self.frame.size.width, self.action.rowHeight);
         
     } else {
         
-        UIEdgeInsets safeAreaInset = JKAlertSafeAreaInset();
+        UIEdgeInsets safeAreaInset = JKAlertUtility.safeAreaInset;
         
         self.contentView.frame = CGRectMake(safeAreaInset.left, 0, self.frame.size.width - safeAreaInset.left - safeAreaInset.right, self.action.rowHeight);
     }

@@ -67,11 +67,11 @@
     tableView.sectionFooterHeight = 0;
     tableView.sectionHeaderHeight = 0;
     
-    tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertCurrentHomeIndicatorHeight(), 0);
+    tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertUtility.currentHomeIndicatorHeight, 0);
     
     if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
         
-        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertCurrentHomeIndicatorHeight(), 34);
+        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertUtility.currentHomeIndicatorHeight, 34);
     }
     
     if (@available(iOS 11.0, *)) {
