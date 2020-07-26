@@ -21,7 +21,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cte-jH-Ttv">
-                                <rect key="frame" x="68" y="283" width="158" height="30"/>
+                                <rect key="frame" x="68" y="397" width="158" height="30"/>
                                 <color key="backgroundColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="DTw-zp-z7k"/>
@@ -33,7 +33,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="79B-VY-xuz">
-                                <rect key="frame" x="68" y="349" width="158" height="30"/>
+                                <rect key="frame" x="68" y="457" width="158" height="30"/>
                                 <color key="backgroundColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="FZ8-tu-dEj"/>
@@ -45,7 +45,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zGf-xL-Po7">
-                                <rect key="frame" x="68" y="217" width="66" height="30"/>
+                                <rect key="frame" x="68" y="337" width="66" height="30"/>
                                 <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="66" id="ndi-nJ-Da9"/>
@@ -59,11 +59,11 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="cte-jH-Ttv" firstAttribute="top" secondItem="zGf-xL-Po7" secondAttribute="bottom" constant="36" id="9EX-cH-BqT"/>
+                            <constraint firstItem="cte-jH-Ttv" firstAttribute="top" secondItem="zGf-xL-Po7" secondAttribute="bottom" constant="30" id="9EX-cH-BqT"/>
                             <constraint firstItem="zGf-xL-Po7" firstAttribute="leading" secondItem="cte-jH-Ttv" secondAttribute="leading" id="DlB-cp-pyi"/>
                             <constraint firstItem="cte-jH-Ttv" firstAttribute="leading" secondItem="xwJ-lY-8Ru" secondAttribute="leading" constant="68" id="GMv-ZM-Mok"/>
-                            <constraint firstItem="79B-VY-xuz" firstAttribute="top" secondItem="cte-jH-Ttv" secondAttribute="bottom" constant="36" id="U9c-IQ-sxE"/>
-                            <constraint firstItem="cte-jH-Ttv" firstAttribute="centerY" secondItem="xwJ-lY-8Ru" secondAttribute="centerY" constant="-150" id="hwE-14-vgF"/>
+                            <constraint firstItem="79B-VY-xuz" firstAttribute="top" secondItem="cte-jH-Ttv" secondAttribute="bottom" constant="30" id="U9c-IQ-sxE"/>
+                            <constraint firstItem="cte-jH-Ttv" firstAttribute="centerY" secondItem="xwJ-lY-8Ru" secondAttribute="centerY" constant="-36" id="hwE-14-vgF"/>
                             <constraint firstItem="79B-VY-xuz" firstAttribute="leading" secondItem="cte-jH-Ttv" secondAttribute="leading" id="rH8-gn-5Mf"/>
                         </constraints>
                     </view>
