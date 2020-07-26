@@ -183,6 +183,11 @@
 #pragma mark
 #pragma mark - Override
 
+- (void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (instancetype)init {
     if (self = [super init]) {
         

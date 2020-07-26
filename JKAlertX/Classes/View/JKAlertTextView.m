@@ -44,7 +44,6 @@
     return rect;
 }
 
-#pragma mark - 初始化
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self initialization];

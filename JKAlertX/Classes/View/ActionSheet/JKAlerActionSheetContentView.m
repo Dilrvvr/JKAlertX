@@ -335,8 +335,6 @@
         self.bottomContentView.frame = frame;
     }
     
-    frame = CGRectMake(0, 0, self.contentWidth, self.topContentView.frame.size.height + self.tableView.frame.size.height);
-    
     self.horizontalSeparatorLineView.hidden = (topHeight <= 0 || self.actionArray.count <= 0);
     
     self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.topContentView.frame), self.contentWidth, JKAlertSeparatorLineThickness());

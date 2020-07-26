@@ -570,6 +570,7 @@
 			baseConfigurationReference = A6B98A3D8FA8329B700A14F6 /* Pods-JKAlertX_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				DEVELOPMENT_TEAM = BA4DMKLYJJ;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JKAlertX/JKAlertX-Prefix.pch";
@@ -588,6 +589,7 @@
 			baseConfigurationReference = 6A6240A932861CED50E730D8 /* Pods-JKAlertX_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				DEVELOPMENT_TEAM = BA4DMKLYJJ;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JKAlertX/JKAlertX-Prefix.pch";
