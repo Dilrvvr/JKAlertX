@@ -101,7 +101,10 @@
 #pragma mark
 #pragma mark - Override
 
-
+- (void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 #pragma mark
 #pragma mark - Private Methods
@@ -555,8 +558,6 @@
     [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainContentView *providerOwner) {
         
         providerOwner.textFieldContainerView.backgroundColor = JKAlertCheckDarkMode(JKAlertSeparatorLineLightColor(), JKAlertSeparatorLineDarkColor());
-        
-        //self.textFieldContainerView.layer.borderColor = [JKAlertSeparatorLineLightColor() CGColor];
     }];
 }
 

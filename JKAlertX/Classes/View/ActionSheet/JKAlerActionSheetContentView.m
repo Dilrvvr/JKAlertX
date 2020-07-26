@@ -99,10 +99,7 @@
 #pragma mark
 #pragma mark - Override
 
-- (void)dealloc {
-    
-    NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
-}
+
 
 #pragma mark
 #pragma mark - Private Methods
@@ -337,8 +334,6 @@
         
         self.bottomContentView.frame = frame;
     }
-    
-    frame = CGRectMake(0, 0, self.contentWidth, self.topContentView.frame.size.height + self.tableView.frame.size.height);
     
     self.horizontalSeparatorLineView.hidden = (topHeight <= 0 || self.actionArray.count <= 0);
     

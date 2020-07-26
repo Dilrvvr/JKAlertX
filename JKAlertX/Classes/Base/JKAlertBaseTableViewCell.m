@@ -46,6 +46,11 @@
 #pragma mark
 #pragma mark - Override
 
+- (void)dealloc {
+    
+    NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
@@ -69,13 +74,10 @@
 #pragma mark
 #pragma mark - Private Methods
 
+
+
 #pragma mark
 #pragma mark - Private Selector
-
-
-
-#pragma mark
-#pragma mark - UITableViewDataSource & UITableViewDelegate
 
 
 

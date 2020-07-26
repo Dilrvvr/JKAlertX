@@ -1497,7 +1497,7 @@
     
     NSNumber *curve = notification.userInfo[UIKeyboardAnimationCurveUserInfoKey];
     
-    NSInteger animationCurve = (curve ? [curve integerValue] : 7);
+    NSInteger animationCurve = ((curve != nil) ? [curve integerValue] : 7);
     
     if (keyboardFrame.origin.y >= self.superHeight) { // 退出键盘
         
@@ -1933,7 +1933,7 @@
             break;
     }
     
-    return self.currentAlertContentView;
+    return alertContentView;
 }
 
 - (JKAlertPlainContentView *)plainContentView {
@@ -2012,8 +2012,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     if (self.deallocLogEnabled) {
-        
-        NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
+        // TODO: - JKTODO <#注释#>
+        //NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
     }
     
     !self.deallocHandler ? : self.deallocHandler();

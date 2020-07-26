@@ -185,6 +185,8 @@
 
 - (void)dealloc {
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
 }
 

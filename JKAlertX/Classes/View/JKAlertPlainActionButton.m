@@ -19,6 +19,11 @@
 
 @implementation JKAlertPlainActionButton
 
+- (void)dealloc {
+    
+    NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         UIView *topSeparatorLineView = [[UIView alloc] init];
