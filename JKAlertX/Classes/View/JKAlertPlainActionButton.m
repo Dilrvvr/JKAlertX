@@ -6,7 +6,7 @@
 //
 
 #import "JKAlertPlainActionButton.h"
-#import "JKAlertUtil.h"
+#import "JKAlertUtility.h"
 #import "JKAlertAction.h"
 #import "JKAlertVisualFormatConstraintManager.h"
 #import "JKAlertTheme.h"

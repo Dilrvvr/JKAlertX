@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JKAlertUtil.h"
+#import "JKAlertUtility.h"
 
 @interface JKAlertBaseView : UIView
 

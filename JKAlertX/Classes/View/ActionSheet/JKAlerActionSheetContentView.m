@@ -8,7 +8,7 @@
 #import "JKAlerActionSheetContentView.h"
 #import "JKAlertAction.h"
 #import "JKAlertTableViewCell.h"
-#import "JKAlertUtil.h"
+#import "JKAlertUtility.h"
 #import "JKAlertView.h"
 #import "JKAlertActionButton.h"
 #import "UIView+JKAlertX.h"

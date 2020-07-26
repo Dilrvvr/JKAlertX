@@ -1,5 +1,5 @@
 //
-//  JKAlertUtil.h
+//  JKAlertUtility.h
 //  JKAlertX
 //
 //  Created by albert on 2018/10/22.
@@ -259,7 +259,7 @@ void JKTodo_Debug_Develop_Alert(NSString *title, NSString *message, NSTimeInterv
 #pragma mark
 #pragma mark - 工具方法
 
-@interface JKAlertUtil : NSObject
+@interface JKAlertUtility : NSObject
 
 /** keyWindow */
 @property (class, nonatomic, readonly) UIWindow *keyWindow;

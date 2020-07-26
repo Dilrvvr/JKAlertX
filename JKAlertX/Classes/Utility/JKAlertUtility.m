@@ -1,12 +1,12 @@
 //
-//  JKAlertUtil.m
+//  JKAlertUtility.m
 //  JKAlertX
 //
 //  Created by albert on 2018/10/22.
 //  Copyright © 2018 安永博. All rights reserved.
 //
 
-#import "JKAlertUtil.h"
+#import "JKAlertUtility.h"
 #import "JKAlertX.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "JKAlertThemeManager.h"
@@ -381,7 +381,7 @@ void JKTodo_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) 
 #pragma mark
 #pragma mark - 工具方法
 
-@implementation JKAlertUtil
+@implementation JKAlertUtility
 
 + (UIWindow *)keyWindow {
     

@@ -7,7 +7,7 @@
 
 #import "JKAlertView+PrivateProperty.h"
 #import "JKAlertView+Public.h"
-#import "JKAlertUtil.h"
+#import "JKAlertUtility.h"
 
 @implementation JKAlertView (PrivateProperty)
 
