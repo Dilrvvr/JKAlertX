@@ -8,7 +8,7 @@
 #import "JKAlertPlainContentView.h"
 #import "JKAlertPlainActionButton.h"
 #import "JKAlertAction.h"
-#import "JKAlertConst.h"
+#import "JKAlertUtil.h"
 #import "JKAlertTheme.h"
 
 @interface JKAlertPlainContentView ()

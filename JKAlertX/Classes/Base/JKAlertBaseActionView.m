@@ -8,7 +8,7 @@
 
 #import "JKAlertBaseActionView.h"
 #import "JKAlertAction.h"
-#import "JKAlertConst.h"
+#import "JKAlertUtil.h"
 #import "JKAlertVisualFormatConstraintManager.h"
 
 @interface JKAlertBaseActionView ()

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JKAlertConst.h"
+#import "JKAlertUtil.h"
 #import "JKAlertThemeProvider.h"
 
 @class JKAlertView;

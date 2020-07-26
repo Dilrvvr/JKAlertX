@@ -26,7 +26,7 @@ NSString * const JKAlertThemeProvideHandlerKey = @"JKAlertThemeProvideHandlerKey
 @implementation JKAlertThemeUtil
 
 /// 获取keyWindow
-+ (UIWindow *)getKeyWindow {
++ (UIWindow *)keyWindow {
     
     UIWindow *keyWindow = nil;
     

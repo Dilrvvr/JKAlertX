@@ -1,12 +1,12 @@
 //
-//  JKAlertConst.m
+//  JKAlertUtil.m
 //  JKAlertX
 //
 //  Created by albert on 2018/10/22.
 //  Copyright © 2018 安永博. All rights reserved.
 //
 
-#import "JKAlertConst.h"
+#import "JKAlertUtil.h"
 #import "JKAlertX.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "JKAlertThemeManager.h"
@@ -377,3 +377,35 @@ void JKTodo_Alert(NSString *title, NSString *message, NSTimeInterval showDelay) 
         });
     });
 }
+
+#pragma mark
+#pragma mark - 工具方法
+
+@implementation JKAlertUtil
+
++ (UIWindow *)keyWindow {
+    
+    UIWindow *keyWindow = nil;
+    
+    if ([[UIApplication sharedApplication].delegate respondsToSelector:@selector(window)]) {
+        
+        keyWindow = [[UIApplication sharedApplication].delegate window];
+        
+    } else {
+        
+        NSArray *windows = [UIApplication sharedApplication].windows;
+        
+        for (UIWindow *window in windows) {
+            
+            if (window.hidden) { continue; }
+            
+            keyWindow = window;
+            
+            break;
+        }
+    }
+    
+    return keyWindow;
+}
+
+@end

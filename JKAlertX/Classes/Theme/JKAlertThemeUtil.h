@@ -62,6 +62,6 @@ UIKIT_EXTERN NSString * const JKAlertThemeProvideHandlerKey;
 
 @interface JKAlertThemeUtil : NSObject
 
-/// 获取keyWindow
-+ (UIWindow *)getKeyWindow;
+/** keyWindow */
+@property (class, nonatomic, readonly) UIWindow *keyWindow;
 @end

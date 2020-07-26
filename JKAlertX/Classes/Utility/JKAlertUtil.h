@@ -1,5 +1,5 @@
 //
-//  JKAlertConst.h
+//  JKAlertUtil.h
 //  JKAlertX
 //
 //  Created by albert on 2018/10/22.
@@ -254,3 +254,13 @@ void JKTodo_Debug_Alert(NSString *title, NSString *message, NSTimeInterval showD
 
 /// 弹框展示debug信息
 void JKTodo_Debug_Develop_Alert(NSString *title, NSString *message, NSTimeInterval showDelay);
+
+
+#pragma mark
+#pragma mark - 工具方法
+
+@interface JKAlertUtil : NSObject
+
+/** keyWindow */
+@property (class, nonatomic, readonly) UIWindow *keyWindow;
+@end

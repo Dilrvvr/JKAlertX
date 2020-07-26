@@ -9,7 +9,7 @@
 #import "JKAlertBaseTableViewCell.h"
 #import "JKAlertTableActionView.h"
 #import "JKAlertAction.h"
-#import "JKAlertConst.h"
+#import "JKAlertUtil.h"
 #import "JKAlertVisualFormatConstraintManager.h"
 #import "JKAlertTheme.h"
 
