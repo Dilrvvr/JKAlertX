@@ -371,12 +371,12 @@
     
     [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
         
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertLightBackgroundColor(), JKAlertDarkBackgroundColor());
     }];
     
     [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(seletedBackgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
         
-        providerOwner.seletedBackgroundColor = JKAlertCheckDarkMode(JKAlertGlobalHighlightedLightBackgroundColor(), JKAlertGlobalHighlightedDarkBackgroundColor());
+        providerOwner.seletedBackgroundColor = JKAlertCheckDarkMode(JKAlertHighlightedLightBackgroundColor(), JKAlertHighlightedDarkBackgroundColor());
     }];
 }
 

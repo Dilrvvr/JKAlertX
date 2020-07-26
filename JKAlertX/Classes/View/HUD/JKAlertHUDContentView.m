@@ -17,6 +17,12 @@
 #pragma mark
 #pragma mark - Public Methods
 
+- (void)setCustomBackgroundView:(UIView *)customBackgroundView {
+    [super setCustomBackgroundView:customBackgroundView];
+    
+    self.backgroundEffectView.hidden = (customBackgroundView != nil);
+}
+
 - (void)setCornerRadius:(CGFloat)cornerRadius {
     [super setCornerRadius:cornerRadius];
     
@@ -115,9 +121,21 @@
     self.clipsToBounds = YES;
     self.layer.cornerRadius = self.cornerRadius;
     
+    self.backgroundEffectView.hidden = NO;
+    
+    self.backgroundView.backgroundColor = nil;
+    
+    [self.backgroundView.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
+    
     __weak typeof(self) weakSelf = self;
+    /*
+    [JKAlertThemeProvider providerWithOwner:self.backgroundView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+        
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(weakSelf.defaultDarkStyle ? JKAlertGlobalDarkBackgroundColor() : JKAlertGlobalLightBackgroundColor(), weakSelf.defaultDarkStyle ? JKAlertGlobalLightBackgroundColor() : JKAlertGlobalDarkBackgroundColor());
+    }]; //*/
+    
     [JKAlertThemeProvider providerWithOwner:self.backgroundEffectView handlerKey:NSStringFromSelector(@selector(effect)) provideHandler:^(JKAlertThemeProvider *provider, UIVisualEffectView *providerOwner) {
-
+        
         [providerOwner setEffect:JKAlertCheckDarkMode([UIBlurEffect effectWithStyle:(weakSelf.defaultDarkStyle ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight)], [UIBlurEffect effectWithStyle:(weakSelf.defaultDarkStyle ? UIBlurEffectStyleExtraLight : UIBlurEffectStyleDark)])];
     }];
 }

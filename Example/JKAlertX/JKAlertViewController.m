@@ -300,15 +300,6 @@
     
     alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertUtility.isDeviceX ? 0 : 24), 15));
     
-//    [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
-//
-//        providerOwner.makeActionSheetTopBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
-//
-//        providerOwner.getCancelAction.makeBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
-//
-//        !providerOwner.getCancelAction.refreshAppearanceHandler ? : providerOwner.getCancelAction.refreshAppearanceHandler(providerOwner.getCancelAction);
-//    }];
-    
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].makeNormalImage([UIImage imageNamed:@"Share_Twitter"])];
@@ -411,23 +402,7 @@
             
         }).makeTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([UIColor redColor]).makeBottomButtonMargin(0.25).relayout(YES);
         
-    }].makeAutoDismiss(NO)).makeCollectionSheetPageControlHidden(NO); //*/
-    
-//    [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
-//
-//        providerOwner.makeCollectionSheetTopBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
-//
-//        providerOwner.getCancelAction.makeBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
-//
-//        !providerOwner.getCancelAction.refreshAppearanceHandler ? : providerOwner.getCancelAction.refreshAppearanceHandler(providerOwner.getCancelAction);
-//
-//        if (providerOwner.getCollectionAction) {
-//
-//            providerOwner.getCollectionAction.makeBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
-//
-//            !providerOwner.getCollectionAction.refreshAppearanceHandler ? : providerOwner.getCollectionAction.refreshAppearanceHandler(providerOwner.getCollectionAction);
-//        }
-//    }];
+    }].makeAutoDismiss(NO)).makeCollectionSheetPageControlHidden(NO);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"微信好友" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         

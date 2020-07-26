@@ -29,16 +29,16 @@
         
         [JKAlertThemeProvider providerWithOwner:topSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
             
-            providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+            providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertSeparatorLineLightColor(), JKAlertSeparatorLineDarkColor());
         }];
         
-        CGFloat lineHeight = JKAlertGlobalSeparatorLineThickness();
+        CGFloat lineHeight = JKAlertSeparatorLineThickness();
         
         [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:|-0-[view(%.2f)]", lineHeight] viewKeyName:@"view" targetView:self.topSeparatorLineView constraintsView:self];
         
         [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainActionButton *providerOwner) {
            
-            providerOwner.backgroundColor = providerOwner.highlighted ? JKAlertCheckDarkMode(JKAlertGlobalHighlightedLightBackgroundColor(), JKAlertGlobalHighlightedDarkBackgroundColor()) : nil;
+            providerOwner.backgroundColor = providerOwner.highlighted ? JKAlertCheckDarkMode(JKAlertHighlightedLightBackgroundColor(), JKAlertHighlightedDarkBackgroundColor()) : nil;
         }];
     }
     return self;
@@ -109,7 +109,7 @@
 - (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
     
-    self.backgroundColor = highlighted ? JKAlertCheckDarkMode(JKAlertGlobalHighlightedLightBackgroundColor(), JKAlertGlobalHighlightedDarkBackgroundColor()) : nil;
+    self.backgroundColor = highlighted ? JKAlertCheckDarkMode(JKAlertHighlightedLightBackgroundColor(), JKAlertHighlightedDarkBackgroundColor()) : nil;
     
     if (self.action.customView) {
         

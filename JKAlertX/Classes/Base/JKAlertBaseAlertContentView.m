@@ -40,16 +40,12 @@
     
     if (_customBackgroundView) {
         
-        self.backgroundEffectView.hidden = YES;
-        
         [self.backgroundView addSubview:_customBackgroundView];
         
         [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:_customBackgroundView constraintsView:self.backgroundView];
         
         return;
     }
-    
-    self.backgroundEffectView.hidden = NO;
 }
 
 - (void)setCancelAction:(JKAlertAction *)cancelAction {
@@ -112,9 +108,15 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
+    /*
     [JKAlertThemeProvider providerWithOwner:self.backgroundEffectView handlerKey:NSStringFromSelector(@selector(effect)) provideHandler:^(JKAlertThemeProvider *provider, UIVisualEffectView *providerOwner) {
 
         [providerOwner setEffect:JKAlertCheckDarkMode([UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight], [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark])];
+    }]; //*/
+    
+    [JKAlertThemeProvider providerWithOwner:self.backgroundView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
     }];
 }
 
@@ -144,6 +146,7 @@
 - (UIVisualEffectView *)backgroundEffectView {
     if (!_backgroundEffectView) {
         UIVisualEffectView *backgroundEffectView = [[UIVisualEffectView alloc] initWithEffect:nil];
+        backgroundEffectView.hidden = YES;
         backgroundEffectView.clipsToBounds = YES;
         [self.backgroundView addSubview:backgroundEffectView];
         _backgroundEffectView = backgroundEffectView;

@@ -47,10 +47,7 @@
 
 - (void)restoreFullBackgroundColor {
     
-    [JKAlertThemeProvider providerWithOwner:self.backgroundView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
-        
-        providerOwner.backgroundColor = JKAlertCheckDarkMode([[UIColor blackColor] colorWithAlphaComponent:0.4], [[UIColor whiteColor] colorWithAlphaComponent:0.2]);
-    }];
+    self.backgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
 }
 
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {

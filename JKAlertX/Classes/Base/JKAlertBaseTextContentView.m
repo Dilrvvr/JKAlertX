@@ -212,7 +212,7 @@
         // 分隔线不计算左右安全区域
         width = self.contentWidth - self.separatorLineInsets.left - self.separatorLineInsets.right;
         
-        frame = CGRectMake(self.separatorLineInsets.left, originY, width, JKAlertGlobalSeparatorLineThickness());
+        frame = CGRectMake(self.separatorLineInsets.left, originY, width, JKAlertSeparatorLineThickness());
         
         self.separatorLineView.frame = frame;
         
@@ -379,7 +379,7 @@
         
         [JKAlertThemeProvider providerWithOwner:separatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
             
-            providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+            providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertSeparatorLineLightColor(), JKAlertSeparatorLineDarkColor());
         }];
     }
     return _separatorLineView;

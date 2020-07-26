@@ -19,7 +19,11 @@
 #pragma mark
 #pragma mark - Public Methods
 
-
+- (void)setIsPierced:(BOOL)isPierced {
+    _isPierced = isPierced;
+    
+    self.backgroundView.hidden = isPierced;
+}
 
 #pragma mark
 #pragma mark - Override

@@ -291,7 +291,7 @@
         
         [JKAlertThemeProvider providerWithOwner:alertView handlerKey:nil provideHandler:^(JKAlertThemeProvider *provider, JKAlertView *providerOwner) {
             
-            providerOwner.makeActionSheetTopBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor())).makeCollectionSheetTopBackgroundColor(JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor()));
+            providerOwner.makeActionSheetTopBackgroundColor(JKAlertCheckDarkMode(JKAlertLightBackgroundColor(), JKAlertDarkBackgroundColor())).makeCollectionSheetTopBackgroundColor(JKAlertCheckDarkMode(JKAlertLightBackgroundColor(), JKAlertDarkBackgroundColor()));
         }];
         
         alertView.relayout(YES);
@@ -1157,7 +1157,7 @@
     
     [JKAlertThemeProvider providerWithOwner:tf handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UITextField *providerOwner) {
 
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertLightBackgroundColor(), JKAlertDarkBackgroundColor());
     }];
     
     [self.textFieldArr addObject:tf];

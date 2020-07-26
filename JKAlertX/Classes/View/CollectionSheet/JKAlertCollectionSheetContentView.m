@@ -940,13 +940,13 @@
     [self.topContainerView addSubview:textContentView];
     _textContentView = textContentView;
     
-    UIView *titleSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
+    UIView *titleSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertSeparatorLineThickness())];
     titleSeparatorLineView.userInteractionEnabled = NO;
     titleSeparatorLineView.hidden = YES;
     [self.topContainerView addSubview:titleSeparatorLineView];
     _titleSeparatorLineView = titleSeparatorLineView;
     
-    UIView *collectionSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
+    UIView *collectionSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertSeparatorLineThickness())];
     collectionSeparatorLineView.userInteractionEnabled = NO;
     collectionSeparatorLineView.hidden = YES;
     [self.topContainerView addSubview:collectionSeparatorLineView];
@@ -985,17 +985,17 @@
     
     [JKAlertThemeProvider providerWithOwner:self.titleSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
         
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertSeparatorLineLightColor(), JKAlertSeparatorLineDarkColor());
     }];
     
     [JKAlertThemeProvider providerWithOwner:self.collectionSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
         
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertSeparatorLineLightColor(), JKAlertSeparatorLineDarkColor());
     }];
     
     [JKAlertThemeProvider providerWithOwner:self.topContainerView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertLightBackgroundColor(), JKAlertDarkBackgroundColor());
     }];
 }
 

@@ -106,8 +106,12 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeAlertContentViewConfiguration)(void (^configuration)(UIView *alertContentView));
 
 /**
+ * 背景颜色
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeAlertBackgroundColor)(UIColor *backgroundColor);
+
+/**
  * 背景view
- * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeAlertBackgroundView)(UIView *(^backgroundView)(void));
 

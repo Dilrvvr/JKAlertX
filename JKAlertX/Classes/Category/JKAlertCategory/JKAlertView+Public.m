@@ -167,8 +167,22 @@
 }
 
 /**
+ * 背景颜色
+ */
+- (JKAlertView *(^)(UIColor *backgroundColor))makeAlertBackgroundColor {
+    
+    return ^(UIColor *backgroundColor) {
+        
+        [self.currentAlertContentView.backgroundView.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
+        
+        self.currentAlertContentView.backgroundView.backgroundColor = backgroundColor;
+        
+        return self;
+    };
+}
+
+/**
  * 背景view
- * 默认是一个UIVisualEffectView的UIBlurEffectStyleExtraLight效果
  */
 - (JKAlertView *(^)(UIView *(^backgroundView)(void)))makeAlertBackgroundView {
     

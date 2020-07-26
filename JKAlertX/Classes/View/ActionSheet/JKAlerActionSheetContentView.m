@@ -342,7 +342,7 @@
     
     self.horizontalSeparatorLineView.hidden = (topHeight <= 0 || self.actionArray.count <= 0);
     
-    self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.topContentView.frame), self.contentWidth, JKAlertGlobalSeparatorLineThickness());
+    self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.topContentView.frame), self.contentWidth, JKAlertSeparatorLineThickness());
 }
 
 - (void)calculateNormalTableViewUI {
@@ -581,7 +581,7 @@
     
     self.horizontalSeparatorLineView.hidden = (topHeight <= 0 || self.actionArray.count <= 0);
     
-    self.horizontalSeparatorLineView.frame = CGRectMake(0, self.isPierced ? self.tableView.frame.origin.y : CGRectGetMaxY(self.topContentView.frame), self.contentWidth, JKAlertGlobalSeparatorLineThickness());
+    self.horizontalSeparatorLineView.frame = CGRectMake(0, self.isPierced ? self.tableView.frame.origin.y : CGRectGetMaxY(self.topContentView.frame), self.contentWidth, JKAlertSeparatorLineThickness());
 }
 
 /// 固定底部取消按钮时计算tableView和取消按钮的frame
@@ -1140,7 +1140,7 @@
     
     [cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
-    UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertGlobalSeparatorLineThickness())];
+    UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertSeparatorLineThickness())];
     horizontalSeparatorLineView.userInteractionEnabled = NO;
     horizontalSeparatorLineView.hidden = YES;
     [self addSubview:horizontalSeparatorLineView];
@@ -1162,7 +1162,7 @@
     
     [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlerActionSheetContentView *providerOwner) {
         
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalSeparatorLineLightColor(), JKAlertGlobalSeparatorLineDarkColor());
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertSeparatorLineLightColor(), JKAlertSeparatorLineDarkColor());
     }];
     
     [self restoreTopBackgroundColor];
@@ -1172,7 +1172,7 @@
     
     [JKAlertThemeProvider providerWithOwner:self.topContentView.backgroundView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertGlobalLightBackgroundColor(), JKAlertGlobalDarkBackgroundColor());
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertLightBackgroundColor(), JKAlertDarkBackgroundColor());
     }];
 }
 

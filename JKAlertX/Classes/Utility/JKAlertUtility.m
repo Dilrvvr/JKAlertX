@@ -49,29 +49,41 @@ CGFloat    const JKAlertTopGestureIndicatorLineHeight = 4.0;
 /// 全局背景色 浅色模式
 UIColor * JKAlertGlobalLightBackgroundColor (void) {
     
-    return JKAlertSameRGBColorAlpha(247.0, 1.0);
+    return JKAlertSameRGBColor(247.0);//JKAlertSameRGBColorAlpha(247.0, 1.0);
 }
 
 /// 全局背景色 深色模式
 UIColor * JKAlertGlobalDarkBackgroundColor (void) {
     
-    return JKAlertSameRGBColorAlpha(8.0, 1.0);
+    return JKAlertSameRGBColor(24.0);
 }
 
-/// 全局高亮背景色 浅色模式
-UIColor * JKAlertGlobalHighlightedLightBackgroundColor (void) {
+/// 背景色 浅色模式
+UIColor * JKAlertLightBackgroundColor (void) {
     
-    return JKAlertSameRGBColorAlpha(8.0, 0.05);
+    return JKAlertSameRGBColor(254.0);//JKAlertSameRGBColorAlpha(247.0, 1.0);
 }
 
-/// 全局高亮背景色 深色模式
-UIColor * JKAlertGlobalHighlightedDarkBackgroundColor (void) {
+/// 背景色 深色模式
+UIColor * JKAlertDarkBackgroundColor (void) {
     
-    return JKAlertSameRGBColorAlpha(247.0, 0.05);
+    return JKAlertSameRGBColor(30.0);
+}
+
+/// 高亮背景色 浅色模式
+UIColor * JKAlertHighlightedLightBackgroundColor (void) {
+    
+    return JKAlertSameRGBColor(229.0);//JKAlertSameRGBColorAlpha(8.0, 0.05);
+}
+
+/// 高亮背景色 深色模式
+UIColor * JKAlertHighlightedDarkBackgroundColor (void) {
+    
+    return JKAlertSameRGBColor(37.5);//JKAlertSameRGBColorAlpha(247.0, 0.05);
 }
 
 /// 全局分隔线粗细
-CGFloat JKAlertGlobalSeparatorLineThickness (void) {
+CGFloat JKAlertSeparatorLineThickness (void) {
     
     static CGFloat separatorLineThickness_ = 0;
     
@@ -84,15 +96,15 @@ CGFloat JKAlertGlobalSeparatorLineThickness (void) {
 }
 
 /// 全局分隔线背景色 浅色模式
-UIColor * JKAlertGlobalSeparatorLineLightColor (void) {
+UIColor * JKAlertSeparatorLineLightColor (void) {
     
-    return [[UIColor blackColor] colorWithAlphaComponent:0.25];
+    return JKAlertSameRGBColor(217.0);//[[UIColor blackColor] colorWithAlphaComponent:0.25];
 }
 
 /// 全局分隔线背景色 深色模式
-UIColor * JKAlertGlobalSeparatorLineDarkColor (void) {
+UIColor * JKAlertSeparatorLineDarkColor (void) {
     
-    return [[UIColor whiteColor] colorWithAlphaComponent:0.25];
+    return JKAlertSameRGBColor(53.0);//[[UIColor whiteColor] colorWithAlphaComponent:0.25];
 }
 
 

@@ -164,20 +164,26 @@ UIColor * JKAlertGlobalLightBackgroundColor (void);
 /// 全局背景色 深色模式
 UIColor * JKAlertGlobalDarkBackgroundColor (void);
 
+/// 背景色 浅色模式
+UIColor * JKAlertLightBackgroundColor (void);
+
+/// 背景色 深色模式
+UIColor * JKAlertDarkBackgroundColor (void);
+
+/// 高亮背景色 浅色模式
+UIColor * JKAlertHighlightedLightBackgroundColor (void);
+
+/// 高亮背景色 深色模式
+UIColor * JKAlertHighlightedDarkBackgroundColor (void);
+
 /// 全局分隔线粗细
-CGFloat JKAlertGlobalSeparatorLineThickness (void);
-
-/// 全局高亮背景色 浅色模式
-UIColor * JKAlertGlobalHighlightedLightBackgroundColor (void);
-
-/// 全局高亮背景色 深色模式
-UIColor * JKAlertGlobalHighlightedDarkBackgroundColor (void);
+CGFloat JKAlertSeparatorLineThickness (void);
 
 /// 全局分隔线背景色 浅色模式
-UIColor * JKAlertGlobalSeparatorLineLightColor (void);
+UIColor * JKAlertSeparatorLineLightColor (void);
 
 /// 全局分隔线背景色 深色模式
-UIColor * JKAlertGlobalSeparatorLineDarkColor (void);
+UIColor * JKAlertSeparatorLineDarkColor (void);
 
 
 
