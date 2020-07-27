@@ -46,66 +46,6 @@ CGFloat    const JKAlertTopGestureIndicatorLineHeight = 4.0;
 #pragma mark
 #pragma mark - 函数
 
-/// 全局背景色 浅色模式
-UIColor * JKAlertGlobalLightBackgroundColor (void) {
-    
-    return JKAlertSameRGBColor(247.0);//JKAlertSameRGBColorAlpha(247.0, 1.0);
-}
-
-/// 全局背景色 深色模式
-UIColor * JKAlertGlobalDarkBackgroundColor (void) {
-    
-    return JKAlertSameRGBColor(24.0);
-}
-
-/// 背景色 浅色模式
-UIColor * JKAlertLightBackgroundColor (void) {
-    
-    return JKAlertSameRGBColor(254.0);//JKAlertSameRGBColorAlpha(247.0, 1.0);
-}
-
-/// 背景色 深色模式
-UIColor * JKAlertDarkBackgroundColor (void) {
-    
-    return JKAlertSameRGBColor(30.0);
-}
-
-/// 高亮背景色 浅色模式
-UIColor * JKAlertHighlightedLightBackgroundColor (void) {
-    
-    return JKAlertSameRGBColor(229.0);//JKAlertSameRGBColorAlpha(8.0, 0.05);
-}
-
-/// 高亮背景色 深色模式
-UIColor * JKAlertHighlightedDarkBackgroundColor (void) {
-    
-    return JKAlertSameRGBColor(37.5);//JKAlertSameRGBColorAlpha(247.0, 0.05);
-}
-
-/// 全局分隔线粗细
-CGFloat JKAlertSeparatorLineThickness (void) {
-    
-    static CGFloat separatorLineThickness_ = 0;
-    
-    if (separatorLineThickness_ <= 0) {
-        
-        separatorLineThickness_ = 1.0 / [UIScreen mainScreen].scale;
-    }
-    
-    return separatorLineThickness_;
-}
-
-/// 全局分隔线背景色 浅色模式
-UIColor * JKAlertSeparatorLineLightColor (void) {
-    
-    return JKAlertSameRGBColor(217.0);//[[UIColor blackColor] colorWithAlphaComponent:0.25];
-}
-
-/// 全局分隔线背景色 深色模式
-UIColor * JKAlertSeparatorLineDarkColor (void) {
-    
-    return JKAlertSameRGBColor(53.0);//[[UIColor whiteColor] colorWithAlphaComponent:0.25];
-}
 
 
 #pragma mark
@@ -221,6 +161,67 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 + (BOOL)isDarkMode {
     
     return [[JKAlertThemeManager sharedManager] checkIsDarkMode];
+}
+
+/// 全局背景色 浅色模式 rgb 247
++ (UIColor *)globalLightBackgroundColor {
+    
+    return JKAlertSameRGBColor(247.0);
+}
+
+/// 全局背景色 深色模式 rgb 24
++ (UIColor *)globalDarkBackgroundColor {
+    
+    return JKAlertSameRGBColor(24.0);
+}
+
+/// 背景色 浅色模式 rgb254
++ (UIColor *)lightBackgroundColor {
+    
+    return JKAlertSameRGBColor(254.0);
+}
+
+/// 背景色 深色模式 rgb 30
++ (UIColor *)darkBackgroundColor {
+    
+    return JKAlertSameRGBColor(30.0);
+}
+
+/// 高亮背景色 浅色模式 rgb 229
++ (UIColor *)highlightedLightBackgroundColor {
+    
+    return JKAlertSameRGBColor(229.0);
+}
+
+/// 高亮背景色 深色模式 rgb 37.5
++ (UIColor *)highlightedDarkBackgroundColor {
+    
+    return JKAlertSameRGBColor(37.5);
+}
+
+/// 全局分隔线粗细 1.0 / [UIScreen mainScreen].scale
++ (CGFloat)separatorLineThickness {
+    
+    static CGFloat separatorLineThickness_ = 0;
+    
+    if (separatorLineThickness_ <= 0) {
+        
+        separatorLineThickness_ = 1.0 / [UIScreen mainScreen].scale;
+    }
+    
+    return separatorLineThickness_;
+}
+
+/// 全局分隔线背景色 浅色模式 rgb 217
++ (UIColor *)separatorLineLightColor {
+    
+    return JKAlertSameRGBColor(217.0);
+}
+
+/// 全局分隔线背景色 深色模式 rgb 53
++ (UIColor *)separatorLineDarkColor {
+    
+    return JKAlertSameRGBColor(53.0);
 }
 
 /// 是否X设备

@@ -131,7 +131,7 @@
     /*
     [JKAlertThemeProvider providerWithOwner:self.backgroundView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(weakSelf.defaultDarkStyle ? JKAlertGlobalDarkBackgroundColor() : JKAlertGlobalLightBackgroundColor(), weakSelf.defaultDarkStyle ? JKAlertGlobalLightBackgroundColor() : JKAlertGlobalDarkBackgroundColor());
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(weakSelf.defaultDarkStyle ? JKAlertUtility.globalDarkBackgroundColor : JKAlertUtility.globalLightBackgroundColor, weakSelf.defaultDarkStyle ? JKAlertUtility.globalLightBackgroundColor : JKAlertUtility.globalDarkBackgroundColor);
     }]; //*/
     
     [JKAlertThemeProvider providerWithOwner:self.backgroundEffectView handlerKey:NSStringFromSelector(@selector(effect)) provideHandler:^(JKAlertThemeProvider *provider, UIVisualEffectView *providerOwner) {

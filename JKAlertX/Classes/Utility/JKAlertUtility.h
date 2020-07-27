@@ -156,38 +156,6 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 
 
 #pragma mark
-#pragma mark - 函数
-
-/// 全局背景色 浅色模式
-UIColor * JKAlertGlobalLightBackgroundColor (void);
-
-/// 全局背景色 深色模式
-UIColor * JKAlertGlobalDarkBackgroundColor (void);
-
-/// 背景色 浅色模式
-UIColor * JKAlertLightBackgroundColor (void);
-
-/// 背景色 深色模式
-UIColor * JKAlertDarkBackgroundColor (void);
-
-/// 高亮背景色 浅色模式
-UIColor * JKAlertHighlightedLightBackgroundColor (void);
-
-/// 高亮背景色 深色模式
-UIColor * JKAlertHighlightedDarkBackgroundColor (void);
-
-/// 全局分隔线粗细
-CGFloat JKAlertSeparatorLineThickness (void);
-
-/// 全局分隔线背景色 浅色模式
-UIColor * JKAlertSeparatorLineLightColor (void);
-
-/// 全局分隔线背景色 深色模式
-UIColor * JKAlertSeparatorLineDarkColor (void);
-
-
-
-#pragma mark
 #pragma mark - 封装定时器
 
 /// 停止定时器的block
@@ -230,6 +198,33 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
  * 判断当前是否深色模式
  */
 @property (class, nonatomic, readonly) BOOL isDarkMode;
+
+/// 全局背景色 浅色模式 rgb 247
+@property (class, nonatomic, readonly) UIColor *globalLightBackgroundColor;
+
+/// 全局背景色 深色模式 rgb 24
+@property (class, nonatomic, readonly) UIColor *globalDarkBackgroundColor;
+
+/// 背景色 浅色模式 rgb254
+@property (class, nonatomic, readonly) UIColor *lightBackgroundColor;
+
+/// 背景色 深色模式 rgb 30
+@property (class, nonatomic, readonly) UIColor *darkBackgroundColor;
+
+/// 高亮背景色 浅色模式 rgb 229
+@property (class, nonatomic, readonly) UIColor *highlightedLightBackgroundColor;
+
+/// 高亮背景色 深色模式 rgb 37.5
+@property (class, nonatomic, readonly) UIColor *highlightedDarkBackgroundColor;
+
+/// 全局分隔线粗细 1.0 / [UIScreen mainScreen].scale
+@property (class, nonatomic, readonly) CGFloat separatorLineThickness;
+
+/// 全局分隔线背景色 浅色模式 rgb 217
+@property (class, nonatomic, readonly) UIColor *separatorLineLightColor;
+
+/// 全局分隔线背景色 深色模式 rgb 53
+@property (class, nonatomic, readonly) UIColor *separatorLineDarkColor;
 
 /// 是否X设备
 @property (class, nonatomic, readonly) BOOL isDeviceX;

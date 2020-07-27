@@ -128,7 +128,7 @@
     
     self.textFieldContainerView.hidden = NO;
     
-    CGFloat borderWidth = JKAlertSeparatorLineThickness();
+    CGFloat borderWidth = JKAlertUtility.separatorLineThickness;
     
     CGFloat containerWidth = self.contentWidth - self.textFieldContainerInset.left - self.textFieldContainerInset.right;
     CGFloat containerHeight = 0;
@@ -519,13 +519,13 @@
     [self.bottomContentView.scrollContentView addSubview:actionContainerView];
     _actionContainerView = actionContainerView;
     
-    UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertSeparatorLineThickness())];
+    UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertUtility.separatorLineThickness)];
     horizontalSeparatorLineView.userInteractionEnabled = NO;
     horizontalSeparatorLineView.hidden = YES;
     [self.contentView addSubview:horizontalSeparatorLineView];
     _horizontalSeparatorLineView = horizontalSeparatorLineView;
     
-    UIView *verticalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertSeparatorLineThickness(), 0)];
+    UIView *verticalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JKAlertUtility.separatorLineThickness, 0)];
     verticalSeparatorLineView.userInteractionEnabled = NO;
     verticalSeparatorLineView.hidden = YES;
     [self.contentView addSubview:verticalSeparatorLineView];
@@ -547,17 +547,17 @@
     
     [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertSeparatorLineLightColor(), JKAlertSeparatorLineDarkColor());
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];
     
     [JKAlertThemeProvider providerWithOwner:self.verticalSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertSeparatorLineLightColor(), JKAlertSeparatorLineDarkColor());
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];
     
     [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainContentView *providerOwner) {
         
-        providerOwner.textFieldContainerView.backgroundColor = JKAlertCheckDarkMode(JKAlertSeparatorLineLightColor(), JKAlertSeparatorLineDarkColor());
+        providerOwner.textFieldContainerView.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];
 }
 
