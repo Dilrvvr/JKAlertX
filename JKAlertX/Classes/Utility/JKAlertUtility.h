@@ -238,7 +238,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 当前HomeIndicator高度
 @property (class, nonatomic, readonly) CGFloat currentHomeIndicatorHeight;
 
-/** keyWindow */
+/// keyWindow
 @property (class, nonatomic, readonly) UIWindow *keyWindow;
 
 /// 获取keyWindow的safeAreaInsets

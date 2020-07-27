@@ -204,10 +204,11 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     
     static CGFloat separatorLineThickness_ = 0;
     
-    if (separatorLineThickness_ <= 0) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         
         separatorLineThickness_ = 1.0 / [UIScreen mainScreen].scale;
-    }
+    });
     
     return separatorLineThickness_;
 }
@@ -227,38 +228,35 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 是否X设备
 + (BOOL)isDeviceX {
     
-    static BOOL JKAlertIsDeviceX_ = NO;
+    static BOOL isDeviceX_ = NO;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
         if (@available(iOS 11.0, *)) {
             
-            if (!JKAlertUtility.isDeviceiPad) {
+            if (!self.isDeviceiPad) {
                 
-                JKAlertIsDeviceX_ = JKAlertUtility.keyWindow.safeAreaInsets.bottom > 0.0;
+                isDeviceX_ = self.keyWindow.safeAreaInsets.bottom > 0.0;
             }
         }
     });
     
-    return JKAlertIsDeviceX_;
+    return isDeviceX_;
 }
 
 /// 是否iPad
 + (BOOL)isDeviceiPad {
     
-    static BOOL JKAlertIsDeviceiPad_ = NO;
+    static BOOL isDeviceiPad_ = NO;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        if (@available(iOS 11.0, *)) {
-            
-            JKAlertIsDeviceiPad_ = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
-        }
+        isDeviceiPad_ = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
     });
     
-    return JKAlertIsDeviceiPad_;
+    return isDeviceiPad_;
 }
 
 /// 当前是否横屏
@@ -270,9 +268,10 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 当前HomeIndicator高度
 + (CGFloat)currentHomeIndicatorHeight {
     
-    return JKAlertUtility.isDeviceX ? (JKAlertUtility.isLandscape ? 21.0 : 34.0) : 0.0;
+    return self.isDeviceX ? (self.isLandscape ? 21.0 : 34.0) : 0.0;
 }
 
+/// keyWindow
 + (UIWindow *)keyWindow {
     
     UIWindow *keyWindow = nil;
@@ -305,7 +304,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     
     if (@available(iOS 11.0, *)) {
         
-        safeAreaInset = JKAlertUtility.keyWindow.safeAreaInsets;
+        safeAreaInset = self.keyWindow.safeAreaInsets;
     }
     
     return safeAreaInset;
@@ -315,7 +314,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 + (void)vibrateDevice {
     
     // iPad没有震动
-    if (JKAlertUtility.isDeviceiPad) { return; }
+    if (self.isDeviceiPad) { return; }
     
     // 普通短震，3D Touch 中 Peek 震动反馈
     //AudioServicesPlaySystemSound(1519);
