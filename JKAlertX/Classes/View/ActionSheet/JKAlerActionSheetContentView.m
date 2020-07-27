@@ -574,7 +574,7 @@
         [self checkBottomButtonPinnedBottomFrameWithMaxHeight:self.maxHeight - topHeight];
     }
     
-    self.horizontalSeparatorLineView.hidden = (topHeight <= 0 || self.actionArray.count <= 0);
+    self.horizontalSeparatorLineView.hidden = (self.textContentView.hidden || self.actionArray.count <= 0);
     
     self.horizontalSeparatorLineView.frame = CGRectMake(0, self.isPierced ? self.tableView.frame.origin.y : CGRectGetMaxY(self.topContentView.frame), self.contentWidth, JKAlertSeparatorLineThickness());
 }
