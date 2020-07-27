@@ -351,7 +351,7 @@
     frame.origin.y = CGRectGetMaxY(self.topGestureIndicatorView.frame);
     self.titleSeparatorLineView.frame = frame;
     
-    self.titleSeparatorLineView.hidden = self.titleSeparatorLineHidden || self.textContentView.hidden;
+    self.titleSeparatorLineView.hidden = self.titleSeparatorLineHidden || self.textContentView.hidden || (self.collectionView.hidden && self.collectionView2.hidden);
     
     frame = self.collectionView.frame;
     frame.origin.y = CGRectGetMaxY(self.textContentView.frame);
