@@ -63,6 +63,8 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     
+    [self.actionView setSeleted:selected];
+    
     [self.bottomLineView.jkalert_themeProvider executeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
 }
 
@@ -110,7 +112,7 @@
 - (void)createUI {
     
     self.selectedBackgroundView = [[UIView alloc] init];
-    self.selectedBackgroundView.backgroundColor = nil;
+    self.selectedBackgroundView.backgroundColor = [UIColor clearColor];
     
     JKAlertTableActionView *actionView = [[JKAlertTableActionView alloc] init];
     [self.contentView addSubview:actionView];

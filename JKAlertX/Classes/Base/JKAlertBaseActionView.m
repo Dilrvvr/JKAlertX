@@ -81,6 +81,13 @@
     
     self.backgroundView.hidden = seleted;
     self.selectedBackgroundView.hidden = !self.backgroundView.hidden;
+    
+    if (self.customView) {
+        
+        self.customView.alpha = seleted ? 0.5 : 1.0;
+    }
+    
+    [self updateAppearanceWithAction:self.action];
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
@@ -89,9 +96,14 @@
     self.backgroundView.hidden = highlighted;
     self.selectedBackgroundView.hidden = !self.backgroundView.hidden;
     
-    self.contentView.alpha = highlighted ? 0.5 : 1.0;
+    if (self.customView) {
+        
+        self.customView.alpha = highlighted ? 0.5 : 1.0;
+    }
     
     self.iconImageView.highlighted = highlighted;
+    
+    [self updateAppearanceWithAction:self.action];
     
     [self setNeedsLayout];
 }
