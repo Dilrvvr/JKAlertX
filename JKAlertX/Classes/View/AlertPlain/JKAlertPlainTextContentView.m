@@ -13,10 +13,7 @@
 #pragma mark
 #pragma mark - Public Methods
 
-- (void)calculateUI {
-    [super calculateUI];
-    
-}
+
 
 #pragma mark
 #pragma mark - Override

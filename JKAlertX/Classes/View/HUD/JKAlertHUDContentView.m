@@ -43,7 +43,7 @@
 - (void)calculateUI {
     [super calculateUI];
     
-    self.textContentView.contentWidth = self.contentWidth;
+    self.textContentView.contentWidth = self.alertWidth;
     
     [self.textContentView calculateUI];
     
@@ -129,7 +129,7 @@
     
     __weak typeof(self) weakSelf = self;
     /*
-    [JKAlertThemeProvider providerWithOwner:self.backgroundView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.backgroundView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(weakSelf.defaultDarkStyle ? JKAlertUtility.globalDarkBackgroundColor : JKAlertUtility.globalLightBackgroundColor, weakSelf.defaultDarkStyle ? JKAlertUtility.globalLightBackgroundColor : JKAlertUtility.globalDarkBackgroundColor);
     }]; //*/

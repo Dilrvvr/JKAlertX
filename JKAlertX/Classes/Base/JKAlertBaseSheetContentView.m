@@ -275,7 +275,7 @@
             } else {
                 
                 if (!self.tapBlankDismiss ||
-                    (center.x <= (self.contentWidth * 0.5))) {
+                    (center.x <= (self.alertWidth * 0.5))) {
                     
                     center.x += (point.x * 0.02);
                     
@@ -309,7 +309,7 @@
             
             float slideFactor = 0.1 * slideMult;
             CGPoint finalPoint = CGPointMake(self.center.x + (velocity.x * slideFactor), self.center.y + (velocity.y * slideFactor));
-            BOOL isSlideHalf = ((finalPoint.x - self.frame.size.width * 0.5) - (self.contentWidth - self.frame.size.width) > self.frame.size.width * 0.5);
+            BOOL isSlideHalf = ((finalPoint.x - self.frame.size.width * 0.5) - (self.alertWidth - self.frame.size.width) > self.frame.size.width * 0.5);
             if (isSlideHalf &&
                 self.tapBlankDismiss &&
                 beginScrollDirection == endScrollDirection) {
@@ -407,7 +407,7 @@
         topGestureLineView.layer.cornerRadius = 2;
         [topGestureIndicatorView addSubview:topGestureLineView];
         
-        [JKAlertThemeProvider providerWithOwner:topGestureLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+        [JKAlertThemeProvider providerBackgroundColorWithOwner:topGestureLineView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
             
             providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(208), JKAlertSameRGBColor(47));
         }];

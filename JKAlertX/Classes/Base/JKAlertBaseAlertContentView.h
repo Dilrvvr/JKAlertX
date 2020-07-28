@@ -30,9 +30,6 @@
 /** delegate */
 @property (nonatomic, weak) id <JKAlertBaseAlertContentViewDelegate> delegate;
 
-/** alertView */
-//@property (nonatomic, weak) JKAlertView *alertView;
-
 /** 圆角 默认8 */
 @property (nonatomic, assign) CGFloat cornerRadius;
 
@@ -42,8 +39,8 @@
 /** maxHeight */
 @property (nonatomic, assign) CGFloat maxHeight;
 
-/** contentWidth */
-@property (nonatomic, assign) CGFloat contentWidth;
+/** alertWidth */
+@property (nonatomic, assign) CGFloat alertWidth;
 
 /** actionArray */
 @property (nonatomic, strong) NSMutableArray *actionArray;

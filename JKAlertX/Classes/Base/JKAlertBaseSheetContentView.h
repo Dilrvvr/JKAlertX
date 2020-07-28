@@ -27,9 +27,6 @@
     //CGFloat lastTableViewOffsetY;
 }
 
-/** scrollViewDelegate */
-//@property (nonatomic, weak) id <UIScrollViewDelegate> scrollViewDelegate;
-
 /** verticalDismissPanGesture */
 @property (nonatomic, strong) JKAlertPanGestureRecognizer *verticalDismissPanGesture;
 

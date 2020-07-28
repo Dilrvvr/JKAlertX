@@ -60,6 +60,26 @@
 }
 
 /**
+ * 创建一个JKAlertThemeProvider实例
+ * 自动将JKAlertThemeBackgroundColorHandlerKey == @"backgroundColor"作为handlerKey
+ */
++ (JKAlertThemeProvider *)providerBackgroundColorWithOwner:(id <JKAlertThemeProviderProtocol>)owner
+                                            provideHandler:(JKAlertThemeProvideHandler)provideHandler {
+    
+    return [self providerWithOwner:owner handlerKey:JKAlertThemeBackgroundColorHandlerKey provideHandler:provideHandler];
+}
+
+/**
+ * 创建一个JKAlertThemeProvider实例
+ * 自动将JKAlertThemeTextColorHandlerKey == @"textColor"作为handlerKey
+ */
++ (JKAlertThemeProvider *)providerTextColorWithOwner:(id <JKAlertThemeProviderProtocol>)owner
+                                      provideHandler:(JKAlertThemeProvideHandler)provideHandler {
+    
+    return [self providerWithOwner:owner handlerKey:JKAlertThemeTextColorHandlerKey provideHandler:provideHandler];
+}
+
+/**
  * 添加一个处理主题变更的handler
  *
  * key : handler的缓存key，使用key可支持handler替换

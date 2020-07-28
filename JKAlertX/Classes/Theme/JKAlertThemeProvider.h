@@ -31,6 +31,20 @@ typedef void(^JKAlertThemeProvideHandler)(JKAlertThemeProvider *provider, id pro
                              provideHandler:(JKAlertThemeProvideHandler)provideHandler;
 
 /**
+ * 创建一个JKAlertThemeProvider实例
+ * 自动将JKAlertThemeBackgroundColorHandlerKey == @"backgroundColor"作为handlerKey
+ */
++ (JKAlertThemeProvider *)providerBackgroundColorWithOwner:(id <JKAlertThemeProviderProtocol>)owner
+                                            provideHandler:(JKAlertThemeProvideHandler)provideHandler;
+
+/**
+ * 创建一个JKAlertThemeProvider实例
+ * 自动将@"textColor"作为handlerKey
+ */
++ (JKAlertThemeProvider *)providerTextColorWithOwner:(id <JKAlertThemeProviderProtocol>)owner
+                                      provideHandler:(JKAlertThemeProvideHandler)provideHandler;
+
+/**
  * 添加一个处理主题变更的handler
  *
  * key : handler的缓存key，使用key可支持handler替换

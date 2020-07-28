@@ -703,7 +703,7 @@
 - (IBAction)customPlainTitle:(id)sender {
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 190)];
-    //    label.backgroundColor = [UIColor orangeColor];
+    //label.backgroundColor = [UIColor orangeColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"我是自定义的view~~";
     label.attributedText = [[NSAttributedString alloc] initWithString:@"我是自定义的view~~" attributes:@{NSForegroundColorAttributeName : [UIColor redColor]}];

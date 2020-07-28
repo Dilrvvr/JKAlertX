@@ -259,7 +259,7 @@
     
     [self updatePlainWidth];
     
-    self.plainContentView.contentWidth = self.plainWidth;
+    self.plainContentView.alertWidth = self.plainWidth;
     self.plainContentView.maxHeight = self.maxPlainHeight;
     [self.plainContentView calculateUI];
     
@@ -275,7 +275,7 @@
     
     [self updatePlainWidth];
     
-    self.hudContentView.contentWidth = self.plainWidth;
+    self.hudContentView.alertWidth = self.plainWidth;
     self.hudContentView.maxHeight = self.maxPlainHeight;
     [self.hudContentView calculateUI];
     
@@ -294,14 +294,14 @@
     
     self.actionsheetContentView.screenSafeInsets = safeAreaInsets;
     
-    CGFloat contentWidth = self.superWidth;
+    CGFloat alertWidth = self.superWidth;
     
     if (self.actionsheetContentView.isPierced) {
         
-        contentWidth -= (self.actionsheetContentView.piercedInsets.left + self.actionsheetContentView.piercedInsets.right + self.actionsheetContentView.screenSafeInsets.left + self.actionsheetContentView.screenSafeInsets.right);
+        alertWidth -= (self.actionsheetContentView.piercedInsets.left + self.actionsheetContentView.piercedInsets.right + self.actionsheetContentView.screenSafeInsets.left + self.actionsheetContentView.screenSafeInsets.right);
     }
     
-    self.actionsheetContentView.contentWidth = contentWidth;
+    self.actionsheetContentView.alertWidth = alertWidth;
     self.actionsheetContentView.maxHeight = self.maxSheetHeight;
     [self.actionsheetContentView calculateUI];
     
@@ -323,14 +323,14 @@
     
     self.collectionsheetContentView.screenSafeInsets = safeAreaInsets;
     
-    CGFloat contentWidth = self.superWidth;
+    CGFloat alertWidth = self.superWidth;
     
     if (self.collectionsheetContentView.isPierced) {
         
-        contentWidth -= (self.collectionsheetContentView.piercedInsets.left + self.collectionsheetContentView.piercedInsets.right + self.collectionsheetContentView.screenSafeInsets.left + self.collectionsheetContentView.screenSafeInsets.right);
+        alertWidth -= (self.collectionsheetContentView.piercedInsets.left + self.collectionsheetContentView.piercedInsets.right + self.collectionsheetContentView.screenSafeInsets.left + self.collectionsheetContentView.screenSafeInsets.right);
     }
     
-    self.collectionsheetContentView.contentWidth = contentWidth;
+    self.collectionsheetContentView.alertWidth = alertWidth;
     self.collectionsheetContentView.maxHeight = self.maxSheetHeight;
     
     [self.collectionsheetContentView calculateUI];
@@ -828,7 +828,7 @@
     tf.rightView = rightView;
     tf.rightViewMode = UITextFieldViewModeAlways;
     
-    [JKAlertThemeProvider providerWithOwner:tf handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UITextField *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:tf provideHandler:^(JKAlertThemeProvider *provider, UITextField *providerOwner) {
 
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.lightBackgroundColor, JKAlertUtility.darkBackgroundColor);
     }];

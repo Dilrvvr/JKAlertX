@@ -141,7 +141,7 @@
     self.backgroundColor = nil;
     self.contentView.backgroundColor = nil;
     
-    [JKAlertThemeProvider providerWithOwner:self.bottomLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.bottomLineView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
 
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];

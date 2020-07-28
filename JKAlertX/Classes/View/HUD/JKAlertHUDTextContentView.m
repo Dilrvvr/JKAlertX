@@ -92,7 +92,7 @@
         
         __weak typeof(self) weakSelf = self;
         
-        [JKAlertThemeProvider providerWithOwner:self.titleTextView.textView handlerKey:NSStringFromSelector(@selector(textColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertTextView *providerOwner) {
+        [JKAlertThemeProvider providerTextColorWithOwner:self.titleTextView.textView provideHandler:^(JKAlertThemeProvider *provider, JKAlertTextView *providerOwner) {
             
             providerOwner.textColor = JKAlertCheckDarkMode(weakSelf.defaultDarkStyle ? [UIColor whiteColor] : [UIColor blackColor], weakSelf.defaultDarkStyle ? [UIColor blackColor] : [UIColor whiteColor]);
         }];

@@ -7,10 +7,10 @@
 
 #import "JKAlertThemeUtility.h"
 
-/// 浅色主题名称
+/** 浅色主题名称 */
 NSString * const JKAlertDefaultThemeLight = @"JKAlertDefaultThemeLight";
 
-/// 深色主题名称
+/** 深色主题名称 */
 NSString * const JKAlertDefaultThemeDark = @"JKAlertDefaultThemeDark";
 
 /** 系统深色/浅色样式改变的通知 */
@@ -19,8 +19,11 @@ NSString * const JKAlertThemeDidChangeNotification = @"JKAlertThemeDidChangeNoti
 /** ThemeStyle改变的通知 */
 NSString * const JKAlertThemeStyleDidChangeNotification = @"JKAlertThemeStyleDidChangeNotification";
 
-/// 默认的存储handler的key
-NSString * const JKAlertThemeProvideHandlerKey = @"JKAlertThemeProvideHandlerKey";
+/** 默认的背景色handlerKey */
+NSString * const JKAlertThemeBackgroundColorHandlerKey = @"backgroundColor";
+
+/** 默认的字体颜色handlerKey */
+NSString * const JKAlertThemeTextColorHandlerKey = @"textColor";
 
 
 #pragma mark

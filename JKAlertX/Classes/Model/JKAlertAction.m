@@ -366,7 +366,7 @@
     
     _titleFont = [UIFont systemFontOfSize:17];
     
-    [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.lightBackgroundColor, JKAlertUtility.darkBackgroundColor);
     }];

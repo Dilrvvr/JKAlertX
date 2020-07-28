@@ -46,7 +46,7 @@
 - (void)calculateUI {
     [super calculateUI];
     
-    self.textContentView.contentWidth = self.contentWidth;
+    self.textContentView.contentWidth = self.alertWidth;
     
     [self.textContentView calculateUI];
     
@@ -119,7 +119,7 @@
         
         self.textFieldContainerView.frame = CGRectZero;
         
-        frame.size.width = self.contentWidth;
+        frame.size.width = self.alertWidth;
         frame.size.height = CGRectGetMaxY(self.textContentView.frame);
         self.topContentView.frame = frame;
         
@@ -130,7 +130,7 @@
     
     CGFloat borderWidth = JKAlertUtility.separatorLineThickness;
     
-    CGFloat containerWidth = self.contentWidth - self.textFieldContainerInset.left - self.textFieldContainerInset.right;
+    CGFloat containerWidth = self.alertWidth - self.textFieldContainerInset.left - self.textFieldContainerInset.right;
     CGFloat containerHeight = 0;
     
     frame = CGRectMake(borderWidth, 0, containerWidth - borderWidth * 2, self.textFieldHeight);
@@ -154,14 +154,14 @@
     frame = CGRectZero;
     frame.origin.x = self.screenSafeInsets.left + self.textFieldContainerInset.left;
     frame.origin.y = CGRectGetMaxY(self.textContentView.frame) + self.textFieldContainerInset.top;
-    frame.size.width = self.contentWidth - self.screenSafeInsets.left - self.textFieldContainerInset.left - self.screenSafeInsets.right - self.textFieldContainerInset.right;
+    frame.size.width = self.alertWidth - self.screenSafeInsets.left - self.textFieldContainerInset.left - self.screenSafeInsets.right - self.textFieldContainerInset.right;
     frame.size.height = containerHeight;
     
     self.textFieldContainerView.frame = frame;
     
     frame = CGRectZero;
     
-    frame.size.width = self.contentWidth;
+    frame.size.width = self.alertWidth;
     frame.size.height = CGRectGetMaxY(self.textFieldContainerView.frame) + self.textFieldContainerInset.bottom;
     self.topContentView.frame = frame;
 }
@@ -238,7 +238,7 @@
     if (!self.horizontalSeparatorLineView.hidden) {
         
         frame = self.horizontalSeparatorLineView.frame;
-        frame.size.width = self.contentWidth;
+        frame.size.width = self.alertWidth;
         frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
         self.horizontalSeparatorLineView.frame = frame;
         
@@ -249,7 +249,7 @@
         
         frame = self.verticalSeparatorLineView.frame;
         frame.size.height = self.bottomContentView.frame.size.height;
-        frame.origin.x = (self.contentWidth - frame.size.width) * 0.5;
+        frame.origin.x = (self.alertWidth - frame.size.width) * 0.5;
         frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
         
         self.verticalSeparatorLineView.frame = frame;
@@ -257,7 +257,7 @@
         [self.contentView bringSubviewToFront:self.verticalSeparatorLineView];
     }
     
-    self.frame = CGRectMake(0, 0, self.contentWidth, self.topContentView.frame.size.height + self.bottomContentView.frame.size.height);
+    self.frame = CGRectMake(0, 0, self.alertWidth, self.topContentView.frame.size.height + self.bottomContentView.frame.size.height);
 }
 
 - (void)layoutPlainButtons {
@@ -283,7 +283,7 @@
     
     CGFloat buttonX = 0;
     CGFloat buttonY = 0;
-    CGFloat buttonWidth = self.contentWidth;
+    CGFloat buttonWidth = self.alertWidth;
     CGFloat buttonHeight = 0;
     
     JKAlertPlainActionButton *previousButton = nil;
@@ -295,12 +295,12 @@
         
         [self layoutTwoActionPlainButtons];
         
-        self.bottomContentView.frame = CGRectMake(0, 0, self.contentWidth, self.actionContainerView.frame.size.height);
+        self.bottomContentView.frame = CGRectMake(0, 0, self.alertWidth, self.actionContainerView.frame.size.height);
         
         return;
     }
     
-    CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect rect = CGRectMake(0, 0, self.alertWidth, 0);
     
     CGRect frame = CGRectMake(buttonX, buttonY, buttonWidth, buttonHeight);
     
@@ -363,7 +363,7 @@
 
 - (void)layoutTwoActionPlainButtons {
     
-    CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect rect = CGRectMake(0, 0, self.alertWidth, 0);
     
     CGRect frame = CGRectZero;
     
@@ -380,7 +380,7 @@
         [button1 addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     
-    frame.size.width = self.contentWidth * 0.5;
+    frame.size.width = self.alertWidth * 0.5;
     
     frame.size.height = action1.rowHeight;
     
@@ -421,7 +421,7 @@
         [button2 addTarget:self action:@selector(plainButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     
-    frame.origin.x = self.contentWidth * 0.5;
+    frame.origin.x = self.alertWidth * 0.5;
     
     button2.frame = frame;
     
@@ -519,7 +519,7 @@
     [self.bottomContentView.scrollContentView addSubview:actionContainerView];
     _actionContainerView = actionContainerView;
     
-    UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertUtility.separatorLineThickness)];
+    UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.alertWidth, JKAlertUtility.separatorLineThickness)];
     horizontalSeparatorLineView.userInteractionEnabled = NO;
     horizontalSeparatorLineView.hidden = YES;
     [self.contentView addSubview:horizontalSeparatorLineView];
@@ -545,17 +545,17 @@
     self.clipsToBounds = YES;
     self.layer.cornerRadius = self.cornerRadius;
     
-    [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.horizontalSeparatorLineView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];
     
-    [JKAlertThemeProvider providerWithOwner:self.verticalSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.verticalSeparatorLineView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];
     
-    [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainContentView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainContentView *providerOwner) {
         
         providerOwner.textFieldContainerView.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];

@@ -27,7 +27,7 @@
         [self addSubview:topSeparatorLineView];
         _topSeparatorLineView = topSeparatorLineView;
         
-        [JKAlertThemeProvider providerWithOwner:topSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+        [JKAlertThemeProvider providerBackgroundColorWithOwner:topSeparatorLineView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
             
             providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
         }];
@@ -36,7 +36,7 @@
         
         [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:|-0-[view(%.2f)]", lineHeight] viewKeyName:@"view" targetView:self.topSeparatorLineView constraintsView:self];
         
-        [JKAlertThemeProvider providerWithOwner:self handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainActionButton *providerOwner) {
+        [JKAlertThemeProvider providerBackgroundColorWithOwner:self provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainActionButton *providerOwner) {
            
             providerOwner.backgroundColor = providerOwner.highlighted ? JKAlertCheckDarkMode(JKAlertUtility.highlightedLightBackgroundColor, JKAlertUtility.highlightedDarkBackgroundColor) : nil;
         }];

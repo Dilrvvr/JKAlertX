@@ -119,7 +119,7 @@
     [super layoutSubviews];
     
     CGPoint center = self.pageControl.center;
-    center.x = self.contentWidth * 0.5;
+    center.x = self.alertWidth * 0.5;
     self.pageControl.center = center;
 }
 
@@ -145,7 +145,7 @@
 
 - (void)calculateTopGestureIndicatorUI {
     
-    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect frame = CGRectMake(0, 0, self.alertWidth, 0);
     
     if (self.gestureIndicatorHidden ||
         !self.verticalGestureDismissEnabled) {
@@ -170,7 +170,7 @@
 - (void)calculateTextContentViewUI {
     
     self.textContentView.screenSafeInsets = self.isPierced ? UIEdgeInsetsZero : self.screenSafeInsets;
-    self.textContentView.contentWidth = self.contentWidth;
+    self.textContentView.contentWidth = self.alertWidth;
     
     [self.textContentView calculateUI];
 }
@@ -210,9 +210,9 @@
     
     // 固定取消按钮且取消按钮的高度大于等于0.1
     
-    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect frame = CGRectMake(0, 0, self.alertWidth, 0);
     
-    CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect rect = CGRectMake(0, 0, self.alertWidth, 0);
 
     rect.size.height += self.piercedInsets.bottom;
     rect.size.height += JKAlertAdjustHomeIndicatorHeight;
@@ -293,11 +293,11 @@
     self.collectionView.pagingEnabled = self.collectionPagingEnabled;
     self.collectionView2.pagingEnabled = self.collectionPagingEnabled;
     
-    self.pageControl.numberOfPages = ceil(((self.minimumLineSpacing + self.itemSize.width) * MAX(count, count2) - 5) / self.contentWidth);
+    self.pageControl.numberOfPages = ceil(((self.minimumLineSpacing + self.itemSize.width) * MAX(count, count2) - 5) / self.alertWidth);
     
     CGFloat collectionHeight = self.itemSize.height;
     
-    CGRect frame = CGRectMake(0, 0, self.contentWidth, collectionHeight);
+    CGRect frame = CGRectMake(0, 0, self.alertWidth, collectionHeight);
     
     self.collectionView.hidden = (count <= 0);
     self.collectionView2.hidden = (count2 <= 0);
@@ -397,7 +397,7 @@
     frame.origin.y = CGRectGetMaxY(self.collectionView2.frame);
     self.pageControl.frame = frame;
     
-    frame = CGRectMake(0, 0, self.contentWidth, 0);
+    frame = CGRectMake(0, 0, self.alertWidth, 0);
     frame.size.height += self.topGestureIndicatorView.frame.size.height;
     frame.size.height += self.textContentView.frame.size.height;
     frame.size.height += self.collectionView.frame.size.height;
@@ -452,7 +452,7 @@
     frame.origin.y = CGRectGetMaxY(self.topContainerView.frame);
     self.bottomContentView.frame = frame;
     
-    frame = CGRectMake(0, 0, self.contentWidth, 0);
+    frame = CGRectMake(0, 0, self.alertWidth, 0);
     frame.size.height += self.topContainerView.frame.size.height;
     frame.size.height += self.bottomContentView.frame.size.height;
     if (self.bottomContentView.hidden) {
@@ -497,7 +497,7 @@
 
 - (void)calculatePinnedTotalFrame {
     
-    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect frame = CGRectMake(0, 0, self.alertWidth, 0);
     
     frame.size.height += self.topContentView.frame.size.height;
     
@@ -523,7 +523,7 @@
     frame.origin.y = 0;
     self.topContainerView.frame = frame;
     
-    frame = CGRectMake(0, 0, self.contentWidth, 0);
+    frame = CGRectMake(0, 0, self.alertWidth, 0);
     frame.size.height += self.topContainerView.frame.size.height;
     self.topContentView.frame = frame;
     
@@ -738,7 +738,7 @@
     
     if ([scrollView isKindOfClass:[UICollectionView class]]) {
         
-        self.pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / self.contentWidth);
+        self.pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / self.alertWidth);
     }
 }
 
@@ -746,7 +746,7 @@
     
     if ([scrollView isKindOfClass:[UICollectionView class]]) {
         
-        self.pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / self.contentWidth);
+        self.pageControl.currentPage = ceil((scrollView.contentOffset.x - 5) / self.alertWidth);
     }
     
     if (scrollView == self.topContentView.scrollView ||
@@ -955,13 +955,13 @@
     [self.topContainerView addSubview:textContentView];
     _textContentView = textContentView;
     
-    UIView *titleSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertUtility.separatorLineThickness)];
+    UIView *titleSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.alertWidth, JKAlertUtility.separatorLineThickness)];
     titleSeparatorLineView.userInteractionEnabled = NO;
     titleSeparatorLineView.hidden = YES;
     [self.topContainerView addSubview:titleSeparatorLineView];
     _titleSeparatorLineView = titleSeparatorLineView;
     
-    UIView *collectionSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertUtility.separatorLineThickness)];
+    UIView *collectionSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.alertWidth, JKAlertUtility.separatorLineThickness)];
     collectionSeparatorLineView.userInteractionEnabled = NO;
     collectionSeparatorLineView.hidden = YES;
     [self.topContainerView addSubview:collectionSeparatorLineView];
@@ -998,17 +998,17 @@
     self.collectionButton.layer.masksToBounds = YES;
     self.cancelButton.layer.masksToBounds = YES;
     
-    [JKAlertThemeProvider providerWithOwner:self.titleSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.titleSeparatorLineView provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];
     
-    [JKAlertThemeProvider providerWithOwner:self.collectionSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.collectionSeparatorLineView provideHandler:^(JKAlertThemeProvider *provider, JKAlertCollectionSheetContentView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];
     
-    [JKAlertThemeProvider providerWithOwner:self.topContainerView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.topContainerView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.lightBackgroundColor, JKAlertUtility.darkBackgroundColor);
     }];

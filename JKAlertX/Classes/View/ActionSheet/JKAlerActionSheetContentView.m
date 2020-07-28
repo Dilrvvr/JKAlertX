@@ -107,14 +107,14 @@
 - (void)calculateTextContentViewUI {
     
     self.textContentView.screenSafeInsets = self.isPierced ? UIEdgeInsetsZero : self.screenSafeInsets;
-    self.textContentView.contentWidth = self.contentWidth;
+    self.textContentView.contentWidth = self.alertWidth;
     
     [self.textContentView calculateUI];
 }
 
 - (void)calculateTopGestureIndicatorUI {
     
-    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect frame = CGRectMake(0, 0, self.alertWidth, 0);
     
     if (self.gestureIndicatorHidden ||
         !self.verticalGestureDismissEnabled) {
@@ -175,7 +175,7 @@
 
 - (void)calculateNormalTotalFrame {
     
-    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect frame = CGRectMake(0, 0, self.alertWidth, 0);
     
     frame.size.height += self.topContentView.frame.size.height;
     frame.size.height += self.tableView.frame.size.height;
@@ -207,7 +207,7 @@
     frame.origin.y = CGRectGetMaxY(self.topGestureIndicatorView.frame);
     self.textContentView.frame = frame;
     
-    frame = CGRectMake(0, 0, self.contentWidth, 0);
+    frame = CGRectMake(0, 0, self.alertWidth, 0);
     frame.size.height += self.topGestureIndicatorView.frame.size.height;
     frame.size.height += self.textContentView.frame.size.height;
     self.topContentView.frame = frame;
@@ -337,12 +337,12 @@
     
     self.horizontalSeparatorLineView.hidden = (self.textContentView.hidden || self.actionArray.count <= 0);
     
-    self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.topContentView.frame), self.contentWidth, JKAlertUtility.separatorLineThickness);
+    self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.topContentView.frame), self.alertWidth, JKAlertUtility.separatorLineThickness);
 }
 
 - (void)calculateNormalTableViewUI {
     
-    CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect rect = CGRectMake(0, 0, self.alertWidth, 0);
     
     // 没有action且cancelAction的高度小于0.1
     if (self.actionArray.count <= 0 &&
@@ -399,7 +399,7 @@
 
 - (void)calculatePinnedTotalFrame {
     
-    CGRect frame = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect frame = CGRectMake(0, 0, self.alertWidth, 0);
     
     if (self.isPierced) {
         
@@ -446,7 +446,7 @@
     frame.origin.y = CGRectGetMaxY(self.topGestureIndicatorView.frame);
     self.textContentView.frame = frame;
     
-    frame = CGRectMake(0, 0, self.contentWidth, 0);
+    frame = CGRectMake(0, 0, self.alertWidth, 0);
     frame.size.height += self.topGestureIndicatorView.frame.size.height;
     frame.size.height += self.textContentView.frame.size.height;
     self.topContentView.frame = frame;
@@ -576,7 +576,7 @@
     
     self.horizontalSeparatorLineView.hidden = (self.textContentView.hidden || self.actionArray.count <= 0);
     
-    self.horizontalSeparatorLineView.frame = CGRectMake(0, self.isPierced ? self.tableView.frame.origin.y : CGRectGetMaxY(self.topContentView.frame), self.contentWidth, JKAlertUtility.separatorLineThickness);
+    self.horizontalSeparatorLineView.frame = CGRectMake(0, self.isPierced ? self.tableView.frame.origin.y : CGRectGetMaxY(self.topContentView.frame), self.alertWidth, JKAlertUtility.separatorLineThickness);
 }
 
 /// 固定底部取消按钮时计算tableView和取消按钮的frame
@@ -732,7 +732,7 @@
 
 - (void)calculatePinnedTableViewUI {
     
-    CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect rect = CGRectMake(0, 0, self.alertWidth, 0);
     
     // 没有action且cancelAction的高度小于0.1
     if (self.actionArray.count <= 0) {
@@ -771,7 +771,7 @@
     
     self.cancelButton.action = self.cancelAction;
     
-    CGRect rect = CGRectMake(0, 0, self.contentWidth, 0);
+    CGRect rect = CGRectMake(0, 0, self.alertWidth, 0);
     
     rect.size.height += self.piercedInsets.bottom;
     
@@ -808,7 +808,7 @@
     
     self.cancelButton.hidden = NO;
     
-    CGRect frame = CGRectMake(0, 0, self.contentWidth, self.cancelAction.rowHeight);
+    CGRect frame = CGRectMake(0, 0, self.alertWidth, self.cancelAction.rowHeight);
     
     rect.size.height += self.cancelMargin + JKAlertAdjustHomeIndicatorHeight;
     
@@ -1135,7 +1135,7 @@
     
     [cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
-    UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentWidth, JKAlertUtility.separatorLineThickness)];
+    UIView *horizontalSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.alertWidth, JKAlertUtility.separatorLineThickness)];
     horizontalSeparatorLineView.userInteractionEnabled = NO;
     horizontalSeparatorLineView.hidden = YES;
     [self addSubview:horizontalSeparatorLineView];
@@ -1155,7 +1155,7 @@
     self.topContentView.layer.masksToBounds = YES;
     self.cancelButton.layer.masksToBounds = YES;
     
-    [JKAlertThemeProvider providerWithOwner:self.horizontalSeparatorLineView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlerActionSheetContentView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.horizontalSeparatorLineView provideHandler:^(JKAlertThemeProvider *provider, JKAlerActionSheetContentView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];
@@ -1165,7 +1165,7 @@
 
 - (void)restoreTopBackgroundColor {
     
-    [JKAlertThemeProvider providerWithOwner:self.topContentView.backgroundView handlerKey:NSStringFromSelector(@selector(backgroundColor)) provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.topContentView.backgroundView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.lightBackgroundColor, JKAlertUtility.darkBackgroundColor);
     }];
