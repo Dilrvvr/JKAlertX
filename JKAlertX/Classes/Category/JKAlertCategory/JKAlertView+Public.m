@@ -683,7 +683,7 @@
     
     return ^(NSString *alertTitle) {
         
-        self.currentAlertContentView.alertTitle = alertTitle;
+        self.currentTextContentView.alertTitle = alertTitle;
         
         return self;
     };
@@ -694,7 +694,7 @@
     
     return ^(NSAttributedString *alertAttributedTitle) {
         
-        self.currentAlertContentView.alertAttributedTitle = alertAttributedTitle;
+        self.currentTextContentView.alertAttributedTitle = alertAttributedTitle;
         
         return self;
     };
@@ -705,7 +705,7 @@
     
     return ^(NSString *message) {
         
-        self.currentAlertContentView.alertMessage = message;
+        self.currentTextContentView.alertMessage = message;
         
         return self;
     };
@@ -716,7 +716,7 @@
     
     return ^(NSAttributedString *attributedMessage) {
         
-        self.currentAlertContentView.attributedMessage = attributedMessage;
+        self.currentTextContentView.attributedMessage = attributedMessage;
         
         return self;
     };
