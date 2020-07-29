@@ -579,7 +579,7 @@
         frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
         self.bottomContentView.frame = frame;
         
-        self.topContentView.scrollView.scrollEnabled = YES;;
+        self.topContentView.scrollView.scrollEnabled = YES;
         
     } else if (bottomHeight > halfHeight) {
         
