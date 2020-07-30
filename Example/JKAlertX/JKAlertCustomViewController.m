@@ -34,7 +34,7 @@
         
         return label;
         
-    } configurationBeforeShow:^(JKAlertView *innerAlertView) {
+    } clearAlertBackgroundColor:NO configurationBeforeShow:^(JKAlertView *innerAlertView) {
         
         [innerAlertView addAction:JKAlertAction.action(@"确定", JKAlertActionStyleDefaultBlack, ^(JKAlertAction *action) {
             
