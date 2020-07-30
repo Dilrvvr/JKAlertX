@@ -319,16 +319,16 @@
 #pragma mark - 显示之后更新UI
 
 /** 重新设置alertTitle */
-@property (nonatomic, copy, readonly) JKAlertView *(^resetAlertTitle)(NSString *alertTitle);
+@property (nonatomic, copy, readonly) JKAlertView *(^remakeAlertTitle)(NSString *alertTitle);
 
 /** 重新设置alertAttributedTitle */
-@property (nonatomic, copy, readonly) JKAlertView *(^resetAlertAttributedTitle)(NSAttributedString *alertAttributedTitle);
+@property (nonatomic, copy, readonly) JKAlertView *(^remakeAlertAttributedTitle)(NSAttributedString *alertAttributedTitle);
 
 /** 重新设置message */
-@property (nonatomic, copy, readonly) JKAlertView *(^resetMessage)(NSString *message);
+@property (nonatomic, copy, readonly) JKAlertView *(^remakeMessage)(NSString *message);
 
 /** 重新设置attributedMessage */
-@property (nonatomic, copy, readonly) JKAlertView *(^resetAttributedMessage)(NSAttributedString *attributedMessage);
+@property (nonatomic, copy, readonly) JKAlertView *(^remakeAttributedMessage)(NSAttributedString *attributedMessage);
 
 /** 重新布局 */
 @property (nonatomic, copy, readonly) JKAlertView *(^relayout)(BOOL animated);

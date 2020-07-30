@@ -679,7 +679,7 @@
 #pragma mark - 显示之后更新UI
 
 /** 重新设置alertTitle */
-- (JKAlertView *(^)(NSString *alertTitle))resetAlertTitle {
+- (JKAlertView *(^)(NSString *alertTitle))remakeAlertTitle {
     
     return ^(NSString *alertTitle) {
         
@@ -690,7 +690,7 @@
 }
 
 /** 重新设置alertAttributedTitle */
-- (JKAlertView *(^)(NSAttributedString *alertAttributedTitle))resetAlertAttributedTitle {
+- (JKAlertView *(^)(NSAttributedString *alertAttributedTitle))remakeAlertAttributedTitle {
     
     return ^(NSAttributedString *alertAttributedTitle) {
         
@@ -701,7 +701,7 @@
 }
 
 /** 重新设置message */
-- (JKAlertView *(^)(NSString *message))resetMessage {
+- (JKAlertView *(^)(NSString *message))remakeMessage {
     
     return ^(NSString *message) {
         
@@ -712,7 +712,7 @@
 }
 
 /** 重新设置attributedMessage */
-- (JKAlertView *(^)(NSAttributedString *attributedMessage))resetAttributedMessage {
+- (JKAlertView *(^)(NSAttributedString *attributedMessage))remakeAttributedMessage {
     
     return ^(NSAttributedString *attributedMessage) {
         

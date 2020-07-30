@@ -195,6 +195,21 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setDismissCategory)(NSString *dismissCategory) JKAlertXDeprecated("makeDismissCategory");
 
 #pragma mark
+#pragma mark - 显示之后更新UI
+
+/** 重新设置alertTitle */
+@property (nonatomic, copy, readonly) JKAlertView *(^resetAlertTitle)(NSString *alertTitle) JKAlertXDeprecated("use remakeAlertTitle");
+
+/** 重新设置alertAttributedTitle */
+@property (nonatomic, copy, readonly) JKAlertView *(^resetAlertAttributedTitle)(NSAttributedString *alertAttributedTitle) JKAlertXDeprecated("use remakeAlertAttributedTitle");
+
+/** 重新设置message */
+@property (nonatomic, copy, readonly) JKAlertView *(^resetMessage)(NSString *message) JKAlertXDeprecated("use remakeMessage");
+
+/** 重新设置attributedMessage */
+@property (nonatomic, copy, readonly) JKAlertView *(^resetAttributedMessage)(NSAttributedString *attributedMessage) JKAlertXDeprecated("use remakeAttributedMessage");
+
+#pragma mark
 #pragma mark - plain样式
 
 /**

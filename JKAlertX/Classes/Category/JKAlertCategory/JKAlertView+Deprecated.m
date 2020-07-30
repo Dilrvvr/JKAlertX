@@ -479,6 +479,33 @@
 }
 
 #pragma mark
+#pragma mark - 显示之后更新UI
+
+/** 重新设置alertTitle */
+- (JKAlertView *(^)(NSString *alertTitle))resetAlertTitle {
+    
+    return [self remakeAlertTitle];
+}
+
+/** 重新设置alertAttributedTitle */
+- (JKAlertView *(^)(NSAttributedString *alertAttributedTitle))resetAlertAttributedTitle {
+    
+    return [self remakeAlertAttributedTitle];
+}
+
+/** 重新设置message */
+- (JKAlertView *(^)(NSString *message))resetMessage {
+    
+    return [self remakeMessage];
+}
+
+/** 重新设置attributedMessage */
+- (JKAlertView *(^)(NSAttributedString *attributedMessage))resetAttributedMessage {
+    
+    return [self remakeAttributedMessage];
+}
+
+#pragma mark
 #pragma mark - plain样式
 
 /**

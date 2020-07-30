@@ -176,7 +176,7 @@
             
             if (action.autoDismiss) { return; }
             
-            action.makeAutoDismiss(YES).remakeTitle(@"知道了").makeTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"UI已更新").resetMessage(@"再次点击确定退出...").makeMessageMinHeight(60).makePlainCloseButtonConfiguration(^(UIButton *closeButton) {
+            action.makeAutoDismiss(YES).remakeTitle(@"知道了").makeTitleColor([UIColor redColor]).alertView.remakeAlertTitle(@"UI已更新").remakeMessage(@"再次点击确定退出...").makeMessageMinHeight(60).makePlainCloseButtonConfiguration(^(UIButton *closeButton) {
                 
                 closeButton.hidden = YES;
                 
@@ -336,7 +336,7 @@
             
             return [UIView new];
             
-        }).alertView.resetMessage(@"message已更新").makeMessageColor([UIColor redColor]).relayout(YES);
+        }).alertView.remakeMessage(@"message已更新").makeMessageColor([UIColor redColor]).relayout(YES);
         
     }].makeAutoDismiss(NO)];
     
@@ -364,7 +364,7 @@
     
     CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) - 30) * 0.25;
     
-    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeBottomButtonMargin(10).makeCustomSuperView(self.view);
+    JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)].makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO).makeShowScaleAnimated(YES).makeCollectionSheetCombined(YES).makeCollectionSheetPagingEnabled(YES).makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6)).makeBottomButtonMargin(10);//.makeCustomSuperView(self.view);
     
     alertView.makeCollectionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertUtility.isDeviceX ? 0 : 24), 15));
     
@@ -400,7 +400,7 @@
             
             return [UIView new];
             
-        }).makeTitleColor([UIColor redColor]).alertView.resetAlertTitle(@"title is updated").makeTitleColor([UIColor redColor]).makeBottomButtonMargin(0.25).relayout(YES);
+        }).makeTitleColor([UIColor redColor]).alertView.remakeAlertTitle(@"title is updated").makeTitleColor([UIColor redColor]).makeBottomButtonMargin(0.25).relayout(YES);
         
     }].makeAutoDismiss(NO)).makeCollectionSheetPageControlHidden(NO);
     
