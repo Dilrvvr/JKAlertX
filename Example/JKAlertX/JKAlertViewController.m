@@ -300,11 +300,15 @@
     
     alertView.makeActionSheetPierced(YES, UIEdgeInsetsMake(0, 15, (JKAlertUtility.isDeviceX ? 0 : 24), 15));
     
+    
+    
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定1" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
         
     }].makeNormalImage([UIImage imageNamed:@"Share_Twitter"])];
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定2" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+        
         
     }].makeNormalImage([UIImage imageNamed:@"Share_Facebook"])];
     

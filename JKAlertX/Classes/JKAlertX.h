@@ -21,6 +21,7 @@
 #import "JKAlertView+Deprecated.h"
 #import "UIGestureRecognizer+JKAlertX.h"
 #import "JKAlertTheme.h"
+#import "JKAlertManager.h"
 
 /**
  * 2.0更新规则

@@ -38,7 +38,7 @@
         
         [JKAlertThemeProvider providerBackgroundColorWithOwner:self provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainActionButton *providerOwner) {
            
-            providerOwner.backgroundColor = providerOwner.highlighted ? JKAlertCheckDarkMode(JKAlertUtility.highlightedLightBackgroundColor, JKAlertUtility.highlightedDarkBackgroundColor) : nil;
+            [providerOwner updateBackgroundColor];
         }];
     }
     return self;
@@ -109,7 +109,7 @@
 - (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
     
-    self.backgroundColor = highlighted ? JKAlertCheckDarkMode(JKAlertUtility.highlightedLightBackgroundColor, JKAlertUtility.highlightedDarkBackgroundColor) : nil;
+    [self updateBackgroundColor];
     
     if (self.action.customView) {
         
@@ -117,4 +117,8 @@
     }
 }
 
+- (void)updateBackgroundColor {
+    
+    self.backgroundColor = self.highlighted ? JKAlertCheckDarkMode(JKAlertUtility.highlightedLightBackgroundColor, JKAlertUtility.highlightedDarkBackgroundColor) : JKAlertCheckDarkMode(JKAlertUtility.globalLightBackgroundColor, JKAlertUtility.globalDarkBackgroundColor);
+}
 @end

@@ -39,9 +39,9 @@
                                     <constraint firstAttribute="height" constant="30" id="FZ8-tu-dEj"/>
                                     <constraint firstAttribute="width" constant="158" id="rc1-wT-QuC"/>
                                 </constraints>
-                                <state key="normal" title="Test"/>
+                                <state key="normal" title="custom alert"/>
                                 <connections>
-                                    <segue destination="5uL-O4-TlO" kind="show" id="D80-me-MsI"/>
+                                    <segue destination="3mz-KY-iNZ" kind="show" id="9fj-d2-fSY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zGf-xL-Po7">
@@ -56,13 +56,29 @@
                                     <segue destination="BYZ-38-t0r" kind="show" id="oys-mW-n93"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nXJ-Zd-vgG">
+                                <rect key="frame" x="68" y="517" width="158" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="158" id="a1c-59-jEx"/>
+                                    <constraint firstAttribute="height" constant="30" id="nVa-4g-0e3"/>
+                                </constraints>
+                                <state key="normal" title="Test"/>
+                                <connections>
+                                    <segue destination="5uL-O4-TlO" kind="show" id="faK-ee-TfE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="cte-jH-Ttv" firstAttribute="top" secondItem="zGf-xL-Po7" secondAttribute="bottom" constant="30" id="9EX-cH-BqT"/>
                             <constraint firstItem="zGf-xL-Po7" firstAttribute="leading" secondItem="cte-jH-Ttv" secondAttribute="leading" id="DlB-cp-pyi"/>
                             <constraint firstItem="cte-jH-Ttv" firstAttribute="leading" secondItem="xwJ-lY-8Ru" secondAttribute="leading" constant="68" id="GMv-ZM-Mok"/>
+                            <constraint firstItem="nXJ-Zd-vgG" firstAttribute="height" secondItem="79B-VY-xuz" secondAttribute="height" id="J0P-yx-319"/>
+                            <constraint firstItem="nXJ-Zd-vgG" firstAttribute="width" secondItem="79B-VY-xuz" secondAttribute="width" id="RKu-Xp-jy5"/>
+                            <constraint firstItem="nXJ-Zd-vgG" firstAttribute="leading" secondItem="79B-VY-xuz" secondAttribute="leading" id="TGb-mg-IZT"/>
                             <constraint firstItem="79B-VY-xuz" firstAttribute="top" secondItem="cte-jH-Ttv" secondAttribute="bottom" constant="30" id="U9c-IQ-sxE"/>
+                            <constraint firstItem="nXJ-Zd-vgG" firstAttribute="top" secondItem="79B-VY-xuz" secondAttribute="bottom" constant="30" id="hq3-A4-obs"/>
                             <constraint firstItem="cte-jH-Ttv" firstAttribute="centerY" secondItem="xwJ-lY-8Ru" secondAttribute="centerY" constant="-36" id="hwE-14-vgF"/>
                             <constraint firstItem="79B-VY-xuz" firstAttribute="leading" secondItem="cte-jH-Ttv" secondAttribute="leading" id="rH8-gn-5Mf"/>
                         </constraints>
@@ -588,7 +604,50 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hen-hC-0kp" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2040.5797101449277" y="32.8125"/>
+            <point key="canvasLocation" x="2045" y="449"/>
+        </scene>
+        <!--Alert Custom View Controller-->
+        <scene sceneID="k2A-ld-eWi">
+            <objects>
+                <viewController id="3mz-KY-iNZ" customClass="JKAlertCustomViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="O3D-FX-5pC"/>
+                        <viewControllerLayoutGuide type="bottom" id="Kuf-KL-qne"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="YqU-Iz-CIN">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUn-mc-yCl">
+                                <rect key="frame" x="43" y="103" width="299" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.23137254900000001" green="0.42352941179999998" blue="0.63921568630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="custom alert">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="customAlert:" destination="3mz-KY-iNZ" eventType="touchUpInside" id="Ccl-4Q-U9I"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mgn-bk-Dkt">
+                                <rect key="frame" x="43" y="140" width="299" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.23137254900000001" green="0.42352941179999998" blue="0.63921568630000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="custom sheet">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="customSheet:" destination="3mz-KY-iNZ" eventType="touchUpInside" id="N4m-0N-JAC"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="hsM-Q8-6fh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mv1-r5-jWv" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2045" y="-235"/>
         </scene>
     </scenes>
 </document>
