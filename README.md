@@ -58,10 +58,14 @@ iOS弹框，包含alert/actionSheet/collectionSheet(类似分享面板)/HUD四�
 ### actionSheet样式横屏  
 <div align="center">    
 <img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/actionSheet_landscape.PNG" width="812"><br/>
+</div>
+<br/>
 
 ### collectionSheet样式横屏  
 <div align="center">    
 <img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/collectionSheet_landscape.PNG" width="812"><br/>
+</div>
+<br/>
 
 安装
 ==============
@@ -94,10 +98,10 @@ JKAlertX 使用 MIT 许可证，详情见 LICENSE 文件。
 ==============
 使用中有任何问题，欢迎添加微信  
 
-
-
-
+<div align="center">    
 <img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/wechat.JPG" width="337"><br/>
+</div>
+<br/>
 
 
 
@@ -105,6 +109,6 @@ JKAlertX 使用 MIT 许可证，详情见 LICENSE 文件。
 ==============
 
 <div align="center">    
-<img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/AliPay.PNG" width="300">
+<img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/AliPay.JPG" width="300">
 <img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/WechatPay.JPG" width="300">
 </div>
