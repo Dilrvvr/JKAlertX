@@ -60,6 +60,9 @@
 - (void)setThemeStyle:(JKAlertThemeStyle)themeStyle {
     _themeStyle = themeStyle;
     
+    // 无变化
+    if (_themeStyle == themeStyle) { return; }
+    
     [self postThemeStyleDidChangeNotification];
     
     switch (themeStyle) {
@@ -67,19 +70,19 @@
             if (@available(iOS 13.0, *)) {
                 self.autoSwitchDarkMode = YES;
             }
-            self.themeName = [[JKAlertThemeManager sharedManager] checkIsDarkMode] ? JKAlertDefaultThemeLight : JKAlertDefaultThemeDark;
+            self.themeName = [[JKAlertThemeManager sharedManager] checkIsDarkMode] ? self.darkThemeName : self.lightThemeName;
             break;
         case JKAlertThemeStyleLight:
             if (@available(iOS 13.0, *)) {
                 self.autoSwitchDarkMode = NO;
             }
-            self.themeName = JKAlertDefaultThemeLight;
+            self.themeName = self.darkThemeName;
             break;
         case JKAlertThemeStyleDark:
             if (@available(iOS 13.0, *)) {
                 self.autoSwitchDarkMode = NO;
             }
-            self.themeName = JKAlertDefaultThemeDark;
+            self.themeName = self.lightThemeName;
             break;
             
         default:
@@ -92,6 +95,12 @@
     if (!themeName ||
         ![themeName isKindOfClass:[NSString class]] ||
         themeName.length <= 0) {
+        
+        return;
+    }
+    
+    // 主题名称无变化
+    if ([_themeName isEqualToString:themeName]) {
         
         return;
     }
@@ -225,14 +234,12 @@
 
 + (void)load {
     
+    // 交换UIScreen的 '- traitCollectionDidChange:' 方法来监听系统深色/浅色模式改变
     [self swizzleInstanceMethodWithOriginalClass:[UIScreen class] originalSelector:@selector(traitCollectionDidChange:) swizzledClass:[self class] swizzledSelector:@selector(jkalert_traitCollectionDidChange:)];
 }
 
 - (instancetype)init {
     if (self = [super init]) {
-        
-        _lightThemeName = JKAlertDefaultThemeLight;
-        _darkThemeName = JKAlertDefaultThemeDark;
         
         if (@available(iOS 13.0, *)) {
             
@@ -244,5 +251,22 @@
         }
     }
     return self;
+}
+
+#pragma mark
+#pragma mark - Property
+
+- (NSString *)lightThemeName {
+    if (!_lightThemeName) {
+        _lightThemeName = JKAlertDefaultThemeLight;
+    }
+    return _lightThemeName;
+}
+
+- (NSString *)darkThemeName {
+    if (!_darkThemeName) {
+        _darkThemeName = JKAlertDefaultThemeDark;
+    }
+    return _darkThemeName;
 }
 @end
