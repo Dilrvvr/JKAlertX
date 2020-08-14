@@ -36,21 +36,15 @@ iOS弹框，包含alert/actionSheet/collectionSheet(类似分享面板)/HUD四�
 
 plain带textField样式  
 
-<figure>
 <img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/plain.PNG" width="375"><br/><img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/plain_dark.PNG" width="375"><br/>
-</figure>
 
 actionSheet样式  
 
-<figure>
 <img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/actionSheet.PNG" width="375"><br/><img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/actionSheet_dark.PNG" width="375"><br/>
-</figure>
 
 collectionSheet & HUD样式
 
-<figure>
 <img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/collectionSheet.PNG" width="375"><br/><img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/HUD.PNG" width="375"><br/>
-</figure>
 
 actionSheet样式横屏  
 
@@ -101,6 +95,4 @@ JKAlertX 使用 MIT 许可证，详情见 LICENSE 文件。
 赞助一下
 ==============
 
-<figure>
 <img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/AliPay.PNG" width="300"><br/><img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/WechatPay.JPG" width="300"><br/>
-</figure>
