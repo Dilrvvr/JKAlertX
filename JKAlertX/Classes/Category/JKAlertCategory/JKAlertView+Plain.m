@@ -54,7 +54,9 @@
 
 /**
  * 是否自动适配键盘
- * 默认YES
+ * 默认添加了textField后将自动适配
+ * 设置该值为YES后不论是否添加textField都将自动适配
+ * 设置该值为NO后不论是否添加textField都不会自动适配
  */
 - (JKAlertView *(^)(BOOL autoAdaptKeyboard))makePlainAutoAdaptKeyboard {
     
@@ -62,7 +64,13 @@
         
         return [self checkPlainStyleHandler:^{
             
-            if (autoAdaptKeyboard == self.autoAdaptKeyboard) { return; }
+            if ((nil != self.autoAdaptKeyboard) &&
+                [self.autoAdaptKeyboard boolValue] == autoAdaptKeyboard) {
+                
+                return;
+            }
+            
+            self.autoAdaptKeyboard = @(autoAdaptKeyboard);
             
             if (autoAdaptKeyboard) {
                 

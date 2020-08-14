@@ -22,6 +22,9 @@
 
 /** isSheetDismissHorizontal */
 @property (nonatomic, assign) BOOL isSheetDismissHorizontal;
+
+/** keyboardObserverAdded */
+@property (nonatomic, assign) BOOL keyboardObserverAdded;
 @end
 
 @implementation JKAlertView
@@ -183,12 +186,8 @@
         {
             _alertStyle = JKAlertStylePlain;
             
-            _autoAdaptKeyboard = YES;
-            
             _currentAlertContentView = self.plainContentView;
             _currentTextContentView = self.plainContentView.textContentView;
-            
-            [self addKeyboardWillChangeFrameNotification];
         }
             break;
     }
@@ -205,6 +204,15 @@
     [JKAlertUtility.keyWindow endEditing:YES];
     
     if (self.isShowed) { return ^{ return self; }; }
+    
+    [self checkPlainStyleHandler:^{
+        
+        if (nil == self.autoAdaptKeyboard &&
+            self.plainContentView.textFieldArray.count > 0) {
+            
+            [self addKeyboardWillChangeFrameNotification];
+        }
+    }];
     
     self.isShowed = YES;
     
@@ -1489,14 +1497,22 @@
 
 - (void)addKeyboardWillChangeFrameNotification {
     
+    if (self.keyboardObserverAdded) { return; }
+    
     // 键盘
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
+    self.keyboardObserverAdded = YES;
 }
 
 - (void)removeKeyboardWillChangeFrameNotification {
     
+    if (!self.keyboardObserverAdded) { return; }
+    
     // 键盘
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+    
+    self.keyboardObserverAdded = NO;
 }
 
 - (void)themeStyleDidChangeNotification:(NSNotification *)note {

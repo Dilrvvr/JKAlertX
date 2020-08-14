@@ -150,7 +150,7 @@
 @property (nonatomic, copy) NSString *dismissCategory;
 
 /** 是否自动适配键盘 */
-@property (nonatomic, assign) BOOL autoAdaptKeyboard;
+@property (nonatomic, strong) NSNumber *autoAdaptKeyboard;
 
 /** plain样式弹出键盘时与键盘的间距 竖屏 */
 @property (nonatomic, assign) CGFloat plainKeyboardMargin;
