@@ -98,7 +98,7 @@ JKAlertX 使用 MIT 许可证，详情见 LICENSE 文件。
 ==============
 使用中有任何问题，欢迎添加微信  
 
-<div align="center">    
+<div>    
 <img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/wechat.JPG" width="337"><br/>
 </div>
 <br/>
