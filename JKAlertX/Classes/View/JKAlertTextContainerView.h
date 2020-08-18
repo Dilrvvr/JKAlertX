@@ -2,7 +2,7 @@
 //  JKAlertTextContainerView.h
 //  JKAlertX
 //
-//  Created by albertcc on 2020/5/30.
+//  Created by Albert on 2020/5/30.
 //
 
 #import "JKAlertBaseView.h"

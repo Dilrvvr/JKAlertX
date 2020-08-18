@@ -2,7 +2,7 @@
 //  JKAlertView+Public.m
 //  JKAlertX
 //
-//  Created by albertcc on 2020/5/31.
+//  Created by Albert on 2020/5/31.
 //
 
 #import "JKAlertView+Public.h"
@@ -727,32 +727,38 @@
     
     return ^(BOOL animated) {
         
-        !self.willRelayoutHandler ? : self.willRelayoutHandler(self, self.alertContentView);
+        [self relayoutAnimated:animated];
         
-        if (animated) {
-            
-            [UIView animateWithDuration:0.25 animations:^{
-                
-                [self calculateUI];
-                
-            } completion:^(BOOL finished) {
-                
-                !self.relayoutComplete ? : self.relayoutComplete(self);
-                
-                !self.didRelayoutHandler ? : self.didRelayoutHandler(self, self.alertContentView);
-            }];
-            
-        } else {
+        return self;
+    };
+}
+
+/** 重新布局 */
+- (void)relayoutAnimated:(BOOL)animated {
+    
+    !self.willRelayoutHandler ? : self.willRelayoutHandler(self, self.alertContentView);
+    
+    if (animated) {
+        
+        [UIView animateWithDuration:0.25 animations:^{
             
             [self calculateUI];
+            
+        } completion:^(BOOL finished) {
             
             !self.relayoutComplete ? : self.relayoutComplete(self);
             
             !self.didRelayoutHandler ? : self.didRelayoutHandler(self, self.alertContentView);
-        }
+        }];
         
-        return self;
-    };
+    } else {
+        
+        [self calculateUI];
+        
+        !self.relayoutComplete ? : self.relayoutComplete(self);
+        
+        !self.didRelayoutHandler ? : self.didRelayoutHandler(self, self.alertContentView);
+    }
 }
 
 #pragma mark

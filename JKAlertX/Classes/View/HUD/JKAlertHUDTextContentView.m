@@ -2,7 +2,7 @@
 //  JKAlertHUDTextContentView.m
 //  JKAlertX
 //
-//  Created by albertcc on 2020/5/31.
+//  Created by Albert on 2020/5/31.
 //
 
 #import "JKAlertHUDTextContentView.h"
@@ -34,11 +34,6 @@
 
 #pragma mark
 #pragma mark - Private Selector
-
-
-
-#pragma mark
-#pragma mark - UITableViewDataSource & UITableViewDelegate
 
 
 

@@ -2,8 +2,8 @@
 //  JKAlertTableActionView.m
 //  JKAlertX
 //
-//  Created by albertcc on 2020/5/10.
-//  Copyright © 2020 安永博. All rights reserved.
+//  Created by Albert on 2020/5/10.
+//  Copyright © 2020 Albert. All rights reserved.
 //
 
 #import "JKAlertTableActionView.h"
@@ -60,11 +60,6 @@
 
 #pragma mark
 #pragma mark - Private Selector
-
-
-
-#pragma mark
-#pragma mark - UITableViewDataSource & UITableViewDelegate
 
 
 

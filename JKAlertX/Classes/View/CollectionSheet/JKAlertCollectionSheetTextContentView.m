@@ -30,11 +30,6 @@
 
 
 #pragma mark
-#pragma mark - UITableViewDataSource & UITableViewDelegate
-
-
-
-#pragma mark
 #pragma mark - Custom Delegates
 
 

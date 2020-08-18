@@ -2,8 +2,8 @@
 //  ViewController.h
 //  TestAlert
 //
-//  Created by albertcc on 2020/5/30.
-//  Copyright © 2020 albertcc. All rights reserved.
+//  Created by Albert on 2020/5/30.
+//  Copyright © 2020 Albert. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

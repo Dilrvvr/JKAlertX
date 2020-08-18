@@ -3,7 +3,7 @@
 //  TestVideoAndPicture
 //
 //  Created by albert on 2017/4/18.
-//  Copyright © 2017年 安永博. All rights reserved.
+//  Copyright © 2017年 Albert. All rights reserved.
 //
 
 #import "JKAlertBaseAlertView.h"

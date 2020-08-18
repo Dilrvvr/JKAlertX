@@ -2,7 +2,7 @@
 //  JKAlertView+Public.h
 //  JKAlertX
 //
-//  Created by albertcc on 2020/5/31.
+//  Created by Albert on 2020/5/31.
 //
 
 #import "JKAlertView.h"
@@ -332,6 +332,9 @@
 
 /** 重新布局 */
 @property (nonatomic, copy, readonly) JKAlertView *(^relayout)(BOOL animated);
+
+/** 重新布局 */
+- (void)relayoutAnimated:(BOOL)animated;
 
 
 #pragma mark

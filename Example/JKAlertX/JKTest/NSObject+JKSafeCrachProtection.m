@@ -3,7 +3,7 @@
 //  JKWheels
 //
 //  Created by albert on 2020/3/5.
-//  Copyright © 2020 安永博. All rights reserved.
+//  Copyright © 2020 Albert. All rights reserved.
 //
 
 #import "NSObject+JKSafeCrachProtection.h"
