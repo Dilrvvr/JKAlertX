@@ -102,13 +102,3 @@ JKAlertX 使用 MIT 许可证，详情见 LICENSE 文件。
 <img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/wechat.JPG" width="337"><br/>
 </div>
 <br/>
-
-
-
-赞助一下
-==============
-
-<div align="center">    
-<img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/AliPay.JPG" width="300">
-<img src="https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/Snapshots/WechatPay.JPG" width="300">
-</div>
