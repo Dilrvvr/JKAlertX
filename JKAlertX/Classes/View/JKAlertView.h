@@ -46,15 +46,6 @@
 
 
 #pragma mark
-#pragma mark - 公共部分
-
-
-
-#pragma mark
-#pragma mark - collectionSheet样式
-
-
-#pragma mark
 #pragma mark - 类方法
 
 /** 函数式类方法 */

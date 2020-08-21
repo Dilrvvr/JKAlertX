@@ -7,12 +7,7 @@
 //
 
 #import "JKAlertView.h"
-#import "JKAlertCollectionViewCell.h"
-#import "JKAlertTableViewCell.h"
-#import "UIView+JKAlertX.h"
-#import "JKAlertPlainActionButton.h"
 #import "JKAlertView+PrivateProperty.h"
-#import "JKAlertVisualFormatConstraintManager.h"
 #import "JKAlertView+Public.h"
 #import "JKAlertView+HUD.h"
 #import "JKAlertTheme.h"
