@@ -20,8 +20,4 @@
 @property (nonatomic, weak) UIView *fullBackgroundView;
 
 - (void)restoreFullBackgroundColor;
-
-- (UITableView *)createTableViewWithStyle:(UITableViewStyle)style;
-
-- (void)adjustScrollView:(UIScrollView *)scrollView;
 @end

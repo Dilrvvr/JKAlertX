@@ -50,56 +50,6 @@
     self.backgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
 }
 
-- (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:style];
-    
-    tableView.backgroundColor = nil;
-    
-    tableView.scrollsToTop = NO;
-    tableView.scrollEnabled = NO;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    tableView.rowHeight = 44;
-    tableView.sectionFooterHeight = 0;
-    tableView.sectionHeaderHeight = 0;
-    
-    tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertUtility.currentHomeIndicatorHeight, 0);
-    
-    if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
-        
-        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertUtility.currentHomeIndicatorHeight, 34);
-    }
-    
-    if (@available(iOS 11.0, *)) {
-        
-        tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    }
-    
-    if (@available(iOS 13.0, *)) {
-        
-        tableView.automaticallyAdjustsScrollIndicatorInsets = NO;
-    }
-    
-    return tableView;
-}
-
-- (void)adjustScrollView:(UIScrollView *)scrollView {
-    
-    scrollView.showsHorizontalScrollIndicator = NO;
-    scrollView.scrollsToTop = NO;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    }
-    
-    if (@available(iOS 13.0, *)) {
-        
-        scrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
-    }
-}
-
 #pragma mark
 #pragma mark - Private Selector
 
