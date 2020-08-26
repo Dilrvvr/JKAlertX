@@ -178,7 +178,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 背景色 浅色模式 rgb254
 + (UIColor *)lightBackgroundColor {
     
-    return JKAlertSameRGBColor(254.0);
+    return JKAlertSameRGBColor(255.0);
 }
 
 /// 背景色 深色模式 rgb 30

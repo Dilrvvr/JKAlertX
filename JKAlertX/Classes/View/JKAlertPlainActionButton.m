@@ -36,11 +36,6 @@
         CGFloat lineHeight = JKAlertUtility.separatorLineThickness;
         
         [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:|-0-[view(%.2f)]", lineHeight] viewKeyName:@"view" targetView:self.topSeparatorLineView constraintsView:self];
-        
-        [JKAlertThemeProvider providerBackgroundColorWithOwner:self provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainActionButton *providerOwner) {
-           
-            [providerOwner updateBackgroundColor];
-        }];
     }
     return self;
 }
@@ -60,6 +55,8 @@
 }
 
 - (void)refreshWithAction:(JKAlertAction *)action {
+    
+    [self updateBackgroundColor];
     
     self.topSeparatorLineView.hidden = action.separatorLineHidden;
     
@@ -120,6 +117,6 @@
 
 - (void)updateBackgroundColor {
     
-    self.backgroundColor = self.highlighted ? JKAlertCheckDarkMode(JKAlertUtility.highlightedLightBackgroundColor, JKAlertUtility.highlightedDarkBackgroundColor) : JKAlertCheckDarkMode(JKAlertUtility.globalLightBackgroundColor, JKAlertUtility.globalDarkBackgroundColor);
+    self.backgroundColor = self.highlighted ? self.action.seletedBackgroundColor : self.action.backgroundColor;
 }
 @end
