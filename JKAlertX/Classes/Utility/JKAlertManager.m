@@ -16,10 +16,10 @@
  * viewHandler : 在这里返回自定义alert的view
  * configurationBeforeShow : 在show之前配置一些内容
  */
-+ (void)showCustomAlertWithViewHandler:(UIView *(^)(void))viewHandler
-               configurationBeforeShow:(void(^)(JKAlertView *innerAlertView))configuration {
++ (JKAlertView *)showCustomAlertWithViewHandler:(UIView *(^)(void))viewHandler
+                        configurationBeforeShow:(void(^)(JKAlertView *innerAlertView))configuration {
     
-    [self showCustomAlertWithViewHandler:viewHandler clearAlertBackgroundColor:YES configurationBeforeShow:configuration];
+    return [self showCustomAlertWithViewHandler:viewHandler clearAlertBackgroundColor:YES configurationBeforeShow:configuration];
 }
 
 /**
@@ -28,9 +28,9 @@
  * clearAlertBackgroundColor : 是否移除背景色
  * configurationBeforeShow : 在show之前配置一些内容
  */
-+ (void)showCustomAlertWithViewHandler:(UIView *(^)(void))viewHandler
-             clearAlertBackgroundColor:(BOOL)clearAlertBackgroundColor
-               configurationBeforeShow:(void(^)(JKAlertView *innerAlertView))configuration {
++ (JKAlertView *)showCustomAlertWithViewHandler:(UIView *(^)(void))viewHandler
+                      clearAlertBackgroundColor:(BOOL)clearAlertBackgroundColor
+                        configurationBeforeShow:(void(^)(JKAlertView *innerAlertView))configuration {
     
     // 创建alertView
     JKAlertView *alertView = JKAlertView.alertView(nil, nil, JKAlertStyleAlert);
@@ -55,15 +55,31 @@
     
     // show
     alertView.show();
+    
+    return alertView;
+}
+
+/**
+ * 自定义sheet样式
+ * 默认将移除sheet背景色
+ * viewHandler : 在这里返回自定义sheet的view
+ * configurationBeforeShow : 在show之前配置一些内容
+ */
++ (JKAlertView *)showCustomSheetWithViewHandler:(UIView *(^)(void))viewHandler
+                        configurationBeforeShow:(void(^)(JKAlertView *innerAlertView))configuration {
+    
+    return [self showCustomSheetWithViewHandler:viewHandler clearAlertBackgroundColor:YES configurationBeforeShow:configuration];
 }
 
 /**
  * 自定义sheet样式
  * viewHandler : 在这里返回自定义sheet的view
+ * clearAlertBackgroundColor : 是否移除背景色
  * configurationBeforeShow : 在show之前配置一些内容
  */
-+ (void)showCustomSheetWithViewHandler:(UIView *(^)(void))viewHandler
-               configurationBeforeShow:(void(^)(JKAlertView *innerAlertView))configuration {
++ (JKAlertView *)showCustomSheetWithViewHandler:(UIView *(^)(void))viewHandler
+                      clearAlertBackgroundColor:(BOOL)clearAlertBackgroundColor
+                        configurationBeforeShow:(void(^)(JKAlertView *innerAlertView))configuration {
     
     // 创建alertView
     JKAlertView *alertView = JKAlertView.alertView(nil, nil, JKAlertStyleActionSheet);
@@ -75,7 +91,10 @@
     alertView.makeActionSheetMaxHeight([UIScreen mainScreen].bounds.size.height);
     
     // 移除背景色
-    alertView.makeAlertBackgroundColor(nil).makeActionSheetTopBackgroundColor(nil);
+    if (clearAlertBackgroundColor) {
+        
+        alertView.makeAlertBackgroundColor(nil).makeActionSheetTopBackgroundColor(nil);
+    }
     
     // 移除底部默认的取消按钮
     alertView.makeCancelAction(JKAlertAction.action(nil, JKAlertActionStyleDefault, nil).makeCustomView(^UIView *(JKAlertAction *innerAction) {
@@ -92,5 +111,7 @@
     
     // show
     alertView.show();
+    
+    return alertView;
 }
 @end
