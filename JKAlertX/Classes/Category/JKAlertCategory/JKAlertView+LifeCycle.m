@@ -175,9 +175,8 @@
  */
 + (void (^)(void))clearAll {
     
-    return ^{
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertClearAllNotification object:nil];
-    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:JKAlertClearAllNotification object:nil];
+    
+    return ^{};
 }
 @end
