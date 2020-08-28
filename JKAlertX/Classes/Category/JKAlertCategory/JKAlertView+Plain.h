@@ -20,6 +20,12 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makePlainAutoReduceWidth)(BOOL autoReduceWidth);
 
 /**
+ * plain样式最大高度
+ * 默认0将自动适配
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makePlainMaxHeight)(CGFloat maxHeight);
+
+/**
  * 是否自动弹出键盘 默认YES
  * 添加了textField时会自动弹出键盘
  */

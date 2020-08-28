@@ -68,6 +68,9 @@
 /** maxPlainHeight */
 @property (nonatomic, assign) CGFloat maxPlainHeight;
 
+/** originalPlainMaxHeight */
+@property (nonatomic, assign) CGFloat originalPlainMaxHeight;
+
 /** maxSheetHeight */
 @property (nonatomic, assign) CGFloat maxSheetHeight;
 

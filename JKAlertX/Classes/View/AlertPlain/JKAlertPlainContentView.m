@@ -111,7 +111,7 @@
 
 - (void)layoutTextFieldContainer {
     
-    CGRect frame = CGRectZero;
+    CGRect frame = CGRectMake(0.0, 0.0, self.alertWidth, 0.0);
     
     if (self.textFieldArray.count <= 0) {
         
@@ -168,11 +168,7 @@
 
 - (void)adjustPlainFrame {
     
-    CGRect frame = CGRectZero;
-    
-    CGFloat totalHeight = self.topContentView.frame.size.height + self.bottomContentView.frame.size.height;
-    
-    frame = self.topContentView.bounds;
+    CGRect frame = self.topContentView.bounds;
     
     self.topContentView.frame = frame;
     
@@ -183,6 +179,8 @@
     self.bottomContentView.frame = frame;
     
     [self.bottomContentView updateContentSize];
+    
+    CGFloat totalHeight = self.topContentView.frame.size.height + self.bottomContentView.frame.size.height;
     
     CGFloat halfHeight = self.maxHeight * 0.5;
     
@@ -267,7 +265,7 @@
     if (actionsCount <= 0) {
         
         self.bottomContentView.hidden = YES;
-        self.bottomContentView.frame = CGRectZero;
+        self.bottomContentView.frame = CGRectMake(0.0, 0.0, self.alertWidth, 0.0);
         
         return;
     }
@@ -365,7 +363,7 @@
     
     CGRect rect = CGRectMake(0, 0, self.alertWidth, 0);
     
-    CGRect frame = CGRectZero;
+    CGRect frame = rect;
     
     JKAlertAction *action1 = self.actionArray.firstObject;
     

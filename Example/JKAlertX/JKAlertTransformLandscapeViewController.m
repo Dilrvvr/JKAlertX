@@ -111,8 +111,6 @@
         // 自定义展示动画
         alertView.makeCustomShowAnimationHandler(^(JKAlertView *innerView, UIView *animationView) {
             
-            innerView.window.userInteractionEnabled = YES;
-            
             animationView.transform = CGAffineTransformMakeScale(0.3, 0.3);
             
             [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:15.0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction animations:^{

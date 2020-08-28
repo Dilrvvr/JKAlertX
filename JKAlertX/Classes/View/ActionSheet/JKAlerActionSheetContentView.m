@@ -589,7 +589,7 @@
     scrollIndicatorInsets.right = self.isPierced ? 0 : self.screenSafeInsets.right;
     scrollIndicatorInsets.bottom = JKAlertAdjustHomeIndicatorHeight;
     
-    CGRect frame = CGRectZero;
+    CGRect frame = CGRectMake(0.0, 0.0, self.alertWidth, 0.0);
     
     if (self.bottomContentView.hidden &&
         !self.tableView.hidden) {
@@ -797,7 +797,7 @@
         }
         
         self.bottomContentView.hidden = YES;
-        self.bottomContentView.frame = CGRectZero;
+        self.bottomContentView.frame = CGRectMake(0.0, 0.0, self.alertWidth, 0.0);
         
         return;
     }

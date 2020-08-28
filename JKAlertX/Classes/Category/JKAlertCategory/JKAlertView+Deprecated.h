@@ -285,7 +285,7 @@
  * 设置plain和HUD样式centerY的偏移
  * 正数表示向下偏移，负数表示向上偏移
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCenterOffsetY)(CGFloat centerOffsetY) JKAlertXDeprecated("use makePlainCenterOffsetY or makeHudCenterOffsetY");
+@property (nonatomic, copy, readonly) JKAlertView *(^setPlainCenterOffsetY)(CGFloat centerOffsetY) JKAlertXDeprecated("use makePlainCenterOffset or makeHudCenterOffset");
 
 /**
  * 展示完成后 移动plain和HUD样式centerY

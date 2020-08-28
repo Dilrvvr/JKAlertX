@@ -201,7 +201,7 @@
         self.collectionButton.hidden) {
         
         self.bottomContentView.hidden = YES;
-        self.bottomContentView.frame = CGRectZero;
+        self.bottomContentView.frame = CGRectMake(0.0, 0.0, self.alertWidth, 0.0);
         
         return;
     } //*/
@@ -283,8 +283,8 @@
         self.collectionView2.hidden = YES;
         self.pageControl.hidden = YES;
         
-        self.collectionView.frame = CGRectZero;
-        self.collectionView2.frame = CGRectZero;
+        self.collectionView.frame = CGRectMake(0.0, 0.0, self.alertWidth, 0.0);
+        self.collectionView2.frame = CGRectMake(0.0, 0.0, self.alertWidth, 0.0);
         self.pageControl.frame = CGRectZero;
         
         return;
@@ -304,7 +304,7 @@
     
     if (self.collectionView.hidden) {
         
-        self.collectionView.frame = CGRectZero;
+        self.collectionView.frame = CGRectMake(0.0, 0.0, self.alertWidth, 0.0);
         
     } else {
         
@@ -318,7 +318,7 @@
     
     if (self.collectionView2.hidden) {
         
-        self.collectionView2.frame = CGRectZero;
+        self.collectionView2.frame = CGRectMake(0.0, 0.0, self.alertWidth, 0.0);
         
     } else {
         

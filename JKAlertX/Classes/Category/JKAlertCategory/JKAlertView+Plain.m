@@ -38,6 +38,26 @@
 }
 
 /**
+ * plain样式最大高度
+ * 默认0将自动适配
+ */
+- (JKAlertView *(^)(CGFloat maxHeight))makePlainMaxHeight {
+    
+    return ^(CGFloat maxHeight) {
+        
+        return [self checkPlainStyleHandler:^{
+            
+            self.originalPlainMaxHeight = maxHeight;
+            
+            if (maxHeight > 0) {
+                
+                self.maxPlainHeight = maxHeight;
+            }
+        }];
+    };
+}
+
+/**
  * 是否自动弹出键盘 默认YES
  * 添加了textField时会自动弹出键盘
  */

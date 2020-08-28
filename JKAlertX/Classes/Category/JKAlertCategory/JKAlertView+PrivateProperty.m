@@ -83,7 +83,7 @@
 
 - (void)updateMaxHeight {
     
-    self.maxPlainHeight = (self.superHeight - 100);
+    self.maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : (self.superHeight - 100);
     
     if (!self.maxSheetHeightSetted) {
         

@@ -956,8 +956,6 @@
 
 - (void)startShowAnimation{
     
-    self.window.userInteractionEnabled = NO;
-    
     !self.willShowHandler ? : self.willShowHandler(self);
     
     JKAlertBaseSheetContentView *sheetContentView = nil;
@@ -1020,8 +1018,6 @@
             sheetContentView.showScaleAnimated) {
             
             sheetContentView.verticalDismissPanGesture.enabled = NO;
-            
-            self.window.userInteractionEnabled = YES;
             
             [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionAllowUserInteraction  animations:^{
                 [UIView setAnimationCurve:(UIViewAnimationCurveEaseInOut)];
@@ -1120,8 +1116,6 @@
 
 - (void (^)(void))showAnimationDidComplete {
     
-    self.window.userInteractionEnabled = YES;
-    
     !self.didShowHandler ? : self.didShowHandler(self);
     
     if (_plainContentView.autoShowKeyboard && self.currentTextField) {
@@ -1182,7 +1176,7 @@
     
     if (keyboardFrame.origin.y >= self.superHeight) { // 退出键盘
         
-        self.maxPlainHeight = self.superHeight - 100;
+        self.maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : self.superHeight - 100;
         
         [self calculateUI];
         
@@ -1226,7 +1220,7 @@
             return;
         }
         
-        self.maxPlainHeight = maxH;
+        self.maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : maxH;
         
         [self calculateUI];
         
@@ -1345,8 +1339,6 @@
 
 - (void)startDismissAnimation {
     
-    self.window.userInteractionEnabled = NO;
-    
     // 即将消失
     !self.willDismissHandler ? : self.willDismissHandler();
     
@@ -1411,8 +1403,6 @@
 }
 
 - (void (^)(void))dismissAnimationDidComplete {
-    
-    self.window.userInteractionEnabled = YES;
     
     // 消失完成
     !self.didDismissHandler ? : self.didDismissHandler();
@@ -1536,7 +1526,7 @@
     
     _isLandScape = [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight;
     
-    _maxPlainHeight = (self.superHeight - 100);
+    _maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : (self.superHeight - 100);
     
     _maxSheetHeight = (self.superHeight > self.superWidth) ? self.superHeight * 0.85 : self.superHeight * 0.8;
     
