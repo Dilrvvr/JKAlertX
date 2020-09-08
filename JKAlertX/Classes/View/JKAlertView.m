@@ -1256,18 +1256,20 @@
 
 - (void)dismissButtonClick:(UIButton *)button {
     
-    [JKAlertUtility.keyWindow endEditing:YES];
-    
     !self.blankClickBlock ? : self.blankClickBlock();
     
     !self.tapBlankHandler ? : self.tapBlankHandler(self);
     
     if (_tapBlankDismiss) {
         
+        [JKAlertUtility.keyWindow endEditing:YES];
+        
         self.dismiss();
         
         return;
     }
+    
+    [JKAlertUtility.keyWindow endEditing:YES];
     
     JKAlertBaseSheetContentView *sheetContentView = [self checkSheetContentView];
     
