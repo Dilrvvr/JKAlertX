@@ -34,17 +34,37 @@
         
         UIUserInterfaceStyle currentStyle = keyWindow.overrideUserInterfaceStyle;
         
-        NSString *message = @"跟随系统";
+        NSString *message = @"当前选择: 跟随系统";
         
         switch (currentStyle) {
             case UIUserInterfaceStyleDark:
             {
-                message = @"深色模式";
+                message = @"当前选择: 深色模式";
             }
                 break;
             case UIUserInterfaceStyleLight:
             {
-                message = @"浅色模式";
+                message = @"当前选择: 浅色模式";
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+        UIUserInterfaceStyle systemStyle = [UIScreen mainScreen].traitCollection.userInterfaceStyle;
+        
+        NSString *systemMode = @"\n系统样式: 未知模式";
+        
+        switch (systemStyle) {
+            case UIUserInterfaceStyleDark:
+            {
+                systemMode = @"\n系统样式: 深色模式";
+            }
+                break;
+            case UIUserInterfaceStyleLight:
+            {
+                systemMode = @"\n系统样式: 浅色模式";
             }
                 break;
                 
@@ -56,7 +76,9 @@
         
         JKAlertView.dismissForKey(alertKey);
         
-        JKAlertView.alertView(@"深色模式切换", [@"当前: " stringByAppendingString:message], JKAlertStyleActionSheet)
+        message = [message stringByAppendingString:systemMode];
+        
+        JKAlertView.alertView(@"深色模式切换", message, JKAlertStyleActionSheet)
         .makeDismissKey(alertKey)
         .addAction(JKAlertAction.action(@"深色模式", (UIUserInterfaceStyleDark == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
             
