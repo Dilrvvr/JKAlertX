@@ -58,10 +58,11 @@
 }
 
 - (void)setThemeStyle:(JKAlertThemeStyle)themeStyle {
-    _themeStyle = themeStyle;
     
     // 无变化
     if (_themeStyle == themeStyle) { return; }
+    
+    _themeStyle = themeStyle;
     
     [self postThemeStyleDidChangeNotification];
     
@@ -76,13 +77,13 @@
             if (@available(iOS 13.0, *)) {
                 self.autoSwitchDarkMode = NO;
             }
-            self.themeName = self.darkThemeName;
+            self.themeName = self.lightThemeName;
             break;
         case JKAlertThemeStyleDark:
             if (@available(iOS 13.0, *)) {
                 self.autoSwitchDarkMode = NO;
             }
-            self.themeName = self.lightThemeName;
+            self.themeName = self.darkThemeName;
             break;
             
         default:
@@ -108,21 +109,6 @@
     _themeName = [themeName copy];
     
     [self postThemeDidChangeNotification];
-}
-
-- (void)setAutoSwitchDarkMode:(BOOL)autoSwitchDarkMode {
-    _autoSwitchDarkMode = autoSwitchDarkMode;
-    
-    if (!_autoSwitchDarkMode) { return; }
-    
-    BOOL isDark = (UIUserInterfaceStyleDark == _userInterfaceStyle);
-    
-    NSString *themeName = isDark ? self.darkThemeName : self.lightThemeName;
-    
-    if (![self.themeName isEqualToString:themeName]) {
-        
-        self.themeName = themeName;
-    }
 }
 
 #pragma mark

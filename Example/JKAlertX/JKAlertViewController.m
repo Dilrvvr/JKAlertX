@@ -22,7 +22,59 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(rightNavigationItemClick:)];
+}
+
+- (void)rightNavigationItemClick:(id)sender {
+    
+    if (@available(iOS 13.0, *)) {
+        
+        UIWindow *keyWindow = JKAlertUtility.keyWindow;
+        
+        UIUserInterfaceStyle currentStyle = keyWindow.overrideUserInterfaceStyle;
+        
+        NSString *message = @"跟随系统";
+        
+        switch (currentStyle) {
+            case UIUserInterfaceStyleDark:
+            {
+                message = @"深色模式";
+            }
+                break;
+            case UIUserInterfaceStyleLight:
+            {
+                message = @"浅色模式";
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+        NSString *alertKey = @"JKAlertDarkModelAlertKey";
+        
+        JKAlertView.dismissForKey(alertKey);
+        
+        JKAlertView.alertView(@"深色模式切换", [@"当前: " stringByAppendingString:message], JKAlertStyleActionSheet)
+        .makeDismissKey(alertKey)
+        .addAction(JKAlertAction.action(@"深色模式", (UIUserInterfaceStyleDark == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
+            
+            keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleDark);
+            
+        })).addAction(JKAlertAction.action(@"浅色模式", (UIUserInterfaceStyleLight == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
+            
+            keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleLight);
+            
+        })).addAction(JKAlertAction.action(@"跟随系统", (UIUserInterfaceStyleUnspecified == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
+            
+            keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleUnspecified;
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
+            
+        })).show();
+    }
 }
 
 #pragma mark
