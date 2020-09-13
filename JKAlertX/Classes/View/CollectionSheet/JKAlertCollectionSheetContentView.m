@@ -667,8 +667,6 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    if (!self.verticalGestureDismissEnabled) { return; }
-    
     if (scrollView == self.topContentView.scrollView ||
         scrollView == self.bottomContentView.scrollView) {
         

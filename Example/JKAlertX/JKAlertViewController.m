@@ -22,7 +22,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(rightNavigationItemClick:)];
 }
 
 - (void)loadData {
@@ -32,6 +31,16 @@
     __weak typeof(self) weakSelf = self;
     
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"plain/alert样式" configuration:^(JKAlertTableGroupModel *group) {
+        
+        [JKAlertTableModel modelWithTitle:@"基本样式" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            JKAlertView.alertView(@"提示", @"你好你好你好\n你好你好你好你好", JKAlertStyleAlert)
+            .addAction(JKAlertAction.action(@"取消", JKAlertActionStyleCancel, ^(JKAlertAction *action) {
+                
+            })).addAction(JKAlertAction.action(@"确认", JKAlertActionStyleDefaultBlue, ^(JKAlertAction *action) {
+                
+            })).show();
+        }];
         
         [JKAlertTableModel modelWithTitle:@"plain" group:group executeHandler:^(JKAlertTableModel *model) {
             
@@ -71,6 +80,15 @@
     
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"action sheet样式" configuration:^(JKAlertTableGroupModel *group) {
         
+        [JKAlertTableModel modelWithTitle:@"基本样式" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            JKAlertView.alertView(@"提示", @"你好你好你好", JKAlertStyleActionSheet)
+            .addAction(JKAlertAction.action(@"确认1", JKAlertActionStyleDefault, ^(JKAlertAction *action) {
+                
+            })).addAction(JKAlertAction.action(@"确认2", JKAlertActionStyleDefault, ^(JKAlertAction *action) {
+                
+            })).show();
+        }];
         
         [JKAlertTableModel modelWithTitle:@"actionSheet" group:group executeHandler:^(JKAlertTableModel *model) {
             
@@ -86,6 +104,24 @@
     
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"collection sheet样式" configuration:^(JKAlertTableGroupModel *group) {
         
+        [JKAlertTableModel modelWithTitle:@"基本样式" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            JKAlertView *alertView = JKAlertView.alertView(@"提示", @"你好你好你好", JKAlertStyleCollectionSheet);
+            
+            [weakSelf addCollectionActionsWithAlertView:alertView];
+
+            CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
+            
+            alertView.makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6))
+            .makeCollectionSheetMinimumLineSpacing(0.0)
+            .makeCollectionSheetSectionInset(UIEdgeInsetsZero)
+            /** 分页 */
+            .makeCollectionSheetPagingEnabled(YES)
+            /** 两个collectionView合并，同时滚动 */
+            .makeCollectionSheetCombined(YES)
+            /** 显示pageControl */
+            .makeCollectionSheetPageControlHidden(NO).show();
+        }];
         
         [JKAlertTableModel modelWithTitle:@"collectionSheet" group:group executeHandler:^(JKAlertTableModel *model) {
             
@@ -149,138 +185,12 @@
     [self.tableView reloadData];
 }
 
-
-
-- (void)rightNavigationItemClick:(JKAlertTableModel *)sender {
-    
-    if (@available(iOS 13.0, *)) {
-        
-        UIWindow *keyWindow = JKAlertUtility.keyWindow;
-        
-        UIUserInterfaceStyle systemStyle = [UIScreen mainScreen].traitCollection.userInterfaceStyle;
-        
-        NSString *systemMode = @"系统样式: 未知模式";
-        
-        switch (systemStyle) {
-            case UIUserInterfaceStyleDark:
-            {
-                systemMode = @"系统样式: 深色模式";
-            }
-                break;
-            case UIUserInterfaceStyleLight:
-            {
-                systemMode = @"系统样式: 浅色模式";
-            }
-                break;
-                
-            default:
-                break;
-        }
-        
-        UIUserInterfaceStyle currentStyle = keyWindow.overrideUserInterfaceStyle;
-        
-        NSString *message = @"\n当前选择: 跟随系统";
-        
-        switch (currentStyle) {
-            case UIUserInterfaceStyleDark:
-            {
-                message = @"\n当前选择: 深色模式";
-            }
-                break;
-            case UIUserInterfaceStyleLight:
-            {
-                message = @"\n当前选择: 浅色模式";
-            }
-                break;
-                
-            default:
-                break;
-        }
-        
-        NSString *alertKey = @"JKAlertDarkModelAlertKey";
-        
-        JKAlertView.dismissForKey(alertKey);
-        
-        message = [systemMode stringByAppendingString:message];
-        
-        JKAlertView.alertView(@"深色模式切换", message, JKAlertStyleActionSheet)
-        .makeGestureDismissEnabled(YES, YES)
-        .makeGestureIndicatorHidden(NO)
-        .makeShowScaleAnimated(YES)
-        .makeDismissKey(alertKey)
-        .addAction(JKAlertAction.action(@"深色模式", (UIUserInterfaceStyleDark == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
-            
-            keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
-            JKAlertView.makeThemeStyle(JKAlertThemeStyleDark);
-            
-            if (action.alertView) {
-                
-                action.alertView.remakeMessage([systemMode stringByAppendingString:@"\n当前选择: 深色模式"])
-                .getActionArrayFrom(NO, ^(NSArray *actionArray) {
-                    
-                    for (JKAlertAction *action in actionArray) {
-                        
-                        action.remakeActionStyle(JKAlertActionStyleDefault);
-                    }
-                });
-            }
-            
-            action.remakeActionStyle(JKAlertActionStyleDestructive);
-            
-            [action.alertView relayoutAnimated:NO];
-            
-        }).makeAutoDismiss(NO)).addAction(JKAlertAction.action(@"浅色模式", (UIUserInterfaceStyleLight == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
-            
-            keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-            JKAlertView.makeThemeStyle(JKAlertThemeStyleLight);
-            
-            if (action.alertView) {
-                
-                action.alertView.remakeMessage([systemMode stringByAppendingString:@"\n当前选择: 浅色模式"])
-                .getActionArrayFrom(NO, ^(NSArray *actionArray) {
-                    
-                    for (JKAlertAction *action in actionArray) {
-                        
-                        action.remakeActionStyle(JKAlertActionStyleDefault);
-                    }
-                });
-            }
-            
-            action.remakeActionStyle(JKAlertActionStyleDestructive);
-            
-            [action.alertView relayoutAnimated:NO];
-            
-        }).makeAutoDismiss(NO)).addAction(JKAlertAction.action(@"跟随系统", (UIUserInterfaceStyleUnspecified == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
-            
-            keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleUnspecified;
-            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
-            
-            if (action.alertView) {
-                
-                action.alertView.remakeMessage([systemMode stringByAppendingString:@"\n当前选择: 跟随系统"])
-                .getActionArrayFrom(NO, ^(NSArray *actionArray) {
-                    
-                    for (JKAlertAction *action in actionArray) {
-                        
-                        action.remakeActionStyle(JKAlertActionStyleDefault);
-                    }
-                });
-            }
-            
-            action.remakeActionStyle(JKAlertActionStyleDestructive);
-            
-            [action.alertView relayoutAnimated:NO];
-            
-        }).makeAutoDismiss(NO)).show();
-    }
-}
-
 #pragma mark
 #pragma mark - Plain
 
 - (void)plain:(JKAlertTableModel *)sender {
     
-    JKAlertView.show(@"定位服务未开启", @"请进入系统「设置」->「隐私」->「定位服务」中打开开关，并允许妙菜使用定位服务", JKAlertStyleAlert, ^(JKAlertView *alertView) {
+    JKAlertView.show(@"定位服务未开启", @"请进入系统「设置」-「隐私」-「定位服务」中打开开关，并允许APP使用定位服务", JKAlertStyleAlert, ^(JKAlertView *alertView) {
         
         alertView.makeCustomSuperView(self.customSuperView);
         
@@ -1092,6 +1002,7 @@
     CGFloat itemWidth = screenWidth * 0.25;
     
     [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)]
+    .makeCustomSuperView(self.customSuperView)
     .makeGestureDismissEnabled(YES, YES)
     .makeGestureIndicatorHidden(NO)
     .makeShowScaleAnimated(YES)

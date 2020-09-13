@@ -70,6 +70,10 @@
     self.textFieldCount = 0;
 }
 
+- (void)buildUI {
+    
+}
+
 - (void)setTitleString:(NSString *)titleString {
     _titleString = [titleString copy];
     

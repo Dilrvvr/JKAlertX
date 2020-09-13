@@ -6,9 +6,9 @@
 //  Copyright © 2020 Albert. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "JKAlertBaseViewController.h"
 
-@interface JKAlertCompareSystemViewController : UIViewController
+@interface JKAlertCompareSystemViewController : JKAlertBaseViewController
 
 @end
 
