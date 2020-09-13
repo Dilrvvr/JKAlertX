@@ -6,8 +6,10 @@
 //  Copyright © 2020 Albert. All rights reserved.
 //
 
-@import UIKit;
+#import "JKAlertBaseViewController.h"
 
-@interface JKAlertViewController : UIViewController
+@interface JKAlertViewController : JKAlertBaseViewController
 
+/** customSuperView */
+@property (nonatomic, weak, readonly) UIView *customSuperView;
 @end

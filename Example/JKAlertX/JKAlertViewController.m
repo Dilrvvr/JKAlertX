@@ -1,5 +1,5 @@
 //
-//  ViewController.m
+//  JKAlertCompareSystemViewController.m
 //  JKAlertX
 //
 //  Created by albert on 2018/4/10.
@@ -8,6 +8,10 @@
 
 #import "JKAlertViewController.h"
 #import "JKAlertX.h"
+#import "JKAlertTableModel.h"
+#import "JKAlertTableGroupModel.h"
+#import "JKAlertTransformLandscapeViewController.h"
+#import "JKAlertCompareSystemViewController.h"
 
 @interface JKAlertViewController ()
 
@@ -15,36 +19,157 @@
 
 @implementation JKAlertViewController
 
-- (void)dealloc{
-    
-    NSLog(@"%d, %s",__LINE__, __func__);
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(rightNavigationItemClick:)];
 }
 
-- (void)rightNavigationItemClick:(id)sender {
+- (void)loadData {
+    
+    [self.dataArray removeAllObjects];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"plain/alert样式" configuration:^(JKAlertTableGroupModel *group) {
+        
+        [JKAlertTableModel modelWithTitle:@"plain" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf plain:model];
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"customPlainTitle" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf customPlainTitle:model];
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"textField" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf textField:model];
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"customPlainAction" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf customPlainAction:model];
+        }];
+    }]];
+    
+    
+    [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"HUD样式" configuration:^(JKAlertTableGroupModel *group) {
+        
+        [JKAlertTableModel modelWithTitle:@"HUD" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf HUD:model];
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"customHUD" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf customHUD:model];
+        }];
+    }]];
+    
+    
+    [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"action sheet样式" configuration:^(JKAlertTableGroupModel *group) {
+        
+        
+        [JKAlertTableModel modelWithTitle:@"actionSheet" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf actionSheet:model];
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"customActionSheetView" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf customActionSheetView:model];
+        }];
+    }]];
+    
+    
+    [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"collection sheet样式" configuration:^(JKAlertTableGroupModel *group) {
+        
+        
+        [JKAlertTableModel modelWithTitle:@"collectionSheet" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf collectionSheet:model];
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"customCollectionTitle" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf customCollectionTitle:model];
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"testShare" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf testShare:model];
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"customCollectionButton" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf customCollectionButton:model];
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"customCollectionActionView" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf customCollectionActionView:model];
+        }];
+    }]];
+    
+    [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"自定义" configuration:^(JKAlertTableGroupModel *group) {
+        
+        [JKAlertTableModel modelWithTitle:@"自定义alert" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf customAlert];
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"自定义action sheet" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf customSheet];
+        }];
+    }]];
+    
+    if ([self isMemberOfClass:[JKAlertViewController class]]) {
+        
+        [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"其它" configuration:^(JKAlertTableGroupModel *group) {
+            
+            [JKAlertTableModel modelWithTitle:@"transform旋转横屏" group:group executeHandler:^(JKAlertTableModel *model) {
+                
+                JKAlertTransformLandscapeViewController *vc = [JKAlertTransformLandscapeViewController new];
+                
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }];
+            
+            [JKAlertTableModel modelWithTitle:@"与系统弹框比较" group:group executeHandler:^(JKAlertTableModel *model) {
+                
+                JKAlertCompareSystemViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:NSStringFromClass([JKAlertCompareSystemViewController class])];
+                
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }];
+        }]];
+    }
+    
+    [self.tableView reloadData];
+}
+
+
+
+- (void)rightNavigationItemClick:(JKAlertTableModel *)sender {
     
     if (@available(iOS 13.0, *)) {
         
         UIWindow *keyWindow = JKAlertUtility.keyWindow;
         
-        UIUserInterfaceStyle currentStyle = keyWindow.overrideUserInterfaceStyle;
+        UIUserInterfaceStyle systemStyle = [UIScreen mainScreen].traitCollection.userInterfaceStyle;
         
-        NSString *message = @"当前选择: 跟随系统";
+        NSString *systemMode = @"系统样式: 未知模式";
         
-        switch (currentStyle) {
+        switch (systemStyle) {
             case UIUserInterfaceStyleDark:
             {
-                message = @"当前选择: 深色模式";
+                systemMode = @"系统样式: 深色模式";
             }
                 break;
             case UIUserInterfaceStyleLight:
             {
-                message = @"当前选择: 浅色模式";
+                systemMode = @"系统样式: 浅色模式";
             }
                 break;
                 
@@ -52,19 +177,19 @@
                 break;
         }
         
-        UIUserInterfaceStyle systemStyle = [UIScreen mainScreen].traitCollection.userInterfaceStyle;
+        UIUserInterfaceStyle currentStyle = keyWindow.overrideUserInterfaceStyle;
         
-        NSString *systemMode = @"\n系统样式: 未知模式";
+        NSString *message = @"\n当前选择: 跟随系统";
         
-        switch (systemStyle) {
+        switch (currentStyle) {
             case UIUserInterfaceStyleDark:
             {
-                systemMode = @"\n系统样式: 深色模式";
+                message = @"\n当前选择: 深色模式";
             }
                 break;
             case UIUserInterfaceStyleLight:
             {
-                systemMode = @"\n系统样式: 浅色模式";
+                message = @"\n当前选择: 浅色模式";
             }
                 break;
                 
@@ -76,35 +201,88 @@
         
         JKAlertView.dismissForKey(alertKey);
         
-        message = [message stringByAppendingString:systemMode];
+        message = [systemMode stringByAppendingString:message];
         
         JKAlertView.alertView(@"深色模式切换", message, JKAlertStyleActionSheet)
+        .makeGestureDismissEnabled(YES, YES)
+        .makeGestureIndicatorHidden(NO)
+        .makeShowScaleAnimated(YES)
         .makeDismissKey(alertKey)
         .addAction(JKAlertAction.action(@"深色模式", (UIUserInterfaceStyleDark == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
             
             keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
             JKAlertView.makeThemeStyle(JKAlertThemeStyleDark);
             
-        })).addAction(JKAlertAction.action(@"浅色模式", (UIUserInterfaceStyleLight == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
+            if (action.alertView) {
+                
+                action.alertView.remakeMessage([systemMode stringByAppendingString:@"\n当前选择: 深色模式"])
+                .getActionArrayFrom(NO, ^(NSArray *actionArray) {
+                    
+                    for (JKAlertAction *action in actionArray) {
+                        
+                        action.remakeActionStyle(JKAlertActionStyleDefault);
+                    }
+                });
+            }
+            
+            action.remakeActionStyle(JKAlertActionStyleDestructive);
+            
+            [action.alertView relayoutAnimated:NO];
+            
+        }).makeAutoDismiss(NO)).addAction(JKAlertAction.action(@"浅色模式", (UIUserInterfaceStyleLight == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
             
             keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
             JKAlertView.makeThemeStyle(JKAlertThemeStyleLight);
             
-        })).addAction(JKAlertAction.action(@"跟随系统", (UIUserInterfaceStyleUnspecified == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
+            if (action.alertView) {
+                
+                action.alertView.remakeMessage([systemMode stringByAppendingString:@"\n当前选择: 浅色模式"])
+                .getActionArrayFrom(NO, ^(NSArray *actionArray) {
+                    
+                    for (JKAlertAction *action in actionArray) {
+                        
+                        action.remakeActionStyle(JKAlertActionStyleDefault);
+                    }
+                });
+            }
+            
+            action.remakeActionStyle(JKAlertActionStyleDestructive);
+            
+            [action.alertView relayoutAnimated:NO];
+            
+        }).makeAutoDismiss(NO)).addAction(JKAlertAction.action(@"跟随系统", (UIUserInterfaceStyleUnspecified == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
             
             keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleUnspecified;
             JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
             
-        })).show();
+            if (action.alertView) {
+                
+                action.alertView.remakeMessage([systemMode stringByAppendingString:@"\n当前选择: 跟随系统"])
+                .getActionArrayFrom(NO, ^(NSArray *actionArray) {
+                    
+                    for (JKAlertAction *action in actionArray) {
+                        
+                        action.remakeActionStyle(JKAlertActionStyleDefault);
+                    }
+                });
+            }
+            
+            action.remakeActionStyle(JKAlertActionStyleDestructive);
+            
+            [action.alertView relayoutAnimated:NO];
+            
+        }).makeAutoDismiss(NO)).show();
     }
 }
 
 #pragma mark
 #pragma mark - Plain
 
-- (IBAction)plain:(UIButton *)sender {
+- (void)plain:(JKAlertTableModel *)sender {
     
     JKAlertView.show(@"定位服务未开启", @"请进入系统「设置」->「隐私」->「定位服务」中打开开关，并允许妙菜使用定位服务", JKAlertStyleAlert, ^(JKAlertView *alertView) {
+        
+        alertView.makeCustomSuperView(self.customSuperView);
         
         // 点击空白处也退出
         // alertView.setclickBlankDismiss(YES);
@@ -201,11 +379,15 @@
         
         alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
             
-            [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+            [sender setTitle:@"dismissed"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
-                [sender setTitle:@"plain" forState:(UIControlStateNormal)];
+                [sender setTitle:@"plain"];
+                
+                !sender.refreshHandler ? : sender.refreshHandler(sender);
             });
         });
     });
@@ -214,7 +396,7 @@
 #pragma mark
 #pragma mark - customPlainTitle
 
-- (IBAction)customPlainTitle:(id)sender {
+- (void)customPlainTitle:(JKAlertTableModel *)sender {
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) * 0.7, 190)];
     //label.backgroundColor = [UIColor orangeColor];
@@ -223,6 +405,8 @@
     label.attributedText = [[NSAttributedString alloc] initWithString:@"我是自定义的view~~" attributes:@{NSForegroundColorAttributeName : [UIColor redColor]}];
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStyleAlert)];
+    
+    alertView.makeCustomSuperView(self.customSuperView);
     
     // 显示title和message之间的分隔线
     alertView.makeTitleMessageSeparatorLineHidden(NO);
@@ -243,11 +427,15 @@
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        [sender setTitle:@"dismissed"];
+        
+        !sender.refreshHandler ? : sender.refreshHandler(sender);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [sender setTitle:@"customPlainTitle" forState:(UIControlStateNormal)];
+            [sender setTitle:@"customPlainTitle"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
         });
     });
 }
@@ -255,9 +443,11 @@
 #pragma mark
 #pragma mark - HUD
 
-- (IBAction)HUD:(id)sender {
+- (void)HUD:(JKAlertTableModel *)sender {
     
     JKAlertView.showHUDWithTitle(@"你好你好你好你好", ^(JKAlertView *alertView) {
+        
+        alertView.makeCustomSuperView(self.customSuperView);
         
         alertView.makeHudAllowUserInteractionEnabled(YES)
         .makeHudHeight(60)
@@ -267,38 +457,46 @@
         .makeDeallocLogEnabled(YES)
         .makeDidDismissHandler(^{
             
-            [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+            [sender setTitle:@"dismissed"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
-                [sender setTitle:@"HUD" forState:(UIControlStateNormal)];
+                [sender setTitle:@"HUD"];
+                
+                !sender.refreshHandler ? : sender.refreshHandler(sender);
             });
         });
     });
     
     /* or use like following
-    [JKAlertView alertViewWithTitle:@"你好你好你好你好" message:nil style:(JKAlertStyleHUD)]
-    .makeHudHeight(60)
-    .makeHudWidth(200)
-    .makeHudCenterOffset(CGPointMake(0, 100))
-    .makeHudDismissTimeInterval(5)
-    .makeDeallocLogEnabled(YES)
-    .show()
-    .makeDidDismissHandler(^{
-        
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [sender setTitle:@"HUD" forState:(UIControlStateNormal)];
-        });
-    }); //*/
+     [JKAlertView alertViewWithTitle:@"你好你好你好你好" message:nil style:(JKAlertStyleHUD)]
+     .makeHudHeight(60)
+     .makeHudWidth(200)
+     .makeHudCenterOffset(CGPointMake(0, 100))
+     .makeHudDismissTimeInterval(5)
+     .makeDeallocLogEnabled(YES)
+     .show()
+     .makeDidDismissHandler(^{
+     
+     [sender setTitle:@"dismissed"];
+     
+     !sender.refreshHandler ? : sender.refreshHandler(sender);
+     
+     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+     
+     [sender setTitle:@"HUD"];
+     
+     !sender.refreshHandler ? : sender.refreshHandler(sender);
+     });
+     }); //*/
 }
 
 #pragma mark
 #pragma mark - customHUD
 
-- (IBAction)customHUD:(id)sender {
+- (void)customHUD:(JKAlertTableModel *)sender {
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 100)];
     label.backgroundColor = [UIColor orangeColor];
@@ -311,16 +509,22 @@
         
     }, ^(JKAlertView *alertView) {
         
+        alertView.makeCustomSuperView(self.customSuperView);
+        
         alertView.makeHudAllowUserInteractionEnabled(YES)
         .makeHudDismissTimeInterval(2)
         .makeDeallocLogEnabled(YES)
         .makeDidDismissHandler(^{
             
-            [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+            [sender setTitle:@"dismissed"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
-                [sender setTitle:@"customHUD" forState:(UIControlStateNormal)];
+                [sender setTitle:@"customHUD"];
+                
+                !sender.refreshHandler ? : sender.refreshHandler(sender);
             });
         });
     });
@@ -329,9 +533,11 @@
 #pragma mark
 #pragma mark - textField
 
-- (IBAction)textField:(id)sender {
+- (void)textField:(JKAlertTableModel *)sender {
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"请输入帐号密码" style:(JKAlertStyleAlert)];
+    
+    alertView.makeCustomSuperView(self.customSuperView);
     
     alertView.addAction([JKAlertAction actionWithTitle:@"取消" style:(JKAlertActionStyleCancel) handler:^(JKAlertAction *action) {
         
@@ -353,11 +559,15 @@
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        [sender setTitle:@"dismissed"];
+        
+        !sender.refreshHandler ? : sender.refreshHandler(sender);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [sender setTitle:@"textField" forState:(UIControlStateNormal)];
+            [sender setTitle:@"textField"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
         });
     });
 }
@@ -365,9 +575,11 @@
 #pragma mark
 #pragma mark - customPlainAction
 
-- (IBAction)customPlainAction:(id)sender {
+- (void)customPlainAction:(JKAlertTableModel *)sender {
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好你好" style:(JKAlertStyleAlert)];
+    
+    alertView.makeCustomSuperView(self.customSuperView);
     
     [alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefaultBlue) handler:^(JKAlertAction *action) {
         
@@ -415,11 +627,15 @@
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        [sender setTitle:@"dismissed"];
+        
+        !sender.refreshHandler ? : sender.refreshHandler(sender);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [sender setTitle:@"customPlainAction" forState:(UIControlStateNormal)];
+            [sender setTitle:@"customPlainAction"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
         });
     });
 }
@@ -427,12 +643,14 @@
 #pragma mark
 #pragma mark - actionSheet
 
-- (IBAction)actionSheet:(id)sender {
+- (void)actionSheet:(JKAlertTableModel *)sender {
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好" style:(JKAlertStyleActionSheet)]
     .makeGestureDismissEnabled(YES, YES)
     .makeGestureIndicatorHidden(NO)
     .makeShowScaleAnimated(YES);
+    
+    alertView.makeCustomSuperView(self.customSuperView);
     
     // 展示时振动一下
     alertView.makeVibrateEnabled(YES);
@@ -486,11 +704,15 @@
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        [sender setTitle:@"dismissed"];
+        
+        !sender.refreshHandler ? : sender.refreshHandler(sender);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [sender setTitle:@"actionSheet" forState:(UIControlStateNormal)];
+            [sender setTitle:@"actionSheet"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
         });
     });
 }
@@ -498,9 +720,10 @@
 #pragma mark
 #pragma mark - customActionSheetView
 
-- (IBAction)customActionSheetView:(id)sender {
+- (void)customActionSheetView:(JKAlertTableModel *)sender {
     
     [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好" style:(JKAlertStyleActionSheet)]
+    .makeCustomSuperView(self.customSuperView)
     .makeHomeIndicatorFilled(YES)
     .makeGestureDismissEnabled(YES, YES)
     .makeGestureIndicatorHidden(NO)
@@ -523,11 +746,15 @@
         
     }]).makeDeallocLogEnabled(YES).makeActionSheetBottomButtonPinned(NO).show().makeDidDismissHandler(^{
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        [sender setTitle:@"dismissed"];
+        
+        !sender.refreshHandler ? : sender.refreshHandler(sender);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [sender setTitle:@"customActionSheetView" forState:(UIControlStateNormal)];
+            [sender setTitle:@"customActionSheetView"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
         });
     });
 }
@@ -535,11 +762,13 @@
 #pragma mark
 #pragma mark - collectionSheet
 
-- (IBAction)collectionSheet:(id)sender {
+- (void)collectionSheet:(JKAlertTableModel *)sender {
     
     CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) - 30) * 0.25;
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)];
+    
+    alertView.makeCustomSuperView(self.customSuperView);
     
     /** 允许手势滑动退出 */
     alertView.makeGestureDismissEnabled(YES, YES)
@@ -612,11 +841,15 @@
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        [sender setTitle:@"dismissed"];
+        
+        !sender.refreshHandler ? : sender.refreshHandler(sender);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [sender setTitle:@"collectionSheet" forState:(UIControlStateNormal)];
+            [sender setTitle:@"collectionSheet"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
         });
     });
 }
@@ -624,11 +857,12 @@
 #pragma mark
 #pragma mark - customCollectionTitle
 
-- (IBAction)customCollectionTitle:(id)sender {
+- (void)customCollectionTitle:(JKAlertTableModel *)sender {
     
     CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)]
+    .makeCustomSuperView(self.customSuperView)
     .makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6))
     .makeCollectionSheetCombined(YES)
     .makeCollectionSheetPagingEnabled(YES)
@@ -657,11 +891,15 @@
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        [sender setTitle:@"dismissed"];
+        
+        !sender.refreshHandler ? : sender.refreshHandler(sender);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [sender setTitle:@"customCollectionTitle" forState:(UIControlStateNormal)];
+            [sender setTitle:@"customCollectionTitle"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
         });
     });
 }
@@ -669,7 +907,7 @@
 #pragma mark
 #pragma mark - testShare
 
-- (IBAction)testShare:(UIButton *)sender {
+- (void)testShare:(JKAlertTableModel *)sender {
     
     CGFloat screenWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     
@@ -678,6 +916,7 @@
     UIEdgeInsets sectionInset = UIEdgeInsetsMake(0, ((screenWidth - itemWidth * 2) / 4), 0, ((screenWidth - itemWidth * 2) / 4));
     
     [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)]
+    .makeCustomSuperView(self.customSuperView)
     .makeGestureDismissEnabled(YES, YES)
     .makeGestureIndicatorHidden(NO)
     .makeShowScaleAnimated(YES)
@@ -709,11 +948,15 @@
         
     }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        [sender setTitle:@"dismissed"];
+        
+        !sender.refreshHandler ? : sender.refreshHandler(sender);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [sender setTitle:@"testShare" forState:(UIControlStateNormal)];
+            [sender setTitle:@"testShare"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
         });
     });
 }
@@ -721,11 +964,13 @@
 #pragma mark
 #pragma mark - customCollectionButton
 
-- (IBAction)customCollectionButton:(id)sender {
+- (void)customCollectionButton:(JKAlertTableModel *)sender {
     
     CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)];
+    
+    alertView.makeCustomSuperView(self.customSuperView);
     
     alertView.makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6))
     .makeCollectionSheetCombined(YES)
@@ -777,19 +1022,70 @@
     
     alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        [sender setTitle:@"dismissed"];
+        
+        !sender.refreshHandler ? : sender.refreshHandler(sender);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [sender setTitle:@"customCollectionButton" forState:(UIControlStateNormal)];
+            [sender setTitle:@"customCollectionButton"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
         });
     });
 }
 
 #pragma mark
+#pragma mark - 自定义
+
+- (void)customAlert {
+    
+    [JKAlertManager showCustomAlertWithViewHandler:^UIView *{
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 200.0)];
+        
+        label.textAlignment = NSTextAlignmentCenter;
+        
+        label.text = @"我是自定义的alert~";
+        
+        label.backgroundColor = [UIColor orangeColor];
+        
+        return label;
+        
+    } clearAlertBackgroundColor:NO configurationBeforeShow:^(JKAlertView *innerAlertView) {
+        
+        innerAlertView.makeCustomSuperView(self.customSuperView);
+        
+        [innerAlertView addAction:JKAlertAction.action(@"确定", JKAlertActionStyleDefaultBlack, ^(JKAlertAction *action) {
+            
+        })];
+    }];
+}
+
+- (void)customSheet {
+    
+    [JKAlertManager showCustomSheetWithViewHandler:^UIView *{
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 300.0 + JKAlertUtility.currentHomeIndicatorHeight)];
+        
+        label.textAlignment = NSTextAlignmentCenter;
+        
+        label.text = @"我是自定义的sheet~";
+        
+        label.backgroundColor = [UIColor orangeColor];
+        
+        return label;
+        
+    } configurationBeforeShow:^(JKAlertView *innerAlertView) {
+        
+        innerAlertView.makeCustomSuperView(self.customSuperView);
+    }];
+}
+
+#pragma mark
 #pragma mark - customCollectionActionView
 
-- (IBAction)customCollectionActionView:(id)sender {
+- (void)customCollectionActionView:(JKAlertTableModel *)sender {
     
     CGFloat screenWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     
@@ -829,11 +1125,15 @@
         
     }).makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
         
-        [sender setTitle:@"dismissed" forState:(UIControlStateNormal)];
+        [sender setTitle:@"dismissed"];
+        
+        !sender.refreshHandler ? : sender.refreshHandler(sender);
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [sender setTitle:@"customCollectionActionView" forState:(UIControlStateNormal)];
+            [sender setTitle:@"customCollectionActionView"];
+            
+            !sender.refreshHandler ? : sender.refreshHandler(sender);
         });
     });
 }
@@ -909,5 +1209,13 @@
     [alertView addSecondCollectionAction:[JKAlertAction actionWithTitle:@"QQ" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
     }].makeNormalImage([UIImage imageNamed:@"Share_QQ"])];
+}
+
+#pragma mark
+#pragma mark - Property
+
+- (UIView *)customSuperView {
+    
+    return nil;
 }
 @end

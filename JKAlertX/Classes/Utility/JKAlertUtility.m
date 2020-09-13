@@ -310,6 +310,19 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     return safeAreaInset;
 }
 
+/// 导航条高度
++ (CGFloat)navigationBarHeight {
+    
+    if (self.isDeviceiPad) { // iPad
+        
+        return self.isLandscape ? 70.f : 64.f;
+        
+    } else { // iPhone
+        
+        return self.isLandscape ? (self.isDeviceX ? 44.f : 32.f) : (self.isDeviceX ? 88.f : 64.f);
+    }
+}
+
 /// 让手机振动一下
 + (void)vibrateDevice {
     
@@ -375,7 +388,15 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
         
         JKAlertView *alertView = [JKAlertView alertViewWithTitle:[@"JKDebug-" stringByAppendingString:(title ? title : @"")] message:[@"--- 此弹框仅用于调试 ---\n" stringByAppendingString:(message ? message : @"")] style:(JKAlertStyleAlert)];
         
-        alertView.makeMessageAlignment(NSTextAlignmentLeft).makeTitleMessageShouldSelectText(YES);
+        alertView.makeMessageAlignment(NSTextAlignmentLeft)
+        .makeTitleMessageShouldSelectText(YES)
+        .makePlainWidth([UIScreen mainScreen].bounds.size.width - 30.0)
+        .makeHudAutoReduceWidth(YES);
+        
+        [alertView addAction:[JKAlertAction actionWithTitle:@"Copy" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
+            
+            [UIPasteboard generalPasteboard].string = message;
+        }]];
         
         [alertView addAction:[JKAlertAction actionWithTitle:@"OK" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             

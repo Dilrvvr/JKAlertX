@@ -6,12 +6,8 @@
 //  Copyright © 2019 Albert. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "JKAlertViewController.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface JKAlertTransformLandscapeViewController : UIViewController
+@interface JKAlertTransformLandscapeViewController : JKAlertViewController
 
 @end
-
-NS_ASSUME_NONNULL_END

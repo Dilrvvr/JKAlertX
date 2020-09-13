@@ -248,6 +248,9 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 获取keyWindow的safeAreaInsets
 @property (class, nonatomic, readonly) UIEdgeInsets safeAreaInset;
 
+/// 导航条高度
+@property (class, nonatomic, readonly) CGFloat navigationBarHeight;
+
 /// 让手机振动一下
 + (void)vibrateDevice;
 

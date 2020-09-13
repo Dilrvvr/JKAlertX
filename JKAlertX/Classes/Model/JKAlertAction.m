@@ -13,9 +13,6 @@
 {
     CGFloat _rowHeight;
 }
-
-/** 样式 */
-@property (nonatomic, assign, readonly) JKAlertActionStyle actionStyle;
 @end
 
 @implementation JKAlertAction
@@ -130,6 +127,19 @@
     return ^(NSAttributedString *attributedTitle) {
         
         self->_attributedTitle = attributedTitle;
+        
+        return self;
+    };
+}
+
+/**
+ * 修改style
+ */
+- (JKAlertAction *(^)(JKAlertActionStyle style))remakeActionStyle {
+    
+    return ^(JKAlertActionStyle style) {
+        
+        [self setActionStyle:style];
         
         return self;
     };
@@ -283,37 +293,8 @@
     
     action->_title = [title copy];
     action->_attributedTitle = [attributedTitle copy];
-    action->_actionStyle = style;
+    [action setActionStyle:style];
     action->_handler = [handler copy];
-    
-    switch (action.actionStyle) {
-        case JKAlertActionStyleCancel:
-        {
-            [JKAlertThemeProvider providerWithOwner:action handlerKey:NSStringFromSelector(@selector(titleColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
-                
-                providerOwner.titleColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102));
-            }];
-        }
-            break;
-        case JKAlertActionStyleDestructive:
-        {
-            action.titleColor = JKAlertSystemRedColor;
-        }
-            break;
-        case JKAlertActionStyleDefaultBlue:
-        {
-            action.titleColor = JKAlertSystemBlueColor;
-        }
-            break;
-        default:
-        {
-            [JKAlertThemeProvider providerWithOwner:action handlerKey:NSStringFromSelector(@selector(titleColor)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
-                
-                providerOwner.titleColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204));
-            }];
-        }
-            break;
-    }
     
     [JKAlertThemeProvider providerWithOwner:action handlerKey:NSStringFromSelector(@selector(refreshAppearanceHandler)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
         
@@ -321,6 +302,44 @@
     }];
     
     return action;
+}
+
+- (void)setActionStyle:(JKAlertActionStyle)actionStyle {
+    
+    _actionStyle = actionStyle;
+    
+    NSString *handlerKey = NSStringFromSelector(@selector(titleColor));
+    
+    switch (actionStyle) {
+        case JKAlertActionStyleCancel:
+        {
+            [JKAlertThemeProvider providerWithOwner:self handlerKey:handlerKey provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
+                
+                providerOwner.titleColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(153), JKAlertSameRGBColor(102));
+            }];
+        }
+            break;
+        case JKAlertActionStyleDestructive:
+        {
+            [self.jkalert_themeProvider removeProvideHandlerForKey:handlerKey];
+            self.titleColor = JKAlertSystemRedColor;
+        }
+            break;
+        case JKAlertActionStyleDefaultBlue:
+        {
+            [self.jkalert_themeProvider removeProvideHandlerForKey:handlerKey];
+            self.titleColor = JKAlertSystemBlueColor;
+        }
+            break;
+        default:
+        {
+            [JKAlertThemeProvider providerWithOwner:self handlerKey:handlerKey provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
+                
+                providerOwner.titleColor = JKAlertCheckDarkMode(JKAlertSameRGBColor(51), JKAlertSameRGBColor(204));
+            }];
+        }
+            break;
+    }
 }
 
 - (void)setTitleColor:(UIColor *)titleColor {
@@ -393,7 +412,9 @@
     
     if (_rowHeight < 0) {
         
-        _rowHeight = self.customView ? self.customView.frame.size.height : (([UIScreen mainScreen].bounds.size.width > 321) ? 53 : 46);
+        CGSize screenSize = [UIScreen mainScreen].bounds.size;
+        
+        _rowHeight = self.customView ? self.customView.frame.size.height : ((MIN(screenSize.width, screenSize.height) > 321) ? 53 : 46);
     }
     return _rowHeight;
 }

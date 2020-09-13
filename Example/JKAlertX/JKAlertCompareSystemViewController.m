@@ -1,15 +1,15 @@
 //
-//  ViewController.m
+//  JKAlertCompareSystemViewController.m
 //  TestAlert
 //
 //  Created by Albert on 2020/5/30.
 //  Copyright © 2020 Albert. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "JKAlertCompareSystemViewController.h"
 #import "JKAlertX.h"
 
-@interface ViewController ()
+@interface JKAlertCompareSystemViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIButton *titleButton;
@@ -39,10 +39,27 @@
 @property (nonatomic, assign) NSInteger actionCount;
 @end
 
-@implementation ViewController
+@implementation JKAlertCompareSystemViewController
+
+- (void)dealloc {
+    
+    NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
+}
+
+- (BOOL)shouldAutorotate {
+    
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"与系统弹框比较";
     
     self.alertControllerStyle = UIAlertControllerStyleAlert;
     self.jkAlertStyle = JKAlertStyleAlert;

@@ -1,8 +1,8 @@
 //
-//  JKAlertCustomViewController.h
+//  JKAlertHeaderFooterView.h
 //  JKAlertX_Example
 //
-//  Created by albert on 2020/7/30.
+//  Created by albert on 2020/9/13.
 //  Copyright © 2020 jkayb123cool@gmail.com. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface JKAlertCustomViewController : UIViewController
+@interface JKAlertHeaderFooterView : UITableViewHeaderFooterView
 
 @end
 

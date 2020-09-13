@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  JKAlertCompareSystemViewController.h
 //  TestAlert
 //
 //  Created by Albert on 2020/5/30.
@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface JKAlertCompareSystemViewController : UIViewController
 
 @end
 

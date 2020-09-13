@@ -74,6 +74,11 @@
 @property (nonatomic, copy, readonly) JKAlertAction *(^remakeAttributedTitle)(NSAttributedString *attributedTitle);
 
 /**
+ * 修改style
+ */
+@property (nonatomic, copy, readonly) JKAlertAction *(^remakeActionStyle)(JKAlertActionStyle style);
+
+/**
  * 字体颜色
  */
 @property (nonatomic, copy, readonly) JKAlertAction *(^makeTitleColor)(UIColor *color);
@@ -163,6 +168,9 @@
 
 /** attributedTitle */
 @property (nonatomic, strong, readonly) NSAttributedString *attributedTitle;
+
+/** 样式 */
+@property (nonatomic, assign, readonly) JKAlertActionStyle actionStyle;
 
 /** handler */
 @property (nonatomic, copy, readonly) void (^handler)(JKAlertAction *action);
