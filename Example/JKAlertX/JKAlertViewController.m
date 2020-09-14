@@ -287,19 +287,7 @@
             //view.movePlainCenterOffsetY(-150, YES);
         });
         
-        alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
-            
-            [sender setTitle:@"dismissed"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                [sender setTitle:@"plain"];
-                
-                !sender.refreshHandler ? : sender.refreshHandler(sender);
-            });
-        });
+        alertView.makeDeallocLogEnabled(YES).show();
     });
 }
 
@@ -322,7 +310,7 @@
     alertView.makeTitleMessageSeparatorLineHidden(NO);
     
     // 设置YES表示仅自定义message
-    alertView.makeCustomMessageView(^UIView *{
+    alertView.makeCustomMessageView(^UIView *(JKAlertView *innerAlertView) {
         
         return label;
     });
@@ -335,19 +323,7 @@
         
     }]];
     
-    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
-        
-        [sender setTitle:@"dismissed"];
-        
-        !sender.refreshHandler ? : sender.refreshHandler(sender);
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [sender setTitle:@"customPlainTitle"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-        });
-    });
+    alertView.makeDeallocLogEnabled(YES).show();
 }
 
 #pragma mark
@@ -364,20 +340,7 @@
         .makeHudWidth(200)
         .makeHudCenterOffset(CGPointMake(0, 100))
         .makeHudDismissTimeInterval(5)
-        .makeDeallocLogEnabled(YES)
-        .makeDidDismissHandler(^{
-            
-            [sender setTitle:@"dismissed"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                [sender setTitle:@"HUD"];
-                
-                !sender.refreshHandler ? : sender.refreshHandler(sender);
-            });
-        });
+        .makeDeallocLogEnabled(YES);
     });
     
     /* or use like following
@@ -387,20 +350,7 @@
      .makeHudCenterOffset(CGPointMake(0, 100))
      .makeHudDismissTimeInterval(5)
      .makeDeallocLogEnabled(YES)
-     .show()
-     .makeDidDismissHandler(^{
-     
-     [sender setTitle:@"dismissed"];
-     
-     !sender.refreshHandler ? : sender.refreshHandler(sender);
-     
-     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-     
-     [sender setTitle:@"HUD"];
-     
-     !sender.refreshHandler ? : sender.refreshHandler(sender);
-     });
-     }); //*/
+     .show(); //*/
 }
 
 #pragma mark
@@ -423,20 +373,7 @@
         
         alertView.makeHudAllowUserInteractionEnabled(YES)
         .makeHudDismissTimeInterval(2)
-        .makeDeallocLogEnabled(YES)
-        .makeDidDismissHandler(^{
-            
-            [sender setTitle:@"dismissed"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                [sender setTitle:@"customHUD"];
-                
-                !sender.refreshHandler ? : sender.refreshHandler(sender);
-            });
-        });
+        .makeDeallocLogEnabled(YES);
     });
 }
 
@@ -467,19 +404,7 @@
         textField.placeholder = @"密码";
     }];
     
-    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
-        
-        [sender setTitle:@"dismissed"];
-        
-        !sender.refreshHandler ? : sender.refreshHandler(sender);
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [sender setTitle:@"textField"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-        });
-    });
+    alertView.makeDeallocLogEnabled(YES).show();
 }
 
 #pragma mark
@@ -535,19 +460,7 @@
         
     }]];
     
-    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
-        
-        [sender setTitle:@"dismissed"];
-        
-        !sender.refreshHandler ? : sender.refreshHandler(sender);
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [sender setTitle:@"customPlainAction"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-        });
-    });
+    alertView.makeDeallocLogEnabled(YES).show();
 }
 
 #pragma mark
@@ -612,19 +525,7 @@
         
     }].makeAutoDismiss(NO)];
     
-    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
-        
-        [sender setTitle:@"dismissed"];
-        
-        !sender.refreshHandler ? : sender.refreshHandler(sender);
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [sender setTitle:@"actionSheet"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-        });
-    });
+    alertView.makeDeallocLogEnabled(YES).show();
 }
 
 #pragma mark
@@ -654,19 +555,7 @@
         
     }]).addAction([JKAlertAction actionWithTitle:@"确定" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }]).makeDeallocLogEnabled(YES).makeActionSheetBottomButtonPinned(NO).show().makeDidDismissHandler(^{
-        
-        [sender setTitle:@"dismissed"];
-        
-        !sender.refreshHandler ? : sender.refreshHandler(sender);
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [sender setTitle:@"customActionSheetView"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-        });
-    });
+    }]).makeDeallocLogEnabled(YES).makeActionSheetBottomButtonPinned(NO).show();
 }
 
 #pragma mark
@@ -749,19 +638,7 @@
      return [UIView new];
      })); //*/
     
-    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
-        
-        [sender setTitle:@"dismissed"];
-        
-        !sender.refreshHandler ? : sender.refreshHandler(sender);
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [sender setTitle:@"collectionSheet"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-        });
-    });
+    alertView.makeDeallocLogEnabled(YES).show();
 }
 
 #pragma mark
@@ -799,19 +676,7 @@
         
     }]).makeCollectionSheetPageControlHidden(NO);
     
-    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
-        
-        [sender setTitle:@"dismissed"];
-        
-        !sender.refreshHandler ? : sender.refreshHandler(sender);
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [sender setTitle:@"customCollectionTitle"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-        });
-    });
+    alertView.makeDeallocLogEnabled(YES).show();
 }
 
 #pragma mark
@@ -856,19 +721,7 @@
         
     }].makeNormalImage([UIImage imageNamed:@"Share_WeChat"])).addAction([JKAlertAction actionWithTitle:@"朋友圈" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
         
-    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
-        
-        [sender setTitle:@"dismissed"];
-        
-        !sender.refreshHandler ? : sender.refreshHandler(sender);
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [sender setTitle:@"testShare"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-        });
-    });
+    }].makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show();
 }
 
 #pragma mark
@@ -930,19 +783,7 @@
         return label;
     }));
     
-    alertView.makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
-        
-        [sender setTitle:@"dismissed"];
-        
-        !sender.refreshHandler ? : sender.refreshHandler(sender);
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [sender setTitle:@"customCollectionButton"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-        });
-    });
+    alertView.makeDeallocLogEnabled(YES).show();
 }
 
 #pragma mark
@@ -950,31 +791,45 @@
 
 - (void)customAlert {
     
-    [JKAlertManager showCustomAlertWithViewHandler:^UIView *{
+    [JKAlertManager showCustomAlertWithViewHandler:^UIView *(JKAlertView *innerAlertView) {
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 200.0)];
+        UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 250.0)];
+        customView.backgroundColor = [UIColor orangeColor];
         
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 290.0, 200.0)];
+        label.textColor = [UIColor blackColor];
         label.textAlignment = NSTextAlignmentCenter;
-        
         label.text = @"我是自定义的alert~";
+        //label.backgroundColor = [UIColor orangeColor];
+        [customView addSubview:label];
         
-        label.backgroundColor = [UIColor orangeColor];
+        UIButton *verifyButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        verifyButton.backgroundColor = [UIColor blackColor];
+        verifyButton.frame = CGRectMake(0.0, 200.0, 290.0, 50.0);
+        verifyButton.titleLabel.font = [UIFont systemFontOfSize:17.0];
+        [verifyButton setTitleColor:[UIColor orangeColor] forState:(UIControlStateNormal)];
+        [verifyButton setTitleColor:[[UIColor orangeColor] colorWithAlphaComponent:0.5] forState:(UIControlStateHighlighted)];
+        [verifyButton setTitle:@"确定" forState:(UIControlStateNormal)];
+        [customView addSubview:verifyButton];
         
-        return label;
+        __weak typeof(innerAlertView) weakAlertView = innerAlertView;
         
-    } clearAlertBackgroundColor:NO configurationBeforeShow:^(JKAlertView *innerAlertView) {
+        [verifyButton JKAlertX_addClickOperation:^(id control) {
+            
+            [weakAlertView dismiss];
+        }];
+        
+        return customView;
+        
+    } clearAlertBackgroundColor:YES configurationBeforeShow:^(JKAlertView *innerAlertView) {
         
         innerAlertView.makeCustomSuperView(self.customSuperView);
-        
-        [innerAlertView addAction:JKAlertAction.action(@"确定", JKAlertActionStyleDefaultBlack, ^(JKAlertAction *action) {
-            
-        })];
     }];
 }
 
 - (void)customSheet {
     
-    [JKAlertManager showCustomSheetWithViewHandler:^UIView *{
+    [JKAlertManager showCustomSheetWithViewHandler:^UIView *(JKAlertView *innerAlertView) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 300.0 + JKAlertUtility.currentHomeIndicatorHeight)];
         
@@ -1034,19 +889,7 @@
         
         return label;
         
-    }).makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show().makeDidDismissHandler(^{
-        
-        [sender setTitle:@"dismissed"];
-        
-        !sender.refreshHandler ? : sender.refreshHandler(sender);
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [sender setTitle:@"customCollectionActionView"];
-            
-            !sender.refreshHandler ? : sender.refreshHandler(sender);
-        });
-    });
+    }).makeNormalImage([UIImage imageNamed:@"Share_WeChat_Moments"])).makeDeallocLogEnabled(YES).show();
 }
 
 #pragma mark

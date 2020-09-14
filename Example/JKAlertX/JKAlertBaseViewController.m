@@ -29,7 +29,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(rightNavigationItemClick:)];
+    if (@available(iOS 13.0, *)) {
+        
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(rightNavigationItemClick:)];
+    }
     
     [self buildUI];
     
@@ -229,7 +232,7 @@
     static CGFloat rowHeight_ = 0;
     
     if (rowHeight_ <= 0) {
-
+        
         CGSize screenSize = [UIScreen mainScreen].bounds.size;
         
         rowHeight_ = (MIN(screenSize.width, screenSize.height) > 321) ? 53 : 46;

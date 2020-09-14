@@ -441,13 +441,13 @@
  * 自定义整体title和message
  * 赋值后此时title和message及对应的自定义view将会隐藏 仅展示该自定义view
  */
-- (JKAlertView *(^)(UIView *(^)(void)))makeCustomTextContentView {
+- (JKAlertView *(^)(UIView *(^)(JKAlertView *innerAlertView)))makeCustomTextContentView {
     
-    return ^(UIView *(^handler)(void)) {
+    return ^(UIView *(^handler)(JKAlertView *innerAlertView)) {
         
         if (handler) {
             
-            self.currentTextContentView.customContentView = handler();
+            self.currentTextContentView.customContentView = handler(self);
         }
         
         return self;
@@ -458,13 +458,13 @@
  * 自定义title
  * 赋值后 title将隐藏 仅展示自定义view
  */
-- (JKAlertView *(^)(UIView *(^)(void)))makeCustomTitleView {
+- (JKAlertView *(^)(UIView *(^)(JKAlertView *innerAlertView)))makeCustomTitleView {
     
-    return ^(UIView *(^handler)(void)) {
+    return ^(UIView *(^handler)(JKAlertView *innerAlertView)) {
         
         if (handler) {
             
-            self.currentTextContentView.customTitleView = handler();
+            self.currentTextContentView.customTitleView = handler(self);
         }
         
         return self;
@@ -475,13 +475,13 @@
  * 自定义message
  * 赋值后 message将隐藏 仅展示自定义view
  */
-- (JKAlertView *(^)(UIView *(^)(void)))makeCustomMessageView {
+- (JKAlertView *(^)(UIView *(^)(JKAlertView *innerAlertView)))makeCustomMessageView {
     
-    return ^(UIView *(^handler)(void)) {
+    return ^(UIView *(^handler)(JKAlertView *innerAlertView)) {
         
         if (handler) {
             
-            self.currentTextContentView.customMessageView = handler();
+            self.currentTextContentView.customMessageView = handler(self);
         }
         
         return self;

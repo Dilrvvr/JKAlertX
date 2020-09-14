@@ -220,19 +220,19 @@
  * 自定义整体title和message
  * 赋值后此时title和message及对应的自定义view将会隐藏 仅展示该自定义view
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomTextContentView)(UIView * (^handler)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomTextContentView)(UIView * (^handler)(JKAlertView *innerAlertView));
 
 /**
  * 自定义title
  * 赋值后 title将隐藏 仅展示自定义view
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomTitleView)(UIView * (^handler)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomTitleView)(UIView * (^handler)(JKAlertView *innerAlertView));
 
 /**
  * 自定义message
  * 赋值后 message将隐藏 仅展示自定义view
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomMessageView)(UIView * (^handler)(void));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeCustomMessageView)(UIView * (^handler)(JKAlertView *innerAlertView));
 
 /**
  * message最小高度 默认0
