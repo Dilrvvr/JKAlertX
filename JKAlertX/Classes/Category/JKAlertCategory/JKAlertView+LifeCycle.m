@@ -13,9 +13,9 @@
 /**
  * 监听即将开始显示动画
  */
-- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView)))makeWillShowHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerAlertView)))makeWillShowHandler {
     
-    return ^(void(^handler)(JKAlertView *innerView)) {
+    return ^(void(^handler)(JKAlertView *innerAlertView)) {
         
         self.willShowHandler = handler;
         
@@ -26,9 +26,9 @@
 /**
  * 监听显示动画完成
  */
-- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView)))makeDidShowHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerAlertView)))makeDidShowHandler {
     
-    return ^(void(^handler)(JKAlertView *innerView)) {
+    return ^(void(^handler)(JKAlertView *innerAlertView)) {
         
         self.didShowHandler = handler;
         

@@ -12,12 +12,12 @@
 /**
  * 监听即将开始显示动画
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeWillShowHandler)(void (^handler)(JKAlertView *innerView));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeWillShowHandler)(void (^handler)(JKAlertView *innerAlertView));
 
 /**
  * 监听显示动画完成
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeDidShowHandler)(void (^handler)(JKAlertView *innerView));
+@property (nonatomic, copy, readonly) JKAlertView *(^makeDidShowHandler)(void (^handler)(JKAlertView *innerAlertView));
 
 /**
  * 监听JKAlertView即将开始消失动画

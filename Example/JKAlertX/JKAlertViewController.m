@@ -253,7 +253,7 @@
         }].makeAutoDismiss(NO)];
         
         // 自定义展示动画
-        alertView.makeCustomShowAnimationHandler(^(JKAlertView *innerView, UIView *animationView) {
+        alertView.makeCustomShowAnimationHandler(^(JKAlertView *innerAlertView, UIView *animationView) {
             
             animationView.transform = CGAffineTransformMakeScale(0.3, 0.3);
             
@@ -263,13 +263,12 @@
                 
             } completion:^(BOOL finished) {
                 
-                innerView.showAnimationDidComplete();
+                innerAlertView.showAnimationDidComplete();
             }];
-            
         });
         
         // 自定义消失动画
-        alertView.makeCustomDismissAnimationHandler(^(JKAlertView *innerView, UIView *animationView) {
+        alertView.makeCustomDismissAnimationHandler(^(JKAlertView *innerAlertView, UIView *animationView) {
             
             [UIView animateWithDuration:0.25 animations:^{
                 
@@ -277,7 +276,7 @@
                 
             } completion:^(BOOL finished) {
                 
-                innerView.dismissAnimationDidComplete();
+                innerAlertView.dismissAnimationDidComplete();
             }];
         });
         

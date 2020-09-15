@@ -28,9 +28,9 @@
 /**
  * 可以在这个block内自定义其它属性
  */
-- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView)))makeCustomizationHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerAlertView)))makeCustomizationHandler {
     
-    return ^(void(^handler)(JKAlertView *innerView)) {
+    return ^(void(^handler)(JKAlertView *innerAlertView)) {
         
         !handler ? : handler(self);
         
@@ -124,9 +124,9 @@
 /**
  * 监听点击空白处的block
  */
-- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView)))makeTapBlankHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerAlertView)))makeTapBlankHandler {
     
-    return ^(void (^handler)(JKAlertView *innerView)) {
+    return ^(void (^handler)(JKAlertView *innerAlertView)) {
         
         self.tapBlankHandler = handler;
         
@@ -543,9 +543,9 @@
  * 自定义展示动画，动画完成一定要调用showAnimationDidComplete
  * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
  */
-- (JKAlertView *(^)(void (^)(JKAlertView *innerView, UIView *animationView)))makeCustomShowAnimationHandler {
+- (JKAlertView *(^)(void (^)(JKAlertView *innerAlertView, UIView *animationView)))makeCustomShowAnimationHandler {
     
-    return ^(void (^handler)(JKAlertView *innerView, UIView *animationView)) {
+    return ^(void (^handler)(JKAlertView *innerAlertView, UIView *animationView)) {
         
         self.customShowAnimationBlock = handler;
         
@@ -556,9 +556,9 @@
 /**
  * 自定义消失动画，动画完成一定要调用dismissAnimationDidComplete
  */
-- (JKAlertView *(^)(void (^)(JKAlertView *innerView, UIView *animationView)))makeCustomDismissAnimationHandler {
+- (JKAlertView *(^)(void (^)(JKAlertView *innerAlertView, UIView *animationView)))makeCustomDismissAnimationHandler {
     
-    return ^(void (^handler)(JKAlertView *innerView, UIView *animationView)) {
+    return ^(void (^handler)(JKAlertView *innerAlertView, UIView *animationView)) {
         
         self.customDismissAnimationBlock = handler;
         
@@ -635,9 +635,9 @@
 /**
  * 监听屏幕旋转
  */
-- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView, UIInterfaceOrientation orientation)))makeOrientationDidChangeHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerAlertView, UIInterfaceOrientation orientation)))makeOrientationDidChangeHandler {
     
-    return ^(void(^handler)(JKAlertView *innerView, UIInterfaceOrientation orientation)) {
+    return ^(void(^handler)(JKAlertView *innerAlertView, UIInterfaceOrientation orientation)) {
         
         self.orientationDidChangeHandler = handler;
         
@@ -650,9 +650,9 @@
  * 尽量避免在此block中再次执行重新布局
  * 如有必要执行重新布局，请在重新布局前将此block销毁
  */
-- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView, UIView *containerView)))makeWillRelayoutHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerAlertView, UIView *containerView)))makeWillRelayoutHandler {
     
-    return ^JKAlertView *(void(^handler)(JKAlertView *innerView, UIView *containerView)) {
+    return ^JKAlertView *(void(^handler)(JKAlertView *innerAlertView, UIView *containerView)) {
         
         self.willRelayoutHandler = handler;
         
@@ -665,9 +665,9 @@
  * 尽量避免在此block中再次执行重新布局
  * 如有必要执行重新布局，请在重新布局前将此block销毁
  */
-- (JKAlertView *(^)(void (^handler)(JKAlertView *innerView, UIView *containerView)))makeDidRelayoutHandler {
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerAlertView, UIView *containerView)))makeDidRelayoutHandler {
     
-    return ^JKAlertView *(void(^handler)(JKAlertView *innerView, UIView *containerView)) {
+    return ^JKAlertView *(void(^handler)(JKAlertView *innerAlertView, UIView *containerView)) {
         
         self.didRelayoutHandler = handler;
         
