@@ -36,13 +36,14 @@
 - (void)updateModel:(JKAlertTableModel *)model {
     
     self.textLabel.text = model.title;
+    //self.detailTextLabel.text = model.title;
 }
 
 #pragma mark
 #pragma mark - Override
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    if (self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier]) {
         
         [self initialization];
     }
@@ -70,6 +71,7 @@
 /** 初始化自身属性 交给子类重写 super自动调用该方法 */
 - (void)initializeProperty {
     
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 /** 构造函数初始化时调用 注意调用super */

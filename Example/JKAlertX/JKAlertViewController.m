@@ -30,11 +30,12 @@
     
     __weak typeof(self) weakSelf = self;
     
-    [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"plain/alert样式" configuration:^(JKAlertTableGroupModel *group) {
+    [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"alert/plain样式" configuration:^(JKAlertTableGroupModel *group) {
         
-        [JKAlertTableModel modelWithTitle:@"基本样式" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"alert with basic style" group:group executeHandler:^(JKAlertTableModel *model) {
             
             JKAlertView.alertView(@"提示", @"你好你好你好\n你好你好你好你好", JKAlertStyleAlert)
+            .makeCustomSuperView(self.customSuperView)
             .addAction(JKAlertAction.action(@"取消", JKAlertActionStyleCancel, ^(JKAlertAction *action) {
                 
             })).addAction(JKAlertAction.action(@"确认", JKAlertActionStyleDefaultBlue, ^(JKAlertAction *action) {
@@ -42,22 +43,22 @@
             })).show();
         }];
         
-        [JKAlertTableModel modelWithTitle:@"plain" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"alert with custom animation" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf plain:model];
         }];
         
-        [JKAlertTableModel modelWithTitle:@"customPlainTitle" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"alert with custom message" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf customPlainTitle:model];
         }];
         
-        [JKAlertTableModel modelWithTitle:@"textField" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"alert with textField" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf textField:model];
         }];
         
-        [JKAlertTableModel modelWithTitle:@"customPlainAction" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"alert with custom action" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf customPlainAction:model];
         }];
@@ -66,12 +67,19 @@
     
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"HUD样式" configuration:^(JKAlertTableGroupModel *group) {
         
-        [JKAlertTableModel modelWithTitle:@"HUD" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"HUD with basic style" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            JKAlertView.showHUDWithTitle(@"你好你好你好", ^(JKAlertView *alertView) {
+                alertView.makeCustomSuperView(self.customSuperView);
+            });
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"HUD with custom size" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf HUD:model];
         }];
         
-        [JKAlertTableModel modelWithTitle:@"customHUD" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"HUD with custom view" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf customHUD:model];
         }];
@@ -80,9 +88,10 @@
     
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"action sheet样式" configuration:^(JKAlertTableGroupModel *group) {
         
-        [JKAlertTableModel modelWithTitle:@"基本样式" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"action sheet with basic style" group:group executeHandler:^(JKAlertTableModel *model) {
             
             JKAlertView.alertView(@"提示", @"你好你好你好", JKAlertStyleActionSheet)
+            .makeCustomSuperView(self.customSuperView)
             .addAction(JKAlertAction.action(@"确认1", JKAlertActionStyleDefault, ^(JKAlertAction *action) {
                 
             })).addAction(JKAlertAction.action(@"确认2", JKAlertActionStyleDefault, ^(JKAlertAction *action) {
@@ -90,12 +99,12 @@
             })).show();
         }];
         
-        [JKAlertTableModel modelWithTitle:@"actionSheet" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"action sheet with pierced style" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf actionSheet:model];
         }];
         
-        [JKAlertTableModel modelWithTitle:@"customActionSheetView" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"action sheet with custom action" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf customActionSheetView:model];
         }];
@@ -104,7 +113,7 @@
     
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"collection sheet样式" configuration:^(JKAlertTableGroupModel *group) {
         
-        [JKAlertTableModel modelWithTitle:@"基本样式" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"collection sheet with basic style" group:group executeHandler:^(JKAlertTableModel *model) {
             
             JKAlertView *alertView = JKAlertView.alertView(@"提示", @"你好你好你好", JKAlertStyleCollectionSheet);
             
@@ -113,6 +122,7 @@
             CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
             
             alertView.makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6))
+            .makeCustomSuperView(self.customSuperView)
             .makeCollectionSheetMinimumLineSpacing(0.0)
             .makeCollectionSheetSectionInset(UIEdgeInsetsZero)
             /** 分页 */
@@ -123,27 +133,27 @@
             .makeCollectionSheetPageControlHidden(NO).show();
         }];
         
-        [JKAlertTableModel modelWithTitle:@"collectionSheet" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"collection sheet with pierced style" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf collectionSheet:model];
         }];
         
-        [JKAlertTableModel modelWithTitle:@"customCollectionTitle" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"collection sheet with custom title" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf customCollectionTitle:model];
         }];
         
-        [JKAlertTableModel modelWithTitle:@"testShare" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"collection sheet with share example" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf testShare:model];
         }];
         
-        [JKAlertTableModel modelWithTitle:@"customCollectionButton" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"collection sheet with custom bottom" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf customCollectionButton:model];
         }];
         
-        [JKAlertTableModel modelWithTitle:@"customCollectionActionView" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"collection sheet with custom action" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf customCollectionActionView:model];
         }];
@@ -151,12 +161,12 @@
     
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"自定义" configuration:^(JKAlertTableGroupModel *group) {
         
-        [JKAlertTableModel modelWithTitle:@"自定义alert" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"custom alert" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf customAlert];
         }];
         
-        [JKAlertTableModel modelWithTitle:@"自定义action sheet" group:group executeHandler:^(JKAlertTableModel *model) {
+        [JKAlertTableModel modelWithTitle:@"custom action sheet" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf customSheet];
         }];
@@ -338,7 +348,7 @@
         .makeHudHeight(60)
         .makeHudWidth(200)
         .makeHudCenterOffset(CGPointMake(0, 100))
-        .makeHudDismissTimeInterval(5)
+        .makeHudDismissTimeInterval(1)
         .makeDeallocLogEnabled(YES);
     });
     
@@ -347,7 +357,7 @@
      .makeHudHeight(60)
      .makeHudWidth(200)
      .makeHudCenterOffset(CGPointMake(0, 100))
-     .makeHudDismissTimeInterval(5)
+     .makeHudDismissTimeInterval(1)
      .makeDeallocLogEnabled(YES)
      .show(); //*/
 }

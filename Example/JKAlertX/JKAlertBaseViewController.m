@@ -217,7 +217,7 @@
     
     if (cell == nil) {
         
-        cell = [[JKAlertTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
+        cell = [[JKAlertTableViewCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
     }
     
     JKAlertTableGroupModel *group = [self.dataArray objectAtIndex:indexPath.section];
@@ -253,7 +253,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return 44;
+    return 50;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -285,12 +285,6 @@
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:style];
-    
-    if (@available(iOS 13.0, *)) {
-        tableView.backgroundColor = [UIColor systemBackgroundColor];
-    } else {
-        tableView.backgroundColor = [UIColor whiteColor];
-    }
     
     tableView.scrollsToTop = YES;
     
