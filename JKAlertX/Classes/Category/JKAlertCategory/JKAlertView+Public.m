@@ -122,6 +122,32 @@
 }
 
 /**
+ * show的时候是否移除键盘 plain/sheet样式默认YES 其它NO
+ */
+- (JKAlertView *(^)(BOOL shouldHide))makeShouldHideKeyboardWhenShow {
+    
+    return ^(BOOL shouldHide) {
+        
+        self.shouldHideKeyboardWhenShow = shouldHide;
+        
+        return self;
+    };
+}
+
+/**
+ * 点击空白处是否移除键盘 plain/sheet样式默认YES 其它NO
+ */
+- (JKAlertView *(^)(BOOL shouldHide))makeShouldHideKeyboardWhenTapBlank {
+    
+    return ^(BOOL shouldHide) {
+        
+        self.shouldHideKeyboardWhenTapBlank = shouldHide;
+        
+        return self;
+    };
+}
+
+/**
  * 监听点击空白处的block
  */
 - (JKAlertView *(^)(void (^handler)(JKAlertView *innerAlertView)))makeTapBlankHandler {

@@ -163,6 +163,9 @@
         {
             _tapBlankDismiss = YES;
             
+            _shouldHideKeyboardWhenShow = YES;
+            _shouldHideKeyboardWhenTapBlank = YES;
+            
             _currentAlertContentView = self.actionsheetContentView;
             _currentTextContentView = self.actionsheetContentView.textContentView;
         }
@@ -172,6 +175,9 @@
         {
             _tapBlankDismiss = YES;
             
+            _shouldHideKeyboardWhenShow = YES;
+            _shouldHideKeyboardWhenTapBlank = YES;
+            
             _currentAlertContentView = self.collectionsheetContentView;
             _currentTextContentView = self.collectionsheetContentView.textContentView;
         }
@@ -180,6 +186,9 @@
         default: // 默认为JKAlertStylePlain样式
         {
             _alertStyle = JKAlertStylePlain;
+            
+            _shouldHideKeyboardWhenShow = YES;
+            _shouldHideKeyboardWhenTapBlank = YES;
             
             _currentAlertContentView = self.plainContentView;
             _currentTextContentView = self.plainContentView.textContentView;
@@ -196,7 +205,10 @@
     
     if (!self.customSuperView) { return ^{ return self; }; }
     
-    [JKAlertUtility.keyWindow endEditing:YES];
+    if (self.shouldHideKeyboardWhenShow) {
+        
+        [JKAlertUtility.keyWindow endEditing:YES];
+    }
     
     if (self.isShowed) { return ^{ return self; }; }
     
@@ -1262,14 +1274,20 @@
     
     if (_tapBlankDismiss) {
         
-        [JKAlertUtility.keyWindow endEditing:YES];
+        if (self.shouldHideKeyboardWhenTapBlank) {
+            
+            [JKAlertUtility.keyWindow endEditing:YES];
+        }
         
         self.dismiss();
         
         return;
     }
     
-    [JKAlertUtility.keyWindow endEditing:YES];
+    if (self.shouldHideKeyboardWhenTapBlank) {
+        
+        [JKAlertUtility.keyWindow endEditing:YES];
+    }
     
     JKAlertBaseSheetContentView *sheetContentView = [self checkSheetContentView];
     

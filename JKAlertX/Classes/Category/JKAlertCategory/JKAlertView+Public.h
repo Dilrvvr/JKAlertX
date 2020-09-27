@@ -23,6 +23,16 @@
 @property (nonatomic, assign) BOOL tapBlankDismiss;
 
 /**
+ * show的时候是否移除键盘 plain/sheet样式默认YES 其它NO
+ */
+@property (nonatomic, assign) BOOL shouldHideKeyboardWhenShow;
+
+/**
+ * 点击空白处是否移除键盘 plain/sheet样式默认YES 其它NO
+ */
+@property (nonatomic, assign) BOOL shouldHideKeyboardWhenTapBlank;
+
+/**
  * 监听点击空白处的block
  */
 @property (nonatomic, copy) void (^tapBlankHandler)(JKAlertView *innerAlertView);
@@ -88,6 +98,16 @@
  * 点击空白处是否消失，plain/HUD默认NO，其它YES
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTapBlankDismiss)(BOOL shouldDismiss);
+
+/**
+ * show的时候是否移除键盘 plain/sheet样式默认YES 其它NO
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeShouldHideKeyboardWhenShow)(BOOL shouldHide);
+
+/**
+ * 点击空白处是否移除键盘 plain/sheet样式默认YES 其它NO
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeShouldHideKeyboardWhenTapBlank)(BOOL shouldHide);
 
 /**
  * 监听点击空白处的block
