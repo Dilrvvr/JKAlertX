@@ -106,9 +106,9 @@
     if ((delta > self.frame.size.height * 0.5) &&
         beginScrollDirection == endScrollDirection) {
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteGestureDismiss:dismissType:)]) {
             
-            [self.delegate alertContentViewExecuteDismiss:self isHorizontal:NO];
+            [self.delegate alertContentViewExecuteGestureDismiss:self dismissType:JKAlertSheetDismissAnimationTypeToBottom];
         }
         
     } else {
@@ -130,9 +130,9 @@
     if ((delta > self.frame.size.width * 0.5) &&
         beginScrollDirection == endScrollDirection) {
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteGestureDismiss:dismissType:)]) {
             
-            [self.delegate alertContentViewExecuteDismiss:self isHorizontal:YES];
+            [self.delegate alertContentViewExecuteGestureDismiss:self dismissType:JKAlertSheetDismissAnimationTypeToRight];
         }
         
     } else {
@@ -229,9 +229,9 @@
                 self.tapBlankDismiss &&
                 (endScrollDirection == JKAlertScrollDirectionDown)) {
                     
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteGestureDismiss:dismissType:)]) {
                         
-                        [self.delegate alertContentViewExecuteDismiss:self isHorizontal:NO];
+                        [self.delegate alertContentViewExecuteGestureDismiss:self dismissType:JKAlertSheetDismissAnimationTypeToBottom];
                     }
                 
             } else {
@@ -314,9 +314,9 @@
                 self.tapBlankDismiss &&
                 beginScrollDirection == endScrollDirection) {
                     
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteGestureDismiss:dismissType:)]) {
                         
-                        [self.delegate alertContentViewExecuteDismiss:self isHorizontal:YES];
+                        [self.delegate alertContentViewExecuteGestureDismiss:self dismissType:JKAlertSheetDismissAnimationTypeToRight];
                     }
                 
             } else {

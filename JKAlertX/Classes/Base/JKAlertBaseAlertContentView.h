@@ -20,7 +20,7 @@
 - (void)alertContentView:(JKAlertBaseAlertContentView *)alertContentView executeHandlerOfAction:(JKAlertAction *)action;
 
 /// 执行dismiss操作
-- (void)alertContentViewExecuteDismiss:(JKAlertBaseAlertContentView *)alertContentView isHorizontal:(BOOL)isHorizontal;
+- (void)alertContentViewExecuteGestureDismiss:(JKAlertBaseAlertContentView *)alertContentView dismissType:(JKAlertSheetDismissAnimationType)dismissType;
 @end
 
 

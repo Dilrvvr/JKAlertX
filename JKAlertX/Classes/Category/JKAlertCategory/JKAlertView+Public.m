@@ -578,6 +578,50 @@
 #pragma mark - 自定义动画
 
 /**
+ * actionSheet/collectionSheet展示的动画样式
+ * 默认JKAlertSheetShowAnimationTypeFromBottom 从底部弹出
+ */
+- (JKAlertView *(^)(JKAlertSheetShowAnimationType type))makeSheetShowAnimationType {
+    
+    return ^(JKAlertSheetShowAnimationType type) {
+        
+        [self checkActionSheetStyleHandler:^{
+            
+            self.showAnimationType = type;
+        }];
+        
+        [self checkCollectionSheetStyleHandler:^{
+            
+            self.showAnimationType = type;
+        }];
+        
+        return self;
+    };
+}
+
+/**
+ * actionSheet/collectionSheet dismiss的动画样式
+ * 默认JKAlertSheetDismissAnimationTypeToBottom 滑动至底部dismiss
+ */
+- (JKAlertView *(^)(JKAlertSheetDismissAnimationType type))makeSheetDismissAnimationType {
+    
+    return ^(JKAlertSheetDismissAnimationType type) {
+        
+        [self checkActionSheetStyleHandler:^{
+            
+            self.dismissAnimationType = type;
+        }];
+        
+        [self checkCollectionSheetStyleHandler:^{
+            
+            self.dismissAnimationType = type;
+        }];
+        
+        return self;
+    };
+}
+
+/**
  * 自定义展示动画，动画完成一定要调用showAnimationDidComplete
  * 此时所有frame已经计算好，plain样式animationView在中间，sheet样式animationView在底部
  */
@@ -649,7 +693,7 @@
 
 /**
  * 展示时是否进行缩放动画
- * 默认NO 限sheet样式
+ * 默认NO 限sheet样式 正常从底部弹出时有效
  */
 - (JKAlertView *(^)(BOOL scaleAnimated))makeShowScaleAnimated {
     

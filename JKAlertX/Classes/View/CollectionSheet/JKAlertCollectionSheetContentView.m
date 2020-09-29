@@ -862,9 +862,9 @@
     
     if (velocity.y < -1.5 && beginScrollDirection == endScrollDirection) {
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteGestureDismiss:dismissType:)]) {
             
-            [self.delegate alertContentViewExecuteDismiss:self isHorizontal:NO];
+            [self.delegate alertContentViewExecuteGestureDismiss:self dismissType:JKAlertSheetDismissAnimationTypeToBottom];
         }
         
     } else {
@@ -886,9 +886,9 @@
     
     if (velocity.x < -1.5 && beginScrollDirection == endScrollDirection) {
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteDismiss:isHorizontal:)]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteGestureDismiss:dismissType:)]) {
             
-            [self.delegate alertContentViewExecuteDismiss:self isHorizontal:YES];
+            [self.delegate alertContentViewExecuteGestureDismiss:self dismissType:JKAlertSheetDismissAnimationTypeToRight];
         }
         
     } else {

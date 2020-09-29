@@ -15,8 +15,8 @@
 
 @interface JKAlertView () <JKAlertBaseAlertContentViewDelegate>
 
-/** isSheetDismissHorizontal */
-@property (nonatomic, assign) BOOL isSheetDismissHorizontal;
+/** sheet样式时候通过手势滑动退出 */
+@property (nonatomic, assign) BOOL isSheetGestureDismiss;
 
 /** keyboardObserverAdded */
 @property (nonatomic, assign) BOOL keyboardObserverAdded;
@@ -1003,13 +1003,34 @@
         
         if (sheetContentView) {
             
-            CGRect frame = sheetContentView.frame;
-            frame.origin.y = self.superHeight;
-            sheetContentView.frame = frame;
-            
-            if (sheetContentView.showScaleAnimated) {
-                
-                sheetContentView.layer.anchorPoint = CGPointMake(0.5, 1);
+            switch (self.showAnimationType) {
+                case JKAlertSheetShowAnimationTypeFromRight:
+                {
+                    CGRect frame = sheetContentView.frame;
+                    frame.origin.x = self.superWidth;
+                    sheetContentView.frame = frame;
+                }
+                    break;
+                case JKAlertSheetShowAnimationTypeFromLeft:
+                {
+                    CGRect frame = sheetContentView.frame;
+                    frame.origin.x = -self.superWidth;
+                    sheetContentView.frame = frame;
+                }
+                    break;
+                    
+                default:
+                {
+                    CGRect frame = sheetContentView.frame;
+                    frame.origin.y = self.superHeight;
+                    sheetContentView.frame = frame;
+                    
+                    if (sheetContentView.showScaleAnimated) {
+                        
+                        sheetContentView.layer.anchorPoint = CGPointMake(0.5, 1);
+                    }
+                }
+                    break;
             }
         }
     }
@@ -1027,7 +1048,8 @@
         if (self.customShowAnimationBlock) { return; }
         
         if (sheetContentView &&
-            sheetContentView.showScaleAnimated) {
+            sheetContentView.showScaleAnimated &&
+            (JKAlertSheetShowAnimationTypeFromBottom == self.showAnimationType)) {
             
             sheetContentView.verticalDismissPanGesture.enabled = NO;
             
@@ -1081,15 +1103,36 @@
     
     if (!sheetContentView) { return; }
     
-    CGRect frame = sheetContentView.frame;
-    frame.origin.y = self.superHeight - frame.size.height;
-    sheetContentView.frame = frame;
+    [self showSheetAnimationOperationWithSheetContentView:sheetContentView];
+}
+
+- (void)showSheetAnimationOperationWithSheetContentView:(JKAlertBaseSheetContentView *)sheetContentView {
     
-    if (sheetContentView.showScaleAnimated) {
-        
-        [UIView setAnimationCurve:(UIViewAnimationCurveEaseOut)];
-        
-        sheetContentView.transform = CGAffineTransformMakeScale(1, (sheetContentView.frame.size.height + JKAlertSheetSpringHeight) / sheetContentView.frame.size.height);
+    CGRect frame = sheetContentView.frame;
+    
+    switch (self.showAnimationType) {
+        case JKAlertSheetShowAnimationTypeFromRight:
+        case JKAlertSheetShowAnimationTypeFromLeft:
+        {
+            frame.origin.x = (self.superWidth - sheetContentView.frame.size.width) * 0.5;
+            sheetContentView.frame = frame;
+        }
+            break;
+            
+        default:
+        {
+            frame.origin.y = self.superHeight - frame.size.height;
+            sheetContentView.frame = frame;
+            
+            if (sheetContentView.showScaleAnimated &&
+                (JKAlertSheetShowAnimationTypeFromBottom == self.showAnimationType)) {
+                
+                [UIView setAnimationCurve:(UIViewAnimationCurveEaseOut)];
+                
+                sheetContentView.transform = CGAffineTransformMakeScale(1, (sheetContentView.frame.size.height + JKAlertSheetSpringHeight) / sheetContentView.frame.size.height);
+            }
+        }
+            break;
     }
 }
 
@@ -1362,7 +1405,7 @@
     // 即将消失
     !self.willDismissHandler ? : self.willDismissHandler();
     
-    if (!self.isSheetDismissHorizontal) {
+    if (!self.isSheetGestureDismiss) {
         
         // 自定义消失动画
         !self.customDismissAnimationBlock ? : self.customDismissAnimationBlock(self, self.alertContentView);
@@ -1376,7 +1419,7 @@
         
     } completion:^(BOOL finished) {
         
-        if (self.customDismissAnimationBlock && !self.isSheetDismissHorizontal) { return; }
+        if (self.customDismissAnimationBlock && !self.isSheetGestureDismiss) { return; }
         
         self.dismissAnimationDidComplete();
     }];
@@ -1385,18 +1428,7 @@
 - (void)dismissAnimationOperation {
     
     if (self.customDismissAnimationBlock &&
-        !self.isSheetDismissHorizontal) {
-        
-        return;
-    }
-    
-    CGRect frame = self.currentAlertContentView.frame;
-    
-    if (self.isSheetDismissHorizontal) {
-        
-        frame.origin.x = self.superWidth;
-        
-        self.currentAlertContentView.frame = frame;
+        !self.isSheetGestureDismiss) {
         
         return;
     }
@@ -1412,14 +1444,39 @@
         case JKAlertStyleActionSheet:
         case JKAlertStyleCollectionSheet:
         {
-            frame.origin.y = self.superHeight;
-            self.currentAlertContentView.frame = frame;
+            [self dismissSheetAnimationOperation];
         }
             break;
             
         default:
             break;
     }
+}
+
+- (void)dismissSheetAnimationOperation {
+    
+    CGRect frame = self.currentAlertContentView.frame;
+    
+    switch (self.dismissAnimationType) {
+        case JKAlertSheetDismissAnimationTypeToRight:
+        {
+            frame.origin.x = self.superWidth;
+        }
+            break;
+        case JKAlertSheetDismissAnimationTypeToLeft:
+        {
+            frame.origin.x = -self.superWidth;
+        }
+            break;
+            
+        default:
+        {
+            frame.origin.y = self.superHeight;
+        }
+            break;
+    }
+    
+    self.currentAlertContentView.frame = frame;
 }
 
 - (void (^)(void))dismissAnimationDidComplete {
@@ -1449,7 +1506,7 @@
     
     if (action.autoDismiss && ![action isEmpty]) {
         
-        self.isSheetDismissHorizontal = NO;
+        self.isSheetGestureDismiss = NO;
         
         [self dismiss];
     }
@@ -1458,9 +1515,11 @@
 }
 
 /// 执行dismiss操作
-- (void)alertContentViewExecuteDismiss:(JKAlertBaseAlertContentView *)alertContentView isHorizontal:(BOOL)isHorizontal {
+- (void)alertContentViewExecuteGestureDismiss:(JKAlertBaseAlertContentView *)alertContentView dismissType:(JKAlertSheetDismissAnimationType)dismissType {
 
-    self.isSheetDismissHorizontal = isHorizontal;
+    self.isSheetGestureDismiss = YES;
+    
+    self.dismissAnimationType = dismissType;
     
     [self dismiss];
 }

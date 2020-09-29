@@ -77,7 +77,11 @@
 /** maxSheetHeightSetted */
 @property (nonatomic, assign) BOOL maxSheetHeightSetted;
 
+/** showAnimationType */
+@property (nonatomic, assign) JKAlertSheetShowAnimationType showAnimationType;
 
+/** dismissAnimationType */
+@property (nonatomic, assign) JKAlertSheetDismissAnimationType dismissAnimationType;
 
 
 /** observerSuperView */

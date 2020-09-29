@@ -81,6 +81,32 @@ typedef enum : NSUInteger {
     
 } JKAlertActionStyle;
 
+/// sheet样式展示动画
+typedef NS_ENUM(NSUInteger, JKAlertSheetShowAnimationType) {
+    
+    /// 从底部弹出 默认
+    JKAlertSheetShowAnimationTypeFromBottom = 0,
+    
+    /// 从右侧向左弹出 ←
+    JKAlertSheetShowAnimationTypeFromRight,
+    
+    /// 从左侧向右弹出 →
+    JKAlertSheetShowAnimationTypeFromLeft,
+};
+
+/// sheet样式小时动画
+typedef NS_ENUM(NSUInteger, JKAlertSheetDismissAnimationType) {
+    
+    /// 滑向底部消失 默认
+    JKAlertSheetDismissAnimationTypeToBottom = 0,
+    
+    /// 向右滑动消失 →
+    JKAlertSheetDismissAnimationTypeToRight,
+    
+    /// 像左滑动消失 ←
+    JKAlertSheetDismissAnimationTypeToLeft,
+};
+
 typedef NS_ENUM(NSUInteger, JKAlertScrollDirection) {
     JKAlertScrollDirectionNone = 0,
     JKAlertScrollDirectionUp,
