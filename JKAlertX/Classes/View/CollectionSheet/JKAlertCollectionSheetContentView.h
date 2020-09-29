@@ -8,7 +8,7 @@
 #import "JKAlertBaseSheetContentView.h"
 #import "JKAlertCollectionSheetTextContentView.h"
 
-@class JKAlertAction;
+@class JKAlertAction, JKAlertActionButton;
 
 @interface JKAlertCollectionSheetContentView : JKAlertBaseSheetContentView
 
@@ -17,6 +17,12 @@
 
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertCollectionSheetTextContentView *textContentView;
+
+/** cancelButton */
+@property (nonatomic, weak, readonly) JKAlertActionButton *cancelButton;
+
+/** collectionButton */
+@property (nonatomic, weak, readonly) JKAlertActionButton *collectionButton;
 
 /** collection样式默认有一个取消按钮，设置这个可以在取消按钮的上面再添加一个按钮 */
 @property (nonatomic, strong) JKAlertAction *collectionAction;

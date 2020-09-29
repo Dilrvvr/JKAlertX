@@ -114,6 +114,11 @@
         [providerOwner setEffect:JKAlertCheckDarkMode([UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight], [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark])];
     }]; //*/
     
+    [self restoreAlertBackgroundColor];
+}
+
+- (void)restoreAlertBackgroundColor {
+    
     [JKAlertThemeProvider providerBackgroundColorWithOwner:self.backgroundView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.globalLightBackgroundColor, JKAlertUtility.globalDarkBackgroundColor);

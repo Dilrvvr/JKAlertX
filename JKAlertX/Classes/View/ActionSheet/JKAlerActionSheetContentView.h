@@ -8,7 +8,7 @@
 #import "JKAlertBaseSheetContentView.h"
 #import "JKAlertActionSheetTextContentView.h"
 
-@class JKAlertAction;
+@class JKAlertAction, JKAlertActionButton;
 
 @interface JKAlerActionSheetContentView : JKAlertBaseSheetContentView
 
@@ -17,6 +17,9 @@
 
 /** tableView */
 @property (nonatomic, weak, readonly) UITableView *tableView;
+
+/** cancelButton */
+@property (nonatomic, weak, readonly) JKAlertActionButton *cancelButton;
 
 /** cell类名 必须是或继承自JKAlertTableViewCell */
 @property (nonatomic, copy) NSString *cellClassName;

@@ -32,7 +32,8 @@
 }
 
 /**
- * actionSheet样式title的背景色
+ * actionSheet样式顶部的背景色
+ * pierced镂空样式时，表示上部分的颜色，包括title和tableView 
  */
 - (JKAlertView *(^)(UIColor *color))makeActionSheetTopBackgroundColor {
     
@@ -43,6 +44,24 @@
             [self.actionsheetContentView.topContentView.backgroundView.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
             
             self.actionsheetContentView.topContentView.backgroundView.backgroundColor = color;
+        }];
+    };
+}
+
+/**
+ * actionSheet样式底部按钮的颜色
+ * 默认无
+ * 仅底部按钮被固定时有效，包括pierced镂空样式
+ */
+- (JKAlertView *(^)(UIColor *color))makeActionSheetBottomButtonBackgroundColor {
+    
+    return ^(UIColor *color) {
+        
+        return [self checkActionSheetStyleHandler:^{
+            
+            [self.actionsheetContentView.cancelButton.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
+            
+            self.actionsheetContentView.cancelButton.backgroundColor = color;
         }];
     };
 }

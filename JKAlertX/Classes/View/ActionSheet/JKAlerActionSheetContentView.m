@@ -19,9 +19,6 @@
 /** horizontalSeparatorLineView */
 @property (nonatomic, weak) UIView *horizontalSeparatorLineView;
 
-/** cancelButton */
-@property (nonatomic, weak) JKAlertActionButton *cancelButton;
-
 /** cornerMaskLayer */
 @property (nonatomic, weak) CALayer *cornerMaskLayer;
 @end
@@ -1172,8 +1169,6 @@
 }
 
 - (void)updateIsPierced {
-    
-    self.cancelButton.isPierced = self.isPierced;
     
     self.backgroundEffectView.hidden = self.isPierced;
 }

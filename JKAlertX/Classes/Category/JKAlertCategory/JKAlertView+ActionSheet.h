@@ -17,9 +17,17 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetCustomTitleView)(UIView *(^customView)(void));
 
 /**
- * actionSheet样式title的背景色
+ * actionSheet样式顶部的背景色
+ * pierced镂空样式时，表示上部分的颜色，包括title和tableView
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetTopBackgroundColor)(UIColor *color);
+
+/**
+ * actionSheet样式底部按钮的颜色
+ * 默认无
+ * 仅底部按钮被固定时有效，包括pierced镂空样式
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetBottomButtonBackgroundColor)(UIColor *color);
 
 /**
  * actionSheet样式最大高度

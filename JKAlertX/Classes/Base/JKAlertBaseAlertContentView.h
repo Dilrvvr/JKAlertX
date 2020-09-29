@@ -61,4 +61,6 @@
 @property (nonatomic, strong) JKAlertAction *cancelAction;
 
 - (void)calculateUI NS_REQUIRES_SUPER;
+
+- (void)restoreAlertBackgroundColor;
 @end

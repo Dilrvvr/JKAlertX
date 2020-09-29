@@ -131,6 +131,11 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeAlertBackgroundColor)(UIColor *backgroundColor);
 
 /**
+ * 恢复默认背景颜色
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^restoreAlertBackgroundColor)(void);
+
+/**
  * 背景view
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeAlertBackgroundView)(UIView *(^backgroundView)(void));

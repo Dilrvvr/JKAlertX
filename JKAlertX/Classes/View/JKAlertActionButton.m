@@ -42,8 +42,6 @@
     
     self.actionView.action = action;
     
-    //self.backgroundColor = (self.isPierced ? action.backgroundColor : nil);
-    
     if (self.customView &&
         self.customView.superview == self) {
         
@@ -56,12 +54,6 @@
         [self addSubview:action.customView];
         self.customView = action.customView;
     }
-}
-
-- (void)setIsPierced:(BOOL)isPierced {
-    _isPierced = isPierced;
-    
-    //self.backgroundColor = (isPierced ? self.action.backgroundColor : nil);
 }
 
 - (void)setHighlighted:(BOOL)highlighted {

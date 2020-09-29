@@ -37,12 +37,6 @@
 /** collectionSeparatorLineView */
 @property (nonatomic, weak) UIView *collectionSeparatorLineView;
 
-/** cancelButton */
-@property (nonatomic, weak) JKAlertActionButton *cancelButton;
-
-/** collectionButton */
-@property (nonatomic, weak) JKAlertActionButton *collectionButton;
-
 /** cornerMaskLayer */
 @property (nonatomic, weak) CALayer *cornerMaskLayer;
 @end
@@ -63,9 +57,6 @@
 
 - (void)setIsPierced:(BOOL)isPierced {
     [super setIsPierced:isPierced];
-    
-    self.cancelButton.isPierced = self.isPierced;
-    self.collectionButton.isPierced = self.isPierced;
     
     self.backgroundEffectView.hidden = self.isPierced;
 }

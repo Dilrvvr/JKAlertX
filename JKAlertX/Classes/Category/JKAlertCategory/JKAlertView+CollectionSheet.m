@@ -13,7 +13,8 @@
 @implementation JKAlertView (CollectionSheet)
 
 /**
- * actionSheet样式title的背景色
+ * collection样式顶部的背景色
+ * pierced镂空样式时，表示上部分的颜色，包括title和tableView 
  */
 - (JKAlertView *(^)(UIColor *color))makeCollectionSheetTopBackgroundColor {
     
@@ -25,6 +26,27 @@
             
             self.collectionsheetContentView.topContainerView.backgroundColor = color;
         }];
+    };
+}
+
+/**
+ * actionSheet样式底部按钮的颜色
+ * 默认无
+ */
+- (JKAlertView *(^)(UIColor *color))makeCollectionSheetBottomButtonBackgroundColor {
+    
+    return ^(UIColor *color) {
+        
+        return [self checkCollectionSheetStyleHandler:^{
+            
+            [self.collectionsheetContentView.collectionButton.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
+            [self.collectionsheetContentView.cancelButton.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
+            
+            self.collectionsheetContentView.collectionButton.backgroundColor = color;
+            self.collectionsheetContentView.cancelButton.backgroundColor = color;
+        }];
+        
+        return self;
     };
 }
 

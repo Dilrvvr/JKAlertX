@@ -203,6 +203,18 @@
 }
 
 /**
+ * 恢复默认背景颜色
+ */
+- (JKAlertView *(^)(void))restoreAlertBackgroundColor {
+    
+    [self.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(restoreAlertBackgroundColor))];
+    
+    [self.currentAlertContentView restoreAlertBackgroundColor];
+    
+    return ^{ return self; };
+}
+
+/**
  * 背景view
  */
 - (JKAlertView *(^)(UIView *(^backgroundView)(void)))makeAlertBackgroundView {
@@ -630,8 +642,6 @@
         if (!sheetContentView) { return self; }
         
         sheetContentView.gestureIndicatorHidden = gestureIndicatorHidden;
-        
-        return self;
         
         return self;
     };
