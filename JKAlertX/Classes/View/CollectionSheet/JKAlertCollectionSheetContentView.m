@@ -703,7 +703,14 @@
         
         lastContainerX = self.frame.origin.x;
         
-        if (scrollView.contentOffset.x + scrollView.contentInset.left < 0) {
+        if (scrollView.contentOffset.x + scrollView.contentInset.left < 0 &&
+            fabs(self.frame.origin.x - self.correctFrame.origin.x) < 0.1) {
+            
+            disableScrollToDismiss = YES;
+        }
+        
+        if (scrollView.contentOffset.x + scrollView.frame.size.width - scrollView.contentInset.right > scrollView.contentSize.width &&
+            fabs(self.frame.origin.x - self.correctFrame.origin.x) < 0.1) {
             
             disableScrollToDismiss = YES;
         }
@@ -840,6 +847,28 @@
         self.frame = frame;
         
         scrollView.contentOffset = CGPointMake(-scrollView.contentInset.left, scrollView.contentOffset.y);
+        
+    } else if (scrollView.contentOffset.x + scrollView.frame.size.width - scrollView.contentInset.right > scrollView.contentSize.width) {
+        
+        CGRect frame = self.frame;
+        
+        frame.origin.x -= (scrollView.contentOffset.x + scrollView.frame.size.width - scrollView.contentInset.right - scrollView.contentSize.width);
+        
+        self.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(scrollView.contentSize.width - scrollView.frame.size.width + scrollView.contentInset.right, scrollView.contentOffset.y);
+        
+    } else if (self.frame.origin.x < self.correctFrame.origin.x - 0.1) {
+        
+        CGRect frame = self.frame;
+        
+        frame.origin.x -= (scrollView.contentOffset.x + scrollView.frame.size.width - scrollView.contentInset.right - scrollView.contentSize.width);
+        
+        frame.origin.x = (frame.origin.x > self.correctFrame.origin.x) ? self.correctFrame.origin.x : frame.origin.x;
+        
+        self.frame = frame;
+        
+        scrollView.contentOffset = CGPointMake(scrollView.contentSize.width - scrollView.frame.size.width + scrollView.contentInset.right, scrollView.contentOffset.y);
     }
     
     if (scrollView.isDragging) {
@@ -877,7 +906,16 @@
     
     if (!self.horizontalGestureDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
     
-    if (scrollView.contentOffset.x + scrollView.contentInset.left > 0) {
+    if (scrollView.contentOffset.x + scrollView.contentInset.left > 0 &&
+        fabs(self.frame.origin.x - self.correctFrame.origin.x) < 0.1) {
+        
+        disableScrollToDismiss = YES;
+        
+        return;
+    }
+    
+    if (scrollView.contentOffset.x + scrollView.frame.size.width - scrollView.contentInset.right > scrollView.contentSize.width &&
+        fabs(self.frame.origin.x - self.correctFrame.origin.x) < 0.1) {
         
         disableScrollToDismiss = YES;
         
@@ -889,6 +927,13 @@
         if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteGestureDismiss:dismissType:)]) {
             
             [self.delegate alertContentViewExecuteGestureDismiss:self dismissType:JKAlertSheetDismissAnimationTypeToRight];
+        }
+        
+    } else if (velocity.x > 1.5 && beginScrollDirection == endScrollDirection) {
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteGestureDismiss:dismissType:)]) {
+            
+            [self.delegate alertContentViewExecuteGestureDismiss:self dismissType:JKAlertSheetDismissAnimationTypeToLeft];
         }
         
     } else {

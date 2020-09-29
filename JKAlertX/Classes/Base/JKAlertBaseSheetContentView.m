@@ -274,8 +274,7 @@
                 
             } else {
                 
-                if (!self.tapBlankDismiss ||
-                    (center.x <= (self.alertWidth * 0.5))) {
+                if (!self.tapBlankDismiss) {
                     
                     center.x += (point.x * 0.02);
                     
@@ -309,8 +308,11 @@
             
             float slideFactor = 0.1 * slideMult;
             CGPoint finalPoint = CGPointMake(self.center.x + (velocity.x * slideFactor), self.center.y + (velocity.y * slideFactor));
-            BOOL isSlideHalf = ((finalPoint.x - self.frame.size.width * 0.5) - (self.alertWidth - self.frame.size.width) > self.frame.size.width * 0.5);
-            if (isSlideHalf &&
+            
+            BOOL isSlideToRightHalf = finalPoint.x > self.frame.size.width;
+            BOOL isSlideToLeftHalf = finalPoint.x < 0;
+            
+            if (isSlideToRightHalf &&
                 self.tapBlankDismiss &&
                 beginScrollDirection == endScrollDirection) {
                     
@@ -318,6 +320,15 @@
                         
                         [self.delegate alertContentViewExecuteGestureDismiss:self dismissType:JKAlertSheetDismissAnimationTypeToRight];
                     }
+                
+            } else if (isSlideToLeftHalf &&
+                       self.tapBlankDismiss &&
+                       beginScrollDirection == endScrollDirection) {
+                
+                if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteGestureDismiss:dismissType:)]) {
+                    
+                    [self.delegate alertContentViewExecuteGestureDismiss:self dismissType:JKAlertSheetDismissAnimationTypeToLeft];
+                }
                 
             } else {
                 
@@ -430,7 +441,7 @@
 - (JKAlertPanGestureRecognizer *)horizontalDismissPanGesture {
     if (!_horizontalDismissPanGesture) {
         _horizontalDismissPanGesture = [[JKAlertPanGestureRecognizer alloc] initWithTarget:self action:@selector(horizontalPanGestureAction:)];
-        _horizontalDismissPanGesture.direction = JKAlertPanGestureDirectionToRight;
+        _horizontalDismissPanGesture.direction = JKAlertPanGestureDirectionHorizontal;
         _horizontalDismissPanGesture.delegate = self;
     }
     return _horizontalDismissPanGesture;
