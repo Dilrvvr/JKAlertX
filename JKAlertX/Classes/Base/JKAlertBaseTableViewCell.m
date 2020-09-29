@@ -15,6 +15,8 @@
 
 @interface JKAlertBaseTableViewCell ()
 
+/** customView */
+@property (nonatomic, weak) UIView *customView;
 @end
 
 @implementation JKAlertBaseTableViewCell
@@ -41,6 +43,19 @@
     self.actionView.action = action;
     
     self.bottomLineView.hidden = action.separatorLineHidden;
+    
+    if (self.customView &&
+        self.customView.superview == self.contentView) {
+        
+        [self.customView removeFromSuperview];
+        self.customView = nil;
+    }
+    
+    if (action.customView) {
+        
+        [self.contentView addSubview:action.customView];
+        self.customView = action.customView;
+    }
 }
 
 #pragma mark
@@ -50,6 +65,11 @@
     [super layoutSubviews];
     
     self.contentView.frame = self.bounds;
+    
+    if (self.customView) {
+        
+        self.customView.frame = self.bounds;
+    }
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {

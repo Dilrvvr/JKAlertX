@@ -102,7 +102,10 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.customView.frame = self.contentView.bounds;
+    if (self.customView) {
+        
+        self.customView.frame = self.contentView.bounds;
+    }
 }
 
 #pragma mark

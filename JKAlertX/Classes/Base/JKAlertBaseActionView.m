@@ -18,9 +18,6 @@
 
 /** containerView */
 @property (nonatomic, weak) UIView *containerView;
-
-/** customView */
-@property (nonatomic, weak) UIView *customView;
 @end
 
 @implementation JKAlertBaseActionView
@@ -37,27 +34,11 @@
     self.iconImageView.image = nil;
     self.iconImageView.highlightedImage = nil;
     
-    if (self.customView &&
-        self.customView.superview == self.contentView) {
-        
-        [self.customView removeFromSuperview];
-        self.customView = nil;
-    }
-    
     [self updateAppearanceWithAction:action];
     
-    if (action.customView) {
-        
-        self.containerView.hidden = YES;
-        
-        self.customView = action.customView;
-        
-        [self.contentView addSubview:action.customView];
-        
-        return;
-    }
+    self.containerView.hidden = (action.customView != nil);
     
-    self.containerView.hidden = NO;
+    if (self.containerView.hidden) { return; }
     
     self.titleLabel.font = action.titleFont;
     
@@ -82,11 +63,6 @@
     self.backgroundView.hidden = seleted;
     self.selectedBackgroundView.hidden = !self.backgroundView.hidden;
     
-    if (self.customView) {
-        
-        self.customView.alpha = seleted ? 0.5 : 1.0;
-    }
-    
     [self updateAppearanceWithAction:self.action];
 }
 
@@ -95,11 +71,6 @@
     
     self.backgroundView.hidden = highlighted;
     self.selectedBackgroundView.hidden = !self.backgroundView.hidden;
-    
-    if (self.customView) {
-        
-        self.customView.alpha = highlighted ? 0.5 : 1.0;
-    }
     
     self.iconImageView.highlighted = highlighted;
     
@@ -126,13 +97,6 @@
     }
     
     self.containerView.frame = self.contentView.bounds;
-    
-    if (self.customView) {
-        
-        self.contentView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-        
-        self.customView.frame = self.contentView.bounds;
-    }
 }
 
 #pragma mark

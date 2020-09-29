@@ -72,7 +72,7 @@
         [self insertSubview:action.customView belowSubview:self.topSeparatorLineView];
         self.customView = action.customView;
         
-        // 有customViewm，清空文字
+        // 有customView，清空文字
         [self setTitle:nil forState:(UIControlStateNormal)];
         [self setAttributedTitle:nil forState:(UIControlStateNormal)];
         

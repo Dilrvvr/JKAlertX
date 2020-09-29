@@ -14,6 +14,9 @@
 
 /** actionView */
 @property (nonatomic, weak) JKAlertTableActionView *actionView;
+
+/** customView */
+@property (nonatomic, weak) UIView *customView;
 @end
 
 @implementation JKAlertActionButton
@@ -39,13 +42,26 @@
     
     self.actionView.action = action;
     
-    self.backgroundColor = (self.isPierced ? action.backgroundColor : nil);
+    //self.backgroundColor = (self.isPierced ? action.backgroundColor : nil);
+    
+    if (self.customView &&
+        self.customView.superview == self) {
+        
+        [self.customView removeFromSuperview];
+        self.customView = nil;
+    }
+    
+    if (action.customView) {
+        
+        [self addSubview:action.customView];
+        self.customView = action.customView;
+    }
 }
 
 - (void)setIsPierced:(BOOL)isPierced {
     _isPierced = isPierced;
     
-    self.backgroundColor = (isPierced ? self.action.backgroundColor : nil);
+    //self.backgroundColor = (isPierced ? self.action.backgroundColor : nil);
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
@@ -75,6 +91,11 @@
     [super layoutSubviews];
     
     self.actionView.frame = self.bounds;
+    
+    if (self.customView) {
+        
+        self.customView.frame = self.bounds;
+    }
 }
 
 #pragma mark
