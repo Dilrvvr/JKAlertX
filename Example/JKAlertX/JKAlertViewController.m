@@ -482,10 +482,6 @@
     .makeGestureIndicatorHidden(NO)
     .makeShowScaleAnimated(YES);
     
-    alertView.makeSheetShowAnimationType(JKAlertSheetShowAnimationTypeFromLeft)
-    .makeSheetDismissAnimationType(JKAlertSheetDismissAnimationTypeToLeft);
-    
-    
     alertView.makeCustomSuperView(self.customSuperView);
     
     // 展示时振动一下
