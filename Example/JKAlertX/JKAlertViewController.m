@@ -30,17 +30,22 @@
     
     __weak typeof(self) weakSelf = self;
     
+    
+    
+    // alert/plain样式
+    
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"alert/plain样式" configuration:^(JKAlertTableGroupModel *group) {
         
         [JKAlertTableModel modelWithTitle:@"alert with basic style" group:group executeHandler:^(JKAlertTableModel *model) {
             
-            JKAlertView.alertView(@"提示", @"你好你好你好\n你好你好你好你好", JKAlertStyleAlert)
-            .makeCustomSuperView(self.customSuperView)
+            JKAlertView.alertView(@"标题", @"内容内容\n内容内容内容\n内容内容内容内容", JKAlertStyleAlert)
             .addAction(JKAlertAction.action(@"取消", JKAlertActionStyleCancel, ^(JKAlertAction *action) {
                 
-            })).addAction(JKAlertAction.action(@"确定", JKAlertActionStyleDefaultBlue, ^(JKAlertAction *action) {
+            }))
+            .addAction(JKAlertAction.action(@"确定", JKAlertActionStyleDefaultBlue, ^(JKAlertAction *action) {
                 
-            })).show();
+            }))
+            .show();
         }];
         
         [JKAlertTableModel modelWithTitle:@"alert with custom animation" group:group executeHandler:^(JKAlertTableModel *model) {
@@ -65,12 +70,16 @@
     }]];
     
     
+    
+    // HUD样式
+    
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"HUD样式" configuration:^(JKAlertTableGroupModel *group) {
         
         [JKAlertTableModel modelWithTitle:@"HUD with basic style" group:group executeHandler:^(JKAlertTableModel *model) {
             
             JKAlertView.showHUDWithTitle(@"你好你好你好", ^(JKAlertView *alertView) {
-                alertView.makeCustomSuperView(self.customSuperView);
+                alertView.makeCustomSuperView(self.customSuperView)
+                .makeHudAllowUserInteractionEnabled(YES);
             });
         }];
         
@@ -85,6 +94,9 @@
         }];
     }]];
     
+    
+    
+    // action sheet样式
     
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"action sheet样式" configuration:^(JKAlertTableGroupModel *group) {
         
@@ -111,11 +123,14 @@
     }]];
     
     
+    
+    // collection sheet样式
+    
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"collection sheet样式" configuration:^(JKAlertTableGroupModel *group) {
         
         [JKAlertTableModel modelWithTitle:@"collection sheet with basic style" group:group executeHandler:^(JKAlertTableModel *model) {
             
-            JKAlertView *alertView = JKAlertView.alertView(@"提示", @"你好你好你好", JKAlertStyleCollectionSheet);
+            JKAlertView *alertView = JKAlertView.alertView(@"collectionSheet", nil, JKAlertStyleCollectionSheet);
             
             [weakSelf addCollectionActionsWithAlertView:alertView];
 
@@ -159,6 +174,10 @@
         }];
     }]];
     
+    
+    
+    // 自定义
+    
     [self.dataArray addObject:[JKAlertTableGroupModel groupWithTitle:@"自定义" configuration:^(JKAlertTableGroupModel *group) {
         
         [JKAlertTableModel modelWithTitle:@"custom alert" group:group executeHandler:^(JKAlertTableModel *model) {
@@ -171,6 +190,10 @@
             [weakSelf customSheet];
         }];
     }]];
+    
+    
+    
+    // 其它
     
     if ([self isMemberOfClass:[JKAlertViewController class]]) {
         

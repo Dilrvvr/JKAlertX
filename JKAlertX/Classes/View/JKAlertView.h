@@ -33,7 +33,7 @@
  * textField可以直接对其superView进行一些属性修改，如背景色
  * block中的参数view用于调用dismiss()来移除当前弹框
  */
-- (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *view, UITextField *textField))configurationHandler;
+- (void)addTextFieldWithConfigurationHandler:(void (^)(JKAlertView *innerAlertView, UITextField *textField))configurationHandler;
 
 /** 显示 */
 @property (nonatomic, copy, readonly) JKAlertView *(^show)(void);
