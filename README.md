@@ -30,6 +30,35 @@ iOS弹框，包含alert/actionSheet/collectionSheet(类似分享面板)/HUD四�
 4. 支持手动调整深色/浅色模式，目前仅支持全局调整。
 
 
+基本用法
+==============
+
+### 正常写法（基础弹框）
+```objc
+JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"标题" message:@"内容" style:(JKAlertStyleAlert)];
+
+[alertView addAction:[JKAlertAction actionWithTitle:@"取消" style:JKAlertActionStyleCancel handler:^(JKAlertAction *action) {
+
+}]];
+
+[alertView addAction:[JKAlertAction actionWithTitle:@"确定" style:JKAlertActionStyleDefaultBlue handler:^(JKAlertAction *action) {
+
+}]];
+
+[alertView show];
+```
+### 链式写法（基础弹框）
+```objc
+JKAlertView.alertView(@"标题", @"内容", JKAlertStyleAlert)
+.addAction(JKAlertAction.action(@"取消", JKAlertActionStyleCancel, ^(JKAlertAction *action) {
+    
+}))
+.addAction(JKAlertAction.action(@"确定", JKAlertActionStyleDefaultBlue, ^(JKAlertAction *action) {
+    
+}))
+.show();
+```
+
 演示项目
 ==============
 查看并运行 `Example/JKAlertX.xcodeproj`  
