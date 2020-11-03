@@ -38,7 +38,7 @@
             .makeCustomSuperView(self.customSuperView)
             .addAction(JKAlertAction.action(@"取消", JKAlertActionStyleCancel, ^(JKAlertAction *action) {
                 
-            })).addAction(JKAlertAction.action(@"确认", JKAlertActionStyleDefaultBlue, ^(JKAlertAction *action) {
+            })).addAction(JKAlertAction.action(@"确定", JKAlertActionStyleDefaultBlue, ^(JKAlertAction *action) {
                 
             })).show();
         }];
@@ -92,9 +92,9 @@
             
             JKAlertView.alertView(@"提示", @"你好你好你好", JKAlertStyleActionSheet)
             .makeCustomSuperView(self.customSuperView)
-            .addAction(JKAlertAction.action(@"确认1", JKAlertActionStyleDefault, ^(JKAlertAction *action) {
+            .addAction(JKAlertAction.action(@"确定1", JKAlertActionStyleDefault, ^(JKAlertAction *action) {
                 
-            })).addAction(JKAlertAction.action(@"确认2", JKAlertActionStyleDefault, ^(JKAlertAction *action) {
+            })).addAction(JKAlertAction.action(@"确定2", JKAlertActionStyleDefault, ^(JKAlertAction *action) {
                 
             })).show();
         }];
