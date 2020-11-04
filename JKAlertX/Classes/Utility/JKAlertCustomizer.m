@@ -1,14 +1,14 @@
 //
-//  JKAlertManager.m
+//  JKAlertCustomizer.m
 //  JKAlertX
 //
 //  Created by albert on 2020/7/30.
 //
 
-#import "JKAlertManager.h"
+#import "JKAlertCustomizer.h"
 #import "JKAlertX.h"
 
-@implementation JKAlertManager
+@implementation JKAlertCustomizer
 
 /**
  * 自定义alert(plain)样式

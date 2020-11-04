@@ -1,5 +1,5 @@
 //
-//  JKAlertManager.h
+//  JKAlertCustomizer.h
 //  JKAlertX
 //
 //  Created by albert on 2020/7/30.
@@ -9,7 +9,7 @@
 
 @class JKAlertView;
 
-@interface JKAlertManager : NSObject
+@interface JKAlertCustomizer : NSObject
 
 /**
  * 自定义alert(plain)样式

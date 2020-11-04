@@ -823,7 +823,7 @@
 
 - (void)customAlert {
     
-    [JKAlertManager showCustomAlertWithViewHandler:^UIView *(JKAlertView *innerAlertView) {
+    [JKAlertCustomizer showCustomAlertWithViewHandler:^UIView *(JKAlertView *innerAlertView) {
         
         UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 250.0)];
         customView.backgroundColor = [UIColor orangeColor];
@@ -861,7 +861,7 @@
 
 - (void)customSheet {
     
-    [JKAlertManager showCustomSheetWithViewHandler:^UIView *(JKAlertView *innerAlertView) {
+    [JKAlertCustomizer showCustomSheetWithViewHandler:^UIView *(JKAlertView *innerAlertView) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 300.0 + JKAlertUtility.currentHomeIndicatorHeight)];
         
