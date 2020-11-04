@@ -853,7 +853,7 @@
         
         return customView;
         
-    } clearAlertBackgroundColor:YES configurationBeforeShow:^(JKAlertView *innerAlertView) {
+    } configurationBeforeShow:^(JKAlertView *innerAlertView) {
         
         innerAlertView.makeCustomSuperView(self.customSuperView);
     }];
