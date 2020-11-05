@@ -113,7 +113,8 @@
         message = [systemMode stringByAppendingString:message];
         
         JKAlertView.alertView(@"深色模式切换", message, JKAlertStyleActionSheet)
-        .makeGestureDismissEnabled(YES, YES)
+        .makeVerticalGestureDismissEnabled(YES)
+        .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
         .makeGestureIndicatorHidden(NO)
         .makeShowScaleAnimated(YES)
         .makeDismissKey(alertKey)

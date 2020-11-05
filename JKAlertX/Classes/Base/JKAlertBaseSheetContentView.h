@@ -67,7 +67,10 @@
 @property (nonatomic, assign) BOOL verticalGestureDismissEnabled;
 
 /** horizontalGestureDismissEnabled */
-@property (nonatomic, assign) BOOL horizontalGestureDismissEnabled;
+@property (nonatomic, assign, readonly) BOOL horizontalGestureDismissEnabled;
+
+/** horizontalGestureDismissDirection */
+@property (nonatomic, assign) JKAlertSheetHorizontalGestureDismissDirection horizontalGestureDismissDirection;
 
 /** gestureIndicatorHidden */
 @property (nonatomic, assign) BOOL gestureIndicatorHidden;

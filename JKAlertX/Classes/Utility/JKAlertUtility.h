@@ -94,7 +94,7 @@ typedef NS_ENUM(NSUInteger, JKAlertSheetShowAnimationType) {
     JKAlertSheetShowAnimationTypeFromLeft,
 };
 
-/// sheet样式小时动画
+/// sheet样式消失动画
 typedef NS_ENUM(NSUInteger, JKAlertSheetDismissAnimationType) {
     
     /// 滑向底部消失 默认
@@ -103,8 +103,24 @@ typedef NS_ENUM(NSUInteger, JKAlertSheetDismissAnimationType) {
     /// 向右滑动消失 →
     JKAlertSheetDismissAnimationTypeToRight,
     
-    /// 像左滑动消失 ←
+    /// 向左滑动消失 ←
     JKAlertSheetDismissAnimationTypeToLeft,
+};
+
+/// sheet样式横向手势滑动消失方向
+typedef NS_ENUM(NSUInteger, JKAlertSheetHorizontalGestureDismissDirection) {
+    
+    /// 不支持手势横向滑动消失
+    JKAlertSheetHorizontalGestureDismissDirectionNone = 0,
+    
+    /// 支持手势左右方向滑动消失 ← →
+    JKAlertSheetHorizontalGestureDismissDirectionHorizontal,
+    
+    /// 仅支持手势向左方向滑动消失 ←
+    JKAlertSheetHorizontalGestureDismissDirectionToLeft,
+    
+    /// 仅支持手势向右方向滑动消失 →
+    JKAlertSheetHorizontalGestureDismissDirectionToRight,
 };
 
 typedef NS_ENUM(NSUInteger, JKAlertScrollDirection) {

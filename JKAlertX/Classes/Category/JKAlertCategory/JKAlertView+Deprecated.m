@@ -478,6 +478,27 @@
     return [self makeDismissCategory];
 }
 
+/**
+ * 是否允许手势退出
+ * 默认NO 仅限以下样式
+ * JKAlertStyleActionSheet
+ * JKAlertStyleCollectionSheet
+ * JKAlertStyleNotification(: - JKTODO)
+ */
+- (JKAlertView *(^)(BOOL verticalEnabled, BOOL horizontalEnabled))makeGestureDismissEnabled {
+    
+    return ^(BOOL verticalEnabled, BOOL horizontalEnabled) {
+        
+        JKAlertBaseSheetContentView *sheetContentView = [self checkSheetContentView];
+        
+        if (!sheetContentView) { return self; }
+        
+        sheetContentView.verticalGestureDismissEnabled = verticalEnabled;
+        
+        return self.makeHorizontalGestureDismissDirection(horizontalEnabled ? JKAlertSheetHorizontalGestureDismissDirectionHorizontal : JKAlertSheetHorizontalGestureDismissDirectionNone);
+    };
+}
+
 #pragma mark
 #pragma mark - 显示之后更新UI
 

@@ -309,13 +309,23 @@
 #pragma mark - 手势退出
 
 /**
- * 是否允许手势退出
+ * 是否允许竖向手势退出
  * 默认NO 仅限以下样式
+ * JKAlertStyleActionSheet 手势向下滑动退出 ↓
+ * JKAlertStyleCollectionSheet 手势向下滑动退出 ↓
+ * JKAlertStyleNotification(: - JKTODO 手势向上滑动退出 ↑)
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeVerticalGestureDismissEnabled)(BOOL enabled);
+
+/**
+ * 横向手势退出支持的方向
+ * 默认JKAlertSheetHorizontalGestureDismissDirectionNone
+ * 默认不支持横向手势退出仅限以下样式
  * JKAlertStyleActionSheet
  * JKAlertStyleCollectionSheet
  * JKAlertStyleNotification(: - JKTODO)
  */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeGestureDismissEnabled)(BOOL verticalEnabled, BOOL horizontalEnabled);
+@property (nonatomic, copy, readonly) JKAlertView *(^makeHorizontalGestureDismissDirection)(JKAlertSheetHorizontalGestureDismissDirection direction);
 
 /**
  * 是否隐藏手势指示器(在顶部一个横条)

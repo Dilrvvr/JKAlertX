@@ -652,22 +652,43 @@
 #pragma mark - 手势退出
 
 /**
- * 是否允许手势退出
+ * 是否允许竖向手势退出
  * 默认NO 仅限以下样式
- * JKAlertStyleActionSheet
- * JKAlertStyleCollectionSheet
- * JKAlertStyleNotification(: - JKTODO)
+ * JKAlertStyleActionSheet 手势向下滑动退出 ↓
+ * JKAlertStyleCollectionSheet 手势向下滑动退出 ↓
+ * JKAlertStyleNotification(: - JKTODO 手势向上滑动退出 ↑)
  */
-- (JKAlertView *(^)(BOOL verticalEnabled, BOOL horizontalEnabled))makeGestureDismissEnabled {
+- (JKAlertView *(^)(BOOL enabled))makeVerticalGestureDismissEnabled {
     
-    return ^(BOOL verticalEnabled, BOOL horizontalEnabled) {
+    return ^(BOOL enabled) {
         
         JKAlertBaseSheetContentView *sheetContentView = [self checkSheetContentView];
         
         if (!sheetContentView) { return self; }
         
-        sheetContentView.verticalGestureDismissEnabled = verticalEnabled;
-        sheetContentView.horizontalGestureDismissEnabled = horizontalEnabled;
+        sheetContentView.verticalGestureDismissEnabled = enabled;
+        
+        return self;
+    };
+}
+
+/**
+ * 横向手势退出支持的方向
+ * 默认JKAlertSheetHorizontalGestureDismissDirectionNone
+ * 默认不支持横向手势退出仅限以下样式
+ * JKAlertStyleActionSheet
+ * JKAlertStyleCollectionSheet
+ * JKAlertStyleNotification(: - JKTODO)
+ */
+- (JKAlertView *(^)(JKAlertSheetHorizontalGestureDismissDirection direction))makeHorizontalGestureDismissDirection {
+    
+    return ^(JKAlertSheetHorizontalGestureDismissDirection direction) {
+        
+        JKAlertBaseSheetContentView *sheetContentView = [self checkSheetContentView];
+        
+        if (!sheetContentView) { return self; }
+        
+        sheetContentView.horizontalGestureDismissDirection = direction;
         
         return self;
     };

@@ -828,6 +828,11 @@
     
     if (scrollView.contentOffset.x + scrollView.contentInset.left < 0) {
         
+        if (JKAlertSheetHorizontalGestureDismissDirectionToLeft == self.horizontalGestureDismissDirection) {
+            
+            return;
+        }
+        
         CGRect frame = self.frame;
         
         frame.origin.x -= (scrollView.contentOffset.x + scrollView.contentInset.left);
@@ -837,6 +842,11 @@
         scrollView.contentOffset = CGPointMake(-scrollView.contentInset.left, scrollView.contentOffset.y);
         
     } else if (self.frame.origin.x > self.correctFrame.origin.x + 0.1) {
+        
+        if (JKAlertSheetHorizontalGestureDismissDirectionToLeft == self.horizontalGestureDismissDirection) {
+            
+            return;
+        }
         
         CGRect frame = self.frame;
         
@@ -850,6 +860,11 @@
         
     } else if (scrollView.contentOffset.x + scrollView.frame.size.width - scrollView.contentInset.right > scrollView.contentSize.width) {
         
+        if (JKAlertSheetHorizontalGestureDismissDirectionToRight == self.horizontalGestureDismissDirection) {
+            
+            return;
+        }
+        
         CGRect frame = self.frame;
         
         frame.origin.x -= (scrollView.contentOffset.x + scrollView.frame.size.width - scrollView.contentInset.right - scrollView.contentSize.width);
@@ -859,6 +874,11 @@
         scrollView.contentOffset = CGPointMake(scrollView.contentSize.width - scrollView.frame.size.width + scrollView.contentInset.right, scrollView.contentOffset.y);
         
     } else if (self.frame.origin.x < self.correctFrame.origin.x - 0.1) {
+        
+        if (JKAlertSheetHorizontalGestureDismissDirectionToRight == self.horizontalGestureDismissDirection) {
+            
+            return;
+        }
         
         CGRect frame = self.frame;
         
@@ -906,16 +926,7 @@
     
     if (!self.horizontalGestureDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
     
-    if (scrollView.contentOffset.x + scrollView.contentInset.left > 0 &&
-        fabs(self.frame.origin.x - self.correctFrame.origin.x) < 0.1) {
-        
-        disableScrollToDismiss = YES;
-        
-        return;
-    }
-    
-    if (scrollView.contentOffset.x + scrollView.frame.size.width - scrollView.contentInset.right > scrollView.contentSize.width &&
-        fabs(self.frame.origin.x - self.correctFrame.origin.x) < 0.1) {
+    if (fabs(self.frame.origin.x - self.correctFrame.origin.x) < 0.1) {
         
         disableScrollToDismiss = YES;
         
@@ -924,12 +935,22 @@
     
     if (velocity.x < -1.5 && beginScrollDirection == endScrollDirection) {
         
+        if (JKAlertSheetHorizontalGestureDismissDirectionToLeft == self.horizontalGestureDismissDirection) {
+            
+            return;
+        }
+        
         if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteGestureDismiss:dismissType:)]) {
             
             [self.delegate alertContentViewExecuteGestureDismiss:self dismissType:JKAlertSheetDismissAnimationTypeToRight];
         }
         
     } else if (velocity.x > 1.5 && beginScrollDirection == endScrollDirection) {
+        
+        if (JKAlertSheetHorizontalGestureDismissDirectionToRight == self.horizontalGestureDismissDirection) {
+            
+            return;
+        }
         
         if (self.delegate && [self.delegate respondsToSelector:@selector(alertContentViewExecuteGestureDismiss:dismissType:)]) {
             

@@ -25,6 +25,36 @@
     self.backgroundView.hidden = isPierced;
 }
 
+- (void)setHorizontalGestureDismissDirection:(JKAlertSheetHorizontalGestureDismissDirection)horizontalGestureDismissDirection {
+    _horizontalGestureDismissDirection = horizontalGestureDismissDirection;
+    
+    _horizontalGestureDismissEnabled = YES;
+    
+    switch (horizontalGestureDismissDirection) {
+        case JKAlertSheetHorizontalGestureDismissDirectionHorizontal:
+        {
+            self.horizontalDismissPanGesture.direction = JKAlertPanGestureDirectionHorizontal;
+        }
+            break;
+        case JKAlertSheetHorizontalGestureDismissDirectionToLeft:
+        {
+            self.horizontalDismissPanGesture.direction = JKAlertPanGestureDirectionToLeft;
+        }
+            break;
+        case JKAlertSheetHorizontalGestureDismissDirectionToRight:
+        {
+            self.horizontalDismissPanGesture.direction = JKAlertPanGestureDirectionToRight;
+        }
+            break;
+            
+        default:
+        {
+            _horizontalGestureDismissEnabled = NO;
+        }
+            break;
+    }
+}
+
 #pragma mark
 #pragma mark - Override
 
@@ -172,9 +202,9 @@
             
             CGRect frame = self.frame;
             
-            if (point.y > 0) {
+            if (self.tapBlankDismiss) {
                 
-                if (!self.tapBlankDismiss) {
+                if (frame.origin.y <= self.correctFrame.origin.y) {
                     
                     frame.origin.y += (point.y * 0.01);
                     
@@ -185,15 +215,7 @@
                 
             } else {
                 
-                if (!self.tapBlankDismiss ||
-                    (frame.origin.y <= self.correctFrame.origin.y)) {
-                    
-                    frame.origin.y += (point.y * 0.01);
-                    
-                } else {
-                    
-                    frame.origin.y += point.y;
-                }
+                frame.origin.y += (point.y * 0.01);
             }
             
             frame.origin.y = MAX(frame.origin.y, self.correctFrame.origin.y - 5);
@@ -261,27 +283,48 @@
             
             CGPoint center = self.center;
             
-            if (point.x > 0) {
+            if (self.tapBlankDismiss) {
                 
-                if (!self.tapBlankDismiss) {
-                    
-                    center.x += (point.x * 0.02);
-                    
-                } else {
-                    
-                    center.x += point.x;
+                CGFloat piercedWidth = (self.isPierced ? self.piercedInsets.left + self.piercedInsets.right : 0.0);
+                
+                switch (self.horizontalGestureDismissDirection) {
+                    case JKAlertSheetHorizontalGestureDismissDirectionHorizontal:
+                    {
+                        center.x += point.x;
+                    }
+                        break;
+                    case JKAlertSheetHorizontalGestureDismissDirectionToLeft:
+                    {
+                        if (center.x >= ((self.alertWidth + piercedWidth) * 0.5)) {
+                            
+                            center.x += (point.x * 0.01);
+                            
+                        } else {
+                            
+                            center.x += point.x;
+                        }
+                    }
+                        break;
+                    case JKAlertSheetHorizontalGestureDismissDirectionToRight:
+                    {
+                        if (center.x <= ((self.alertWidth + piercedWidth) * 0.5)) {
+                            
+                            center.x += (point.x * 0.01);
+                            
+                        } else {
+                            
+                            center.x += point.x;
+                        }
+                    }
+                        break;
+                        
+                    default:
+                        break;
                 }
                 
             } else {
                 
-                if (!self.tapBlankDismiss) {
-                    
-                    center.x += (point.x * 0.02);
-                    
-                } else {
-                    
-                    center.x += point.x;
-                }
+                center.x += (point.x * 0.01);
             }
             
             self.center = center;

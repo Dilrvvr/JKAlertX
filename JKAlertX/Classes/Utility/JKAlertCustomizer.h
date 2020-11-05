@@ -11,6 +11,9 @@
 
 @interface JKAlertCustomizer : NSObject
 
+#pragma mark
+#pragma mark - 自定义弹框
+
 /**
  * 自定义alert(plain)样式
  * 默认将移除弹框内容背景色，但不移除全屏黑色透明背景色
@@ -31,6 +34,9 @@
                       clearAlertBackgroundColor:(BOOL)clearAlertBackgroundColor
                        clearFullBackgroundColor:(BOOL)clearFullBackgroundColor
                         configurationBeforeShow:(void(^)(JKAlertView *innerAlertView))configuration;
+
+#pragma mark
+#pragma mark - 自定义sheet
 
 /**
  * 自定义sheet样式

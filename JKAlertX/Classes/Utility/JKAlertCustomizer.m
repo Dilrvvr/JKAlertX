@@ -10,6 +10,9 @@
 
 @implementation JKAlertCustomizer
 
+#pragma mark
+#pragma mark - 自定义弹框
+
 /**
  * 自定义alert(plain)样式
  * 默认将移除弹框内容背景色，但不移除全屏黑色透明背景色
@@ -49,13 +52,13 @@
         alertView.makeAlertBackgroundColor(nil);
     }
     
-    // 移除全屏黑色透明背景色
+    // 移除全屏黑色透明背景色 如需还原，调用[alertView restoreFullBackgroundColor];
     if (clearFullBackgroundColor) {
         
         alertView.makeFullBackgroundColor(nil);
     }
     
-    // 自动
+    // 自定义view
     alertView.makeCustomTextContentView(viewHandler);
     
     // show之前配置一些内容
@@ -66,6 +69,9 @@
     
     return alertView;
 }
+
+#pragma mark
+#pragma mark - 自定义sheet
 
 /**
  * 自定义sheet样式
@@ -106,7 +112,7 @@
         alertView.makeAlertBackgroundColor(nil).makeActionSheetTopBackgroundColor(nil);
     }
     
-    // 移除全屏黑色透明背景色
+    // 移除全屏黑色透明背景色 如需还原，调用[alertView restoreFullBackgroundColor];
     if (clearFullBackgroundColor) {
         
         alertView.makeFullBackgroundColor(nil);
@@ -119,7 +125,7 @@
         
     })).makeTitleMessageSeparatorLineHidden(YES);
     
-    // 自动
+    // 自定义view
     alertView.makeCustomTextContentView(viewHandler);
     
     // show之前配置一些内容

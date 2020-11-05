@@ -501,7 +501,8 @@
 - (void)actionSheet:(JKAlertTableModel *)sender {
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好" style:(JKAlertStyleActionSheet)]
-    .makeGestureDismissEnabled(YES, YES)
+    .makeVerticalGestureDismissEnabled(YES)
+    .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
     .makeGestureIndicatorHidden(NO)
     .makeShowScaleAnimated(YES);
     
@@ -568,7 +569,8 @@
     [JKAlertView alertViewWithTitle:@"提示" message:@"你好你好你好你好你好你好" style:(JKAlertStyleActionSheet)]
     .makeCustomSuperView(self.customSuperView)
     .makeHomeIndicatorFilled(YES)
-    .makeGestureDismissEnabled(YES, YES)
+    .makeVerticalGestureDismissEnabled(YES)
+    .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
     .makeGestureIndicatorHidden(NO)
     .makeShowScaleAnimated(YES)
     .addAction([JKAlertAction actionWithTitle:nil style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
@@ -602,7 +604,8 @@
     alertView.makeCustomSuperView(self.customSuperView);
     
     /** 允许手势滑动退出 */
-    alertView.makeGestureDismissEnabled(YES, YES)
+    alertView.makeVerticalGestureDismissEnabled(YES)
+    .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
     /** 显示顶部手势指示横条 */
     .makeGestureIndicatorHidden(NO)
     /** 弹出时缩放动画 */
@@ -685,7 +688,8 @@
     .makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6))
     .makeCollectionSheetCombined(YES)
     .makeCollectionSheetPagingEnabled(YES)
-    .makeGestureDismissEnabled(YES, YES)
+    .makeVerticalGestureDismissEnabled(YES)
+    .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
     .makeGestureIndicatorHidden(NO)
     .makeShowScaleAnimated(YES)
     .makeCollectionSheetSectionInset(UIEdgeInsetsZero)
@@ -724,7 +728,8 @@
     
     [JKAlertView alertViewWithTitle:@"分享到" message:nil style:(JKAlertStyleCollectionSheet)]
     .makeCustomSuperView(self.customSuperView)
-    .makeGestureDismissEnabled(YES, YES)
+    .makeVerticalGestureDismissEnabled(YES)
+    .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
     .makeGestureIndicatorHidden(NO)
     .makeShowScaleAnimated(YES)
     .makeTitleAlignment(NSTextAlignmentLeft)
@@ -771,7 +776,8 @@
     .makeCollectionSheetCombined(YES)
     .makeCollectionSheetPagingEnabled(YES)
     .makeCollectionSheetPageControlHidden(NO)
-    .makeGestureDismissEnabled(YES, YES)
+    .makeVerticalGestureDismissEnabled(YES)
+    .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
     .makeGestureIndicatorHidden(NO)
     .makeShowScaleAnimated(YES)
     .makeCollectionSheetSectionInset(UIEdgeInsetsZero)
@@ -890,7 +896,8 @@
     
     [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)]
     .makeCustomSuperView(self.customSuperView)
-    .makeGestureDismissEnabled(YES, YES)
+    .makeVerticalGestureDismissEnabled(YES)
+    .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
     .makeGestureIndicatorHidden(NO)
     .makeShowScaleAnimated(YES)
     .makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6))

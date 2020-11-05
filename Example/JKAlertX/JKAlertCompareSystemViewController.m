@@ -189,7 +189,9 @@
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:self.titleString message:self.messageString style:self.jkAlertStyle];
     
-    alertView.makeGestureDismissEnabled(YES, YES).makeGestureIndicatorHidden(NO);
+    alertView.makeVerticalGestureDismissEnabled(YES)
+    .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
+    .makeGestureIndicatorHidden(NO);
     
     alertView.makeTapBlankDismiss(self.textFieldCount <= 0 || JKAlertStyleActionSheet == self.jkAlertStyle);
     
