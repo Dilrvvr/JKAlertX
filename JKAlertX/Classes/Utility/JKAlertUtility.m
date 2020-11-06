@@ -103,29 +103,17 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     
     dispatch_source_set_event_handler(timer, ^{
         
-        if (!timer) {
-            
-            //NSLog(@"timer已销毁");
-            
-            return;
-        }
+        if (!timer) { return; }
         
         if (weakTarget)  {
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                if (!timer) {
-                    
-                    //NSLog(@"timer已销毁");
-                    
-                    return;
-                }
+                if (!timer) { return; }
                 
                 !handler ? : handler(timer, stopTimerBlock);
                 
                 if (repeat) { return; }
-                
-                if (!timer) { return; }
                 
                 dispatch_source_cancel(timer);
                 
@@ -134,7 +122,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
             
         } else {
             
-            //NSLog(@"timer-->target已销毁");
+            // target已销毁
             
             if (!timer) { return; }
             
