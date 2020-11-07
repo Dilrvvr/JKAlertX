@@ -489,13 +489,7 @@
     
     return ^(BOOL verticalEnabled, BOOL horizontalEnabled) {
         
-        JKAlertBaseSheetContentView *sheetContentView = [self checkSheetContentView];
-        
-        if (!sheetContentView) { return self; }
-        
-        sheetContentView.verticalGestureDismissEnabled = verticalEnabled;
-        
-        return self.makeHorizontalGestureDismissDirection(horizontalEnabled ? JKAlertSheetHorizontalGestureDismissDirectionHorizontal : JKAlertSheetHorizontalGestureDismissDirectionNone);
+        return self.makeVerticalGestureDismissEnabled(verticalEnabled).self.makeHorizontalGestureDismissDirection(horizontalEnabled ? JKAlertSheetHorizontalGestureDismissDirectionHorizontal : JKAlertSheetHorizontalGestureDismissDirectionNone);
     };
 }
 
