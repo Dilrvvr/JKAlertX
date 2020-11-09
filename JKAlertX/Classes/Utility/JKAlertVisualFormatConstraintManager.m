@@ -15,11 +15,6 @@
                                 targetView:(UIView *)targetView
                            constraintsView:(UIView *)constraintsView {
     
-    if (!targetView || !constraintsView) {
-        
-        return;
-    }
-    
     targetView.translatesAutoresizingMaskIntoConstraints = NO;
     
     if (horizontalFormat) {

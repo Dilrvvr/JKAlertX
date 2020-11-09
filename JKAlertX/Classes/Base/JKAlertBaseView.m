@@ -80,18 +80,9 @@
 /** 布局UI 交给子类重写 super自动调用该方法 */
 - (void)layoutUI {
     
-    if ([self autoAddBasicViews]) {
-        
-        if (self.backgroundView) {
-            
-            [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.backgroundView constraintsView:self];
-        }
-        
-        if (self.contentView) {
-            
-            [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.contentView constraintsView:self];
-        }
-    }
+    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.backgroundView constraintsView:self];
+    
+    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.contentView constraintsView:self];
 }
 
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */
@@ -119,15 +110,5 @@
         _contentView = contentView;
     }
     return _contentView;
-}
-
-/**
- * 是否自动添加基本的view
- * 包括backgroundView & contentView
- * 默认YES，子类重写getter
- */
-- (BOOL)autoAddBasicViews {
-    
-    return YES;
 }
 @end

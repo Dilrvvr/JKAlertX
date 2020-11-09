@@ -32,7 +32,7 @@
     
     if (customContentView) {
         
-        [self addSubview:customContentView];
+        [self.contentView addSubview:customContentView];
     }
     
     _customContentView = customContentView;
@@ -58,7 +58,7 @@
         _customTitleView.hidden = YES;
     }
     
-    [self addSubview:_customTitleView];
+    [self.contentView addSubview:_customTitleView];
     
     self.titleTextView.hidden = YES;
 }
@@ -77,7 +77,7 @@
     
     _customMessageView = customMessageView;
     
-    [self addSubview:_customMessageView];
+    [self.contentView addSubview:_customMessageView];
     
     self.messageTextView.hidden = YES;
 }
@@ -218,7 +218,7 @@
         
         rect.size.height = CGRectGetMaxY(frame) + self.separatorLineInsets.bottom;
         
-        [self bringSubviewToFront:self.separatorLineView];
+        [self.contentView bringSubviewToFront:self.separatorLineView];
     }
     
     if (self.customMessageView) { // 自定义titleView
@@ -350,21 +350,11 @@
 #pragma mark
 #pragma mark - Private Property
 
-- (UIView *)backgroundView {
-    
-    return nil;
-}
-
-- (UIView *)contentView {
-    
-    return nil;
-}
-
 - (JKAlertTextContainerView *)titleTextView {
     if (!_titleTextView) {
         JKAlertTextContainerView *titleTextView = [[JKAlertTextContainerView alloc] init];
         titleTextView.textView.font = [UIFont systemFontOfSize:17];
-        [self addSubview:titleTextView];
+        [self.contentView addSubview:titleTextView];
         _titleTextView = titleTextView;
     }
     return _titleTextView;
@@ -374,7 +364,7 @@
     if (!_messageTextView) {
         JKAlertTextContainerView *messageTextView = [[JKAlertTextContainerView alloc] init];
         messageTextView.textView.font = [UIFont systemFontOfSize:13];
-        [self addSubview:messageTextView];
+        [self.contentView addSubview:messageTextView];
         _messageTextView = messageTextView;
     }
     return _messageTextView;
@@ -385,7 +375,7 @@
         UIView *separatorLineView = [[UIView alloc] init];
         separatorLineView.userInteractionEnabled = NO;
         separatorLineView.hidden = YES;
-        [self addSubview:separatorLineView];
+        [self.contentView addSubview:separatorLineView];
         _separatorLineView = separatorLineView;
         
         [JKAlertThemeProvider providerBackgroundColorWithOwner:separatorLineView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
@@ -394,10 +384,5 @@
         }];
     }
     return _separatorLineView;
-}
-
-- (BOOL)autoAddBasicViews {
-    
-    return NO;
 }
 @end

@@ -97,8 +97,7 @@
 #pragma mark
 #pragma mark - Private Property
 
-- (BOOL)autoAddBasicViews {
-    
-    return NO;
-}
+
+
+
 @end
