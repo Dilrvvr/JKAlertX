@@ -32,15 +32,17 @@
     
     self.frame = rect;
     
-    self.textView.center = CGPointMake(self.frame.size.width * 0.5, self.frame.size.height * 0.5);
-    
     return rect;
 }
 
 #pragma mark
 #pragma mark - Override
 
-
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.textView.center = CGPointMake(self.frame.size.width * 0.5, self.frame.size.height * 0.5);
+}
 
 #pragma mark
 #pragma mark - Private Methods
@@ -77,8 +79,7 @@
     [super createUI];
     
     JKAlertTextView *textView = [[JKAlertTextView alloc] init];
-    textView.textAlignment = NSTextAlignmentCenter;
-    [self.contentView addSubview:textView];
+    [self addSubview:textView];
     _textView = textView;
 }
 
@@ -96,6 +97,16 @@
 
 #pragma mark
 #pragma mark - Private Property
+
+- (UIView *)backgroundView {
+    
+    return nil;
+}
+
+- (UIView *)contentView {
+    
+    return nil;
+}
 
 - (BOOL)autoAddBasicViews {
     
