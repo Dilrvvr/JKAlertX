@@ -13,6 +13,13 @@
 #pragma mark
 #pragma mark - Private
 
+/**
+ * 是否自动添加基本的view
+ * 包括backgroundView & contentView
+ * 默认YES，子类重写getter
+ */
+@property (nonatomic, assign, readonly) BOOL autoAddBasicViews;
+
 /** backgroundView */
 @property (nonatomic, weak, readonly) UIView *backgroundView;
 
