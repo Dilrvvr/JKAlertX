@@ -1,5 +1,5 @@
 //
-//  JKAlertTableViewCell.h
+//  JKAlertTableCell.h
 //  JKAlertX_Example
 //
 //  Created by albert on 2020/9/13.
@@ -10,7 +10,7 @@
 
 @class JKAlertTableModel;
 
-@interface JKAlertTableViewCell : UITableViewCell
+@interface JKAlertTableCell : UITableViewCell
 
 /** model */
 @property (nonatomic, strong) JKAlertTableModel *model;

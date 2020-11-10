@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C554DBEAD8B520829EDDE25 /* Pods_JKAlertX_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C1CA97AA30827DF29D8610 /* Pods_JKAlertX_Example.framework */; };
 		3B8A26E3E2EC8700BEDEFCB2 /* Pods_JKAlertX_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 407D43124DD52FD82EC33891 /* Pods_JKAlertX_Tests.framework */; };
-		506FDEBD250E00B000262434 /* JKAlertTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 506FDEBC250E00B000262434 /* JKAlertTableViewCell.m */; };
+		5005A037255A39DB009C845E /* JKAlertTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5005A036255A39DB009C845E /* JKAlertTableCell.m */; };
 		506FDEC0250E00FA00262434 /* JKAlertTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 506FDEBF250E00FA00262434 /* JKAlertTableModel.m */; };
 		506FDEC3250E085700262434 /* JKAlertTableGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 506FDEC2250E085700262434 /* JKAlertTableGroupModel.m */; };
 		506FDEC6250E108800262434 /* JKAlertHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 506FDEC5250E108800262434 /* JKAlertHeaderFooterView.m */; };
@@ -48,8 +48,8 @@
 		3481B7F9D57D09979920024C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		3DF83FC7401AF11060F512C2 /* JKAlertX.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = JKAlertX.podspec; path = ../JKAlertX.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		407D43124DD52FD82EC33891 /* Pods_JKAlertX_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JKAlertX_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		506FDEBB250E00B000262434 /* JKAlertTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertTableViewCell.h; sourceTree = "<group>"; };
-		506FDEBC250E00B000262434 /* JKAlertTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertTableViewCell.m; sourceTree = "<group>"; };
+		5005A035255A39DB009C845E /* JKAlertTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKAlertTableCell.h; sourceTree = "<group>"; };
+		5005A036255A39DB009C845E /* JKAlertTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKAlertTableCell.m; sourceTree = "<group>"; };
 		506FDEBE250E00FA00262434 /* JKAlertTableModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertTableModel.h; sourceTree = "<group>"; };
 		506FDEBF250E00FA00262434 /* JKAlertTableModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertTableModel.m; sourceTree = "<group>"; };
 		506FDEC1250E085700262434 /* JKAlertTableGroupModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertTableGroupModel.h; sourceTree = "<group>"; };
@@ -139,8 +139,8 @@
 				506FDEC2250E085700262434 /* JKAlertTableGroupModel.m */,
 				506FDEBE250E00FA00262434 /* JKAlertTableModel.h */,
 				506FDEBF250E00FA00262434 /* JKAlertTableModel.m */,
-				506FDEBB250E00B000262434 /* JKAlertTableViewCell.h */,
-				506FDEBC250E00B000262434 /* JKAlertTableViewCell.m */,
+				5005A035255A39DB009C845E /* JKAlertTableCell.h */,
+				5005A036255A39DB009C845E /* JKAlertTableCell.m */,
 			);
 			path = JKTable;
 			sourceTree = "<group>";
@@ -423,13 +423,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5098AD072474E86800AEAD73 /* JKAlertAppDelegate.m in Sources */,
-				506FDEBD250E00B000262434 /* JKAlertTableViewCell.m in Sources */,
 				506FDEC6250E108800262434 /* JKAlertHeaderFooterView.m in Sources */,
 				C054BAE72482750400765920 /* JKAlertCompareSystemViewController.m in Sources */,
 				506FDEC3250E085700262434 /* JKAlertTableGroupModel.m in Sources */,
 				506FDECA250E174800262434 /* JKAlertBaseViewController.m in Sources */,
 				5098AD092474E86800AEAD73 /* JKAlertViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				5005A037255A39DB009C845E /* JKAlertTableCell.m in Sources */,
 				5098AD0C2474E91500AEAD73 /* JKAlertTransformLandscapeViewController.m in Sources */,
 				5098AD172474E9BD00AEAD73 /* NSObject+JKSafeCrachProtection.m in Sources */,
 				506FDEC0250E00FA00262434 /* JKAlertTableModel.m in Sources */,

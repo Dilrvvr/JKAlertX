@@ -9,7 +9,7 @@
 #import "JKAlertBaseViewController.h"
 #import "JKAlertX.h"
 #import "JKAlertHeaderFooterView.h"
-#import "JKAlertTableViewCell.h"
+#import "JKAlertTableCell.h"
 #import "JKAlertTableModel.h"
 #import "JKAlertTableGroupModel.h"
 
@@ -52,7 +52,7 @@
     [self.view addSubview:tableView];
     _tableView = tableView;
     
-    [tableView registerClass:[JKAlertTableViewCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
+    [tableView registerClass:[JKAlertTableCell class] forCellReuseIdentifier:NSStringFromClass([JKAlertTableCell class])];
     [tableView registerClass:[JKAlertHeaderFooterView class] forHeaderFooterViewReuseIdentifier:NSStringFromClass([JKAlertHeaderFooterView class])];
 }
 
@@ -214,11 +214,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    JKAlertTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
+    JKAlertTableCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([JKAlertTableCell class])];
     
     if (cell == nil) {
         
-        cell = [[JKAlertTableViewCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:NSStringFromClass([JKAlertTableViewCell class])];
+        cell = [[JKAlertTableCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:NSStringFromClass([JKAlertTableCell class])];
     }
     
     JKAlertTableGroupModel *group = [self.dataArray objectAtIndex:indexPath.section];

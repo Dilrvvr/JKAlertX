@@ -1,19 +1,19 @@
 //
-//  JKAlertTableViewCell.m
+//  JKAlertTableCell.m
 //  JKAlertX_Example
 //
 //  Created by albert on 2020/9/13.
 //  Copyright © 2020 jkayb123cool@gmail.com. All rights reserved.
 //
 
-#import "JKAlertTableViewCell.h"
+#import "JKAlertTableCell.h"
 #import "JKAlertTableModel.h"
 
-@interface JKAlertTableViewCell ()
+@interface JKAlertTableCell ()
 
 @end
 
-@implementation JKAlertTableViewCell
+@implementation JKAlertTableCell
 
 #pragma mark
 #pragma mark - Public Methods
