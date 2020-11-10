@@ -15,31 +15,16 @@
 @implementation JKAlertTextView
 
 /** 计算frame */
-- (CGRect)calculateFrameWithMaxWidth:(CGFloat)maxWidth
-                           minHeight:(CGFloat)minHeight
-                             originY:(CGFloat)originY
-                           superView:(UIView *)superView {
+- (CGRect)calculateFrameWithMaxWidth:(CGFloat)maxWidth {
     
     if (self.hidden) { return CGRectZero; }
     
-    CGRect rect = self.frame;
-    rect.origin.y = originY;
-    rect.size = [self sizeThatFits:CGSizeMake(maxWidth, INFINITY)];
+    CGSize size = [self sizeThatFits:CGSizeMake(maxWidth, INFINITY)];
+    size.width = maxWidth;
+    size.height = ceil(size.height);
     
-    rect.size.width = maxWidth;
-    rect.size.height = ceil(rect.size.height);
-    
-    if (rect.size.height < minHeight) {
-        
-        self.textContainerInset = UIEdgeInsetsMake((minHeight - rect.size.height) * 0.5, 0, 0, 0);
-        rect.size.height = minHeight;
-    }
-    
-    self.frame = rect;
-    
-    CGPoint center = self.center;
-    center.x = superView.frame.size.width * 0.5;
-    self.center = center;
+    CGRect rect = CGRectZero;
+    rect.size = size;
     
     return rect;
 }

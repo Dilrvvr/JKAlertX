@@ -14,8 +14,5 @@
 @property (nonatomic, assign) BOOL shouldSelectText;
 
 /** 计算frame */
-- (CGRect)calculateFrameWithMaxWidth:(CGFloat)maxWidth
-                           minHeight:(CGFloat)minHeight
-                             originY:(CGFloat)originY
-                           superView:(UIView *)superView;
+- (CGRect)calculateFrameWithMaxWidth:(CGFloat)maxWidth;
 @end

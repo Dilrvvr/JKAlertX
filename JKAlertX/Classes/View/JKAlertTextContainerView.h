@@ -15,6 +15,5 @@
 
 /** 计算frame */
 - (CGRect)calculateFrameWithContentWidth:(CGFloat)contentWidth
-                               minHeight:(CGFloat)minHeight
-                                 originY:(CGFloat)originY;
+                               minHeight:(CGFloat)minHeight;
 @end

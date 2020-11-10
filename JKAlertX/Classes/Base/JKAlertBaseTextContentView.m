@@ -184,9 +184,10 @@
         
         minHeight = (noCustom && self.messageTextView.hidden) ? self.singleMinHeight : self.titleMinHeight;
         
-        frame = [self.titleTextView calculateFrameWithContentWidth:width minHeight:minHeight originY:originY];
+        frame = [self.titleTextView calculateFrameWithContentWidth:width minHeight:minHeight];
         
         frame.origin.x = self.titleInsets.left + self.screenSafeInsets.left;
+        frame.origin.y = originY;
         
         self.titleTextView.frame = frame;
         
@@ -254,9 +255,10 @@
         
         minHeight = (noCustom && self.titleTextView.hidden) ? self.singleMinHeight : self.messageMinHeight;
         
-        frame = [self.messageTextView calculateFrameWithContentWidth:width minHeight:minHeight originY:originY];
+        frame = [self.messageTextView calculateFrameWithContentWidth:width minHeight:minHeight];
         
         frame.origin.x = self.messageInsets.left + self.screenSafeInsets.left;
+        frame.origin.y = originY;
         
         self.messageTextView.frame = frame;
         

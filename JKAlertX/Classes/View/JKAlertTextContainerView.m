@@ -18,21 +18,18 @@
 
 /** 计算frame */
 - (CGRect)calculateFrameWithContentWidth:(CGFloat)contentWidth
-                               minHeight:(CGFloat)minHeight
-                                 originY:(CGFloat)originY {
+                               minHeight:(CGFloat)minHeight {
     
-    CGRect rect = [self.textView calculateFrameWithMaxWidth:contentWidth minHeight:0 originY:0 superView:self];
+    CGRect rect = [self.textView calculateFrameWithMaxWidth:contentWidth];
+    
+    self.textView.frame = rect;
     
     if (rect.size.height < minHeight) {
         
         rect.size.height = minHeight;
     }
     
-    rect.origin.y = originY;
-    
-    self.frame = rect;
-    
-    self.textView.center = CGPointMake(self.frame.size.width * 0.5, self.frame.size.height * 0.5);
+    self.textView.center = CGPointMake(rect.size.width * 0.5, rect.size.height * 0.5);
     
     return rect;
 }
