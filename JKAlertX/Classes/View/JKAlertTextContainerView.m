@@ -75,7 +75,7 @@
     
     JKAlertTextView *textView = [[JKAlertTextView alloc] init];
     textView.textAlignment = NSTextAlignmentCenter;
-    [self.contentView addSubview:textView];
+    [self addSubview:textView];
     _textView = textView;
 }
 
@@ -94,7 +94,18 @@
 #pragma mark
 #pragma mark - Private Property
 
+- (BOOL)autoAddBasicViews {
+    
+    return nil;
+}
 
+- (UIView *)backgroundView {
+    
+    return nil;
+}
 
-
+- (UIView *)contentView {
+    
+    return nil;
+}
 @end

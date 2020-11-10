@@ -80,9 +80,17 @@
 /** 布局UI 交给子类重写 super自动调用该方法 */
 - (void)layoutUI {
     
-    [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:self.backgroundView constraintsView:self];
+    if (!autoAddBasicViews) { return; }
     
-    [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:self.contentView constraintsView:self];
+    if (self.backgroundView) {
+        
+        [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:self.backgroundView constraintsView:self];
+    }
+    
+    if (self.contentView) {
+        
+        [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:self.contentView constraintsView:self];
+    }
 }
 
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */
