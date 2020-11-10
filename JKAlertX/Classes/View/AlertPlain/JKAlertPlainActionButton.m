@@ -8,7 +8,7 @@
 #import "JKAlertPlainActionButton.h"
 #import "JKAlertUtility.h"
 #import "JKAlertAction.h"
-#import "JKAlertVisualFormatConstraintManager.h"
+#import "JKAlertConstraintManager.h"
 #import "JKAlertTheme.h"
 
 @interface JKAlertPlainActionButton ()
@@ -35,7 +35,7 @@
         
         CGFloat lineHeight = JKAlertUtility.separatorLineThickness;
         
-        [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:|-0-[view(%.2f)]", lineHeight] viewKeyName:@"view" targetView:self.topSeparatorLineView constraintsView:self];
+        [JKAlertConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:|-0-[view(%.2f)]", lineHeight] viewKeyName:@"view" targetView:self.topSeparatorLineView constraintsView:self];
     }
     return self;
 }

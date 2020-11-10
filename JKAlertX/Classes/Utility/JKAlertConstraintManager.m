@@ -1,13 +1,13 @@
 //
-//  JKAlertVisualFormatConstraintManager.m
+//  JKAlertConstraintManager.m
 //  JKAlertX
 //
 //  Created by albert on 2020/5/20.
 //
 
-#import "JKAlertVisualFormatConstraintManager.h"
+#import "JKAlertConstraintManager.h"
 
-@implementation JKAlertVisualFormatConstraintManager
+@implementation JKAlertConstraintManager
 
 + (void)addConstraintsWithHorizontalFormat:(NSString *)horizontalFormat
                             verticalFormat:(NSString *)verticalFormat

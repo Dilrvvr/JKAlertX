@@ -6,7 +6,7 @@
 //
 
 #import "JKAlertBaseScrollContentView.h"
-#import "JKAlertVisualFormatConstraintManager.h"
+#import "JKAlertConstraintManager.h"
 
 @interface JKAlertBaseScrollContentView ()
 {
@@ -67,8 +67,8 @@
 - (void)layoutUI {
     [super layoutUI];
     
-    //[JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.scrollView constraintsView:self.contentView];
-    [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:nil viewKeyName:@"view" targetView:self.scrollView constraintsView:self.contentView];
+    //[JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:self.scrollView constraintsView:self.contentView];
+    [JKAlertConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:nil viewKeyName:@"view" targetView:self.scrollView constraintsView:self.contentView];
     ///*
     NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.scrollView attribute:(NSLayoutAttributeTop) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeTop) multiplier:1 constant:0];
     //NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.scrollView attribute:(NSLayoutAttributeLeft) relatedBy:(NSLayoutRelationEqual) toItem:self.contentView attribute:(NSLayoutAttributeLeft) multiplier:1 constant:0];

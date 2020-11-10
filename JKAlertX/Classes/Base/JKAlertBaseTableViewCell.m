@@ -10,7 +10,7 @@
 #import "JKAlertTableActionView.h"
 #import "JKAlertAction.h"
 #import "JKAlertUtility.h"
-#import "JKAlertVisualFormatConstraintManager.h"
+#import "JKAlertConstraintManager.h"
 #import "JKAlertTheme.h"
 
 @interface JKAlertBaseTableViewCell ()
@@ -149,9 +149,9 @@
     
     CGFloat lineHeight = JKAlertUtility.separatorLineThickness;
     
-    [JKAlertVisualFormatConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:[view(%.2f)]-0-|", lineHeight] viewKeyName:@"view" targetView:self.bottomLineView constraintsView:self];
+    [JKAlertConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:[view(%.2f)]-0-|", lineHeight] viewKeyName:@"view" targetView:self.bottomLineView constraintsView:self];
     
-    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.actionView constraintsView:self.contentView];
+    [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:self.actionView constraintsView:self.contentView];
 }
 
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */

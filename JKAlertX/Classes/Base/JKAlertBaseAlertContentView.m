@@ -6,7 +6,7 @@
 //
 
 #import "JKAlertBaseAlertContentView.h"
-#import "JKAlertVisualFormatConstraintManager.h"
+#import "JKAlertConstraintManager.h"
 #import "JKAlertAction.h"
 #import "JKAlertTheme.h"
 
@@ -42,7 +42,7 @@
         
         [self.backgroundView addSubview:_customBackgroundView];
         
-        [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:_customBackgroundView constraintsView:self.backgroundView];
+        [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:_customBackgroundView constraintsView:self.backgroundView];
         
         return;
     }
@@ -101,7 +101,7 @@
 - (void)layoutUI {
     [super layoutUI];
     
-    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.backgroundEffectView constraintsView:self.backgroundView];
+    [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:self.backgroundEffectView constraintsView:self.backgroundView];
 }
 
 /** 初始化UI数据 */

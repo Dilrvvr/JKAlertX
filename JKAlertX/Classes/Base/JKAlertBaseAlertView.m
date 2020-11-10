@@ -8,7 +8,7 @@
 
 #import "JKAlertBaseAlertView.h"
 #import "JKAlertUtility.h"
-#import "JKAlertVisualFormatConstraintManager.h"
+#import "JKAlertConstraintManager.h"
 #import "JKAlertTheme.h"
 
 @interface JKAlertBaseAlertView ()
@@ -33,7 +33,7 @@
         
         [self.backgroundView addSubview:_fullBackgroundView];
         
-        [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:_fullBackgroundView constraintsView:self.backgroundView];
+        [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:_fullBackgroundView constraintsView:self.backgroundView];
     }
 }
 
@@ -88,7 +88,7 @@
 - (void)layoutUI {
     [super layoutUI];
     
-    [JKAlertVisualFormatConstraintManager addZeroEdgeConstraintsWithTargetView:self.dismissButton constraintsView:self.contentView];
+    [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:self.dismissButton constraintsView:self.contentView];
 }
 
 /** 初始化UI数据 交给子类重写 super自动调用该方法 */
