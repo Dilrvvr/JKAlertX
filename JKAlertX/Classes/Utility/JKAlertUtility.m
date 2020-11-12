@@ -374,7 +374,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        JKAlertView *alertView = [JKAlertView alertViewWithTitle:[@"JKDebug-" stringByAppendingString:(title ? title : @"")] message:[@"--- 此弹框仅用于调试 ---\n" stringByAppendingString:(message ? message : @"")] style:(JKAlertStyleAlert)];
+        JKAlertView *alertView = [JKAlertView alertViewWithTitle:[@"JKDebug-" stringByAppendingString:(title ? title : @"")] message:[@"--- 此弹框仅用于调试 ---\n\n" stringByAppendingString:(message ? message : @"")] style:(JKAlertStyleAlert)];
         
         alertView.makeMessageAlignment(NSTextAlignmentLeft)
         .makeTitleMessageShouldSelectText(YES)
