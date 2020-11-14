@@ -80,7 +80,7 @@
 /** 布局UI 交给子类重写 super自动调用该方法 */
 - (void)layoutUI {
     
-    if (!autoAddBasicViews) { return; }
+    if (!self.autoAddBasicViews) { return; }
     
     if (self.backgroundView) {
         
@@ -100,6 +100,11 @@
 
 #pragma mark
 #pragma mark - Private Property
+
+- (BOOL)autoAddBasicViews {
+    
+    return YES;
+}
 
 - (UIView *)backgroundView {
     if (!_backgroundView) {

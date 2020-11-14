@@ -96,7 +96,7 @@
 
 - (BOOL)autoAddBasicViews {
     
-    return nil;
+    return NO;
 }
 
 - (UIView *)backgroundView {
