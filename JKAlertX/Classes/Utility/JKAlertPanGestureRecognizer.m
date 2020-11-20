@@ -24,8 +24,8 @@
 
 @implementation JKAlertPanGestureRecognizer
 
-- (instancetype)init {
-    if (self = [super init]) {
+- (instancetype)initWithTarget:(id)target action:(SEL)action {
+    if (self = [super initWithTarget:target action:action]) {
         _maxRecognizeTime = 0.3;
     }
     return self;
