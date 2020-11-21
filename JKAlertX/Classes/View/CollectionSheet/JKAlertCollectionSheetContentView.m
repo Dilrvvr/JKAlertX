@@ -774,8 +774,6 @@
         !scrollView.isDragging ||
         disableScrollToDismiss) { return; }
     
-    //NSLog(@"contentOffset-->%@", NSStringFromCGPoint(scrollView.contentOffset));
-    
     if (scrollView.contentOffset.y + scrollView.contentInset.top < 0) {
         
         CGRect frame = self.frame;
@@ -788,8 +786,6 @@
         
         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
         
-        //NSLog(@"1");
-        
     } else if (self.frame.origin.y > self.correctFrame.origin.y + 0.1) {
         
         CGRect frame = self.frame;
@@ -801,8 +797,6 @@
         self.frame = frame;
         
         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top);
-        
-        //NSLog(@"2");
     }
     
     if (scrollView.isDragging) {
@@ -823,8 +817,6 @@
     }
     
     if (!scrollView.isDragging || disableScrollToDismiss) { return; }
-    
-    //NSLog(@"contentOffset-->%@", NSStringFromCGPoint(scrollView.contentOffset));
     
     if (scrollView.contentOffset.x + scrollView.contentInset.left < 0) {
         

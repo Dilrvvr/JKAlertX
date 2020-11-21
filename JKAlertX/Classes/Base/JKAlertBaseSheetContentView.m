@@ -67,7 +67,7 @@
 
     currentContainerY = self.frame.origin.y;
     
-    if (currentContainerY < lastContainerY) {
+    if (currentContainerY < lastContainerY) { // 上滑
         
         if (beginScrollDirection == JKAlertScrollDirectionNone) {
             
@@ -75,13 +75,9 @@
         }
         
         endScrollDirection = JKAlertScrollDirectionUp;
-        
-        //NSLog(@"上滑-------current:%.3f  last:%.3f", currentContainerY, lastContainerY);
     }
     
-    if (currentContainerY > lastContainerY) {
-        
-        //NSLog(@"下滑-------current:%.3f  last:%.3f", currentContainerY, lastContainerY);
+    if (currentContainerY > lastContainerY) { // 下滑
         
         if (beginScrollDirection == JKAlertScrollDirectionNone) {
             
@@ -496,5 +492,4 @@
     
     return _bottomButtonPinned;
 }
-
 @end

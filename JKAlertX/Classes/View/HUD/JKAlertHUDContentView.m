@@ -128,11 +128,6 @@
     [self.backgroundView.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
     
     __weak typeof(self) weakSelf = self;
-    /*
-    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.backgroundView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
-        
-        providerOwner.backgroundColor = JKAlertCheckDarkMode(weakSelf.defaultDarkStyle ? JKAlertUtility.globalDarkBackgroundColor : JKAlertUtility.globalLightBackgroundColor, weakSelf.defaultDarkStyle ? JKAlertUtility.globalLightBackgroundColor : JKAlertUtility.globalDarkBackgroundColor);
-    }]; //*/
     
     [JKAlertThemeProvider providerWithOwner:self.backgroundEffectView handlerKey:NSStringFromSelector(@selector(effect)) provideHandler:^(JKAlertThemeProvider *provider, UIVisualEffectView *providerOwner) {
         
@@ -142,7 +137,6 @@
 
 #pragma mark
 #pragma mark - Private Property
-
 
 
 

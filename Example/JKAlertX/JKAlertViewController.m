@@ -39,6 +39,7 @@
         [JKAlertTableModel modelWithTitle:@"alert with basic style" group:group executeHandler:^(JKAlertTableModel *model) {
             
             JKAlertView.alertView(@"标题", @"内容内容\n内容内容内容\n内容内容内容内容", JKAlertStyleAlert)
+            .makeCustomSuperView(weakSelf.customSuperView)
             .addAction(JKAlertAction.action(@"取消", JKAlertActionStyleCancel, ^(JKAlertAction *action) {
                 
             }))
@@ -78,7 +79,7 @@
         [JKAlertTableModel modelWithTitle:@"HUD with basic style" group:group executeHandler:^(JKAlertTableModel *model) {
             
             JKAlertView.showHUDWithTitle(@"你好你好你好", ^(JKAlertView *alertView) {
-                alertView.makeCustomSuperView(self.customSuperView)
+                alertView.makeCustomSuperView(weakSelf.customSuperView)
                 .makeHudAllowUserInteractionEnabled(YES);
             });
         }];
@@ -103,7 +104,7 @@
         [JKAlertTableModel modelWithTitle:@"action sheet with basic style" group:group executeHandler:^(JKAlertTableModel *model) {
             
             JKAlertView.alertView(@"提示", @"你好你好你好", JKAlertStyleActionSheet)
-            .makeCustomSuperView(self.customSuperView)
+            .makeCustomSuperView(weakSelf.customSuperView)
             .addAction(JKAlertAction.action(@"确定1", JKAlertActionStyleDefault, ^(JKAlertAction *action) {
                 
             })).addAction(JKAlertAction.action(@"确定2", JKAlertActionStyleDefault, ^(JKAlertAction *action) {
@@ -137,7 +138,7 @@
             CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
             
             alertView.makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6))
-            .makeCustomSuperView(self.customSuperView)
+            .makeCustomSuperView(weakSelf.customSuperView)
             .makeCollectionSheetMinimumLineSpacing(0.0)
             .makeCollectionSheetSectionInset(UIEdgeInsetsZero)
             /** 分页 */

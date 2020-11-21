@@ -108,12 +108,6 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
-    /*
-    [JKAlertThemeProvider providerWithOwner:self.backgroundEffectView handlerKey:NSStringFromSelector(@selector(effect)) provideHandler:^(JKAlertThemeProvider *provider, UIVisualEffectView *providerOwner) {
-
-        [providerOwner setEffect:JKAlertCheckDarkMode([UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight], [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark])];
-    }]; //*/
-    
     [self restoreAlertBackgroundColor];
 }
 

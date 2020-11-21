@@ -41,11 +41,6 @@
 
 @implementation JKAlertCompareSystemViewController
 
-- (void)dealloc {
-    
-    NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
-}
-
 - (BOOL)shouldAutorotate {
     
     return NO;
