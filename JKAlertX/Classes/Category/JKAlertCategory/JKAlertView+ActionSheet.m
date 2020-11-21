@@ -41,9 +41,9 @@
         
         return [self checkActionSheetStyleHandler:^{
             
-            [self.actionsheetContentView.topContentView.backgroundView.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
+            [self.actionsheetContentView.topContentView.jkalert_themeProvider removeProvideHandlerForKey:NSStringFromSelector(@selector(backgroundColor))];
             
-            self.actionsheetContentView.topContentView.backgroundView.backgroundColor = color;
+            self.actionsheetContentView.topContentView.backgroundColor = color;
         }];
     };
 }

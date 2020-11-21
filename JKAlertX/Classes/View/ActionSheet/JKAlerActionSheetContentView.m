@@ -1162,7 +1162,7 @@
 
 - (void)restoreTopBackgroundColor {
     
-    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.topContentView.backgroundView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.topContentView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.lightBackgroundColor, JKAlertUtility.darkBackgroundColor);
     }];
