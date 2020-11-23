@@ -18,65 +18,45 @@
     UIView *superView = self.superview ? self.superview : keyWindow;
     
     switch ([UIApplication sharedApplication].statusBarOrientation) {
-        case UIInterfaceOrientationPortrait:{
+        case UIInterfaceOrientationPortrait: {
             
             //orientationLabel.text = "面向设备保持垂直，Home键位于下部"
             
-            /** 屏幕宽度 */
-            //self.superWidth =  MIN(superView.bounds.size.width, superView.bounds.size.height);
-            /** 屏幕高度 */
-            //self.superHeight =  MAX(superView.bounds.size.width, superView.bounds.size.height);
-            
             self.isLandScape = NO;
         }
             break;
-        case UIInterfaceOrientationPortraitUpsideDown:{
+        case UIInterfaceOrientationPortraitUpsideDown: {
             
             //orientationLabel.text = "面向设备保持垂直，Home键位于上部"
             
-            /** 屏幕宽度 */
-            //self.superWidth =  MIN(superView.bounds.size.width, superView.bounds.size.height);
-            /** 屏幕高度 */
-            //self.superHeight =  MAX(superView.bounds.size.width, superView.bounds.size.height);
-            
             self.isLandScape = NO;
         }
             break;
-        case UIInterfaceOrientationLandscapeLeft:{
+        case UIInterfaceOrientationLandscapeLeft: {
             
             //orientationLabel.text = "面向设备保持水平，Home键位于左侧"
             
-            /** 屏幕宽度 */
-            //self.superWidth =  MAX(superView.bounds.size.width, superView.bounds.size.height);
-            /** 屏幕高度 */
-            //self.superHeight =  MIN(superView.bounds.size.width, superView.bounds.size.height);
-            
             self.isLandScape = YES;
         }
             break;
-        case UIInterfaceOrientationLandscapeRight:{
+        case UIInterfaceOrientationLandscapeRight: {
             
             //orientationLabel.text = "面向设备保持水平，Home键位于右侧"
             
-            /** 屏幕宽度 */
-            //self.superWidth =  MAX(superView.bounds.size.width, superView.bounds.size.height);
-            /** 屏幕高度 */
-            //self.superHeight =  MIN(superView.bounds.size.width, superView.bounds.size.height);
-            
             self.isLandScape = YES;
         }
             break;
-        default:{
+        default: {
             
-            // orientationLabel.text = "方向未知"
+            //orientationLabel.text = "方向未知"
         }
             break;
     }
     
     /** 屏幕宽度 */
-    self.superWidth =  superView.bounds.size.width;//MIN(superView.bounds.size.width, superView.bounds.size.height);
+    self.superWidth =  superView.bounds.size.width;
     /** 屏幕高度 */
-    self.superHeight =  superView.bounds.size.height;//MAX(superView.bounds.size.width, superView.bounds.size.height);
+    self.superHeight =  superView.bounds.size.height;
     
     [self updateMaxHeight];
 }
