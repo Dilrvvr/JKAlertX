@@ -191,7 +191,7 @@
 }
 
 /** 设置titleTextViewDelegate */
-- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setTitleTextViewDelegate {
+- (JKAlertView *(^)(id <UITextViewDelegate> delegate))setTitleTextViewDelegate {
     
     return [self makeTitleDelegate];
 }
@@ -228,7 +228,7 @@
 }
 
 /** 设置messageTextViewDelegate */
-- (JKAlertView *(^)(id<UITextViewDelegate> delegate))setMessageTextViewDelegate {
+- (JKAlertView *(^)(id <UITextViewDelegate> delegate))setMessageTextViewDelegate {
     
     return [self makeMessageDelegate];
 }
@@ -828,13 +828,13 @@
 }
 
 /** 设置UITableViewDataSource */
-- (JKAlertView *(^)(id<UITableViewDataSource> dataSource))setCustomTableViewDataSource {
+- (JKAlertView *(^)(id <UITableViewDataSource> dataSource))setCustomTableViewDataSource {
     
     return [self makeActionSheetTableViewDataSource];
 }
 
 /** 设置UITableViewDelegate */
-- (JKAlertView *(^)(id<UITableViewDelegate> delegate))setCustomTableViewDelegate {
+- (JKAlertView *(^)(id <UITableViewDelegate> delegate))setCustomTableViewDelegate {
     
     return [self makeActionSheetTableViewDelegate];
 }

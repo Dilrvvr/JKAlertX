@@ -298,7 +298,13 @@
     
     tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertUtility.currentHomeIndicatorHeight, 0);
     
+    tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    
     if (@available(iOS 11.0, *)) {
+        
+        tableView.estimatedRowHeight = 0;
+        tableView.estimatedSectionHeaderHeight = 0;
+        tableView.estimatedSectionFooterHeight = 0;
         
         tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
