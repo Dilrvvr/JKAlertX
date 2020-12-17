@@ -892,10 +892,11 @@
 
 - (void)checkObserver {
     
-    if (self.observerSuperView &&
-        self.observerSuperView != self.superview) {
+    if (!self.superview) {
         
         [self removeAllOberserver];
+        
+        return;
     }
     
     [self addAllObserver];
@@ -905,9 +906,7 @@
     
     if (self.observerAdded) { return; }
     
-    self.observerSuperView = self.superview;
-    
-    [self.superview addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:nil];
+    [JKAlertUtility.keyWindow addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:nil];
     
     self.observerAdded = YES;
 }
@@ -916,7 +915,7 @@
     
     if (self.observerAdded) {
         
-        [self.observerSuperView removeObserver:self forKeyPath:@"frame"];
+        [JKAlertUtility.keyWindow removeObserver:self forKeyPath:@"frame"];
     }
     
     self.observerAdded = NO;
@@ -927,7 +926,7 @@
                         change:(NSDictionary<NSKeyValueChangeKey,id> *)change
                        context:(void *)context {
     
-    if (object == self.superview && [keyPath isEqualToString:@"frame"]) {
+    if (self.superview && object == JKAlertUtility.keyWindow && [keyPath isEqualToString:@"frame"]) {
         
         CGRect oldFrame = [[change objectForKey:NSKeyValueChangeOldKey] CGRectValue];
         CGRect currentFrame = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
@@ -941,6 +940,8 @@
             return;
         }
         
+        // 仅处理分屏情况
+        
         [self updateWidthHeight];
         
         self.relayout(YES);
@@ -952,6 +953,8 @@
 
 - (void)solveDidMoveToSuperview {
     
+    [self checkObserver];
+    
     if (!self.superview) { return; }
     
     self.frame = self.superview.bounds;
@@ -962,8 +965,6 @@
     }
     
     [self startShowAnimation];
-    
-    [self checkObserver];
 }
 
 - (void)startShowAnimation{

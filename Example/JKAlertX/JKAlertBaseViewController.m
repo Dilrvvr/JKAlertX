@@ -12,6 +12,7 @@
 #import "JKAlertTableCell.h"
 #import "JKAlertTableModel.h"
 #import "JKAlertTableGroupModel.h"
+#import "JKAlertThemeManager.h"
 
 @interface JKAlertBaseViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -29,10 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (@available(iOS 13.0, *)) {
-        
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(rightNavigationItemClick:)];
-    }
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(rightNavigationItemClick:)];
     
     [self buildUI];
     
@@ -62,62 +60,89 @@
 
 - (void)rightNavigationItemClick:(JKAlertTableModel *)sender {
     
+    NSString *systemMode = @"系统样式: 浅色模式";
+    NSString *message = @"\n当前选择: 浅色模式";
+    
+    NSString *alertKey = @"JKAlertDarkModelAlertKey";
+    
+    JKAlertView.dismissForKey(alertKey);
+    
+    JKAlertView *alertView = JKAlertView.alertView(@"深色模式切换", message, JKAlertStyleActionSheet);
+    
+    alertView.makeVerticalGestureDismissEnabled(YES)
+    .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
+    .makeGestureIndicatorHidden(NO)
+    .makeShowScaleAnimated(YES)
+    .makeDismissKey(alertKey);
+    
     if (@available(iOS 13.0, *)) {
         
         UIWindow *keyWindow = JKAlertUtility.keyWindow;
         
         UIUserInterfaceStyle systemStyle = [UIScreen mainScreen].traitCollection.userInterfaceStyle;
         
-        NSString *systemMode = @"系统样式: 未知模式";
-        
         switch (systemStyle) {
-            case UIUserInterfaceStyleDark:
-            {
-                systemMode = @"系统样式: 深色模式";
-            }
-                break;
             case UIUserInterfaceStyleLight:
             {
                 systemMode = @"系统样式: 浅色模式";
             }
                 break;
+            case UIUserInterfaceStyleDark:
+            {
+                systemMode = @"系统样式: 深色模式";
+            }
+                break;
                 
             default:
+            {
+                systemMode = @"系统样式: 未知模式";
+            }
                 break;
         }
         
         UIUserInterfaceStyle currentStyle = keyWindow.overrideUserInterfaceStyle;
         
-        NSString *message = @"\n当前选择: 跟随系统";
-        
         switch (currentStyle) {
-            case UIUserInterfaceStyleDark:
-            {
-                message = @"\n当前选择: 深色模式";
-            }
-                break;
             case UIUserInterfaceStyleLight:
             {
                 message = @"\n当前选择: 浅色模式";
             }
                 break;
+            case UIUserInterfaceStyleDark:
+            {
+                message = @"\n当前选择: 深色模式";
+            }
+                break;
                 
             default:
+            {
+                message = @"\n当前选择: 跟随系统";
+            }
                 break;
         }
         
-        NSString *alertKey = @"JKAlertDarkModelAlertKey";
-        
-        JKAlertView.dismissForKey(alertKey);
-        
-        message = [systemMode stringByAppendingString:message];
-        
-        JKAlertView.alertView(@"深色模式切换", message, JKAlertStyleActionSheet)
-        .makeVerticalGestureDismissEnabled(YES)
-        .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
-        .makeGestureIndicatorHidden(NO)
-        .makeShowScaleAnimated(YES)
-        .makeDismissKey(alertKey)
+        alertView.addAction(JKAlertAction.action(@"浅色模式", (UIUserInterfaceStyleLight == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
+            
+            keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleLight);
+            
+            if (action.alertView) {
+                
+                action.alertView.remakeMessage([systemMode stringByAppendingString:@"\n当前选择: 浅色模式"])
+                .getActionArrayFrom(NO, ^(NSArray *actionArray) {
+                    
+                    for (JKAlertAction *action in actionArray) {
+                        
+                        action.remakeActionStyle(JKAlertActionStyleDefault);
+                    }
+                });
+            }
+            
+            action.remakeActionStyle(JKAlertActionStyleDestructive);
+            
+            [action.alertView relayoutAnimated:NO];
+            
+        }).makeAutoDismiss(NO))
         .addAction(JKAlertAction.action(@"深色模式", (UIUserInterfaceStyleDark == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
             
             keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
@@ -139,28 +164,8 @@
             
             [action.alertView relayoutAnimated:NO];
             
-        }).makeAutoDismiss(NO)).addAction(JKAlertAction.action(@"浅色模式", (UIUserInterfaceStyleLight == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
-            
-            keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-            JKAlertView.makeThemeStyle(JKAlertThemeStyleLight);
-            
-            if (action.alertView) {
-                
-                action.alertView.remakeMessage([systemMode stringByAppendingString:@"\n当前选择: 浅色模式"])
-                .getActionArrayFrom(NO, ^(NSArray *actionArray) {
-                    
-                    for (JKAlertAction *action in actionArray) {
-                        
-                        action.remakeActionStyle(JKAlertActionStyleDefault);
-                    }
-                });
-            }
-            
-            action.remakeActionStyle(JKAlertActionStyleDestructive);
-            
-            [action.alertView relayoutAnimated:NO];
-            
-        }).makeAutoDismiss(NO)).addAction(JKAlertAction.action(@"跟随系统", (UIUserInterfaceStyleUnspecified == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
+        }).makeAutoDismiss(NO))
+        .addAction(JKAlertAction.action(@"跟随系统", (UIUserInterfaceStyleUnspecified == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
             
             keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleUnspecified;
             JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
@@ -181,8 +186,99 @@
             
             [action.alertView relayoutAnimated:NO];
             
-        }).makeAutoDismiss(NO)).show();
+        }).makeAutoDismiss(NO));
+        
+    } else {
+        
+        JKAlertThemeStyle currentStyle = [JKAlertThemeManager sharedManager].themeStyle;
+        
+        switch (currentStyle) {
+            case JKAlertThemeStyleLight:
+            {
+                message = @"\n当前选择: 浅色模式";
+            }
+                break;
+            case JKAlertThemeStyleDark:
+            {
+                message = @"\n当前选择: 深色模式";
+            }
+                break;
+                
+            default:
+            {
+                message = @"\n当前选择: 跟随系统";
+            }
+                break;
+        }
+        
+        alertView.addAction(JKAlertAction.action(@"浅色模式", (JKAlertThemeStyleLight == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
+            
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleLight);
+            
+            if (action.alertView) {
+                
+                action.alertView.remakeMessage([systemMode stringByAppendingString:@"\n当前选择: 浅色模式"])
+                .getActionArrayFrom(NO, ^(NSArray *actionArray) {
+                    
+                    for (JKAlertAction *action in actionArray) {
+                        
+                        action.remakeActionStyle(JKAlertActionStyleDefault);
+                    }
+                });
+            }
+            
+            action.remakeActionStyle(JKAlertActionStyleDestructive);
+            
+            [action.alertView relayoutAnimated:NO];
+            
+        }).makeAutoDismiss(NO))
+        .addAction(JKAlertAction.action(@"深色模式", (JKAlertThemeStyleDark == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
+            
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleDark);
+            
+            if (action.alertView) {
+                
+                action.alertView.remakeMessage([systemMode stringByAppendingString:@"\n当前选择: 深色模式"])
+                .getActionArrayFrom(NO, ^(NSArray *actionArray) {
+                    
+                    for (JKAlertAction *action in actionArray) {
+                        
+                        action.remakeActionStyle(JKAlertActionStyleDefault);
+                    }
+                });
+            }
+            
+            action.remakeActionStyle(JKAlertActionStyleDestructive);
+            
+            [action.alertView relayoutAnimated:NO];
+            
+        }).makeAutoDismiss(NO))
+        .addAction(JKAlertAction.action(@"跟随系统", (JKAlertThemeStyleSystem == currentStyle ? JKAlertActionStyleDestructive : JKAlertActionStyleDefault), ^(JKAlertAction *action) {
+            
+            JKAlertView.makeThemeStyle(JKAlertThemeStyleSystem);
+            
+            if (action.alertView) {
+                
+                action.alertView.remakeMessage([systemMode stringByAppendingString:@"\n当前选择: 跟随系统"])
+                .getActionArrayFrom(NO, ^(NSArray *actionArray) {
+                    
+                    for (JKAlertAction *action in actionArray) {
+                        
+                        action.remakeActionStyle(JKAlertActionStyleDefault);
+                    }
+                });
+            }
+            
+            action.remakeActionStyle(JKAlertActionStyleDestructive);
+            
+            [action.alertView relayoutAnimated:NO];
+            
+        }).makeAutoDismiss(NO));
     }
+    
+    message = [systemMode stringByAppendingString:message];
+    
+    alertView.remakeMessage(message).show();
 }
 
 #pragma mark

@@ -84,9 +84,6 @@
 @property (nonatomic, assign) JKAlertSheetDismissAnimationType dismissAnimationType;
 
 
-/** observerSuperView */
-@property (nonatomic, weak) UIView *observerSuperView;
-
 /** closeButton */
 @property (nonatomic, weak) UIButton *closeButton;
 

@@ -70,8 +70,10 @@
         case JKAlertThemeStyleSystem:
             if (@available(iOS 13.0, *)) {
                 self.autoSwitchDarkMode = YES;
+                self.themeName = [[JKAlertThemeManager sharedManager] checkIsDarkMode] ? self.darkThemeName : self.lightThemeName;
+            } else {
+                self.themeName = self.lightThemeName;
             }
-            self.themeName = [[JKAlertThemeManager sharedManager] checkIsDarkMode] ? self.darkThemeName : self.lightThemeName;
             break;
         case JKAlertThemeStyleLight:
             if (@available(iOS 13.0, *)) {
