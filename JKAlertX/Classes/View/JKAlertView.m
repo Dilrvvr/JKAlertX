@@ -20,6 +20,9 @@
 
 /** keyboardObserverAdded */
 @property (nonatomic, assign) BOOL keyboardObserverAdded;
+
+/** superBounds */
+@property (nonatomic, assign) CGRect superBounds;
 @end
 
 @implementation JKAlertView
@@ -888,76 +891,14 @@
 }
 
 #pragma mark
-#pragma mark - KVO
-
-- (void)checkObserver {
-    
-    if (!self.superview) {
-        
-        [self removeAllOberserver];
-        
-        return;
-    }
-    
-    [self addAllObserver];
-}
-
-- (void)addAllObserver {
-    
-    if (self.observerAdded) { return; }
-    
-    [JKAlertUtility.keyWindow addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:nil];
-    
-    self.observerAdded = YES;
-}
-
-- (void)removeAllOberserver {
-    
-    if (self.observerAdded) {
-        
-        [JKAlertUtility.keyWindow removeObserver:self forKeyPath:@"frame"];
-    }
-    
-    self.observerAdded = NO;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary<NSKeyValueChangeKey,id> *)change
-                       context:(void *)context {
-    
-    if (self.superview && object == JKAlertUtility.keyWindow && [keyPath isEqualToString:@"frame"]) {
-        
-        CGRect oldFrame = [[change objectForKey:NSKeyValueChangeOldKey] CGRectValue];
-        CGRect currentFrame = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
-        
-        if (CGSizeEqualToSize(oldFrame.size, currentFrame.size) ||
-            (oldFrame.size.width == currentFrame.size.height &&
-             oldFrame.size.height == currentFrame.size.width)) {
-            
-            // 屏幕旋转由屏幕旋转处理
-            
-            return;
-        }
-        
-        // 仅处理分屏情况
-        
-        [self updateWidthHeight];
-        
-        self.relayout(YES);
-    }
-}
-
-#pragma mark
 #pragma mark - 动画弹出来
 
 - (void)solveDidMoveToSuperview {
     
-    [self checkObserver];
-    
     if (!self.superview) { return; }
     
     self.frame = self.superview.bounds;
+    self.superBounds = self.superview.frame;
     
     if (self.vibrateEnabled) {
         
@@ -1534,6 +1475,31 @@
     [self solveDidMoveToSuperview];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGRect oldSuperBounds = self.superBounds;
+    CGRect currentSuperBounds = self.superview.bounds;
+    
+    self.superBounds = currentSuperBounds;
+    
+    if (CGSizeEqualToSize(oldSuperBounds.size, currentSuperBounds.size) ||
+        (oldSuperBounds.size.width == currentSuperBounds.size.height &&
+         oldSuperBounds.size.height == currentSuperBounds.size.width)) {
+        
+        // 屏幕旋转由屏幕旋转处理，这里不做操作
+        
+        return;
+    }
+    
+    // 处理分屏的情况
+    
+    [self updateWidthHeight];
+    
+    self.relayout(YES);
+    
+}
+
 #pragma mark
 #pragma mark - Private Methods
 
@@ -1758,8 +1724,6 @@
 #pragma mark - dealloc
 
 - (void)dealloc {
-    
-    [self removeAllOberserver];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
