@@ -12,6 +12,7 @@
 #import "JKAlertView+HUD.h"
 #import "JKAlertTheme.h"
 #import "JKAlertThemeManager.h"
+#import "JKAlertConstraintManager.h"
 
 @interface JKAlertView () <JKAlertBaseAlertContentViewDelegate>
 
@@ -20,9 +21,6 @@
 
 /** keyboardObserverAdded */
 @property (nonatomic, assign) BOOL keyboardObserverAdded;
-
-/** superBounds */
-@property (nonatomic, assign) CGRect superBounds;
 @end
 
 @implementation JKAlertView
@@ -241,7 +239,7 @@
 
 - (void)calculateUI {
     
-    self.frame = CGRectMake(0, 0, self.superWidth, self.superHeight);
+    //self.frame = CGRectMake(0, 0, self.superWidth, self.superHeight);
     
     switch (self.alertStyle) {
         case JKAlertStylePlain:
@@ -897,8 +895,9 @@
     
     if (!self.superview) { return; }
     
-    self.frame = self.superview.bounds;
-    self.superBounds = self.superview.frame;
+    //self.frame = self.superview.bounds;
+    
+    [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:self constraintsView:self.superview];
     
     if (self.vibrateEnabled) {
         
@@ -1475,31 +1474,6 @@
     [self solveDidMoveToSuperview];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    CGRect oldSuperBounds = self.superBounds;
-    CGRect currentSuperBounds = self.superview.bounds;
-    
-    self.superBounds = currentSuperBounds;
-    
-    if (CGSizeEqualToSize(oldSuperBounds.size, currentSuperBounds.size) ||
-        (oldSuperBounds.size.width == currentSuperBounds.size.height &&
-         oldSuperBounds.size.height == currentSuperBounds.size.width)) {
-        
-        // 屏幕旋转由屏幕旋转处理，这里不做操作
-        
-        return;
-    }
-    
-    // 处理分屏的情况
-    
-    [self updateWidthHeight];
-    
-    self.relayout(YES);
-    
-}
-
 #pragma mark
 #pragma mark - Private Methods
 
@@ -1590,6 +1564,8 @@
     [super initialization];
     
     [self addNotifications];
+    
+    [self addObserver:self forKeyPath:NSStringFromSelector(@selector(bounds)) options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
 }
 
 /** 创建UI */
@@ -1608,6 +1584,32 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
+}
+
+#pragma mark
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    
+    if (object == self &&
+        [keyPath isEqualToString:NSStringFromSelector(@selector(bounds))]) {
+        
+        CGRect oldBounds = [[change objectForKey:NSKeyValueChangeOldKey] CGRectValue];
+        CGRect currentBounds = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
+        
+        if (CGSizeEqualToSize(oldBounds.size, currentBounds.size) ||
+            (oldBounds.size.width == currentBounds.size.height &&
+             oldBounds.size.height == currentBounds.size.width)) {
+            
+            // 屏幕旋转由屏幕旋转处理
+            
+            return;
+        }
+        
+        [self updateWidthHeight];
+        
+        self.relayout(YES);
+    }
 }
 
 #pragma mark
@@ -1733,5 +1735,7 @@
     }
     
     !self.deallocHandler ? : self.deallocHandler();
+    
+    [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(bounds))];
 }
 @end
