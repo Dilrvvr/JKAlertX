@@ -1565,7 +1565,7 @@
     
     [self addNotifications];
     
-    [self addObserver:self forKeyPath:NSStringFromSelector(@selector(bounds)) options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
+    [self addKvoObservers];
 }
 
 /** 创建UI */
@@ -1589,6 +1589,22 @@
 #pragma mark
 #pragma mark - KVO
 
+- (void)removeKvoObservers {
+    
+    if (JKAlertUtility.isDeviceiPad) {
+        
+        [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(bounds))];
+    }
+}
+
+- (void)addKvoObservers {
+    
+    if (JKAlertUtility.isDeviceiPad) { // 仅在iPad监听，目前仅有iPad可分屏
+        
+        [self addObserver:self forKeyPath:NSStringFromSelector(@selector(bounds)) options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
+    }
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     
     if (object == self &&
@@ -1608,7 +1624,7 @@
         
         [self updateWidthHeight];
         
-        self.relayout(YES);
+        self.relayout(NO);
     }
 }
 
@@ -1727,6 +1743,8 @@
 
 - (void)dealloc {
     
+    [self removeKvoObservers];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     if (self.deallocLogEnabled) {
@@ -1735,7 +1753,5 @@
     }
     
     !self.deallocHandler ? : self.deallocHandler();
-    
-    [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(bounds))];
 }
 @end

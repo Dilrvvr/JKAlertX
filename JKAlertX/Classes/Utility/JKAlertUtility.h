@@ -293,6 +293,9 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 导航条高度
 @property (class, nonatomic, readonly) CGFloat navigationBarHeight;
 
+/// 目前iPhone屏幕最大宽度
+@property (class, nonatomic, readonly) CGFloat iPhoneMaxScreenWidth;
+
 /// 让手机振动一下
 + (void)vibrateDevice;
 

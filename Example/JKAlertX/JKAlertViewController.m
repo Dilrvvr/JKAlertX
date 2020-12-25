@@ -135,7 +135,7 @@
             
             [weakSelf addCollectionActionsWithAlertView:alertView];
 
-            CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
+            CGFloat itemWidth = [self itemWidthWithLeftRightMargin:0];
             
             alertView.makeCollectionSheetItemSize(CGSizeMake(itemWidth, itemWidth - 6))
             .makeCustomSuperView(weakSelf.customSuperView)
@@ -598,7 +598,7 @@
 
 - (void)collectionSheet:(JKAlertTableModel *)sender {
     
-    CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) - 30) * 0.25;
+    CGFloat itemWidth = [self itemWidthWithLeftRightMargin:15];
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)];
     
@@ -682,7 +682,7 @@
 
 - (void)customCollectionTitle:(JKAlertTableModel *)sender {
     
-    CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
+    CGFloat itemWidth = [self itemWidthWithLeftRightMargin:0];
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)]
     .makeCustomSuperView(self.customSuperView)
@@ -721,9 +721,9 @@
 
 - (void)testShare:(JKAlertTableModel *)sender {
     
-    CGFloat screenWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+    CGFloat itemWidth = [self itemWidthWithLeftRightMargin:0];
     
-    CGFloat itemWidth = screenWidth * 0.25;
+    CGFloat screenWidth = [self calculateCollectionScreenWidth];
     
     UIEdgeInsets sectionInset = UIEdgeInsetsMake(0, ((screenWidth - itemWidth * 2) / 4), 0, ((screenWidth - itemWidth * 2) / 4));
     
@@ -767,7 +767,7 @@
 
 - (void)customCollectionButton:(JKAlertTableModel *)sender {
     
-    CGFloat itemWidth = (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)) * 0.25;
+    CGFloat itemWidth = [self itemWidthWithLeftRightMargin:0];
     
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:@"collectionSheet" message:nil style:(JKAlertStyleCollectionSheet)];
     
@@ -891,9 +891,9 @@
 
 - (void)customCollectionActionView:(JKAlertTableModel *)sender {
     
-    CGFloat screenWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+    CGFloat itemWidth = [self itemWidthWithLeftRightMargin:0];
     
-    CGFloat itemWidth = screenWidth * 0.25;
+    CGFloat screenWidth = [self calculateCollectionScreenWidth];
     
     [JKAlertView alertViewWithTitle:@"customCollectionActionView" message:nil style:(JKAlertStyleCollectionSheet)]
     .makeCustomSuperView(self.customSuperView)
@@ -1011,5 +1011,23 @@
 - (UIView *)customSuperView {
     
     return nil;
+}
+
+- (CGFloat)calculateCollectionScreenWidth {
+    
+    CGFloat minWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+    
+    minWidth = MIN(minWidth, JKAlertUtility.iPhoneMaxScreenWidth);
+    
+    return minWidth;
+}
+
+- (CGFloat)itemWidthWithLeftRightMargin:(CGFloat)margin {
+    
+    CGFloat minWidth = [self calculateCollectionScreenWidth];
+    
+    CGFloat itemWidth = (minWidth - margin * 2.0) * 0.25;
+    
+    return itemWidth;
 }
 @end
