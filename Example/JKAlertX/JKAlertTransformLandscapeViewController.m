@@ -30,7 +30,7 @@
 - (void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     
-    //self.testLabel.frame = self.view.bounds;
+    self.testLabel.frame = self.view.bounds;
 }
 
 - (UIView *)customSuperView {

@@ -57,15 +57,12 @@
             if ((rotation > 1.57 && rotation < 1.58) ||
                 (rotation > -1.58 && rotation < -1.57)) {
                 
-                self.superWidth =  self.customSuperView.frame.size.height;//MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                self.superHeight =  self.customSuperView.frame.size.width;//MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
+                self.superWidth =  self.customSuperView.frame.size.height;
+                self.superHeight =  self.customSuperView.frame.size.width;
                 
                 [self updateMaxHeight];
                 
             } else  {
-                
-                //self.superWidth =  MIN(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
-                //self.superHeight =  MAX(self.customSuperView.frame.size.width, self.customSuperView.frame.size.height);
                 
                 [self updateWidthHeight];
             }

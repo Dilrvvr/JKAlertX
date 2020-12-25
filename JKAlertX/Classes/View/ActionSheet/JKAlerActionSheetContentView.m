@@ -28,13 +28,13 @@
 #pragma mark
 #pragma mark - Public Methods
 
-- (void)setTableViewDataSource:(id<UITableViewDataSource>)tableViewDataSource {
+- (void)setTableViewDataSource:(id <UITableViewDataSource>)tableViewDataSource {
     _tableViewDataSource = tableViewDataSource ? tableViewDataSource : self;
     
     self.tableView.dataSource = _tableViewDataSource;
 }
 
-- (void)setTableViewDelegate:(id<UITableViewDelegate>)tableViewDelegate {
+- (void)setTableViewDelegate:(id <UITableViewDelegate>)tableViewDelegate {
     _tableViewDelegate = tableViewDelegate ? tableViewDelegate : self;
     
     self.tableView.delegate = _tableViewDelegate;
@@ -1198,6 +1198,10 @@
     
     if (@available(iOS 11.0, *)) {
         
+        tableView.estimatedRowHeight = 0;
+        tableView.estimatedSectionHeaderHeight = 0;
+        tableView.estimatedSectionFooterHeight = 0;
+        
         tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     
@@ -1208,5 +1212,4 @@
     
     return tableView;
 }
-
 @end

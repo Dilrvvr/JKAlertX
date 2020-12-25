@@ -311,6 +311,12 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     }
 }
 
+/// 目前iPhone屏幕最大宽度
++ (CGFloat)iPhoneMaxScreenWidth {
+    
+    return 428.0;
+}
+
 /// 让手机振动一下
 + (void)vibrateDevice {
     

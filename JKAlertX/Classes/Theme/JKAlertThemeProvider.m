@@ -195,9 +195,9 @@
     [self executeAllProvideHandler];
 }
 
-- (void)setOwner:(id<JKAlertThemeProviderProtocol>)owner {
+- (void)setOwner:(id <JKAlertThemeProviderProtocol>)owner {
     
-    _owner = owner;
+    _owner = (NSObject <JKAlertThemeProviderProtocol> *)owner;
 }
 
 #pragma mark

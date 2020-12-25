@@ -11,7 +11,7 @@
 
 /**
  * collection样式顶部的背景色
- * pierced镂空样式时，表示上部分的颜色，包括title和tableView
+ * pierced镂空样式时，表示上部分的颜色，包括title和collectionView
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeCollectionSheetTopBackgroundColor)(UIColor *color);
 

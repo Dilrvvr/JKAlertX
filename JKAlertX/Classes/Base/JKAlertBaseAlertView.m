@@ -40,7 +40,19 @@
 #pragma mark
 #pragma mark - Override
 
-
+- (instancetype)initWithFrame:(CGRect)frame {
+    
+    CGRect rect = frame;
+    
+    if (CGRectEqualToRect(CGRectZero, rect)) {
+        
+        rect = JKAlertUtility.keyWindow.bounds;
+    }
+    
+    self = [super initWithFrame:rect];
+    
+    return self;
+}
 
 #pragma mark
 #pragma mark - Private Methods

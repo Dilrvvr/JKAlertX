@@ -91,7 +91,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextColor)(UIColor *textColor) JKAlertXDeprecated("use makeTitleColor");
 
 /** 设置titleTextViewDelegate */
-@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewDelegate)(id<UITextViewDelegate> delegate) JKAlertXDeprecated("use makeTitleDelegate");
+@property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewDelegate)(id <UITextViewDelegate> delegate) JKAlertXDeprecated("use makeTitleDelegate");
 
 /** 设置titleTextView的文字水平样式 默认NSTextAlignmentCenter */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTitleTextViewAlignment)(NSTextAlignment textAlignment) JKAlertXDeprecated("use makeTitleAlignment");
@@ -112,7 +112,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewAlignment)(NSTextAlignment textAlignment) JKAlertXDeprecated("use makeMessageAlignment");
 
 /** 设置messageTextViewDelegate */
-@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id<UITextViewDelegate> delegate) JKAlertXDeprecated("use makeMessageDelegate");
+@property (nonatomic, copy, readonly) JKAlertView *(^setMessageTextViewDelegate)(id <UITextViewDelegate> delegate) JKAlertXDeprecated("use makeMessageDelegate");
 
 /** 设置title和message的左右间距 默认20 */
 @property (nonatomic, copy, readonly) JKAlertView *(^setTextViewLeftRightMargin)(CGFloat margin) JKAlertXDeprecated("use makeTitleInsets & makeMessageInsets");
@@ -336,10 +336,10 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^setTableViewConfiguration)(void (^)(UITableView *tableView)) JKAlertXDeprecated("use makeActionSheetTableViewConfiguration");
 
 /** 设置UITableViewDataSource */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDataSource)(id<UITableViewDataSource> dataSource) JKAlertXDeprecated("use makeActionSheetTableViewDataSource");
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDataSource)(id <UITableViewDataSource> dataSource) JKAlertXDeprecated("use makeActionSheetTableViewDataSource");
 
 /** 设置UITableViewDelegate */
-@property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDelegate)(id<UITableViewDelegate> delegate) JKAlertXDeprecated("use makeActionSheetTableViewDelegate");
+@property (nonatomic, copy, readonly) JKAlertView *(^setCustomTableViewDelegate)(id <UITableViewDelegate> delegate) JKAlertXDeprecated("use makeActionSheetTableViewDelegate");
 
 /** 设置actionSheet底部取消按钮是否固定在底部 默认NO */
 @property (nonatomic, copy, readonly) JKAlertView *(^setPinCancelButton)(BOOL pinCancelButton) JKAlertXDeprecated("use makeActionSheetBottomButtonPinned");

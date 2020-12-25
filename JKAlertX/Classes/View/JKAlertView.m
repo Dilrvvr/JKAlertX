@@ -12,6 +12,7 @@
 #import "JKAlertView+HUD.h"
 #import "JKAlertTheme.h"
 #import "JKAlertThemeManager.h"
+#import "JKAlertConstraintManager.h"
 
 @interface JKAlertView () <JKAlertBaseAlertContentViewDelegate>
 
@@ -238,7 +239,7 @@
 
 - (void)calculateUI {
     
-    self.frame = CGRectMake(0, 0, self.superWidth, self.superHeight);
+    //self.frame = CGRectMake(0, 0, self.superWidth, self.superHeight);
     
     switch (self.alertStyle) {
         case JKAlertStylePlain:
@@ -888,73 +889,15 @@
 }
 
 #pragma mark
-#pragma mark - KVO
-
-- (void)checkObserver {
-    
-    if (self.observerSuperView &&
-        self.observerSuperView != self.superview) {
-        
-        [self removeAllOberserver];
-    }
-    
-    [self addAllObserver];
-}
-
-- (void)addAllObserver {
-    
-    if (self.observerAdded) { return; }
-    
-    self.observerSuperView = self.superview;
-    
-    [self.superview addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:nil];
-    
-    self.observerAdded = YES;
-}
-
-- (void)removeAllOberserver {
-    
-    if (self.observerAdded) {
-        
-        [self.observerSuperView removeObserver:self forKeyPath:@"frame"];
-    }
-    
-    self.observerAdded = NO;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary<NSKeyValueChangeKey,id> *)change
-                       context:(void *)context {
-    
-    if (object == self.superview && [keyPath isEqualToString:@"frame"]) {
-        
-        CGRect oldFrame = [[change objectForKey:NSKeyValueChangeOldKey] CGRectValue];
-        CGRect currentFrame = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
-        
-        if (CGSizeEqualToSize(oldFrame.size, currentFrame.size) ||
-            (oldFrame.size.width == currentFrame.size.height &&
-             oldFrame.size.height == currentFrame.size.width)) {
-            
-            // 屏幕旋转由屏幕旋转处理
-            
-            return;
-        }
-        
-        [self updateWidthHeight];
-        
-        self.relayout(YES);
-    }
-}
-
-#pragma mark
 #pragma mark - 动画弹出来
 
 - (void)solveDidMoveToSuperview {
     
     if (!self.superview) { return; }
     
-    self.frame = self.superview.bounds;
+    //self.frame = self.superview.bounds;
+    
+    [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:self constraintsView:self.superview];
     
     if (self.vibrateEnabled) {
         
@@ -962,8 +905,6 @@
     }
     
     [self startShowAnimation];
-    
-    [self checkObserver];
 }
 
 - (void)startShowAnimation{
@@ -1623,6 +1564,8 @@
     [super initialization];
     
     [self addNotifications];
+    
+    [self addKvoObservers];
 }
 
 /** 创建UI */
@@ -1641,6 +1584,48 @@
 - (void)initializeUIData {
     [super initializeUIData];
     
+}
+
+#pragma mark
+#pragma mark - KVO
+
+- (void)removeKvoObservers {
+    
+    if (JKAlertUtility.isDeviceiPad) {
+        
+        [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(bounds))];
+    }
+}
+
+- (void)addKvoObservers {
+    
+    if (JKAlertUtility.isDeviceiPad) { // 仅在iPad监听，目前仅有iPad可分屏
+        
+        [self addObserver:self forKeyPath:NSStringFromSelector(@selector(bounds)) options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    
+    if (object == self &&
+        [keyPath isEqualToString:NSStringFromSelector(@selector(bounds))]) {
+        
+        CGRect oldBounds = [[change objectForKey:NSKeyValueChangeOldKey] CGRectValue];
+        CGRect currentBounds = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
+        
+        if (CGSizeEqualToSize(oldBounds.size, currentBounds.size) ||
+            (oldBounds.size.width == currentBounds.size.height &&
+             oldBounds.size.height == currentBounds.size.width)) {
+            
+            // 屏幕旋转由屏幕旋转处理
+            
+            return;
+        }
+        
+        [self updateWidthHeight];
+        
+        self.relayout(NO);
+    }
 }
 
 #pragma mark
@@ -1758,7 +1743,7 @@
 
 - (void)dealloc {
     
-    [self removeAllOberserver];
+    [self removeKvoObservers];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
