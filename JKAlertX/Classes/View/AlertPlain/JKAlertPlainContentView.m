@@ -553,9 +553,9 @@
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];
     
-    [JKAlertThemeProvider providerBackgroundColorWithOwner:self provideHandler:^(JKAlertThemeProvider *provider, JKAlertPlainContentView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.textFieldContainerView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
         
-        providerOwner.textFieldContainerView.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
+        providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];
 }
 
