@@ -240,9 +240,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 
 @interface JKAlertUtility : NSObject
 
-/**
- * 判断当前是否深色模式
- */
+/// 判断当前是否深色模式
 @property (class, nonatomic, readonly) BOOL isDarkMode;
 
 /// 全局背景色 浅色模式 rgb 247

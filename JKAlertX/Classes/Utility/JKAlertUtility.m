@@ -143,9 +143,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 
 @implementation JKAlertUtility
 
-/**
- * 判断当前是否深色模式
- */
+/// 判断当前是否深色模式
 + (BOOL)isDarkMode {
     
     return [[JKAlertThemeManager sharedManager] checkIsDarkMode];
@@ -303,11 +301,11 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     
     if (self.isDeviceiPad) { // iPad
         
-        return self.isLandscape ? 70.f : 64.f;
+        return self.isLandscape ? 70.0 : 64.0;
         
     } else { // iPhone
         
-        return self.isLandscape ? (self.isDeviceX ? 44.f : 32.f) : (self.isDeviceX ? 88.f : 64.f);
+        return self.isLandscape ? (self.isDeviceX ? 44.0 : 32.0) : (self.isDeviceX ? 88.0 : 64.0);
     }
 }
 
