@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class JKAlertView;
+
 #pragma mark
 #pragma mark - 协议
 
@@ -303,13 +305,15 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 在DEBUG/Develop下执行
 + (void)debugDevelopExecute:(void (^)(void))executeBlock;
 
-/// 弹框展示debug信息
+/// 弹框展示debug信息 仅debug
 + (void)showDebugAlertWithTitle:(NSString *)title
                         message:(NSString *)message
-                          delay:(NSTimeInterval)delay;
+                          delay:(NSTimeInterval)delay
+        configurationBeforeShow:(void(^)(JKAlertView *alertView))configuration;
 
-/// 弹框展示debug信息
+/// 弹框展示debug信息 debug & develop
 + (void)showDebugDevelopAlertWithTitle:(NSString *)title
                                message:(NSString *)message
-                                 delay:(NSTimeInterval)delay;
+                                 delay:(NSTimeInterval)delay
+               configurationBeforeShow:(void(^)(JKAlertView *alertView))configuration;
 @end

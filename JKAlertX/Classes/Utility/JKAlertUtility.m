@@ -354,27 +354,30 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 #endif
 }
 
-/// 弹框展示debug信息
+/// 弹框展示debug信息 仅debug
 + (void)showDebugAlertWithTitle:(NSString *)title
                         message:(NSString *)message
-                          delay:(NSTimeInterval)delay {
+                          delay:(NSTimeInterval)delay
+        configurationBeforeShow:(void(^)(JKAlertView *alertView))configuration {
 #if defined(DEBUG)
-    [self _showAlertWithTitle:title message:message delay:delay];
+    [self jk_showAlertWithTitle:title message:message delay:delay configurationBeforeShow:configuration];
 #endif
 }
 
-/// 弹框展示debug信息
+/// 弹框展示debug信息 debug & develop
 + (void)showDebugDevelopAlertWithTitle:(NSString *)title
                                message:(NSString *)message
-                                 delay:(NSTimeInterval)delay {
+                                 delay:(NSTimeInterval)delay
+               configurationBeforeShow:(void(^)(JKAlertView *alertView))configuration {
 #if defined(DEBUG) || defined(CONFIGURATION_Develop)
-    [self _showAlertWithTitle:title message:message delay:delay];
+    [self jk_showAlertWithTitle:title message:message delay:delay configurationBeforeShow:configuration];
 #endif
 }
 
-+ (void)_showAlertWithTitle:(NSString *)title
-                    message:(NSString *)message
-                      delay:(NSTimeInterval)delay {
++ (void)jk_showAlertWithTitle:(NSString *)title
+                      message:(NSString *)message
+                        delay:(NSTimeInterval)delay
+      configurationBeforeShow:(void(^)(JKAlertView *alertView))configuration {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -387,7 +390,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
         
         [alertView addAction:[JKAlertAction actionWithTitle:@"Copy" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             
-            [UIPasteboard generalPasteboard].string = message;
+            [UIPasteboard generalPasteboard].string = message ? message : @"";
         }]];
         
         [alertView addAction:[JKAlertAction actionWithTitle:@"OK" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
@@ -396,12 +399,16 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
         
         if (delay <= 0) {
             
+            !configuration ? : configuration(alertView);
+            
             [alertView show];
             
             return;
         }
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            !configuration ? : configuration(alertView);
             
             [alertView show];
         });
