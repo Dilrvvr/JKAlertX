@@ -14,23 +14,23 @@
 #pragma mark
 #pragma mark - 通知
 
-/** 移除全部的通知 */
+/// 移除全部的通知
 NSString * const JKAlertDismissAllNotification = @"JKAlertDismissAllNotification";
 
-/** 根据key来移除的通知 */
+/// 根据key来移除的通知
 NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKeyNotification";
 
-/** 根据category来移除的通知 */
+/// 根据category来移除的通知
 NSString * const JKAlertDismissForCategoryNotification = @"JKAlertDismissForCategoryNotification";
 
-/** 清空全部弹框的通知 */
+/// 清空全部弹框的通知
 NSString * const JKAlertClearAllNotification = @"JKAlertClearAllNotification";
 
 
 #pragma mark
 #pragma mark - 常量
 
-/** 可以手势滑动退出时 点击空白处不dismiss的抖动动画key */
+/// 可以手势滑动退出时 点击空白处不dismiss的抖动动画key
 NSString * const JKAlertDismissFailedShakeAnimationKey = @"JKAlertDismissFailedShakeAnimationKey";
 
 CGFloat    const JKAlertSheetSpringHeight = 15.0;

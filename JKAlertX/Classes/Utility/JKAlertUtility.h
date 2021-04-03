@@ -18,70 +18,52 @@
 #pragma mark
 #pragma mark - 枚举
 
-typedef enum : NSUInteger {
+typedef NS_ENUM(NSUInteger, JKAlertStyle) {
     
-    /**
-     * none
-     * 该样式将默认为JKAlertStylePlain
-     */
+    /// none 该样式将默认为JKAlertStylePlain
     JKAlertStyleNone = 0,
     
-    /**
-     * 面板
-     * use JKAlertStyleAlert instead.
-     */
+    /// 面板 use JKAlertStyleAlert instead.
     JKAlertStylePlain = 1,
     
-    /** 列表 */
+    /// 列表
     JKAlertStyleActionSheet = 2,
     
-    /**
-     * collectionView样式
-     * 该样式没有message，只有一个title
-     */
+    /// collectionView样式，该样式没有message，只有一个title
     JKAlertStyleCollectionSheet = 3,
     
-    /**
-     * HUD提示
-     * 该样式没有message，只有一个title
-     */
+    /// HUD提示，该样式没有message，只有一个title
     JKAlertStyleHUD = 4,
     
-    /** 顶部通知 */
+    /// 顶部通知
     //JKAlertStyleNotification = 5,
     
-    /** 自定义 */
+    /// 自定义
     //JKAlertStyleCustom = 6,
     
-    /** 面板 */
+    /// 面板
     JKAlertStyleAlert = JKAlertStylePlain,
     
-} JKAlertStyle;
+};
 
-typedef enum : NSUInteger {
+typedef NS_ENUM(NSUInteger, JKAlertActionStyle) {
     
-    /**
-     * 默认样式
-     * 默认黑色字体 RGB都为51
-     */
+    /// 默认样式 默认黑色字体 RGB都为51
     JKAlertActionStyleDefault,
     
-    /** 红色字体 */
+    /// 红色字体
     JKAlertActionStyleDestructive,
     
-    /** 灰色字体 RGB都为153 */
+    /// 灰色字体 RGB都为153
     JKAlertActionStyleCancel,
     
-    /** 默认系统蓝色 [UIColor colorWithRed:0 green:122.0/255.0 blue:255.0/255.0 alpha:1] */
+    /// 默认系统蓝色 [UIColor colorWithRed:0 green:122.0/255.0 blue:255.0/255.0 alpha:1]
     JKAlertActionStyleDefaultBlue,
     
-    /**
-     * 默认样式
-     * 默认黑色字体 RGB都为51
-     */
+    /// 默认样式 默认黑色字体 RGB都为51
     JKAlertActionStyleDefaultBlack = JKAlertActionStyleDefault,
     
-} JKAlertActionStyle;
+};
 
 /// sheet样式展示动画
 typedef NS_ENUM(NSUInteger, JKAlertSheetShowAnimationType) {
@@ -125,27 +107,38 @@ typedef NS_ENUM(NSUInteger, JKAlertSheetHorizontalGestureDismissDirection) {
     JKAlertSheetHorizontalGestureDismissDirectionToRight,
 };
 
+/// 记录ScrollView滑动方向
 typedef NS_ENUM(NSUInteger, JKAlertScrollDirection) {
+    
+    /// 无方向记录
     JKAlertScrollDirectionNone = 0,
+    
+    /// 向上滑动 ↑
     JKAlertScrollDirectionUp,
+    
+    /// 向下滑动 ↓
     JKAlertScrollDirectionDown,
+    
+    /// 向左滑动 ←
     JKAlertScrollDirectionLeft,
+    
+    /// 向右滑动 →
     JKAlertScrollDirectionRight,
 };
 
 #pragma mark
 #pragma mark - 通知
 
-/** 移除全部的通知 */
+/// 移除全部的通知
 UIKIT_EXTERN NSString * const JKAlertDismissAllNotification;
 
-/** 根据key来移除的通知 */
+/// 根据key来移除的通知
 UIKIT_EXTERN NSString * const JKAlertDismissForKeyNotification;
 
-/** 根据category来移除的通知 */
+/// 根据category来移除的通知
 UIKIT_EXTERN NSString * const JKAlertDismissForCategoryNotification;
 
-/** 清空全部弹框的通知 */
+/// 清空全部弹框的通知
 UIKIT_EXTERN NSString * const JKAlertClearAllNotification;
 
 
@@ -153,7 +146,7 @@ UIKIT_EXTERN NSString * const JKAlertClearAllNotification;
 #pragma mark
 #pragma mark - 常量
 
-/** 可以手势滑动退出时 点击空白处不dismiss的抖动动画key */
+/// 可以手势滑动退出时 点击空白处不dismiss的抖动动画key
 UIKIT_EXTERN NSString * const JKAlertDismissFailedShakeAnimationKey;
 
 UIKIT_EXTERN CGFloat    const JKAlertSheetSpringHeight;// = 15.0;
@@ -186,15 +179,15 @@ UIKIT_EXTERN CGFloat    const JKAlertTopGestureIndicatorLineHeight;// = 4.0;
 
 #define JKAlertScreenHeight [UIScreen mainScreen].bounds.size.height
 
-// 快速设置颜色
+/// 快速设置颜色
 #define JKAlertColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 #define JKAlertColorAlpha(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 
-// RGB相等颜色
+/// RGB相等颜色
 #define JKAlertSameRGBColor(rgb) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:1.0]
 #define JKAlertSameRGBColorAlpha(rgb, a) [UIColor colorWithRed:(rgb)/255.0 green:(rgb)/255.0 blue:(rgb)/255.0 alpha:(a)]
 
-// 随机色
+/// 随机色
 #define JKAlertRandomColor [UIColor colorWithRed:(arc4random_uniform(256)/255.0) green:(arc4random_uniform(256)/255.0) blue:(arc4random_uniform(256)/255.0) alpha:1.0]
 
 #define JKAlertSystemBlueColor [UIColor colorWithRed:0.0 green:122.0/255.0 blue:255.0/255.0 alpha:1.0]
