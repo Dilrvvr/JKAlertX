@@ -30,7 +30,7 @@
 /** delegate */
 @property (nonatomic, weak) id <JKAlertBaseAlertContentViewDelegate> delegate;
 
-/** 圆角 默认8 */
+/** 圆角 默认10 */
 @property (nonatomic, assign) CGFloat cornerRadius;
 
 /** screenSafeInsets */

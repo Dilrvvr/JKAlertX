@@ -14,23 +14,23 @@
 #pragma mark
 #pragma mark - 通知
 
-/** 移除全部的通知 */
+/// 移除全部的通知
 NSString * const JKAlertDismissAllNotification = @"JKAlertDismissAllNotification";
 
-/** 根据key来移除的通知 */
+/// 根据key来移除的通知
 NSString * const JKAlertDismissForKeyNotification = @"JKAlertDismissForKeyNotification";
 
-/** 根据category来移除的通知 */
+/// 根据category来移除的通知
 NSString * const JKAlertDismissForCategoryNotification = @"JKAlertDismissForCategoryNotification";
 
-/** 清空全部弹框的通知 */
+/// 清空全部弹框的通知
 NSString * const JKAlertClearAllNotification = @"JKAlertClearAllNotification";
 
 
 #pragma mark
 #pragma mark - 常量
 
-/** 可以手势滑动退出时 点击空白处不dismiss的抖动动画key */
+/// 可以手势滑动退出时 点击空白处不dismiss的抖动动画key
 NSString * const JKAlertDismissFailedShakeAnimationKey = @"JKAlertDismissFailedShakeAnimationKey";
 
 CGFloat    const JKAlertSheetSpringHeight = 15.0;
@@ -143,9 +143,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 
 @implementation JKAlertUtility
 
-/**
- * 判断当前是否深色模式
- */
+/// 判断当前是否深色模式
 + (BOOL)isDarkMode {
     
     return [[JKAlertThemeManager sharedManager] checkIsDarkMode];
@@ -303,11 +301,11 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     
     if (self.isDeviceiPad) { // iPad
         
-        return self.isLandscape ? 70.f : 64.f;
+        return self.isLandscape ? 70.0 : 64.0;
         
     } else { // iPhone
         
-        return self.isLandscape ? (self.isDeviceX ? 44.f : 32.f) : (self.isDeviceX ? 88.f : 64.f);
+        return self.isLandscape ? (self.isDeviceX ? 44.0 : 32.0) : (self.isDeviceX ? 88.0 : 64.0);
     }
 }
 
@@ -356,27 +354,30 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 #endif
 }
 
-/// 弹框展示debug信息
+/// 弹框展示debug信息 仅debug
 + (void)showDebugAlertWithTitle:(NSString *)title
                         message:(NSString *)message
-                          delay:(NSTimeInterval)delay {
+                          delay:(NSTimeInterval)delay
+        configurationBeforeShow:(void(^)(JKAlertView *alertView))configuration {
 #if defined(DEBUG)
-    [self _showAlertWithTitle:title message:message delay:delay];
+    [self jk_showAlertWithTitle:title message:message delay:delay configurationBeforeShow:configuration];
 #endif
 }
 
-/// 弹框展示debug信息
+/// 弹框展示debug信息 debug & develop
 + (void)showDebugDevelopAlertWithTitle:(NSString *)title
                                message:(NSString *)message
-                                 delay:(NSTimeInterval)delay {
+                                 delay:(NSTimeInterval)delay
+               configurationBeforeShow:(void(^)(JKAlertView *alertView))configuration {
 #if defined(DEBUG) || defined(CONFIGURATION_Develop)
-    [self _showAlertWithTitle:title message:message delay:delay];
+    [self jk_showAlertWithTitle:title message:message delay:delay configurationBeforeShow:configuration];
 #endif
 }
 
-+ (void)_showAlertWithTitle:(NSString *)title
-                    message:(NSString *)message
-                      delay:(NSTimeInterval)delay {
++ (void)jk_showAlertWithTitle:(NSString *)title
+                      message:(NSString *)message
+                        delay:(NSTimeInterval)delay
+      configurationBeforeShow:(void(^)(JKAlertView *alertView))configuration {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -389,7 +390,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
         
         [alertView addAction:[JKAlertAction actionWithTitle:@"Copy" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             
-            [UIPasteboard generalPasteboard].string = message;
+            [UIPasteboard generalPasteboard].string = message ? message : @"";
         }]];
         
         [alertView addAction:[JKAlertAction actionWithTitle:@"OK" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
@@ -398,12 +399,16 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
         
         if (delay <= 0) {
             
+            !configuration ? : configuration(alertView);
+            
             [alertView show];
             
             return;
         }
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            !configuration ? : configuration(alertView);
             
             [alertView show];
         });

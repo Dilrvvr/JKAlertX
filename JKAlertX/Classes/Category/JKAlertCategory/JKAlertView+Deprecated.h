@@ -235,7 +235,7 @@
 
 /**
  * 设置plain样式的圆角
- * 默认8 不可小于0
+ * 默认10 不可小于0
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^setPlainCornerRadius)(CGFloat cornerRadius) JKAlertXDeprecated("use makeCornerRadius");
 

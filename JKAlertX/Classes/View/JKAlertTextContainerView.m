@@ -29,15 +29,17 @@
         rect.size.height = minHeight;
     }
     
-    self.textView.center = CGPointMake(rect.size.width * 0.5, rect.size.height * 0.5);
-    
     return rect;
 }
 
 #pragma mark
 #pragma mark - Override
 
-
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.textView.center = CGPointMake(self.bounds.size.width * 0.5, self.bounds.size.height * 0.5);
+}
 
 #pragma mark
 #pragma mark - Private Methods
