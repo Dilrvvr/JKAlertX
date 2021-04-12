@@ -53,6 +53,14 @@
         }
             break;
     }
+    
+    self.horizontalDismissPanGesture.enabled = _horizontalGestureDismissEnabled;
+}
+
+- (void)setVerticalGestureDismissEnabled:(BOOL)verticalGestureDismissEnabled {
+    _verticalGestureDismissEnabled = verticalGestureDismissEnabled;
+    
+    self.verticalDismissPanGesture.enabled = _verticalGestureDismissEnabled;
 }
 
 #pragma mark
@@ -420,6 +428,9 @@
     
     [self addGestureRecognizer:self.verticalDismissPanGesture];
     [self addGestureRecognizer:self.horizontalDismissPanGesture];
+    
+    self.verticalDismissPanGesture.enabled = self.verticalGestureDismissEnabled;
+    self.horizontalDismissPanGesture.enabled = self.horizontalGestureDismissEnabled;
 }
 
 /** 创建UI */
