@@ -63,4 +63,16 @@
  * piercedInsets : 整体左、右、下间距
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetPierced)(BOOL isPierced, UIEdgeInsets piercedInsets);
+
+/**
+ * actionSheet自定义tableView滑动退出
+ * 使用场景: 当自定义了sheet的view后，并且在view上有一个tableView或其他上下滑动的scrollView，希望滑动到顶部时继续下拉滑动退出该sheet
+ * 步骤: 1、alertView.makeVerticalGestureDismissEnabled(YES); 开启滑动退出(纵向)
+ *      2、遵守JKAlertVerticalSlideToDismissProtocol协议，定义对应jkalert_verticalSlideToDismissDelegate属性
+ *         可以使用`@synthesize jkalert_verticalSlideToDismissDelegate;`
+ *      3、alertView.makeActionSheetCustomVerticalSlideToDismiss(`object <JKAlertVerticalSlideToDismissProtocol>`);
+ *      4、在tableView(或其他上下滑动的scrollView)的UIScrollViewDelegate的方法中(共4个方法，详见JKAlertVerticalSlideToDismissDelegate协议)
+ *         让jkalert_verticalSlideToDismissDelegate在四个方法中一一调用对应的方法
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetCustomVerticalSlideToDismiss)(id <JKAlertVerticalSlideToDismissProtocol> object);
 @end
