@@ -13,6 +13,7 @@
 #import "JKAlertActionButton.h"
 #import "UIView+JKAlertX.h"
 #import "JKAlertTheme.h"
+#import "JKAlertUITableView.h"
 
 @interface JKAlerActionSheetContentView () <UITableViewDataSource, UITableViewDelegate>
 
@@ -1114,8 +1115,6 @@
     UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
     tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
     tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
-    tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGFLOAT_MIN)];
-    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, CGFLOAT_MIN)];
     tableView.showsHorizontalScrollIndicator = NO;
     [self.contentView addSubview:tableView];
     _tableView = tableView;
@@ -1177,7 +1176,7 @@
 
 - (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:style];
+    UITableView *tableView = [[JKAlertUITableView alloc] initWithFrame:CGRectZero style:style];
     
     tableView.backgroundColor = nil;
     
@@ -1185,29 +1184,11 @@
     tableView.scrollEnabled = NO;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    tableView.rowHeight = 44;
-    tableView.sectionFooterHeight = 0;
-    tableView.sectionHeaderHeight = 0;
-    
     tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertUtility.currentHomeIndicatorHeight, 0);
     
     if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
         
         tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertUtility.currentHomeIndicatorHeight, 34);
-    }
-    
-    if (@available(iOS 11.0, *)) {
-        
-        tableView.estimatedRowHeight = 0;
-        tableView.estimatedSectionHeaderHeight = 0;
-        tableView.estimatedSectionFooterHeight = 0;
-        
-        tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    }
-    
-    if (@available(iOS 13.0, *)) {
-        
-        tableView.automaticallyAdjustsScrollIndicatorInsets = NO;
     }
     
     return tableView;

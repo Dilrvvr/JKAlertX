@@ -7,6 +7,7 @@
 //
 
 #import "JKAlertVerticalSlideToDismissView.h"
+#import "JKAlertUITableView.h"
 
 @interface JKAlertVerticalSlideToDismissView () <UITableViewDataSource, UITableViewDelegate>
 
@@ -151,7 +152,8 @@
 /// 创建UI 交给子类重写 super自动调用该方法
 - (void)createUI {
     
-    UITableView *tableView = [self createTableViewWithStyle:(UITableViewStylePlain)];
+    UITableView *tableView = [[JKAlertUITableView alloc] initWithFrame:CGRectZero style:(UITableViewStylePlain)];
+    tableView.backgroundColor = nil;
     tableView.dataSource = self;
     tableView.delegate = self;
     [self addSubview:tableView];
@@ -171,35 +173,6 @@
 #pragma mark
 #pragma mark - Private Property
 
-- (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:style];
-    
-    tableView.backgroundColor = nil;
-    
-    tableView.scrollsToTop = NO;
-    
-    tableView.rowHeight = 44.0;
-    tableView.sectionFooterHeight = 0.0;
-    tableView.sectionHeaderHeight = 0.0;
-    
-    tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 1.0, CGFLOAT_MIN)];
-    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 1.0, CGFLOAT_MIN)];
-    
-    if (@available(iOS 11.0, *)) {
-        
-        tableView.estimatedRowHeight = 0.0;
-        tableView.estimatedSectionHeaderHeight = 0.0;
-        tableView.estimatedSectionFooterHeight = 0.0;
-        
-        tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    }
-    
-    if (@available(iOS 13.0, *)) {
-        
-        tableView.automaticallyAdjustsScrollIndicatorInsets = NO;
-    }
-    
-    return tableView;
-}
+
+
 @end

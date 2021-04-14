@@ -13,6 +13,7 @@
 #import "JKAlertTableModel.h"
 #import "JKAlertTableGroupModel.h"
 #import "JKAlertThemeManager.h"
+#import "JKAlertUITableView.h"
 
 @interface JKAlertBaseViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -44,7 +45,8 @@
 
 - (void)buildUI {
     
-    UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
+    UITableView *tableView = [[JKAlertUITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertUtility.currentHomeIndicatorHeight, 0);
     tableView.dataSource = self;
     tableView.delegate = self;
     [self.view addSubview:tableView];
@@ -377,39 +379,5 @@
         _dataArray = [NSMutableArray array];
     }
     return _dataArray;
-}
-
-- (UITableView *)createTableViewWithStyle:(UITableViewStyle)style {
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:style];
-    
-    tableView.scrollsToTop = YES;
-    
-    tableView.rowHeight = 44;
-    tableView.sectionFooterHeight = 0;
-    tableView.sectionHeaderHeight = 0;
-    
-    tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
-    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
-    
-    tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertUtility.currentHomeIndicatorHeight, 0);
-    
-    tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-    
-    if (@available(iOS 11.0, *)) {
-        
-        tableView.estimatedRowHeight = 0;
-        tableView.estimatedSectionHeaderHeight = 0;
-        tableView.estimatedSectionFooterHeight = 0;
-        
-        tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    }
-    
-    if (@available(iOS 13.0, *)) {
-        
-        tableView.automaticallyAdjustsScrollIndicatorInsets = NO;
-    }
-    
-    return tableView;
 }
 @end
