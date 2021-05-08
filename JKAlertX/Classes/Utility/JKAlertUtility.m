@@ -318,16 +318,16 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 让手机振动一下
 + (void)vibrateDevice {
     
-    // iPad没有震动
+    // iPad没有振动
     if (self.isDeviceiPad) { return; }
     
-    // 普通短震，3D Touch 中 Peek 震动反馈
+    // 普通短振，3D Touch 中 Peek 振动反馈
     //AudioServicesPlaySystemSound(1519);
     
-    // 普通短震，3D Touch 中 Pop 震动反馈
+    // 普通短振，3D Touch 中 Pop 振动反馈
     //AudioServicesPlaySystemSound(1520);
     
-    // 连续三次短震
+    // 连续三次短振
     //AudioServicesPlaySystemSound(1521);
     
     //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
