@@ -25,7 +25,7 @@
 
 - (void)dealloc {
     
-    NSLog(@"[ClassName: %@], %d, %s", NSStringFromClass([self class]), __LINE__, __func__);
+    NSLog(@"%@, (Line: %d), %s", [NSString stringWithFormat:@"%s", __func__].lastPathComponent, __LINE__, __func__);
 }
 
 - (void)viewDidLoad {
