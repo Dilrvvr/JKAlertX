@@ -832,33 +832,33 @@
     
     if (JKAlertStylePlain != self.alertStyle) { return; }
     
-    UITextField *tf = [[UITextField alloc] init];
+    UITextField *textField = [[UITextField alloc] init];
     
-    tf.font = [UIFont systemFontOfSize:13];
+    textField.font = [UIFont systemFontOfSize:13];
     
     UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 1)];
-    tf.leftView = leftView;
-    tf.leftViewMode = UITextFieldViewModeAlways;
+    textField.leftView = leftView;
+    textField.leftViewMode = UITextFieldViewModeAlways;
     
     UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 4, 1)];
-    tf.rightView = rightView;
-    tf.rightViewMode = UITextFieldViewModeAlways;
+    textField.rightView = rightView;
+    textField.rightViewMode = UITextFieldViewModeAlways;
     
-    [JKAlertThemeProvider providerBackgroundColorWithOwner:tf provideHandler:^(JKAlertThemeProvider *provider, UITextField *providerOwner) {
-
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:textField provideHandler:^(JKAlertThemeProvider *provider, UITextField *providerOwner) {
+        
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.lightBackgroundColor, JKAlertUtility.darkBackgroundColor);
     }];
     
-    [self.plainContentView.textFieldContainerView addSubview:tf];
+    [self.plainContentView.textFieldContainerView addSubview:textField];
     
-    [self.plainContentView.textFieldArray addObject:tf];
+    [self.plainContentView.textFieldArray addObject:textField];
     
     if (self.currentTextField == nil) {
         
-        self.currentTextField = tf;
+        self.currentTextField = textField;
     }
     
-    !configurationHandler ? : configurationHandler(self, tf);
+    !configurationHandler ? : configurationHandler(self, textField);
 }
 
 /**

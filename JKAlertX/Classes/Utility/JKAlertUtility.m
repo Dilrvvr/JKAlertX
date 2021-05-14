@@ -386,7 +386,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
         alertView.makeMessageAlignment(NSTextAlignmentLeft)
         .makeTitleMessageShouldSelectText(YES)
         .makePlainWidth([UIScreen mainScreen].bounds.size.width - 30.0)
-        .makeHudAutoReduceWidth(YES);
+        .makePlainAutoReduceWidth(YES);
         
         [alertView addAction:[JKAlertAction actionWithTitle:@"Copy" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             
