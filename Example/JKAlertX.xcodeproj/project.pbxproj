@@ -31,6 +31,7 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
+		C02CC2B92625E115006B095B /* JKAlertVerticalSlideToDismissView.m in Sources */ = {isa = PBXBuildFile; fileRef = C02CC2B82625E115006B095B /* JKAlertVerticalSlideToDismissView.m */; };
 		C054BAE72482750400765920 /* JKAlertCompareSystemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C054BAE62482750400765920 /* JKAlertCompareSystemViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +89,8 @@
 		ACA3D11FEE9624BC8985BEBB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		B8308F9968C1A07EA3AE3C06 /* Pods-JKAlertX_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JKAlertX_Tests.release.xcconfig"; path = "Target Support Files/Pods-JKAlertX_Tests/Pods-JKAlertX_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BCB342FBF183206A6F71F52B /* Pods-JKAlertX_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JKAlertX_Tests.debug.xcconfig"; path = "Target Support Files/Pods-JKAlertX_Tests/Pods-JKAlertX_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		C02CC2B72625E115006B095B /* JKAlertVerticalSlideToDismissView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAlertVerticalSlideToDismissView.h; sourceTree = "<group>"; };
+		C02CC2B82625E115006B095B /* JKAlertVerticalSlideToDismissView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAlertVerticalSlideToDismissView.m; sourceTree = "<group>"; };
 		C054BAE52482750400765920 /* JKAlertCompareSystemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKAlertCompareSystemViewController.h; sourceTree = "<group>"; };
 		C054BAE62482750400765920 /* JKAlertCompareSystemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKAlertCompareSystemViewController.m; sourceTree = "<group>"; };
 		C5C1CA97AA30827DF29D8610 /* Pods_JKAlertX_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JKAlertX_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +204,8 @@
 				5098AD0B2474E91500AEAD73 /* JKAlertTransformLandscapeViewController.m */,
 				C054BAE52482750400765920 /* JKAlertCompareSystemViewController.h */,
 				C054BAE62482750400765920 /* JKAlertCompareSystemViewController.m */,
+				C02CC2B72625E115006B095B /* JKAlertVerticalSlideToDismissView.h */,
+				C02CC2B82625E115006B095B /* JKAlertVerticalSlideToDismissView.m */,
 				506FDEC7250E133300262434 /* JKTable */,
 				5098AD122474E9BD00AEAD73 /* JKTest */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -426,6 +431,7 @@
 				506FDEC6250E108800262434 /* JKAlertHeaderFooterView.m in Sources */,
 				C054BAE72482750400765920 /* JKAlertCompareSystemViewController.m in Sources */,
 				506FDEC3250E085700262434 /* JKAlertTableGroupModel.m in Sources */,
+				C02CC2B92625E115006B095B /* JKAlertVerticalSlideToDismissView.m in Sources */,
 				506FDECA250E174800262434 /* JKAlertBaseViewController.m in Sources */,
 				5098AD092474E86800AEAD73 /* JKAlertViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,

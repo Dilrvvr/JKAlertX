@@ -157,4 +157,18 @@
         }];
     };
 }
+
+/**
+ * actionSheet自定义tableView滑动退出
+ */
+- (JKAlertView *(^)(id <JKAlertVerticalSlideToDismissProtocol> object))makeActionSheetCustomVerticalSlideToDismiss {
+    
+    return ^(id <JKAlertVerticalSlideToDismissProtocol> object) {
+        
+        return [self checkActionSheetStyleHandler:^{
+            
+            object.jkalert_verticalSlideToDismissDelegate = self.actionsheetContentView;
+        }];
+    };
+}
 @end

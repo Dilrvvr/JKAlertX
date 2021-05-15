@@ -22,6 +22,7 @@
 #import "UIGestureRecognizer+JKAlertX.h"
 #import "JKAlertTheme.h"
 #import "JKAlertCustomizer.h"
+#import "JKAlertUtility.h"
 
 /**
  * 2.0更新规则

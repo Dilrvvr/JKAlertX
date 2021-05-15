@@ -202,13 +202,13 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 全局分隔线背景色 浅色模式 rgb 217
 + (UIColor *)separatorLineLightColor {
     
-    return JKAlertSameRGBColor(217.0);
+    return JKAlertColorAlpha(60.0, 60.0, 67.0, 0.29);//JKAlertSameRGBColor(217.0);
 }
 
 /// 全局分隔线背景色 深色模式 rgb 53
 + (UIColor *)separatorLineDarkColor {
     
-    return JKAlertSameRGBColor(53.0);
+    return JKAlertColorAlpha(84.0, 84.0, 88.0, 0.6);//JKAlertSameRGBColor(53.0);
 }
 
 /// 是否X设备
@@ -318,16 +318,16 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 让手机振动一下
 + (void)vibrateDevice {
     
-    // iPad没有震动
+    // iPad没有振动
     if (self.isDeviceiPad) { return; }
     
-    // 普通短震，3D Touch 中 Peek 震动反馈
+    // 普通短振，3D Touch 中 Peek 振动反馈
     //AudioServicesPlaySystemSound(1519);
     
-    // 普通短震，3D Touch 中 Pop 震动反馈
+    // 普通短振，3D Touch 中 Pop 振动反馈
     //AudioServicesPlaySystemSound(1520);
     
-    // 连续三次短震
+    // 连续三次短振
     //AudioServicesPlaySystemSound(1521);
     
     //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -386,7 +386,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
         alertView.makeMessageAlignment(NSTextAlignmentLeft)
         .makeTitleMessageShouldSelectText(YES)
         .makePlainWidth([UIScreen mainScreen].bounds.size.width - 30.0)
-        .makeHudAutoReduceWidth(YES);
+        .makePlainAutoReduceWidth(YES);
         
         [alertView addAction:[JKAlertAction actionWithTitle:@"Copy" style:(JKAlertActionStyleDefault) handler:^(JKAlertAction *action) {
             

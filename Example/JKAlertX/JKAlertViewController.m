@@ -12,6 +12,7 @@
 #import "JKAlertTableGroupModel.h"
 #import "JKAlertTransformLandscapeViewController.h"
 #import "JKAlertCompareSystemViewController.h"
+#import "JKAlertVerticalSlideToDismissView.h"
 
 @interface JKAlertViewController ()
 
@@ -189,6 +190,11 @@
         [JKAlertTableModel modelWithTitle:@"custom action sheet" group:group executeHandler:^(JKAlertTableModel *model) {
             
             [weakSelf customSheet];
+        }];
+        
+        [JKAlertTableModel modelWithTitle:@"custom action sheet slide to dismiss" group:group executeHandler:^(JKAlertTableModel *model) {
+            
+            [weakSelf customSheetSlideToDismiss];
         }];
     }]];
     
@@ -883,6 +889,25 @@
     } configurationBeforeShow:^(JKAlertView *innerAlertView) {
         
         innerAlertView.makeCustomSuperView(self.customSuperView);
+    }];
+}
+
+- (void)customSheetSlideToDismiss {
+    
+    JKAlertVerticalSlideToDismissView *customView = [[JKAlertVerticalSlideToDismissView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 300.0)];
+    
+    [JKAlertCustomizer showCustomSheetWithViewHandler:^UIView *(JKAlertView *innerAlertView) {
+        
+        return customView;
+        
+    } clearAlertBackgroundColor:NO clearFullBackgroundColor:NO configurationBeforeShow:^(JKAlertView *innerAlertView) {
+        
+        innerAlertView.makeCustomSuperView(self.customSuperView)
+        .makeAlertBackgroundColor([UIColor orangeColor])
+        .makeShowScaleAnimated(YES)
+        .makeGestureIndicatorHidden(NO)
+        .makeVerticalGestureDismissEnabled(YES)
+        .makeActionSheetCustomVerticalSlideToDismiss(customView);
     }];
 }
 

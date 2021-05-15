@@ -13,7 +13,25 @@
 #pragma mark
 #pragma mark - 协议
 
+/// 外部自定义tableView时用于滑动退出
+@protocol JKAlertVerticalSlideToDismissDelegate <NSObject>
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView;
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView;
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                     withVelocity:(CGPoint)velocity
+              targetContentOffset:(inout CGPoint *)targetContentOffset;
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+@end
+
+/// 外部自定义tableView时用于滑动退出
+@protocol JKAlertVerticalSlideToDismissProtocol <NSObject>
+
+@property (nonatomic, weak) id <JKAlertVerticalSlideToDismissDelegate> jkalert_verticalSlideToDismissDelegate;
+@end
 
 #pragma mark
 #pragma mark - 枚举

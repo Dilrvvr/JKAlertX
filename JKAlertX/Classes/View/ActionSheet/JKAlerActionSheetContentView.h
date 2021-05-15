@@ -10,7 +10,7 @@
 
 @class JKAlertAction, JKAlertActionButton;
 
-@interface JKAlerActionSheetContentView : JKAlertBaseSheetContentView
+@interface JKAlerActionSheetContentView : JKAlertBaseSheetContentView <JKAlertVerticalSlideToDismissDelegate>
 
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertActionSheetTextContentView *textContentView;

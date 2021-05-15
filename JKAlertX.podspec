@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'JKAlertX'
-  s.version          = '2.0.13'
+  s.version          = '2.0.14'
   s.summary          = 'An AlertView for iOS. Support User Customization Perfectly. iOS弹框，包含alert/actionsheet/collectionSheet/HUD四种样式。自动适配横屏，完美支持自定义。 支持链式语法，简单优雅！'
 
 # This description is used to generate tags and improve search results.
@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/Dilrvvr/JKAlertX.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = 'JKAlertX/Classes/**/*'
   
