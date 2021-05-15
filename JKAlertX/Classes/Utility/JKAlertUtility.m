@@ -199,16 +199,16 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     return separatorLineThickness_;
 }
 
-/// 全局分隔线背景色 浅色模式 rgb 217
+/// 全局分隔线背景色 浅色模式
 + (UIColor *)separatorLineLightColor {
     
-    return JKAlertColorAlpha(60.0, 60.0, 67.0, 0.29);//JKAlertSameRGBColor(217.0);
+    return JKAlertColorAlpha(60.0, 60.0, 67.0, 0.29);
 }
 
-/// 全局分隔线背景色 深色模式 rgb 53
+/// 全局分隔线背景色 深色模式
 + (UIColor *)separatorLineDarkColor {
     
-    return JKAlertColorAlpha(84.0, 84.0, 88.0, 0.6);//JKAlertSameRGBColor(53.0);
+    return JKAlertColorAlpha(84.0, 84.0, 88.0, 0.6);
 }
 
 /// 是否X设备
