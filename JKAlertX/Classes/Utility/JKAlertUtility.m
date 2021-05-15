@@ -202,13 +202,13 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 全局分隔线背景色 浅色模式 rgb 217
 + (UIColor *)separatorLineLightColor {
     
-    return JKAlertSameRGBColor(217.0);
+    return JKAlertColorAlpha(60.0, 60.0, 67.0, 0.29);//JKAlertSameRGBColor(217.0);
 }
 
 /// 全局分隔线背景色 深色模式 rgb 53
 + (UIColor *)separatorLineDarkColor {
     
-    return JKAlertSameRGBColor(53.0);
+    return JKAlertColorAlpha(84.0, 84.0, 88.0, 0.6);//JKAlertSameRGBColor(53.0);
 }
 
 /// 是否X设备

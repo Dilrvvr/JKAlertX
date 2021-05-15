@@ -14,6 +14,7 @@
 #import "UIView+JKAlertX.h"
 #import "JKAlertTheme.h"
 #import "JKAlertUITableView.h"
+#import "JKAlertClearHeaderFooterView.h"
 
 @interface JKAlerActionSheetContentView () <UITableViewDataSource, UITableViewDelegate>
 
@@ -852,16 +853,16 @@
 #pragma mark
 #pragma mark - UITableViewDataSource & UITableViewDelegate
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return (self.bottomButtonPinned || self.cancelAction.rowHeight < 0.1) ? 1 : 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return section == 0 ? self.actionArray.count : (self.bottomButtonPinned ? 0 : 1);
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     JKAlertBaseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellClassName];
     
@@ -886,7 +887,7 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     JKAlertAction *action = indexPath.section == 0 ? self.actionArray[indexPath.row] : self.cancelAction;
     
@@ -907,14 +908,14 @@
     return CGFLOAT_MIN;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
     switch (section) {
         case 0:
-            return CGFLOAT_MIN;
+            return self.cancelAction.rowHeight >= 0.1 ? self.cancelMargin : CGFLOAT_MIN;
             break;
         case 1:
-            return self.cancelAction.rowHeight >= 0.1 ? self.cancelMargin : CGFLOAT_MIN;
+            return CGFLOAT_MIN;
             break;
             
         default:
@@ -924,19 +925,19 @@
     return CGFLOAT_MIN;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return nil;
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    JKAlertClearHeaderFooterView *footer = [tableView dequeueReusableHeaderFooterViewWithIdentifier:NSStringFromClass([JKAlertClearHeaderFooterView class])];
+    
+    if (footer == nil) {
+        
+        footer = [[JKAlertClearHeaderFooterView alloc] initWithReuseIdentifier:NSStringFromClass([JKAlertClearHeaderFooterView class])];
+    }
+    
+    return footer;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return CGFLOAT_MIN;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    return nil;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
     JKAlertAction *action = indexPath.section == 0 ? self.actionArray[indexPath.row] : self.cancelAction;
@@ -1039,7 +1040,7 @@
     }
 }
 
-- (void)solveWillEndDraggingVertically:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
+- (void)solveWillEndDraggingVertically:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity {
     
     if (!self.verticalGestureDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
     
@@ -1063,7 +1064,7 @@
     }
 }
 
-- (void)solveWillEndDraggingHorizontally:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity{
+- (void)solveWillEndDraggingHorizontally:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity {
     
     if (!self.horizontalGestureDismissEnabled || !self.tapBlankDismiss || disableScrollToDismiss) { return; }
     
@@ -1112,7 +1113,8 @@
     [self.topContentView.scrollContentView addSubview:textContentView];
     _textContentView = textContentView;
     
-    UITableView *tableView = [self createTableViewWithStyle:(UITableViewStyleGrouped)];
+    UITableView *tableView = [self createTableViewWithStyle:(UITableViewStylePlain)];
+    [tableView registerClass:[JKAlertClearHeaderFooterView class] forHeaderFooterViewReuseIdentifier:NSStringFromClass([JKAlertClearHeaderFooterView class])];
     tableView.dataSource = self.tableViewDataSource ? self.tableViewDataSource : self;
     tableView.delegate = self.tableViewDelegate ? self.tableViewDelegate : self;
     tableView.showsHorizontalScrollIndicator = NO;
