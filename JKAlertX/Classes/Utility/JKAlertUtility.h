@@ -277,10 +277,10 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 全局分隔线粗细 1.0 / [UIScreen mainScreen].scale
 @property (class, nonatomic, readonly) CGFloat separatorLineThickness;
 
-/// 全局分隔线背景色 浅色模式 rgb 217
+/// 全局分隔线背景色 浅色模式
 @property (class, nonatomic, readonly) UIColor *separatorLineLightColor;
 
-/// 全局分隔线背景色 深色模式 rgb 53
+/// 全局分隔线背景色 深色模式
 @property (class, nonatomic, readonly) UIColor *separatorLineDarkColor;
 
 /// 是否X设备
