@@ -1184,37 +1184,40 @@
         
     } else { // 弹出键盘
         
-        CGFloat maxH = self.superHeight - (JKAlertUtility.isDeviceX ? 44 : 20) - keyboardFrame.size.height - 40;
+        CGFloat topMargin = (JKAlertUtility.isDeviceX ? 44 : 20);
+        
+        CGFloat maxH = self.superHeight - topMargin - keyboardFrame.size.height;
         
         BOOL lockKeyboardMargin = (self.plainKeyboardMargin > 0);
         
-        if ([self isLandScape]) {
+        if ([self isLandScape]) { // 横屏
             
             maxH = self.superHeight - 5 - keyboardFrame.size.height - 5;
             
-        } else if (lockKeyboardMargin) {
+        } else if (lockKeyboardMargin) { // 竖屏
             
             maxH = maxH + 20 - self.plainKeyboardMargin;
         }
         
-        if (frame.size.height <= maxH) {
+        if (frame.size.height <= maxH) { // 在最大高度范围内
             
-            frame.origin.y = (JKAlertUtility.isDeviceX ? 44 : 20) + (maxH - frame.size.height) * 0.5;
+            frame.origin.y = topMargin + (maxH - frame.size.height) * 0.5;
             
-            if (lockKeyboardMargin) {
-                
-                frame.origin.y = keyboardFrame.origin.y - self.plainKeyboardMargin - frame.size.height;
-            }
-            
-            if ([self isLandScape]) {
+            if ([self isLandScape]) { // 横屏
                 
                 frame.origin.y = 5 + (maxH - frame.size.height) * 0.5;
+                
+            } else if (lockKeyboardMargin) { // 竖屏
+                
+                frame.origin.y = keyboardFrame.origin.y - self.plainKeyboardMargin - frame.size.height;
             }
             
             [self updatePlainFrameY:frame.origin.y animated:YES];
             
             return;
         }
+        
+        // 超过最大高度
         
         self.maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : maxH;
         
