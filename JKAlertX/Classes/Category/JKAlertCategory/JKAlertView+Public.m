@@ -266,15 +266,15 @@
  * title 和内容是否可以选择文字
  * 默认NO
  */
-- (JKAlertView *(^)(BOOL canselectText))makeTitleMessageShouldSelectText {
+- (JKAlertView *(^)(BOOL shouldSelectText))makeTitleMessageShouldSelectText {
     
     return ^(BOOL shouldSelectText) {
         
-        self.currentTextContentView.titleTextView.textView.shouldSelectText = shouldSelectText;
+        self.currentTextContentView.titleTextView.textView.selectable = shouldSelectText;
         
         if ([self checkHasMessageTextView]) {
             
-            self.currentTextContentView.messageTextView.textView.shouldSelectText = shouldSelectText;
+            self.currentTextContentView.messageTextView.textView.selectable = shouldSelectText;
         }
         
         return self;

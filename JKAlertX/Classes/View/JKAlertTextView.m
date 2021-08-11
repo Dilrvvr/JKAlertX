@@ -45,26 +45,15 @@
 
 - (void)initialization {
     
-    self.backgroundColor = nil;
-    self.textAlignment = NSTextAlignmentCenter;
-    self.scrollsToTop = NO;
     self.editable = NO;
+    self.selectable = NO;
+    
+    self.textAlignment = NSTextAlignmentCenter;
     self.textContainer.lineFragmentPadding = 0;
     self.textContainerInset = UIEdgeInsetsZero;
+    
+    self.scrollsToTop = NO;
+    self.backgroundColor = nil;
     self.showsHorizontalScrollIndicator = NO;
-}
-
-- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    
-    if (_shouldSelectText) {
-        
-        return [super canPerformAction:action withSender:sender];
-    }
-    
-    [self resignFirstResponder];
-    
-    [UIMenuController sharedMenuController].menuVisible = NO;
-    
-    return NO;
 }
 @end

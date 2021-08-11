@@ -10,9 +10,6 @@
 
 @interface JKAlertTextView : UITextView
 
-/** 是否可以选择文字 */
-@property (nonatomic, assign) BOOL shouldSelectText;
-
 /** 计算frame */
 - (CGRect)calculateFrameWithMaxWidth:(CGFloat)maxWidth;
 @end
