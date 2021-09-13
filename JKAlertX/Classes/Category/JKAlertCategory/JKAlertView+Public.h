@@ -267,7 +267,7 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeMessageMinHeight)(CGFloat minHeight);
 
 /**
- * 仅有title或message时且没有自定义view时最小高度 默认0
+ * 仅有title或message时且没有自定义view时最小高度 默认30
  * 该高度不包括上下间距
  * 优先级 > makeMessageMinHeight
  */

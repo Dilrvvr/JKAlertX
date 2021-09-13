@@ -113,7 +113,7 @@
     
     return ^(NSString *title) {
         
-        self->_title = title;
+        [self setTitle:title];
         
         return self;
     };
@@ -126,7 +126,7 @@
     
     return ^(NSAttributedString *attributedTitle) {
         
-        self->_attributedTitle = attributedTitle;
+        [self setAttributedTitle:attributedTitle];
         
         return self;
     };
@@ -275,7 +275,7 @@
         self.customView = !handler ? nil : handler(self);
         
         // 重新计算rowHeight
-        self->_rowHeight = -1;
+        [self setRowHeight:-1.0];
         
         return self;
     };
@@ -291,10 +291,10 @@
     
     JKAlertAction *action = [[JKAlertAction alloc] init];
     
-    action->_title = [title copy];
-    action->_attributedTitle = [attributedTitle copy];
+    [action setTitle:title];
+    [action setAttributedTitle:attributedTitle];
     [action setActionStyle:style];
-    action->_handler = [handler copy];
+    [action setHandler:handler];
     
     [JKAlertThemeProvider providerWithOwner:action handlerKey:NSStringFromSelector(@selector(refreshAppearanceHandler)) provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
         
@@ -304,8 +304,22 @@
     return action;
 }
 
+#pragma mark
+#pragma mark - Private Setter
+
+- (void)setTitle:(NSString *)title {
+    _title = [title copy];
+}
+
+- (void)setAttributedTitle:(NSAttributedString *)attributedTitle {
+    _attributedTitle = [attributedTitle copy];
+}
+
+- (void)setHandler:(void (^)(JKAlertAction *))handler {
+    _handler = [handler copy];
+}
+
 - (void)setActionStyle:(JKAlertActionStyle)actionStyle {
-    
     _actionStyle = actionStyle;
     
     NSString *handlerKey = NSStringFromSelector(@selector(titleColor));
@@ -344,17 +358,18 @@
 
 - (void)setTitleColor:(UIColor *)titleColor {
     _titleColor = titleColor;
-    
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
     _backgroundColor = backgroundColor;
-    
 }
 
 - (void)setSeletedBackgroundColor:(UIColor *)seletedBackgroundColor {
     _seletedBackgroundColor = seletedBackgroundColor;
-    
+}
+
+- (void)setRowHeight:(CGFloat)rowHeight {
+    _rowHeight = rowHeight;
 }
 
 #pragma mark

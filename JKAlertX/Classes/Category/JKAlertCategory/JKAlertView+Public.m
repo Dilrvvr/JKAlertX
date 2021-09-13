@@ -266,15 +266,15 @@
  * title 和内容是否可以选择文字
  * 默认NO
  */
-- (JKAlertView *(^)(BOOL canselectText))makeTitleMessageShouldSelectText {
+- (JKAlertView *(^)(BOOL shouldSelectText))makeTitleMessageShouldSelectText {
     
     return ^(BOOL shouldSelectText) {
         
-        self.currentTextContentView.titleTextView.textView.shouldSelectText = shouldSelectText;
+        self.currentTextContentView.titleTextView.textView.selectable = shouldSelectText;
         
         if ([self checkHasMessageTextView]) {
             
-            self.currentTextContentView.messageTextView.textView.shouldSelectText = shouldSelectText;
+            self.currentTextContentView.messageTextView.textView.selectable = shouldSelectText;
         }
         
         return self;
@@ -539,7 +539,7 @@
 }
 
 /**
- * 仅有title或message时且没有自定义view时最小高度 默认0
+ * 仅有title或message时且没有自定义view时最小高度 默认30
  * 该高度不包括上下间距
  * 优先级 > makeMessageMinHeight
  */
