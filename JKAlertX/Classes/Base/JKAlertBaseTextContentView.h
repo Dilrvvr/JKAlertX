@@ -43,7 +43,7 @@
 /** message最小高度(不含inset) 默认0 */
 @property (nonatomic, assign) CGFloat messageMinHeight;
 
-/** 仅有title或message时的最小高度 默认30 */
+/** 仅有title或message时的最小高度 默认0 */
 @property (nonatomic, assign) CGFloat singleMinHeight;
 
 

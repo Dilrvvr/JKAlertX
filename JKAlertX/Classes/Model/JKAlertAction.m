@@ -94,6 +94,21 @@
 }
 
 /**
+ * sheet样式cell行高
+ * 默认4寸屏46，以上53
+ * customView有值则取customView的bounds高度
+ */
+- (JKAlertAction *(^)(CGFloat rowHeight))makeRowHeight {
+    
+    return ^(CGFloat rowHeight) {
+        
+        [self setRowHeight:rowHeight];
+        
+        return self;
+    };
+}
+
+/**
  * 执行操作后是否自动消失
  */
 - (JKAlertAction *(^)(BOOL autoDismiss))makeAutoDismiss {
@@ -274,9 +289,6 @@
         
         self.customView = !handler ? nil : handler(self);
         
-        // 重新计算rowHeight
-        [self setRowHeight:-1.0];
-        
         return self;
     };
 }
@@ -400,6 +412,9 @@
     
     _titleFont = [UIFont systemFontOfSize:17];
     
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    _rowHeight = self.customView ? self.customView.frame.size.height : ((MIN(screenSize.width, screenSize.height) > 321) ? 53 : 46);
+    
     [JKAlertThemeProvider providerBackgroundColorWithOwner:self provideHandler:^(JKAlertThemeProvider *provider, JKAlertAction *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.lightBackgroundColor, JKAlertUtility.darkBackgroundColor);
@@ -425,12 +440,11 @@
 
 - (CGFloat)rowHeight {
     
-    if (_rowHeight < 0) {
+    if (self.customView) {
         
-        CGSize screenSize = [UIScreen mainScreen].bounds.size;
-        
-        _rowHeight = self.customView ? self.customView.frame.size.height : ((MIN(screenSize.width, screenSize.height) > 321) ? 53 : 46);
+        return self.customView.bounds.size.height;
     }
+    
     return _rowHeight;
 }
 
