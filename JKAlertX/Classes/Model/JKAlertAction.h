@@ -58,10 +58,16 @@
 @property (nonatomic, copy, readonly) JKAlertAction *(^makeCustomizePropertyHandler)(void (^handler)(JKAlertAction *innerAction));
 
 /**
+ * sheet样式cell行高
+ * 默认4寸屏46，以上53
+ * customView有值则取customView的bounds高度
+ */
+@property (nonatomic, copy, readonly) JKAlertAction *(^makeRowHeight)(CGFloat rowHeight);
+
+/**
  * 执行操作后是否自动消失
  */
 @property (nonatomic, copy, readonly) JKAlertAction *(^makeAutoDismiss)(BOOL autoDismiss);
-
 
 /**
  * 修改title

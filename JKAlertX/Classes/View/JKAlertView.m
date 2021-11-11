@@ -1186,7 +1186,7 @@
         
         CGFloat topMargin = (JKAlertUtility.isDeviceX ? 44 : 20);
         
-        CGFloat maxH = self.superHeight - topMargin - keyboardFrame.size.height;
+        CGFloat maxH = self.superHeight - topMargin - keyboardFrame.size.height - 20.0;
         
         BOOL lockKeyboardMargin = (self.plainKeyboardMargin > 0);
         
@@ -1196,7 +1196,7 @@
             
         } else if (lockKeyboardMargin) { // 竖屏
             
-            maxH = maxH + 20 - self.plainKeyboardMargin;
+            maxH = self.superHeight - topMargin - keyboardFrame.size.height - self.plainKeyboardMargin;
         }
         
         if (frame.size.height <= maxH) { // 在最大高度范围内
@@ -1240,13 +1240,7 @@
             frame.origin.y = (JKAlertUtility.isDeviceX ? 44 : 20);
         }
         
-        self.alertContentView.frame = frame;
-        
-        [UIView animateWithDuration:0.25 animations:^{
-            [UIView setAnimationCurve:animationCurve];
-            
-            [self layoutIfNeeded];
-        }];
+        [self updatePlainFrameY:frame.origin.y animated:YES];
     }
 }
 

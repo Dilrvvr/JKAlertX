@@ -41,6 +41,7 @@
 
 /**
  * 弹框底部与键盘间距
+ * 默认0 不控制间距，如需紧挨着键盘，可设置一个非常小的数，如0.01 
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makePlainKeyboardMargin)(CGFloat margin);
 
