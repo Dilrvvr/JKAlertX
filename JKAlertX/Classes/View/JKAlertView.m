@@ -1240,7 +1240,13 @@
             frame.origin.y = (JKAlertUtility.isDeviceX ? 44 : 20);
         }
         
-        [self updatePlainFrameY:frame.origin.y animated:YES];
+        self.alertContentView.frame = frame;
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            [UIView setAnimationCurve:animationCurve];
+            
+            [self layoutIfNeeded];
+        }];
     }
 }
 
