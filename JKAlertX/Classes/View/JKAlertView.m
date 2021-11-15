@@ -1543,9 +1543,9 @@
         self.overrideUserInterfaceStyle = (UIUserInterfaceStyle)[JKAlertThemeManager sharedManager].themeStyle;
     }
     
-    _superWidth =  self.customSuperView.bounds.size.width;
+    _superWidth = self.customSuperView.bounds.size.width;
     
-    _superHeight =  self.customSuperView.bounds.size.height;
+    _superHeight = self.customSuperView.bounds.size.height;
     
     _isLandScape = [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight;
     
