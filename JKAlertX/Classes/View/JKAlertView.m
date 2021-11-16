@@ -204,7 +204,7 @@
 /** 显示 */
 - (JKAlertView *(^)(void))show {
     
-    if (!self.customSuperView) { return ^{ return self; }; }
+    [self updateWidthHeight];
     
     if (self.shouldHideKeyboardWhenShow) {
         
@@ -238,8 +238,6 @@
 #pragma mark - 计算布局
 
 - (void)calculateUI {
-    
-    [self updateWidthHeight];
     
     //self.frame = CGRectMake(0, 0, self.superWidth, self.superHeight);
     
@@ -447,6 +445,8 @@
 #pragma mark - 监听屏幕旋转
 
 - (void)orientationChanged:(NSNotification *)note {
+    
+    [self updateWidthHeight];
     
     !self.orientationDidChangeHandler ? : self.orientationDidChangeHandler(self, [UIApplication sharedApplication].statusBarOrientation);
     
@@ -1624,6 +1624,8 @@
             
             return;
         }
+        
+        [self updateWidthHeight];
         
         self.relayout(NO);
     }
