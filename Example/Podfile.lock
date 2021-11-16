@@ -1,0 +1,16 @@
+PODS:
+  - JKAlertX (2.0.14)
+
+DEPENDENCIES:
+  - JKAlertX (from `../`)
+
+EXTERNAL SOURCES:
+  JKAlertX:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  JKAlertX: 5ac4d0026fec2be7f6af91f719798f12f152e13e
+
+PODFILE CHECKSUM: 76cf195ddd1d42cc2f0e2f6e594c7a26249386ac
+
+COCOAPODS: 1.11.1

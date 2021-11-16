@@ -13,9 +13,17 @@
 
 - (void)updateWidthHeight {
     
-    UIWindow *keyWindow = JKAlertUtility.keyWindow;
+    UIView *superView = self.superview;
     
-    UIView *superView = self.superview ? self.superview : keyWindow;
+    if (!superView) {
+        
+        superView = self.customSuperView;
+    }
+    
+    if (!superView) {
+        
+        superView = JKAlertUtility.keyWindow;
+    }
     
     switch ([UIApplication sharedApplication].statusBarOrientation) {
         case UIInterfaceOrientationPortrait: {
@@ -54,9 +62,9 @@
     }
     
     /** 屏幕宽度 */
-    self.superWidth =  superView.bounds.size.width;
+    self.superWidth = superView.bounds.size.width;
     /** 屏幕高度 */
-    self.superHeight =  superView.bounds.size.height;
+    self.superHeight = superView.bounds.size.height;
     
     [self updateMaxHeight];
 }

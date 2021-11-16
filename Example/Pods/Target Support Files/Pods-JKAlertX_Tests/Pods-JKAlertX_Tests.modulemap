@@ -1,0 +1,6 @@
+framework module Pods_JKAlertX_Tests {
+  umbrella header "Pods-JKAlertX_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

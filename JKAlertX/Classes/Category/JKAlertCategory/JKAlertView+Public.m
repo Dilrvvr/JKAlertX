@@ -57,8 +57,8 @@
             if ((rotation > 1.57 && rotation < 1.58) ||
                 (rotation > -1.58 && rotation < -1.57)) {
                 
-                self.superWidth =  self.customSuperView.frame.size.height;
-                self.superHeight =  self.customSuperView.frame.size.width;
+                self.superWidth = self.customSuperView.frame.size.height;
+                self.superHeight = self.customSuperView.frame.size.width;
                 
                 [self updateMaxHeight];
                 
