@@ -1,0 +1,6 @@
+framework module JKAlertX {
+  umbrella header "JKAlertX-umbrella.h"
+
+  export *
+  module * { export * }
+}

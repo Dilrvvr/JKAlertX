@@ -1,0 +1,1270 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		014028563BF430E0BFBB4BD4D90ECA84 /* UIImage+JKAlertX.m in Sources */ = {isa = PBXBuildFile; fileRef = 681B2F64512AE4A0108F41807B66598F /* UIImage+JKAlertX.m */; };
+		086FBF84DF5F01867429971D07A818ED /* JKAlertBaseAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4CD4F043326CFD378ED15D31E73B03 /* JKAlertBaseAlertView.m */; };
+		09ED31F2DCF4B53B405377EB7ABAC530 /* JKAlertBaseActionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A1FF763FBFD272D5371C4FD5D6F0500 /* JKAlertBaseActionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D972DB6BD0F807B07EDB27FBE233141 /* JKAlerActionSheetContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F67D322777F2A61AA63FD93F70286C6A /* JKAlerActionSheetContentView.m */; };
+		1186A7F999880279B674D2A79CBCCDD2 /* JKAlertClearHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B68B74BD50C1887ECCE9AC6A6163E /* JKAlertClearHeaderFooterView.m */; };
+		166EF225AC1CF9DE1FC6441051C81E3B /* JKAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A1E32A35B3FEFE650F4BD7CB3F6FD1 /* JKAlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		19D8EA19C0F2FD846560DCCDE95FA49C /* JKAlertTableActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9328D7FFF0BCA783479901765926EB /* JKAlertTableActionView.m */; };
+		1B68A3853ABB5A3E84DEE49916AC76AB /* JKAlertView+ActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA8E6D8ABC36C200943544DFA7AE89 /* JKAlertView+ActionSheet.m */; };
+		1D248DBDC9385BF21EFE5C5713FB1DCB /* JKAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 116C8840C881BE1DD88A2A835D01E679 /* JKAlertAction.m */; };
+		1F71FFB88550A8C2FB1347362EC14090 /* JKAlertView+CollectionSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E1E786F3AA7C97A51C0F1ED65029CCD /* JKAlertView+CollectionSheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		214BE79321221F9174AC808F30B23A5B /* NSObject+JKAlertTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 803996B12176161D724354DDEF05AFD6 /* NSObject+JKAlertTheme.m */; };
+		248BFD7B658F2DF4D15910CB382B8F84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB6F611E86A4758835A715E4B4184F6 /* Foundation.framework */; };
+		24A62B730150FF3E3F9ED2B4540FFF59 /* JKAlertBaseTextContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 555D0728BAE69F64912A3F41012CE1EA /* JKAlertBaseTextContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2E1984E638BC3FA9C29DE3C04112F461 /* Pods-JKAlertX_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 14415621701B8A9CA7FB594319EE17FA /* Pods-JKAlertX_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2FE4E84C93111B800D6AFEFC995E5ED1 /* JKAlertBaseView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FF3487E805CCD0A68DFF7A7C5655CEE /* JKAlertBaseView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		32D116F33436806A5142EF83D67FAF39 /* JKAlertView+Public.h in Headers */ = {isa = PBXBuildFile; fileRef = A326F81BDFCB1BF7337D41C32C4E20A5 /* JKAlertView+Public.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3621C56398702639D5F00782471BAC11 /* JKAlertView+Deprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = CAEDD99F374779BDFA14E08FC4DC0066 /* JKAlertView+Deprecated.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		391141060C3395CF17FE5C06AA882084 /* JKAlertCustomizer.h in Headers */ = {isa = PBXBuildFile; fileRef = A2A98D491B50F6EE654B1AA8531C7419 /* JKAlertCustomizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3F65B85F27B0772D84C79DE604883F3F /* JKAlerActionSheetContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B3B6E820D6514B3F91860B8CCFCB76B /* JKAlerActionSheetContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4553B9451D6B65BB78F1A099418B35A8 /* JKAlertPlainActionButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D097169EF598D5DEC246EBAE092B3F0 /* JKAlertPlainActionButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4627B0E25308B9CC18C88E78DC64A05A /* UIView+JKAlertX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09B05FD7692FFDA2222A8812D85DDD /* UIView+JKAlertX.m */; };
+		462EB12804CCF29814AD7DE5A9AB3DF6 /* JKAlertCollectionSheetTextContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C8A1BB75181BBFAF29C2B64494BD7E4 /* JKAlertCollectionSheetTextContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4853D3F0DA8CBE0BA77B4FC0F20099D5 /* JKAlertUITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 287B34BD8309B48A3B1FD9C9AA426FD1 /* JKAlertUITableView.m */; };
+		49A3C71F2EA6FDC2C960C078BB06A707 /* JKAlertActionSheetTextContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 47B21F80149A6024E8A272F884C803CF /* JKAlertActionSheetTextContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CC8C020113264A50A1B6682D1488F47 /* JKAlertBaseTextContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AFD9966CB716643AE6F735EFB5C795 /* JKAlertBaseTextContentView.m */; };
+		4FA93D6DD6B1A7EB1C54D7F972AA35FB /* JKAlertBaseTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B410A76F47842990F5A73F1FAD1E0DE /* JKAlertBaseTableViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FC7085D510A6DEB94927C0347594FF9 /* JKAlertView+LifeCycle.h in Headers */ = {isa = PBXBuildFile; fileRef = D12426F2029417A03DF561E03E53B44C /* JKAlertView+LifeCycle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		54DDF0C4D7F7B369FB4DA010F96A35D9 /* JKAlertTextContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B31EDACACFBCFDAE61BFE60FF7B6C7E5 /* JKAlertTextContainerView.m */; };
+		550F7FD08056A6B809A929570F0F15EB /* JKAlertPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 142EDC2AA8D4396220B119CF678FC87C /* JKAlertPanGestureRecognizer.m */; };
+		5B19C33D8D00175D05846BAC105B4615 /* Pods-JKAlertX_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BEC8253F66F176D737AAD3057525A85 /* Pods-JKAlertX_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5BF28D157AEB7C57B93800D1C5124A17 /* JKAlertBaseAlertContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9EAC857B6921933E76552EC5A1A13D /* JKAlertBaseAlertContentView.m */; };
+		5C2AD13FC0712190D253C11DE5D124AA /* JKAlertUITableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9686A2BB38561D2E15F7D7409ACE5482 /* JKAlertUITableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62C24B508CA981AFFCE4AEDB27331EF0 /* NSObject+JKAlertTheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F26900C7D0E931E24E1A9151EA59B47 /* NSObject+JKAlertTheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6380C2E0FF0B7CBE26B9C6D6A6D2F817 /* JKAlertThemeUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 712E1D2F7253927097DA8C4279789A26 /* JKAlertThemeUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6C0CDDA776862ED59A053AA9EB8F331B /* JKAlertView+PrivateProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C4FE04E8729774D29F9E30CAC6BDBFC /* JKAlertView+PrivateProperty.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6C69C7DE41D3A45B53BC6A3E1E5267C3 /* JKAlertView+LifeCycle.m in Sources */ = {isa = PBXBuildFile; fileRef = 02FCDA57DEF6D7D034861AF78A900E21 /* JKAlertView+LifeCycle.m */; };
+		6CD80AC32ECF7699612E07B76F64FBA0 /* JKAlertBaseActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D29B2F0DE919666069596C688EB0EC /* JKAlertBaseActionView.m */; };
+		6D0A662829F3D99AE32B3E2F5079A6D7 /* JKAlertBaseSheetContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7548C31666480F02E7CCA79721F6D2C8 /* JKAlertBaseSheetContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7207A5EA189F6892CD5CA08463AE2E38 /* JKAlertThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DFCBC9D10740D1FDB248D280C634706F /* JKAlertThemeManager.m */; };
+		72D265C719DC4EF883BB2EEADAC3A2B2 /* UIControl+JKAlertX.h in Headers */ = {isa = PBXBuildFile; fileRef = 252F8E7ACA6592FB12AB0802D5229CCC /* UIControl+JKAlertX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73D27769892305E168492C7D349AF41D /* JKAlertUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B617E1B0CD7788805864BED322E5BAA /* JKAlertUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75D9353A8698AD74E5255AD752BB3E97 /* JKAlertBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6744CC6E21A968D6A48EF4DFD9071D /* JKAlertBaseView.m */; };
+		760B170A5B3085B817D564EBE37B2231 /* JKAlertX-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A9BA4461DBE13FB64D8678160079B9 /* JKAlertX-dummy.m */; };
+		77FAD8FA8F1BCBFA6EE5E9CA1692514C /* JKAlertView+ActionSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 511B8C330FF31002E3434A953A75BEF4 /* JKAlertView+ActionSheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		790B5A7C13201A546C50D24CB66215A2 /* JKAlertThemeProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 8947E5540E4B79C0F6B45B1504D386FE /* JKAlertThemeProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7EA4CFC91A362172031973CF734BA004 /* JKAlertActionSheetTextContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E063D68FE7C86A59ED4B2BEB1369CA79 /* JKAlertActionSheetTextContentView.m */; };
+		805C4D2F8540B35534405590B2CA24E4 /* JKAlertCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9C7D79B11FDB77E73FDDF97791D0FC /* JKAlertCollectionViewCell.m */; };
+		81017728D0543436F6942A1FB7A8F3D0 /* JKAlertX-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = EBFA097CE233EB84DA60237372BB71C6 /* JKAlertX-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		813CE71F4EA5CD4F9D4A4153D4C6FC1C /* JKAlertView+Plain.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA4CDE490EA0AF9C77B181BF06B359E /* JKAlertView+Plain.m */; };
+		8268E169ED2C60F799FC6DA44BEC1310 /* JKAlertPlainContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F72DB568B57AFC319C7FFE091814E4 /* JKAlertPlainContentView.m */; };
+		828BAE3D6FDD34DCBC08275AECBF903D /* JKAlertBaseSheetContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE2E90E8475F2CA53156EFEE2C16675 /* JKAlertBaseSheetContentView.m */; };
+		82B86AD44871BD68C31D2B45A753990E /* JKAlertTextContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = BF4B3375B7FC6CA2C2A3FA53B13E91A7 /* JKAlertTextContainerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		84D0EB38E50AD75D30F4A63473DADAA0 /* JKAlertPlainContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E5ED16CFA6B9622A4148E18943CF171 /* JKAlertPlainContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8529DAD56B8564485360BBD0848A1A02 /* JKAlertCustomizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDADDB4F0C1F384BADE71AD96B6B09F /* JKAlertCustomizer.m */; };
+		857ACE8C1C30292A38D350073670B468 /* UIView+JKAlertX.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DBADBFB35634AC49B64329E2542D8C8 /* UIView+JKAlertX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		86E96AA13F6C5B4E10BF2D0007A0517D /* JKAlertClearHeaderFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E26B5E0A3CA80C334A095218A9D407B /* JKAlertClearHeaderFooterView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8850EAAAB8374BAD46053863C94C3EC9 /* JKAlertThemeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 355967B04C9A6BBAD7D449DED4C2BE28 /* JKAlertThemeProvider.m */; };
+		89268A20AE40641E980D25137A35DE18 /* JKAlertActionButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A1A1F9492DB41234F67815FA85956613 /* JKAlertActionButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8933C8D86436D0F1FA781528B8F15BC5 /* JKAlertTheme.h in Headers */ = {isa = PBXBuildFile; fileRef = FA0E484236BACC989250BC8BBAE91071 /* JKAlertTheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		89954C211E98FDA316926F9109071CE1 /* JKAlertBaseAlertContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = D67DFEDDA59699E2C00A452C6B10EDB0 /* JKAlertBaseAlertContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8CE7E101F02B617A24B3464497396F8F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB6F611E86A4758835A715E4B4184F6 /* Foundation.framework */; };
+		8CF960CFCE13CB2145B8086BE2AB1B2A /* JKAlertTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F8C8727EB416EA8BF1518FA4EEDF0D9 /* JKAlertTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8FA120EDD3173F5E91F22F1287146115 /* JKAlertThemeUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = D66E4E526E77A4035861389BED22B285 /* JKAlertThemeUtility.m */; };
+		9014DB97F8681A7DA3A21C054BA3D74B /* JKAlertConstraintManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FED49B9A9F3BE3410E379837D93B76BE /* JKAlertConstraintManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9282A54F553CC40BB48BDCB4DE4C5A70 /* JKAlertTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 176FBFAC3E068E98F684F4FA00A53275 /* JKAlertTableViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		949BD74FF38D6AD712CEB2D690439482 /* JKAlertCollectionSheetContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 54BE99DD5EE2AACFC8F0E9CF75FA6D8E /* JKAlertCollectionSheetContentView.m */; };
+		952361703DDF113E6E25FC28E79B21A6 /* JKAlertThemeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 07B4938F4A815ACA79EDECD264F6BD39 /* JKAlertThemeManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A3ADA8C37FD175CE590F8C69B88D2DCD /* JKAlertAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 91EC32E7090083564D9E3BF8498C8903 /* JKAlertAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A45538AC58C316AED1731EA86730E072 /* JKAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EB16C8545C7F54BAA285BAF6F85185A7 /* JKAlertView.m */; };
+		A596E3F379D086CF5F3533140166FE9E /* JKAlertView+Deprecated.m in Sources */ = {isa = PBXBuildFile; fileRef = DD24AA9906C9810D54B05FDE23D23A6B /* JKAlertView+Deprecated.m */; };
+		A5A01DB1EB01732837CE53D739DF2A75 /* JKAlertCollectionSheetTextContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD02A675FA9DD3A81458C05550E46DA2 /* JKAlertCollectionSheetTextContentView.m */; };
+		AB1D821B8701AAD7A7FAFBE001E4A979 /* Pods-JKAlertX_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5CE880A6D6C245E98491F9ABC78764 /* Pods-JKAlertX_Example-dummy.m */; };
+		B16031E5C8EFC5FA977E9FB959F23847 /* JKAlertHUDContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 61C5B72AF811A5B1AA2C3579BEC83DB5 /* JKAlertHUDContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B53EB9EABE715887043F7229C5842EFA /* JKAlertView+CollectionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBC0F8B7C0F0C59DD9E3BC7179286C6 /* JKAlertView+CollectionSheet.m */; };
+		B8B21DB17E47F3F70DCFC18CB4991BE9 /* JKAlertTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 300AF12B88C68C4374A0DEF436B028C1 /* JKAlertTextView.m */; };
+		BA298157DC01595E0BFCE648A51D90A1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB6F611E86A4758835A715E4B4184F6 /* Foundation.framework */; };
+		BA322F25E783F6479B3F673EDA942C6A /* JKAlertActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A3859E9D8C98F6D6E86F363687039E /* JKAlertActionButton.m */; };
+		BA3AC60FDE14ADF4FD2B36B7B9B92AF3 /* JKAlertHUDTextContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = ED423C5DF168E2A22F06B10EE44F7F64 /* JKAlertHUDTextContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BFD714D4A8A012F849B5C2D05E52F60E /* JKAlertPlainActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A4287F9247DA3329C71403A252B864 /* JKAlertPlainActionButton.m */; };
+		C25F28D27C3130D9240E2E273FEEAC2A /* JKAlertCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 46E20B846CAA7906B625DDF49E72AC88 /* JKAlertCollectionViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C4B067825B4F8B2B27A0E7CF3BA4B9DA /* JKAlertPlainTextContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E815AE2A6F1045385DB73600F4FC5425 /* JKAlertPlainTextContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C4B690E216174C7BB807FD3F7CB0D2D3 /* UIControl+JKAlertX.m in Sources */ = {isa = PBXBuildFile; fileRef = 46711EAA7C98FF109A03E72C2743AB2E /* UIControl+JKAlertX.m */; };
+		C6AF20D3BDB6438221413197172967AF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245E0514AAC1A2B9A6D5EA2F383E90F /* UIKit.framework */; };
+		C7B2E3B36A451ADAA3A7209B63A656B7 /* JKAlertHUDContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9D0192EBA8CCD629B28805C24374BA /* JKAlertHUDContentView.m */; };
+		CDB838825FE0D77EE9FF6345FDFD1550 /* UIGestureRecognizer+JKAlertX.m in Sources */ = {isa = PBXBuildFile; fileRef = D19FB1AC1D82B2C85C11147038BBE314 /* UIGestureRecognizer+JKAlertX.m */; };
+		D194CEF2291DA3C0BBBEEAAF5B5806AB /* JKAlertConstraintManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC08FCD41ADA83FA0EE3198461770B7E /* JKAlertConstraintManager.m */; };
+		D2DFABCEB896327087631536072D324D /* JKAlertView+HUD.h in Headers */ = {isa = PBXBuildFile; fileRef = FB08520AD18B0EF4BA2008F67EB8E869 /* JKAlertView+HUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D674EAF487D50EC4DE792CB5AEBD13B4 /* JKAlertView+PrivateProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBA1829552204AB3D42E79831939AB3 /* JKAlertView+PrivateProperty.m */; };
+		D6D71FB1E82CB9C21303B757A76CC966 /* JKAlertX.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C7ED77922F668C9B8135B71B0C91122 /* JKAlertX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D7950468DE18B1BAEF5AD58D68629107 /* JKAlertView+Public.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D01B54DFD8A22E28720567E6E2CC203 /* JKAlertView+Public.m */; };
+		E13FA482F18F6140AF9C29F56A6245A5 /* JKAlertUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 94812425ED792FF967481429D0A9BD09 /* JKAlertUtility.m */; };
+		E334B148E93C0CFCA0C06E7048190214 /* JKAlertBaseScrollContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1A1732DDCB269437B2AAED6BC443B7 /* JKAlertBaseScrollContentView.m */; };
+		E3AB5DCF57909A2C73F70F5CD6BEF7EE /* JKAlertBaseAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FBD434850CC634702A62D8468DD7AAF /* JKAlertBaseAlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E581AABAB7F72B25812FC065E008F396 /* JKAlertHUDTextContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB84AFD9F5EC0E294BF08887FCC2024 /* JKAlertHUDTextContentView.m */; };
+		E69B422DBDBA71E6AA0E53299F0017C5 /* JKAlertScrollContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA3A2D9077080B87136E99AFA8267AE /* JKAlertScrollContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E76A52A8C2BBE9A9B660A4C0055A78BE /* JKAlertBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77837E89D5566B8D9F8928AE90C952A5 /* JKAlertBaseTableViewCell.m */; };
+		E7B00DCD2EA9BE6D6AB98394467AC715 /* JKAlertBaseScrollContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = DFDD6497A1B19E03BF40098DCEBAD015 /* JKAlertBaseScrollContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EAA75A8B46B6A77FA1CA225BE6B14600 /* JKAlertScrollContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0273B8656F20751CBC5251DC8C9C6457 /* JKAlertScrollContentView.m */; };
+		F18E4CF39996BC852EA6A4FD868CA6FD /* JKAlertView+HUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 37F0EBF33E7A799857D31DC76E81F6C1 /* JKAlertView+HUD.m */; };
+		F27D11401C2757714F502DDE16ADE1AA /* JKAlertCollectionSheetContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = DFDA80B09C959212571CE3B7F3E0CD0D /* JKAlertCollectionSheetContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F2A0441F5663270AED462D1AD698D485 /* UIImage+JKAlertX.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B329C746182190042F0C13C15BAC00 /* UIImage+JKAlertX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F2D63DF17836313B99B25B0CB45669D9 /* JKAlertTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B8DB1B6D17954AB3EC710F63E4A8AF3F /* JKAlertTableViewCell.m */; };
+		F8674A787B0BCCE95A8B54202D73DCB4 /* UIGestureRecognizer+JKAlertX.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C1FA6B457B4FD35740C94A1671AF9EC /* UIGestureRecognizer+JKAlertX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FC706ECA3F57D7282A82D6046A214B56 /* JKAlertTableActionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C3109681B2A94B29A880216826240E6 /* JKAlertTableActionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FC9AA375FDFD3813113140C09FD28B15 /* JKAlertPlainTextContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71764D0A5CCA7D143C6E20694B739CC6 /* JKAlertPlainTextContentView.m */; };
+		FC9FF87F9B5CD8BC38D9D122A5317712 /* JKAlertPanGestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C7CCA8E216E1278F79BD03A264CBD0E /* JKAlertPanGestureRecognizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FD460BC968D917A46B31F7FC6B8D2F78 /* JKAlertView+Plain.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CB4A48E6F518DBBD7DD80190E1A94A7 /* JKAlertView+Plain.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FD852F64FBBFA0EAB2A9C4BB5239D08D /* Pods-JKAlertX_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ED4755319CC4A821C2A3AD12CBF6E78 /* Pods-JKAlertX_Tests-dummy.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C19B5FBEAFEDEAEB6DCAF6534679BA4E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCF30FDEC6C949921D7624CCF96FE61C;
+			remoteInfo = JKAlertX;
+		};
+		D34C9A7804D23DE602039937C36DF956 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DFC60FA9A041DF15CD323ED9F40586B0;
+			remoteInfo = "Pods-JKAlertX_Example";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0273B8656F20751CBC5251DC8C9C6457 /* JKAlertScrollContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertScrollContentView.m; sourceTree = "<group>"; };
+		02FCDA57DEF6D7D034861AF78A900E21 /* JKAlertView+LifeCycle.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JKAlertView+LifeCycle.m"; sourceTree = "<group>"; };
+		032F89D52B7D163BD96C6317D561BC17 /* Pods-JKAlertX_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-JKAlertX_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		06F72DB568B57AFC319C7FFE091814E4 /* JKAlertPlainContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertPlainContentView.m; sourceTree = "<group>"; };
+		07B4938F4A815ACA79EDECD264F6BD39 /* JKAlertThemeManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertThemeManager.h; sourceTree = "<group>"; };
+		0A1FF763FBFD272D5371C4FD5D6F0500 /* JKAlertBaseActionView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseActionView.h; sourceTree = "<group>"; };
+		0B617E1B0CD7788805864BED322E5BAA /* JKAlertUtility.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertUtility.h; sourceTree = "<group>"; };
+		0C1FA6B457B4FD35740C94A1671AF9EC /* UIGestureRecognizer+JKAlertX.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+JKAlertX.h"; sourceTree = "<group>"; };
+		0C7ED77922F668C9B8135B71B0C91122 /* JKAlertX.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JKAlertX.h; path = JKAlertX/Classes/JKAlertX.h; sourceTree = "<group>"; };
+		0C8A1BB75181BBFAF29C2B64494BD7E4 /* JKAlertCollectionSheetTextContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertCollectionSheetTextContentView.h; sourceTree = "<group>"; };
+		0CEA8E6D8ABC36C200943544DFA7AE89 /* JKAlertView+ActionSheet.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JKAlertView+ActionSheet.m"; sourceTree = "<group>"; };
+		0E75A2331DA12AB4FA05715D125503F6 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		116C8840C881BE1DD88A2A835D01E679 /* JKAlertAction.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertAction.m; sourceTree = "<group>"; };
+		142EDC2AA8D4396220B119CF678FC87C /* JKAlertPanGestureRecognizer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertPanGestureRecognizer.m; sourceTree = "<group>"; };
+		14415621701B8A9CA7FB594319EE17FA /* Pods-JKAlertX_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-JKAlertX_Tests-umbrella.h"; sourceTree = "<group>"; };
+		176FBFAC3E068E98F684F4FA00A53275 /* JKAlertTableViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertTableViewCell.h; sourceTree = "<group>"; };
+		183F3DB7C25EFEC6AB118B7E1FEE4442 /* Pods-JKAlertX_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-JKAlertX_Tests.modulemap"; sourceTree = "<group>"; };
+		1B3B6E820D6514B3F91860B8CCFCB76B /* JKAlerActionSheetContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlerActionSheetContentView.h; sourceTree = "<group>"; };
+		1D4CD4F043326CFD378ED15D31E73B03 /* JKAlertBaseAlertView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseAlertView.m; sourceTree = "<group>"; };
+		1FBD434850CC634702A62D8468DD7AAF /* JKAlertBaseAlertView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseAlertView.h; sourceTree = "<group>"; };
+		1FF3487E805CCD0A68DFF7A7C5655CEE /* JKAlertBaseView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseView.h; sourceTree = "<group>"; };
+		239C3C9EB9496868859E0F30B7A7044F /* Pods-JKAlertX_Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-JKAlertX_Tests"; path = Pods_JKAlertX_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		252F8E7ACA6592FB12AB0802D5229CCC /* UIControl+JKAlertX.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIControl+JKAlertX.h"; sourceTree = "<group>"; };
+		287B34BD8309B48A3B1FD9C9AA426FD1 /* JKAlertUITableView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertUITableView.m; sourceTree = "<group>"; };
+		2CB4A48E6F518DBBD7DD80190E1A94A7 /* JKAlertView+Plain.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertView+Plain.h"; sourceTree = "<group>"; };
+		2F26900C7D0E931E24E1A9151EA59B47 /* NSObject+JKAlertTheme.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSObject+JKAlertTheme.h"; sourceTree = "<group>"; };
+		2FBC0F8B7C0F0C59DD9E3BC7179286C6 /* JKAlertView+CollectionSheet.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JKAlertView+CollectionSheet.m"; sourceTree = "<group>"; };
+		300AF12B88C68C4374A0DEF436B028C1 /* JKAlertTextView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertTextView.m; sourceTree = "<group>"; };
+		355967B04C9A6BBAD7D449DED4C2BE28 /* JKAlertThemeProvider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertThemeProvider.m; sourceTree = "<group>"; };
+		37D29B2F0DE919666069596C688EB0EC /* JKAlertBaseActionView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseActionView.m; sourceTree = "<group>"; };
+		37F0EBF33E7A799857D31DC76E81F6C1 /* JKAlertView+HUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JKAlertView+HUD.m"; sourceTree = "<group>"; };
+		3AA4CDE490EA0AF9C77B181BF06B359E /* JKAlertView+Plain.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JKAlertView+Plain.m"; sourceTree = "<group>"; };
+		3B410A76F47842990F5A73F1FAD1E0DE /* JKAlertBaseTableViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseTableViewCell.h; sourceTree = "<group>"; };
+		3C5CE880A6D6C245E98491F9ABC78764 /* Pods-JKAlertX_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-JKAlertX_Example-dummy.m"; sourceTree = "<group>"; };
+		3E39B40547F34452348C27FC1A5456D3 /* JKAlertX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = JKAlertX.release.xcconfig; sourceTree = "<group>"; };
+		3ED4755319CC4A821C2A3AD12CBF6E78 /* Pods-JKAlertX_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-JKAlertX_Tests-dummy.m"; sourceTree = "<group>"; };
+		3F8C8727EB416EA8BF1518FA4EEDF0D9 /* JKAlertTextView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertTextView.h; sourceTree = "<group>"; };
+		41A1E32A35B3FEFE650F4BD7CB3F6FD1 /* JKAlertView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertView.h; sourceTree = "<group>"; };
+		44A4287F9247DA3329C71403A252B864 /* JKAlertPlainActionButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertPlainActionButton.m; sourceTree = "<group>"; };
+		46711EAA7C98FF109A03E72C2743AB2E /* UIControl+JKAlertX.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIControl+JKAlertX.m"; sourceTree = "<group>"; };
+		46E20B846CAA7906B625DDF49E72AC88 /* JKAlertCollectionViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertCollectionViewCell.h; sourceTree = "<group>"; };
+		47B21F80149A6024E8A272F884C803CF /* JKAlertActionSheetTextContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertActionSheetTextContentView.h; sourceTree = "<group>"; };
+		48B329C746182190042F0C13C15BAC00 /* UIImage+JKAlertX.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIImage+JKAlertX.h"; sourceTree = "<group>"; };
+		4E1E786F3AA7C97A51C0F1ED65029CCD /* JKAlertView+CollectionSheet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertView+CollectionSheet.h"; sourceTree = "<group>"; };
+		4E5ED16CFA6B9622A4148E18943CF171 /* JKAlertPlainContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertPlainContentView.h; sourceTree = "<group>"; };
+		511B8C330FF31002E3434A953A75BEF4 /* JKAlertView+ActionSheet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertView+ActionSheet.h"; sourceTree = "<group>"; };
+		54BE99DD5EE2AACFC8F0E9CF75FA6D8E /* JKAlertCollectionSheetContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertCollectionSheetContentView.m; sourceTree = "<group>"; };
+		555D0728BAE69F64912A3F41012CE1EA /* JKAlertBaseTextContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseTextContentView.h; sourceTree = "<group>"; };
+		5D9C7D79B11FDB77E73FDDF97791D0FC /* JKAlertCollectionViewCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertCollectionViewCell.m; sourceTree = "<group>"; };
+		5DBADBFB35634AC49B64329E2542D8C8 /* UIView+JKAlertX.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIView+JKAlertX.h"; sourceTree = "<group>"; };
+		5E1F37F8AE8997603A138FC4C13EB54F /* JKAlertX.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = JKAlertX.modulemap; sourceTree = "<group>"; };
+		5FDADDB4F0C1F384BADE71AD96B6B09F /* JKAlertCustomizer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertCustomizer.m; sourceTree = "<group>"; };
+		60A3859E9D8C98F6D6E86F363687039E /* JKAlertActionButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertActionButton.m; sourceTree = "<group>"; };
+		61C5B72AF811A5B1AA2C3579BEC83DB5 /* JKAlertHUDContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertHUDContentView.h; sourceTree = "<group>"; };
+		67FA5AD5652B076D0707B7CD0DDF8903 /* JKAlertX-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "JKAlertX-Info.plist"; sourceTree = "<group>"; };
+		681B2F64512AE4A0108F41807B66598F /* UIImage+JKAlertX.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JKAlertX.m"; sourceTree = "<group>"; };
+		6C3109681B2A94B29A880216826240E6 /* JKAlertTableActionView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertTableActionView.h; sourceTree = "<group>"; };
+		6E26B5E0A3CA80C334A095218A9D407B /* JKAlertClearHeaderFooterView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertClearHeaderFooterView.h; sourceTree = "<group>"; };
+		6F09B05FD7692FFDA2222A8812D85DDD /* UIView+JKAlertX.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIView+JKAlertX.m"; sourceTree = "<group>"; };
+		712E1D2F7253927097DA8C4279789A26 /* JKAlertThemeUtility.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertThemeUtility.h; sourceTree = "<group>"; };
+		71764D0A5CCA7D143C6E20694B739CC6 /* JKAlertPlainTextContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertPlainTextContentView.m; sourceTree = "<group>"; };
+		7548C31666480F02E7CCA79721F6D2C8 /* JKAlertBaseSheetContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseSheetContentView.h; sourceTree = "<group>"; };
+		77837E89D5566B8D9F8928AE90C952A5 /* JKAlertBaseTableViewCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseTableViewCell.m; sourceTree = "<group>"; };
+		795F9535221E7451FB7EB43CA86351DA /* Pods-JKAlertX_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-JKAlertX_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
+		7C7CCA8E216E1278F79BD03A264CBD0E /* JKAlertPanGestureRecognizer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertPanGestureRecognizer.h; sourceTree = "<group>"; };
+		7D01B54DFD8A22E28720567E6E2CC203 /* JKAlertView+Public.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JKAlertView+Public.m"; sourceTree = "<group>"; };
+		7D097169EF598D5DEC246EBAE092B3F0 /* JKAlertPlainActionButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertPlainActionButton.h; sourceTree = "<group>"; };
+		7D4B242A5560337153B39A1B68CFB11B /* Pods-JKAlertX_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-JKAlertX_Example-acknowledgements.plist"; sourceTree = "<group>"; };
+		7FE782BD3BCAD1CFC07C18B649E20D6B /* JKAlertX */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = JKAlertX; path = JKAlertX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		803996B12176161D724354DDEF05AFD6 /* NSObject+JKAlertTheme.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JKAlertTheme.m"; sourceTree = "<group>"; };
+		81EA37ED5F6FAFC2F9A16C1A999B3FFA /* Pods-JKAlertX_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-JKAlertX_Tests-Info.plist"; sourceTree = "<group>"; };
+		8370DFB3FB65C77C5ABCC10DF2488FAF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		8947E5540E4B79C0F6B45B1504D386FE /* JKAlertThemeProvider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertThemeProvider.h; sourceTree = "<group>"; };
+		8BEC8253F66F176D737AAD3057525A85 /* Pods-JKAlertX_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-JKAlertX_Example-umbrella.h"; sourceTree = "<group>"; };
+		91EC32E7090083564D9E3BF8498C8903 /* JKAlertAction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertAction.h; sourceTree = "<group>"; };
+		94812425ED792FF967481429D0A9BD09 /* JKAlertUtility.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertUtility.m; sourceTree = "<group>"; };
+		948B68B74BD50C1887ECCE9AC6A6163E /* JKAlertClearHeaderFooterView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertClearHeaderFooterView.m; sourceTree = "<group>"; };
+		9686A2BB38561D2E15F7D7409ACE5482 /* JKAlertUITableView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertUITableView.h; sourceTree = "<group>"; };
+		9B1D19435CBF6CE58B94868C5506180E /* Pods-JKAlertX_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-JKAlertX_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		9BE2E90E8475F2CA53156EFEE2C16675 /* JKAlertBaseSheetContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseSheetContentView.m; sourceTree = "<group>"; };
+		9C4FE04E8729774D29F9E30CAC6BDBFC /* JKAlertView+PrivateProperty.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertView+PrivateProperty.h"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9F9367ED5BCADB4810DE6C24ECB7FCE0 /* Pods-JKAlertX_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-JKAlertX_Example.release.xcconfig"; sourceTree = "<group>"; };
+		A1A1F9492DB41234F67815FA85956613 /* JKAlertActionButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertActionButton.h; sourceTree = "<group>"; };
+		A2A98D491B50F6EE654B1AA8531C7419 /* JKAlertCustomizer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertCustomizer.h; sourceTree = "<group>"; };
+		A326F81BDFCB1BF7337D41C32C4E20A5 /* JKAlertView+Public.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertView+Public.h"; sourceTree = "<group>"; };
+		A5974BC2D48DF7C15A23F240F3366BD9 /* Pods-JKAlertX_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-JKAlertX_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		AA9328D7FFF0BCA783479901765926EB /* JKAlertTableActionView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertTableActionView.m; sourceTree = "<group>"; };
+		AAA3A2D9077080B87136E99AFA8267AE /* JKAlertScrollContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertScrollContentView.h; sourceTree = "<group>"; };
+		AAB84AFD9F5EC0E294BF08887FCC2024 /* JKAlertHUDTextContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertHUDTextContentView.m; sourceTree = "<group>"; };
+		AD02A675FA9DD3A81458C05550E46DA2 /* JKAlertCollectionSheetTextContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertCollectionSheetTextContentView.m; sourceTree = "<group>"; };
+		AFBA1829552204AB3D42E79831939AB3 /* JKAlertView+PrivateProperty.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JKAlertView+PrivateProperty.m"; sourceTree = "<group>"; };
+		B31EDACACFBCFDAE61BFE60FF7B6C7E5 /* JKAlertTextContainerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertTextContainerView.m; sourceTree = "<group>"; };
+		B39FD6D8ACA7452B9DF3F62421EA84CB /* JKAlertX-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertX-prefix.pch"; sourceTree = "<group>"; };
+		B8DB1B6D17954AB3EC710F63E4A8AF3F /* JKAlertTableViewCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertTableViewCell.m; sourceTree = "<group>"; };
+		BDF64D8CC93080E4516B34815EAE44E1 /* JKAlertX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = JKAlertX.debug.xcconfig; sourceTree = "<group>"; };
+		BE7FD196C8170D78FF8AD2FE709674F8 /* Pods-JKAlertX_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-JKAlertX_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		BF4B3375B7FC6CA2C2A3FA53B13E91A7 /* JKAlertTextContainerView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertTextContainerView.h; sourceTree = "<group>"; };
+		C7A9BA4461DBE13FB64D8678160079B9 /* JKAlertX-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JKAlertX-dummy.m"; sourceTree = "<group>"; };
+		CAEDD99F374779BDFA14E08FC4DC0066 /* JKAlertView+Deprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertView+Deprecated.h"; sourceTree = "<group>"; };
+		CF6744CC6E21A968D6A48EF4DFD9071D /* JKAlertBaseView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseView.m; sourceTree = "<group>"; };
+		D12426F2029417A03DF561E03E53B44C /* JKAlertView+LifeCycle.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertView+LifeCycle.h"; sourceTree = "<group>"; };
+		D19FB1AC1D82B2C85C11147038BBE314 /* UIGestureRecognizer+JKAlertX.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+JKAlertX.m"; sourceTree = "<group>"; };
+		D245E0514AAC1A2B9A6D5EA2F383E90F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		D3A919DDC873699C0C9ACC30ABA3D10F /* Pods-JKAlertX_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-JKAlertX_Example.modulemap"; sourceTree = "<group>"; };
+		D66E4E526E77A4035861389BED22B285 /* JKAlertThemeUtility.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertThemeUtility.m; sourceTree = "<group>"; };
+		D67DFEDDA59699E2C00A452C6B10EDB0 /* JKAlertBaseAlertContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseAlertContentView.h; sourceTree = "<group>"; };
+		DAE091750B435E04913F9BEAFE0D24DF /* JKAlertX.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = JKAlertX.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		DD24AA9906C9810D54B05FDE23D23A6B /* JKAlertView+Deprecated.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JKAlertView+Deprecated.m"; sourceTree = "<group>"; };
+		DE9EAC857B6921933E76552EC5A1A13D /* JKAlertBaseAlertContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseAlertContentView.m; sourceTree = "<group>"; };
+		DFCBC9D10740D1FDB248D280C634706F /* JKAlertThemeManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertThemeManager.m; sourceTree = "<group>"; };
+		DFDA80B09C959212571CE3B7F3E0CD0D /* JKAlertCollectionSheetContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertCollectionSheetContentView.h; sourceTree = "<group>"; };
+		DFDD6497A1B19E03BF40098DCEBAD015 /* JKAlertBaseScrollContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseScrollContentView.h; sourceTree = "<group>"; };
+		E063D68FE7C86A59ED4B2BEB1369CA79 /* JKAlertActionSheetTextContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertActionSheetTextContentView.m; sourceTree = "<group>"; };
+		E815AE2A6F1045385DB73600F4FC5425 /* JKAlertPlainTextContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertPlainTextContentView.h; sourceTree = "<group>"; };
+		EA1A1732DDCB269437B2AAED6BC443B7 /* JKAlertBaseScrollContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseScrollContentView.m; sourceTree = "<group>"; };
+		EAB6F611E86A4758835A715E4B4184F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		EB16C8545C7F54BAA285BAF6F85185A7 /* JKAlertView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertView.m; sourceTree = "<group>"; };
+		EBFA097CE233EB84DA60237372BB71C6 /* JKAlertX-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertX-umbrella.h"; sourceTree = "<group>"; };
+		ED423C5DF168E2A22F06B10EE44F7F64 /* JKAlertHUDTextContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertHUDTextContentView.h; sourceTree = "<group>"; };
+		EFE3572E12A256F4541DD60F4D0EB246 /* Pods-JKAlertX_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-JKAlertX_Example-Info.plist"; sourceTree = "<group>"; };
+		F3DAE94CED0726A4CD8535BEA074E883 /* Pods-JKAlertX_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-JKAlertX_Example-frameworks.sh"; sourceTree = "<group>"; };
+		F67D322777F2A61AA63FD93F70286C6A /* JKAlerActionSheetContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlerActionSheetContentView.m; sourceTree = "<group>"; };
+		F68E044983434F44B47854D625A821FE /* Pods-JKAlertX_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-JKAlertX_Example"; path = Pods_JKAlertX_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F85BFDA91B7346BFBB94C96EBB4B9FB2 /* Pods-JKAlertX_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-JKAlertX_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		F8AFD9966CB716643AE6F735EFB5C795 /* JKAlertBaseTextContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseTextContentView.m; sourceTree = "<group>"; };
+		FA0E484236BACC989250BC8BBAE91071 /* JKAlertTheme.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertTheme.h; sourceTree = "<group>"; };
+		FB08520AD18B0EF4BA2008F67EB8E869 /* JKAlertView+HUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertView+HUD.h"; sourceTree = "<group>"; };
+		FC08FCD41ADA83FA0EE3198461770B7E /* JKAlertConstraintManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertConstraintManager.m; sourceTree = "<group>"; };
+		FD9D0192EBA8CCD629B28805C24374BA /* JKAlertHUDContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertHUDContentView.m; sourceTree = "<group>"; };
+		FED49B9A9F3BE3410E379837D93B76BE /* JKAlertConstraintManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertConstraintManager.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7690631439B56E0AE93985C0F6622664 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA298157DC01595E0BFCE648A51D90A1 /* Foundation.framework in Frameworks */,
+				C6AF20D3BDB6438221413197172967AF /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAA49F6CFAE6250C276F034C1147B795 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				248BFD7B658F2DF4D15910CB382B8F84 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABBB9F4D97C2ECF04874AD289AB84FF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CE7E101F02B617A24B3464497396F8F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1428338FD4A8EB7571F9D1DFE0E8EB9A /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				3042EE4B2295BC9DC0DA411015F20CD6 /* Pods-JKAlertX_Example */,
+				AD1FA484F1A70BAE9C48579DCA2D2C43 /* Pods-JKAlertX_Tests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		1628BF05B4CAFDCC3549A101F5A10A17 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				59DA5C1F72E1D5BABC43EACBA672C3BA /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3042EE4B2295BC9DC0DA411015F20CD6 /* Pods-JKAlertX_Example */ = {
+			isa = PBXGroup;
+			children = (
+				D3A919DDC873699C0C9ACC30ABA3D10F /* Pods-JKAlertX_Example.modulemap */,
+				795F9535221E7451FB7EB43CA86351DA /* Pods-JKAlertX_Example-acknowledgements.markdown */,
+				7D4B242A5560337153B39A1B68CFB11B /* Pods-JKAlertX_Example-acknowledgements.plist */,
+				3C5CE880A6D6C245E98491F9ABC78764 /* Pods-JKAlertX_Example-dummy.m */,
+				F3DAE94CED0726A4CD8535BEA074E883 /* Pods-JKAlertX_Example-frameworks.sh */,
+				EFE3572E12A256F4541DD60F4D0EB246 /* Pods-JKAlertX_Example-Info.plist */,
+				8BEC8253F66F176D737AAD3057525A85 /* Pods-JKAlertX_Example-umbrella.h */,
+				032F89D52B7D163BD96C6317D561BC17 /* Pods-JKAlertX_Example.debug.xcconfig */,
+				9F9367ED5BCADB4810DE6C24ECB7FCE0 /* Pods-JKAlertX_Example.release.xcconfig */,
+			);
+			name = "Pods-JKAlertX_Example";
+			path = "Target Support Files/Pods-JKAlertX_Example";
+			sourceTree = "<group>";
+		};
+		379B7C1136E55CD178C50E4146134913 /* UIKitCategory */ = {
+			isa = PBXGroup;
+			children = (
+				252F8E7ACA6592FB12AB0802D5229CCC /* UIControl+JKAlertX.h */,
+				46711EAA7C98FF109A03E72C2743AB2E /* UIControl+JKAlertX.m */,
+				0C1FA6B457B4FD35740C94A1671AF9EC /* UIGestureRecognizer+JKAlertX.h */,
+				D19FB1AC1D82B2C85C11147038BBE314 /* UIGestureRecognizer+JKAlertX.m */,
+				48B329C746182190042F0C13C15BAC00 /* UIImage+JKAlertX.h */,
+				681B2F64512AE4A0108F41807B66598F /* UIImage+JKAlertX.m */,
+				5DBADBFB35634AC49B64329E2542D8C8 /* UIView+JKAlertX.h */,
+				6F09B05FD7692FFDA2222A8812D85DDD /* UIView+JKAlertX.m */,
+			);
+			name = UIKitCategory;
+			path = UIKitCategory;
+			sourceTree = "<group>";
+		};
+		4627D27C47BA9A9BD4CE37F143A023F2 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				FA0E484236BACC989250BC8BBAE91071 /* JKAlertTheme.h */,
+				07B4938F4A815ACA79EDECD264F6BD39 /* JKAlertThemeManager.h */,
+				DFCBC9D10740D1FDB248D280C634706F /* JKAlertThemeManager.m */,
+				8947E5540E4B79C0F6B45B1504D386FE /* JKAlertThemeProvider.h */,
+				355967B04C9A6BBAD7D449DED4C2BE28 /* JKAlertThemeProvider.m */,
+				712E1D2F7253927097DA8C4279789A26 /* JKAlertThemeUtility.h */,
+				D66E4E526E77A4035861389BED22B285 /* JKAlertThemeUtility.m */,
+				2F26900C7D0E931E24E1A9151EA59B47 /* NSObject+JKAlertTheme.h */,
+				803996B12176161D724354DDEF05AFD6 /* NSObject+JKAlertTheme.m */,
+			);
+			name = Theme;
+			path = JKAlertX/Classes/Theme;
+			sourceTree = "<group>";
+		};
+		5980711E7421E0BC29F07FD8B939001E /* CollectionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				DFDA80B09C959212571CE3B7F3E0CD0D /* JKAlertCollectionSheetContentView.h */,
+				54BE99DD5EE2AACFC8F0E9CF75FA6D8E /* JKAlertCollectionSheetContentView.m */,
+				0C8A1BB75181BBFAF29C2B64494BD7E4 /* JKAlertCollectionSheetTextContentView.h */,
+				AD02A675FA9DD3A81458C05550E46DA2 /* JKAlertCollectionSheetTextContentView.m */,
+				46E20B846CAA7906B625DDF49E72AC88 /* JKAlertCollectionViewCell.h */,
+				5D9C7D79B11FDB77E73FDDF97791D0FC /* JKAlertCollectionViewCell.m */,
+			);
+			name = CollectionSheet;
+			path = CollectionSheet;
+			sourceTree = "<group>";
+		};
+		59DA5C1F72E1D5BABC43EACBA672C3BA /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				EAB6F611E86A4758835A715E4B4184F6 /* Foundation.framework */,
+				D245E0514AAC1A2B9A6D5EA2F383E90F /* UIKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		6034A4C3BDF375462313CC2CC6DE419F /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5E1F37F8AE8997603A138FC4C13EB54F /* JKAlertX.modulemap */,
+				C7A9BA4461DBE13FB64D8678160079B9 /* JKAlertX-dummy.m */,
+				67FA5AD5652B076D0707B7CD0DDF8903 /* JKAlertX-Info.plist */,
+				B39FD6D8ACA7452B9DF3F62421EA84CB /* JKAlertX-prefix.pch */,
+				EBFA097CE233EB84DA60237372BB71C6 /* JKAlertX-umbrella.h */,
+				BDF64D8CC93080E4516B34815EAE44E1 /* JKAlertX.debug.xcconfig */,
+				3E39B40547F34452348C27FC1A5456D3 /* JKAlertX.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/JKAlertX";
+			sourceTree = "<group>";
+		};
+		8E4C5E9F72CBDB923B2354B7780F31F7 /* ActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				1B3B6E820D6514B3F91860B8CCFCB76B /* JKAlerActionSheetContentView.h */,
+				F67D322777F2A61AA63FD93F70286C6A /* JKAlerActionSheetContentView.m */,
+				47B21F80149A6024E8A272F884C803CF /* JKAlertActionSheetTextContentView.h */,
+				E063D68FE7C86A59ED4B2BEB1369CA79 /* JKAlertActionSheetTextContentView.m */,
+				6E26B5E0A3CA80C334A095218A9D407B /* JKAlertClearHeaderFooterView.h */,
+				948B68B74BD50C1887ECCE9AC6A6163E /* JKAlertClearHeaderFooterView.m */,
+				6C3109681B2A94B29A880216826240E6 /* JKAlertTableActionView.h */,
+				AA9328D7FFF0BCA783479901765926EB /* JKAlertTableActionView.m */,
+				176FBFAC3E068E98F684F4FA00A53275 /* JKAlertTableViewCell.h */,
+				B8DB1B6D17954AB3EC710F63E4A8AF3F /* JKAlertTableViewCell.m */,
+			);
+			name = ActionSheet;
+			path = ActionSheet;
+			sourceTree = "<group>";
+		};
+		8F6921883D9A55D38C365DEB80562ADE /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				DAE091750B435E04913F9BEAFE0D24DF /* JKAlertX.podspec */,
+				0E75A2331DA12AB4FA05715D125503F6 /* LICENSE */,
+				8370DFB3FB65C77C5ABCC10DF2488FAF /* README.md */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		91E2EA8327B210C56D07C17C70A3ED0B /* JKAlertX */ = {
+			isa = PBXGroup;
+			children = (
+				0C7ED77922F668C9B8135B71B0C91122 /* JKAlertX.h */,
+				C5AAB774A0453772745913494716A792 /* Base */,
+				D49D037A237A8745E5EDB6DFD9CED80A /* Category */,
+				BBF4BA0F4FBE2B8122F8A09C9196E1ED /* Model */,
+				8F6921883D9A55D38C365DEB80562ADE /* Pod */,
+				6034A4C3BDF375462313CC2CC6DE419F /* Support Files */,
+				4627D27C47BA9A9BD4CE37F143A023F2 /* Theme */,
+				A99E44327DE2B8D28A882A432C69CCEA /* Utility */,
+				B325B6AB581F427671B89364545E0BC4 /* View */,
+			);
+			name = JKAlertX;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		9AEC2BBE8879A483ECB3C07D4D41AAE9 /* AlertPlain */ = {
+			isa = PBXGroup;
+			children = (
+				7D097169EF598D5DEC246EBAE092B3F0 /* JKAlertPlainActionButton.h */,
+				44A4287F9247DA3329C71403A252B864 /* JKAlertPlainActionButton.m */,
+				4E5ED16CFA6B9622A4148E18943CF171 /* JKAlertPlainContentView.h */,
+				06F72DB568B57AFC319C7FFE091814E4 /* JKAlertPlainContentView.m */,
+				E815AE2A6F1045385DB73600F4FC5425 /* JKAlertPlainTextContentView.h */,
+				71764D0A5CCA7D143C6E20694B739CC6 /* JKAlertPlainTextContentView.m */,
+			);
+			name = AlertPlain;
+			path = AlertPlain;
+			sourceTree = "<group>";
+		};
+		9CB6810CC436E2C24F7CC33D1F735CCC /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				91E2EA8327B210C56D07C17C70A3ED0B /* JKAlertX */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		A99E44327DE2B8D28A882A432C69CCEA /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				FED49B9A9F3BE3410E379837D93B76BE /* JKAlertConstraintManager.h */,
+				FC08FCD41ADA83FA0EE3198461770B7E /* JKAlertConstraintManager.m */,
+				A2A98D491B50F6EE654B1AA8531C7419 /* JKAlertCustomizer.h */,
+				5FDADDB4F0C1F384BADE71AD96B6B09F /* JKAlertCustomizer.m */,
+				7C7CCA8E216E1278F79BD03A264CBD0E /* JKAlertPanGestureRecognizer.h */,
+				142EDC2AA8D4396220B119CF678FC87C /* JKAlertPanGestureRecognizer.m */,
+				0B617E1B0CD7788805864BED322E5BAA /* JKAlertUtility.h */,
+				94812425ED792FF967481429D0A9BD09 /* JKAlertUtility.m */,
+			);
+			name = Utility;
+			path = JKAlertX/Classes/Utility;
+			sourceTree = "<group>";
+		};
+		AD1FA484F1A70BAE9C48579DCA2D2C43 /* Pods-JKAlertX_Tests */ = {
+			isa = PBXGroup;
+			children = (
+				183F3DB7C25EFEC6AB118B7E1FEE4442 /* Pods-JKAlertX_Tests.modulemap */,
+				F85BFDA91B7346BFBB94C96EBB4B9FB2 /* Pods-JKAlertX_Tests-acknowledgements.markdown */,
+				A5974BC2D48DF7C15A23F240F3366BD9 /* Pods-JKAlertX_Tests-acknowledgements.plist */,
+				3ED4755319CC4A821C2A3AD12CBF6E78 /* Pods-JKAlertX_Tests-dummy.m */,
+				81EA37ED5F6FAFC2F9A16C1A999B3FFA /* Pods-JKAlertX_Tests-Info.plist */,
+				14415621701B8A9CA7FB594319EE17FA /* Pods-JKAlertX_Tests-umbrella.h */,
+				BE7FD196C8170D78FF8AD2FE709674F8 /* Pods-JKAlertX_Tests.debug.xcconfig */,
+				9B1D19435CBF6CE58B94868C5506180E /* Pods-JKAlertX_Tests.release.xcconfig */,
+			);
+			name = "Pods-JKAlertX_Tests";
+			path = "Target Support Files/Pods-JKAlertX_Tests";
+			sourceTree = "<group>";
+		};
+		B325B6AB581F427671B89364545E0BC4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A1A1F9492DB41234F67815FA85956613 /* JKAlertActionButton.h */,
+				60A3859E9D8C98F6D6E86F363687039E /* JKAlertActionButton.m */,
+				AAA3A2D9077080B87136E99AFA8267AE /* JKAlertScrollContentView.h */,
+				0273B8656F20751CBC5251DC8C9C6457 /* JKAlertScrollContentView.m */,
+				BF4B3375B7FC6CA2C2A3FA53B13E91A7 /* JKAlertTextContainerView.h */,
+				B31EDACACFBCFDAE61BFE60FF7B6C7E5 /* JKAlertTextContainerView.m */,
+				3F8C8727EB416EA8BF1518FA4EEDF0D9 /* JKAlertTextView.h */,
+				300AF12B88C68C4374A0DEF436B028C1 /* JKAlertTextView.m */,
+				41A1E32A35B3FEFE650F4BD7CB3F6FD1 /* JKAlertView.h */,
+				EB16C8545C7F54BAA285BAF6F85185A7 /* JKAlertView.m */,
+				8E4C5E9F72CBDB923B2354B7780F31F7 /* ActionSheet */,
+				9AEC2BBE8879A483ECB3C07D4D41AAE9 /* AlertPlain */,
+				5980711E7421E0BC29F07FD8B939001E /* CollectionSheet */,
+				D7E977B71B15F952A191A9C2665AEA26 /* HUD */,
+			);
+			name = View;
+			path = JKAlertX/Classes/View;
+			sourceTree = "<group>";
+		};
+		BBF4BA0F4FBE2B8122F8A09C9196E1ED /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				91EC32E7090083564D9E3BF8498C8903 /* JKAlertAction.h */,
+				116C8840C881BE1DD88A2A835D01E679 /* JKAlertAction.m */,
+			);
+			name = Model;
+			path = JKAlertX/Classes/Model;
+			sourceTree = "<group>";
+		};
+		C5AAB774A0453772745913494716A792 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				0A1FF763FBFD272D5371C4FD5D6F0500 /* JKAlertBaseActionView.h */,
+				37D29B2F0DE919666069596C688EB0EC /* JKAlertBaseActionView.m */,
+				D67DFEDDA59699E2C00A452C6B10EDB0 /* JKAlertBaseAlertContentView.h */,
+				DE9EAC857B6921933E76552EC5A1A13D /* JKAlertBaseAlertContentView.m */,
+				1FBD434850CC634702A62D8468DD7AAF /* JKAlertBaseAlertView.h */,
+				1D4CD4F043326CFD378ED15D31E73B03 /* JKAlertBaseAlertView.m */,
+				DFDD6497A1B19E03BF40098DCEBAD015 /* JKAlertBaseScrollContentView.h */,
+				EA1A1732DDCB269437B2AAED6BC443B7 /* JKAlertBaseScrollContentView.m */,
+				7548C31666480F02E7CCA79721F6D2C8 /* JKAlertBaseSheetContentView.h */,
+				9BE2E90E8475F2CA53156EFEE2C16675 /* JKAlertBaseSheetContentView.m */,
+				3B410A76F47842990F5A73F1FAD1E0DE /* JKAlertBaseTableViewCell.h */,
+				77837E89D5566B8D9F8928AE90C952A5 /* JKAlertBaseTableViewCell.m */,
+				555D0728BAE69F64912A3F41012CE1EA /* JKAlertBaseTextContentView.h */,
+				F8AFD9966CB716643AE6F735EFB5C795 /* JKAlertBaseTextContentView.m */,
+				1FF3487E805CCD0A68DFF7A7C5655CEE /* JKAlertBaseView.h */,
+				CF6744CC6E21A968D6A48EF4DFD9071D /* JKAlertBaseView.m */,
+				9686A2BB38561D2E15F7D7409ACE5482 /* JKAlertUITableView.h */,
+				287B34BD8309B48A3B1FD9C9AA426FD1 /* JKAlertUITableView.m */,
+			);
+			name = Base;
+			path = JKAlertX/Classes/Base;
+			sourceTree = "<group>";
+		};
+		CAAF424A07C3EA4936CF224264581CD9 /* JKAlertCategory */ = {
+			isa = PBXGroup;
+			children = (
+				511B8C330FF31002E3434A953A75BEF4 /* JKAlertView+ActionSheet.h */,
+				0CEA8E6D8ABC36C200943544DFA7AE89 /* JKAlertView+ActionSheet.m */,
+				4E1E786F3AA7C97A51C0F1ED65029CCD /* JKAlertView+CollectionSheet.h */,
+				2FBC0F8B7C0F0C59DD9E3BC7179286C6 /* JKAlertView+CollectionSheet.m */,
+				CAEDD99F374779BDFA14E08FC4DC0066 /* JKAlertView+Deprecated.h */,
+				DD24AA9906C9810D54B05FDE23D23A6B /* JKAlertView+Deprecated.m */,
+				FB08520AD18B0EF4BA2008F67EB8E869 /* JKAlertView+HUD.h */,
+				37F0EBF33E7A799857D31DC76E81F6C1 /* JKAlertView+HUD.m */,
+				D12426F2029417A03DF561E03E53B44C /* JKAlertView+LifeCycle.h */,
+				02FCDA57DEF6D7D034861AF78A900E21 /* JKAlertView+LifeCycle.m */,
+				2CB4A48E6F518DBBD7DD80190E1A94A7 /* JKAlertView+Plain.h */,
+				3AA4CDE490EA0AF9C77B181BF06B359E /* JKAlertView+Plain.m */,
+				9C4FE04E8729774D29F9E30CAC6BDBFC /* JKAlertView+PrivateProperty.h */,
+				AFBA1829552204AB3D42E79831939AB3 /* JKAlertView+PrivateProperty.m */,
+				A326F81BDFCB1BF7337D41C32C4E20A5 /* JKAlertView+Public.h */,
+				7D01B54DFD8A22E28720567E6E2CC203 /* JKAlertView+Public.m */,
+			);
+			name = JKAlertCategory;
+			path = JKAlertCategory;
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				9CB6810CC436E2C24F7CC33D1F735CCC /* Development Pods */,
+				1628BF05B4CAFDCC3549A101F5A10A17 /* Frameworks */,
+				FB2767C4598BD8BD4A9CD7BA2CC98538 /* Products */,
+				1428338FD4A8EB7571F9D1DFE0E8EB9A /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D49D037A237A8745E5EDB6DFD9CED80A /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				CAAF424A07C3EA4936CF224264581CD9 /* JKAlertCategory */,
+				379B7C1136E55CD178C50E4146134913 /* UIKitCategory */,
+			);
+			name = Category;
+			path = JKAlertX/Classes/Category;
+			sourceTree = "<group>";
+		};
+		D7E977B71B15F952A191A9C2665AEA26 /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				61C5B72AF811A5B1AA2C3579BEC83DB5 /* JKAlertHUDContentView.h */,
+				FD9D0192EBA8CCD629B28805C24374BA /* JKAlertHUDContentView.m */,
+				ED423C5DF168E2A22F06B10EE44F7F64 /* JKAlertHUDTextContentView.h */,
+				AAB84AFD9F5EC0E294BF08887FCC2024 /* JKAlertHUDTextContentView.m */,
+			);
+			name = HUD;
+			path = HUD;
+			sourceTree = "<group>";
+		};
+		FB2767C4598BD8BD4A9CD7BA2CC98538 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7FE782BD3BCAD1CFC07C18B649E20D6B /* JKAlertX */,
+				F68E044983434F44B47854D625A821FE /* Pods-JKAlertX_Example */,
+				239C3C9EB9496868859E0F30B7A7044F /* Pods-JKAlertX_Tests */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7C2CA9EF9E46D8C945279E3B03E0D378 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E1984E638BC3FA9C29DE3C04112F461 /* Pods-JKAlertX_Tests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7F009CE086EA80CED300481AF5B14C7C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F65B85F27B0772D84C79DE604883F3F /* JKAlerActionSheetContentView.h in Headers */,
+				A3ADA8C37FD175CE590F8C69B88D2DCD /* JKAlertAction.h in Headers */,
+				89268A20AE40641E980D25137A35DE18 /* JKAlertActionButton.h in Headers */,
+				49A3C71F2EA6FDC2C960C078BB06A707 /* JKAlertActionSheetTextContentView.h in Headers */,
+				09ED31F2DCF4B53B405377EB7ABAC530 /* JKAlertBaseActionView.h in Headers */,
+				89954C211E98FDA316926F9109071CE1 /* JKAlertBaseAlertContentView.h in Headers */,
+				E3AB5DCF57909A2C73F70F5CD6BEF7EE /* JKAlertBaseAlertView.h in Headers */,
+				E7B00DCD2EA9BE6D6AB98394467AC715 /* JKAlertBaseScrollContentView.h in Headers */,
+				6D0A662829F3D99AE32B3E2F5079A6D7 /* JKAlertBaseSheetContentView.h in Headers */,
+				4FA93D6DD6B1A7EB1C54D7F972AA35FB /* JKAlertBaseTableViewCell.h in Headers */,
+				24A62B730150FF3E3F9ED2B4540FFF59 /* JKAlertBaseTextContentView.h in Headers */,
+				2FE4E84C93111B800D6AFEFC995E5ED1 /* JKAlertBaseView.h in Headers */,
+				86E96AA13F6C5B4E10BF2D0007A0517D /* JKAlertClearHeaderFooterView.h in Headers */,
+				F27D11401C2757714F502DDE16ADE1AA /* JKAlertCollectionSheetContentView.h in Headers */,
+				462EB12804CCF29814AD7DE5A9AB3DF6 /* JKAlertCollectionSheetTextContentView.h in Headers */,
+				C25F28D27C3130D9240E2E273FEEAC2A /* JKAlertCollectionViewCell.h in Headers */,
+				9014DB97F8681A7DA3A21C054BA3D74B /* JKAlertConstraintManager.h in Headers */,
+				391141060C3395CF17FE5C06AA882084 /* JKAlertCustomizer.h in Headers */,
+				B16031E5C8EFC5FA977E9FB959F23847 /* JKAlertHUDContentView.h in Headers */,
+				BA3AC60FDE14ADF4FD2B36B7B9B92AF3 /* JKAlertHUDTextContentView.h in Headers */,
+				FC9FF87F9B5CD8BC38D9D122A5317712 /* JKAlertPanGestureRecognizer.h in Headers */,
+				4553B9451D6B65BB78F1A099418B35A8 /* JKAlertPlainActionButton.h in Headers */,
+				84D0EB38E50AD75D30F4A63473DADAA0 /* JKAlertPlainContentView.h in Headers */,
+				C4B067825B4F8B2B27A0E7CF3BA4B9DA /* JKAlertPlainTextContentView.h in Headers */,
+				E69B422DBDBA71E6AA0E53299F0017C5 /* JKAlertScrollContentView.h in Headers */,
+				FC706ECA3F57D7282A82D6046A214B56 /* JKAlertTableActionView.h in Headers */,
+				9282A54F553CC40BB48BDCB4DE4C5A70 /* JKAlertTableViewCell.h in Headers */,
+				82B86AD44871BD68C31D2B45A753990E /* JKAlertTextContainerView.h in Headers */,
+				8CF960CFCE13CB2145B8086BE2AB1B2A /* JKAlertTextView.h in Headers */,
+				8933C8D86436D0F1FA781528B8F15BC5 /* JKAlertTheme.h in Headers */,
+				952361703DDF113E6E25FC28E79B21A6 /* JKAlertThemeManager.h in Headers */,
+				790B5A7C13201A546C50D24CB66215A2 /* JKAlertThemeProvider.h in Headers */,
+				6380C2E0FF0B7CBE26B9C6D6A6D2F817 /* JKAlertThemeUtility.h in Headers */,
+				5C2AD13FC0712190D253C11DE5D124AA /* JKAlertUITableView.h in Headers */,
+				73D27769892305E168492C7D349AF41D /* JKAlertUtility.h in Headers */,
+				166EF225AC1CF9DE1FC6441051C81E3B /* JKAlertView.h in Headers */,
+				77FAD8FA8F1BCBFA6EE5E9CA1692514C /* JKAlertView+ActionSheet.h in Headers */,
+				1F71FFB88550A8C2FB1347362EC14090 /* JKAlertView+CollectionSheet.h in Headers */,
+				3621C56398702639D5F00782471BAC11 /* JKAlertView+Deprecated.h in Headers */,
+				D2DFABCEB896327087631536072D324D /* JKAlertView+HUD.h in Headers */,
+				4FC7085D510A6DEB94927C0347594FF9 /* JKAlertView+LifeCycle.h in Headers */,
+				FD460BC968D917A46B31F7FC6B8D2F78 /* JKAlertView+Plain.h in Headers */,
+				6C0CDDA776862ED59A053AA9EB8F331B /* JKAlertView+PrivateProperty.h in Headers */,
+				32D116F33436806A5142EF83D67FAF39 /* JKAlertView+Public.h in Headers */,
+				D6D71FB1E82CB9C21303B757A76CC966 /* JKAlertX.h in Headers */,
+				81017728D0543436F6942A1FB7A8F3D0 /* JKAlertX-umbrella.h in Headers */,
+				62C24B508CA981AFFCE4AEDB27331EF0 /* NSObject+JKAlertTheme.h in Headers */,
+				72D265C719DC4EF883BB2EEADAC3A2B2 /* UIControl+JKAlertX.h in Headers */,
+				F8674A787B0BCCE95A8B54202D73DCB4 /* UIGestureRecognizer+JKAlertX.h in Headers */,
+				F2A0441F5663270AED462D1AD698D485 /* UIImage+JKAlertX.h in Headers */,
+				857ACE8C1C30292A38D350073670B468 /* UIView+JKAlertX.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2601471D631DD80DF70E155DF55534A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B19C33D8D00175D05846BAC105B4615 /* Pods-JKAlertX_Example-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		BCF30FDEC6C949921D7624CCF96FE61C /* JKAlertX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B8A4F082245AC8FA6C776F6FDAA85F5 /* Build configuration list for PBXNativeTarget "JKAlertX" */;
+			buildPhases = (
+				7F009CE086EA80CED300481AF5B14C7C /* Headers */,
+				AB2AB262D28E32EB5217C415D2D03C92 /* Sources */,
+				7690631439B56E0AE93985C0F6622664 /* Frameworks */,
+				21C8090EF50F75901C459846429DAE7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JKAlertX;
+			productName = JKAlertX;
+			productReference = 7FE782BD3BCAD1CFC07C18B649E20D6B /* JKAlertX */;
+			productType = "com.apple.product-type.framework";
+		};
+		C7E243836376E8DC16366B70DC9D55F2 /* Pods-JKAlertX_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AEC89F69B11E634D05D0C8C081545547 /* Build configuration list for PBXNativeTarget "Pods-JKAlertX_Tests" */;
+			buildPhases = (
+				7C2CA9EF9E46D8C945279E3B03E0D378 /* Headers */,
+				0C7BFC352131791F1085C78A80B7C151 /* Sources */,
+				ABBB9F4D97C2ECF04874AD289AB84FF2 /* Frameworks */,
+				FC77EA5CA2DFF5AB3FCF6E81A6ECBABD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6538BCDEA58E4EA454CB0B7FFE655E9D /* PBXTargetDependency */,
+			);
+			name = "Pods-JKAlertX_Tests";
+			productName = Pods_JKAlertX_Tests;
+			productReference = 239C3C9EB9496868859E0F30B7A7044F /* Pods-JKAlertX_Tests */;
+			productType = "com.apple.product-type.framework";
+		};
+		DFC60FA9A041DF15CD323ED9F40586B0 /* Pods-JKAlertX_Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3C0B592DD65C186593ABCD8138624CE8 /* Build configuration list for PBXNativeTarget "Pods-JKAlertX_Example" */;
+			buildPhases = (
+				D2601471D631DD80DF70E155DF55534A /* Headers */,
+				CD2FA7848B5E87059E2F8CC8938DF968 /* Sources */,
+				AAA49F6CFAE6250C276F034C1147B795 /* Frameworks */,
+				3A169F71E748A47619CF7DDD7031CD9E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				10836EAA01A36859E856A0955185C4F5 /* PBXTargetDependency */,
+			);
+			name = "Pods-JKAlertX_Example";
+			productName = Pods_JKAlertX_Example;
+			productReference = F68E044983434F44B47854D625A821FE /* Pods-JKAlertX_Example */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = FB2767C4598BD8BD4A9CD7BA2CC98538 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BCF30FDEC6C949921D7624CCF96FE61C /* JKAlertX */,
+				DFC60FA9A041DF15CD323ED9F40586B0 /* Pods-JKAlertX_Example */,
+				C7E243836376E8DC16366B70DC9D55F2 /* Pods-JKAlertX_Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		21C8090EF50F75901C459846429DAE7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A169F71E748A47619CF7DDD7031CD9E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC77EA5CA2DFF5AB3FCF6E81A6ECBABD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0C7BFC352131791F1085C78A80B7C151 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD852F64FBBFA0EAB2A9C4BB5239D08D /* Pods-JKAlertX_Tests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB2AB262D28E32EB5217C415D2D03C92 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D972DB6BD0F807B07EDB27FBE233141 /* JKAlerActionSheetContentView.m in Sources */,
+				1D248DBDC9385BF21EFE5C5713FB1DCB /* JKAlertAction.m in Sources */,
+				BA322F25E783F6479B3F673EDA942C6A /* JKAlertActionButton.m in Sources */,
+				7EA4CFC91A362172031973CF734BA004 /* JKAlertActionSheetTextContentView.m in Sources */,
+				6CD80AC32ECF7699612E07B76F64FBA0 /* JKAlertBaseActionView.m in Sources */,
+				5BF28D157AEB7C57B93800D1C5124A17 /* JKAlertBaseAlertContentView.m in Sources */,
+				086FBF84DF5F01867429971D07A818ED /* JKAlertBaseAlertView.m in Sources */,
+				E334B148E93C0CFCA0C06E7048190214 /* JKAlertBaseScrollContentView.m in Sources */,
+				828BAE3D6FDD34DCBC08275AECBF903D /* JKAlertBaseSheetContentView.m in Sources */,
+				E76A52A8C2BBE9A9B660A4C0055A78BE /* JKAlertBaseTableViewCell.m in Sources */,
+				4CC8C020113264A50A1B6682D1488F47 /* JKAlertBaseTextContentView.m in Sources */,
+				75D9353A8698AD74E5255AD752BB3E97 /* JKAlertBaseView.m in Sources */,
+				1186A7F999880279B674D2A79CBCCDD2 /* JKAlertClearHeaderFooterView.m in Sources */,
+				949BD74FF38D6AD712CEB2D690439482 /* JKAlertCollectionSheetContentView.m in Sources */,
+				A5A01DB1EB01732837CE53D739DF2A75 /* JKAlertCollectionSheetTextContentView.m in Sources */,
+				805C4D2F8540B35534405590B2CA24E4 /* JKAlertCollectionViewCell.m in Sources */,
+				D194CEF2291DA3C0BBBEEAAF5B5806AB /* JKAlertConstraintManager.m in Sources */,
+				8529DAD56B8564485360BBD0848A1A02 /* JKAlertCustomizer.m in Sources */,
+				C7B2E3B36A451ADAA3A7209B63A656B7 /* JKAlertHUDContentView.m in Sources */,
+				E581AABAB7F72B25812FC065E008F396 /* JKAlertHUDTextContentView.m in Sources */,
+				550F7FD08056A6B809A929570F0F15EB /* JKAlertPanGestureRecognizer.m in Sources */,
+				BFD714D4A8A012F849B5C2D05E52F60E /* JKAlertPlainActionButton.m in Sources */,
+				8268E169ED2C60F799FC6DA44BEC1310 /* JKAlertPlainContentView.m in Sources */,
+				FC9AA375FDFD3813113140C09FD28B15 /* JKAlertPlainTextContentView.m in Sources */,
+				EAA75A8B46B6A77FA1CA225BE6B14600 /* JKAlertScrollContentView.m in Sources */,
+				19D8EA19C0F2FD846560DCCDE95FA49C /* JKAlertTableActionView.m in Sources */,
+				F2D63DF17836313B99B25B0CB45669D9 /* JKAlertTableViewCell.m in Sources */,
+				54DDF0C4D7F7B369FB4DA010F96A35D9 /* JKAlertTextContainerView.m in Sources */,
+				B8B21DB17E47F3F70DCFC18CB4991BE9 /* JKAlertTextView.m in Sources */,
+				7207A5EA189F6892CD5CA08463AE2E38 /* JKAlertThemeManager.m in Sources */,
+				8850EAAAB8374BAD46053863C94C3EC9 /* JKAlertThemeProvider.m in Sources */,
+				8FA120EDD3173F5E91F22F1287146115 /* JKAlertThemeUtility.m in Sources */,
+				4853D3F0DA8CBE0BA77B4FC0F20099D5 /* JKAlertUITableView.m in Sources */,
+				E13FA482F18F6140AF9C29F56A6245A5 /* JKAlertUtility.m in Sources */,
+				A45538AC58C316AED1731EA86730E072 /* JKAlertView.m in Sources */,
+				1B68A3853ABB5A3E84DEE49916AC76AB /* JKAlertView+ActionSheet.m in Sources */,
+				B53EB9EABE715887043F7229C5842EFA /* JKAlertView+CollectionSheet.m in Sources */,
+				A596E3F379D086CF5F3533140166FE9E /* JKAlertView+Deprecated.m in Sources */,
+				F18E4CF39996BC852EA6A4FD868CA6FD /* JKAlertView+HUD.m in Sources */,
+				6C69C7DE41D3A45B53BC6A3E1E5267C3 /* JKAlertView+LifeCycle.m in Sources */,
+				813CE71F4EA5CD4F9D4A4153D4C6FC1C /* JKAlertView+Plain.m in Sources */,
+				D674EAF487D50EC4DE792CB5AEBD13B4 /* JKAlertView+PrivateProperty.m in Sources */,
+				D7950468DE18B1BAEF5AD58D68629107 /* JKAlertView+Public.m in Sources */,
+				760B170A5B3085B817D564EBE37B2231 /* JKAlertX-dummy.m in Sources */,
+				214BE79321221F9174AC808F30B23A5B /* NSObject+JKAlertTheme.m in Sources */,
+				C4B690E216174C7BB807FD3F7CB0D2D3 /* UIControl+JKAlertX.m in Sources */,
+				CDB838825FE0D77EE9FF6345FDFD1550 /* UIGestureRecognizer+JKAlertX.m in Sources */,
+				014028563BF430E0BFBB4BD4D90ECA84 /* UIImage+JKAlertX.m in Sources */,
+				4627B0E25308B9CC18C88E78DC64A05A /* UIView+JKAlertX.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD2FA7848B5E87059E2F8CC8938DF968 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB1D821B8701AAD7A7FAFBE001E4A979 /* Pods-JKAlertX_Example-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		10836EAA01A36859E856A0955185C4F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = JKAlertX;
+			target = BCF30FDEC6C949921D7624CCF96FE61C /* JKAlertX */;
+			targetProxy = C19B5FBEAFEDEAEB6DCAF6534679BA4E /* PBXContainerItemProxy */;
+		};
+		6538BCDEA58E4EA454CB0B7FFE655E9D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-JKAlertX_Example";
+			target = DFC60FA9A041DF15CD323ED9F40586B0 /* Pods-JKAlertX_Example */;
+			targetProxy = D34C9A7804D23DE602039937C36DF956 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0B9408D1ABA4C9A693C2BACAA1809A53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDF64D8CC93080E4516B34815EAE44E1 /* JKAlertX.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/JKAlertX/JKAlertX-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/JKAlertX/JKAlertX-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/JKAlertX/JKAlertX.modulemap";
+				PRODUCT_MODULE_NAME = JKAlertX;
+				PRODUCT_NAME = JKAlertX;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		54AD83AF22BA0B22B3223E699948D041 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 032F89D52B7D163BD96C6317D561BC17 /* Pods-JKAlertX_Example.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-JKAlertX_Example/Pods-JKAlertX_Example-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-JKAlertX_Example/Pods-JKAlertX_Example.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		6BF700F5899F891C4908CF7CE99767E1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B1D19435CBF6CE58B94868C5506180E /* Pods-JKAlertX_Tests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-JKAlertX_Tests/Pods-JKAlertX_Tests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-JKAlertX_Tests/Pods-JKAlertX_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		6D42DC62C4F2E194221DF89C48496C98 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		853469DD51B9E9C08E753E723EA4B878 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E39B40547F34452348C27FC1A5456D3 /* JKAlertX.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/JKAlertX/JKAlertX-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/JKAlertX/JKAlertX-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/JKAlertX/JKAlertX.modulemap";
+				PRODUCT_MODULE_NAME = JKAlertX;
+				PRODUCT_NAME = JKAlertX;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B1380CC1D5BB5E700F8395F2CB9CA0BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE7FD196C8170D78FF8AD2FE709674F8 /* Pods-JKAlertX_Tests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-JKAlertX_Tests/Pods-JKAlertX_Tests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-JKAlertX_Tests/Pods-JKAlertX_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		C7DD18DB0E8C06D4E93ADCA8234ADA3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9F9367ED5BCADB4810DE6C24ECB7FCE0 /* Pods-JKAlertX_Example.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-JKAlertX_Example/Pods-JKAlertX_Example-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-JKAlertX_Example/Pods-JKAlertX_Example.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		E4D0D44B090D4284607EBBC4E71A96C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3C0B592DD65C186593ABCD8138624CE8 /* Build configuration list for PBXNativeTarget "Pods-JKAlertX_Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				54AD83AF22BA0B22B3223E699948D041 /* Debug */,
+				C7DD18DB0E8C06D4E93ADCA8234ADA3C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4D0D44B090D4284607EBBC4E71A96C1 /* Debug */,
+				6D42DC62C4F2E194221DF89C48496C98 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B8A4F082245AC8FA6C776F6FDAA85F5 /* Build configuration list for PBXNativeTarget "JKAlertX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B9408D1ABA4C9A693C2BACAA1809A53 /* Debug */,
+				853469DD51B9E9C08E753E723EA4B878 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AEC89F69B11E634D05D0C8C081545547 /* Build configuration list for PBXNativeTarget "Pods-JKAlertX_Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1380CC1D5BB5E700F8395F2CB9CA0BD /* Debug */,
+				6BF700F5899F891C4908CF7CE99767E1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}
