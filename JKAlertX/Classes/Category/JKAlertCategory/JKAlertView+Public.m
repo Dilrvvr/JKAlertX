@@ -50,24 +50,6 @@
         
         self.customSuperView = customSuperView;
         
-        if (customSuperView) {
-            
-            CGFloat rotation = [[self.customSuperView.layer valueForKeyPath:@"transform.rotation.z"] floatValue];
-            
-            if ((rotation > 1.57 && rotation < 1.58) ||
-                (rotation > -1.58 && rotation < -1.57)) {
-                
-                self.superWidth = self.customSuperView.frame.size.height;
-                self.superHeight = self.customSuperView.frame.size.width;
-                
-                [self updateMaxHeight];
-                
-            } else  {
-                
-                [self updateWidthHeight];
-            }
-        }
-        
         return self;
     };
 }

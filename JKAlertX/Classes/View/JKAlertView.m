@@ -239,6 +239,8 @@
 
 - (void)calculateUI {
     
+    [self updateWidthHeight];
+    
     //self.frame = CGRectMake(0, 0, self.superWidth, self.superHeight);
     
     switch (self.alertStyle) {
@@ -447,8 +449,6 @@
 - (void)orientationChanged:(NSNotification *)note {
     
     !self.orientationDidChangeHandler ? : self.orientationDidChangeHandler(self, [UIApplication sharedApplication].statusBarOrientation);
-    
-    [self updateWidthHeight];
     
     self.relayout(NO);
 }
@@ -1624,8 +1624,6 @@
             
             return;
         }
-        
-        [self updateWidthHeight];
         
         self.relayout(NO);
     }

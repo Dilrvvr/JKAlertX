@@ -61,10 +61,26 @@
             break;
     }
     
-    /** 屏幕宽度 */
-    self.superWidth = superView.bounds.size.width;
-    /** 屏幕高度 */
-    self.superHeight = superView.bounds.size.height;
+    CGFloat rotation = [[superView.layer valueForKeyPath:@"transform.rotation.z"] floatValue];
+    
+    if ((rotation > 1.57 && rotation < 1.58) ||
+        (rotation > -1.58 && rotation < -1.57)) {
+        
+        self.superWidth = MAX(superView.bounds.size.width, superView.bounds.size.height);
+        self.superHeight = MIN(superView.bounds.size.width, superView.bounds.size.height);
+        
+        if (self.isLandScape) {
+            
+            CGFloat tempWidth = self.superWidth;
+            self.superWidth = self.superHeight;
+            self.superHeight = tempWidth;
+        }
+        
+    } else {
+        
+        self.superWidth = superView.bounds.size.width;
+        self.superHeight = superView.bounds.size.height;
+    }
     
     [self updateMaxHeight];
 }
