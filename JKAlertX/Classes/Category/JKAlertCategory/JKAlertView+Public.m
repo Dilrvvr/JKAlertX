@@ -101,6 +101,19 @@
 }
 
 /**
+ * 点击空白处是否优先退出键盘，plain样式默认YES
+ */
+- (JKAlertView *(^)(BOOL hideKeyboardFirst))makeTapBlankHideKeyboardFirst {
+    
+    return ^(BOOL hideKeyboardFirst) {
+        
+        self.tapBlankHideKeyboardFirst = hideKeyboardFirst;
+        
+        return self;
+    };
+}
+
+/**
  * show的时候是否移除键盘 plain/sheet样式默认YES 其它NO
  */
 - (JKAlertView *(^)(BOOL shouldHide))makeShouldHideKeyboardWhenShow {

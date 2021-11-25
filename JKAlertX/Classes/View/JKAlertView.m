@@ -149,6 +149,7 @@
     _alertStyle = alertStyle;
     
     _tapBlankDismiss = NO;
+    _tapBlankHideKeyboardFirst = NO;
     
     switch (_alertStyle) {
         case JKAlertStyleHUD:
@@ -190,6 +191,7 @@
             
             _shouldHideKeyboardWhenShow = YES;
             _shouldHideKeyboardWhenTapBlank = YES;
+            _tapBlankHideKeyboardFirst = YES;
             
             _currentAlertContentView = self.plainContentView;
             _currentTextContentView = self.plainContentView.textContentView;
@@ -213,14 +215,7 @@
     
     if (self.isShowed) { return ^{ return self; }; }
     
-    [self checkPlainStyleHandler:^{
-        
-        if (nil == self.autoAdaptKeyboard &&
-            self.plainContentView.textFieldArray.count > 0) {
-            
-            [self addKeyboardWillChangeFrameNotification];
-        }
-    }];
+    [self addKeyboardWillChangeFrameNotification];
     
     self.isShowed = YES;
     
@@ -1160,9 +1155,21 @@
 
 - (void)keyboardWillChangeFrame:(NSNotification *)notification {
     
-    if (JKAlertStylePlain != self.alertStyle) { return; }
-    
     CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
+    CGFloat screenHeight = self.superHeight;
+    
+    if (self.window) {
+        
+        screenHeight = CGRectGetHeight(self.window.frame);
+    }
+    
+    BOOL isHideKeyboard = (keyboardFrame.origin.y >= screenHeight);
+    
+    _isKeyboardShow = !isHideKeyboard;
+    
+    // 仅plain样式需处理
+    if (JKAlertStylePlain != self.alertStyle) { return; }
     
     CGRect frame = self.alertContentView.frame;
     
@@ -1170,7 +1177,7 @@
     
     NSInteger animationCurve = ((curve != nil) ? [curve integerValue] : 7);
     
-    if (keyboardFrame.origin.y >= self.superHeight) { // 退出键盘
+    if (isHideKeyboard) { // 退出键盘
         
         self.maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : self.superHeight - 100;
         
@@ -1261,10 +1268,15 @@
     
     if (_tapBlankDismiss) {
         
+        BOOL isHideKeyboardFirst = (self.isKeyboardShow && self.tapBlankHideKeyboardFirst);
+        
         if (self.shouldHideKeyboardWhenTapBlank) {
             
             [JKAlertUtility.keyWindow endEditing:YES];
         }
+        
+        // 优先退出键盘
+        if (isHideKeyboardFirst) { return; }
         
         self.dismiss();
         
