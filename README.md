@@ -1,10 +1,9 @@
-JKAlertX
-==============
+# JKAlertX
 
-[![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/ibireme/JKAlertX/master/LICENSE)&nbsp;
-[![CocoaPods](http://img.shields.io/cocoapods/v/JKAlertX.svg?style=flat)](http://cocoapods.org/pods/JKAlertX)&nbsp;
-[![CocoaPods](http://img.shields.io/cocoapods/p/JKAlertX.svg?style=flat)](http://cocoapods.org/pods/JKAlertX)&nbsp;
-[![Support](https://img.shields.io/badge/support-iOS8+-blue.svg?style=flat)](https://www.apple.com/nl/ios/)&nbsp;
+[![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/Dilrvvr/JKAlertX/master/LICENSE) &nbsp;
+[![CocoaPods](http://img.shields.io/cocoapods/v/JKAlertX.svg?style=flat)](https://cocoapods.org/pods/JKAlertX) &nbsp;
+[![CocoaPods](http://img.shields.io/cocoapods/p/JKAlertX.svg?style=flat)](https://cocoapods.org/pods/JKAlertX) &nbsp;
+[![Support](https://img.shields.io/badge/support-iOS8+-blue.svg?style=flat)](https://www.apple.com/nl/ios/) &nbsp;
 
 
 JKAlertX is an alert view for iOS with supporting user customization perfectly.

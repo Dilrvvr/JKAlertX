@@ -188,7 +188,7 @@
     .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
     .makeGestureIndicatorHidden(NO);
     
-    alertView.makeTapBlankDismiss(self.textFieldCount <= 0 || JKAlertStyleActionSheet == self.jkAlertStyle);
+    alertView.makeTapBlankDismiss(self.actionCount <= 0 || JKAlertStyleActionSheet == self.jkAlertStyle);
     
     if (self.textFieldCount > 0) {
         

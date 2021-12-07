@@ -17,32 +17,28 @@
  */
 @property (nonatomic, weak) UIView *customSuperView;
 
-/**
- * tapBlankDismiss
- */
+/// 键盘是否弹出状态
+@property (nonatomic, assign, readonly) BOOL isKeyboardShow;
+
+/// 点击空白处是否消失
 @property (nonatomic, assign) BOOL tapBlankDismiss;
 
-/**
- * show的时候是否移除键盘 plain/sheet样式默认YES 其它NO
- */
+/// 点击空白处是否优先退出键盘 plain样式默认YES
+@property (nonatomic, assign) BOOL tapBlankHideKeyboardFirst;
+
+/// show的时候是否移除键盘 plain/sheet样式默认YES 其它NO
 @property (nonatomic, assign) BOOL shouldHideKeyboardWhenShow;
 
-/**
- * 点击空白处是否移除键盘 plain/sheet样式默认YES 其它NO
- */
+/// 点击空白处是否移除键盘 plain/sheet样式默认YES 其它NO
 @property (nonatomic, assign) BOOL shouldHideKeyboardWhenTapBlank;
 
-/**
- * 监听点击空白处的block
- */
+/// 监听点击空白处的block
 @property (nonatomic, copy) void (^tapBlankHandler)(JKAlertView *innerAlertView);
 
-/**
- * 配置弹出视图的容器view
- */
+/// 配置弹出视图的容器view
 @property (nonatomic, copy) void (^alertContentViewConfiguration)(UIView *alertContentView);
 
-/** 是否横屏 */
+/// 是否横屏
 @property (nonatomic, assign) BOOL isLandScape;
 
 
@@ -98,6 +94,11 @@
  * 点击空白处是否消失，plain/HUD默认NO，其它YES
  */
 @property (nonatomic, copy, readonly) JKAlertView *(^makeTapBlankDismiss)(BOOL shouldDismiss);
+
+/**
+ * 点击空白处是否优先退出键盘，plain样式默认YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeTapBlankHideKeyboardFirst)(BOOL hideKeyboardFirst);
 
 /**
  * show的时候是否移除键盘 plain/sheet样式默认YES 其它NO
