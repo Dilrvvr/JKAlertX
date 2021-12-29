@@ -275,6 +275,19 @@
 }
 
 /**
+ * 分隔线颜色 默认nil 自动设置深/浅色
+ */
+- (JKAlertAction *(^)(UIColor *color))makeSeparatorLineColor {
+    
+    return ^(UIColor *color) {
+        
+        self.separatorLineColor = color;
+        
+        return self;
+    };
+}
+
+/**
  * 分隔线内间距 目前仅取左右 默认zero
  */
 - (JKAlertAction *(^)(UIEdgeInsets inset))makeSeparatorLineInset {

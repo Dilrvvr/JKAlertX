@@ -128,6 +128,11 @@
 @property (nonatomic, copy, readonly) JKAlertAction *(^makeSeparatorLineHidden)(BOOL hidden);
 
 /**
+ * 分隔线颜色 默认nil 自动设置深/浅色
+ */
+@property (nonatomic, copy, readonly) JKAlertAction *(^makeSeparatorLineColor)(UIColor *color);
+
+/**
  * 分隔线内间距 目前仅取左右 默认zero
  */
 @property (nonatomic, copy, readonly) JKAlertAction *(^makeSeparatorLineInset)(UIEdgeInsets inset);
@@ -237,6 +242,9 @@
 
 /** 是否隐藏分隔线 */
 @property (nonatomic, assign) BOOL separatorLineHidden;
+
+/// 分隔线颜色 默认nil 自动设置深/浅色
+@property (nonatomic, strong) UIColor *separatorLineColor;
 
 /** 分隔线内间距 目前仅取左右 默认zero */
 @property (nonatomic, assign) UIEdgeInsets separatorLineInset;

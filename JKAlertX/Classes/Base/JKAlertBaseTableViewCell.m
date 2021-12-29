@@ -44,6 +44,13 @@
     
     self.bottomLineView.hidden = action.separatorLineHidden;
     
+    if (action.separatorLineColor) {
+        
+        self.bottomLineView.backgroundColor = action.separatorLineColor;
+        
+        return;
+    }
+    
     if (self.customView &&
         self.customView.superview == self.contentView) {
         
@@ -165,8 +172,17 @@
     self.backgroundColor = nil;
     self.contentView.backgroundColor = nil;
     
+    __weak typeof(self) weakSelf = self;
+    
     [JKAlertThemeProvider providerBackgroundColorWithOwner:self.bottomLineView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
-
+        
+        if (weakSelf.action.separatorLineColor) {
+            
+            providerOwner.backgroundColor = weakSelf.action.separatorLineColor;
+            
+            return;
+        }
+        
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];
 }

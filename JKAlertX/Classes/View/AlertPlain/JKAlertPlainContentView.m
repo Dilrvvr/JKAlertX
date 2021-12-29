@@ -333,6 +333,11 @@
             button.topSeparatorLineView.hidden = YES;
             
             self.horizontalSeparatorLineView.hidden = action.separatorLineHidden;
+            
+            if (action.separatorLineColor) {
+                
+                self.horizontalSeparatorLineView.backgroundColor = action.separatorLineColor;
+            }
         }
         
         buttonY = (previousButton ? CGRectGetMaxY(previousButton.frame) : 0);
@@ -404,6 +409,11 @@
     }
     
     self.horizontalSeparatorLineView.hidden = action1.separatorLineHidden;
+    
+    if (action1.separatorLineColor) {
+        
+        self.horizontalSeparatorLineView.backgroundColor = action1.separatorLineColor;
+    }
     
     JKAlertAction *action2 = self.actionArray.lastObject;
     
@@ -547,7 +557,18 @@
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.lightBackgroundColor, JKAlertUtility.darkBackgroundColor);
     }];
     
+    __weak typeof(self) weakSelf = self;
+    
     [JKAlertThemeProvider providerBackgroundColorWithOwner:self.horizontalSeparatorLineView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+        
+        JKAlertAction *firstAction = weakSelf.actionArray.firstObject;
+        
+        if (firstAction.separatorLineColor) {
+            
+            providerOwner.backgroundColor = firstAction.separatorLineColor;
+            
+            return;
+        }
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];

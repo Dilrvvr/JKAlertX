@@ -28,7 +28,16 @@
         [self addSubview:topSeparatorLineView];
         _topSeparatorLineView = topSeparatorLineView;
         
+        __weak typeof(self) weakSelf = self;
+        
         [JKAlertThemeProvider providerBackgroundColorWithOwner:topSeparatorLineView provideHandler:^(JKAlertThemeProvider *provider, UIView *providerOwner) {
+            
+            if (weakSelf.action.separatorLineColor) {
+                
+                providerOwner.backgroundColor = weakSelf.action.separatorLineColor;
+                
+                return;
+            }
             
             providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
         }];
@@ -59,6 +68,11 @@
     [self updateBackgroundColor];
     
     self.topSeparatorLineView.hidden = action.separatorLineHidden;
+    
+    if (action.separatorLineColor) {
+        
+        self.topSeparatorLineView.backgroundColor = action.separatorLineColor;
+    }
     
     if (self.customView &&
         self.customView.superview == self) {
