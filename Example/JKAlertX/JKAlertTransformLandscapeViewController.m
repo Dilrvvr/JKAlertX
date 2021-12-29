@@ -7,7 +7,7 @@
 //
 
 #import "JKAlertTransformLandscapeViewController.h"
-#import "JKAlertX/JKAlertX.h"
+#import "JKAlertX.h"
 
 @interface JKAlertTestLabel : UILabel
 

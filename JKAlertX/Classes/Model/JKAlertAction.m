@@ -275,6 +275,19 @@
 }
 
 /**
+ * 分隔线内间距 目前仅取左右 默认zero
+ */
+- (JKAlertAction *(^)(UIEdgeInsets inset))makeSeparatorLineInset {
+    
+    return ^(UIEdgeInsets inset) {
+        
+        self.separatorLineInset = inset;
+        
+        return self;
+    };
+}
+
+/**
  * 自定义view
  * 注意要自己计算好frame
  * action.customView将会自动适应宽度，所以frame给出高度即可

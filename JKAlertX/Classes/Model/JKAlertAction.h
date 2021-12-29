@@ -128,6 +128,11 @@
 @property (nonatomic, copy, readonly) JKAlertAction *(^makeSeparatorLineHidden)(BOOL hidden);
 
 /**
+ * 分隔线内间距 目前仅取左右 默认zero
+ */
+@property (nonatomic, copy, readonly) JKAlertAction *(^makeSeparatorLineInset)(UIEdgeInsets inset);
+
+/**
  * 自定义view
  * 注意要自己计算好frame
  * action.customView将会自动适应宽度，所以frame给出高度即可
@@ -232,6 +237,9 @@
 
 /** 是否隐藏分隔线 */
 @property (nonatomic, assign) BOOL separatorLineHidden;
+
+/** 分隔线内间距 目前仅取左右 默认zero */
+@property (nonatomic, assign) UIEdgeInsets separatorLineInset;
 
 /** 执行操作后是否自动消失 */
 @property (nonatomic, assign, getter=isAutoDismiss) BOOL autoDismiss;

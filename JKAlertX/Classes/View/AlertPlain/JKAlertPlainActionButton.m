@@ -33,9 +33,9 @@
             providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
         }];
         
-        CGFloat lineHeight = JKAlertUtility.separatorLineThickness;
+        //CGFloat lineHeight = JKAlertUtility.separatorLineThickness;
         
-        [JKAlertConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:|-0-[view(%.2f)]", lineHeight] viewKeyName:@"view" targetView:self.topSeparatorLineView constraintsView:self];
+        //[JKAlertConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:|-0-[view(%.2f)]", lineHeight] viewKeyName:@"view" targetView:self.topSeparatorLineView constraintsView:self];
     }
     return self;
 }
@@ -113,6 +113,14 @@
         
         self.action.customView.alpha = highlighted ? 0.5 : 1;
     }
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGFloat lineWidth = CGRectGetWidth(self.bounds) - self.action.separatorLineInset.left - self.action.separatorLineInset.right;
+    
+    self.topSeparatorLineView.frame = CGRectMake(self.action.separatorLineInset.left, 0.0, lineWidth, JKAlertUtility.separatorLineThickness);
 }
 
 - (void)updateBackgroundColor {
