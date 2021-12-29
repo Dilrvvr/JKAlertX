@@ -1714,9 +1714,9 @@
     return _hudContentView;
 }
 
-- (JKAlerActionSheetContentView *)actionsheetContentView {
+- (JKAlertActionSheetContentView *)actionsheetContentView {
     if (!_actionsheetContentView) {
-        JKAlerActionSheetContentView *actionsheetContentView = [[JKAlerActionSheetContentView alloc] init];
+        JKAlertActionSheetContentView *actionsheetContentView = [[JKAlertActionSheetContentView alloc] init];
         actionsheetContentView.delegate = self;
         [self addSubview:actionsheetContentView];
         _actionsheetContentView = actionsheetContentView;

@@ -10,7 +10,7 @@
 		014028563BF430E0BFBB4BD4D90ECA84 /* UIImage+JKAlertX.m in Sources */ = {isa = PBXBuildFile; fileRef = 681B2F64512AE4A0108F41807B66598F /* UIImage+JKAlertX.m */; };
 		086FBF84DF5F01867429971D07A818ED /* JKAlertBaseAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4CD4F043326CFD378ED15D31E73B03 /* JKAlertBaseAlertView.m */; };
 		09ED31F2DCF4B53B405377EB7ABAC530 /* JKAlertBaseActionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A1FF763FBFD272D5371C4FD5D6F0500 /* JKAlertBaseActionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0D972DB6BD0F807B07EDB27FBE233141 /* JKAlerActionSheetContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F67D322777F2A61AA63FD93F70286C6A /* JKAlerActionSheetContentView.m */; };
+		0D972DB6BD0F807B07EDB27FBE233141 /* JKAlertActionSheetContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F67D322777F2A61AA63FD93F70286C6A /* JKAlertActionSheetContentView.m */; };
 		1186A7F999880279B674D2A79CBCCDD2 /* JKAlertClearHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B68B74BD50C1887ECCE9AC6A6163E /* JKAlertClearHeaderFooterView.m */; };
 		166EF225AC1CF9DE1FC6441051C81E3B /* JKAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A1E32A35B3FEFE650F4BD7CB3F6FD1 /* JKAlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		19D8EA19C0F2FD846560DCCDE95FA49C /* JKAlertTableActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9328D7FFF0BCA783479901765926EB /* JKAlertTableActionView.m */; };
@@ -25,7 +25,7 @@
 		32D116F33436806A5142EF83D67FAF39 /* JKAlertView+Public.h in Headers */ = {isa = PBXBuildFile; fileRef = A326F81BDFCB1BF7337D41C32C4E20A5 /* JKAlertView+Public.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3621C56398702639D5F00782471BAC11 /* JKAlertView+Deprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = CAEDD99F374779BDFA14E08FC4DC0066 /* JKAlertView+Deprecated.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		391141060C3395CF17FE5C06AA882084 /* JKAlertCustomizer.h in Headers */ = {isa = PBXBuildFile; fileRef = A2A98D491B50F6EE654B1AA8531C7419 /* JKAlertCustomizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3F65B85F27B0772D84C79DE604883F3F /* JKAlerActionSheetContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B3B6E820D6514B3F91860B8CCFCB76B /* JKAlerActionSheetContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3F65B85F27B0772D84C79DE604883F3F /* JKAlertActionSheetContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B3B6E820D6514B3F91860B8CCFCB76B /* JKAlertActionSheetContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4553B9451D6B65BB78F1A099418B35A8 /* JKAlertPlainActionButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D097169EF598D5DEC246EBAE092B3F0 /* JKAlertPlainActionButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4627B0E25308B9CC18C88E78DC64A05A /* UIView+JKAlertX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09B05FD7692FFDA2222A8812D85DDD /* UIView+JKAlertX.m */; };
 		462EB12804CCF29814AD7DE5A9AB3DF6 /* JKAlertCollectionSheetTextContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C8A1BB75181BBFAF29C2B64494BD7E4 /* JKAlertCollectionSheetTextContentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -146,13 +146,13 @@
 		0C7ED77922F668C9B8135B71B0C91122 /* JKAlertX.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JKAlertX.h; path = JKAlertX/Classes/JKAlertX.h; sourceTree = "<group>"; };
 		0C8A1BB75181BBFAF29C2B64494BD7E4 /* JKAlertCollectionSheetTextContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertCollectionSheetTextContentView.h; sourceTree = "<group>"; };
 		0CEA8E6D8ABC36C200943544DFA7AE89 /* JKAlertView+ActionSheet.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JKAlertView+ActionSheet.m"; sourceTree = "<group>"; };
-		0E75A2331DA12AB4FA05715D125503F6 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		0E75A2331DA12AB4FA05715D125503F6 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		116C8840C881BE1DD88A2A835D01E679 /* JKAlertAction.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertAction.m; sourceTree = "<group>"; };
 		142EDC2AA8D4396220B119CF678FC87C /* JKAlertPanGestureRecognizer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertPanGestureRecognizer.m; sourceTree = "<group>"; };
 		14415621701B8A9CA7FB594319EE17FA /* Pods-JKAlertX_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-JKAlertX_Tests-umbrella.h"; sourceTree = "<group>"; };
 		176FBFAC3E068E98F684F4FA00A53275 /* JKAlertTableViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertTableViewCell.h; sourceTree = "<group>"; };
 		183F3DB7C25EFEC6AB118B7E1FEE4442 /* Pods-JKAlertX_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-JKAlertX_Tests.modulemap"; sourceTree = "<group>"; };
-		1B3B6E820D6514B3F91860B8CCFCB76B /* JKAlerActionSheetContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlerActionSheetContentView.h; sourceTree = "<group>"; };
+		1B3B6E820D6514B3F91860B8CCFCB76B /* JKAlertActionSheetContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertActionSheetContentView.h; sourceTree = "<group>"; };
 		1D4CD4F043326CFD378ED15D31E73B03 /* JKAlertBaseAlertView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseAlertView.m; sourceTree = "<group>"; };
 		1FBD434850CC634702A62D8468DD7AAF /* JKAlertBaseAlertView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseAlertView.h; sourceTree = "<group>"; };
 		1FF3487E805CCD0A68DFF7A7C5655CEE /* JKAlertBaseView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseView.h; sourceTree = "<group>"; };
@@ -206,7 +206,7 @@
 		7FE782BD3BCAD1CFC07C18B649E20D6B /* JKAlertX */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = JKAlertX; path = JKAlertX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		803996B12176161D724354DDEF05AFD6 /* NSObject+JKAlertTheme.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JKAlertTheme.m"; sourceTree = "<group>"; };
 		81EA37ED5F6FAFC2F9A16C1A999B3FFA /* Pods-JKAlertX_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-JKAlertX_Tests-Info.plist"; sourceTree = "<group>"; };
-		8370DFB3FB65C77C5ABCC10DF2488FAF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		8370DFB3FB65C77C5ABCC10DF2488FAF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8947E5540E4B79C0F6B45B1504D386FE /* JKAlertThemeProvider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertThemeProvider.h; sourceTree = "<group>"; };
 		8BEC8253F66F176D737AAD3057525A85 /* Pods-JKAlertX_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-JKAlertX_Example-umbrella.h"; sourceTree = "<group>"; };
 		91EC32E7090083564D9E3BF8498C8903 /* JKAlertAction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertAction.h; sourceTree = "<group>"; };
@@ -216,7 +216,7 @@
 		9B1D19435CBF6CE58B94868C5506180E /* Pods-JKAlertX_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-JKAlertX_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		9BE2E90E8475F2CA53156EFEE2C16675 /* JKAlertBaseSheetContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseSheetContentView.m; sourceTree = "<group>"; };
 		9C4FE04E8729774D29F9E30CAC6BDBFC /* JKAlertView+PrivateProperty.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertView+PrivateProperty.h"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9F9367ED5BCADB4810DE6C24ECB7FCE0 /* Pods-JKAlertX_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-JKAlertX_Example.release.xcconfig"; sourceTree = "<group>"; };
 		A1A1F9492DB41234F67815FA85956613 /* JKAlertActionButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertActionButton.h; sourceTree = "<group>"; };
 		A2A98D491B50F6EE654B1AA8531C7419 /* JKAlertCustomizer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertCustomizer.h; sourceTree = "<group>"; };
@@ -242,7 +242,7 @@
 		D3A919DDC873699C0C9ACC30ABA3D10F /* Pods-JKAlertX_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-JKAlertX_Example.modulemap"; sourceTree = "<group>"; };
 		D66E4E526E77A4035861389BED22B285 /* JKAlertThemeUtility.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertThemeUtility.m; sourceTree = "<group>"; };
 		D67DFEDDA59699E2C00A452C6B10EDB0 /* JKAlertBaseAlertContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseAlertContentView.h; sourceTree = "<group>"; };
-		DAE091750B435E04913F9BEAFE0D24DF /* JKAlertX.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = JKAlertX.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		DAE091750B435E04913F9BEAFE0D24DF /* JKAlertX.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = JKAlertX.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		DD24AA9906C9810D54B05FDE23D23A6B /* JKAlertView+Deprecated.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JKAlertView+Deprecated.m"; sourceTree = "<group>"; };
 		DE9EAC857B6921933E76552EC5A1A13D /* JKAlertBaseAlertContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseAlertContentView.m; sourceTree = "<group>"; };
 		DFCBC9D10740D1FDB248D280C634706F /* JKAlertThemeManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertThemeManager.m; sourceTree = "<group>"; };
@@ -257,7 +257,7 @@
 		ED423C5DF168E2A22F06B10EE44F7F64 /* JKAlertHUDTextContentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertHUDTextContentView.h; sourceTree = "<group>"; };
 		EFE3572E12A256F4541DD60F4D0EB246 /* Pods-JKAlertX_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-JKAlertX_Example-Info.plist"; sourceTree = "<group>"; };
 		F3DAE94CED0726A4CD8535BEA074E883 /* Pods-JKAlertX_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-JKAlertX_Example-frameworks.sh"; sourceTree = "<group>"; };
-		F67D322777F2A61AA63FD93F70286C6A /* JKAlerActionSheetContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlerActionSheetContentView.m; sourceTree = "<group>"; };
+		F67D322777F2A61AA63FD93F70286C6A /* JKAlertActionSheetContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertActionSheetContentView.m; sourceTree = "<group>"; };
 		F68E044983434F44B47854D625A821FE /* Pods-JKAlertX_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-JKAlertX_Example"; path = Pods_JKAlertX_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F85BFDA91B7346BFBB94C96EBB4B9FB2 /* Pods-JKAlertX_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-JKAlertX_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		F8AFD9966CB716643AE6F735EFB5C795 /* JKAlertBaseTextContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseTextContentView.m; sourceTree = "<group>"; };
@@ -343,7 +343,6 @@
 				5DBADBFB35634AC49B64329E2542D8C8 /* UIView+JKAlertX.h */,
 				6F09B05FD7692FFDA2222A8812D85DDD /* UIView+JKAlertX.m */,
 			);
-			name = UIKitCategory;
 			path = UIKitCategory;
 			sourceTree = "<group>";
 		};
@@ -374,7 +373,6 @@
 				46E20B846CAA7906B625DDF49E72AC88 /* JKAlertCollectionViewCell.h */,
 				5D9C7D79B11FDB77E73FDDF97791D0FC /* JKAlertCollectionViewCell.m */,
 			);
-			name = CollectionSheet;
 			path = CollectionSheet;
 			sourceTree = "<group>";
 		};
@@ -405,8 +403,8 @@
 		8E4C5E9F72CBDB923B2354B7780F31F7 /* ActionSheet */ = {
 			isa = PBXGroup;
 			children = (
-				1B3B6E820D6514B3F91860B8CCFCB76B /* JKAlerActionSheetContentView.h */,
-				F67D322777F2A61AA63FD93F70286C6A /* JKAlerActionSheetContentView.m */,
+				1B3B6E820D6514B3F91860B8CCFCB76B /* JKAlertActionSheetContentView.h */,
+				F67D322777F2A61AA63FD93F70286C6A /* JKAlertActionSheetContentView.m */,
 				47B21F80149A6024E8A272F884C803CF /* JKAlertActionSheetTextContentView.h */,
 				E063D68FE7C86A59ED4B2BEB1369CA79 /* JKAlertActionSheetTextContentView.m */,
 				6E26B5E0A3CA80C334A095218A9D407B /* JKAlertClearHeaderFooterView.h */,
@@ -416,7 +414,6 @@
 				176FBFAC3E068E98F684F4FA00A53275 /* JKAlertTableViewCell.h */,
 				B8DB1B6D17954AB3EC710F63E4A8AF3F /* JKAlertTableViewCell.m */,
 			);
-			name = ActionSheet;
 			path = ActionSheet;
 			sourceTree = "<group>";
 		};
@@ -457,7 +454,6 @@
 				E815AE2A6F1045385DB73600F4FC5425 /* JKAlertPlainTextContentView.h */,
 				71764D0A5CCA7D143C6E20694B739CC6 /* JKAlertPlainTextContentView.m */,
 			);
-			name = AlertPlain;
 			path = AlertPlain;
 			sourceTree = "<group>";
 		};
@@ -579,7 +575,6 @@
 				A326F81BDFCB1BF7337D41C32C4E20A5 /* JKAlertView+Public.h */,
 				7D01B54DFD8A22E28720567E6E2CC203 /* JKAlertView+Public.m */,
 			);
-			name = JKAlertCategory;
 			path = JKAlertCategory;
 			sourceTree = "<group>";
 		};
@@ -612,7 +607,6 @@
 				ED423C5DF168E2A22F06B10EE44F7F64 /* JKAlertHUDTextContentView.h */,
 				AAB84AFD9F5EC0E294BF08887FCC2024 /* JKAlertHUDTextContentView.m */,
 			);
-			name = HUD;
 			path = HUD;
 			sourceTree = "<group>";
 		};
@@ -641,7 +635,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F65B85F27B0772D84C79DE604883F3F /* JKAlerActionSheetContentView.h in Headers */,
+				3F65B85F27B0772D84C79DE604883F3F /* JKAlertActionSheetContentView.h in Headers */,
 				A3ADA8C37FD175CE590F8C69B88D2DCD /* JKAlertAction.h in Headers */,
 				89268A20AE40641E980D25137A35DE18 /* JKAlertActionButton.h in Headers */,
 				49A3C71F2EA6FDC2C960C078BB06A707 /* JKAlertActionSheetTextContentView.h in Headers */,
@@ -828,7 +822,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D972DB6BD0F807B07EDB27FBE233141 /* JKAlerActionSheetContentView.m in Sources */,
+				0D972DB6BD0F807B07EDB27FBE233141 /* JKAlertActionSheetContentView.m in Sources */,
 				1D248DBDC9385BF21EFE5C5713FB1DCB /* JKAlertAction.m in Sources */,
 				BA322F25E783F6479B3F673EDA942C6A /* JKAlertActionButton.m in Sources */,
 				7EA4CFC91A362172031973CF734BA004 /* JKAlertActionSheetTextContentView.m in Sources */,
@@ -1056,8 +1050,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
