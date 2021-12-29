@@ -1,11 +1,11 @@
 //
-//  JKAlerActionSheetContentView.m
+//  JKAlertActionSheetContentView.m
 //  JKAlertX
 //
 //  Created by albert on 2020/6/4.
 //
 
-#import "JKAlerActionSheetContentView.h"
+#import "JKAlertActionSheetContentView.h"
 #import "JKAlertAction.h"
 #import "JKAlertTableViewCell.h"
 #import "JKAlertUtility.h"
@@ -16,7 +16,7 @@
 #import "JKAlertUITableView.h"
 #import "JKAlertClearHeaderFooterView.h"
 
-@interface JKAlerActionSheetContentView () <UITableViewDataSource, UITableViewDelegate>
+@interface JKAlertActionSheetContentView () <UITableViewDataSource, UITableViewDelegate>
 
 /** horizontalSeparatorLineView */
 @property (nonatomic, weak) UIView *horizontalSeparatorLineView;
@@ -25,7 +25,7 @@
 @property (nonatomic, weak) CALayer *cornerMaskLayer;
 @end
 
-@implementation JKAlerActionSheetContentView
+@implementation JKAlertActionSheetContentView
 
 #pragma mark
 #pragma mark - Public Methods
@@ -1147,7 +1147,7 @@
     self.topContentView.layer.masksToBounds = YES;
     self.cancelButton.layer.masksToBounds = YES;
     
-    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.horizontalSeparatorLineView provideHandler:^(JKAlertThemeProvider *provider, JKAlerActionSheetContentView *providerOwner) {
+    [JKAlertThemeProvider providerBackgroundColorWithOwner:self.horizontalSeparatorLineView provideHandler:^(JKAlertThemeProvider *provider, JKAlertActionSheetContentView *providerOwner) {
         
         providerOwner.backgroundColor = JKAlertCheckDarkMode(JKAlertUtility.separatorLineLightColor, JKAlertUtility.separatorLineDarkColor);
     }];

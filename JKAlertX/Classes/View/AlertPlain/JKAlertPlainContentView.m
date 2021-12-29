@@ -236,8 +236,12 @@
     if (!self.horizontalSeparatorLineView.hidden) {
         
         frame = self.horizontalSeparatorLineView.frame;
-        frame.size.width = self.alertWidth;
+        
+        JKAlertAction *firstAction = self.actionArray.firstObject;
+        frame.origin.x = firstAction.separatorLineInset.left;
+        frame.size.width = self.alertWidth - firstAction.separatorLineInset.left - firstAction.separatorLineInset.right;
         frame.origin.y = CGRectGetMaxY(self.topContentView.frame);
+        
         self.horizontalSeparatorLineView.frame = frame;
         
         [self.contentView bringSubviewToFront:self.horizontalSeparatorLineView];

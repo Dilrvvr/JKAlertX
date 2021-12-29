@@ -70,6 +70,10 @@
         
         self.customView.frame = self.bounds;
     }
+    
+    CGFloat lineWidth = CGRectGetWidth(self.bounds) - self.action.separatorLineInset.left - self.action.separatorLineInset.right;
+    
+    self.bottomLineView.frame = CGRectMake(self.action.separatorLineInset.left, CGRectGetHeight(self.bounds) - JKAlertUtility.separatorLineThickness, lineWidth, JKAlertUtility.separatorLineThickness);
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
@@ -147,9 +151,9 @@
 /** 布局UI 交给子类重写 super自动调用该方法 */
 - (void)layoutUI {
     
-    CGFloat lineHeight = JKAlertUtility.separatorLineThickness;
+    //CGFloat lineHeight = JKAlertUtility.separatorLineThickness;
     
-    [JKAlertConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:[view(%.2f)]-0-|", lineHeight] viewKeyName:@"view" targetView:self.bottomLineView constraintsView:self];
+    //[JKAlertConstraintManager addConstraintsWithHorizontalFormat:@"H:|-0-[view]-0-|" verticalFormat:[NSString stringWithFormat:@"V:[view(%.2f)]-0-|", lineHeight] viewKeyName:@"view" targetView:self.bottomLineView constraintsView:self];
     
     [JKAlertConstraintManager addZeroEdgeConstraintsWithTargetView:self.actionView constraintsView:self.contentView];
 }

@@ -1,5 +1,5 @@
 //
-//  JKAlerActionSheetContentView.h
+//  JKAlertActionSheetContentView.h
 //  JKAlertX
 //
 //  Created by albert on 2020/6/4.
@@ -10,7 +10,7 @@
 
 @class JKAlertAction, JKAlertActionButton;
 
-@interface JKAlerActionSheetContentView : JKAlertBaseSheetContentView <JKAlertVerticalSlideToDismissDelegate>
+@interface JKAlertActionSheetContentView : JKAlertBaseSheetContentView <JKAlertVerticalSlideToDismissDelegate>
 
 /** textContentView */
 @property (nonatomic, weak, readonly) JKAlertActionSheetTextContentView *textContentView;
