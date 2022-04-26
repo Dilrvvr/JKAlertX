@@ -265,11 +265,11 @@
     
     return ^(BOOL shouldSelectText) {
         
-        self.currentTextContentView.titleTextView.textView.selectable = shouldSelectText;
+        self.currentTextContentView.titleTextView.textView.shouldSelectText = shouldSelectText;
         
         if ([self checkHasMessageTextView]) {
             
-            self.currentTextContentView.messageTextView.textView.selectable = shouldSelectText;
+            self.currentTextContentView.messageTextView.textView.shouldSelectText = shouldSelectText;
         }
         
         return self;
