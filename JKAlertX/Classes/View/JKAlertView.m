@@ -1197,7 +1197,7 @@
         
         BOOL lockKeyboardMargin = (self.plainKeyboardMargin > 0);
         
-        if ([self isLandScape]) { // 横屏
+        if ([JKAlertUtility isLandscape]) { // 横屏
             
             maxH = self.superHeight - 5 - keyboardFrame.size.height - 5;
             
@@ -1210,7 +1210,7 @@
             
             frame.origin.y = topMargin + (maxH - frame.size.height) * 0.5;
             
-            if ([self isLandScape]) { // 横屏
+            if ([JKAlertUtility isLandscape]) { // 横屏
                 
                 frame.origin.y = 5 + (maxH - frame.size.height) * 0.5;
                 
@@ -1232,7 +1232,7 @@
         
         frame = self.alertContentView.frame;
         
-        if ([self isLandScape]) {
+        if ([JKAlertUtility isLandscape]) {
             
             frame.origin.y = 5;
             
@@ -1500,7 +1500,7 @@
     }
     
     // 屏幕旋转的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
     // 移除全部的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissAllNotification:) name:JKAlertDismissAllNotification object:nil];
@@ -1559,8 +1559,6 @@
     
     _superHeight = self.customSuperView.bounds.size.height;
     
-    _isLandScape = [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight;
-    
     _maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : (self.superHeight - 100);
     
     _maxSheetHeight = (self.superHeight > self.superWidth) ? self.superHeight * 0.85 : self.superHeight * 0.8;
@@ -1606,18 +1604,18 @@
 
 - (void)removeKvoObservers {
     
-    if (JKAlertUtility.isDeviceiPad) {
-        
-        [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(bounds))];
-    }
+    //if (JKAlertUtility.isDeviceiPad) {
+    
+    [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(bounds))];
+    //}
 }
 
 - (void)addKvoObservers {
     
-    if (JKAlertUtility.isDeviceiPad) { // 仅在iPad监听，目前仅有iPad可分屏
-        
-        [self addObserver:self forKeyPath:NSStringFromSelector(@selector(bounds)) options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
-    }
+    //if (JKAlertUtility.isDeviceiPad) { // 仅在iPad监听，目前仅有iPad可分屏
+    
+    [self addObserver:self forKeyPath:NSStringFromSelector(@selector(bounds)) options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
+    //}
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
@@ -1632,7 +1630,9 @@
             (oldBounds.size.width == currentBounds.size.height &&
              oldBounds.size.height == currentBounds.size.width)) {
             
-            // 屏幕旋转由屏幕旋转处理
+            // 屏幕旋转
+            
+            [self orientationChanged:nil];
             
             return;
         }

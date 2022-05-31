@@ -39,7 +39,7 @@
 @property (nonatomic, copy) void (^alertContentViewConfiguration)(UIView *alertContentView);
 
 /// 是否横屏
-@property (nonatomic, assign) BOOL isLandScape;
+@property (nonatomic, assign, readonly) BOOL isLandScape;
 
 
 #pragma mark

@@ -25,29 +25,30 @@
         superView = JKAlertUtility.keyWindow;
     }
     
-    switch ([UIApplication sharedApplication].statusBarOrientation) {
-        case UIInterfaceOrientationPortrait: {
+    /*
+    switch ([UIDevice currentDevice].orientation) {
+        case UIDeviceOrientationPortrait: {
             
             //orientationLabel.text = "面向设备保持垂直，Home键位于下部"
             
             self.isLandScape = NO;
         }
             break;
-        case UIInterfaceOrientationPortraitUpsideDown: {
+        case UIDeviceOrientationPortraitUpsideDown: {
             
             //orientationLabel.text = "面向设备保持垂直，Home键位于上部"
             
             self.isLandScape = NO;
         }
             break;
-        case UIInterfaceOrientationLandscapeLeft: {
+        case UIDeviceOrientationLandscapeRight: {
             
             //orientationLabel.text = "面向设备保持水平，Home键位于左侧"
             
             self.isLandScape = YES;
         }
             break;
-        case UIInterfaceOrientationLandscapeRight: {
+        case UIDeviceOrientationLandscapeLeft: {
             
             //orientationLabel.text = "面向设备保持水平，Home键位于右侧"
             
@@ -59,7 +60,7 @@
             //orientationLabel.text = "方向未知"
         }
             break;
-    }
+    } // */
     
     CGFloat rotation = [[superView.layer valueForKeyPath:@"transform.rotation.z"] floatValue];
     
@@ -69,7 +70,7 @@
         self.superWidth = MAX(superView.bounds.size.width, superView.bounds.size.height);
         self.superHeight = MIN(superView.bounds.size.width, superView.bounds.size.height);
         
-        if (self.isLandScape) {
+        if ([JKAlertUtility isLandscape]) {
             
             CGFloat tempWidth = self.superWidth;
             self.superWidth = self.superHeight;

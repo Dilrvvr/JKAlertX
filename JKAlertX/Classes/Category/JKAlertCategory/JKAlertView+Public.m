@@ -930,8 +930,10 @@
 
 
 
-
-
+- (BOOL)isLandScape {
+    
+    return [JKAlertUtility isLandscape];
+}
 
 - (BOOL)checkHasMessageTextView {
     
