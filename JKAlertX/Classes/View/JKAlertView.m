@@ -21,6 +21,9 @@
 
 /** keyboardObserverAdded */
 @property (nonatomic, assign) BOOL keyboardObserverAdded;
+
+/// isKVOAdded
+@property (nonatomic, assign) BOOL isKVOAdded;
 @end
 
 @implementation JKAlertView
@@ -1351,6 +1354,8 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
+    [self removeKvoObservers];
+    
     [self startDismissAnimation];
     
     return ^{};
@@ -1604,18 +1609,20 @@
 
 - (void)removeKvoObservers {
     
-    //if (JKAlertUtility.isDeviceiPad) {
+    if (!self.isKVOAdded) { return; }
     
     [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(bounds))];
-    //}
+    
+    self.isKVOAdded = NO;
 }
 
 - (void)addKvoObservers {
     
-    //if (JKAlertUtility.isDeviceiPad) { // 仅在iPad监听，目前仅有iPad可分屏
+    if (self.isKVOAdded) { return; }
     
     [self addObserver:self forKeyPath:NSStringFromSelector(@selector(bounds)) options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
-    //}
+    
+    self.isKVOAdded = YES;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
@@ -1626,15 +1633,16 @@
         CGRect oldBounds = [[change objectForKey:NSKeyValueChangeOldKey] CGRectValue];
         CGRect currentBounds = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
         
-        if (CGSizeEqualToSize(oldBounds.size, currentBounds.size) ||
-            (oldBounds.size.width == currentBounds.size.height &&
-             oldBounds.size.height == currentBounds.size.width)) {
-            
-            // 屏幕旋转
-            
-            [self orientationChanged:nil];
+        if (CGSizeEqualToSize(oldBounds.size, currentBounds.size)) {
             
             return;
+        }
+        
+        if ((oldBounds.size.width == currentBounds.size.height) &&
+            (oldBounds.size.height == currentBounds.size.width)) {
+            
+            // 屏幕旋转
+            !self.orientationDidChangeHandler ? : self.orientationDidChangeHandler(self, [UIApplication sharedApplication].statusBarOrientation);
         }
         
         [self updateWidthHeight];

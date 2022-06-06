@@ -344,11 +344,6 @@
 #pragma mark - 状态监听
 
 /**
- * 监听屏幕旋转
- */
-@property (nonatomic, copy, readonly) JKAlertView *(^makeOrientationDidChangeHandler)(void (^handler)(JKAlertView *innerAlertView, UIInterfaceOrientation orientation));
-
-/**
  * 监听即将重新布局
  * 尽量避免在此block中再次执行重新布局
  * 如有必要执行重新布局，请在重新布局前将此block销毁

@@ -104,7 +104,8 @@
     alertView.makeHomeIndicatorAdapted(NO);
     
     // 最大高度设置为屏幕高度
-    alertView.makeActionSheetMaxHeight([UIScreen mainScreen].bounds.size.height);
+    CGFloat maxHeight = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+    alertView.makeActionSheetMaxHeight(maxHeight);
     
     // 移除弹框内容背景色
     if (clearAlertBackgroundColor) {

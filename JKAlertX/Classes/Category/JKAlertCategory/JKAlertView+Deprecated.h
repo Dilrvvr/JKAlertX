@@ -128,8 +128,13 @@
 /** 设置默认的取消action，不需要自带的可以自己设置，不可置为nil */
 @property (nonatomic, copy, readonly) JKAlertView *(^setCancelAction)(JKAlertAction *action) JKAlertXDeprecated("use makeCancelAction");
 
-/** 监听屏幕旋转 */
-@property (nonatomic, copy, readonly) JKAlertView *(^setOrientationChangeBlock)(void (^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) JKAlertXDeprecated("use makeOrientationDidChangeHandler");
+/// 监听屏幕旋转
+/// 考虑到通知执行的顺序问题，不再监听屏幕旋转，统一使用makeWillRelayoutHandler执行一些布局前操作
+@property (nonatomic, copy, readonly) JKAlertView *(^setOrientationChangeBlock)(void (^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) JKAlertXDeprecated("use makeWillRelayoutHandler");
+
+/// 监听屏幕旋转
+/// 考虑到通知执行的顺序问题，不再监听屏幕旋转，统一使用makeWillRelayoutHandler执行一些布局前操作
+@property (nonatomic, copy, readonly) JKAlertView *(^makeOrientationDidChangeHandler)(void (^handler)(JKAlertView *innerAlertView, UIInterfaceOrientation orientation)) JKAlertXDeprecated("use makeWillRelayoutHandler");
 
 /** 设置监听superView尺寸改变时将要自适应的block */
 @property (nonatomic, copy, readonly) JKAlertView *(^setWillAutoAdaptSuperViewBlock)(void (^willAdaptBlock)(JKAlertView *view, UIView *containerView)) JKAlertXDeprecated("use makeWillRelayoutHandler");

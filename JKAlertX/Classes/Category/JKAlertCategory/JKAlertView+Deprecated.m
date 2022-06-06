@@ -356,12 +356,25 @@
     return [self makeCancelAction];
 }
 
-/** 监听屏幕旋转 */
+/// 监听屏幕旋转
+/// 考虑到通知执行的顺序问题，不再监听屏幕旋转，统一使用makeWillRelayoutHandler执行一些布局前操作
 - (JKAlertView *(^)(void (^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)))setOrientationChangeBlock {
     
     return ^(void(^orientationChangeBlock)(JKAlertView *view, UIInterfaceOrientation orientation)) {
         
         self.orientationDidChangeHandler = orientationChangeBlock;
+        
+        return self;
+    };
+}
+
+/// 监听屏幕旋转
+/// 考虑到通知执行的顺序问题，不再监听屏幕旋转，统一使用makeWillRelayoutHandler执行一些布局前操作
+- (JKAlertView *(^)(void (^handler)(JKAlertView *innerAlertView, UIInterfaceOrientation orientation)))makeOrientationDidChangeHandler {
+    
+    return ^(void(^handler)(JKAlertView *innerAlertView, UIInterfaceOrientation orientation)) {
+        
+        self.orientationDidChangeHandler = handler;
         
         return self;
     };
