@@ -38,9 +38,6 @@
 /// 配置弹出视图的容器view
 @property (nonatomic, copy) void (^alertContentViewConfiguration)(UIView *alertContentView);
 
-/// 是否横屏
-@property (nonatomic, assign, readonly) BOOL isLandScape;
-
 
 #pragma mark
 #pragma mark - 动画完成

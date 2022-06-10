@@ -156,7 +156,7 @@
 		1D4CD4F043326CFD378ED15D31E73B03 /* JKAlertBaseAlertView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseAlertView.m; sourceTree = "<group>"; };
 		1FBD434850CC634702A62D8468DD7AAF /* JKAlertBaseAlertView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseAlertView.h; sourceTree = "<group>"; };
 		1FF3487E805CCD0A68DFF7A7C5655CEE /* JKAlertBaseView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertBaseView.h; sourceTree = "<group>"; };
-		239C3C9EB9496868859E0F30B7A7044F /* Pods-JKAlertX_Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-JKAlertX_Tests"; path = Pods_JKAlertX_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		239C3C9EB9496868859E0F30B7A7044F /* Pods_JKAlertX_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JKAlertX_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		252F8E7ACA6592FB12AB0802D5229CCC /* UIControl+JKAlertX.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIControl+JKAlertX.h"; sourceTree = "<group>"; };
 		287B34BD8309B48A3B1FD9C9AA426FD1 /* JKAlertUITableView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertUITableView.m; sourceTree = "<group>"; };
 		2CB4A48E6F518DBBD7DD80190E1A94A7 /* JKAlertView+Plain.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JKAlertView+Plain.h"; sourceTree = "<group>"; };
@@ -258,7 +258,7 @@
 		EFE3572E12A256F4541DD60F4D0EB246 /* Pods-JKAlertX_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-JKAlertX_Example-Info.plist"; sourceTree = "<group>"; };
 		F3DAE94CED0726A4CD8535BEA074E883 /* Pods-JKAlertX_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-JKAlertX_Example-frameworks.sh"; sourceTree = "<group>"; };
 		F67D322777F2A61AA63FD93F70286C6A /* JKAlertActionSheetContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertActionSheetContentView.m; sourceTree = "<group>"; };
-		F68E044983434F44B47854D625A821FE /* Pods-JKAlertX_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-JKAlertX_Example"; path = Pods_JKAlertX_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F68E044983434F44B47854D625A821FE /* Pods_JKAlertX_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JKAlertX_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F85BFDA91B7346BFBB94C96EBB4B9FB2 /* Pods-JKAlertX_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-JKAlertX_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		F8AFD9966CB716643AE6F735EFB5C795 /* JKAlertBaseTextContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = JKAlertBaseTextContentView.m; sourceTree = "<group>"; };
 		FA0E484236BACC989250BC8BBAE91071 /* JKAlertTheme.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JKAlertTheme.h; sourceTree = "<group>"; };
@@ -614,8 +614,8 @@
 			isa = PBXGroup;
 			children = (
 				7FE782BD3BCAD1CFC07C18B649E20D6B /* JKAlertX */,
-				F68E044983434F44B47854D625A821FE /* Pods-JKAlertX_Example */,
-				239C3C9EB9496868859E0F30B7A7044F /* Pods-JKAlertX_Tests */,
+				F68E044983434F44B47854D625A821FE /* Pods_JKAlertX_Example.framework */,
+				239C3C9EB9496868859E0F30B7A7044F /* Pods_JKAlertX_Tests.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -734,7 +734,7 @@
 			);
 			name = "Pods-JKAlertX_Tests";
 			productName = Pods_JKAlertX_Tests;
-			productReference = 239C3C9EB9496868859E0F30B7A7044F /* Pods-JKAlertX_Tests */;
+			productReference = 239C3C9EB9496868859E0F30B7A7044F /* Pods_JKAlertX_Tests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		DFC60FA9A041DF15CD323ED9F40586B0 /* Pods-JKAlertX_Example */ = {
@@ -753,7 +753,7 @@
 			);
 			name = "Pods-JKAlertX_Example";
 			productName = Pods_JKAlertX_Example;
-			productReference = F68E044983434F44B47854D625A821FE /* Pods-JKAlertX_Example */;
+			productReference = F68E044983434F44B47854D625A821FE /* Pods_JKAlertX_Example.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -945,7 +945,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-JKAlertX_Example/Pods-JKAlertX_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-JKAlertX_Example/Pods-JKAlertX_Example.modulemap";
@@ -977,7 +977,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-JKAlertX_Tests/Pods-JKAlertX_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-JKAlertX_Tests/Pods-JKAlertX_Tests.modulemap";
@@ -1045,7 +1045,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1102,7 +1102,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-JKAlertX_Tests/Pods-JKAlertX_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-JKAlertX_Tests/Pods-JKAlertX_Tests.modulemap";
@@ -1134,7 +1134,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-JKAlertX_Example/Pods-JKAlertX_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-JKAlertX_Example/Pods-JKAlertX_Example.modulemap";
@@ -1205,7 +1205,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
