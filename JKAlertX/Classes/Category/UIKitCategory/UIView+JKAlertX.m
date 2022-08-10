@@ -32,15 +32,16 @@
     
     CAShapeLayer *shapeLayer = nil;
     
-    if (radius > 0) {
+    BOOL isHasCorner = (radius > 0.0);
+    
+    if (isHasCorner) {
         
         shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = path.CGPath;
         self.layer.mask = shapeLayer;
-        borderWidth *= 2;
     }
     
-    if (borderWidth <= 0 ||
+    if (borderWidth <= 0.0 ||
         !borderColor) {
         
         return shapeLayer;
@@ -48,15 +49,19 @@
     
     CAShapeLayer *borderLayer = [CAShapeLayer layer];
     
-    UIBezierPath *path2 = nil;
+    UIBezierPath *borderPath = nil;
     
-    if (radius <= 0) {
+    if (isHasCorner) {
         
-        path2 = [UIBezierPath bezierPathWithRect:CGRectMake(borderWidth * 0.5, borderWidth * 0.5, self.bounds.size.width - borderWidth, self.bounds.size.height - borderWidth)];
+        borderPath = path;
+        
+    } else {
+        
+        borderPath = [UIBezierPath bezierPathWithRect:CGRectMake(borderWidth * 0.5, borderWidth * 0.5, self.bounds.size.width - borderWidth, self.bounds.size.height - borderWidth)];
     }
     
-    borderLayer.path = (radius <= 0) ? path2.CGPath : path.CGPath;
-    borderLayer.lineWidth = borderWidth;
+    borderLayer.path = borderPath.CGPath;
+    borderLayer.lineWidth = isHasCorner ? borderWidth * 2.0 : borderWidth;
     borderLayer.strokeColor = borderColor.CGColor;
     borderLayer.fillColor = nil;
     

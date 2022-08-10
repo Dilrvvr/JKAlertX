@@ -42,7 +42,7 @@
 #import "JKAlertCustomizer.h"
 #import "JKAlertPanGestureRecognizer.h"
 #import "JKAlertUtility.h"
-#import "JKAlerActionSheetContentView.h"
+#import "JKAlertActionSheetContentView.h"
 #import "JKAlertActionSheetTextContentView.h"
 #import "JKAlertClearHeaderFooterView.h"
 #import "JKAlertTableActionView.h"
