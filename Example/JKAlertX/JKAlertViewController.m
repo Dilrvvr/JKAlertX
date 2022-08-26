@@ -894,7 +894,7 @@
 
 - (void)customSheetSlideToDismiss {
     
-    JKAlertVerticalSlideToDismissView *customView = [[JKAlertVerticalSlideToDismissView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 300.0)];
+    JKAlertVerticalSlideToDismissView *customView = [[JKAlertVerticalSlideToDismissView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 500.0)];
     
     [JKAlertCustomizer showCustomSheetWithViewHandler:^UIView *(JKAlertView *innerAlertView) {
         

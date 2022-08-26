@@ -994,6 +994,7 @@
     
     if (self.topContentView.scrollView.isDecelerating ||
         _tableView.isDecelerating) {
+        
         return;
     }
     

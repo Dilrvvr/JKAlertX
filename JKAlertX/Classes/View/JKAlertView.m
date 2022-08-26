@@ -1323,7 +1323,9 @@
 // 通过key通知来dismiss
 - (void)dismissForKeyNotification:(NSNotification *)note {
     
-    if (!self.dismissKey) { return; }
+    if (!self.dismissKey ||
+        ![self.dismissKey isKindOfClass:[NSString class]] ||
+        self.dismissKey.length < 1) { return; }
     
     if ([note.object isKindOfClass:[NSString class]] &&
         [note.object isEqualToString:self.dismissKey]) {
@@ -1335,7 +1337,9 @@
 // 通过category通知来dismiss
 - (void)dismissForCategoryNotification:(NSNotification *)note {
     
-    if (!self.dismissCategory) { return; }
+    if (!self.dismissCategory ||
+        ![self.dismissCategory isKindOfClass:[NSString class]] ||
+        self.dismissCategory.length < 1) { return; }
     
     if ([note.object isKindOfClass:[NSString class]] &&
         [note.object isEqualToString:self.dismissCategory]) {
