@@ -185,6 +185,7 @@
     JKAlertView *alertView = [JKAlertView alertViewWithTitle:self.titleString message:self.messageString style:self.jkAlertStyle];
     
     alertView.makeVerticalGestureDismissEnabled(YES)
+    .makeActionSheetBottomButtonPinned(YES)
     .makeHorizontalGestureDismissDirection(JKAlertSheetHorizontalGestureDismissDirectionHorizontal)
     .makeGestureIndicatorHidden(NO);
     

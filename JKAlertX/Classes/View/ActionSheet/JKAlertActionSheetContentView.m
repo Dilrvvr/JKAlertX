@@ -910,6 +910,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
+    if (self.isPierced ||
+        self.bottomButtonPinned) {
+        
+        return CGFLOAT_MIN;
+    }
+    
     switch (section) {
         case 0:
             return self.cancelAction.rowHeight >= 0.1 ? self.cancelMargin : CGFLOAT_MIN;
@@ -927,12 +933,20 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
+    if (self.isPierced ||
+        self.bottomButtonPinned) {
+        
+        return nil;
+    }
+    
     JKAlertClearHeaderFooterView *footer = [tableView dequeueReusableHeaderFooterViewWithIdentifier:NSStringFromClass([JKAlertClearHeaderFooterView class])];
     
     if (footer == nil) {
         
         footer = [[JKAlertClearHeaderFooterView alloc] initWithReuseIdentifier:NSStringFromClass([JKAlertClearHeaderFooterView class])];
     }
+    
+    footer.hidden = YES;
     
     return footer;
 }
