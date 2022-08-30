@@ -334,7 +334,14 @@
         self.bottomContentView.frame = frame;
     }
     
-    self.horizontalSeparatorLineView.hidden = (self.textContentView.hidden || self.actionArray.count <= 0);
+    if (self.separatorLineAlwaysHidden) {
+        
+        self.horizontalSeparatorLineView.hidden = YES;
+        
+    } else {
+        
+        self.horizontalSeparatorLineView.hidden = (self.textContentView.hidden || self.actionArray.count <= 0);
+    }
     
     self.horizontalSeparatorLineView.frame = CGRectMake(0, CGRectGetMaxY(self.topContentView.frame), self.alertWidth, JKAlertUtility.separatorLineThickness);
 }
@@ -573,7 +580,14 @@
         [self checkBottomButtonPinnedBottomFrameWithMaxHeight:self.maxHeight - topHeight];
     }
     
-    self.horizontalSeparatorLineView.hidden = (self.textContentView.hidden || self.actionArray.count <= 0);
+    if (self.separatorLineAlwaysHidden) {
+        
+        self.horizontalSeparatorLineView.hidden = YES;
+        
+    } else {
+        
+        self.horizontalSeparatorLineView.hidden = (self.textContentView.hidden || self.actionArray.count <= 0);
+    }
     
     self.horizontalSeparatorLineView.frame = CGRectMake(0, self.isPierced ? self.tableView.frame.origin.y : CGRectGetMaxY(self.topContentView.frame), self.alertWidth, JKAlertUtility.separatorLineThickness);
 }

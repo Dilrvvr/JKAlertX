@@ -126,6 +126,36 @@
 }
 
 /**
+ * actionSheet顶部与action之间分隔线是否总是隐藏
+ * 默认NO
+ */
+- (JKAlertView *(^)(BOOL alwaysHidden))makeActionSheetSeparatorLineAlwaysHidden {
+    
+    return ^(BOOL alwaysHidden) {
+        
+        return [self checkActionSheetStyleHandler:^{
+            
+            self.actionsheetContentView.separatorLineAlwaysHidden = alwaysHidden;
+        }];
+    };
+}
+
+/**
+ * actionSheet最后一个action(非cancelAction)是否自动隐藏分隔线
+ * 默认YES
+ */
+- (JKAlertView *(^)(BOOL isAuto))makeActionSheetAutoHideLastActionSeparatorLine {
+    
+    return ^(BOOL isAuto) {
+        
+        return [self checkActionSheetStyleHandler:^{
+            
+            self.actionsheetContentView.autoHideLastActionSeparatorLine = isAuto;
+        }];
+    };
+}
+
+/**
  * actionSheet底部取消按钮是否固定在底部
  * 默认NO
  */

@@ -51,6 +51,18 @@
 @property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetTableViewDelegate)(id <UITableViewDelegate> delegate);
 
 /**
+ * actionSheet顶部与action之间分隔线是否总是隐藏
+ * 默认NO
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetSeparatorLineAlwaysHidden)(BOOL alwaysHidden);
+
+/**
+ * actionSheet最后一个action(非cancelAction)是否自动隐藏分隔线
+ * 默认YES
+ */
+@property (nonatomic, copy, readonly) JKAlertView *(^makeActionSheetAutoHideLastActionSeparatorLine)(BOOL isAuto);
+
+/**
  * actionSheet底部取消按钮是否固定在底部
  * 默认NO
  */

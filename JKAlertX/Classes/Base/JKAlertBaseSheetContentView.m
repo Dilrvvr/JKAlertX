@@ -415,6 +415,8 @@
     
     _showScaleAnimated = NO;
     
+    _autoHideLastActionSeparatorLine = YES;
+    
     _autoAdjustHomeIndicator = YES;
     
     _fillHomeIndicator = YES;

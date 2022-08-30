@@ -39,8 +39,14 @@
 /** fillHomeIndicator */
 @property (nonatomic, assign) BOOL fillHomeIndicator;
 
+/// autoHideLastActionSeparatorLine
+@property (nonatomic, assign) BOOL autoHideLastActionSeparatorLine;
+
 /** bottomButtonPinned */
 @property (nonatomic, assign) BOOL bottomButtonPinned;
+
+/// separatorLineAlwaysHidden
+@property (nonatomic, assign) BOOL separatorLineAlwaysHidden;
 
 /** isPierced */
 @property (nonatomic, assign) BOOL isPierced;

@@ -298,7 +298,10 @@
 
 - (void)calculateActionSheetUI {
     
-    [self.actionsheetContentView.actionArray.lastObject setSeparatorLineHidden:YES];
+    if (self.actionsheetContentView.autoHideLastActionSeparatorLine) {
+        
+        [self.actionsheetContentView.actionArray.lastObject setSeparatorLineHidden:YES];
+    }
     
     self.actionsheetContentView.tapBlankDismiss = self.tapBlankDismiss;
     
