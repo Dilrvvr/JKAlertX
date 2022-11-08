@@ -1042,7 +1042,7 @@
     
     CGFloat minWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     
-    minWidth = MIN(minWidth, JKAlertUtility.iPhoneMaxScreenWidth);
+    minWidth = MIN(minWidth, 430.0);
     
     return minWidth;
 }

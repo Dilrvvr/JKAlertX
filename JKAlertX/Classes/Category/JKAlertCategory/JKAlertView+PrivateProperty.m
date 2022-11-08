@@ -88,7 +88,7 @@
 
 - (void)updateMaxHeight {
     
-    self.maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : (self.superHeight - 100);
+    self.maxPlainHeight = self.originalPlainMaxHeight > 0.0 ? self.originalPlainMaxHeight : (self.superHeight - JKAlertUtility.plainMinusHeight);
     
     if (!self.maxSheetHeightSetted) {
         

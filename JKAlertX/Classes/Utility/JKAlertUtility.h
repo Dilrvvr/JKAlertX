@@ -301,11 +301,14 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 获取keyWindow的safeAreaInsets
 @property (class, nonatomic, readonly) UIEdgeInsets safeAreaInset;
 
+/// 状态栏高度
+@property (class, nonatomic, readonly) CGFloat statusBarHeight;
+
 /// 导航条高度
 @property (class, nonatomic, readonly) CGFloat navigationBarHeight;
 
-/// 目前iPhone屏幕最大宽度
-@property (class, nonatomic, readonly) CGFloat iPhoneMaxScreenWidth;
+/// plain样式最大高度减去的高度
+@property (class, nonatomic, readonly) CGFloat plainMinusHeight;
 
 /// 让手机振动一下
 + (void)vibrateDevice;

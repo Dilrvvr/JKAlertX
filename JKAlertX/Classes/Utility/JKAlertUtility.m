@@ -254,7 +254,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 当前HomeIndicator高度
 + (CGFloat)currentHomeIndicatorHeight {
     
-    return self.isDeviceX ? (self.isLandscape ? 21.0 : 34.0) : 0.0;
+    return self.safeAreaInset.bottom;
 }
 
 /// keyWindow
@@ -296,23 +296,42 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     return safeAreaInset;
 }
 
+/// 状态栏高度
++ (CGFloat)statusBarHeight {
+    
+    if (@available(iOS 11.0, *)) {
+        
+        CGFloat topInset = [self safeAreaInset].top;
+        
+        if ([self isDeviceiPad]) {
+            
+            return topInset > 0.0 ? topInset : 24.0;
+        }
+        
+        return topInset;
+    }
+    
+    return 20.0;
+}
+
 /// 导航条高度
 + (CGFloat)navigationBarHeight {
     
-    if (self.isDeviceiPad) { // iPad
+    // 小屏iPad高度为70，这里全部处理为74
+    if ([self isDeviceiPad]) { return 74.0; }
+    
+    if ([self isLandscape]) {
         
-        return self.isLandscape ? 70.0 : 64.0;
-        
-    } else { // iPhone
-        
-        return self.isLandscape ? (self.isDeviceX ? 44.0 : 32.0) : (self.isDeviceX ? 88.0 : 64.0);
+        return MIN(JKAlertScreenWidth, JKAlertScreenHeight) > 400.0 ? 44.0 : 32.0;
     }
+    
+    return [self statusBarHeight] + 44.0;
 }
 
-/// 目前iPhone屏幕最大宽度
-+ (CGFloat)iPhoneMaxScreenWidth {
+/// plain样式最大高度减去的高度
++ (CGFloat)plainMinusHeight {
     
-    return 428.0;
+    return 120.0;
 }
 
 /// 让手机振动一下

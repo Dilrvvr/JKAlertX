@@ -1185,7 +1185,7 @@
     
     if (isHideKeyboard) { // 退出键盘
         
-        self.maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : self.superHeight - 100;
+        self.maxPlainHeight = self.originalPlainMaxHeight > 0.0 ? self.originalPlainMaxHeight : self.superHeight - JKAlertUtility.plainMinusHeight;
         
         [self calculateUI];
         
@@ -1197,15 +1197,15 @@
         
     } else { // 弹出键盘
         
-        CGFloat topMargin = (JKAlertUtility.isDeviceX ? 44 : 20);
+        CGFloat topMargin = JKAlertUtility.statusBarHeight;
         
         CGFloat maxH = self.superHeight - topMargin - keyboardFrame.size.height - 20.0;
         
-        BOOL lockKeyboardMargin = (self.plainKeyboardMargin > 0);
+        BOOL lockKeyboardMargin = (self.plainKeyboardMargin > 0.0);
         
         if ([JKAlertUtility isLandscape]) { // 横屏
             
-            maxH = self.superHeight - 5 - keyboardFrame.size.height - 5;
+            maxH = self.superHeight - 5.0 - keyboardFrame.size.height - 5.0;
             
         } else if (lockKeyboardMargin) { // 竖屏
             
@@ -1218,7 +1218,7 @@
             
             if ([JKAlertUtility isLandscape]) { // 横屏
                 
-                frame.origin.y = 5 + (maxH - frame.size.height) * 0.5;
+                frame.origin.y = 5.0 + (maxH - frame.size.height) * 0.5;
                 
             } else if (lockKeyboardMargin) { // 竖屏
                 
@@ -1232,7 +1232,7 @@
         
         // 超过最大高度
         
-        self.maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : maxH;
+        self.maxPlainHeight = self.originalPlainMaxHeight > 0.0 ? self.originalPlainMaxHeight : maxH;
         
         [self calculateUI];
         
@@ -1240,17 +1240,17 @@
         
         if ([JKAlertUtility isLandscape]) {
             
-            frame.origin.y = 5;
+            frame.origin.y = 5.0;
             
         } else if (lockKeyboardMargin) {
             
             frame.origin.y = keyboardFrame.origin.y - self.plainKeyboardMargin - frame.size.height;
             
-            frame.origin.y = MAX(frame.origin.y, (JKAlertUtility.isDeviceX ? 44 : 20));
+            frame.origin.y = MAX(frame.origin.y, JKAlertUtility.statusBarHeight);
             
         } else {
             
-            frame.origin.y = (JKAlertUtility.isDeviceX ? 44 : 20);
+            frame.origin.y = JKAlertUtility.statusBarHeight;
         }
         
         self.alertContentView.frame = frame;
@@ -1571,7 +1571,7 @@
     
     _superHeight = self.customSuperView.bounds.size.height;
     
-    _maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : (self.superHeight - 100);
+    _maxPlainHeight = self.originalPlainMaxHeight > 0 ? self.originalPlainMaxHeight : (self.superHeight - JKAlertUtility.plainMinusHeight);
     
     _maxSheetHeight = (self.superHeight > self.superWidth) ? self.superHeight * 0.85 : self.superHeight * 0.8;
     
