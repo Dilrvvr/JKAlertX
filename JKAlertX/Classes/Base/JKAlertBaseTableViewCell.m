@@ -47,8 +47,6 @@
     if (action.separatorLineColor) {
         
         self.bottomLineView.backgroundColor = action.separatorLineColor;
-        
-        return;
     }
     
     if (self.customView &&
