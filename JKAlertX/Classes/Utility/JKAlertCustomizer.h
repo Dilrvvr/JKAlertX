@@ -5,7 +5,7 @@
 //  Created by albert on 2020/7/30.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class JKAlertView;
 

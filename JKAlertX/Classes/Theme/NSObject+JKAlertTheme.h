@@ -5,7 +5,7 @@
 //  Created by albert on 2020/7/11.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "JKAlertThemeUtility.h"
 
 @class JKAlertThemeProvider;

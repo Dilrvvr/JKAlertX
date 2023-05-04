@@ -219,30 +219,42 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        if (@available(iOS 11.0, *)) {
-            
-            if (!self.isDeviceiPad) {
-                
-                isDeviceX_ = self.keyWindow.safeAreaInsets.bottom > 0.0;
-            }
-        }
+        if (![self isDeviceiPhone]) { return; }
+        
+        CGRect screenBounds = [UIScreen mainScreen].bounds;
+        
+        BOOL isDeviceXType = CGSizeEqualToSize(CGSizeMake(375.0, 812.0), screenBounds.size);
+        BOOL isDeviceXMaxType = CGSizeEqualToSize(CGSizeMake(414.0, 896.0), screenBounds.size);
+        
+        BOOL isDevice12Type = CGSizeEqualToSize(CGSizeMake(390.0, 844.0), screenBounds.size);
+        BOOL isDevice12MaxType = CGSizeEqualToSize(CGSizeMake(428.0, 926.0), screenBounds.size);
+        
+        BOOL isDevice14ProType = CGSizeEqualToSize(CGSizeMake(393.0, 852.0), screenBounds.size);
+        BOOL isDevice14ProMaxType = CGSizeEqualToSize(CGSizeMake(430.0, 932.0), screenBounds.size);
+        
+        // 如有新设备，在此添加
+        
+        isDeviceX_ = (isDeviceXType ||
+                      isDeviceXMaxType ||
+                      isDevice12Type ||
+                      isDevice12MaxType ||
+                      isDevice14ProType ||
+                      isDevice14ProMaxType);
     });
     
     return isDeviceX_;
 }
 
+/// 是否iPhone
++ (BOOL)isDeviceiPhone {
+    
+    return [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone;
+}
+
 /// 是否iPad
 + (BOOL)isDeviceiPad {
     
-    static BOOL isDeviceiPad_ = NO;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        
-        isDeviceiPad_ = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
-    });
-    
-    return isDeviceiPad_;
+    return [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad;
 }
 
 /// 当前是否横屏
@@ -257,8 +269,106 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     return self.safeAreaInset.bottom;
 }
 
+/// 当前的windowScene
++ (UIWindowScene *)currentWindowScene API_AVAILABLE(ios(13.0)) {
+    
+    NSSet *connectedScenes = UIApplication.sharedApplication.connectedScenes;
+    
+    if (connectedScenes.count < 1) {
+        
+        return nil;
+    }
+    
+    if (connectedScenes.count == 1) {
+        
+        UIWindowScene *windowScene = connectedScenes.anyObject;
+        
+        if ([windowScene isKindOfClass:[UIWindowScene class]]) {
+            
+            return windowScene;
+        }
+        
+        return nil;
+    }
+    
+    for (UIWindowScene *windowScene in connectedScenes) {
+        
+        if (![windowScene isKindOfClass:[UIWindowScene class]]) { continue; }
+        
+        if (windowScene.activationState != UISceneActivationStateForegroundActive) {
+            
+            continue;
+        }
+        
+        return windowScene;
+    }
+    
+    return nil;
+}
+
+/// 当前windowScene的window
++ (UIWindow *)currentSceneWindow {
+    
+    if (@available(iOS 13.0, *)) {
+        
+        UIWindowScene *windowScene = [self currentWindowScene];
+        
+        if (!windowScene ||
+            ![windowScene isKindOfClass:[UIWindowScene class]]) {
+            
+            return nil;
+        }
+        
+        id delegate = windowScene.delegate;
+        
+        if ([delegate conformsToProtocol:@protocol(UIWindowSceneDelegate)] &&
+            [delegate respondsToSelector:@selector(window)]) {
+            
+            return [delegate window];
+        }
+        
+        if (@available(iOS 15.0, *)) {
+            
+            if (windowScene.keyWindow != nil) {
+                
+                return windowScene.keyWindow;
+            }
+        }
+        
+        if (windowScene.windows.count < 1) {
+            
+            return nil;
+        }
+        
+        if (windowScene.windows.count == 1) {
+            
+            return windowScene.windows.firstObject;
+        }
+        
+        for (UIWindow * window in windowScene.windows) {
+            
+            if (window.isHidden) { continue; }
+            
+            if (window.isKeyWindow) {
+                
+                return window;
+            }
+            
+            return window;
+        }
+    }
+    
+    return nil;
+}
+
 /// keyWindow
 + (UIWindow *)keyWindow {
+    
+    if (defaultWindow_ != nil &&
+        [defaultWindow_ isKindOfClass:[UIWindow class]]) {
+        
+        return defaultWindow_;
+    }
     
     UIWindow *keyWindow = nil;
     
@@ -268,16 +378,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
         
     } else {
         
-        NSArray *windows = [UIApplication sharedApplication].windows;
-        
-        for (UIWindow *window in windows) {
-            
-            if (window.hidden) { continue; }
-            
-            keyWindow = window;
-            
-            break;
-        }
+        keyWindow = [self currentSceneWindow];
     }
     
     return keyWindow;
@@ -357,6 +458,14 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
         
         [feedbackGenertor impactOccurred];
     }
+}
+
+static __weak UIWindow *defaultWindow_ = nil;
+
+/// 设置默认window，设置后若有值则keyWindow返回此值
++ (void)makeDefaultWindow:(UIWindow *)window {
+    
+    defaultWindow_ = window;
 }
 
 /// 仅DEBUG下执行

@@ -6,7 +6,7 @@
 //  Copyright © 2020 jkayb123cool@gmail.com. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface JKAlertTableGroupModel : NSObject
 

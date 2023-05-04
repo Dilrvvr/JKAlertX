@@ -286,6 +286,9 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// 是否X设备
 @property (class, nonatomic, readonly) BOOL isDeviceX;
 
+/// 是否iPhone
+@property (class, nonatomic, readonly) BOOL isDeviceiPhone;
+
 /// 是否iPad
 @property (class, nonatomic, readonly) BOOL isDeviceiPad;
 
@@ -312,6 +315,9 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 
 /// 让手机振动一下
 + (void)vibrateDevice;
+
+/// 设置默认window，设置后若有值则keyWindow返回此值
++ (void)makeDefaultWindow:(UIWindow *)window;
 
 /// 仅DEBUG下执行
 + (void)debugExecute:(void (^)(void))executeBlock;
