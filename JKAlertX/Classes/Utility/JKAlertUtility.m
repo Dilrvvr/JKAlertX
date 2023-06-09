@@ -345,7 +345,7 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
             return windowScene.windows.firstObject;
         }
         
-        for (UIWindow * window in windowScene.windows) {
+        for (UIWindow *window in windowScene.windows) {
             
             if (window.isHidden) { continue; }
             
