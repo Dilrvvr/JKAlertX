@@ -192,7 +192,7 @@
 @property (nonatomic, copy, readonly) void (^handler)(JKAlertAction *action);
 
 /**
- * backgroundColor 默认JKAlertGlobalBackgroundColor()
+ * backgroundColor 默认JKAlertUtility.lightBackgroundColor
  * 仅 actionSheet 与 collectionSheet的底部按钮 有效
  * */
 @property (nonatomic, strong, readonly) UIColor *backgroundColor;
@@ -201,7 +201,7 @@
 @property (nonatomic, strong, readonly) UIColor *titleColor;
 
 /**
- * seletedBackgroundColor
+ * seletedBackgroundColor 默认JKAlertUtility.highlightedLightBackgroundColor
  * 仅 actionSheet 与 collectionSheet的底部按钮 有效
  * */
 @property (nonatomic, strong, readonly) UIColor *seletedBackgroundColor;
