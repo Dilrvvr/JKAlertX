@@ -1217,7 +1217,7 @@
     
     tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, JKAlertUtility.currentHomeIndicatorHeight, 0);
     
-    if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
+    if (JKAlertUtility.currentInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
         
         tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, -34, JKAlertUtility.currentHomeIndicatorHeight, 34);
     }

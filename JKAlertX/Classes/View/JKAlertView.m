@@ -449,7 +449,7 @@
     
     [self updateWidthHeight];
     
-    !self.orientationDidChangeHandler ? : self.orientationDidChangeHandler(self, [UIApplication sharedApplication].statusBarOrientation);
+    !self.orientationDidChangeHandler ? : self.orientationDidChangeHandler(self, JKAlertUtility.currentInterfaceOrientation);
     
     self.relayout(NO);
 }
@@ -1649,7 +1649,7 @@
             (oldBounds.size.height == currentBounds.size.width)) {
             
             // 屏幕旋转
-            !self.orientationDidChangeHandler ? : self.orientationDidChangeHandler(self, [UIApplication sharedApplication].statusBarOrientation);
+            !self.orientationDidChangeHandler ? : self.orientationDidChangeHandler(self, JKAlertUtility.currentInterfaceOrientation);
         }
         
         [self updateWidthHeight];

@@ -301,6 +301,10 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
 /// keyWindow
 @property (class, nonatomic, readonly) UIWindow *keyWindow;
 
+/// 当前界面方向：取 keyWindow 所在场景的方向，取不到时取当前前台场景。
+/// iOS 27 起场景模式下 statusBarOrientation 恒为 UIInterfaceOrientationUnknown，不再使用
+@property (class, nonatomic, readonly) UIInterfaceOrientation currentInterfaceOrientation;
+
 /// 获取keyWindow的safeAreaInsets
 @property (class, nonatomic, readonly) UIEdgeInsets safeAreaInset;
 

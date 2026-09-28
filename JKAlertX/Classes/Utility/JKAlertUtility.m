@@ -306,6 +306,28 @@ JKAlertXStopTimerBlock JKAlertX_dispatchTimerWithQueue(dispatch_queue_t queue, i
     return nil;
 }
 
+/// 当前界面方向
++ (UIInterfaceOrientation)currentInterfaceOrientation {
+    
+    UIWindowScene *windowScene = self.keyWindow.windowScene;
+    
+    if (!windowScene) {
+        
+        windowScene = [self currentWindowScene];
+    }
+    
+    if (!windowScene) { return UIInterfaceOrientationPortrait; }
+    
+    // UIWindowScene.interfaceOrientation 自 iOS 26 弃用，iOS 26 起改读 effectiveGeometry；
+    // iOS 18 及以下转屏过程中 effectiveGeometry 仍是旧方向（实测），所以更早的系统仍读 interfaceOrientation
+    if (@available(iOS 26.0, *)) {
+        
+        return windowScene.effectiveGeometry.interfaceOrientation;
+    }
+    
+    return windowScene.interfaceOrientation;
+}
+
 /// 当前windowScene的window
 + (UIWindow *)currentSceneWindow {
     
